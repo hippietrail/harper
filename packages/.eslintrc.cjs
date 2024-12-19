@@ -7,7 +7,10 @@ module.exports = {
 		'plugin:prettier/recommended'
 	],
 	rules: {
-		'prettier/prettier': 'error'
+		'prettier/prettier': 'error',
+		// Just annoying
+		'@typescript-eslint/no-explicit-any': ['off'],
+		'@typescript-eslint/ban-ts-comment': ['off']
 	},
 	parser: '@typescript-eslint/parser',
 	plugins: ['@typescript-eslint', 'prettier'],

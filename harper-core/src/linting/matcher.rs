@@ -102,6 +102,8 @@ impl Matcher {
         // This match list needs to be automatically expanded instead of explicitly
         // defined like it is now.
         let mut triggers = pt! {
+            "spacial","attention" => "special attention",
+            "wellbeing" => "well-being",
             "hashtable" => "hash table",
             "hashmap" => "hash map",
             "CCP" => "Chinese Communist Party",
@@ -119,6 +121,7 @@ impl Matcher {
             "united nations" => "United Nations",
             "mins" => "minutes",
             "min" => "minute",
+            "min" => "minimum",
             "secs" => "seconds",
             "sec" => "second",
             "hrs" => "hours",
@@ -142,7 +145,6 @@ impl Matcher {
             "north","america" => "North America",
             "fatal","outcome" => "death",
             "geiger","counter" => "Geiger counter",
-            "Geiger","Counter" => "Geiger counter",
             "veterans","day" => "Veterans Day",
             "presidents","day" => "Presidents' Day",
             "president's","day" => "Presidents' Day",
@@ -266,15 +268,14 @@ impl Matcher {
             "wee", "kend" => "weekend",
             "with", "in" => "within",
             "with", "out" => "without",
-            "TreeSitter" => "Tree-sitter",
-            "Treesitter" => "Tree-sitter",
             "Tree", "sitter" => "Tree-sitter",
             "all", "of", "the" => "all the",
             "an", "other" => "another",
             "not", "longer" => "no longer",
             "to", "towards" => "towards",
             "though", "process" => "thought process",
-            "the", "this" => "that this"
+            "the", "this" => "that this",
+            "take", "a", "decision" => "make a decision"
         };
 
         // TODO: Improve the description for this lint specifically.

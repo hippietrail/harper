@@ -1,5 +1,7 @@
 mod an_a;
 mod avoid_curses;
+mod boring_words;
+mod capitalize_personal_pronouns;
 mod correct_number_suffix;
 mod dot_initialisms;
 mod ellipsis_length;
@@ -17,11 +19,15 @@ mod spaces;
 mod spell_check;
 mod spelled_numbers;
 mod terminating_conjunctions;
+mod that_which;
 mod unclosed_quotes;
+mod use_genitive;
 mod wrong_quotes;
 
 pub use an_a::AnA;
 pub use avoid_curses::AvoidCurses;
+pub use boring_words::BoringWords;
+pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
 pub use correct_number_suffix::CorrectNumberSuffix;
 pub use dot_initialisms::DotInitialisms;
 pub use ellipsis_length::EllipsisLength;
@@ -39,7 +45,9 @@ pub use spaces::Spaces;
 pub use spell_check::SpellCheck;
 pub use spelled_numbers::SpelledNumbers;
 pub use terminating_conjunctions::TerminatingConjunctions;
+pub use that_which::ThatWhich;
 pub use unclosed_quotes::UnclosedQuotes;
+pub use use_genitive::UseGenitive;
 pub use wrong_quotes::WrongQuotes;
 
 use crate::Document;

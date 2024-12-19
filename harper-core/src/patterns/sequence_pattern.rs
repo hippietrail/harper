@@ -3,7 +3,7 @@ use paste::paste;
 
 use super::whitespace_pattern::WhitespacePattern;
 use super::{Pattern, RepeatingPattern};
-use crate::{Lrc, Token, TokenKind};
+use crate::{CharStringExt, Lrc, Token, TokenKind};
 
 /// A pattern that checks that a sequence of others patterns match.
 #[derive(Default)]
@@ -21,6 +21,12 @@ macro_rules! gen_then_from_is {
 
                 self
             }
+
+            pub fn [< then_one_or_more_$quality s >] (self) -> Self{
+                self.then_one_or_more(Box::new(|tok: &Token, _source: &[char]| {
+                    tok.kind.[< is_$quality >]()
+                }))
+            }
         }
     };
 }
@@ -35,6 +41,8 @@ impl SequencePattern {
     gen_then_from_is!(comma);
     gen_then_from_is!(period);
     gen_then_from_is!(case_separator);
+    gen_then_from_is!(adverb);
+    gen_then_from_is!(adjective);
 
     pub fn then_exact_word(mut self, word: &'static str) -> Self {
         self.token_patterns
@@ -47,6 +55,29 @@ impl SequencePattern {
 
                 let mut w_char_count = 0;
                 for (i, w_char) in word.chars().enumerate() {
+                    w_char_count += 1;
+
+                    if tok_chars.get(i).cloned() != Some(w_char) {
+                        return false;
+                    }
+                }
+
+                w_char_count == tok_chars.len()
+            }));
+        self
+    }
+
+    pub fn then_exact_word_or_lowercase(mut self, word: &'static str) -> Self {
+        self.token_patterns
+            .push(Box::new(|tok: &Token, source: &[char]| {
+                if !tok.kind.is_word() {
+                    return false;
+                }
+
+                let tok_chars = tok.span.get_content(source).to_lower();
+
+                let mut w_char_count = 0;
+                for (i, w_char) in word.to_lowercase().chars().enumerate() {
                     w_char_count += 1;
 
                     if tok_chars.get(i).cloned() != Some(w_char) {
@@ -100,6 +131,11 @@ impl SequencePattern {
     pub fn then_one_or_more(mut self, pat: Box<dyn Pattern>) -> Self {
         self.token_patterns
             .push(Box::new(RepeatingPattern::new(pat)));
+        self
+    }
+
+    pub fn then(mut self, pat: Box<dyn Pattern>) -> Self {
+        self.token_patterns.push(pat);
         self
     }
 }

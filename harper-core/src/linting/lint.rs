@@ -3,7 +3,7 @@ use std::fmt::Display;
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 
-use crate::span::Span;
+use crate::Span;
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Lint {
@@ -34,6 +34,7 @@ pub enum LintKind {
     Capitalization,
     Formatting,
     Repetition,
+    Enhancement,
     Readability,
     #[default]
     Miscellaneous,
@@ -48,6 +49,7 @@ impl Display for LintKind {
             LintKind::Repetition => "Repetition",
             LintKind::Readability => "Readability",
             LintKind::Miscellaneous => "Miscellaneous",
+            LintKind::Enhancement => "Enhancement",
         };
 
         write!(f, "{}", s)

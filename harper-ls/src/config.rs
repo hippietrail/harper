@@ -30,7 +30,7 @@ impl DiagnosticSeverity {
 }
 
 /// Configuration for how code actions are displayed.
-/// Originally motivated by [#89](https://github.com/elijah-potter/harper/issues/89).
+/// Originally motivated by [#89](https://github.com/automattic/harper/issues/89).
 #[derive(Debug, Clone, Default)]
 pub struct CodeActionConfig {
     /// Instructs `harper-ls` to place unstable code actions last.
@@ -69,6 +69,7 @@ pub struct Config {
     pub lint_config: LintGroupConfig,
     pub diagnostic_severity: DiagnosticSeverity,
     pub code_action_config: CodeActionConfig,
+    pub isolate_english: bool,
 }
 
 impl Config {
@@ -113,6 +114,16 @@ impl Config {
             base.code_action_config = CodeActionConfig::from_lsp_config(v.clone())?;
         }
 
+        if let Some(v) = value.get("isolateEnglish") {
+            if let Value::Bool(v) = v {
+                base.isolate_english = *v;
+            } else {
+                return Err(anyhow::format_err!(
+                    "isolateEnglish path must be a boolean."
+                ));
+            }
+        }
+
         Ok(base)
     }
 }
@@ -127,6 +138,7 @@ impl Default for Config {
             lint_config: LintGroupConfig::default(),
             diagnostic_severity: DiagnosticSeverity::Hint,
             code_action_config: CodeActionConfig::default(),
+            isolate_english: false,
         }
     }
 }

@@ -2,14 +2,27 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-	user-select: none;
-	font-family: Outfit;
+@layer base {
+	h1 {
+		@apply text-5xl;
+	}
+
+	h2 {
+		@apply text-3xl sm:text-3xl lg:text-4xl;
+	}
+
+	p {
+		@apply lg:text-base md:text-xl xl:text-xl;
+	}
+
+	* {
+		@apply dark:text-white;
+	}
 }
 
-@font-face {
-	font-family: Outfit;
-	src: url('/fonts/outfit.ttf');
+* {
+	user-select: none;
+	font-family: Atkinson Hyperlegible;
 }
 
 .underlinespecial {

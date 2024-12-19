@@ -4,21 +4,25 @@
 	// Someday, I'll return to it and spruce it up.
 	// For now, it works.
 
-	import { lintText } from '$lib/analysis';
-	import type { Lint } from 'wasm';
+	import type { Lint } from 'harper.js';
+	import { WorkerLinter } from 'harper.js';
 
 	export let content: string;
 	export let focusLintIndex: number | undefined;
 
 	let lints: [Lint, number][] = [];
 	let lintHighlights: HTMLSpanElement[] = [];
+	let linter = new WorkerLinter();
+	linter.setup();
 
-	$: lintText(content).then(
-		(newLints) =>
-			(lints = newLints
-				.map<[Lint, number]>((lint, index) => [lint, index])
-				.toSorted(([a], [b]) => a.span().start - b.span().end))
-	);
+	$: linter
+		.lint(content)
+		.then(
+			(newLints) =>
+				(lints = newLints
+					.map<[Lint, number]>((lint, index) => [lint, index])
+					.toSorted(([a], [b]) => a.span().start - b.span().end))
+		);
 	$: if (focusLintIndex != null && lintHighlights[focusLintIndex] != null)
 		lintHighlights[focusLintIndex].scrollIntoView({
 			behavior: 'smooth',
@@ -95,16 +99,16 @@
 </script>
 
 <div class="grid">
-	<div class="p-0 m-0 text-nowrap indent-0 text-transparent" style="grid-row: 1; grid-column: 1">
+	<div class="p-0 m-0 text-nowrap indent-0" style="grid-row: 1; grid-column: 1">
 		{#each modified as chunk}
 			{#if chunk == null}
 				<br />
 			{:else if typeof chunk == 'string'}
-				<span class="whitespace-pre">{chunk}</span>
+				<span class="whitespace-pre text-transparent">{chunk}</span>
 			{:else}
-				<span class="pointer-events-auto" style={`margin-right: -4px;`}>
+				<span class="pointer-events-auto" style={`margin-right: -5px;`}>
 					<button
-						class={`underlinespecial transition-all rounded-sm ${chunk.focused ? 'animate-after-bigbounce text-white' : ''}`}
+						class={`underlinespecial transition-all rounded-sm ${chunk.focused ? 'animate-after-bigbounce text-white' : 'text-transparent'}`}
 						bind:this={lintHighlights[chunk.index]}
 						on:click={() =>
 							chunk != null && typeof chunk == 'object' && (focusLintIndex = chunk.index)}

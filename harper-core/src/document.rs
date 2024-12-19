@@ -2,16 +2,15 @@ use std::cmp::Ordering;
 use std::collections::VecDeque;
 use std::fmt::Display;
 
-use itertools::Itertools;
 use paste::paste;
 
 use crate::parsers::{Markdown, Parser, PlainEnglish};
 use crate::patterns::{PatternExt, RepeatingPattern, SequencePattern};
 use crate::punctuation::Punctuation;
-use crate::span::Span;
 use crate::token::NumberSuffix;
 use crate::vec_ext::VecExt;
-use crate::{Dictionary, FatToken, FullDictionary, Lrc, Token, TokenKind, TokenStringExt};
+use crate::Span;
+use crate::{Dictionary, FatToken, FstDictionary, Lrc, Token, TokenKind, TokenStringExt};
 
 /// A document containing some amount of lexed and parsed English text.
 #[derive(Debug, Clone)]
@@ -22,7 +21,7 @@ pub struct Document {
 
 impl Default for Document {
     fn default() -> Self {
-        Self::new("", &mut PlainEnglish, &FullDictionary::curated())
+        Self::new("", &mut PlainEnglish, &FstDictionary::curated())
     }
 }
 
@@ -40,7 +39,7 @@ impl Document {
     pub fn new_curated(text: &str, parser: &mut impl Parser) -> Self {
         let source: Vec<_> = text.chars().collect();
 
-        Self::new_from_vec(Lrc::new(source), parser, &FullDictionary::curated())
+        Self::new_from_vec(Lrc::new(source), parser, &FstDictionary::curated())
     }
 
     /// Lexes and parses text to produce a document using a provided language
@@ -61,7 +60,7 @@ impl Document {
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
     /// parser and curated dictionary.
     pub fn new_plain_english_curated(text: &str) -> Self {
-        Self::new(text, &mut PlainEnglish, &FullDictionary::curated())
+        Self::new(text, &mut PlainEnglish, &FstDictionary::curated())
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
@@ -73,7 +72,7 @@ impl Document {
     /// Parse text to produce a document using the built-in [`Markdown`] parser
     /// and curated dictionary.
     pub fn new_markdown_curated(text: &str) -> Self {
-        Self::new(text, &mut Markdown, &FullDictionary::curated())
+        Self::new(text, &mut Markdown, &FstDictionary::curated())
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
@@ -187,112 +186,6 @@ impl Document {
         self.tokens().map(|token| token.to_fat(&self.source))
     }
 
-    /// Iterate over the locations of punctuation the separates chunks.
-    fn chunk_terminators(&self) -> impl Iterator<Item = usize> + '_ {
-        self.tokens.iter().enumerate().filter_map(|(index, token)| {
-            if is_chunk_terminator(&token.kind) {
-                return Some(index);
-            }
-            None
-        })
-    }
-
-    /// Get the index of the last chunk terminator.
-    fn last_chunk_terminator(&self) -> Option<usize> {
-        self.tokens
-            .iter()
-            .enumerate()
-            .rev()
-            .find_map(|(index, token)| {
-                if is_chunk_terminator(&token.kind) {
-                    return Some(index);
-                }
-                None
-            })
-    }
-
-    /// Iterate over chunks.
-    ///
-    /// For example, the following sentence contains two chunks separated by a
-    /// comma:
-    ///
-    /// ```text
-    /// Here is an example, it is short.
-    /// ```
-    pub fn chunks(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
-        let first_chunk = self
-            .chunk_terminators()
-            .next()
-            .map(|first_term| &self.tokens[0..=first_term]);
-
-        let rest = self
-            .chunk_terminators()
-            .tuple_windows()
-            .map(move |(a, b)| &self.tokens[a + 1..=b]);
-
-        let last = if let Some(last_i) = self.last_chunk_terminator() {
-            if last_i + 1 < self.tokens.len() {
-                Some(&self.tokens[last_i + 1..])
-            } else {
-                None
-            }
-        } else {
-            Some(self.tokens.as_slice())
-        };
-
-        first_chunk.into_iter().chain(rest).chain(last)
-    }
-
-    /// Iterate over the locations of the sentence terminators in the document.
-    fn sentence_terminators(&self) -> impl Iterator<Item = usize> + '_ {
-        self.tokens.iter().enumerate().filter_map(|(index, token)| {
-            if is_sentence_terminator(&token.kind) {
-                return Some(index);
-            }
-            None
-        })
-    }
-
-    /// Get the index of the last sentence terminator in the document.
-    fn last_sentence_terminator(&self) -> Option<usize> {
-        self.tokens
-            .iter()
-            .enumerate()
-            .rev()
-            .find_map(|(index, token)| {
-                if is_sentence_terminator(&token.kind) {
-                    return Some(index);
-                }
-                None
-            })
-    }
-
-    /// Get an iterator over token slices that represent the individual
-    /// sentences in a document.
-    pub fn sentences(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
-        let first_sentence = self
-            .sentence_terminators()
-            .next()
-            .map(|first_term| &self.tokens[0..=first_term]);
-
-        let rest = self
-            .sentence_terminators()
-            .tuple_windows()
-            .map(move |(a, b)| &self.tokens[a + 1..=b]);
-
-        let last = if let Some(last_i) = self.last_sentence_terminator() {
-            if last_i + 1 < self.tokens.len() {
-                Some(&self.tokens[last_i + 1..])
-            } else {
-                None
-            }
-        } else {
-            Some(self.tokens.as_slice())
-        };
-
-        first_sentence.into_iter().chain(rest).chain(last)
-    }
-
     pub fn get_span_content(&self, span: Span) -> &[char] {
         span.get_content(&self.source)
     }
@@ -324,7 +217,7 @@ impl Document {
     /// [`Punctuation::Quote::twin_loc`] field. This is on a best effort
     /// basis.
     ///
-    /// Current algorithm is very basic and could use some work.
+    /// Current algorithm is basic and could use some work.
     fn match_quotes(&mut self) {
         let quote_indices: Vec<usize> = self.tokens.iter_quote_indices().collect();
 
@@ -581,6 +474,10 @@ macro_rules! create_fns_on_doc {
                 self.tokens.[< last_ $thing >]()
             }
 
+            fn [< last_ $thing _index>](&self) -> Option<usize> {
+                self.tokens.[< last_ $thing _index >]()
+            }
+
             fn [<iter_ $thing _indices>](&self) -> impl Iterator<Item = usize> + '_ {
                 self.tokens.[< iter_ $thing _indices >]()
             }
@@ -602,6 +499,11 @@ impl TokenStringExt for Document {
     create_fns_on_doc!(at);
     create_fns_on_doc!(ellipsis);
     create_fns_on_doc!(unlintable);
+    create_fns_on_doc!(sentence_terminator);
+    create_fns_on_doc!(paragraph_break);
+    create_fns_on_doc!(chunk_terminator);
+    create_fns_on_doc!(punctuation);
+    create_fns_on_doc!(likely_homograph);
 
     fn first_sentence_word(&self) -> Option<Token> {
         self.tokens.first_sentence_word()
@@ -622,6 +524,18 @@ impl TokenStringExt for Document {
     fn iter_linking_verbs(&self) -> impl Iterator<Item = Token> + '_ {
         self.tokens.iter_linking_verbs()
     }
+
+    fn iter_chunks(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
+        self.tokens.iter_chunks()
+    }
+
+    fn iter_paragraphs(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
+        self.tokens.iter_paragraphs()
+    }
+
+    fn iter_sentences(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
+        self.tokens.iter_sentences()
+    }
 }
 
 impl Display for Document {
@@ -634,61 +548,12 @@ impl Display for Document {
     }
 }
 
-fn is_chunk_terminator(token: &TokenKind) -> bool {
-    if is_sentence_terminator(token) {
-        return true;
-    }
-
-    match token {
-        TokenKind::Punctuation(punct) => {
-            matches!(punct, Punctuation::Comma | Punctuation::Quote { .. })
-        }
-        _ => false,
-    }
-}
-
-fn is_sentence_terminator(token: &TokenKind) -> bool {
-    match token {
-        TokenKind::Punctuation(punct) => [
-            Punctuation::Period,
-            Punctuation::Bang,
-            Punctuation::Question,
-        ]
-        .contains(punct),
-        TokenKind::ParagraphBreak => true,
-        _ => false,
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use itertools::Itertools;
 
     use super::Document;
-    use crate::token::TokenStringExt;
     use crate::Span;
-
-    #[test]
-    fn parses_sentences_correctly() {
-        let text = "There were three little pigs. They built three little homes.";
-        let document = Document::new_plain_english_curated(text);
-
-        let mut sentence_strs = vec![];
-
-        for sentence in document.sentences() {
-            if let Some(span) = sentence.span() {
-                sentence_strs.push(document.get_span_content_str(span));
-            }
-        }
-
-        assert_eq!(
-            sentence_strs,
-            vec![
-                "There were three little pigs.",
-                " They built three little homes."
-            ]
-        )
-    }
 
     fn assert_condensed_contractions(text: &str, final_tok_count: usize) {
         let document = Document::new_plain_english_curated(text);

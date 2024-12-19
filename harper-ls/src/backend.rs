@@ -5,9 +5,10 @@ use std::sync::Arc;
 use anyhow::anyhow;
 use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, Linter};
-use harper_core::parsers::{CollapseIdentifiers, Markdown, PlainEnglish};
+use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Markdown, Parser, PlainEnglish};
 use harper_core::{
-    Dictionary, Document, FullDictionary, MergedDictionary, Token, TokenKind, WordMetadata,
+    Dictionary, Document, FstDictionary, FullDictionary, MergedDictionary, Token, TokenKind,
+    WordMetadata,
 };
 use harper_html::HtmlParser;
 use serde_json::Value;
@@ -104,18 +105,15 @@ impl Backend {
         Ok(save_dict(&config.user_dict_path, dict).await?)
     }
 
-    async fn generate_global_dictionary(&self) -> anyhow::Result<MergedDictionary<FullDictionary>> {
+    async fn generate_global_dictionary(&self) -> anyhow::Result<MergedDictionary> {
         let mut dict = MergedDictionary::new();
-        dict.add_dictionary(FullDictionary::curated());
+        dict.add_dictionary(FstDictionary::curated());
         let user_dict = self.load_user_dictionary().await;
         dict.add_dictionary(Arc::new(user_dict));
         Ok(dict)
     }
 
-    async fn generate_file_dictionary(
-        &self,
-        url: &Url,
-    ) -> anyhow::Result<MergedDictionary<FullDictionary>> {
+    async fn generate_file_dictionary(&self, url: &Url) -> anyhow::Result<MergedDictionary> {
         let (global_dictionary, file_dictionary) = tokio::join!(
             self.generate_global_dictionary(),
             self.load_file_dictionary(url)
@@ -126,7 +124,7 @@ impl Backend {
         };
 
         let mut global_dictionary = global_dictionary?;
-        global_dictionary.add_dictionary(file_dictionary.into());
+        global_dictionary.add_dictionary(Arc::new(file_dictionary));
 
         Ok(global_dictionary)
     }
@@ -182,8 +180,8 @@ impl Backend {
             return Ok(());
         };
 
-        doc_state.document =
-            if let Some(mut ts_parser) = CommentParser::new_from_language_id(language_id) {
+        let parser: Option<Box<dyn Parser>> =
+            if let Some(ts_parser) = CommentParser::new_from_language_id(language_id) {
                 let source: Vec<char> = text.chars().collect();
                 let source = Arc::new(source);
 
@@ -199,26 +197,37 @@ impl Backend {
                         doc_state.linter = LintGroup::new(config_lock.lint_config, merged.clone());
                         doc_state.dict = merged.clone();
                     }
-                    Document::new_from_vec(
-                        source,
-                        &mut CollapseIdentifiers::new(Box::new(ts_parser), &doc_state.dict),
-                        &doc_state.dict,
-                    )
+                    Some(Box::new(CollapseIdentifiers::new(
+                        Box::new(ts_parser),
+                        Box::new(doc_state.dict.clone()),
+                    )))
                 } else {
-                    Document::new_from_vec(source, &mut ts_parser, &doc_state.dict)
+                    Some(Box::new(ts_parser))
                 }
             } else if language_id == "markdown" {
-                Document::new(text, &mut Markdown, &doc_state.dict)
-            } else if language_id == "gitcommit" {
-                Document::new(text, &mut GitCommitParser, &doc_state.dict)
+                Some(Box::new(Markdown))
+            } else if language_id == "git-commit" {
+                Some(Box::new(GitCommitParser))
             } else if language_id == "html" {
-                Document::new(text, &mut HtmlParser::default(), &doc_state.dict)
-            } else if language_id == "mail" {
-                Document::new(text, &mut PlainEnglish, &doc_state.dict)
+                Some(Box::new(HtmlParser::default()))
+            } else if language_id == "mail" || language_id == "plaintext" {
+                Some(Box::new(PlainEnglish))
             } else {
-                doc_lock.remove(url);
-                return Ok(());
+                None
             };
+
+        match parser {
+            None => {
+                doc_lock.remove(url);
+            }
+            Some(mut parser) => {
+                if self.config.read().await.isolate_english {
+                    parser = Box::new(IsolateEnglish::new(parser, doc_state.dict.clone()));
+                }
+
+                doc_state.document = Document::new(text, &mut parser, &doc_state.dict);
+            }
+        }
 
         Ok(())
     }
@@ -239,7 +248,7 @@ impl Backend {
         let source_chars = doc_state.document.get_full_content();
 
         // Find lints whole span overlaps with range
-        let span = range_to_span(source_chars, range);
+        let span = range_to_span(source_chars, range).with_len(1);
 
         let mut actions: Vec<CodeActionOrCommand> = lints
             .into_iter()
@@ -468,6 +477,22 @@ impl LanguageServer for Backend {
 
     async fn did_change_configuration(&self, params: DidChangeConfigurationParams) {
         self.update_config_from_obj(params.settings).await;
+
+        let urls: Vec<Url> = {
+            let mut doc_lock = self.doc_state.lock().await;
+            let config_lock = self.config.read().await;
+
+            for doc in doc_lock.values_mut() {
+                doc.linter = LintGroup::new(config_lock.lint_config, doc.dict.clone());
+            }
+
+            doc_lock.keys().cloned().collect()
+        };
+
+        for url in urls {
+            let _ = self.update_document_from_file(&url, None).await;
+            self.publish_diagnostics(&url).await;
+        }
     }
 
     async fn code_action(&self, params: CodeActionParams) -> Result<Option<CodeActionResponse>> {

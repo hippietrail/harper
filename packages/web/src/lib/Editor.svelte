@@ -3,8 +3,10 @@
 	import demo from '../../../../demo.md?raw';
 	import Underlines from '$lib/Underlines.svelte';
 	import { Button } from 'flowbite-svelte';
-	import { lintText, applySuggestion } from '$lib/analysis';
-	import { Lint, SuggestionKind } from 'wasm';
+	import { WorkerLinter, SuggestionKind } from 'harper.js';
+	import type { Lint } from 'harper.js';
+	import CheckMark from '$lib/CheckMark.svelte';
+	import { fly } from 'svelte/transition';
 
 	export let content = demo;
 
@@ -12,8 +14,11 @@
 	let lintCards: HTMLButtonElement[] = [];
 	let focused: number | undefined;
 	let editor: HTMLTextAreaElement | null;
+	let linter = new WorkerLinter();
 
-	$: lintText(content).then((newLints) => (lints = newLints));
+	linter.setup();
+
+	$: linter.lint(content).then((newLints) => (lints = newLints));
 	$: boxHeight = calcHeight(content);
 	$: if (focused != null && lintCards[focused])
 		lintCards[focused].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
@@ -54,7 +59,14 @@
 	</Card>
 	<Card class="flex-none basis-[400px] max-h-full p-1 hidden lg:flex">
 		<h2 class="text-2xl font-bold m-2">Suggestions</h2>
-		<div class="flex flex-col overflow-y-scroll overflow-x-hidden m-0 p-0">
+		<div class="flex flex-col overflow-y-auto overflow-x-hidden m-0 p-0 h-full">
+			{#if lints.length == 0}
+				<div class="w-full h-full flex flex-row text-center justify-center items-center" in:fly>
+					<p class="dark:white font-bold text-lg">Looks good to me</p>
+					<CheckMark />
+				</div>
+			{/if}
+
 			{#each lints as lint, i}
 				<button
 					class="block max-w-sm p-3 bg-white dark:bg-gray-800 border border-gray-200 rounded-lg shadow m-1 hover:translate-x-1 transition-all"
@@ -73,16 +85,16 @@
 							class="transition-all overflow-hidden flex flex-col justify-evenly"
 							style={`height: ${focused === i ? `calc(55px * ${lint.suggestion_count() + 1})` : '0px'}`}
 						>
-							<p style="height: 50px" class="text-left">{lint.message()}</p>
+							<p style="height: 50px" class="text-left text-sm">{lint.message()}</p>
 							{#each lint.suggestions() as suggestion}
 								<div class="w-full p-[4px]">
 									<Button
 										class="w-full"
 										style="height: 40px; margin: 5px 0px;"
 										on:click={() =>
-											applySuggestion(content, suggestion, lint.span()).then(
-												(edited) => (content = edited)
-											)}
+											linter
+												.applySuggestion(content, suggestion, lint.span())
+												.then((edited) => (content = edited))}
 									>
 										{#if suggestion.kind() == SuggestionKind.Remove}
 											Remove "{lint.get_problem_text()}"
@@ -112,9 +124,9 @@
 							style="height: 40px; margin: 5px 0px;"
 							on:click={() =>
 								focused != null &&
-								applySuggestion(content, suggestion, lints[focused].span()).then(
-									(edited) => (content = edited)
-								)}
+								linter
+									.applySuggestion(content, suggestion, lints[focused].span())
+									.then((edited) => (content = edited))}
 						>
 							{#if suggestion.kind() == SuggestionKind.Remove}
 								Remove
