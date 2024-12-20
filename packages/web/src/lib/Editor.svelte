@@ -81,7 +81,7 @@
 				>
 					<div class="pl-2 border-l-[3px] border-l-primary-500">
 						<div class="flex flex-row">
-							<h3 class="font-bold">
+							<h3 class="font-bold text-base p-0">
 								{lint.lint_kind()} - “<span class="italic">
 									{lint.get_problem_text()}
 								</span>”
@@ -91,7 +91,7 @@
 							class="transition-all overflow-hidden flex flex-col justify-evenly"
 							style={`height: ${focused === i ? `calc(55px * ${lint.suggestion_count() + 1})` : '0px'}`}
 						>
-							<p style="height: 50px" class="text-left text-sm">{lint.message()}</p>
+							<p style="height: 50px" class="text-left text-sm p-0">{lint.message()}</p>
 							{#each lint.suggestions() as suggestion}
 								<div class="w-full p-[4px]">
 									<Button
@@ -121,8 +121,8 @@
 			class={`max-w-full w-full ${superSmall ? 'justify-center' : 'justify-between'} flex-row ${small ? '' : 'hidden'}`}
 		>
 			<div class={superSmall ? 'hidden' : ''}>
-				<h1 class={`font-bold p-0 ${small ? 'text-lg' : ''}`}>{lints[focused].lint_kind()}</h1>
-				<p class={`p-0 ${small ? 'text-sm' : 'text-md'}`}>{lints[focused].message()}</p>
+				<h1 class={`font-bold p-0 text-lg}`}>{lints[focused].lint_kind()}</h1>
+				<p class={`p-0 text-sm`}>{lints[focused].message()}</p>
 			</div>
 			<div class="flex flex-row">
 				{#each lints[focused].suggestions() as suggestion}

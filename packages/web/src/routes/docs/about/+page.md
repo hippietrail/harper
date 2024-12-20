@@ -2,7 +2,7 @@
 title: What Is Harper?
 ---
 
-Harper is a grammar checker designed to run anywhere there's text (so really, anywhere).
+Harper is a grammar checker designed to run anywhere there is text (so really, anywhere).
 Most Harper users are catching their mistakes in Neovim, [Obsidian](/obsidian), or Visual Studio Code.
 
 <script>
@@ -22,4 +22,4 @@ In a way, Harper is an error-tolerant parser for English.
 
 ## How Can I Start Using Harper?
 
-That depends. If you want to use it to check your work,
+We have a number of integrations available for a number of use-cases, ranging from [Obsidian for note-taking](./integrations/obsidian) to [Neovim](./integrations/neovim) or [Visual Studio Code](./integrations/visual-studio-code) for programming.

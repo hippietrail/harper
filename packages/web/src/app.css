@@ -3,16 +3,24 @@
 @tailwind utilities;
 
 @layer base {
+	ul {
+		@apply list-disc pl-4;
+	}
+
 	h1 {
-		@apply text-5xl pt-4;
+		@apply text-5xl py-4;
 	}
 
 	h2 {
-		@apply text-3xl sm:text-3xl lg:text-4xl pt-4;
+		@apply text-3xl sm:text-3xl lg:text-4xl py-4;
+	}
+
+	h3 {
+		@apply text-xl sm:text-xl lg:text-2xl py-4;
 	}
 
 	p {
-		@apply lg:text-base md:text-xl xl:text-xl pt-4;
+		@apply lg:text-base md:text-lg xl:text-lg py-4;
 	}
 
 	* {
@@ -27,6 +35,14 @@
 * {
 	user-select: none;
 	font-family: Atkinson Hyperlegible;
+}
+
+code {
+	font-family: 'JetBrains Mono' !important;
+}
+
+code * {
+	font-family: 'JetBrains Mono' !important;
 }
 
 .underlinespecial {

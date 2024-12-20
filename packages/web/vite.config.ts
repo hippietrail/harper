@@ -37,12 +37,54 @@ export default defineConfig({
 						},
 						{
 							title: 'Integrations',
-							to: '/docs/integrations'
+							to: '/docs/integrations',
+							items: [
+								{
+									title: 'Obsidian',
+									to: '/docs/integrations/obsidian'
+								},
+								{
+									title: 'Visual Studio Code',
+									to: '/docs/integrations/visual-studio-code'
+								},
+								{
+									title: 'Language Server',
+									to: '/docs/integrations/language-server'
+								},
+								{
+									title: 'Neovim',
+									to: '/docs/integrations/neovim'
+								},
+								{
+									title: 'Helix',
+									to: '/docs/integrations/helix'
+								},
+								{
+									title: 'Zed',
+									to: '/docs/integrations/zed'
+								},
+								{
+									title: 'Emacs',
+									to: '/docs/integrations/emacs'
+								}
+							]
 						}
 					]
 				},
 				highlighter: {
-					languages: ['svelte', 'sh', 'js', 'html', 'ts', 'md', 'css', 'scss', 'toml', 'rust']
+					languages: [
+						'svelte',
+						'sh',
+						'js',
+						'html',
+						'ts',
+						'md',
+						'css',
+						'scss',
+						'toml',
+						'rust',
+						'lua'
+					]
 				}
 			})
 		}),
