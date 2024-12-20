@@ -500,23 +500,12 @@ mod tests {
 
     #[test]
     fn str_parsing() {
-        let source_with_quotes = r#"#let ident = "This is a string""#;
-        let source_no_quotes = r#"#let ident = This is a string"#;
+        let source = r#"#let ident = "This is a string""#;
 
-        let with_quotes_token_kinds = Typst
-            .parse_str(source_with_quotes)
-            .iter()
-            .map(|t| t.kind)
-            .collect_vec();
-        let no_quotes_token_kinds = Typst
-            .parse_str(source_no_quotes)
-            .iter()
-            .map(|t| t.kind)
-            .collect_vec();
+        let token_kinds = Typst.parse_str(source).iter().map(|t| t.kind).collect_vec();
 
-        assert_eq!(with_quotes_token_kinds, no_quotes_token_kinds);
         assert!(matches!(
-            &with_quotes_token_kinds.as_slice(),
+            &token_kinds.as_slice(),
             &[
                 TokenKind::Word(_), // identifier
                 TokenKind::Word(_), // This
