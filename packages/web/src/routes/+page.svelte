@@ -34,7 +34,7 @@
 		class="flex flex-row items-center [&>*]:m-2 hover:scale-105"
 		><GitHubLogo width="40px" height="40px" />GitHub</a
 	>
-	<a href="/obsidian" class="flex flex-row items-center [&>*]:m-2 hover:scale-105"
+	<a href="/docs/integrations/obsidian" class="flex flex-row items-center [&>*]:m-2 hover:scale-105"
 		><ObsidianLogo width="40px" height="40px" />Obsidian Plugin</a
 	>
 	<a href="https://elijahpotter.dev" class="flex flex-row items-center [&>*]:m-2 hover:scale-105"
