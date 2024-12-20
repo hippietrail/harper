@@ -1,4 +1,4 @@
-<script>
+<script module>
 	import Graph from '$lib/Graph.svelte';
 	import CodeLogo from '$lib/CodeLogo.svelte';
 	import Editor from '$lib/Editor.svelte';
@@ -7,13 +7,17 @@
 	import GitHubLogo from '$lib/GitHubLogo.svelte';
 	import ObsidianLogo from '$lib/ObsidianLogo.svelte';
 
-	let width = window.innerWidth;
+	export const frontmatter = {
+		home: false
+	};
+
+	let width = $state(window.innerWidth);
 
 	window.addEventListener('resize', () => {
 		width = window.innerWidth;
 	});
 
-	$: mobile = width < 640;
+	let mobile = $derived(width < 640);
 </script>
 
 <div class="w-full flex flex-col items-center">

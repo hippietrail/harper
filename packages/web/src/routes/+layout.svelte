@@ -19,9 +19,6 @@
 />
 
 <div class="flex flex-col h-full">
-	<div class="basis-16 flex-none" />
-	<div class="absolute top-8 right-8"><DarkMode /></div>
-
 	<div class="flex-1">
 		<GutterCenter>
 			<slot />
