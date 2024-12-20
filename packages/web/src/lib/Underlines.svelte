@@ -106,7 +106,7 @@
 			{:else if typeof chunk == 'string'}
 				<span class="whitespace-pre text-transparent">{chunk}</span>
 			{:else}
-				<span class="pointer-events-auto" style={`margin-right: -5px;`}>
+				<span class="pointer-events-auto" style={`margin-right: -4px;`}>
 					<button
 						class={`underlinespecial transition-all rounded-sm ${chunk.focused ? 'animate-after-bigbounce text-white' : 'text-transparent'}`}
 						bind:this={lintHighlights[chunk.index]}
