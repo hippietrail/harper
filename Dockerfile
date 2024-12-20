@@ -12,6 +12,8 @@ RUN wasm-pack build --release --target web
 
 FROM node:slim AS node-build
 
+RUN apt-get update && apt-get install git -y
+
 RUN mkdir -p /usr/build/
 WORKDIR /usr/build/
 
