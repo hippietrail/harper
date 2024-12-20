@@ -5,7 +5,6 @@
 	import Section from '$lib/Section.svelte';
 	import Logo from '$lib/Logo.svelte';
 	import GitHubLogo from '$lib/GitHubLogo.svelte';
-	import { DarkMode } from 'flowbite-svelte';
 	import ObsidianLogo from '$lib/ObsidianLogo.svelte';
 
 	let width = window.innerWidth;
@@ -16,9 +15,6 @@
 
 	$: mobile = width < 640;
 </script>
-
-<div class="h-16" />
-<div class="absolute top-8 right-8"><DarkMode /></div>
 
 <div class="w-full flex flex-col items-center">
 	<Logo width="200px" />
@@ -82,18 +78,15 @@
 	<span slot="title">Native Everywhere</span>
 	<span slot="subtitle"
 		>Harper is both available as a <a
-			class="underline"
 			href="https://github.com/automattic/harper/tree/master/harper-ls">language server</a
 		>, and through WebAssembly, so you can get fantastic grammar checking anywhere you work.
 		<br /><br /> That said, we take extra care to make sure the
-		<a
-			class="underline"
-			href="https://marketplace.visualstudio.com/items?itemName=elijah-potter.harper"
+		<a href="https://marketplace.visualstudio.com/items?itemName=elijah-potter.harper"
 			>Visual Studio Code</a
 		>, Neovim,
-		<a class="underline" href="https://github.com/Stef16Robbe/harper_zed">Zed</a>
+		<a href="https://github.com/Stef16Robbe/harper_zed">Zed</a>
 		and
-		<a class="underline" href="/obsidian">Obsidian</a> integration is amazing.
+		<a href="/obsidian">Obsidian</a> integration is amazing.
 	</span>
 
 	<img
@@ -119,6 +112,6 @@
 	<span slot="title">Open Source</span>
 	<span slot="subtitle"
 		>Harper is completely open source under the Apache-2.0 license. <br /><br /> Come pay us a visit
-		on <a class="underline" href="https://github.com/automattic/harper">GitHub.</a>
+		on <a href="https://github.com/automattic/harper">GitHub.</a>
 	</span>
 </Section>
