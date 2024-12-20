@@ -1,7 +1,6 @@
 <script lang="ts">
 	import '../app.css';
 	import GutterCenter from '$lib/GutterCenter.svelte';
-	import { DarkMode } from 'flowbite-svelte';
 	import AutomatticLogo from '$lib/AutomatticLogo.svelte';
 
 	let names = ['Grammar Guru', 'Grammar Checker', 'Grammar Savior'];

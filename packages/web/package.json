@@ -15,8 +15,6 @@
 		"@sveltejs/kit": "^2.0.0",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@types/reveal.js": "^5.0.3",
-		"@typescript-eslint/eslint-plugin": "^6.0.0",
-		"@typescript-eslint/parser": "^6.0.0",
 		"autoprefixer": "^10.4.16",
 		"flowbite": "^1.8.1",
 		"flowbite-svelte": "^0.44.18",
