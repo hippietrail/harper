@@ -27,14 +27,15 @@
 		"tslib": "^2.4.1",
 		"typescript": "^5.0.0",
 		"vite": "^4.5.5",
+		"vite-plugin-pwa": "^0.21.1",
 		"vite-plugin-top-level-await": "^1.4.1",
 		"vite-plugin-wasm": "^3.3.0"
 	},
 	"type": "module",
 	"dependencies": {
+		"harper.js": "link:../harper.js",
 		"lodash-es": "^4.17.21",
 		"reveal.js": "^5.1.0",
-		"svelte-intersection-observer": "^1.0.0",
-		"harper.js": "link:../harper.js"
+		"svelte-intersection-observer": "^1.0.0"
 	}
 }

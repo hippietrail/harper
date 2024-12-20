@@ -4,19 +4,23 @@
 
 @layer base {
 	h1 {
-		@apply text-5xl;
+		@apply text-5xl pt-4;
 	}
 
 	h2 {
-		@apply text-3xl sm:text-3xl lg:text-4xl;
+		@apply text-3xl sm:text-3xl lg:text-4xl pt-4;
 	}
 
 	p {
-		@apply lg:text-base md:text-xl xl:text-xl;
+		@apply lg:text-base md:text-xl xl:text-xl pt-4;
 	}
 
 	* {
 		@apply dark:text-white;
+	}
+
+	a {
+		@apply underline;
 	}
 }
 
@@ -67,4 +71,8 @@ textarea {
 		transform: none;
 		animation-timing-function: cubic-bezier(0, 0, 0.2, 1);
 	}
+}
+
+html {
+	height: 100%;
 }
