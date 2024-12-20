@@ -211,9 +211,18 @@ fn map_token(
         }
         Expr::Numeric(a) => constant_token!(doc, a, TokenKind::Unlintable),
         Expr::Str(text) => {
-            // Using `text.get()` doesn't work here, because it escapes quotes which throws off
-            // the span
-            parse_english(doc.get(doc.range(text.span())?)?, doc, parser, &text.span())
+            let offset = doc.range(text.span()).unwrap().start + 1;
+            let text = text.to_untyped().text();
+            Some(
+                parser
+                    .parse_str(&text[1..text.len() - 1])
+                    .into_iter()
+                    .map(|mut t| {
+                        t.span.push_by(offset);
+                        t
+                    })
+                    .collect_vec(),
+            )
         }
         Expr::Code(a) => constant_token!(doc, a, TokenKind::Unlintable),
         Expr::Content(content_block) => {
@@ -378,7 +387,7 @@ mod tests {
         let source = "doesn't";
 
         let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert_eq!(token_kinds.len(), 1);
@@ -390,7 +399,7 @@ mod tests {
         let source = "person's";
 
         let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert_eq!(token_kinds.len(), 1);
@@ -413,7 +422,7 @@ mod tests {
         let source = "12 is larger than 11, but much less than 11!";
 
         let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert!(matches!(
@@ -449,7 +458,7 @@ mod tests {
         let source = "$12 > 11$, $12 << 11!$";
 
         let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert!(matches!(
@@ -471,21 +480,52 @@ mod tests {
                       )"#;
 
         let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         let charslice = source.chars().collect_vec();
-        assert_eq!(tokens[3].span.get_content_string(&charslice), "Typst");
+        assert_eq!(tokens[2].span.get_content_string(&charslice), "Typst");
+
         assert!(matches!(
             token_kinds.as_slice(),
             &[
-                TokenKind::Word(_),
-                TokenKind::Word(_),
-                TokenKind::Punctuation(Punctuation::Quote { .. }),
-                TokenKind::Word(_),
-                TokenKind::Punctuation(Punctuation::Quote { .. }),
-                TokenKind::Word(_),
-                TokenKind::Number(OrderedFloat(2019.0), None),
+                TokenKind::Word(_),                            // identifier
+                TokenKind::Word(_),                            // key 1
+                TokenKind::Word(_),                            // value 1
+                TokenKind::Word(_),                            // key 2
+                TokenKind::Number(OrderedFloat(2019.0), None), // value 2
+            ]
+        ))
+    }
+
+    #[test]
+    fn str_parsing() {
+        let source_with_quotes = r#"#let ident = "This is a string""#;
+        let source_no_quotes = r#"#let ident = This is a string"#;
+
+        let with_quotes_token_kinds = Typst
+            .parse_str(source_with_quotes)
+            .iter()
+            .map(|t| t.kind)
+            .collect_vec();
+        let no_quotes_token_kinds = Typst
+            .parse_str(source_no_quotes)
+            .iter()
+            .map(|t| t.kind)
+            .collect_vec();
+
+        assert_eq!(with_quotes_token_kinds, no_quotes_token_kinds);
+        assert!(matches!(
+            &with_quotes_token_kinds.as_slice(),
+            &[
+                TokenKind::Word(_), // identifier
+                TokenKind::Word(_), // This
+                TokenKind::Space(1),
+                TokenKind::Word(_), // is
+                TokenKind::Space(1),
+                TokenKind::Word(_), // a
+                TokenKind::Space(1),
+                TokenKind::Word(_), // string
             ]
         ))
     }
@@ -495,7 +535,7 @@ mod tests {
         let source = "This is a sentence, it does not have any particularly interesting elements of the typst syntax.";
 
         let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert!(matches!(
