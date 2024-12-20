@@ -3303,6 +3303,11 @@
   resolved "https://registry.yarnpkg.com/@yr/monotone-cubic-spline/-/monotone-cubic-spline-1.0.3.tgz#7272d89f8e4f6fb7a1600c28c378cc18d3b577b9"
   integrity sha512-FQXkOta0XBSUPHndIKON2Y9JeQz5ZeMqLYZVVK93FliNBFm7LNMIZmY6FrMEB9XPcDbE2bekMbZD6kzDkxwYjA==
 
+"@zachleat/snow-fall@^1.0.3":
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/@zachleat/snow-fall/-/snow-fall-1.0.3.tgz#0ce77508e535a976a30c64dffce47173a382764b"
+  integrity sha512-Y9srRbmO+k31vSm+eINYRV9DRoeWGV5/hlAn9o34bLpoWo+T5945v6XGBrFzQYjhyEGB4j/4zXuTW1zTxp2Reg==
+
 acorn-jsx@^5.3.2:
   version "5.3.2"
   resolved "https://registry.yarnpkg.com/acorn-jsx/-/acorn-jsx-5.3.2.tgz#7ed5bb55908b3b2f1bc55c6af1653bada7f07937"
