@@ -109,23 +109,23 @@ mod tests {
 
     fn example_local_parts() -> impl Iterator<Item = Vec<char>> {
         [
-            r#"simple"#,
-            r#"very.common"#,
-            r#"x"#,
-            r#"long.email-address-with-hyphens"#,
-            r#"user.name+tag+sorting"#,
-            r#"name/surname"#,
-            r#"admin"#,
-            r#"example"#,
+            r"simple",
+            r"very.common",
+            r"x",
+            r"long.email-address-with-hyphens",
+            r"user.name+tag+sorting",
+            r"name/surname",
+            r"admin",
+            r"example",
             r#"" ""#,
             r#""john..doe""#,
-            r#"mailhost!username"#,
+            r"mailhost!username",
             r#""very.(),:;<>[]\".VERY.\"very@\\ \"very\".unusual""#,
-            r#"user%example.com"#,
-            r#"user-"#,
-            r#"postmaster"#,
-            r#"postmaster"#,
-            r#"_test"#,
+            r"user%example.com",
+            r"user-",
+            r"postmaster",
+            r"postmaster",
+            r"_test",
         ]
         .into_iter()
         .map(|s| s.chars().collect())
