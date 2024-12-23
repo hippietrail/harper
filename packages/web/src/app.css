@@ -88,6 +88,6 @@ textarea {
 	}
 }
 
-html {
-	height: 100%;
+.header {
+	top: 6px !important;
 }
