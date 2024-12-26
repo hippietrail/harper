@@ -92,7 +92,7 @@ fn main() -> anyhow::Result<()> {
             Ok(())
         }
         Args::Spans { file } => {
-            let (doc, source) = load_file(&file)?;
+            let (doc, source) = load_file(&file, markdown_options)?;
 
             let primary_color = Color::Blue;
             let secondary_color = Color::Magenta;
