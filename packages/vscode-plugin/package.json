@@ -14,10 +14,10 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/elijah-potter/harper"
+		"url": "https://github.com/automattic/harper"
 	},
 	"bugs": {
-		"url": "https://github.com/elijah-potter/harper/issues"
+		"url": "https://github.com/automattic/harper/issues"
 	},
 	"engines": {
 		"vscode": "^1.89.0"
@@ -66,6 +66,11 @@
 			"type": "object",
 			"title": "Harper",
 			"properties": {
+				"harper-ls.path": {
+					"scope": "resource",
+					"type": "string",
+					"description": "Optional path to a harper-ls executable to use."
+				},
 				"harper-ls.linters.spell_check": {
 					"scope": "resource",
 					"type": "boolean",

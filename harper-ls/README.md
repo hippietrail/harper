@@ -12,7 +12,7 @@ Refer to the linked documentation for more information.
 If you happen to use [`mason.nvim`](https://github.com/williamboman/mason.nvim), installation will be pretty straightforward.
 `harper-ls` is in the official Mason registry, so you can install it the same way you install anything through Mason.
 
-If you __don't__ install your LSPs through Mason, we have binary releases available on [GitHub](https://github.com/elijah-potter/harper/releases) or you can use one of a number of package managers.
+If you __don't__ install your LSPs through Mason, we have binary releases available on [GitHub](https://github.com/Automattic/harper/releases) or you can use one of a number of package managers.
 
 ### Zed
 
@@ -127,7 +127,7 @@ lspconfig.harper_ls.setup {
 }
 ```
 
-This was added in response to [issue #89](https://github.com/elijah-potter/harper/issues/89).
+This was added in response to [issue #89](https://github.com/automattic/harper/issues/89).
 
 ### File-Local Dictionary
 

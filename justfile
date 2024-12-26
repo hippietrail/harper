@@ -7,12 +7,34 @@ format:
 build-wasm target:
   cd "{{justfile_directory()}}/harper-wasm" && wasm-pack build --target {{target}}
 
+# Build `harper.js` with all size optimizations available.
+build-harperjs:
+  #! /bin/bash
+  set -eo pipefail
+  just build-wasm web
+
+  sed -i 's/new URL(.*)/new URL()/g' "{{justfile_directory()}}/harper-wasm/pkg/harper_wasm.js"
+  
+  cd "{{justfile_directory()}}/packages/harper.js"
+  yarn install -f
+  yarn run build
+
+test-harperjs:
+  #!/bin/bash
+  set -eo pipefail
+  just build-harperjs
+  
+  cd "{{justfile_directory()}}/packages/harper.js"
+  yarn install -f
+  yarn playwright install
+  yarn test
+
 # Compile the website's dependencies and start a development server. Note that if you make changes to `harper-wasm`, you will have to re-run this command.
 dev-web:
   #! /bin/bash
   set -eo pipefail
 
-  just build-wasm bundler
+  just build-harperjs
 
   cd "{{justfile_directory()}}/packages/web"
   yarn install -f
@@ -22,7 +44,8 @@ dev-web:
 build-web:
   #! /bin/bash
   set -eo pipefail
-  just build-wasm bundler
+  
+  just build-harperjs
   
   cd "{{justfile_directory()}}/packages/web"
   yarn install -f
@@ -114,6 +137,7 @@ check:
   yarn prettier --check .
   yarn eslint .
 
+  # Needed because Svelte has special linters
   cd web
   just build-web
   yarn run check
@@ -124,6 +148,7 @@ setup:
   set -eo pipefail
 
   cargo build
+  just build-harperjs
   just build-obsidian
   just test-vscode
   just build-web
@@ -141,8 +166,8 @@ precommit:
   cargo build --release
   cargo bench
 
+  just build-harperjs
   just build-obsidian
-  just test-vscode
   just build-web
 
 # Install `harper-cli` and `harper-ls` to your machine via `cargo`
@@ -164,6 +189,8 @@ dogfood:
 test:
   cargo test
   cargo test --release
+  just test-vscode
+  just test-harperjs
 
 # Use `harper-cli` to parse a provided file and print out the resulting tokens.
 parse file:
@@ -172,6 +199,10 @@ parse file:
 # Lint a provided file, lint it, and print the results.
 lint file:
   cargo run --bin harper-cli -- lint {{file}}
+
+# Show the spans of the parsed tokens overlapped on the file.
+spans file:
+  cargo run --bin harper-cli -- spans {{file}}
 
 # Add a noun to Harper's curated dictionary.
 addnoun noun:
