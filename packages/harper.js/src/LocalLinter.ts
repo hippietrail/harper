@@ -69,4 +69,9 @@ export default class LocalLinter implements Linter {
 
 		this.inner!.set_lint_config_from_json(config);
 	}
+
+	async toTitleCase(text: string): Promise<string> {
+		const wasm = await loadWasm();
+		return wasm.to_title_case(text);
+	}
 }

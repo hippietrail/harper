@@ -29,4 +29,7 @@ export default interface Linter {
 
 	/** Set the linter's current configuration from JSON. */
 	setLintConfigWithJSON(config: string): Promise<void>;
+
+	/** Convert a string to Chicago-style title case. */
+	toTitleCase(text: string): Promise<string>;
 }
