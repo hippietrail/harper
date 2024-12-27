@@ -41,7 +41,9 @@ If you aren't familiar with what a language server does, I would suggest reading
 
 When Harper is used through Neovim, Visual Studio Code, Helix or Emacs, `harper-ls` is the interface.
 
-## `harper-wasm`
+You can read more about it [here](../integrations/language-server).
 
-`harper-wasm` is a small library that wraps `harper-core` and compiles to WebAssembly with [`wasm-bindgen`](https://github.com/rustwasm/wasm-bindgen).
-This allows web applications (like the [Harper](https://writewithharper.com) and the [Obsidian Plugin](https://github.com/automattic/harper-obsidian-plugin) to run Harper without downloading any additional executables. It all runs inside the JavaScript engine.
+## `harper.js`
+
+`harper.js` is a JavaScript/TypeScript module that enables developers to use Harper on any platform that supports JavaScript and WebAssembly.
+Most of the JavaScript code in `harper.js` exists to load and manage the underlying WebAssembly module (otherwise known as `harper-wasm`).
