@@ -13,11 +13,11 @@ To use the tooling required to build and debug Harper, you'll need to the follow
 - [`wasm-pack`](https://rustwasm.github.io/wasm-pack/installer/)
 - `zip`
 
-We develop a series of tools, accessible via `just` to build and debug Harper's algorithm (`harper-core`) and its various integrations.
+We develop a series of tools, accessible via `just`, to build and debug Harper's algorithm (otherwise known as `harper-core`) and its various integrations.
 To get see all the tools in your toolbox run:
 
 ```bash
 just --list
 ```
 
-Before getting started, I highly recommend that you run `just setup` to populate your build caches and download all dependencies.
+Before getting started, we highly recommend that you run `just setup` to populate your build caches and download all dependencies.
