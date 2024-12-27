@@ -31,10 +31,9 @@
 		@apply underline;
 	}
 
-
-  blockquote {
-    @apply pl-4;    
-  }
+	blockquote {
+		@apply pl-4;
+	}
 }
 
 * {
