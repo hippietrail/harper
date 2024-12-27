@@ -64,6 +64,7 @@ build-obsidian:
 
   zip harper-obsidian-plugin.zip manifest.json main.js
 
+# Run VSCode plugin unit and integration tests.
 test-vscode:
   #! /bin/bash
   set -eo pipefail
@@ -118,6 +119,7 @@ package-vscode target="":
     yarn package
   fi
 
+# Run Rust formatting and linting.
 check-rust:
   #! /bin/bash
   set -eo pipefail
@@ -187,10 +189,9 @@ dogfood:
     ./target/release/harper-cli lint $file
   done
 
-# Run all Rust unit tests.
+# Test everything.
 test:
   cargo test
-  cargo test --release
   just test-vscode
   just test-harperjs
 
@@ -198,11 +199,11 @@ test:
 parse file:
   cargo run --bin harper-cli -- parse {{file}}
 
-# Lint a provided file, lint it, and print the results.
+# Lint a provided file using Harper and print the results.
 lint file:
   cargo run --bin harper-cli -- lint {{file}}
 
-# Show the spans of the parsed tokens overlapped on the file.
+# Show the spans of the parsed tokens overlapped in the provided file.
 spans file:
   cargo run --bin harper-cli -- spans {{file}}
 
