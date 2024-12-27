@@ -14,6 +14,7 @@ mod punctuation;
 mod span;
 mod spell;
 mod sync;
+mod title_case;
 mod token;
 mod vec_ext;
 mod word_metadata;
