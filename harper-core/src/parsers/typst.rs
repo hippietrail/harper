@@ -13,6 +13,61 @@ use crate::{
 /// Typst files.
 pub struct Typst;
 
+#[derive(Debug, Clone, Copy)]
+struct Offset<'a> {
+    doc: &'a typst_syntax::Source,
+    pub char: usize,
+    pub byte: usize,
+}
+
+impl<'a> Offset<'a> {
+    pub fn new(doc: &'a typst_syntax::Source) -> Self {
+        Self {
+            doc,
+            char: 0,
+            byte: 0,
+        }
+    }
+
+    pub fn update_to(&mut self, new_byte: usize) {
+        assert!(new_byte >= self.byte);
+        self.char += self.doc.get(self.byte..new_byte).unwrap().chars().count();
+        self.byte = new_byte;
+    }
+
+    pub fn update_by(&mut self, relative_bytes: usize) {
+        self.char += self
+            .doc
+            .get(self.byte..(self.byte + relative_bytes))
+            .unwrap()
+            .chars()
+            .count();
+        self.byte += relative_bytes;
+    }
+
+    pub fn push_to(self, new_byte: usize) -> Self {
+        assert!(new_byte >= self.byte);
+        Self {
+            char: self.doc.get(self.byte..new_byte).unwrap().chars().count(),
+            byte: new_byte,
+            ..self
+        }
+    }
+
+    pub fn push_by(self, relative_bytes: usize) -> Self {
+        let mut new = self;
+        new.update_by(relative_bytes);
+
+        new
+    }
+
+    pub fn push_to_span(self, span: typst_syntax::Span) -> Self {
+        let new_byte = self.doc.range(span).unwrap().start;
+
+        self.push_to(new_byte)
+    }
+}
+
 macro_rules! constant_token {
     ($doc:ident, $a:expr, $to:expr) => {{
         Some(vec![Token {
@@ -36,17 +91,15 @@ macro_rules! merge_expr {
 
 fn parse_english(
     str: impl Into<String>,
-    doc: &typst_syntax::Source,
     parser: &mut PlainEnglish,
-    span: &typst_syntax::Span,
+    offset: Offset,
 ) -> Option<Vec<Token>> {
-    let offset = doc.range(*span).unwrap().start;
     Some(
         parser
             .parse_str(str.into())
             .into_iter()
             .map(|mut t| {
-                t.span.push_by(offset);
+                t.span.push_by(offset.char);
                 t
             })
             .collect_vec(),
@@ -57,22 +110,38 @@ fn parse_dict(
     dict: &mut dyn Iterator<Item = typst_syntax::ast::DictItem>,
     doc: &typst_syntax::Source,
     parser: &mut PlainEnglish,
+    offset: Offset,
 ) -> Option<Vec<Token>> {
     Some(
         dict.filter_map(|di| match di {
             typst_syntax::ast::DictItem::Named(named) => merge_expr!(
                 constant_token!(doc, named.name(), TokenKind::Word(WordMetadata::default())),
-                parse_expr(named.expr(), doc, parser)
+                parse_expr(
+                    named.expr(),
+                    doc,
+                    parser,
+                    offset.push_to_span(named.expr().span())
+                )
             ),
             typst_syntax::ast::DictItem::Keyed(keyed) => merge_expr!(
-                parse_expr(keyed.key(), doc, parser),
-                parse_expr(keyed.expr(), doc, parser)
+                parse_expr(
+                    keyed.key(),
+                    doc,
+                    parser,
+                    offset.push_to_span(keyed.key().span())
+                ),
+                parse_expr(
+                    keyed.expr(),
+                    doc,
+                    parser,
+                    offset.push_to_span(keyed.expr().span())
+                )
             ),
             typst_syntax::ast::DictItem::Spread(spread) => spread.sink_ident().map_or_else(
                 || {
-                    spread
-                        .sink_expr()
-                        .and_then(|expr| parse_expr(expr, doc, parser))
+                    spread.sink_expr().and_then(|expr| {
+                        parse_expr(expr, doc, parser, offset.push_to_span(expr.span()))
+                    })
                 },
                 |ident| constant_token!(doc, ident, TokenKind::Word(WordMetadata::default())),
             ),
@@ -86,22 +155,35 @@ fn parse_pattern(
     pat: typst_syntax::ast::Pattern,
     doc: &typst_syntax::Source,
     parser: &mut PlainEnglish,
+    offset: Offset,
 ) -> Option<Vec<Token>> {
     match pat {
-        typst_syntax::ast::Pattern::Normal(expr) => parse_expr(expr, doc, parser),
+        typst_syntax::ast::Pattern::Normal(expr) => {
+            parse_expr(expr, doc, parser, offset.push_to_span(expr.span()))
+        }
         typst_syntax::ast::Pattern::Placeholder(underscore) => {
             constant_token!(doc, underscore, TokenKind::Unlintable)
         }
         typst_syntax::ast::Pattern::Parenthesized(parenthesized) => merge_expr!(
-            parse_expr(parenthesized.expr(), doc, parser),
-            parse_pattern(parenthesized.pattern(), doc, parser)
+            parse_expr(
+                parenthesized.expr(),
+                doc,
+                parser,
+                offset.push_to_span(parenthesized.expr().span())
+            ),
+            parse_pattern(
+                parenthesized.pattern(),
+                doc,
+                parser,
+                offset.push_to_span(parenthesized.pattern().span())
+            )
         ),
         typst_syntax::ast::Pattern::Destructuring(destructuring) => Some(
             destructuring
                 .items()
                 .filter_map(|item| match item {
                     typst_syntax::ast::DestructuringItem::Pattern(pattern) => {
-                        parse_pattern(pattern, doc, parser)
+                        parse_pattern(pattern, doc, parser, offset.push_to_span(pattern.span()))
                     }
                     typst_syntax::ast::DestructuringItem::Named(named) => merge_expr!(
                         constant_token!(
@@ -109,14 +191,19 @@ fn parse_pattern(
                             named.name(),
                             TokenKind::Word(WordMetadata::default())
                         ),
-                        parse_pattern(named.pattern(), doc, parser)
+                        parse_pattern(
+                            named.pattern(),
+                            doc,
+                            parser,
+                            offset.push_to_span(named.pattern().span())
+                        )
                     ),
                     typst_syntax::ast::DestructuringItem::Spread(spread) => {
                         spread.sink_ident().map_or_else(
                             || {
-                                spread
-                                    .sink_expr()
-                                    .and_then(|expr| parse_expr(expr, doc, parser))
+                                spread.sink_expr().and_then(|expr| {
+                                    parse_expr(expr, doc, parser, offset.push_to_span(expr.span()))
+                                })
                             },
                             |ident| {
                                 constant_token!(
@@ -138,6 +225,7 @@ fn parse_expr(
     ex: typst_syntax::ast::Expr,
     doc: &typst_syntax::Source,
     parser: &mut PlainEnglish,
+    offset: Offset,
 ) -> Option<Vec<Token>> {
     macro_rules! constant_token {
         ($a:expr, $to:expr) => {{
@@ -147,17 +235,18 @@ fn parse_expr(
             }])
         }};
     }
-    let mut nested_env = |exprs: &mut dyn Iterator<Item = typst_syntax::ast::Expr>| {
+    let mut nested_env = |exprs: &mut dyn Iterator<Item = typst_syntax::ast::Expr>,
+                          offset: Offset| {
         Some(
             exprs
-                .filter_map(|e| parse_expr(e, doc, parser))
+                .filter_map(|e| parse_expr(e, doc, parser, offset))
                 .flatten()
                 .collect_vec(),
         )
     };
 
     match ex {
-        Expr::Text(text) => parse_english(text.get(), doc, parser, &text.span()),
+        Expr::Text(text) => parse_english(text.get(), parser, offset.push_to_span(text.span())),
         Expr::Space(a) => constant_token!(a, TokenKind::Space(1)),
         Expr::Linebreak(a) => constant_token!(a, TokenKind::Newline(1)),
         Expr::Parbreak(a) => constant_token!(a, TokenKind::ParagraphBreak),
@@ -173,22 +262,35 @@ fn parse_expr(
                 constant_token!(quote, TokenKind::Punctuation(Punctuation::Apostrophe))
             }
         }
-        Expr::Strong(strong) => nested_env(&mut strong.body().exprs()),
-        Expr::Emph(emph) => nested_env(&mut emph.body().exprs()),
+        Expr::Strong(strong) => nested_env(
+            &mut strong.body().exprs(),
+            offset.push_to_span(strong.span()),
+        ),
+        Expr::Emph(emph) => nested_env(&mut emph.body().exprs(), offset.push_to_span(emph.span())),
         Expr::Raw(a) => constant_token!(a, TokenKind::Unlintable),
         Expr::Link(a) => constant_token!(a, TokenKind::Url),
-        Expr::Label(label) => parse_english(label.get(), doc, parser, &label.span()),
+        Expr::Label(label) => parse_english(label.get(), parser, offset.push_to_span(label.span())),
         Expr::Ref(a) => {
             constant_token!(a, TokenKind::Word(WordMetadata::default()))
         }
-        Expr::Heading(heading) => nested_env(&mut heading.body().exprs()),
-        Expr::List(list_item) => nested_env(&mut list_item.body().exprs()),
-        Expr::Enum(enum_item) => nested_env(&mut enum_item.body().exprs()),
+        Expr::Heading(heading) => nested_env(
+            &mut heading.body().exprs(),
+            offset.push_to_span(heading.span()),
+        ),
+        Expr::List(list_item) => nested_env(
+            &mut list_item.body().exprs(),
+            offset.push_to_span(list_item.span()),
+        ),
+        Expr::Enum(enum_item) => nested_env(
+            &mut enum_item.body().exprs(),
+            offset.push_to_span(enum_item.span()),
+        ),
         Expr::Term(term_item) => nested_env(
             &mut term_item
                 .term()
                 .exprs()
                 .chain(term_item.description().exprs()),
+            offset.push_to_span(term_item.span()),
         ),
         Expr::Equation(a) => constant_token!(a, TokenKind::Unlintable),
         Expr::Math(_) => panic!("Unexpected math outside equation environment."),
@@ -226,14 +328,22 @@ fn parse_expr(
             )
         }
         Expr::Code(a) => constant_token!(a, TokenKind::Unlintable),
-        Expr::Content(content_block) => nested_env(&mut content_block.body().exprs()),
-        Expr::Parenthesized(parenthesized) => parse_expr(parenthesized.expr(), doc, parser),
+        Expr::Content(content_block) => nested_env(
+            &mut content_block.body().exprs(),
+            offset.push_to_span(content_block.span()),
+        ),
+        Expr::Parenthesized(parenthesized) => parse_expr(
+            parenthesized.expr(),
+            doc,
+            parser,
+            offset.push_to_span(parenthesized.span()),
+        ),
         Expr::Array(array) => Some(
             array
                 .items()
                 .filter_map(|i| {
                     if let typst_syntax::ast::ArrayItem::Pos(e) = i {
-                        parse_expr(e, doc, parser)
+                        parse_expr(e, doc, parser, offset.push_to_span(array.span()))
                     } else {
                         None
                     }
@@ -241,11 +351,16 @@ fn parse_expr(
                 .flatten()
                 .collect_vec(),
         ),
-        Expr::Dict(a) => parse_dict(&mut a.items(), doc, parser),
+        Expr::Dict(a) => parse_dict(&mut a.items(), doc, parser, offset.push_to_span(a.span())),
         Expr::Unary(a) => constant_token!(a, TokenKind::Unlintable),
         Expr::Binary(a) => constant_token!(a, TokenKind::Unlintable),
         Expr::FieldAccess(field_access) => merge_expr!(
-            parse_expr(field_access.target(), doc, parser),
+            parse_expr(
+                field_access.target(),
+                doc,
+                parser,
+                offset.push_to_span(field_access.span())
+            ),
             constant_token!(
                 field_access.field(),
                 TokenKind::Word(WordMetadata::default())
@@ -256,47 +371,120 @@ fn parse_expr(
         Expr::Let(let_binding) => merge_expr!(
             match let_binding.kind() {
                 typst_syntax::ast::LetBindingKind::Normal(pattern) =>
-                    parse_pattern(pattern, doc, parser),
+                    parse_pattern(pattern, doc, parser, offset.push_to_span(pattern.span())),
                 typst_syntax::ast::LetBindingKind::Closure(ident) =>
                     constant_token!(ident, TokenKind::Word(WordMetadata::default())),
             },
-            let_binding.init().and_then(|e| parse_expr(e, doc, parser))
+            let_binding.init().and_then(|e| parse_expr(
+                e,
+                doc,
+                parser,
+                offset.push_to_span(e.span())
+            ))
         ),
-        Expr::DestructAssign(destruct_assignment) => {
-            parse_expr(destruct_assignment.value(), doc, parser)
-        }
+        Expr::DestructAssign(destruct_assignment) => parse_expr(
+            destruct_assignment.value(),
+            doc,
+            parser,
+            offset.push_to_span(destruct_assignment.span()),
+        ),
         Expr::Set(set_rule) => merge_expr!(
-            parse_expr(set_rule.target(), doc, parser),
-            parse_expr(set_rule.condition()?, doc, parser)
+            parse_expr(
+                set_rule.target(),
+                doc,
+                parser,
+                offset.push_to_span(set_rule.target().span())
+            ),
+            parse_expr(
+                set_rule.condition()?,
+                doc,
+                parser,
+                offset.push_to_span(set_rule.condition()?.span())
+            )
         ),
         Expr::Show(show_rule) => merge_expr!(
-            parse_expr(show_rule.transform(), doc, parser),
-            parse_expr(show_rule.selector()?, doc, parser)
+            parse_expr(
+                show_rule.transform(),
+                doc,
+                parser,
+                offset.push_to_span(show_rule.transform().span())
+            ),
+            parse_expr(
+                show_rule.selector()?,
+                doc,
+                parser,
+                offset.push_to_span(show_rule.selector()?.span())
+            )
         ),
-        Expr::Contextual(contextual) => parse_expr(contextual.body(), doc, parser),
+        Expr::Contextual(contextual) => parse_expr(
+            contextual.body(),
+            doc,
+            parser,
+            offset.push_to_span(contextual.span()),
+        ),
         Expr::Conditional(conditional) => merge_expr!(
-            parse_expr(conditional.condition(), doc, parser),
-            parse_expr(conditional.if_body(), doc, parser),
-            parse_expr(conditional.else_body()?, doc, parser)
+            parse_expr(
+                conditional.condition(),
+                doc,
+                parser,
+                offset.push_to_span(conditional.condition().span())
+            ),
+            parse_expr(
+                conditional.if_body(),
+                doc,
+                parser,
+                offset.push_to_span(conditional.if_body().span())
+            ),
+            parse_expr(
+                conditional.else_body()?,
+                doc,
+                parser,
+                offset.push_to_span(conditional.else_body()?.span())
+            )
         ),
         Expr::While(while_loop) => merge_expr!(
-            parse_expr(while_loop.condition(), doc, parser),
-            parse_expr(while_loop.body(), doc, parser)
+            parse_expr(
+                while_loop.condition(),
+                doc,
+                parser,
+                offset.push_to_span(while_loop.condition().span())
+            ),
+            parse_expr(
+                while_loop.body(),
+                doc,
+                parser,
+                offset.push_to_span(while_loop.body().span())
+            )
         ),
         Expr::For(for_loop) => merge_expr!(
-            parse_expr(for_loop.iterable(), doc, parser),
-            parse_expr(for_loop.body(), doc, parser)
+            parse_expr(
+                for_loop.iterable(),
+                doc,
+                parser,
+                offset.push_to_span(for_loop.iterable().span())
+            ),
+            parse_expr(
+                for_loop.body(),
+                doc,
+                parser,
+                offset.push_to_span(for_loop.body().span())
+            )
         ),
         Expr::Import(module_import) => {
             merge_expr!(
-                parse_expr(module_import.source(), doc, parser),
+                parse_expr(
+                    module_import.source(),
+                    doc,
+                    parser,
+                    offset.push_to_span(module_import.source().span())
+                ),
                 constant_token!(
                     module_import.new_name()?,
                     TokenKind::Word(WordMetadata::default())
                 )
             )
         }
-        Expr::Include(module_include) => parse_expr(module_include.source(), doc, parser),
+        Expr::Include(a) => constant_token!(a, TokenKind::Unlintable),
         Expr::Break(a) => constant_token!(a, TokenKind::Unlintable),
         Expr::Continue(a) => constant_token!(a, TokenKind::Unlintable),
         Expr::Return(a) => constant_token!(a, TokenKind::Unlintable),
@@ -323,7 +511,14 @@ impl Parser for Typst {
         // This is why we keep track above.
         let mut tokens = typst_tree
             .exprs()
-            .filter_map(|ex| parse_expr(ex, &typst_document, &mut english_parser))
+            .filter_map(|ex| {
+                parse_expr(
+                    ex,
+                    &typst_document,
+                    &mut english_parser,
+                    Offset::new(&typst_document),
+                )
+            })
             .flatten()
             .collect_vec();
 
@@ -572,7 +767,6 @@ writing"#;
                 }),
                 TokenKind::Space(1),
                 TokenKind::Word(_),
-                TokenKind::Space(1),
             ]
         ));
     }
