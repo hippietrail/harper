@@ -13,6 +13,7 @@ use crate::{
 /// Typst files.
 pub struct Typst;
 
+/// Encapsulation of the translation between byte-based spans and char-based spans
 #[derive(Debug, Clone, Copy)]
 struct Offset<'a> {
     doc: &'a typst_syntax::Source,
@@ -29,22 +30,6 @@ impl<'a> Offset<'a> {
         }
     }
 
-    pub fn update_to(&mut self, new_byte: usize) {
-        assert!(new_byte >= self.byte);
-        self.char += self.doc.get(self.byte..new_byte).unwrap().chars().count();
-        self.byte = new_byte;
-    }
-
-    pub fn update_by(&mut self, relative_bytes: usize) {
-        self.char += self
-            .doc
-            .get(self.byte..(self.byte + relative_bytes))
-            .unwrap()
-            .chars()
-            .count();
-        self.byte += relative_bytes;
-    }
-
     pub fn push_to(self, new_byte: usize) -> Self {
         assert!(new_byte >= self.byte);
         Self {
@@ -55,24 +40,33 @@ impl<'a> Offset<'a> {
     }
 
     pub fn push_by(self, relative_bytes: usize) -> Self {
-        let mut new = self;
-        new.update_by(relative_bytes);
-
-        new
+        let new_byte = self.byte + relative_bytes;
+        Self {
+            char: self.doc.get(self.byte..new_byte).unwrap().chars().count(),
+            byte: new_byte,
+            ..self
+        }
     }
 
     pub fn push_to_span(self, span: typst_syntax::Span) -> Self {
         let new_byte = self.doc.range(span).unwrap().start;
+        assert!(new_byte >= self.byte);
 
         self.push_to(new_byte)
     }
 }
 
 macro_rules! constant_token {
-    ($doc:ident, $a:expr, $to:expr) => {{
+    ($doc:ident, $a:expr, $kind:expr, $offset:expr) => {{
+        let start_char_loc = $offset.push_to($doc.range($a.span()).unwrap().start).char;
+        let end_char_loc = $offset.push_to($doc.range($a.span()).unwrap().end).char;
+
         Some(vec![Token {
-            span: $doc.range($a.span()).unwrap().into(),
-            kind: $to,
+            span: Span {
+                start: start_char_loc,
+                end: end_char_loc,
+            },
+            kind: $kind,
         }])
     }};
 }
@@ -115,7 +109,12 @@ fn parse_dict(
     Some(
         dict.filter_map(|di| match di {
             typst_syntax::ast::DictItem::Named(named) => merge_expr!(
-                constant_token!(doc, named.name(), TokenKind::Word(WordMetadata::default())),
+                constant_token!(
+                    doc,
+                    named.name(),
+                    TokenKind::Word(WordMetadata::default()),
+                    offset
+                ),
                 parse_expr(
                     named.expr(),
                     doc,
@@ -143,7 +142,9 @@ fn parse_dict(
                         parse_expr(expr, doc, parser, offset.push_to_span(expr.span()))
                     })
                 },
-                |ident| constant_token!(doc, ident, TokenKind::Word(WordMetadata::default())),
+                |ident| {
+                    constant_token!(doc, ident, TokenKind::Word(WordMetadata::default()), offset)
+                },
             ),
         })
         .flatten()
@@ -162,7 +163,7 @@ fn parse_pattern(
             parse_expr(expr, doc, parser, offset.push_to_span(expr.span()))
         }
         typst_syntax::ast::Pattern::Placeholder(underscore) => {
-            constant_token!(doc, underscore, TokenKind::Unlintable)
+            constant_token!(doc, underscore, TokenKind::Unlintable, offset)
         }
         typst_syntax::ast::Pattern::Parenthesized(parenthesized) => merge_expr!(
             parse_expr(
@@ -189,7 +190,8 @@ fn parse_pattern(
                         constant_token!(
                             doc,
                             named.name(),
-                            TokenKind::Word(WordMetadata::default())
+                            TokenKind::Word(WordMetadata::default()),
+                            offset
                         ),
                         parse_pattern(
                             named.pattern(),
@@ -209,7 +211,8 @@ fn parse_pattern(
                                 constant_token!(
                                     doc,
                                     ident,
-                                    TokenKind::Word(WordMetadata::default())
+                                    TokenKind::Word(WordMetadata::default()),
+                                    offset
                                 )
                             },
                         )
@@ -228,10 +231,16 @@ fn parse_expr(
     offset: Offset,
 ) -> Option<Vec<Token>> {
     macro_rules! constant_token {
-        ($a:expr, $to:expr) => {{
+        ($a:expr, $kind:expr) => {{
+            let start_char_loc = offset.push_to(doc.range($a.span()).unwrap().start).char;
+            let end_char_loc = offset.push_to(doc.range($a.span()).unwrap().end).char;
+
             Some(vec![Token {
-                span: doc.range($a.span()).unwrap().into(),
-                kind: $to,
+                span: Span {
+                    start: start_char_loc,
+                    end: end_char_loc,
+                },
+                kind: $kind,
             }])
         }};
     }
