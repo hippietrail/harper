@@ -143,16 +143,14 @@ fn load_file(file: &Path) -> anyhow::Result<(Document, String)> {
     let source = std::fs::read_to_string(file)?;
 
     let mut parser: Box<dyn harper_core::parsers::Parser> =
-        if let Some("md") = file.extension().map(|v| v.to_str().unwrap()) {
-            Box::new(Markdown)
-        } else if let Some("typ") = file.extension().map(|v| v.to_str().unwrap()) {
-            Box::new(Typst)
-        } else {
-            Box::new(
+        match file.extension().map(|v| v.to_str().unwrap()) {
+            Some("md") => Box::new(Markdown),
+            Some("typ") => Box::new(Typst),
+            _ => Box::new(
                 CommentParser::new_from_filename(file)
                     .map(Box::new)
                     .ok_or(format_err!("Could not detect language ID."))?,
-            )
+            ),
         };
 
     Ok((Document::new_curated(&source, &mut parser), source))

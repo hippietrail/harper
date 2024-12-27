@@ -489,11 +489,11 @@ mod tests {
         assert!(matches!(
             token_kinds.as_slice(),
             &[
-                TokenKind::Word(_),                            // identifier
-                TokenKind::Word(_),                            // key 1
-                TokenKind::Word(_),                            // value 1
-                TokenKind::Word(_),                            // key 2
-                TokenKind::Number(OrderedFloat(2019.0), None), // value 2
+                TokenKind::Word(_),                            // Identifier
+                TokenKind::Word(_),                            // Key 1
+                TokenKind::Word(_),                            // Value 1
+                TokenKind::Word(_),                            // Key 2
+                TokenKind::Number(OrderedFloat(2019.0), None), // Value 2
             ]
         ))
     }
@@ -507,21 +507,21 @@ mod tests {
         assert!(matches!(
             &token_kinds.as_slice(),
             &[
-                TokenKind::Word(_), // identifier
+                TokenKind::Word(_), // Identifier
                 TokenKind::Word(_), // This
                 TokenKind::Space(1),
-                TokenKind::Word(_), // is
+                TokenKind::Word(_), // Is
                 TokenKind::Space(1),
-                TokenKind::Word(_), // a
+                TokenKind::Word(_), // A
                 TokenKind::Space(1),
-                TokenKind::Word(_), // string
+                TokenKind::Word(_), // String
             ]
         ))
     }
 
     #[test]
     fn sentence() {
-        let source = "This is a sentence, it does not have any particularly interesting elements of the typst syntax.";
+        let source = "This is a sentence, it is not interesting.";
 
         let tokens = Typst.parse_str(source);
         let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
@@ -546,24 +546,37 @@ mod tests {
                 TokenKind::Word(_),
                 TokenKind::Space(1),
                 TokenKind::Word(_),
-                TokenKind::Space(1),
-                TokenKind::Word(_),
-                TokenKind::Space(1),
-                TokenKind::Word(_),
-                TokenKind::Space(1),
-                TokenKind::Word(_),
-                TokenKind::Space(1),
-                TokenKind::Word(_),
-                TokenKind::Space(1),
-                TokenKind::Word(_),
-                TokenKind::Space(1),
-                TokenKind::Word(_),
-                TokenKind::Space(1),
-                TokenKind::Word(_),
-                TokenKind::Space(1),
-                TokenKind::Word(_),
                 TokenKind::Punctuation(Punctuation::Period),
             ]
         ))
+    }
+
+    #[test]
+    fn smart_apostrophe_newline() {
+        let source = r#"group’s
+writing"#;
+
+        let tokens = Typst.parse_str(source);
+        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        dbg!(&token_kinds);
+
+        let charslice = source.chars().collect_vec();
+        assert_eq!(tokens[2].span.get_content_string(&charslice), "writing");
+
+        assert!(matches!(
+            token_kinds.as_slice(),
+            &[
+                TokenKind::Word(WordMetadata {
+                    noun: Some(NounData {
+                        is_possessive: Some(true),
+                        ..
+                    }),
+                    ..
+                }),
+                TokenKind::Space(1),
+                TokenKind::Word(_),
+                TokenKind::Space(1),
+            ]
+        ));
     }
 }
