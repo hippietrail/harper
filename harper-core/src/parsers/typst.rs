@@ -278,7 +278,7 @@ fn parse_expr(
         Expr::Emph(emph) => nested_env(&mut emph.body().exprs(), offset.push_to_span(emph.span())),
         Expr::Raw(a) => constant_token!(a, TokenKind::Unlintable),
         Expr::Link(a) => constant_token!(a, TokenKind::Url),
-        Expr::Label(label) => parse_english(label.get(), parser, offset.push_to_span(label.span())),
+        Expr::Label(a) => constant_token!(a, TokenKind::Unlintable),
         Expr::Ref(a) => {
             constant_token!(a, TokenKind::Word(WordMetadata::default()))
         }
@@ -704,6 +704,7 @@ mod tests {
         let source = r#"#let ident = "This is a string""#;
 
         let token_kinds = Typst.parse_str(source).iter().map(|t| t.kind).collect_vec();
+        dbg!(&token_kinds);
 
         assert!(matches!(
             &token_kinds.as_slice(),
@@ -716,6 +717,66 @@ mod tests {
                 TokenKind::Word(_), // A
                 TokenKind::Space(1),
                 TokenKind::Word(_), // String
+            ]
+        ))
+    }
+
+    #[test]
+    fn header_parsing() {
+        let source = r"= Header
+                       Paragraph";
+
+        let tokens = Typst.parse_str(source);
+        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        dbg!(&token_kinds);
+
+        let charslice = source.chars().collect_vec();
+        assert_eq!(tokens[0].span.get_content_string(&charslice), "Header");
+        assert_eq!(tokens[2].span.get_content_string(&charslice), "Paragraph");
+
+        assert!(matches!(
+            &token_kinds.as_slice(),
+            &[TokenKind::Word(_), TokenKind::Space(1), TokenKind::Word(_)]
+        ))
+    }
+
+    #[test]
+    fn parbreak() {
+        let source = r"Paragraph
+
+                       Paragraph";
+
+        let token_kinds = Typst.parse_str(source).iter().map(|t| t.kind).collect_vec();
+        dbg!(&token_kinds);
+
+        assert!(matches!(
+            &token_kinds.as_slice(),
+            &[
+                TokenKind::Word(_),
+                TokenKind::ParagraphBreak,
+                TokenKind::Word(_),
+            ]
+        ))
+    }
+
+    #[test]
+    fn label_unlintable() {
+        let source = r"= Header
+                       <label>
+                       Paragraph";
+
+        let tokens = Typst.parse_str(source);
+        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        dbg!(&token_kinds);
+
+        assert!(matches!(
+            &token_kinds.as_slice(),
+            &[
+                TokenKind::Word(_),
+                TokenKind::Space(1),
+                TokenKind::Unlintable,
+                TokenKind::Space(1),
+                TokenKind::Word(_),
             ]
         ))
     }
