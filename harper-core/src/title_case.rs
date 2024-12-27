@@ -1,6 +1,6 @@
+use crate::Lrc;
 use hashbrown::HashSet;
 use lazy_static::lazy_static;
-use std::sync::Arc;
 
 use crate::{parsers::Parser, CharStringExt, Dictionary, Document, TokenStringExt};
 
@@ -10,12 +10,12 @@ pub fn make_title_case_str(
     parser: &mut impl Parser,
     dict: impl Dictionary,
 ) -> String {
-    make_title_case(Arc::new(source.chars().collect()), parser, dict).to_string()
+    make_title_case(Lrc::new(source.chars().collect()), parser, dict).to_string()
 }
 
 // Make a given string [title case](https://en.wikipedia.org/wiki/Title_case) following the Chicago Manual of Style.
 pub fn make_title_case(
-    source: Arc<Vec<char>>,
+    source: Lrc<Vec<char>>,
     parser: &mut impl Parser,
     dict: impl Dictionary,
 ) -> Vec<char> {
