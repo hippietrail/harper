@@ -87,7 +87,6 @@ impl CommentParser {
             "bash" => "shellscript",
             "java" => "java",
             "hs" => "haskell",
-            "lhs" => "haskell",
             _ => return None,
         })
     }
