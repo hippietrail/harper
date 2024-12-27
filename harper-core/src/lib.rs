@@ -29,6 +29,7 @@ pub use punctuation::{Punctuation, Quote};
 pub use span::Span;
 pub use spell::{Dictionary, FstDictionary, FullDictionary, MergedDictionary};
 pub use sync::Lrc;
+pub use title_case::{make_title_case, make_title_case_str};
 pub use token::{FatToken, Token, TokenKind, TokenStringExt};
 pub use vec_ext::VecExt;
 pub use word_metadata::{AdverbData, ConjunctionData, NounData, Tense, VerbData, WordMetadata};

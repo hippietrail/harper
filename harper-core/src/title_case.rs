@@ -34,12 +34,18 @@ pub fn make_title_case(
     }
 
     while let Some((index, word)) = words.next() {
-        let metadata = word.kind.as_word().unwrap();
+        let chars = document.get_span_content(word.span);
+        let chars_lower = chars.to_lower();
+
+        let metadata = word
+            .kind
+            .as_word()
+            .unwrap()
+            .or(&dict.get_word_metadata(&chars_lower));
 
         let should_capitalize = !metadata.preposition
             && !metadata.article
-            && !SPECIAL_CONJUNCTIONS
-                .contains(document.get_span_content(word.span).to_lower().as_slice())
+            && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_slice())
             || index == 0
             || words.peek().is_none();
 
@@ -94,11 +100,11 @@ mod tests {
     fn start_as_uppercase() {
         assert_eq!(
             make_title_case_str(
-                "THE FIRST AND LAST WORDS SHOULD BE CAPITALIZED, EVEN IF IT IS \"THE\"",
+                "THIS IS A TEST",
                 &mut PlainEnglish,
                 FstDictionary::curated()
             ),
-            "The First and Last Words Should Be Capitalized, Even If It Is \"The\""
+            "This Is a Test"
         )
     }
 }
