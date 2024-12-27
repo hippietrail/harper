@@ -234,3 +234,20 @@ userdictoverlap:
   while read -r line; do
     just searchdictfor $line 2> /dev/null
   done < $USER_DICT_FILE
+
+bump-versions:
+  #! /bin/bash
+  set -eo pipefail
+
+  cargo ws version --no-git-push
+
+  HARPER_VERSION=$(tq --file harper-core/Cargo.toml .package.version)
+
+  cd "{{justfile_directory()}}/packages/harper.js"
+
+  cat package.json | jq ".version = \"$HARPER_VERSION\"" > package.json.edited
+  mv package.json.edited package.json
+
+  just format
+
+  lazygit
