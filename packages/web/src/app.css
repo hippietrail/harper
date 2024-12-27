@@ -30,6 +30,11 @@
 	a {
 		@apply underline;
 	}
+
+
+  blockquote {
+    @apply pl-4;    
+  }
 }
 
 * {
