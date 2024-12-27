@@ -37,7 +37,6 @@ export default defineConfig({
 						},
 						{
 							title: 'Integrations',
-							to: '/docs/integrations',
 							items: [
 								{
 									title: 'Obsidian',
@@ -66,6 +65,23 @@ export default defineConfig({
 								{
 									title: 'Emacs',
 									to: '/docs/integrations/emacs'
+								}
+							]
+						},
+						{
+							title: 'Contributors',
+							items: [
+								{
+									title: 'Introduction',
+									to: '/docs/contributors/introduction'
+								},
+								{
+									title: 'Environment',
+									to: '/docs/contributors/environment'
+								},
+								{
+									title: 'Committing',
+									to: '/docs/contributors/committing'
 								}
 							]
 						}
