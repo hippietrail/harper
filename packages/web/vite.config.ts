@@ -83,6 +83,10 @@ export default defineConfig({
 								{
 									title: 'Committing',
 									to: '/docs/contributors/committing'
+								},
+								{
+									title: 'Architecture',
+									to: '/docs/contributors/architecture'
 								}
 							]
 						}
