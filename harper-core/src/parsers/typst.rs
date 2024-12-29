@@ -1,11 +1,17 @@
 use itertools::Itertools;
-use typst_syntax::ast::{AstNode, DictItem, Expr, Markup, Pattern};
+use typst_syntax::{
+    ast::{
+        Arg, ArrayItem, AstNode, DestructuringItem, DictItem, Expr, Ident, LetBindingKind, Markup,
+        Param, Pattern, Spread,
+    },
+    Source,
+};
 
 use super::{Parser, PlainEnglish};
 use crate::{
     parsers::StrParser,
     patterns::{PatternExt, SequencePattern},
-    ConjunctionData, Lrc, NounData, Punctuation, Span, Token, TokenKind, VecExt, WordMetadata,
+    ConjunctionData, Lrc, NounData, Punctuation, Token, TokenKind, VecExt, WordMetadata,
 };
 
 /// A parser that wraps the [`PlainEnglish`] parser allowing one to parse Typst files.
@@ -14,13 +20,13 @@ pub struct Typst;
 /// Encapsulation of the translation between byte-based spans and char-based spans
 #[derive(Debug, Clone, Copy)]
 struct OffsetCursor<'a> {
-    doc: &'a typst_syntax::Source,
+    doc: &'a Source,
     pub char: usize,
     pub byte: usize,
 }
 
 impl<'a> OffsetCursor<'a> {
-    pub fn new(doc: &'a typst_syntax::Source) -> Self {
+    pub fn new(doc: &'a Source) -> Self {
         Self {
             doc,
             char: 0,
@@ -59,7 +65,7 @@ macro_rules! def_token {
         let end_char_loc = start.push_to(range.end).char;
 
         Some(vec![Token {
-            span: Span {
+            span: crate::Span {
                 start: start.char,
                 end: end_char_loc,
             },
@@ -84,11 +90,11 @@ macro_rules! merge {
 #[derive(Clone, Copy)]
 struct ParseHelper<'a> {
     parser: PlainEnglish,
-    doc: &'a typst_syntax::Source,
+    doc: &'a Source,
 }
 
 impl<'a> ParseHelper<'a> {
-    pub fn new(doc: &'a typst_syntax::Source) -> Self {
+    pub fn new(doc: &'a Source) -> Self {
         Self {
             parser: PlainEnglish,
             doc,
@@ -108,11 +114,7 @@ impl<'a> ParseHelper<'a> {
         )
     }
 
-    fn parse_pattern(
-        self,
-        pat: typst_syntax::ast::Pattern,
-        offset: OffsetCursor,
-    ) -> Option<Vec<Token>> {
+    fn parse_pattern(self, pat: Pattern, offset: OffsetCursor) -> Option<Vec<Token>> {
         macro_rules! token {
             ($a:expr, $kind:expr) => {
                 def_token!(self.doc, $a, $kind, offset)
@@ -130,23 +132,19 @@ impl<'a> ParseHelper<'a> {
                 destructuring
                     .items()
                     .filter_map(|item| match item {
-                        typst_syntax::ast::DestructuringItem::Pattern(pattern) => {
-                            self.parse_pattern(pattern, offset)
-                        }
-                        typst_syntax::ast::DestructuringItem::Named(named) => merge!(
+                        DestructuringItem::Pattern(pattern) => self.parse_pattern(pattern, offset),
+                        DestructuringItem::Named(named) => merge!(
                             token!(named.name(), TokenKind::Word(WordMetadata::default())),
                             self.parse_pattern(named.pattern(), offset)
                         ),
-                        typst_syntax::ast::DestructuringItem::Spread(spread) => {
-                            spread.sink_ident().map_or_else(
-                                || {
-                                    spread
-                                        .sink_expr()
-                                        .and_then(|expr| self.parse_expr(expr, offset))
-                                },
-                                |ident| token!(ident, TokenKind::Word(WordMetadata::default())),
-                            )
-                        }
+                        DestructuringItem::Spread(spread) => merge!(
+                            spread
+                                .sink_ident()
+                                .and_then(|ident| self.parse_ident(ident, offset)),
+                            spread
+                                .sink_expr()
+                                .and_then(|expr| self.parse_expr(expr, offset))
+                        ),
                     })
                     .flatten()
                     .collect(),
@@ -154,12 +152,22 @@ impl<'a> ParseHelper<'a> {
         }
     }
 
-    pub fn parse_expr(
-        self,
-        ex: typst_syntax::ast::Expr,
-        old_offset: OffsetCursor,
-    ) -> Option<Vec<Token>> {
-        let offset = old_offset.push_to_span(ex.span());
+    fn parse_ident(self, ident: Ident, offset: OffsetCursor) -> Option<Vec<Token>> {
+        self.parse_expr(Expr::Ident(ident), offset)
+    }
+
+    /// Do not use for spreads contained in DestructuringItem
+    fn parse_spread(self, spread: Spread, offset: OffsetCursor) -> Option<Vec<Token>> {
+        merge!(
+            self.parse_expr(spread.expr(), offset),
+            spread
+                .sink_ident()
+                .and_then(|ident| self.parse_ident(ident, offset))
+        )
+    }
+
+    pub fn parse_expr(self, ex: Expr, offset: OffsetCursor) -> Option<Vec<Token>> {
+        let offset = offset.push_to_span(ex.span());
 
         macro_rules! token {
             ($a:expr, $kind:expr) => {
@@ -177,24 +185,53 @@ impl<'a> ParseHelper<'a> {
         };
     }
 
-        let iter_recurse = |exprs: &mut dyn Iterator<Item = typst_syntax::ast::Expr>| {
+        let iter_recurse = |exprs: &mut dyn Iterator<Item = Expr>| {
             Some(exprs.filter_map(|e| recurse!(e)).flatten().collect_vec())
         };
-        let parse_dict = |dict: &mut dyn Iterator<Item = typst_syntax::ast::DictItem>| {
+        let parse_dict = |dict: &mut dyn Iterator<Item = DictItem>| {
             Some(
                 dict.filter_map(|di| match di {
-                    DictItem::Named(named) => merge!(
-                        token!(named.name(), TokenKind::Word(WordMetadata::default())),
-                        recurse!(named.expr())
-                    ),
+                    DictItem::Named(named) => {
+                        merge!(
+                            self.parse_ident(named.name(), offset),
+                            recurse!(named.expr())
+                        )
+                    }
                     DictItem::Keyed(keyed) => recurse!(keyed.key(), keyed.expr()),
-                    DictItem::Spread(spread) => spread.sink_ident().map_or_else(
-                        || spread.sink_expr().and_then(|expr| recurse!(expr)),
-                        |ident| token!(ident, TokenKind::Word(WordMetadata::default())),
-                    ),
+                    DictItem::Spread(spread) => self.parse_spread(spread, offset),
                 })
                 .flatten()
                 .collect_vec(),
+            )
+        };
+        let parse_params = |params: &mut dyn Iterator<Item = Param>| {
+            Some(
+                params
+                    .filter_map(|p| match p {
+                        Param::Pos(pattern) => self.parse_pattern(pattern, offset),
+                        Param::Named(named) => merge!(
+                            self.parse_ident(named.name(), offset),
+                            recurse!(named.expr())
+                        ),
+                        Param::Spread(spread) => self.parse_spread(spread, offset),
+                    })
+                    .flatten()
+                    .collect_vec(),
+            )
+        };
+        let parse_args = |params: &mut dyn Iterator<Item = Arg>| {
+            Some(
+                params
+                    .filter_map(|a| match a {
+                        Arg::Pos(expr) => recurse!(expr),
+                        Arg::Named(named) => merge!(
+                            self.parse_ident(named.name(), offset),
+                            recurse!(named.expr())
+                        ),
+                        Arg::Spread(spread) => self.parse_spread(spread, offset),
+                    })
+                    .flatten()
+                    .collect_vec(),
             )
         };
 
@@ -203,8 +240,6 @@ impl<'a> ParseHelper<'a> {
             Expr::Space(a) => token!(a, TokenKind::Space(1)),
             Expr::Linebreak(a) => token!(a, TokenKind::Newline(1)),
             Expr::Parbreak(a) => token!(a, TokenKind::ParagraphBreak),
-            Expr::Escape(a) => token!(a, TokenKind::Unlintable),
-            Expr::Shorthand(a) => token!(a, TokenKind::Unlintable),
             Expr::SmartQuote(quote) => {
                 if quote.double() {
                     token!(
@@ -217,9 +252,7 @@ impl<'a> ParseHelper<'a> {
             }
             Expr::Strong(strong) => iter_recurse(&mut strong.body().exprs()),
             Expr::Emph(emph) => iter_recurse(&mut emph.body().exprs()),
-            Expr::Raw(a) => token!(a, TokenKind::Unlintable),
             Expr::Link(a) => token!(a, TokenKind::Url),
-            Expr::Label(a) => token!(a, TokenKind::Unlintable),
             Expr::Ref(a) => {
                 token!(a, TokenKind::Word(WordMetadata::default()))
             }
@@ -232,21 +265,16 @@ impl<'a> ParseHelper<'a> {
                     .exprs()
                     .chain(term_item.description().exprs()),
             ),
-            Expr::Equation(a) => token!(a, TokenKind::Unlintable),
-            Expr::Ident(a) => token!(a, TokenKind::Word(WordMetadata::default())),
-            Expr::None(a) => token!(a, TokenKind::Word(WordMetadata::default())),
-            Expr::Auto(a) => token!(a, TokenKind::Word(WordMetadata::default())),
-            Expr::Bool(a) => token!(a, TokenKind::Word(WordMetadata::default())),
+            // Expr::Ident(a) => token!(a, TokenKind::Word(WordMetadata::default())),
             Expr::Int(int) => {
                 token!(int, TokenKind::Number((int.get() as f64).into(), None))
             }
             Expr::Float(float) => {
                 token!(float, TokenKind::Number(float.get().into(), None))
             }
-            Expr::Numeric(a) => token!(a, TokenKind::Unlintable),
             Expr::Str(text) => {
-                let offset = self.doc.range(text.span()).unwrap().start + 1;
-                let text = text.to_untyped().text();
+                let offset = offset.push_to_span(text.span()).char + 1;
+                let text = text.to_untyped().text().to_string();
                 Some(
                     self.parser
                         .parse_str(&text[1..text.len() - 1])
@@ -258,14 +286,13 @@ impl<'a> ParseHelper<'a> {
                         .collect_vec(),
                 )
             }
-            Expr::Code(a) => token!(a, TokenKind::Unlintable),
             Expr::Content(content_block) => iter_recurse(&mut content_block.body().exprs()),
             Expr::Parenthesized(parenthesized) => recurse!(parenthesized.expr()),
             Expr::Array(array) => Some(
                 array
                     .items()
                     .filter_map(|i| {
-                        if let typst_syntax::ast::ArrayItem::Pos(e) = i {
+                        if let ArrayItem::Pos(e) = i {
                             recurse!(e)
                         } else {
                             None
@@ -275,8 +302,6 @@ impl<'a> ParseHelper<'a> {
                     .collect_vec(),
             ),
             Expr::Dict(a) => parse_dict(&mut a.items()),
-            Expr::Unary(a) => token!(a, TokenKind::Unlintable),
-            Expr::Binary(a) => token!(a, TokenKind::Unlintable),
             Expr::FieldAccess(field_access) => merge!(
                 recurse!(field_access.target()),
                 token!(
@@ -284,14 +309,10 @@ impl<'a> ParseHelper<'a> {
                     TokenKind::Word(WordMetadata::default())
                 )
             ),
-            Expr::FuncCall(func_call) => recurse!(func_call.callee()),
-            Expr::Closure(a) => token!(a, TokenKind::Unlintable),
             Expr::Let(let_binding) => merge!(
                 match let_binding.kind() {
-                    typst_syntax::ast::LetBindingKind::Normal(pattern) =>
-                        self.parse_pattern(pattern, offset),
-                    typst_syntax::ast::LetBindingKind::Closure(ident) =>
-                        token!(ident, TokenKind::Word(WordMetadata::default())),
+                    LetBindingKind::Normal(pattern) => self.parse_pattern(pattern, offset),
+                    LetBindingKind::Closure(ident) => self.parse_ident(ident, offset),
                 },
                 let_binding.init().and_then(|e| recurse!(e))
             ),
@@ -313,6 +334,18 @@ impl<'a> ParseHelper<'a> {
             ),
             Expr::While(while_loop) => recurse!(while_loop.condition(), while_loop.body()),
             Expr::For(for_loop) => recurse!(for_loop.iterable(), for_loop.body()),
+            Expr::Code(code) => iter_recurse(&mut code.body().exprs()),
+            Expr::Closure(closure) => merge!(
+                closure
+                    .name()
+                    .and_then(|ident| self.parse_ident(ident, offset)),
+                parse_params(&mut closure.params().children()),
+                recurse!(closure.body())
+            ),
+            Expr::FuncCall(func) => merge!(
+                token!(func.callee(), TokenKind::Unlintable),
+                parse_args(&mut func.args().items())
+            ),
             a => token!(a, TokenKind::Unlintable),
         }
     }
@@ -328,7 +361,7 @@ thread_local! {
 impl Parser for Typst {
     fn parse(&self, source: &[char]) -> Vec<Token> {
         let source_str: String = source.iter().collect();
-        let typst_document = typst_syntax::Source::detached(source_str);
+        let typst_document = Source::detached(source_str);
         let typst_tree = Markup::from_untyped(typst_document.root())
             .expect("Unable to create typst document from parsed tree!");
         let parse_helper = ParseHelper::new(&typst_document);
@@ -347,7 +380,7 @@ impl Parser for Typst {
         {
             let start_tok = &tokens[tok_span.start];
             let end_tok = &tokens[tok_span.end - 1];
-            let char_span = Span::new(start_tok.span.start, end_tok.span.end);
+            let char_span = crate::Span::new(start_tok.span.start, end_tok.span.end);
 
             if let TokenKind::Word(metadata) = start_tok.kind {
                 tokens[tok_span.start].kind =
@@ -498,10 +531,10 @@ mod tests {
         assert!(matches!(
             token_kinds.as_slice(),
             &[
-                TokenKind::Word(_),                            // Identifier
-                TokenKind::Word(_),                            // Key 1
+                TokenKind::Unlintable,                         // Ident
+                TokenKind::Unlintable,                         // Key 1
                 TokenKind::Word(_),                            // Value 1
-                TokenKind::Word(_),                            // Key 2
+                TokenKind::Unlintable,                         // Key 2
                 TokenKind::Number(OrderedFloat(2019.0), None), // Value 2
             ]
         ))
@@ -517,7 +550,7 @@ mod tests {
         assert!(matches!(
             &token_kinds.as_slice(),
             &[
-                TokenKind::Word(_), // Identifier
+                TokenKind::Unlintable,
                 TokenKind::Word(_), // This
                 TokenKind::Space(1),
                 TokenKind::Word(_), // Is
