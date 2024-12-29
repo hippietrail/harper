@@ -1,17 +1,17 @@
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
 use harper_core::{Document, FstDictionary};
 
-/// Creates a unit test checking that the linting of a Markdown document (in
-/// `tests_sources`) produces the expected number of lints.
+/// Creates a unit test checking that the linting of a document in
+/// `tests_sources` produces the expected number of lints.
 macro_rules! create_test {
-    ($filename:ident.md, $correct_expected:expr) => {
+    ($filename:ident, $ext:literal, $correct_expected:expr) => {
         paste::paste! {
             #[test]
             fn [<lints_ $filename _correctly>](){
                  let source = include_str!(
                     concat!(
                         "./test_sources/",
-                        concat!(stringify!($filename), ".md")
+                        concat!(stringify!($filename), $ext)
                     )
                  );
 
@@ -34,6 +34,12 @@ macro_rules! create_test {
             }
         }
     };
+    ($filename:ident.md, $correct_expected:expr) => {
+        create_test!($filename, ".md", $correct_expected);
+    };
+    ($filename:ident.typ, $correct_expected:expr) => {
+        create_test!($filename, ".typ", $correct_expected);
+    };
 }
 
 create_test!(whack_bullets.md, 1);
@@ -43,3 +49,4 @@ create_test!(issue_109_ext.md, 0);
 create_test!(chinese_lorem_ipsum.md, 2);
 create_test!(obsidian_links.md, 2);
 create_test!(issue_267.md, 0);
+create_test!(complex_typst.typ, 0);
