@@ -8,7 +8,7 @@ use clap::Parser;
 use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
 use harper_core::parsers::{Markdown, Typst};
-use harper_core::{remove_overlaps, Dictionary, Document, FstDictionary};
+use harper_core::{remove_overlaps, Dictionary, Document, FstDictionary, TokenKind};
 
 #[derive(Debug, Parser)]
 enum Args {
@@ -94,6 +94,7 @@ fn main() -> anyhow::Result<()> {
 
             let primary_color = Color::Blue;
             let secondary_color = Color::Magenta;
+            let unlintable_color = Color::Red;
             let filename = file
                 .file_name()
                 .map(|s| s.to_string_lossy().into())
@@ -106,7 +107,11 @@ fn main() -> anyhow::Result<()> {
                 report_builder = report_builder.with_label(
                     Label::new((&filename, token.span.into()))
                         .with_message(format!("[{}, {})", token.span.start, token.span.end))
-                        .with_color(color),
+                        .with_color(if matches!(token.kind, TokenKind::Unlintable) {
+                            unlintable_color
+                        } else {
+                            color
+                        }),
                 );
 
                 // Alternate colors so spans are clear
