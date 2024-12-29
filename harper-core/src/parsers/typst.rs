@@ -274,10 +274,11 @@ impl<'a> ParseHelper<'a> {
             }
             Expr::Str(text) => {
                 let offset = offset.push_to_span(text.span()).char + 1;
-                let text = text.to_untyped().text().to_string();
+                let string = text.to_untyped().text().to_string();
+
                 Some(
                     self.parser
-                        .parse_str(&text[1..text.len() - 1])
+                        .parse_str(&string[1..string.len() - 1])
                         .into_iter()
                         .map(|mut t| {
                             t.span.push_by(offset);
@@ -558,6 +559,29 @@ mod tests {
                 TokenKind::Word(_), // A
                 TokenKind::Space(1),
                 TokenKind::Word(_), // String
+            ]
+        ))
+    }
+
+    #[test]
+    fn non_adjacent_spaces_not_condensed() {
+        let source = r#"#authors_slice.join(", ", last: ", and ") "#;
+
+        let token_kinds = Typst.parse_str(source).iter().map(|t| t.kind).collect_vec();
+        dbg!(&token_kinds);
+
+        assert!(matches!(
+            &token_kinds.as_slice(),
+            &[
+                TokenKind::Unlintable, // authors_slice.join
+                TokenKind::Punctuation(Punctuation::Comma),
+                TokenKind::Space(1),
+                TokenKind::Unlintable, // Ident
+                TokenKind::Punctuation(Punctuation::Comma),
+                TokenKind::Space(1),
+                TokenKind::Word(_), // and
+                TokenKind::Space(1),
+                TokenKind::Space(1)
             ]
         ))
     }
