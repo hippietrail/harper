@@ -237,7 +237,21 @@ impl<'a> ParseHelper<'a> {
 
         match ex {
             Expr::Text(text) => self.parse_english(text.get(), offset.push_to_span(text.span())),
-            Expr::Space(a) => token!(a, TokenKind::Space(1)),
+            Expr::Space(a) => {
+                let mut chars = self
+                    .doc
+                    .get(self.doc.range(a.span()).unwrap())
+                    .unwrap()
+                    .chars();
+                let first_char = chars.next().unwrap();
+                let length = chars.count() + 1;
+
+                if first_char == '\n' {
+                    token!(a, TokenKind::Newline(1))
+                } else {
+                    token!(a, TokenKind::Space(length))
+                }
+            }
             Expr::Linebreak(a) => token!(a, TokenKind::Newline(1)),
             Expr::Parbreak(a) => token!(a, TokenKind::ParagraphBreak),
             Expr::SmartQuote(quote) => {
@@ -274,7 +288,7 @@ impl<'a> ParseHelper<'a> {
             }
             Expr::Str(text) => {
                 let offset = offset.push_to_span(text.span()).char + 1;
-                let string = text.to_untyped().text().to_string();
+                let string = text.to_untyped().text();
 
                 Some(
                     self.parser
@@ -322,7 +336,8 @@ impl<'a> ParseHelper<'a> {
             }
             Expr::Set(set_rule) => merge!(
                 recurse!(set_rule.target()),
-                set_rule.condition().and_then(|expr| recurse!(expr))
+                set_rule.condition().and_then(|expr| recurse!(expr)),
+                parse_args(&mut set_rule.args().items())
             ),
             Expr::Show(show_rule) => merge!(
                 recurse!(show_rule.transform()),
@@ -565,7 +580,7 @@ mod tests {
 
     #[test]
     fn non_adjacent_spaces_not_condensed() {
-        let source = r#"#authors_slice.join(", ", last: ", and ") "#;
+        let source = r#"#authors_slice.join(", ", last: ", and ")  bob"#;
 
         let token_kinds = Typst.parse_str(source).iter().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
@@ -581,7 +596,8 @@ mod tests {
                 TokenKind::Space(1),
                 TokenKind::Word(_), // and
                 TokenKind::Space(1),
-                TokenKind::Space(1)
+                TokenKind::Space(2),
+                TokenKind::Word(_),
             ]
         ))
     }
@@ -601,7 +617,11 @@ mod tests {
 
         assert!(matches!(
             &token_kinds.as_slice(),
-            &[TokenKind::Word(_), TokenKind::Space(1), TokenKind::Word(_)]
+            &[
+                TokenKind::Word(_),
+                TokenKind::Newline(1),
+                TokenKind::Word(_)
+            ]
         ))
     }
 
@@ -638,9 +658,9 @@ mod tests {
             &token_kinds.as_slice(),
             &[
                 TokenKind::Word(_),
-                TokenKind::Space(1),
+                TokenKind::Newline(1),
                 TokenKind::Unlintable,
-                TokenKind::Space(1),
+                TokenKind::Newline(1),
                 TokenKind::Word(_),
             ]
         ))
@@ -700,7 +720,7 @@ writing"#;
                     }),
                     ..
                 }),
-                TokenKind::Space(1),
+                TokenKind::Newline(1),
                 TokenKind::Word(_),
             ]
         ));

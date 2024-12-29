@@ -286,15 +286,15 @@ impl Document {
                     let child_tok = &copy[cursor];
 
                     // Only condense adjacent spans
-                    if start_tok.span.end == child_tok.span.start {
-                        if let TokenKind::Space(n) = child_tok.kind {
-                            *start_count += n;
-                            start_tok.span.end = child_tok.span.end;
-                            remove_these.push_back(cursor);
-                            cursor += 1;
-                        } else {
-                            break;
-                        }
+                    if start_tok.span.end != child_tok.span.start {
+                        break;
+                    }
+
+                    if let TokenKind::Space(n) = child_tok.kind {
+                        *start_count += n;
+                        start_tok.span.end = child_tok.span.end;
+                        remove_these.push_back(cursor);
+                        cursor += 1;
                     } else {
                         break;
                     };
