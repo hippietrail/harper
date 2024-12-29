@@ -279,13 +279,6 @@ impl<'a> ParseHelper<'a> {
                     .exprs()
                     .chain(term_item.description().exprs()),
             ),
-            // Expr::Ident(a) => token!(a, TokenKind::Word(WordMetadata::default())),
-            Expr::Int(int) => {
-                token!(int, TokenKind::Number((int.get() as f64).into(), None))
-            }
-            Expr::Float(float) => {
-                token!(float, TokenKind::Number(float.get().into(), None))
-            }
             Expr::Str(text) => {
                 let offset = offset.push_to_span(text.span()).char + 1;
                 let string = text.to_untyped().text();
@@ -547,11 +540,11 @@ mod tests {
         assert!(matches!(
             token_kinds.as_slice(),
             &[
-                TokenKind::Unlintable,                         // Ident
-                TokenKind::Unlintable,                         // Key 1
-                TokenKind::Word(_),                            // Value 1
-                TokenKind::Unlintable,                         // Key 2
-                TokenKind::Number(OrderedFloat(2019.0), None), // Value 2
+                TokenKind::Unlintable, // Ident
+                TokenKind::Unlintable, // Key 1
+                TokenKind::Word(_),    // Value 1
+                TokenKind::Unlintable, // Key 2
+                TokenKind::Unlintable, // Value 2
             ]
         ))
     }
