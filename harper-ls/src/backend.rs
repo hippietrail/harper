@@ -229,7 +229,7 @@ impl Backend {
                     parser = Box::new(IsolateEnglish::new(parser, doc_state.dict.clone()));
                 }
 
-                doc_state.document = Document::new(text, &mut parser, &doc_state.dict);
+                doc_state.document = Document::new(text, &parser, &doc_state.dict);
             }
         }
 

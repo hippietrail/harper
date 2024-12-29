@@ -1,10 +1,13 @@
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
-use harper_core::{Document, FstDictionary};
+use harper_core::{
+    parsers::{Markdown, Typst},
+    Document, FstDictionary,
+};
 
 /// Creates a unit test checking that the linting of a document in
 /// `tests_sources` produces the expected number of lints.
 macro_rules! create_test {
-    ($filename:ident, $ext:literal, $correct_expected:expr) => {
+    ($filename:ident, $ext:literal, $parser:expr, $correct_expected:expr) => {
         paste::paste! {
             #[test]
             fn [<lints_ $filename _correctly>](){
@@ -16,7 +19,7 @@ macro_rules! create_test {
                  );
 
                  let dict = FstDictionary::curated();
-                 let document = Document::new_markdown(&source, &dict);
+                 let document = Document::new(&source, $parser, &dict);
 
                  let mut linter = LintGroup::new(
                      LintGroupConfig::default(),
@@ -35,10 +38,10 @@ macro_rules! create_test {
         }
     };
     ($filename:ident.md, $correct_expected:expr) => {
-        create_test!($filename, ".md", $correct_expected);
+        create_test!($filename, ".md", &Markdown, $correct_expected);
     };
     ($filename:ident.typ, $correct_expected:expr) => {
-        create_test!($filename, ".typ", $correct_expected);
+        create_test!($filename, ".typ", &Typst, $correct_expected);
     };
 }
 

@@ -157,7 +157,7 @@ fn main() -> anyhow::Result<()> {
 fn load_file(file: &Path) -> anyhow::Result<(Document, String)> {
     let source = std::fs::read_to_string(file)?;
 
-    let mut parser: Box<dyn harper_core::parsers::Parser> =
+    let parser: Box<dyn harper_core::parsers::Parser> =
         match file.extension().map(|v| v.to_str().unwrap()) {
             Some("md") => Box::new(Markdown),
             Some("typ") => Box::new(Typst),
@@ -168,5 +168,5 @@ fn load_file(file: &Path) -> anyhow::Result<(Document, String)> {
             ),
         };
 
-    Ok((Document::new_curated(&source, &mut parser), source))
+    Ok((Document::new_curated(&source, &parser), source))
 }
