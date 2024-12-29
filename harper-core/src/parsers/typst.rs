@@ -1,6 +1,5 @@
 use itertools::Itertools;
-use std::collections::VecDeque;
-use typst_syntax::ast::{AstNode, Expr, Markup};
+use typst_syntax::ast::{AstNode, DictItem, Expr, Markup, Pattern};
 
 use super::{Parser, PlainEnglish};
 use crate::{
@@ -109,62 +108,25 @@ impl<'a> ParseHelper<'a> {
         )
     }
 
-    fn parse_dict(
-        self,
-        dict: &mut dyn Iterator<Item = typst_syntax::ast::DictItem>,
-        offset: OffsetCursor,
-    ) -> Option<Vec<Token>> {
-        Some(
-            dict.filter_map(|di| match di {
-                typst_syntax::ast::DictItem::Named(named) => merge!(
-                    def_token!(
-                        self.doc,
-                        named.name(),
-                        TokenKind::Word(WordMetadata::default()),
-                        offset
-                    ),
-                    self.parse_expr(named.expr(), offset)
-                ),
-                typst_syntax::ast::DictItem::Keyed(keyed) => merge!(
-                    self.parse_expr(keyed.key(), offset),
-                    self.parse_expr(keyed.expr(), offset)
-                ),
-                typst_syntax::ast::DictItem::Spread(spread) => spread.sink_ident().map_or_else(
-                    || {
-                        spread
-                            .sink_expr()
-                            .and_then(|expr| self.parse_expr(expr, offset))
-                    },
-                    |ident| {
-                        def_token!(
-                            self.doc,
-                            ident,
-                            TokenKind::Word(WordMetadata::default()),
-                            offset
-                        )
-                    },
-                ),
-            })
-            .flatten()
-            .collect(),
-        )
-    }
-
     fn parse_pattern(
         self,
         pat: typst_syntax::ast::Pattern,
         offset: OffsetCursor,
     ) -> Option<Vec<Token>> {
+        macro_rules! token {
+            ($a:expr, $kind:expr) => {
+                def_token!(self.doc, $a, $kind, offset)
+            };
+        }
+
         match pat {
-            typst_syntax::ast::Pattern::Normal(expr) => self.parse_expr(expr, offset),
-            typst_syntax::ast::Pattern::Placeholder(underscore) => {
-                def_token!(self.doc, underscore, TokenKind::Unlintable, offset)
-            }
-            typst_syntax::ast::Pattern::Parenthesized(parenthesized) => merge!(
+            Pattern::Normal(expr) => self.parse_expr(expr, offset),
+            Pattern::Placeholder(underscore) => token!(underscore, TokenKind::Unlintable),
+            Pattern::Parenthesized(parenthesized) => merge!(
                 self.parse_expr(parenthesized.expr(), offset),
                 self.parse_pattern(parenthesized.pattern(), offset)
             ),
-            typst_syntax::ast::Pattern::Destructuring(destructuring) => Some(
+            Pattern::Destructuring(destructuring) => Some(
                 destructuring
                     .items()
                     .filter_map(|item| match item {
@@ -172,12 +134,7 @@ impl<'a> ParseHelper<'a> {
                             self.parse_pattern(pattern, offset)
                         }
                         typst_syntax::ast::DestructuringItem::Named(named) => merge!(
-                            def_token!(
-                                self.doc,
-                                named.name(),
-                                TokenKind::Word(WordMetadata::default()),
-                                offset
-                            ),
+                            token!(named.name(), TokenKind::Word(WordMetadata::default())),
                             self.parse_pattern(named.pattern(), offset)
                         ),
                         typst_syntax::ast::DestructuringItem::Spread(spread) => {
@@ -187,14 +144,7 @@ impl<'a> ParseHelper<'a> {
                                         .sink_expr()
                                         .and_then(|expr| self.parse_expr(expr, offset))
                                 },
-                                |ident| {
-                                    def_token!(
-                                        self.doc,
-                                        ident,
-                                        TokenKind::Word(WordMetadata::default()),
-                                        offset
-                                    )
-                                },
+                                |ident| token!(ident, TokenKind::Word(WordMetadata::default())),
                             )
                         }
                     })
@@ -229,6 +179,23 @@ impl<'a> ParseHelper<'a> {
 
         let iter_recurse = |exprs: &mut dyn Iterator<Item = typst_syntax::ast::Expr>| {
             Some(exprs.filter_map(|e| recurse!(e)).flatten().collect_vec())
+        };
+        let parse_dict = |dict: &mut dyn Iterator<Item = typst_syntax::ast::DictItem>| {
+            Some(
+                dict.filter_map(|di| match di {
+                    DictItem::Named(named) => merge!(
+                        token!(named.name(), TokenKind::Word(WordMetadata::default())),
+                        recurse!(named.expr())
+                    ),
+                    DictItem::Keyed(keyed) => recurse!(keyed.key(), keyed.expr()),
+                    DictItem::Spread(spread) => spread.sink_ident().map_or_else(
+                        || spread.sink_expr().and_then(|expr| recurse!(expr)),
+                        |ident| token!(ident, TokenKind::Word(WordMetadata::default())),
+                    ),
+                })
+                .flatten()
+                .collect_vec(),
+            )
         };
 
         match ex {
@@ -307,7 +274,7 @@ impl<'a> ParseHelper<'a> {
                     .flatten()
                     .collect_vec(),
             ),
-            Expr::Dict(a) => self.parse_dict(&mut a.items(), offset),
+            Expr::Dict(a) => parse_dict(&mut a.items()),
             Expr::Unary(a) => token!(a, TokenKind::Unlintable),
             Expr::Binary(a) => token!(a, TokenKind::Unlintable),
             Expr::FieldAccess(field_access) => merge!(
@@ -331,19 +298,18 @@ impl<'a> ParseHelper<'a> {
             Expr::DestructAssign(destruct_assignment) => {
                 recurse!(destruct_assignment.value())
             }
-            // TODO: properly handle possible components
-            Expr::Set(set_rule) => recurse!(
-            set_rule.target()
-            //, set_rule.condition()?
-        ),
-            Expr::Show(show_rule) => recurse!(
-            show_rule.transform()
-            //, show_rule.selector()?
-        ),
+            Expr::Set(set_rule) => merge!(
+                recurse!(set_rule.target()),
+                set_rule.condition().and_then(|expr| recurse!(expr))
+            ),
+            Expr::Show(show_rule) => merge!(
+                recurse!(show_rule.transform()),
+                show_rule.selector().and_then(|expr| recurse!(expr))
+            ),
             Expr::Contextual(contextual) => recurse!(contextual.body()),
-            Expr::Conditional(conditional) => recurse!(
-                conditional.condition(),
-                conditional.if_body() //, conditional.else_body()?
+            Expr::Conditional(conditional) => merge!(
+                recurse!(conditional.condition(), conditional.if_body()),
+                conditional.else_body().and_then(|expr| recurse!(expr))
             ),
             Expr::While(while_loop) => recurse!(while_loop.condition(), while_loop.body()),
             Expr::For(for_loop) => recurse!(for_loop.iterable(), for_loop.body()),
@@ -374,7 +340,7 @@ impl Parser for Typst {
             .collect_vec();
 
         // Consolidate conjunctions
-        let mut to_remove = VecDeque::default();
+        let mut to_remove = std::collections::VecDeque::default();
         for tok_span in WORD_APOSTROPHE_WORD
             .with(|v| v.clone())
             .find_all_matches(&tokens, source)
