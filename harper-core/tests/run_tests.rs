@@ -53,3 +53,4 @@ create_test!(chinese_lorem_ipsum.md, 2);
 create_test!(obsidian_links.md, 2);
 create_test!(issue_267.md, 0);
 create_test!(complex_typst.typ, 0);
+create_test!(typst_spelling_mistakes.typ, 4);

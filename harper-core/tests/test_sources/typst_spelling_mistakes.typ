@@ -4,9 +4,9 @@
 )
 
 #let titleblock(
-  title: "Default Title",
+  title: "Defalt Title",
   authors: ("Author 1", "Author 2"),
-  abstract: [*This is content*],
+  abstract: [*This is contnt*],
 ) = {
   set page(
     header: context {
@@ -49,7 +49,7 @@
 
 #show: doc => [
   #titleblock(
-    title: "A fluid dynamic model for glacier flow",
+    title: "A fluid dynamic model for glaier flow",
     authors: ("Grant Lemons", "John Doe", "Jane Doe"),
     abstract: lorem(80)
   )
@@ -59,5 +59,5 @@
 = Introduction
 #lorem(300)
 
-= Related Work
+= Related ork
 #lorem(200)
