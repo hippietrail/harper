@@ -59,4 +59,9 @@ mod tests {
     fn does_not_lint_homographs_record() {
         assert_lint_count("To record record profits.", RepeatedWords, 0);
     }
+
+    #[test]
+    fn issue_253() {
+        assert_lint_count("this paper shows that, while the method may be more accurate accurate, the turnout overestimate suggests that self-selection bias is not sufficiently reduced", RepeatedWords, 1);
+    }
 }
