@@ -56,7 +56,7 @@ build-obsidian:
   #! /bin/bash
   set -eo pipefail
   
-  just build-wasm web
+  just build-harperjs
   cd "{{justfile_directory()}}/packages/obsidian-plugin"
 
   yarn install -f
@@ -153,7 +153,6 @@ setup:
   just build-harperjs
   just build-obsidian
   just test-vscode
-  just build-harperjs
   just test-harperjs
   just build-web
 
