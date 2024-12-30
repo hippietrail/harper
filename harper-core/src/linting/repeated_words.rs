@@ -1,9 +1,32 @@
+use smallvec::smallvec;
+
 use super::{Lint, LintKind, Linter, Suggestion};
 use crate::token::TokenStringExt;
-use crate::{CharStringExt, Document, Span};
+use crate::{CharString, CharStringExt, Document, Span};
 
-#[derive(Debug, Clone, Default)]
-pub struct RepeatedWords;
+#[derive(Debug, Clone)]
+pub struct RepeatedWords {
+    /// Words that we need to make sure are detected.
+    /// We use a `Vec` since there aren't a whole lot of 'em.
+    special_cases: Vec<CharString>,
+}
+impl RepeatedWords {
+    pub fn new() -> Self {
+        Self {
+            special_cases: vec![smallvec!['i', 's'], smallvec!['a']],
+        }
+    }
+
+    fn is_special_case(&self, chars: &[char]) -> bool {
+        self.special_cases.iter().any(|v| v.as_slice() == chars)
+    }
+}
+
+impl Default for RepeatedWords {
+    fn default() -> Self {
+        Self::new()
+    }
+}
 
 impl Linter for RepeatedWords {
     fn lint(&mut self, document: &Document) -> Vec<Lint> {
@@ -16,7 +39,9 @@ impl Linter for RepeatedWords {
                 let word_a = document.get_span_content(tok_a.span);
                 let word_b = document.get_span_content(tok_b.span);
 
-                if !tok_a.kind.is_likely_homograph() && word_a.to_lower() == word_b.to_lower() {
+                if (!tok_a.kind.is_likely_homograph() || self.is_special_case(word_a))
+                    && word_a.to_lower() == word_b.to_lower()
+                {
                     let intervening_tokens = &chunk[idx_a + 1..*idx_b];
 
                     if intervening_tokens.iter().any(|t| !t.kind.is_whitespace()) {
@@ -42,26 +67,46 @@ impl Linter for RepeatedWords {
 
 #[cfg(test)]
 mod tests {
+    use crate::linting::tests::assert_suggestion_result;
+
     use super::super::tests::assert_lint_count;
     use super::RepeatedWords;
 
     #[test]
     fn catches_basic() {
-        assert_lint_count("I wanted the the banana.", RepeatedWords, 1)
+        assert_lint_count("I wanted the the banana.", RepeatedWords::default(), 1)
     }
 
     #[test]
     fn does_not_lint_homographs_address() {
-        assert_lint_count("To address address problems.", RepeatedWords, 0);
+        assert_lint_count("To address address problems.", RepeatedWords::default(), 0);
     }
 
     #[test]
     fn does_not_lint_homographs_record() {
-        assert_lint_count("To record record profits.", RepeatedWords, 0);
+        assert_lint_count("To record record profits.", RepeatedWords::default(), 0);
     }
 
     #[test]
     fn issue_253() {
-        assert_lint_count("this paper shows that, while the method may be more accurate accurate, the turnout overestimate suggests that self-selection bias is not sufficiently reduced", RepeatedWords, 1);
+        assert_lint_count("this paper shows that, while the method may be more accurate accurate, the turnout overestimate suggests that self-selection bias is not sufficiently reduced", RepeatedWords::default(), 1);
+    }
+
+    #[test]
+    fn issue_333() {
+        assert_suggestion_result(
+            "This is is a test",
+            RepeatedWords::default(),
+            "This is a test",
+        );
+    }
+
+    #[test]
+    fn double_a() {
+        assert_suggestion_result(
+            "This is a a test",
+            RepeatedWords::default(),
+            "This is a test",
+        );
     }
 }
