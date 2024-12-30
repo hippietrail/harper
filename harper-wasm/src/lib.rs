@@ -127,6 +127,11 @@ impl Default for Linter {
 }
 
 #[wasm_bindgen]
+pub fn to_title_case(text: String) -> String {
+    harper_core::make_title_case_str(&text, &mut PlainEnglish, FstDictionary::curated())
+}
+
+#[wasm_bindgen]
 pub fn apply_suggestion(
     text: String,
     span: Span,

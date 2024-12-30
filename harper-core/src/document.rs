@@ -263,7 +263,7 @@ impl Document {
         self.condense_indices(&replace_starts, 2);
     }
 
-    /// Searches for multiple sequential newline tokens and condenses them down
+    /// Searches for multiple sequential space tokens and condenses them down
     /// into one.
     fn condense_spaces(&mut self) {
         let mut cursor = 0;

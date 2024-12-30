@@ -599,7 +599,7 @@ dependencies = [
 
 [[package]]
 name = "harper-comments"
-version = "0.12.0"
+version = "0.13.0"
 dependencies = [
  "harper-core",
  "harper-html",
@@ -612,6 +612,7 @@ dependencies = [
  "tree-sitter-c-sharp",
  "tree-sitter-cpp",
  "tree-sitter-go",
+ "tree-sitter-haskell",
  "tree-sitter-java",
  "tree-sitter-javascript",
  "tree-sitter-lua",
@@ -626,7 +627,7 @@ dependencies = [
 
 [[package]]
 name = "harper-core"
-version = "0.12.0"
+version = "0.13.0"
 dependencies = [
  "blanket",
  "criterion",
@@ -651,7 +652,7 @@ dependencies = [
 
 [[package]]
 name = "harper-html"
-version = "0.12.0"
+version = "0.13.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -662,7 +663,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ls"
-version = "0.12.0"
+version = "0.13.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -685,7 +686,7 @@ dependencies = [
 
 [[package]]
 name = "harper-tree-sitter"
-version = "0.12.0"
+version = "0.13.0"
 dependencies = [
  "harper-core",
  "tree-sitter",
@@ -1870,6 +1871,16 @@ name = "tree-sitter-go"
 version = "0.20.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "1ad6d11f19441b961af2fda7f12f5d0dac325f6d6de83836a1d3750018cc5114"
+dependencies = [
+ "cc",
+ "tree-sitter",
+]
+
+[[package]]
+name = "tree-sitter-haskell"
+version = "0.15.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ac635b86d6cc127706bc0831f4b83f5503ed8ac2f8cd22831ba3e5535445b4f2"
 dependencies = [
  "cc",
  "tree-sitter",

@@ -29,6 +29,11 @@ test-harperjs:
   yarn playwright install
   yarn test
 
+  # Test runnable examples
+  cd "{{justfile_directory()}}/packages/harper.js/examples/commonjs-simple"
+  yarn install
+  yarn start
+
 # Compile the website's dependencies and start a development server. Note that if you make changes to `harper-wasm`, you will have to re-run this command.
 dev-web:
   #! /bin/bash
@@ -56,7 +61,7 @@ build-obsidian:
   #! /bin/bash
   set -eo pipefail
   
-  just build-wasm web
+  just build-harperjs
   cd "{{justfile_directory()}}/packages/obsidian-plugin"
 
   yarn install -f
@@ -64,6 +69,7 @@ build-obsidian:
 
   zip harper-obsidian-plugin.zip manifest.json main.js
 
+# Run VSCode plugin unit and integration tests.
 test-vscode:
   #! /bin/bash
   set -eo pipefail
@@ -118,6 +124,7 @@ package-vscode target="":
     yarn package
   fi
 
+# Run Rust formatting and linting.
 check-rust:
   #! /bin/bash
   set -eo pipefail
@@ -151,6 +158,7 @@ setup:
   just build-harperjs
   just build-obsidian
   just test-vscode
+  just test-harperjs
   just build-web
 
 # Perform full format and type checking, build all projects and run all tests. Run this before pushing your code.
@@ -185,10 +193,9 @@ dogfood:
     ./target/release/harper-cli lint $file
   done
 
-# Run all Rust unit tests.
+# Test everything.
 test:
   cargo test
-  cargo test --release
   just test-vscode
   just test-harperjs
 
@@ -196,11 +203,11 @@ test:
 parse file:
   cargo run --bin harper-cli -- parse {{file}}
 
-# Lint a provided file, lint it, and print the results.
+# Lint a provided file using Harper and print the results.
 lint file:
   cargo run --bin harper-cli -- lint {{file}}
 
-# Show the spans of the parsed tokens overlapped on the file.
+# Show the spans of the parsed tokens overlapped in the provided file.
 spans file:
   cargo run --bin harper-cli -- spans {{file}}
 
@@ -231,3 +238,20 @@ userdictoverlap:
   while read -r line; do
     just searchdictfor $line 2> /dev/null
   done < $USER_DICT_FILE
+
+bump-versions:
+  #! /bin/bash
+  set -eo pipefail
+
+  cargo ws version --no-git-push --no-git-tag
+
+  HARPER_VERSION=$(tq --file harper-core/Cargo.toml .package.version)
+
+  cd "{{justfile_directory()}}/packages/harper.js"
+
+  cat package.json | jq ".version = \"$HARPER_VERSION\"" > package.json.edited
+  mv package.json.edited package.json
+
+  just format
+
+  lazygit

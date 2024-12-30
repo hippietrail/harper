@@ -58,38 +58,44 @@ export default class WorkerLinter implements Linter {
 		};
 	}
 
-	async setup(): Promise<void> {
-		return await this.rpc('setup', []);
+	setup(): Promise<void> {
+		return this.rpc('setup', []);
 	}
 
-	async lint(text: string): Promise<Lint[]> {
-		return await this.rpc('lint', [text]);
-	}
-	async applySuggestion(text: string, suggestion: Suggestion, span: Span): Promise<string> {
-		return await this.rpc('applySuggestion', [text, suggestion, span]);
-	}
-	async isLikelyEnglish(text: string): Promise<boolean> {
-		return await this.rpc('isLikelyEnglish', [text]);
+	lint(text: string): Promise<Lint[]> {
+		return this.rpc('lint', [text]);
 	}
 
-	async isolateEnglish(text: string): Promise<string> {
-		return await this.rpc('isolateEnglish', [text]);
+	applySuggestion(text: string, suggestion: Suggestion, span: Span): Promise<string> {
+		return this.rpc('applySuggestion', [text, suggestion, span]);
+	}
+
+	isLikelyEnglish(text: string): Promise<boolean> {
+		return this.rpc('isLikelyEnglish', [text]);
+	}
+
+	isolateEnglish(text: string): Promise<string> {
+		return this.rpc('isolateEnglish', [text]);
 	}
 
 	async getLintConfig(): Promise<LintConfig> {
 		return JSON.parse(await this.getLintConfigAsJSON());
 	}
 
-	async setLintConfig(config: LintConfig): Promise<void> {
-		return await this.setLintConfigWithJSON(JSON.stringify(config));
+	setLintConfig(config: LintConfig): Promise<void> {
+		return this.setLintConfigWithJSON(JSON.stringify(config));
 	}
 
-	async getLintConfigAsJSON(): Promise<string> {
-		return await this.rpc('getLintConfigAsJSON', []);
+	getLintConfigAsJSON(): Promise<string> {
+		return this.rpc('getLintConfigAsJSON', []);
 	}
 
-	async setLintConfigWithJSON(config: string): Promise<void> {
-		return await this.rpc('setLintConfigWithJSON', [config]);
+	setLintConfigWithJSON(config: string): Promise<void> {
+		return this.rpc('setLintConfigWithJSON', [config]);
+	}
+
+	toTitleCase(text: string): Promise<string> {
+		return this.rpc('toTitleCase', [text]);
 	}
 
 	/** Run a procedure on the remote worker. */

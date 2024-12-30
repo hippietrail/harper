@@ -36,6 +36,7 @@ impl CommentParser {
             "lua" => tree_sitter_lua::language(),
             "shellscript" => tree_sitter_bash::language(),
             "java" => tree_sitter_java::language(),
+            "haskell" => tree_sitter_haskell::language(),
             _ => return None,
         };
 
@@ -85,6 +86,7 @@ impl CommentParser {
             "sh" => "shellscript",
             "bash" => "shellscript",
             "java" => "java",
+            "hs" => "haskell",
             _ => return None,
         })
     }

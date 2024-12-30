@@ -3,6 +3,7 @@ node_modules
 build
 bin
 .svelte-kit
+.sveltepress
 package
 main.js
 .env

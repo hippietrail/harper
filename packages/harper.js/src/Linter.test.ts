@@ -94,6 +94,14 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 			expect(lintConfig[key]).toBe(true);
 		}
 	});
+
+	test(`${linterName} can make things title case`, async () => {
+		const linter = new Linter();
+
+		const titleCase = await linter.toTitleCase('THIS IS A TEST FOR MAKING TITLES');
+
+		expect(titleCase).toBe('This Is a Test for Making Titles');
+	});
 }
 
 test('Linters have the same config format', async () => {

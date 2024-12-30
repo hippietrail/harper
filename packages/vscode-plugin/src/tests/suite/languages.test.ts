@@ -21,8 +21,9 @@ describe('Languages >', () => {
 		// Uncomment when #65 is fixed.
 		// { type: 'Shellscript without extension', file: 'shellscript', row: 2, column: 2 },
 
-		// VSCode doesn't support Nix and TOML files out of the box. Uncomment when you figure out how
-		// to support them during testing.
+		// VSCode doesn't support Haskell, Nix, and TOML files out of the box. Uncomment when you figure
+		// out how to support them during testing.
+		// { type: 'Haskell', file: 'haskell.hs', row: 1, column: 3 },
 		// { type: 'Nix', file: 'nix.nix', row: 1, column: 2 },
 		// { type: 'TOML', file: 'toml.toml', row: 1, column: 2 },
 
