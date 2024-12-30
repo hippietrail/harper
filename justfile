@@ -29,6 +29,11 @@ test-harperjs:
   yarn playwright install
   yarn test
 
+  # Test runnable examples
+  cd "{{justfile_directory()}}/packages/harper.js/examples/commonjs-simple"
+  yarn install
+  yarn start
+
 # Compile the website's dependencies and start a development server. Note that if you make changes to `harper-wasm`, you will have to re-run this command.
 dev-web:
   #! /bin/bash
