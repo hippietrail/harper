@@ -77,6 +77,10 @@ export default defineConfig({
 									to: '/docs/harperjs/introduction'
 								},
 								{
+									title: 'Linting',
+									to: '/docs/harperjs/linting'
+								},
+								{
 									title: 'CDN',
 									to: '/docs/harperjs/CDN'
 								}

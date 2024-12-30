@@ -6,7 +6,7 @@
 			// We can import `harper.js` using native ECMAScript syntax.
 			import { WorkerLinter } from 'https://unpkg.com/harper.js@0.13.0/dist/harper.js';
 
-			// Since we are working the browser, we can use either `WorkerLinter`, which doesn't block the event loop, or `LocalLinter`, which does.
+			// Since we are working in the browser, we can use either `WorkerLinter`, which doesn't block the event loop, or `LocalLinter`, which does.
 			let linter = new WorkerLinter();
 
 			// Every time the `<textarea/>` received an input, we process it and update our list.
