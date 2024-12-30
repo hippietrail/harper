@@ -30,9 +30,6 @@ enum Args {
     Spans {
         /// The file you wish to display the spans.
         file: PathBuf,
-        /// Include newlines in the output
-        #[arg(short, long)]
-        include_newlines: bool,
     },
     /// Emit decompressed, line-separated list of words in Harper's dictionary.
     Words,
@@ -92,10 +89,7 @@ fn main() -> anyhow::Result<()> {
 
             Ok(())
         }
-        Args::Spans {
-            file,
-            include_newlines,
-        } => {
+        Args::Spans { file } => {
             let (doc, source) = load_file(&file)?;
 
             let primary_color = Color::Blue;
@@ -108,11 +102,7 @@ fn main() -> anyhow::Result<()> {
             let mut report_builder =
                 Report::build(ReportKind::Custom("Spans", primary_color), &filename, 0);
             let mut color = primary_color;
-
-            for token in doc.tokens().filter(|t| {
-                include_newlines
-                    || !matches!(t.kind, TokenKind::Newline(_) | TokenKind::ParagraphBreak)
-            }) {
+            for token in doc.tokens() {
                 report_builder = report_builder.with_label(
                     Label::new((&filename, token.span.into()))
                         .with_message(format!("[{}, {})", token.span.start, token.span.end))
