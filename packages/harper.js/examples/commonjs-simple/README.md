@@ -7,5 +7,5 @@ You can run it using Yarn:
 
 ```
 yarn install
-yarn start 
+yarn start
 ```
