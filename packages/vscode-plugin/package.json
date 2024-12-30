@@ -36,6 +36,7 @@
 		"onLanguage:csharp",
 		"onLanguage:git-commit",
 		"onLanguage:go",
+		"onLanguage:haskell",
 		"onLanguage:html",
 		"onLanguage:java",
 		"onLanguage:javascript",
