@@ -3,7 +3,7 @@ title: Language Server
 ---
 
 `harper-ls` is the [Language Server Protocol](https://microsoft.github.io/language-server-protocol/) frontend for Harper.
-Out of the box, it has built-in support for parsing the comments of most programming languages, as well as any and all markdown files.
+Out of the box, it has built-in support for parsing the comments of most programming languages, as well as any and all Markdown files.
 
 ### Cargo
 
