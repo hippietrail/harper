@@ -10,7 +10,7 @@ Most programming languages support doc-comments, a type of inline comment used t
 - [Annex D](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/documentation-comments) for C#.
 - ... and many more
 
-The problem: most of these users aren't spending as sufficient amount of time ensuring their comments meet the editorial standards that readers expect.
+The problem: most of these users aren't spending a sufficient amount of time ensuring their comments meet the editorial standards that readers expect.
 This can leave a poor first impression on readers.
 
 Fortunately, Harper can help!
