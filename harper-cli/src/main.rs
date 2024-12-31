@@ -7,8 +7,11 @@ use ariadne::{Color, Label, Report, ReportKind, Source};
 use clap::Parser;
 use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
-use harper_core::parsers::{Markdown, Typst};
+use harper_core::parsers::Markdown;
 use harper_core::{remove_overlaps, Dictionary, Document, FstDictionary};
+
+#[cfg(feature = "typst")]
+use harper_core::parsers::Typst;
 
 #[derive(Debug, Parser)]
 enum Args {
