@@ -79,6 +79,11 @@ impl Linter {
         document.to_string()
     }
 
+    /// Get a JSON map containing the descriptions of all the linting rules.
+    pub fn get_lint_descriptions_as_json(&self) -> String {
+        serde_json::to_string(&self.lint_group.all_descriptions()).unwrap()
+    }
+
     pub fn get_lint_config_as_json(&self) -> String {
         serde_json::to_string(&self.lint_group.config).unwrap()
     }
@@ -86,6 +91,11 @@ impl Linter {
     pub fn set_lint_config_from_json(&mut self, json: String) -> Result<(), String> {
         self.lint_group.config = serde_json::from_str(&json).map_err(|v| v.to_string())?;
         Ok(())
+    }
+
+    /// Get a Record containing the descriptions of all the linting rules.
+    pub fn get_lint_descriptions_as_object(&self) -> JsValue {
+        serde_wasm_bindgen::to_value(&self.lint_group.all_descriptions()).unwrap()
     }
 
     pub fn get_lint_config_as_object(&self) -> JsValue {

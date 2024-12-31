@@ -29,6 +29,10 @@ impl Linter for SpelledNumbers {
 
         lints
     }
+
+    fn description(&self) -> &'static str {
+        "Most style guides recommend that you spell out numbers less than ten."
+    }
 }
 
 /// Converts a number to it's spelled-out variant.

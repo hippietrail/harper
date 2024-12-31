@@ -67,6 +67,10 @@ impl PatternLinter for UseGenitive {
             priority: 31,
         }
     }
+
+    fn description(&self) -> &'static str {
+        "Looks situations where the genitive case of \"there\" should be used."
+    }
 }
 
 impl Default for UseGenitive {

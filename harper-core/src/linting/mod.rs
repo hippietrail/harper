@@ -55,10 +55,12 @@ use crate::Document;
 #[cfg(not(feature = "concurrent"))]
 pub trait Linter {
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
+    fn description(&self) -> &str;
 }
 #[cfg(feature = "concurrent")]
 pub trait Linter: Send + Sync {
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
+    fn description(&self) -> &str;
 }
 
 #[cfg(test)]

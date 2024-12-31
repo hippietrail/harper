@@ -364,6 +364,10 @@ impl Linter for Matcher {
 
         lints
     }
+
+    fn description(&self) -> &'static str {
+        "A collection of curated rules. A catch-all that will be removed in the future."
+    }
 }
 
 #[cfg(test)]

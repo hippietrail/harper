@@ -56,6 +56,10 @@ impl PatternLinter for ThatWhich {
             priority: 126,
         }
     }
+
+    fn description(&self) -> &'static str {
+        "Repeating the word \"that\" twice is often redundent. \"That which\" is easier to read."
+    }
 }
 
 #[cfg(test)]
