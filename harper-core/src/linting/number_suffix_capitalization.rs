@@ -33,6 +33,10 @@ impl Linter for NumberSuffixCapitalization {
 
         output
     }
+
+    fn description(&self) -> &'static str {
+        "You should never capitalize number suffixes."
+    }
 }
 
 #[cfg(test)]

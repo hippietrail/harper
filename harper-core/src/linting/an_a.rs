@@ -62,6 +62,10 @@ impl Linter for AnA {
 
         lints
     }
+
+    fn description(&self) -> &'static str {
+        "A rule that looks for incorrect indefinite articles. For example, \"this is an mule\" would be flagged as incorrect."
+    }
 }
 
 fn to_lower_word(word: &[char]) -> Cow<'_, [char]> {

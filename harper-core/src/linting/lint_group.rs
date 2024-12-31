@@ -13,6 +13,10 @@ use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::proper_noun_capitalization_linters::{
+    AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
+    MetaNames, MicrosoftNames, UnitedOrganizations,
+};
 use super::repeated_words::RepeatedWords;
 use super::sentence_capitalization::SentenceCapitalization;
 use super::spaces::Spaces;
@@ -29,6 +33,16 @@ use crate::{Dictionary, Document};
 macro_rules! create_lint_group_config {
     ($($linter:ident => $default:expr),*) => {
         paste! {
+            /// A collection of all the descriptions from the composing linters.
+            #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
+            pub struct LintGroupDescriptions<'a> {
+                $(
+                    #[doc = "The description for the [`" $linter "`] linter."]
+                    pub [<$linter:snake>]: &'a str,
+                )*
+                pub spell_check: &'a str
+            }
+
             #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
             pub struct LintGroupConfig {
                 $(
@@ -85,10 +99,19 @@ macro_rules! create_lint_group_config {
                         config,
                     }
                 }
+
+                pub fn all_descriptions(&self) -> LintGroupDescriptions<'_> {
+                    LintGroupDescriptions {
+                        $(
+                            [<$linter:snake>]: self.[<$linter:snake>].description(),
+                        )*
+                        spell_check: self.spell_check.description(),
+                    }
+                }
             }
 
             impl<T: Dictionary> Linter for LintGroup<T> {
-                fn lint(&mut self, document: &Document) -> Vec<Lint>{
+                fn lint(&mut self, document: &Document) -> Vec<Lint> {
                     let mut lints = Vec::new();
 
                     let mut config = self.config.clone();
@@ -106,6 +129,10 @@ macro_rules! create_lint_group_config {
 
 
                     lints
+                }
+
+                fn description(&self) -> &'static str {
+                    "A collection of linters that can be run as one."
                 }
             }
         }
@@ -133,11 +160,34 @@ create_lint_group_config!(
     BoringWords => false,
     UseGenitive => false,
     ThatWhich => true,
-    CapitalizePersonalPronouns => true
+    CapitalizePersonalPronouns => true,
+    Americas => true,
+    ChineseCommunistParty => true,
+    UnitedOrganizations => true,
+    Holidays => true,
+    AmazonNames => true,
+    GoogleNames => true,
+    MetaNames => true,
+    MicrosoftNames => true,
+    AppleNames => true,
+    AzureNames => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
     fn default() -> Self {
         Self::new(LintGroupConfig::default(), T::default())
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::FullDictionary;
+
+    use super::LintGroup;
+
+    #[test]
+    fn can_get_all_descriptions() {
+        let group = LintGroup::<FullDictionary>::default();
+        group.all_descriptions();
     }
 }

@@ -74,4 +74,14 @@ export default class LocalLinter implements Linter {
 		const wasm = await loadWasm();
 		return wasm.to_title_case(text);
 	}
+
+	async getLintDescriptions(): Promise<Record<string, string>> {
+		await this.initialize();
+		return this.inner!.get_lint_descriptions_as_object();
+	}
+
+	async getLintDescriptionsAsJSON(): Promise<string> {
+		await this.initialize();
+		return this.inner!.get_lint_descriptions_as_json();
+	}
 }

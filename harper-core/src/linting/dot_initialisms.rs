@@ -51,6 +51,10 @@ impl PatternLinter for DotInitialisms {
             priority: 63,
         }
     }
+
+    fn description(&self) -> &'static str {
+        "Ensures common initialisms (like \"i.e.\") are properly dot-separated."
+    }
 }
 
 #[cfg(test)]

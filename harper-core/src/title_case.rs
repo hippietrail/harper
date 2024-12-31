@@ -1,4 +1,5 @@
 use crate::Lrc;
+use crate::Token;
 use hashbrown::HashSet;
 use lazy_static::lazy_static;
 
@@ -8,22 +9,33 @@ use crate::{parsers::Parser, CharStringExt, Dictionary, Document, TokenStringExt
 pub fn make_title_case_str(
     source: &str,
     parser: &mut impl Parser,
-    dict: impl Dictionary,
+    dict: &impl Dictionary,
 ) -> String {
-    make_title_case(Lrc::new(source.chars().collect()), parser, dict).to_string()
+    let source: Vec<char> = source.chars().collect();
+
+    make_title_case_chars(Lrc::new(source), parser, dict).to_string()
 }
 
 // Make a given string [title case](https://en.wikipedia.org/wiki/Title_case) following the Chicago Manual of Style.
-pub fn make_title_case(
+pub fn make_title_case_chars(
     source: Lrc<Vec<char>>,
     parser: &mut impl Parser,
-    dict: impl Dictionary,
+    dict: &impl Dictionary,
 ) -> Vec<char> {
-    let mut output = source.to_vec();
+    let document = Document::new_from_vec(source.clone(), parser, dict);
 
-    let document = Document::new_from_vec(source, parser, &dict);
+    make_title_case(document.get_tokens(), source.as_slice(), dict)
+}
 
-    let mut words = document.iter_words().enumerate().peekable();
+pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) -> Vec<char> {
+    if toks.is_empty() {
+        return Vec::new();
+    }
+
+    let start_index = toks.first().unwrap().span.start;
+
+    let mut words = toks.iter_words().enumerate().peekable();
+    let mut output = toks.span().unwrap().get_content(source).to_vec();
 
     // Only specific conjunctions are not capitalized.
     lazy_static! {
@@ -34,7 +46,7 @@ pub fn make_title_case(
     }
 
     while let Some((index, word)) = words.next() {
-        let chars = document.get_span_content(word.span);
+        let chars = word.span.get_content(source);
         let chars_lower = chars.to_lower();
 
         let metadata = word
@@ -50,16 +62,17 @@ pub fn make_title_case(
             || words.peek().is_none();
 
         if should_capitalize {
-            output[word.span.start] = output[word.span.start].to_ascii_uppercase();
+            output[word.span.start - start_index] =
+                output[word.span.start - start_index].to_ascii_uppercase();
 
             // The rest of the word should be lowercase.
-            for v in &mut output[word.span.start + 1..word.span.end] {
+            for v in &mut output[word.span.start + 1 - start_index..word.span.end - start_index] {
                 *v = v.to_ascii_lowercase();
             }
         } else {
             // The whole word should be lowercase.
             for i in word.span {
-                output[i] = output[i].to_ascii_lowercase();
+                output[i - start_index] = output[i].to_ascii_lowercase();
             }
         }
     }
@@ -78,7 +91,7 @@ mod tests {
             make_title_case_str(
                 "this is a test",
                 &mut PlainEnglish,
-                FstDictionary::curated()
+                &FstDictionary::curated()
             ),
             "This Is a Test"
         )
@@ -90,7 +103,7 @@ mod tests {
             make_title_case_str(
                 "the first and last words should be capitalized, even if it is \"the\"",
                 &mut PlainEnglish,
-                FstDictionary::curated()
+                &FstDictionary::curated()
             ),
             "The First and Last Words Should Be Capitalized, Even If It Is \"The\""
         )
@@ -102,7 +115,7 @@ mod tests {
             make_title_case_str(
                 "THIS IS A TEST",
                 &mut PlainEnglish,
-                FstDictionary::curated()
+                &FstDictionary::curated()
             ),
             "This Is a Test"
         )

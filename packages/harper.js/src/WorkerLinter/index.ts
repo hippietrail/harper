@@ -98,6 +98,14 @@ export default class WorkerLinter implements Linter {
 		return this.rpc('toTitleCase', [text]);
 	}
 
+	getLintDescriptionsAsJSON(): Promise<string> {
+		return this.rpc('getLintDescriptionsAsJSON', []);
+	}
+
+	async getLintDescriptions(): Promise<Record<string, string>> {
+		return JSON.parse(await this.getLintDescriptionsAsJSON()) as Record<string, string>;
+	}
+
 	/** Run a procedure on the remote worker. */
 	private async rpc(procName: string, args: any[]): Promise<any> {
 		const promise = new Promise((resolve, reject) => {

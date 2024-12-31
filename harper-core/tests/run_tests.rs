@@ -46,5 +46,6 @@ create_test!(issue_109_ext.md, &Markdown, 0);
 create_test!(chinese_lorem_ipsum.md, &Markdown, 2);
 create_test!(obsidian_links.md, &Markdown, 2);
 create_test!(issue_267.md, &Markdown, 0);
+create_test!(proper_noun_capitalization.md, &Markdown, 2);
 create_test!(complex_typst.typ, &Typst, 0);
 create_test!(typst_spelling_mistakes.typ, &Typst, 4);

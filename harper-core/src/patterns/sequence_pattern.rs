@@ -68,6 +68,30 @@ impl SequencePattern {
         self
     }
 
+    /// Match examples of `word` that have any capitalization.
+    pub fn then_any_capitalization_of(mut self, word: &'static str) -> Self {
+        self.token_patterns
+            .push(Box::new(|tok: &Token, source: &[char]| {
+                if !tok.kind.is_word() {
+                    return false;
+                }
+
+                let tok_chars = tok.span.get_content(source);
+
+                if tok_chars.len() != word.chars().count() {
+                    return false;
+                }
+
+                let partial_match = tok_chars
+                    .iter()
+                    .zip(word.chars())
+                    .all(|(a, b)| a.to_ascii_lowercase() == b.to_ascii_lowercase());
+
+                partial_match
+            }));
+        self
+    }
+
     pub fn then_exact_word_or_lowercase(mut self, word: &'static str) -> Self {
         self.token_patterns
             .push(Box::new(|tok: &Token, source: &[char]| {

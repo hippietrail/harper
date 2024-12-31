@@ -137,12 +137,6 @@ impl Matcher {
             "ngram" => "n-gram",
             "grammer" => "grammar",
             "There","fore" => "Therefore",
-            "south","America" => "South America",
-            "South","america" => "South America",
-            "south","america" => "South America",
-            "North","america" => "North America",
-            "north","America" => "North America",
-            "north","america" => "North America",
             "fatal","outcome" => "death",
             "geiger","counter" => "Geiger counter",
             "veterans","day" => "Veterans Day",
@@ -363,6 +357,10 @@ impl Linter for Matcher {
         }
 
         lints
+    }
+
+    fn description(&self) -> &'static str {
+        "A collection of curated rules. A catch-all that will be removed in the future."
     }
 }
 

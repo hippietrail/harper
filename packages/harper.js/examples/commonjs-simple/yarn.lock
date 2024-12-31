@@ -9,6 +9,6 @@ harper.js@^0.13.0:
   dependencies:
     wasm "link:../../../../../../.cache/yarn/v6/npm-harper-js-0.13.0-f9e945c842f4e07e1b7042e3eef00a8040b2e0dd-integrity/harper-wasm/pkg"
 
-"wasm@link:../../harper-wasm/pkg":
+"wasm@link:../../../../../../.cache/yarn/v6/npm-harper-js-0.13.0-f9e945c842f4e07e1b7042e3eef00a8040b2e0dd-integrity/harper-wasm/pkg":
   version "0.0.0"
   uid ""

@@ -1,7 +1,7 @@
 import logoSvg from '../logo.svg';
 import { linter } from './lint';
 import { Plugin, addIcon, Menu } from 'obsidian';
-import { WorkerLinter } from 'harper.js';
+import { LocalLinter, WorkerLinter } from 'harper.js';
 import { HarperSettingTab } from './HarperSettingTab';
 
 function suggestionToLabel(sug) {
@@ -12,8 +12,20 @@ function suggestionToLabel(sug) {
 	}
 }
 
-let harper = new WorkerLinter();
-harper.setup();
+function initHarperInstance(useWebWorker) {
+	if (useWebWorker) {
+		console.log('Switching to `WorkerLinter`');
+		harper = new WorkerLinter();
+	} else {
+		console.log('Switching to `LocalLinter`');
+		harper = new LocalLinter();
+	}
+	harper.setup();
+}
+
+let harper;
+
+initHarperInstance(true);
 
 const harperLinter = (plugin) =>
 	linter(
@@ -79,13 +91,19 @@ export default class HarperPlugin extends Plugin {
 	lintSettingModified = false;
 
 	/** @public
+	 * @returns {Promise<Record<string, string>>} */
+	async getDescriptions() {
+		return await harper.getLintDescriptions();
+	}
+
+	/** @public
 	 * @returns {Promise<Record<string, any>>} */
 	async getSettings() {
 		this.lintSettingChanged();
 
 		let lintSettings = await harper.getLintConfig();
 
-		return { lintSettings };
+		return { ...this.settings, lintSettings };
 	}
 
 	/** @public
@@ -94,6 +112,10 @@ export default class HarperPlugin extends Plugin {
 	async setSettings(settings) {
 		if (settings == null) {
 			settings = {};
+		}
+
+		if (settings.useWebWorker == undefined) {
+			settings.useWebWorker = true;
 		}
 
 		if (settings.lintSettings == undefined) {
@@ -107,6 +129,12 @@ export default class HarperPlugin extends Plugin {
 		await harper.setLintConfig(settings.lintSettings);
 		this.lintSettingChanged();
 		this.saveData(settings);
+
+		if (this.settings?.useWebWorker != settings.useWebWorker) {
+			initHarperInstance(settings.useWebWorker);
+		}
+
+		this.settings = settings;
 	}
 
 	async onload() {
@@ -120,8 +148,8 @@ export default class HarperPlugin extends Plugin {
 		this.setupCommands();
 		this.setupStatusBar();
 
-		this.addSettingTab(new HarperSettingTab(this.app, this));
 		await this.setSettings(await this.loadData());
+		this.addSettingTab(new HarperSettingTab(this.app, this));
 	}
 
 	setupCommands() {

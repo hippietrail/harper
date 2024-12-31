@@ -68,6 +68,10 @@ impl PatternLinter for TerminatingConjunctions {
             priority: 63,
         }
     }
+
+    fn description(&self) -> &'static str {
+        "Subordinating conjunctions are words that create a grammatical space for another idea or clause. As such, they should never appear at the end of a clause."
+    }
 }
 
 #[cfg(test)]

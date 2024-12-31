@@ -39,7 +39,7 @@ If you want to use Harper on your machine, you have three choices.
 
 `harper-ls` provides an integration that works for most code editors.
 
-[Read more here.](./harper-ls/README.md)
+[Read more here.](https://writewithharper.com/docs/integrations/language-server)
 
 ### Harper Obsidian Integration
 

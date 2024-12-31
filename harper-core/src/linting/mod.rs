@@ -13,6 +13,7 @@ mod matcher;
 mod multiple_sequential_pronouns;
 mod number_suffix_capitalization;
 mod pattern_linter;
+mod proper_noun_capitalization_linters;
 mod repeated_words;
 mod sentence_capitalization;
 mod spaces;
@@ -39,6 +40,10 @@ pub use matcher::Matcher;
 pub use multiple_sequential_pronouns::MultipleSequentialPronouns;
 pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use pattern_linter::PatternLinter;
+pub use proper_noun_capitalization_linters::{
+    AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
+    MetaNames, MicrosoftNames, UnitedOrganizations,
+};
 pub use repeated_words::RepeatedWords;
 pub use sentence_capitalization::SentenceCapitalization;
 pub use spaces::Spaces;
@@ -55,10 +60,12 @@ use crate::Document;
 #[cfg(not(feature = "concurrent"))]
 pub trait Linter {
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
+    fn description(&self) -> &str;
 }
 #[cfg(feature = "concurrent")]
 pub trait Linter: Send + Sync {
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
+    fn description(&self) -> &str;
 }
 
 #[cfg(test)]

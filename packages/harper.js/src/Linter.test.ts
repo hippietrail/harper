@@ -102,6 +102,25 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 
 		expect(titleCase).toBe('This Is a Test for Making Titles');
 	});
+
+	test(`${linterName} can get rule descriptions`, async () => {
+		const linter = new Linter();
+
+		const descriptions = await linter.getLintDescriptions();
+
+		expect(descriptions).toBeTypeOf('object');
+	});
+
+	test(`${linterName} rule descriptions are not empty`, async () => {
+		const linter = new Linter();
+
+		const descriptions = await linter.getLintDescriptions();
+
+		for (const value of Object.values(descriptions)) {
+			expect(value).toBeTypeOf('string');
+			expect(value).not.toHaveLength(0);
+		}
+	});
 }
 
 test('Linters have the same config format', async () => {
