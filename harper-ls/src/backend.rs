@@ -11,6 +11,7 @@ use harper_core::{
     WordMetadata,
 };
 use harper_html::HtmlParser;
+use harper_literate_haskell::LiterateHaskellParser;
 use serde_json::Value;
 use tokio::sync::{Mutex, RwLock};
 use tower_lsp::jsonrpc::Result;
@@ -203,6 +204,30 @@ impl Backend {
                     )))
                 } else {
                     Some(Box::new(ts_parser))
+                }
+            } else if language_id == "lhaskell" {
+                let source: Vec<char> = text.chars().collect();
+                let source = Arc::new(source);
+
+                let parser = LiterateHaskellParser;
+                if let Some(new_dict) = parser.create_ident_dict(source.as_slice()) {
+                    let new_dict = Arc::new(new_dict);
+
+                    if doc_state.ident_dict != new_dict {
+                        doc_state.ident_dict = new_dict.clone();
+                        let mut merged = self.generate_file_dictionary(url).await?;
+                        merged.add_dictionary(new_dict);
+                        let merged = Arc::new(merged);
+
+                        doc_state.linter = LintGroup::new(config_lock.lint_config, merged.clone());
+                        doc_state.dict = merged.clone();
+                    }
+                    Some(Box::new(CollapseIdentifiers::new(
+                        Box::new(parser),
+                        Box::new(doc_state.dict.clone()),
+                    )))
+                } else {
+                    Some(Box::new(parser))
                 }
             } else if language_id == "markdown" {
                 Some(Box::new(Markdown))
