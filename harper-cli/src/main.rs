@@ -10,9 +10,6 @@ use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
 use harper_core::parsers::Markdown;
 use harper_core::{remove_overlaps, Dictionary, Document, FstDictionary};
 
-#[cfg(feature = "typst")]
-use harper_core::parsers::Typst;
-
 #[derive(Debug, Parser)]
 enum Args {
     /// Lint a provided document.
@@ -148,7 +145,8 @@ fn load_file(file: &Path) -> anyhow::Result<(Document, String)> {
     let parser: Box<dyn harper_core::parsers::Parser> =
         match file.extension().map(|v| v.to_str().unwrap()) {
             Some("md") => Box::new(Markdown),
-            Some("typ") => Box::new(Typst),
+            #[cfg(feature = "typst")]
+            Some("typ") => Box::new(harper_core::parsers::Typst),
             _ => Box::new(
                 CommentParser::new_from_filename(file)
                     .map(Box::new)

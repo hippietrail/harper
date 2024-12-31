@@ -35,6 +35,5 @@ name = "parse_demo"
 harness = false
 
 [features]
-default = ["typst"]
-concurrent = []
 typst = ["typst-syntax"]
+concurrent = []
