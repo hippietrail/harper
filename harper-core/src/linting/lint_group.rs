@@ -13,6 +13,10 @@ use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::proper_noun_capitalization_linters::{
+    AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
+    MetaNames, MicrosoftNames, UnitedOrganizations,
+};
 use super::repeated_words::RepeatedWords;
 use super::sentence_capitalization::SentenceCapitalization;
 use super::spaces::Spaces;
@@ -156,7 +160,17 @@ create_lint_group_config!(
     BoringWords => false,
     UseGenitive => false,
     ThatWhich => true,
-    CapitalizePersonalPronouns => true
+    CapitalizePersonalPronouns => true,
+    Americas => true,
+    ChineseCommunistParty => true,
+    UnitedOrganizations => true,
+    Holidays => true,
+    AmazonNames => true,
+    GoogleNames => true,
+    MetaNames => true,
+    MicrosoftNames => true,
+    AppleNames => true,
+    AzureNames => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
