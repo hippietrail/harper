@@ -37,6 +37,13 @@ export class HarperSettingTab extends PluginSettingTab {
 
 		console.log(this.settings.lintSettings);
 
+		new Setting(containerEl).setName('Use Web Worker').addToggle((toggle) =>
+			toggle.setValue(this.settings.useWebWorker).onChange(async (value) => {
+				this.settings.useWebWorker = value;
+				await this.plugin.setSettings(this.settings);
+			})
+		);
+
 		for (let setting of Object.keys(this.settings.lintSettings)) {
 			let value = this.settings.lintSettings[setting];
 			let description = this.descriptions[setting];
