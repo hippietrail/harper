@@ -120,8 +120,8 @@ export default class HarperPlugin extends Plugin {
 		this.setupCommands();
 		this.setupStatusBar();
 
-		this.addSettingTab(new HarperSettingTab(this.app, this));
 		await this.setSettings(await this.loadData());
+		this.addSettingTab(new HarperSettingTab(this.app, this));
 	}
 
 	setupCommands() {
