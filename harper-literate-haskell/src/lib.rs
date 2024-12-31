@@ -13,11 +13,7 @@ pub struct LiterateHaskellParser;
 impl LiterateHaskellParser {
     pub fn create_ident_dict(&self, source: &[char]) -> Option<FullDictionary> {
         let parser = CommentParser::new_from_language_id("haskell").unwrap();
-        let mask = LiterateHaskellMasker {
-            text: false,
-            code: true,
-        }
-        .create_mask(source);
+        let mask = LiterateHaskellMasker::code_only().create_mask(source);
 
         let code = mask
             .iter_allowed(source)
@@ -29,13 +25,6 @@ impl LiterateHaskellParser {
 
 impl Parser for LiterateHaskellParser {
     fn parse(&mut self, source: &[char]) -> Vec<Token> {
-        Mask::new(
-            LiterateHaskellMasker {
-                text: true,
-                code: false,
-            },
-            Markdown,
-        )
-        .parse(source)
+        Mask::new(LiterateHaskellMasker::text_only(), Markdown).parse(source)
     }
 }
