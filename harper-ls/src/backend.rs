@@ -12,6 +12,7 @@ use harper_core::{
 };
 use harper_html::HtmlParser;
 use harper_literate_haskell::LiterateHaskellParser;
+use itertools::Itertools;
 use serde_json::Value;
 use tokio::sync::{Mutex, RwLock};
 use tower_lsp::jsonrpc::Result;
@@ -183,14 +184,14 @@ impl Backend {
 
         let parser: Option<Box<dyn Parser>> =
             if let Some(ts_parser) = CommentParser::new_from_language_id(language_id) {
-                let source: Vec<char> = text.chars().collect();
-                let source = Arc::new(source);
+                let source = text.chars().collect_vec();
 
-                if let Some(new_dict) = ts_parser.create_ident_dict(source.as_slice()) {
+                if let Some(new_dict) = ts_parser.create_ident_dict(&source) {
                     let new_dict = Arc::new(new_dict);
 
                     if doc_state.ident_dict != new_dict {
                         doc_state.ident_dict = new_dict.clone();
+
                         let mut merged = self.generate_file_dictionary(url).await?;
                         merged.add_dictionary(new_dict);
                         let merged = Arc::new(merged);
@@ -206,15 +207,15 @@ impl Backend {
                     Some(Box::new(ts_parser))
                 }
             } else if language_id == "lhaskell" {
-                let source: Vec<char> = text.chars().collect();
-                let source = Arc::new(source);
-
+                let source = text.chars().collect_vec();
                 let parser = LiterateHaskellParser;
-                if let Some(new_dict) = parser.create_ident_dict(source.as_slice()) {
+
+                if let Some(new_dict) = parser.create_ident_dict(&source) {
                     let new_dict = Arc::new(new_dict);
 
                     if doc_state.ident_dict != new_dict {
                         doc_state.ident_dict = new_dict.clone();
+
                         let mut merged = self.generate_file_dictionary(url).await?;
                         merged.add_dictionary(new_dict);
                         let merged = Arc::new(merged);
