@@ -34,6 +34,10 @@ impl Linter for CapitalizePersonalPronouns {
 
         lints
     }
+
+    fn description(&self) -> &'static str {
+        "Forgetting to capitalize personal pronouns, like \"I\" or \"I'm\" is one of the most common errors. This rule helps with that."
+    }
 }
 
 #[cfg(test)]

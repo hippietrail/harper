@@ -10,17 +10,25 @@ export class HarperSettingTab extends PluginSettingTab {
 	/** @type Record<string, any> */
 	settings;
 
+	/** @type Record<string, string> */
+	descriptions;
+
 	/** @param {App} app
 	 * @param {HarperPlugin} plugin  */
 	constructor(app, plugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 
+		this.updateDescriptions();
 		this.updateSettings();
 	}
 
 	updateSettings() {
 		this.plugin.getSettings().then((v) => (this.settings = v));
+	}
+
+	updateDescriptions() {
+		this.plugin.getDescriptions().then((v) => (this.descriptions = v));
 	}
 
 	display() {
@@ -29,12 +37,20 @@ export class HarperSettingTab extends PluginSettingTab {
 
 		console.log(this.settings.lintSettings);
 
+		new Setting(containerEl).setName('Use Web Worker').addToggle((toggle) =>
+			toggle.setValue(this.settings.useWebWorker).onChange(async (value) => {
+				this.settings.useWebWorker = value;
+				await this.plugin.setSettings(this.settings);
+			})
+		);
+
 		for (let setting of Object.keys(this.settings.lintSettings)) {
 			let value = this.settings.lintSettings[setting];
+			let description = this.descriptions[setting];
 
 			new Setting(containerEl)
 				.setName(startCase(setting))
-				.setDesc(`Whether to include the ${setting} grammar rule.`)
+				.setDesc(description)
 				.addDropdown((dropdown) =>
 					dropdown
 						.addOption('default', 'Default')

@@ -25,4 +25,8 @@ impl Linter for UnclosedQuotes {
 
         lints
     }
+
+    fn description(&self) -> &'static str {
+        "Quotation marks should always be closed. Unpaired quotation marks are a hallmark of sloppy work."
+    }
 }

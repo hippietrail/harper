@@ -61,6 +61,10 @@ impl PatternLinter for MultipleSequentialPronouns {
             suggestions,
         }
     }
+
+    fn description(&self) -> &'static str {
+        "When editing work to change point of view (i.e. first-person or third-person) it is common to add pronouns while neglecting to remove old ones. This rule catches cases where you have multiple disparate pronouns in sequence."
+    }
 }
 
 impl Default for MultipleSequentialPronouns {

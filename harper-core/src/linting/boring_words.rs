@@ -44,4 +44,8 @@ impl PatternLinter for BoringWords {
             priority: 127,
         }
     }
+
+    fn description(&self) -> &'static str {
+        "This rule looks for particularly boring or overused words. Using varied language is an easy way to keep a reader's attention."
+    }
 }

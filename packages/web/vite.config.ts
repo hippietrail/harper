@@ -106,6 +106,10 @@ export default defineConfig({
 									to: '/docs/contributors/architecture'
 								}
 							]
+						},
+						{
+							title: 'Rules',
+							to: '/docs/rules'
 						}
 					]
 				},

@@ -93,4 +93,8 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
 
         lints
     }
+
+    fn description(&self) -> &'static str {
+        "Looks and provides corrections for misspelled words."
+    }
 }

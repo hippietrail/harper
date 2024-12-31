@@ -63,6 +63,10 @@ impl Linter for RepeatedWords {
 
         lints
     }
+
+    fn description(&self) -> &'static str {
+        "This rule looks for repetitions of words that are not homographs."
+    }
 }
 
 #[cfg(test)]

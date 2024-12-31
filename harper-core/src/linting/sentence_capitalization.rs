@@ -60,6 +60,10 @@ impl Linter for SentenceCapitalization {
 
         lints
     }
+
+    fn description(&self) -> &'static str {
+        "The opening word of a sentence should almost always be capitalized."
+    }
 }
 
 fn is_full_sentence(toks: &[Token]) -> bool {

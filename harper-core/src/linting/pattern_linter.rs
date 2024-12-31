@@ -7,6 +7,7 @@ pub trait PatternLinter {
     /// A simple getter for the pattern to be searched for.
     fn pattern(&self) -> &dyn Pattern;
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint;
+    fn description<'a>(&'a self) -> &'a str;
 }
 
 #[cfg(feature = "concurrent")]
@@ -14,6 +15,7 @@ pub trait PatternLinter: Send + Sync {
     /// A simple getter for the pattern to be searched for.
     fn pattern(&self) -> &dyn Pattern;
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint;
+    fn description(&self) -> &str;
 }
 
 impl<L> Linter for L
@@ -47,5 +49,9 @@ where
         }
 
         lints
+    }
+
+    fn description(&self) -> &str {
+        self.description()
     }
 }
