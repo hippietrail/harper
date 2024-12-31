@@ -79,6 +79,12 @@ export default class HarperPlugin extends Plugin {
 	lintSettingModified = false;
 
 	/** @public
+	 * @returns {Promise<Record<string, string>>} */
+	async getDescriptions() {
+		return await harper.getLintDescriptions();
+	}
+
+	/** @public
 	 * @returns {Promise<Record<string, any>>} */
 	async getSettings() {
 		this.lintSettingChanged();
