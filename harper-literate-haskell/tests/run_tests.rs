@@ -37,6 +37,6 @@ macro_rules! create_test {
     };
 }
 
-create_test!(bird_format.lhs, 0);
-create_test!(latex_format.lhs, 0);
-create_test!(mixed_format.lhs, 0);
+create_test!(bird_format.lhs, 2);
+create_test!(latex_format.lhs, 2);
+create_test!(mixed_format.lhs, 4);
