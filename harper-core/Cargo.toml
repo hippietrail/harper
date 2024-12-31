@@ -35,5 +35,5 @@ name = "parse_demo"
 harness = false
 
 [features]
-typst = ["typst-syntax"]
+typst = ["dep:typst-syntax"]
 concurrent = []
