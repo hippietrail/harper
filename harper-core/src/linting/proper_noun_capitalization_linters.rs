@@ -12,6 +12,7 @@ macro_rules! create_linter_for {
         create_linter_for!($name, $pattern, $message, $message);
     };
     ($name:ident, $pattern:expr, $message:literal, $description:literal) => {
+        #[doc = $description]
         pub struct $name {
             pattern: Box<dyn Pattern>,
             dict: Arc<FstDictionary>,
