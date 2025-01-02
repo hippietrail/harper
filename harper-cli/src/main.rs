@@ -31,7 +31,9 @@ enum Args {
         /// The file you wish to display the spans.
         file: PathBuf,
     },
-    /// Emit decompressed, line-separated list of words in Harper's dictionary.
+    /// Get the metadata associated with a particular word.
+    Metadata { word: String },
+    /// Emit a decompressed, line-separated list of the words in Harper's dictionary.
     Words,
 }
 
@@ -133,6 +135,15 @@ fn main() -> anyhow::Result<()> {
 
                 println!("{}", word_str);
             }
+
+            Ok(())
+        }
+        Args::Metadata { word } => {
+            let dict = FstDictionary::curated();
+            let metadata = dict.get_word_metadata_str(&word);
+            let json = serde_json::to_string_pretty(&metadata).unwrap();
+
+            println!("{json}");
 
             Ok(())
         }

@@ -239,6 +239,10 @@ userdictoverlap:
     just searchdictfor $line 2> /dev/null
   done < $USER_DICT_FILE
 
+# Get the metadata associated with a particular word in Harper's dictionary as JSON.
+getmetadata word:
+  cargo run --bin harper-cli -- metadata {{word}}
+
 bump-versions:
   #! /bin/bash
   set -eo pipefail
