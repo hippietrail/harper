@@ -1,4 +1,4 @@
-let harper = require('harper.js');
+import * as harper from 'harper.js';
 
 async function main() {
 	// We cannot use `WorkerLinter` on Node.js since it relies on web-specific APIs.
