@@ -14,6 +14,7 @@ mod matcher;
 mod multiple_sequential_pronouns;
 mod number_suffix_capitalization;
 mod pattern_linter;
+mod plural_conjugate;
 mod proper_noun_capitalization_linters;
 mod repeated_words;
 mod sentence_capitalization;
@@ -63,6 +64,7 @@ pub trait Linter {
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
     fn description(&self) -> &str;
 }
+
 #[cfg(feature = "concurrent")]
 pub trait Linter: Send + Sync {
     fn lint(&mut self, document: &Document) -> Vec<Lint>;

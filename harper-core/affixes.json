@@ -483,7 +483,9 @@
       "replacements": [],
       "adds_metadata": {},
       "gifts_metadata": {
-        "noun": {}
+        "noun": {
+          "is_plural": false
+        }
       }
     },
     "2": {
@@ -554,6 +556,17 @@
       "gifts_metadata": {
         "noun": {
           "is_pronoun": true
+        }
+      }
+    },
+    "9": {
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "noun": {
+          "is_plural": true
         }
       }
     },

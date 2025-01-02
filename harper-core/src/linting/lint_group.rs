@@ -14,6 +14,7 @@ use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::plural_conjugate::PluralConjugate;
 use super::proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
     Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
@@ -173,7 +174,8 @@ create_lint_group_config!(
     MicrosoftNames => true,
     AppleNames => true,
     AzureNames => true,
-    CompoundWords => true
+    CompoundWords => true,
+    PluralConjugate => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
