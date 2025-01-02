@@ -18,6 +18,6 @@ Today, it serves as the foundation for our [Obsidian plugin](/docs/integrations/
 `harper.js` is an ECMAScript module designed to be easy to import into any project.
 On the inside, it uses a copy of Harper's core algorithm compiled to [WebAssembly](https://webassembly.org/).
 
-It can be imported [natively in a browser](./CDN) or through [npm](https://www.npmjs.com/package/harper.js).
+It can be imported [natively in a browser](./CDN) or through [npm](https://www.npmjs.com/package/harper.js) and [consumed in Node.js](./node).
 
 @install-pkg(harper.js)

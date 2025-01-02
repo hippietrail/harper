@@ -20,7 +20,7 @@ In this vein, Harper serves the role of a [Linter](<https://en.wikipedia.org/wik
 ## `harper-core`
 
 `harper-core` is where all the magic happens.
-It contains the code need to tokenize, parse, analyze and lint English text.
+It contains the code needed to tokenize, parse, analyze and lint English text.
 
 At a high level, there are just a couple types you need to worry about.
 
@@ -47,3 +47,5 @@ You can read more about it [here](../integrations/language-server).
 
 `harper.js` is a JavaScript/TypeScript module that enables developers to use Harper on any platform that supports JavaScript and WebAssembly.
 Most of the JavaScript code in `harper.js` exists to load and manage the underlying WebAssembly module (otherwise known as `harper-wasm`).
+
+[There are more details about it in the documentation.](../harperjs/introduction)

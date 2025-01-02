@@ -2,6 +2,7 @@ mod an_a;
 mod avoid_curses;
 mod boring_words;
 mod capitalize_personal_pronouns;
+mod compound_words;
 mod correct_number_suffix;
 mod dot_initialisms;
 mod ellipsis_length;
@@ -13,6 +14,7 @@ mod matcher;
 mod multiple_sequential_pronouns;
 mod number_suffix_capitalization;
 mod pattern_linter;
+mod proper_noun_capitalization_linters;
 mod repeated_words;
 mod sentence_capitalization;
 mod spaces;
@@ -39,6 +41,10 @@ pub use matcher::Matcher;
 pub use multiple_sequential_pronouns::MultipleSequentialPronouns;
 pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use pattern_linter::PatternLinter;
+pub use proper_noun_capitalization_linters::{
+    AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
+    Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
+};
 pub use repeated_words::RepeatedWords;
 pub use sentence_capitalization::SentenceCapitalization;
 pub use spaces::Spaces;

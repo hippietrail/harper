@@ -130,6 +130,10 @@ impl TokenKind {
         matches!(self, TokenKind::Punctuation(Punctuation::Ellipsis))
     }
 
+    pub fn is_hyphen(&self) -> bool {
+        matches!(self, TokenKind::Punctuation(Punctuation::Hyphen))
+    }
+
     pub fn is_adjective(&self) -> bool {
         matches!(
             self,

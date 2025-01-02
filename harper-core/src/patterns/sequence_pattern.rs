@@ -27,6 +27,18 @@ macro_rules! gen_then_from_is {
                     tok.kind.[< is_$quality >]()
                 }))
             }
+
+            pub fn [< then_anything_but_$quality >] (mut self) -> Self{
+                self.token_patterns.push(Box::new(|tok: &Token, _source: &[char]| {
+                    if tok.kind.[< is_$quality >](){
+                        false
+                    }else{
+                        true
+                    }
+                }));
+
+                self
+            }
         }
     };
 }
@@ -43,6 +55,7 @@ impl SequencePattern {
     gen_then_from_is!(case_separator);
     gen_then_from_is!(adverb);
     gen_then_from_is!(adjective);
+    gen_then_from_is!(hyphen);
 
     pub fn then_exact_word(mut self, word: &'static str) -> Self {
         self.token_patterns
@@ -63,6 +76,30 @@ impl SequencePattern {
                 }
 
                 w_char_count == tok_chars.len()
+            }));
+        self
+    }
+
+    /// Match examples of `word` that have any capitalization.
+    pub fn then_any_capitalization_of(mut self, word: &'static str) -> Self {
+        self.token_patterns
+            .push(Box::new(|tok: &Token, source: &[char]| {
+                if !tok.kind.is_word() {
+                    return false;
+                }
+
+                let tok_chars = tok.span.get_content(source);
+
+                if tok_chars.len() != word.chars().count() {
+                    return false;
+                }
+
+                let partial_match = tok_chars
+                    .iter()
+                    .zip(word.chars())
+                    .all(|(a, b)| a.to_ascii_lowercase() == b.to_ascii_lowercase());
+
+                partial_match
             }));
         self
     }
