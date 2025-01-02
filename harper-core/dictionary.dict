@@ -44053,7 +44053,7 @@ subbed/4
 subbing/41
 subbranch/1MS
 subcategory/1SM
-subclass/14
+subclass/14G
 subcommittee/1SM
 subcompact/15SM
 subconscious/51PMY
@@ -45628,7 +45628,7 @@ threesome/1SM
 threnody/1SM
 thresh/4MDRSZG
 thresher/1M
-threshold/1SM
+threshold/1SMG
 threw/4
 thrice/
 thrift/14SM
@@ -49762,3 +49762,11 @@ glymph/SM
 Snapchat/SM
 middleware/SM
 OpenSearch/SM
+OpenGL/SM
+WebGPU/SM
+backfill/SM
+downsample/SMG
+uncheck/SM
+upsample/SMG
+organoid/SM
+centric/SM
