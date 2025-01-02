@@ -108,6 +108,10 @@ export default defineConfig({
 								{
 									title: 'Architecture',
 									to: '/docs/contributors/architecture'
+								},
+								{
+									title: 'Dictionary',
+									to: '/docs/contributors/dictionary'
 								}
 							]
 						},

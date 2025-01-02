@@ -64,5 +64,4 @@ The static dictionary is built into the binary and is (as of now) immutable.
 It contains almost all words you could possibly encounter.
 
 I _do_ take pull requests or issues for adding words to the static dictionary.
-It is composed of two files: `harper-core/dictionary.dict` and `harper-core/affixes.json`
-If you just want to add a proper noun, try running `just addnoun <your noun>`.
+[Read the documentation on the matter before you do.](../contributors/dictionary)
