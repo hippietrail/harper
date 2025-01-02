@@ -72,6 +72,18 @@ create_linter_for!(
 );
 
 create_linter_for!(
+    Koreas,
+    SequencePattern::default()
+        .then(Box::new(EitherPattern::new(vec![
+            Box::new(SequencePattern::default().then_any_capitalization_of("South")),
+            Box::new(SequencePattern::default().then_any_capitalization_of("North"))
+        ])))
+        .then_whitespace()
+        .then_any_capitalization_of("Korea"),
+    "When referring to the nations, make sure to treat them as a proper noun."
+);
+
+create_linter_for!(
     ChineseCommunistParty,
     SequencePattern::default()
         .then_any_capitalization_of("Chinese")

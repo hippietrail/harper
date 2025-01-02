@@ -2,6 +2,7 @@ mod an_a;
 mod avoid_curses;
 mod boring_words;
 mod capitalize_personal_pronouns;
+mod compound_words;
 mod correct_number_suffix;
 mod dot_initialisms;
 mod ellipsis_length;
@@ -42,7 +43,7 @@ pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use pattern_linter::PatternLinter;
 pub use proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
-    MetaNames, MicrosoftNames, UnitedOrganizations,
+    Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
 };
 pub use repeated_words::RepeatedWords;
 pub use sentence_capitalization::SentenceCapitalization;
