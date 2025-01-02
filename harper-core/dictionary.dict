@@ -49767,6 +49767,6 @@ WebGPU/SM
 backfill/SM
 downsample/SMG
 uncheck/SM
-unsample/SMG
+upsample/SMG
 organoid/SM
 centric/SM
