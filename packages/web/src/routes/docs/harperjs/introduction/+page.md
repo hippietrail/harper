@@ -25,7 +25,6 @@ It can be imported [natively in a browser](./CDN) or through [npm](https://www.n
 
 ## Sample Usage:
 ```js
-
 let harper = require("harper.js");
 
 async function main() {
