@@ -81,6 +81,10 @@ export default defineConfig({
 									to: '/docs/harperjs/linting'
 								},
 								{
+									title: 'Node.js',
+									to: '/docs/harperjs/node'
+								},
+								{
 									title: 'CDN',
 									to: '/docs/harperjs/CDN'
 								}
