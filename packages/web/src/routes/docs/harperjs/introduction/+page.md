@@ -22,35 +22,35 @@ It can be imported [natively in a browser](./CDN) or through [npm](https://www.n
 
 @install-pkg(harper.js)
 
-
 ## Sample Usage:
+
 ```js
-let harper = require("harper.js");
+let harper = require('harper.js');
 
 async function main() {
-  // We cannot use `WorkerLinter` on Node.js since it relies on web-specific APIs.
-  let linter = new harper.LocalLinter();
-  linter.setup();
+	// We cannot use `WorkerLinter` on Node.js since it relies on web-specific APIs.
+	let linter = new harper.LocalLinter();
+	linter.setup();
 
-  let lints = await linter.lint("This is a example of how to use `harper.js`.");
+	let lints = await linter.lint('This is a example of how to use `harper.js`.');
 
-  console.log("Here are the results of linting the above text:");
+	console.log('Here are the results of linting the above text:');
 
-  for (let lint of lints) {
-    console.log(" - ", lint.span().start, ":", lint.span().end, lint.message());
+	for (let lint of lints) {
+		console.log(' - ', lint.span().start, ':', lint.span().end, lint.message());
 
-    if (lint.suggestion_count() != 0) {
-      console.log("Suggestions:");
+		if (lint.suggestion_count() != 0) {
+			console.log('Suggestions:');
 
-      for (let sug of lint.suggestions()) {
-        console.log(
-          "\t - ",
-          sug.kind() == 1 ? "Remove" : "Replace with",
-          sug.get_replacement_text(),
-        );
-      }
-    }
-  }
+			for (let sug of lint.suggestions()) {
+				console.log(
+					'\t - ',
+					sug.kind() == 1 ? 'Remove' : 'Replace with',
+					sug.get_replacement_text()
+				);
+			}
+		}
+	}
 }
 
 main();
