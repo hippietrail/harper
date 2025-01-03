@@ -74,7 +74,7 @@ pub trait Linter: Send + Sync {
 #[cfg(test)]
 mod tests {
     use super::Linter;
-    use crate::{remove_overlaps, Document};
+    use crate::Document;
 
     pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
         let test = Document::new_markdown_curated(text);

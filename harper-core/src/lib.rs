@@ -4,6 +4,7 @@
 mod char_ext;
 mod char_string;
 mod document;
+mod fat_token;
 pub mod language_detection;
 mod lexing;
 pub mod linting;
@@ -16,6 +17,7 @@ mod spell;
 mod sync;
 mod title_case;
 mod token;
+mod token_kind;
 mod vec_ext;
 mod word_metadata;
 
@@ -23,6 +25,7 @@ use std::collections::VecDeque;
 
 pub use char_string::{CharString, CharStringExt};
 pub use document::Document;
+pub use fat_token::FatToken;
 use linting::Lint;
 pub use mask::{Mask, Masker};
 pub use punctuation::{Punctuation, Quote};
@@ -30,7 +33,8 @@ pub use span::Span;
 pub use spell::{Dictionary, FstDictionary, FullDictionary, MergedDictionary};
 pub use sync::Lrc;
 pub use title_case::{make_title_case, make_title_case_str};
-pub use token::{FatToken, Token, TokenKind, TokenStringExt};
+pub use token::{Token, TokenStringExt};
+pub use token_kind::{NumberSuffix, TokenKind};
 pub use vec_ext::VecExt;
 pub use word_metadata::{AdverbData, ConjunctionData, NounData, Tense, VerbData, WordMetadata};
 

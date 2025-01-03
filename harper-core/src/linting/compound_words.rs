@@ -84,9 +84,7 @@ impl Linter for CompoundWords {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::{
-        assert_lint_count, assert_suggestion_count, assert_suggestion_result,
-    };
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_count};
 
     use super::CompoundWords;
 
