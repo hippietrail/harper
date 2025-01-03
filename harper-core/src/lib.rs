@@ -21,7 +21,7 @@ mod token_kind;
 mod vec_ext;
 mod word_metadata;
 
-use std::collections::VecDeque;
+use std::{collections::VecDeque, iter::once};
 
 pub use char_string::{CharString, CharStringExt};
 pub use document::Document;
@@ -47,22 +47,17 @@ pub fn remove_overlaps(lints: &mut Vec<Lint>) {
         return;
     }
 
-    lints.sort_by_key(|l| l.span.start);
-
     let mut remove_indices = VecDeque::new();
+    lints.sort_by_key(|l| (l.span.start, !0 - l.span.end));
 
-    for i in 0..lints.len() - 1 {
-        let cur = &lints[i];
-        let next = &lints[i + 1];
+    let mut cur = 0;
 
-        if cur.span.overlaps_with(next.span) {
-            // Remember, lower priority means higher importance.
-            if next.priority < cur.priority {
-                remove_indices.push_back(i);
-            } else {
-                remove_indices.push_back(i + 1);
-            }
+    for (i, lint) in lints.iter().enumerate() {
+        if lint.span.start < cur {
+            remove_indices.push_back(i);
+            continue;
         }
+        cur = lint.span.end;
     }
 
     lints.remove_indices(remove_indices);
