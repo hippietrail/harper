@@ -114,3 +114,22 @@ lspconfig.harper_ls.setup {
   },
 }
 ```
+
+If you work with a lot of documents that are a mixture of English and another language, Harper can attempt to automatically detect which is which and only lint the English text.
+To enable it, just set the `isolateEnglish` key.
+
+:::note
+This feature is incredibly new and unstable.
+Do not expect it to work perfectly.
+If improvements are important to you, feel free to [open an issue](https://github.com/Automattic/harper/issues/new?template=Blank+issue) to let us know.
+:::
+
+```lua
+lspconfig.harper_ls.setup {
+  settings = {
+    ["harper-ls"] = {
+        isolateEnglish = false
+    }
+  },
+}
+```
