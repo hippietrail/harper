@@ -21,7 +21,7 @@ mod token_kind;
 mod vec_ext;
 mod word_metadata;
 
-use std::{collections::VecDeque, iter::once};
+use std::collections::VecDeque;
 
 pub use char_string::{CharString, CharStringExt};
 pub use document::Document;
