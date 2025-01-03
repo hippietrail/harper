@@ -74,13 +74,24 @@ pub trait Linter: Send + Sync {
 #[cfg(test)]
 mod tests {
     use super::Linter;
-    use crate::Document;
+    use crate::{remove_overlaps, Document};
 
     pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
         let test = Document::new_markdown_curated(text);
         let lints = linter.lint(&test);
         dbg!(&lints);
         assert_eq!(lints.len(), count);
+    }
+
+    /// Assert the total number of suggestions produced by a [`Linter`], spread across all produced
+    /// [`Lint`]s.
+    pub fn assert_suggestion_count(text: &str, mut linter: impl Linter, count: usize) {
+        let test = Document::new_markdown_curated(text);
+        let lints = linter.lint(&test);
+        assert_eq!(
+            lints.iter().map(|l| l.suggestions.len()).sum::<usize>(),
+            count
+        );
     }
 
     /// Runs a provided linter on text, applies the first suggestion from each
