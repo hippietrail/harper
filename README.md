@@ -4,9 +4,10 @@
 </div>
 
 [![Harper Binaries](https://github.com/automattic/harper/actions/workflows/build_harper_binaries.yml/badge.svg)](https://github.com/automattic/harper/actions/workflows/build_harper_binaries.yml)
-[![Web](https://github.com/automattic/harper/actions/workflows/build_web.yml/badge.svg)](https://github.com/automattic/harper/actions/workflows/build_web.yml)
+[![Website](https://github.com/automattic/harper/actions/workflows/build_web.yml/badge.svg)](https://github.com/automattic/harper/actions/workflows/build_web.yml)
 [![Precommit](https://github.com/automattic/harper/actions/workflows/precommit.yml/badge.svg)](https://github.com/automattic/harper/actions/workflows/precommit.yml)
 [![Crates.io](https://img.shields.io/crates/v/harper-ls)](https://crates.io/crates/harper-ls)
+![NPM Version](https://img.shields.io/npm/v/harper.js)
 
 Harper is an English grammar checker designed to be _just right._
 I created it after years of dealing with the shortcomings of the competition.
@@ -31,25 +32,6 @@ Harper is even small enough to load via [WebAssembly.](https://writewithharper.c
 
 Harper currently only supports American English, but the core is extensible to support other languages, so we welcome contributions that allow for other language support.
 
-## Installation
-
-If you want to use Harper on your machine, you have three choices.
-
-### `harper-ls`
-
-`harper-ls` provides an integration that works for most code editors.
-
-[Read more here.](https://writewithharper.com/docs/integrations/language-server)
-
-### Harper Obsidian Integration
-
-If you use [Obsidian](https://obsidian.md/), you may install the [Harper Obsidian Plugin](https://github.com/automattic/harper-obsidian-plugin) by searching for "Harper" in the community plugin store.
-
-### Zed Plugin
-
-If you use [Zed](https://zed.dev/), [Stef16Robbe](https://github.com/Stef16Robbe) has developed a fantastic [plugin](https://github.com/Stef16Robbe/harper_zed) that works out-of-the box.
-No setup required.
-
 ## Performance Issues
 
 We consider long lint times bugs.
@@ -58,15 +40,16 @@ If you encounter any significant performance issues, please create an issue on t
 If you find a fix to any performance issue, we are open the contribution.
 Just make sure to read [our contribution guidelines first.](https://github.com/automattic/harper/blob/master/CONTRIBUTING.md)
 
-## FAQs
+## Links
 
-### Where did the name Harper come from?
-
-See [this blog post](https://elijahpotter.dev/articles/naming_harper).
+- [Frequently Asked Questions](https://writewithharper.com/docs/faq)
+- [`harper-ls` Documentation](https://writewithharper.com/docs/integrations/language-server)
+- [Neovim Support](https://writewithharper.com/docs/integrations/neovim)
+- [`harper.js` Documentation](https://writewithharper.com/docs/integrations/neovim)
 
 ## Huge Thanks
 
-This project would not be possible without the hard work from those who [contribute](/CONTRIBUTING.md).
+This project would not be possible without the hard work from those who [contribute](https://writewithharper.com/docs/contributors/introduction).
 
 <a href="https://github.com/automattic/harper/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=automattic/harper" />

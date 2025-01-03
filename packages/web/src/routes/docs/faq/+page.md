@@ -20,3 +20,7 @@ We are entirely open to PRs that add support.
 
 If you just want to be able to run grammar checking on your code's comments, it's actually quite straightforward.
 You can use [this PR as a model for what to do](https://github.com/Automattic/harper/pull/332).
+
+### Where Did the Name Harper Come From?
+
+See [this blog post](https://elijahpotter.dev/articles/naming_harper).
