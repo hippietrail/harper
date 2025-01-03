@@ -25,20 +25,20 @@ pub mod tests {
 
     pub fn example_domain_parts() -> impl Iterator<Item = Vec<char>> {
         [
-            r#"example.com"#,
-            r#"example.com"#,
-            r#"example.com"#,
-            r#"and.subdomains.example.com"#,
-            r#"example.com"#,
-            r#"example.com"#,
-            r#"example"#,
-            r#"s.example"#,
-            r#"example.org"#,
-            r#"example.org"#,
-            r#"example.org"#,
-            r#"strange.example.com"#,
-            r#"example.org"#,
-            r#"example.org"#,
+            r"example.com",
+            r"example.com",
+            r"example.com",
+            r"and.subdomains.example.com",
+            r"example.com",
+            r"example.com",
+            r"example",
+            r"s.example",
+            r"example.org",
+            r"example.org",
+            r"example.org",
+            r"strange.example.com",
+            r"example.org",
+            r"example.org",
         ]
         .into_iter()
         .map(|s| s.chars().collect())

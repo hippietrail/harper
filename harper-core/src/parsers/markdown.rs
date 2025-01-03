@@ -264,7 +264,7 @@ mod tests {
 
     #[test]
     fn survives_emojis() {
-        let source = r#"🤷."#;
+        let source = r"🤷.";
 
         Markdown.parse_str(source);
     }
@@ -284,7 +284,7 @@ mod tests {
 
     #[test]
     fn math_becomes_unlintable() {
-        let source = r#"$\Katex$ $\text{is}$ $\text{great}$."#;
+        let source = r"$\Katex$ $\text{is}$ $\text{great}$.";
 
         let tokens = Markdown.parse_str(source);
         assert_eq!(
@@ -302,7 +302,7 @@ mod tests {
 
     #[test]
     fn hidden_wikilink_text() {
-        let source = r#"[[this is hidden|this is not]]"#;
+        let source = r"[[this is hidden|this is not]]";
 
         let tokens = Markdown.parse_str(source);
 
@@ -322,7 +322,7 @@ mod tests {
 
     #[test]
     fn improper_wikilink_text() {
-        let source = r#"this is shown|this is also shown]]"#;
+        let source = r"this is shown|this is also shown]]";
 
         let tokens = Markdown.parse_str(source);
 
@@ -354,7 +354,7 @@ mod tests {
 
     #[test]
     fn normal_wikilink() {
-        let source = r#"[[Wikilink]]"#;
+        let source = r"[[Wikilink]]";
         let tokens = Markdown.parse_str(source);
         let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
 
@@ -365,7 +365,7 @@ mod tests {
 
     #[test]
     fn html_is_unlintable() {
-        let source = r#"The range of inputs from <ctrl-g> to ctrl-z"#;
+        let source = r"The range of inputs from <ctrl-g> to ctrl-z";
         let tokens = Markdown.parse_str(source);
         assert_eq!(tokens.iter_unlintables().count(), 1);
     }

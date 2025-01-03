@@ -130,7 +130,7 @@ check-rust:
   set -eo pipefail
 
   cargo fmt -- --check
-  cargo clippy -- -Dwarnings -D clippy::dbg_macro
+  cargo clippy -- -Dwarnings -D clippy::dbg_macro -D clippy::needless_raw_string_hashes
 
 # Perform format and type checking.
 check:
