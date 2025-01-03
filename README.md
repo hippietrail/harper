@@ -45,7 +45,7 @@ Just make sure to read [our contribution guidelines first.](https://github.com/a
 - [Frequently Asked Questions](https://writewithharper.com/docs/faq)
 - [`harper-ls` Documentation](https://writewithharper.com/docs/integrations/language-server)
 - [Neovim Support](https://writewithharper.com/docs/integrations/neovim)
-- [`harper.js` Documentation](https://writewithharper.com/docs/integrations/neovim)
+- [`harper.js` Documentation](https://writewithharper.com/docs/harperjs/introduction)
 
 ## Huge Thanks
 
