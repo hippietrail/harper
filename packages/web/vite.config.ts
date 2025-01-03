@@ -116,6 +116,10 @@ export default defineConfig({
 							]
 						},
 						{
+							title: 'FAQ',
+							to: '/docs/faq'
+						},
+						{
 							title: 'Rules',
 							to: '/docs/rules'
 						}
