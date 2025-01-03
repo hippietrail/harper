@@ -206,7 +206,7 @@ impl Backend {
                 }
             } else if language_id == "markdown" {
                 Some(Box::new(Markdown))
-            } else if language_id == "git-commit" {
+            } else if language_id == "git-commit" || language_id == "gitcommit" {
                 Some(Box::new(GitCommitParser))
             } else if language_id == "html" {
                 Some(Box::new(HtmlParser::default()))
