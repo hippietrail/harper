@@ -45,6 +45,14 @@ macro_rules! create_lint_group_config {
                 pub spell_check: &'a str
             }
 
+
+            impl<'a>  LintGroupDescriptions<'a> {
+                /// Create a [`Vec`] containing the key-value pairs of this struct.
+                pub fn to_vec_pairs(self) -> Vec<(&'static str, &'a str)>{
+                    vec![$((stringify!([<$linter:snake>]), self.[<$linter:snake>],),)* ("spell_check", self.spell_check)]
+                }
+            }
+
             #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
             pub struct LintGroupConfig {
                 $(
@@ -175,7 +183,7 @@ create_lint_group_config!(
     AppleNames => true,
     AzureNames => true,
     CompoundWords => true,
-    PluralConjugate => true
+    PluralConjugate => false
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
@@ -186,13 +194,30 @@ impl<T: Dictionary + Default> Default for LintGroup<T> {
 
 #[cfg(test)]
 mod tests {
-    use crate::FullDictionary;
+    use crate::{linting::Linter, Document, FstDictionary, FullDictionary};
 
-    use super::LintGroup;
+    use super::{LintGroup, LintGroupConfig};
 
     #[test]
     fn can_get_all_descriptions() {
         let group = LintGroup::<FullDictionary>::default();
         group.all_descriptions();
+    }
+
+    #[test]
+    fn lint_descriptions_are_clean() {
+        let mut group = LintGroup::new(LintGroupConfig::default(), FstDictionary::curated());
+        let pairs: Vec<_> = group
+            .all_descriptions()
+            .to_vec_pairs()
+            .into_iter()
+            .map(|(a, b)| (a.to_string(), b.to_string()))
+            .collect();
+
+        for (key, value) in pairs {
+            let doc = Document::new_markdown_curated(&value);
+            eprintln!("{key}: {value}");
+            assert!(group.lint(&doc).is_empty())
+        }
     }
 }

@@ -36,7 +36,7 @@ impl Linter for LinkingVerbs {
     }
 
     fn description(&self) -> &'static str {
-        "Linking verbs connect nouns to other ideas. Make sure you do not accidentaly link words that aren't nouns."
+        "Linking verbs connect nouns to other ideas. Make sure you do not accidentally link words that aren't nouns."
     }
 }
 

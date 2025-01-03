@@ -1,3 +1,30 @@
+use crate::TokenKind;
+
+use super::FoundToken;
+
+/// Lex a hostname token.
+pub fn lex_hostname_token(source: &[char]) -> Option<FoundToken> {
+    let len = lex_hostname(source)?;
+
+    // Might be word, just skip it.
+    if len <= 1 {
+        return None;
+    }
+
+    if !source.get(1..len - 1)?.contains(&'.') {
+        return None;
+    }
+
+    if source.get(len - 1) == Some(&'.') {
+        return None;
+    }
+
+    Some(FoundToken {
+        next_index: len,
+        token: TokenKind::Hostname,
+    })
+}
+
 pub fn lex_hostname(source: &[char]) -> Option<usize> {
     let mut passed_chars = 0;
 

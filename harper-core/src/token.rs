@@ -327,6 +327,14 @@ impl TokenKind {
         metadata.is_not_plural_noun()
     }
 
+    pub fn is_common_word(&self) -> bool {
+        let TokenKind::Word(metadata) = self else {
+            return true;
+        };
+
+        metadata.common
+    }
+
     pub fn is_plural_noun(&self) -> bool {
         let TokenKind::Word(metadata) = self else {
             return false;

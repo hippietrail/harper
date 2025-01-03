@@ -51,18 +51,10 @@ impl Linter for CompoundWords {
             merged_word.extend_from_slice(b_chars);
 
             // Check for closed compound words
-            if self.dict.contains_word(&merged_word) {
-                potential_compounds.push(merged_word.clone());
-            }
-
-            // Check for hyphenated compound words
-            merged_word.clear();
-            merged_word.extend_from_slice(a_chars);
-            merged_word.push('-');
-            merged_word.extend_from_slice(b_chars);
-
-            // Check for closed compound words
-            if self.dict.contains_word(&merged_word) {
+            if self.dict.contains_word(&merged_word)
+                && !a.kind.is_common_word()
+                && !b.kind.is_common_word()
+            {
                 potential_compounds.push(merged_word.clone());
             }
 
@@ -135,15 +127,6 @@ mod tests {
     }
 
     #[test]
-    fn makeup() {
-        assert_lint_count(
-            "She spent a lot of time doing her make up this morning.",
-            CompoundWords::default(),
-            1,
-        );
-    }
-
-    #[test]
     fn birthday() {
         assert_lint_count(
             "We're having a big party to celebrate the couple's birthday today.",
@@ -175,7 +158,7 @@ mod tests {
         assert_suggestion_count(
             "Like if you break up words you shouldn't.",
             CompoundWords::default(),
-            2,
+            0,
         );
     }
 }

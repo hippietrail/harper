@@ -2,6 +2,7 @@ mod email_address;
 mod hostname;
 mod url;
 
+use hostname::lex_hostname_token;
 use url::lex_url;
 
 use self::email_address::lex_email_address;
@@ -27,6 +28,7 @@ pub fn lex_token(source: &[char]) -> Option<FoundToken> {
         lex_number,
         lex_url,
         lex_email_address,
+        lex_hostname_token,
         lex_word,
         lex_catch,
     ];
@@ -161,11 +163,25 @@ fn lex_catch(_source: &[char]) -> Option<FoundToken> {
 
 #[cfg(test)]
 mod tests {
+    use super::lex_token;
     use super::lex_word;
+    use super::{FoundToken, TokenKind};
 
     #[test]
     fn lexes_cjk_as_unlintable() {
         let source: Vec<_> = "世".chars().collect();
         assert!(lex_word(&source).is_none());
+    }
+
+    #[test]
+    fn lexes_youtube_as_hostname() {
+        let source: Vec<_> = "YouTube.com".chars().collect();
+        assert!(matches!(
+            lex_token(&source),
+            Some(FoundToken {
+                token: TokenKind::Hostname,
+                ..
+            })
+        ));
     }
 }

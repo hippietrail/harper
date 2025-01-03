@@ -33,7 +33,7 @@ impl Linter for CorrectNumberSuffix {
     }
 
     fn description(&self) -> &'static str {
-        "When making quick edits, it is common for authors to change the value of a number without changing its suffix. This rule looks for these cases, for example: \"2st\"."
+        "When making quick edits, it is common for authors to change the value of a number without changing its suffix. This rule looks for these cases, for example: `2st`."
     }
 }
 
