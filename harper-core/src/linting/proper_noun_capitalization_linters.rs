@@ -63,11 +63,11 @@ create_linter_for!(
     Americas,
     SequencePattern::default()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::default().then_any_capitalization_of("South")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("North"))
+            Box::new(SequencePattern::aco("South")),
+            Box::new(SequencePattern::aco("North"))
         ])))
         .then_whitespace()
-        .then_any_capitalization_of("America"),
+        .t_aco("America"),
     "When referring to the continents, make sure to treat them as a proper noun."
 );
 
@@ -75,40 +75,39 @@ create_linter_for!(
     Koreas,
     SequencePattern::default()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::default().then_any_capitalization_of("South")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("North"))
+            Box::new(SequencePattern::aco("South")),
+            Box::new(SequencePattern::aco("North"))
         ])))
         .then_whitespace()
-        .then_any_capitalization_of("Korea"),
+        .t_aco("Korea"),
     "When referring to the nations, make sure to treat them as a proper noun."
 );
 
 create_linter_for!(
     ChineseCommunistParty,
-    SequencePattern::default()
-        .then_any_capitalization_of("Chinese")
+    SequencePattern::aco("Chinese")
         .then_whitespace()
-        .then_any_capitalization_of("Communist")
+        .t_aco("Communist")
         .then_whitespace()
-        .then_any_capitalization_of("Party"),
+        .t_aco("Party"),
     "When referring to the political party, make sure to treat them as a proper noun."
 );
 
 create_linter_for!(
     UnitedOrganizations,
     SequencePattern::default()
-        .then_any_capitalization_of("United")
+        .t_aco("United")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::default().then_any_capitalization_of("Nations")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("States")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Kingdom")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Airlines")),
+            Box::new(SequencePattern::aco("Nations")),
+            Box::new(SequencePattern::aco("States")),
+            Box::new(SequencePattern::aco("Kingdom")),
+            Box::new(SequencePattern::aco("Airlines")),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Arab")
+                    .t_aco("Arab")
                     .then_whitespace()
-                    .then_any_capitalization_of("Emirates")
+                    .t_aco("Emirates")
             )
         ]))),
     "When referring to national or international organizations, make sure to treat them as a proper noun."
@@ -120,62 +119,58 @@ create_linter_for!(
         Box::new(
             SequencePattern::default()
                 .then(Box::new(EitherPattern::new(vec![
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Presidents'")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Valentines")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Christmas")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Easter")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Flag")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Independence")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Mothers'")),
+                    Box::new(SequencePattern::aco("Presidents'")),
+                    Box::new(SequencePattern::aco("Valentines")),
+                    Box::new(SequencePattern::aco("Christmas")),
+                    Box::new(SequencePattern::aco("Easter")),
+                    Box::new(SequencePattern::aco("Flag")),
+                    Box::new(SequencePattern::aco("Independence")),
+                    Box::new(SequencePattern::aco("Mothers'")),
+                    Box::new(SequencePattern::aco("New").t_aco("Years")),
+                    Box::new(SequencePattern::aco("Fathers'")),
+                    Box::new(SequencePattern::aco("Columbus")),
+                    Box::new(SequencePattern::aco("Thanksgiving")),
+                    Box::new(SequencePattern::aco("Memorial")),
+                    Box::new(SequencePattern::aco("May")),
+                    Box::new(SequencePattern::aco("Halloween")),
+                    Box::new(SequencePattern::aco("Tax")),
+                    Box::new(SequencePattern::aco("Parents")),
+                    Box::new(SequencePattern::aco("Veterans")),
+                    Box::new(SequencePattern::aco("Armistice")),
+                    Box::new(SequencePattern::aco("Groundhog")),
                     Box::new(
                         SequencePattern::default()
-                            .then_any_capitalization_of("New")
-                            .then_any_capitalization_of("Years")
-                    ),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Fathers'")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Columbus")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Thanksgiving")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Memorial")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("May")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Halloween")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Tax")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Parents")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Veterans")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Armistice")),
-                    Box::new(SequencePattern::default().then_any_capitalization_of("Groundhog")),
-                    Box::new(
-                        SequencePattern::default()
-                            .then_any_capitalization_of("National")
+                            .t_aco("National")
                             .then_whitespace()
-                            .then_any_capitalization_of("Freedom")
+                            .t_aco("Freedom")
                     ),
                     Box::new(
                         SequencePattern::default()
-                            .then_any_capitalization_of("All")
+                            .t_aco("All")
                             .then_whitespace()
-                            .then_any_capitalization_of("Saints")
+                            .t_aco("Saints")
                     ),
                     Box::new(
                         SequencePattern::default()
-                            .then_any_capitalization_of("All")
+                            .t_aco("All")
                             .then_whitespace()
-                            .then_any_capitalization_of("Souls")
+                            .t_aco("Souls")
                     )
                 ])))
                 .then_whitespace()
-                .then_any_capitalization_of("Day")
+                .t_aco("Day")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("Black")
+                .t_aco("Black")
                 .then_whitespace()
-                .then_any_capitalization_of("Friday")
+                .t_aco("Friday")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("Cyber")
+                .t_aco("Cyber")
                 .then_whitespace()
-                .then_any_capitalization_of("Monday")
+                .t_aco("Monday")
         )
     ]),
     "When referring to holidays, make sure to treat them as a proper noun."
@@ -184,66 +179,66 @@ create_linter_for!(
 create_linter_for!(
     AmazonNames,
     SequencePattern::default()
-    .then_any_capitalization_of("Amazon")
+    .t_aco("Amazon")
     .then_whitespace()
     .then(Box::new(EitherPattern::new(vec![
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("Shopping")
+                .t_aco("Shopping")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("Web")
+                .t_aco("Web")
                     .then_whitespace()
-                .then_any_capitalization_of("Services")
+                .t_aco("Services")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("Lambda")
+                .t_aco("Lambda")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("RDS")
+                .t_aco("RDS")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("DynamoDB")
+                .t_aco("DynamoDB")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("SageMaker")
+                .t_aco("SageMaker")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("Rekognition")
+                .t_aco("Rekognition")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("CloudFront")
+                .t_aco("CloudFront")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("ECS")
+                .t_aco("ECS")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("EKS")
+                .t_aco("EKS")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("CloudWatch")
+                .t_aco("CloudWatch")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("IAM")
+                .t_aco("IAM")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("Prime")
+                .t_aco("Prime")
         ),
         Box::new(
             SequencePattern::default()
-                .then_any_capitalization_of("Kindle")
+                .t_aco("Kindle")
         )
     ]))),
     "When referring to the various products of Amazon.com, make sure to treat them as a proper noun."
@@ -252,32 +247,32 @@ create_linter_for!(
 create_linter_for!(
     GoogleNames,
     SequencePattern::default()
-        .then_any_capitalization_of("Google")
+        .t_aco("Google")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::default().then_any_capitalization_of("Search")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Cloud")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Maps")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Docs")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Sheets")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Slides")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Drive")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Meet")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Gmail")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Calendar")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Chrome")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("ChromeOS")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Android")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Play")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Bard")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Gemini")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("YouTube")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Photos")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Analytics")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("AdSense")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Pixel")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Nest")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Workspace"))
+            Box::new(SequencePattern::aco("Search")),
+            Box::new(SequencePattern::aco("Cloud")),
+            Box::new(SequencePattern::aco("Maps")),
+            Box::new(SequencePattern::aco("Docs")),
+            Box::new(SequencePattern::aco("Sheets")),
+            Box::new(SequencePattern::aco("Slides")),
+            Box::new(SequencePattern::aco("Drive")),
+            Box::new(SequencePattern::aco("Meet")),
+            Box::new(SequencePattern::aco("Gmail")),
+            Box::new(SequencePattern::aco("Calendar")),
+            Box::new(SequencePattern::aco("Chrome")),
+            Box::new(SequencePattern::aco("ChromeOS")),
+            Box::new(SequencePattern::aco("Android")),
+            Box::new(SequencePattern::aco("Play")),
+            Box::new(SequencePattern::aco("Bard")),
+            Box::new(SequencePattern::aco("Gemini")),
+            Box::new(SequencePattern::aco("YouTube")),
+            Box::new(SequencePattern::aco("Photos")),
+            Box::new(SequencePattern::aco("Analytics")),
+            Box::new(SequencePattern::aco("AdSense")),
+            Box::new(SequencePattern::aco("Pixel")),
+            Box::new(SequencePattern::aco("Nest")),
+            Box::new(SequencePattern::aco("Workspace"))
         ]))),
     "When referring to Google products and services, make sure to treat them as proper nouns."
 );
@@ -285,72 +280,72 @@ create_linter_for!(
 create_linter_for!(
     AzureNames,
     SequencePattern::default()
-        .then_any_capitalization_of("Azure")
+        .t_aco("Azure")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::default().then_any_capitalization_of("DevOps")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Functions")),
+            Box::new(SequencePattern::aco("DevOps")),
+            Box::new(SequencePattern::aco("Functions")),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Cosmos")
+                    .t_aco("Cosmos")
                     .then_whitespace()
-                    .then_any_capitalization_of("DB")
+                    .t_aco("DB")
             ),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("SQL")
+                    .t_aco("SQL")
                     .then_whitespace()
-                    .then_any_capitalization_of("Database")
+                    .t_aco("Database")
             ),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Kubernetes")
+                    .t_aco("Kubernetes")
                     .then_whitespace()
-                    .then_any_capitalization_of("Service")
+                    .t_aco("Service")
             ),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Virtual")
+                    .t_aco("Virtual")
                     .then_whitespace()
-                    .then_any_capitalization_of("Machines")
+                    .t_aco("Machines")
             ),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Monitor")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Storage")),
+            Box::new(SequencePattern::aco("Monitor")),
+            Box::new(SequencePattern::aco("Storage")),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Active")
+                    .t_aco("Active")
                     .then_whitespace()
-                    .then_any_capitalization_of("Directory")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .then_any_capitalization_of("App")
-                    .then_whitespace()
-                    .then_any_capitalization_of("Service")
+                    .t_aco("Directory")
             ),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Key")
+                    .t_aco("App")
                     .then_whitespace()
-                    .then_any_capitalization_of("Vault")
+                    .t_aco("Service")
             ),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Cognitive")
+                    .t_aco("Key")
                     .then_whitespace()
-                    .then_any_capitalization_of("Services")
+                    .t_aco("Vault")
             ),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Service")
+                    .t_aco("Cognitive")
                     .then_whitespace()
-                    .then_any_capitalization_of("Bus")
+                    .t_aco("Services")
             ),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Event")
+                    .t_aco("Service")
                     .then_whitespace()
-                    .then_any_capitalization_of("Hub")
+                    .t_aco("Bus")
+            ),
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("Event")
+                    .then_whitespace()
+                    .t_aco("Hub")
             )
         ]))),
     "When referring to Azure cloud services, make sure to treat them as proper nouns."
@@ -359,28 +354,28 @@ create_linter_for!(
 create_linter_for!(
     MicrosoftNames,
     SequencePattern::default()
-        .then_any_capitalization_of("Microsoft")
+        .t_aco("Microsoft")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::default().then_any_capitalization_of("Windows")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Office")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Teams")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Excel")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("PowerPoint")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Word")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Outlook")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("OneDrive")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("SharePoint")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Xbox")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Surface")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Edge")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Bing")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Dynamics")),
+            Box::new(SequencePattern::aco("Windows")),
+            Box::new(SequencePattern::aco("Office")),
+            Box::new(SequencePattern::aco("Teams")),
+            Box::new(SequencePattern::aco("Excel")),
+            Box::new(SequencePattern::aco("PowerPoint")),
+            Box::new(SequencePattern::aco("Word")),
+            Box::new(SequencePattern::aco("Outlook")),
+            Box::new(SequencePattern::aco("OneDrive")),
+            Box::new(SequencePattern::aco("SharePoint")),
+            Box::new(SequencePattern::aco("Xbox")),
+            Box::new(SequencePattern::aco("Surface")),
+            Box::new(SequencePattern::aco("Edge")),
+            Box::new(SequencePattern::aco("Bing")),
+            Box::new(SequencePattern::aco("Dynamics")),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Visual")
+                    .t_aco("Visual")
                     .then_whitespace()
-                    .then_any_capitalization_of("Studio")
+                    .t_aco("Studio")
             )
         ]))),
     "When referring to Microsoft products and services, make sure to treat them as proper nouns."
@@ -389,63 +384,49 @@ create_linter_for!(
 create_linter_for!(
     AppleNames,
     SequencePattern::default()
-        .then_any_capitalization_of("Apple")
+        .t_aco("Apple")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::default().then_any_capitalization_of("iPhone")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("iPad")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("MacBook")),
+            Box::new(SequencePattern::aco("iPhone")),
+            Box::new(SequencePattern::aco("iPad")),
+            Box::new(SequencePattern::aco("iMac")),
+            Box::new(SequencePattern::aco("MacBook")),
             Box::new(
-                SequencePattern::default()
-                    .then_any_capitalization_of("MacBook")
+                SequencePattern::aco("MacBook")
                     .then_whitespace()
-                    .then_any_capitalization_of("Pro")
+                    .t_aco("Pro")
             ),
             Box::new(
-                SequencePattern::default()
-                    .then_any_capitalization_of("MacBook")
+                SequencePattern::aco("MacBook")
                     .then_whitespace()
-                    .then_any_capitalization_of("Air")
+                    .t_aco("Air")
             ),
-            Box::new(SequencePattern::default().then_any_capitalization_of("iMac")),
+            Box::new(SequencePattern::aco("Mac").then_whitespace().t_aco("Pro")),
+            Box::new(SequencePattern::aco("Mac").then_whitespace().t_aco("Mini")),
+            Box::new(SequencePattern::aco("AirPods")),
             Box::new(
-                SequencePattern::default()
-                    .then_any_capitalization_of("Mac")
+                SequencePattern::aco("AirPods")
                     .then_whitespace()
-                    .then_any_capitalization_of("Pro")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .then_any_capitalization_of("Mac")
-                    .then_whitespace()
-                    .then_any_capitalization_of("Mini")
-            ),
-            Box::new(SequencePattern::default().then_any_capitalization_of("AirPods")),
-            Box::new(
-                SequencePattern::default()
-                    .then_any_capitalization_of("AirPods")
-                    .then_whitespace()
-                    .then_any_capitalization_of("Pro")
+                    .t_aco("Pro")
             ),
             Box::new(
-                SequencePattern::default()
-                    .then_any_capitalization_of("AirPods")
+                SequencePattern::aco("AirPods")
                     .then_whitespace()
-                    .then_any_capitalization_of("Max")
+                    .t_aco("Max")
             ),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Watch")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("TV")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Music")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Arcade")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("iCloud")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Safari")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("HomeKit")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("CarPlay")),
+            Box::new(SequencePattern::aco("Watch")),
+            Box::new(SequencePattern::aco("TV")),
+            Box::new(SequencePattern::aco("Music")),
+            Box::new(SequencePattern::aco("Arcade")),
+            Box::new(SequencePattern::aco("iCloud")),
+            Box::new(SequencePattern::aco("Safari")),
+            Box::new(SequencePattern::aco("HomeKit")),
+            Box::new(SequencePattern::aco("CarPlay")),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Vision")
+                    .t_aco("Vision")
                     .then_whitespace()
-                    .then_any_capitalization_of("Pro")
+                    .t_aco("Pro")
             )
         ]))),
     "When referring to Apple products and services, make sure to treat them as proper nouns."
@@ -453,20 +434,19 @@ create_linter_for!(
 
 create_linter_for!(
     MetaNames,
-    SequencePattern::default()
-        .then_any_capitalization_of("Meta")
+    SequencePattern::aco("Meta")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::default().then_any_capitalization_of("Oculus")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Portals")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Quest")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Gaming")),
-            Box::new(SequencePattern::default().then_any_capitalization_of("Horizon")),
+            Box::new(SequencePattern::aco("Oculus")),
+            Box::new(SequencePattern::aco("Portals")),
+            Box::new(SequencePattern::aco("Quest")),
+            Box::new(SequencePattern::aco("Gaming")),
+            Box::new(SequencePattern::aco("Horizon")),
             Box::new(
                 SequencePattern::default()
-                    .then_any_capitalization_of("Reality")
+                    .t_aco("Reality")
                     .then_whitespace()
-                    .then_any_capitalization_of("Labs")
+                    .t_aco("Labs")
             ),
         ]))),
     "When referring to Meta products and services, make sure to treat them as proper nouns."

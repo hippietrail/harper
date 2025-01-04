@@ -29,6 +29,7 @@ impl Linter for CompoundWords {
         let mut lints = Vec::new();
 
         let mut merged_word = CharString::new();
+        let mut potential_compounds = Vec::new();
 
         for (a, w, b) in document.tokens().tuple_windows() {
             if !a.kind.is_word() || !w.kind.is_whitespace() || !b.kind.is_word() {
@@ -43,17 +44,31 @@ impl Linter for CompoundWords {
                 continue;
             }
 
+            potential_compounds.clear();
+
             merged_word.clear();
             merged_word.extend_from_slice(a_chars);
             merged_word.extend_from_slice(b_chars);
 
-            if self.dict.contains_word(&merged_word) {
+            // Check for closed compound words
+            if self.dict.contains_word(&merged_word)
+                && !a.kind.is_common_word()
+                && !b.kind.is_common_word()
+            {
+                potential_compounds.push(merged_word.clone());
+            }
+
+            if !potential_compounds.is_empty() {
                 lints.push(Lint {
                     span: Span::new(a.span.start, b.span.end),
                     lint_kind: LintKind::Spelling,
-                    suggestions: vec![Suggestion::ReplaceWith(merged_word.to_vec())],
-                    message: "These two words are often combined to form a closed compound word."
-                        .to_owned(),
+                    suggestions: potential_compounds
+                        .drain(..)
+                        .map(|v| Suggestion::ReplaceWith(v.to_vec()))
+                        .collect(),
+                    message:
+                        "These two words are often combined to form a hyphenated compound word."
+                            .to_owned(),
                     priority: 63,
                 });
             }
@@ -69,7 +84,7 @@ impl Linter for CompoundWords {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::assert_lint_count;
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_count};
 
     use super::CompoundWords;
 
@@ -110,15 +125,6 @@ mod tests {
     }
 
     #[test]
-    fn makeup() {
-        assert_lint_count(
-            "She spent a lot of time doing her make up this morning.",
-            CompoundWords::default(),
-            1,
-        );
-    }
-
-    #[test]
     fn birthday() {
         assert_lint_count(
             "We're having a big party to celebrate the couple's birthday today.",
@@ -142,6 +148,15 @@ mod tests {
             "Make sure to compile with debug ass ertions disabled.",
             CompoundWords::default(),
             1,
+        );
+    }
+
+    #[test]
+    fn break_up() {
+        assert_suggestion_count(
+            "Like if you break up words you shouldn't.",
+            CompoundWords::default(),
+            0,
         );
     }
 }

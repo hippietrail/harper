@@ -53,7 +53,7 @@ impl Backend {
     fn file_dict_name(url: &Url) -> anyhow::Result<PathBuf> {
         let mut rewritten = String::new();
 
-        // We assume all URLs are local files and have a base
+        // We assume all URLs are local files and have a base.
         for seg in url
             .to_file_path()
             .map_err(|_| anyhow!("Unable to convert URL to file path."))?
@@ -215,7 +215,7 @@ impl Backend {
                 }
             } else if language_id == "markdown" {
                 Some(Box::new(Markdown))
-            } else if language_id == "git-commit" {
+            } else if language_id == "git-commit" || language_id == "gitcommit" {
                 Some(Box::new(GitCommitParser))
             } else if language_id == "html" {
                 Some(Box::new(HtmlParser::default()))
@@ -405,9 +405,13 @@ impl LanguageServer for Backend {
             return;
         };
 
-        self.update_document(&params.text_document.uri, &last.text, None)
+        if let Err(err) = self
+            .update_document(&params.text_document.uri, &last.text, None)
             .await
-            .unwrap();
+        {
+            error!("{err}")
+        }
+
         self.publish_diagnostics(&params.text_document.uri).await;
     }
 

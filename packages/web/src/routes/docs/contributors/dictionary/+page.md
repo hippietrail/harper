@@ -4,9 +4,9 @@ title: Updating the Curated Dictionary
 
 The curated dictionary is the English dictionary Harper uses as reference internally when analyzing or modifying English text.
 It is common, especially with technical language, to come across words that are not in this dictionary.
-If this happens to you, please open a PR to get it in.
+If this happens to you, please open a PR to get them in.
 
-PR [#343](https://github.com/Automattic/harper/pull/343) is a great example of what is described here.
+PR [#343](https://github.com/Automattic/harper/pull/343) is a practical example of the ideas described here.
 
 There are two files you need to worry about.
 [`harper-core/dictionary.dict`](https://github.com/Automattic/harper/blob/master/harper-core/dictionary.dict) and [`harper-core/affixes.json`](https://github.com/Automattic/harper/blob/master/harper-core/affixes.json).

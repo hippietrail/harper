@@ -3,9 +3,9 @@ use std::sync::Arc;
 
 use itertools::Itertools;
 
-use super::{Parser, TokenKind};
+use super::Parser;
 use crate::patterns::{PatternExt, SequencePattern};
-use crate::{Dictionary, Lrc, Span, Token, VecExt};
+use crate::{Dictionary, Lrc, Span, Token, TokenKind, VecExt};
 
 /// A parser that wraps any other parser to collapse token strings that match
 /// the pattern `word_word` or `word-word`.

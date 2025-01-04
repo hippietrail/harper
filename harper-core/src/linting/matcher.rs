@@ -180,7 +180,6 @@ impl Matcher {
             "The","hing" => "The thing",
             "need","helps" => "need help",
             "an","this" => "and this",
-            "break","up" => "break-up",
             "case", "sensitive" => "case-sensitive",
             "Tree", "sitter" => "Tree-sitter",
             "all", "of", "the" => "all the",
