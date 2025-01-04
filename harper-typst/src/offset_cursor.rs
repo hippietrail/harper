@@ -1,6 +1,8 @@
 use typst_syntax::Source;
 
-/// Encapsulation of the translation between byte-based spans and char-based spans
+/// Encapsulation of the translation between byte-based spans and char-based spans. This is used to
+/// avoid recomputing the number of characters between the beginning of the file and the current
+/// byte since `typst_syntax` uses byte spans while we use char spans.
 #[derive(Debug, Clone, Copy)]
 pub struct OffsetCursor<'a> {
     doc: &'a Source,

@@ -12,6 +12,7 @@ use typst_syntax::{
     Source,
 };
 
+/// Directly translate a span ($a) in a Typst source ($doc) to a token.
 macro_rules! def_token {
     ($doc:expr, $a:expr, $kind:expr, $offset:ident) => {{
         let range = $doc.range($a.span()).unwrap();
@@ -28,8 +29,9 @@ macro_rules! def_token {
     }};
 }
 
+/// Combine the results of multiple parsing calls.
 macro_rules! merge {
-    ($($inner:expr),*) => {
+    [$($inner:expr),*] => {
         Some(
             [$($inner),*]
                 .into_iter()
@@ -40,24 +42,21 @@ macro_rules! merge {
     };
 }
 
-/// Contains values used in parsing so they don't have to be passed around so much
+/// Contains values used in parsing so they don't have to be passed around so much.
 #[derive(Clone, Copy)]
 pub struct TypstTranslator<'a> {
-    parser: PlainEnglish,
     doc: &'a Source,
 }
 
 impl<'a> TypstTranslator<'a> {
     pub fn new(doc: &'a Source) -> Self {
-        Self {
-            parser: PlainEnglish,
-            doc,
-        }
+        Self { doc }
     }
 
+    /// Use the [`PlainEnglish`] parser to parse plain text from a Typst expression.
     fn parse_english(self, str: impl Into<String>, offset: OffsetCursor) -> Option<Vec<Token>> {
         Some(
-            self.parser
+            PlainEnglish
                 .parse_str(str.into())
                 .into_iter()
                 .map(|mut t| {
@@ -68,7 +67,9 @@ impl<'a> TypstTranslator<'a> {
         )
     }
 
+    /// Parse a pattern, one of the elements of Typst syntax
     fn parse_pattern(self, pat: Pattern, offset: OffsetCursor) -> Option<Vec<Token>> {
+        /// Simplification of [`def_token!`] that bakes-in local variables
         macro_rules! token {
             ($a:expr, $kind:expr) => {
                 def_token!(self.doc, $a, $kind, offset)
@@ -78,27 +79,27 @@ impl<'a> TypstTranslator<'a> {
         match pat {
             Pattern::Normal(expr) => self.parse_expr(expr, offset),
             Pattern::Placeholder(underscore) => token!(underscore, TokenKind::Unlintable),
-            Pattern::Parenthesized(parenthesized) => merge!(
+            Pattern::Parenthesized(parenthesized) => merge![
                 self.parse_expr(parenthesized.expr(), offset),
                 self.parse_pattern(parenthesized.pattern(), offset)
-            ),
+            ],
             Pattern::Destructuring(destructuring) => Some(
                 destructuring
                     .items()
                     .filter_map(|item| match item {
                         DestructuringItem::Pattern(pattern) => self.parse_pattern(pattern, offset),
-                        DestructuringItem::Named(named) => merge!(
+                        DestructuringItem::Named(named) => merge![
                             token!(named.name(), TokenKind::Word(WordMetadata::default())),
                             self.parse_pattern(named.pattern(), offset)
-                        ),
-                        DestructuringItem::Spread(spread) => merge!(
+                        ],
+                        DestructuringItem::Spread(spread) => merge![
                             spread
                                 .sink_ident()
                                 .and_then(|ident| self.parse_ident(ident, offset)),
                             spread
                                 .sink_expr()
                                 .and_then(|expr| self.parse_expr(expr, offset))
-                        ),
+                        ],
                     })
                     .flatten()
                     .collect(),
@@ -106,82 +107,78 @@ impl<'a> TypstTranslator<'a> {
         }
     }
 
+    /// Convenience wrapper of [`Self::parse_expr`] that packages the identifier as an expression
     fn parse_ident(self, ident: Ident, offset: OffsetCursor) -> Option<Vec<Token>> {
         self.parse_expr(Expr::Ident(ident), offset)
     }
 
     /// Do not use for spreads contained in DestructuringItem
     fn parse_spread(self, spread: Spread, offset: OffsetCursor) -> Option<Vec<Token>> {
-        merge!(
+        merge![
             self.parse_expr(spread.expr(), offset),
             spread
                 .sink_ident()
                 .and_then(|ident| self.parse_ident(ident, offset))
-        )
+        ]
     }
 
-    pub fn parse_expr(self, ex: Expr, offset: OffsetCursor) -> Option<Vec<Token>> {
-        let offset = offset.push_to_span(ex.span());
+    pub fn parse_expr(self, expr: Expr, offset: OffsetCursor) -> Option<Vec<Token>> {
+        // Update the offset that will be passed to other functions by moving it to the beginning
+        // of the current expression's span.
+        let offset = offset.push_to_span(expr.span());
 
+        /// Simplification of [`def_token!`] that bakes-in local variables
         macro_rules! token {
             ($a:expr, $kind:expr) => {
                 def_token!(self.doc, $a, $kind, offset)
             };
         }
+
+        /// Quickly recurse without needing to pass in local variables.
+        /// Matches both single and many expressions.
         macro_rules! recurse {
         ($inner:expr) => {
             self.parse_expr($inner, offset)
         };
-        ($($inner:expr),*) => {
-            merge!(
+        ($($inner:expr),+) => {
+            merge![
                 $(recurse!($inner)),*
-            )
+            ]
         };
     }
 
+        // Recurse on each element of an iterator
         let iter_recurse = |exprs: &mut dyn Iterator<Item = Expr>| {
             Some(exprs.filter_map(|e| recurse!(e)).flatten().collect_vec())
         };
-        let parse_dict = |dict: &mut dyn Iterator<Item = DictItem>| {
-            Some(
-                dict.filter_map(|di| match di {
-                    DictItem::Named(named) => {
-                        merge!(
-                            self.parse_ident(named.name(), offset),
-                            recurse!(named.expr())
-                        )
-                    }
-                    DictItem::Keyed(keyed) => recurse!(keyed.key(), keyed.expr()),
-                    DictItem::Spread(spread) => self.parse_spread(spread, offset),
-                })
-                .flatten()
-                .collect_vec(),
-            )
-        };
+
+        // Parse the parameters of a function or closure
         let parse_params = |params: &mut dyn Iterator<Item = Param>| {
             Some(
                 params
                     .filter_map(|p| match p {
                         Param::Pos(pattern) => self.parse_pattern(pattern, offset),
-                        Param::Named(named) => merge!(
+                        Param::Named(named) => merge![
                             self.parse_ident(named.name(), offset),
                             recurse!(named.expr())
-                        ),
+                        ],
                         Param::Spread(spread) => self.parse_spread(spread, offset),
                     })
                     .flatten()
                     .collect_vec(),
             )
         };
+
+        // Parse the arguments passed to a function or closure call
         let parse_args = |params: &mut dyn Iterator<Item = Arg>| {
             Some(
                 params
                     .filter_map(|a| match a {
                         Arg::Pos(expr) => recurse!(expr),
-                        Arg::Named(named) => merge!(
+                        Arg::Named(named) => merge![
                             self.parse_ident(named.name(), offset),
                             recurse!(named.expr())
-                        ),
+                        ],
                         Arg::Spread(spread) => self.parse_spread(spread, offset),
                     })
                     .flatten()
@@ -189,7 +186,12 @@ impl<'a> TypstTranslator<'a> {
             )
         };
 
-        match ex {
+        // Delegate parsing based on the kind of Typst expression.
+        // Not all expression kinds have defined behavior, so the default behavior is
+        // an [`harper_core::TokenKind::Unlintable`] token.
+        //
+        // A full list of variants is available in the [typst_syntax docs](https://docs.rs/typst/latest/typst/syntax/ast/enum.Expr.html)
+        match expr {
             Expr::Text(text) => self.parse_english(text.get(), offset.push_to_span(text.span())),
             Expr::Space(a) => {
                 let mut chars = self
@@ -240,7 +242,7 @@ impl<'a> TypstTranslator<'a> {
                 let string = text.to_untyped().text();
 
                 Some(
-                    self.parser
+                    PlainEnglish
                         .parse_str(&string[1..string.len() - 1])
                         .into_iter()
                         .map(|mut t| {
@@ -265,52 +267,66 @@ impl<'a> TypstTranslator<'a> {
                     .flatten()
                     .collect_vec(),
             ),
-            Expr::Dict(a) => parse_dict(&mut a.items()),
-            Expr::FieldAccess(field_access) => merge!(
+            Expr::Dict(dict) => Some(
+                dict.items()
+                    .filter_map(|di| match di {
+                        DictItem::Named(named) => {
+                            merge![
+                                self.parse_ident(named.name(), offset),
+                                recurse!(named.expr())
+                            ]
+                        }
+                        DictItem::Keyed(keyed) => recurse!(keyed.key(), keyed.expr()),
+                        DictItem::Spread(spread) => self.parse_spread(spread, offset),
+                    })
+                    .flatten()
+                    .collect_vec(),
+            ),
+            Expr::FieldAccess(field_access) => merge![
                 recurse!(field_access.target()),
                 token!(
                     field_access.field(),
                     TokenKind::Word(WordMetadata::default())
                 )
-            ),
-            Expr::Let(let_binding) => merge!(
+            ],
+            Expr::Let(let_binding) => merge![
                 match let_binding.kind() {
                     LetBindingKind::Normal(pattern) => self.parse_pattern(pattern, offset),
                     LetBindingKind::Closure(ident) => self.parse_ident(ident, offset),
                 },
                 let_binding.init().and_then(|e| recurse!(e))
-            ),
+            ],
             Expr::DestructAssign(destruct_assignment) => {
                 recurse!(destruct_assignment.value())
             }
-            Expr::Set(set_rule) => merge!(
+            Expr::Set(set_rule) => merge![
                 recurse!(set_rule.target()),
                 set_rule.condition().and_then(|expr| recurse!(expr)),
                 parse_args(&mut set_rule.args().items())
-            ),
-            Expr::Show(show_rule) => merge!(
+            ],
+            Expr::Show(show_rule) => merge![
                 recurse!(show_rule.transform()),
                 show_rule.selector().and_then(|expr| recurse!(expr))
-            ),
+            ],
             Expr::Contextual(contextual) => recurse!(contextual.body()),
-            Expr::Conditional(conditional) => merge!(
+            Expr::Conditional(conditional) => merge![
                 recurse!(conditional.condition(), conditional.if_body()),
                 conditional.else_body().and_then(|expr| recurse!(expr))
-            ),
+            ],
             Expr::While(while_loop) => recurse!(while_loop.condition(), while_loop.body()),
             Expr::For(for_loop) => recurse!(for_loop.iterable(), for_loop.body()),
             Expr::Code(code) => iter_recurse(&mut code.body().exprs()),
-            Expr::Closure(closure) => merge!(
+            Expr::Closure(closure) => merge![
                 closure
                     .name()
                     .and_then(|ident| self.parse_ident(ident, offset)),
                 parse_params(&mut closure.params().children()),
                 recurse!(closure.body())
-            ),
-            Expr::FuncCall(func) => merge!(
+            ],
+            Expr::FuncCall(func) => merge![
                 token!(func.callee(), TokenKind::Unlintable),
                 parse_args(&mut func.args().items())
-            ),
+            ],
             a => token!(a, TokenKind::Unlintable),
         }
     }

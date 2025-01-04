@@ -28,18 +28,21 @@ thread_local! {
 impl Parser for Typst {
     fn parse(&self, source: &[char]) -> Vec<Token> {
         let source_str: String = source.iter().collect();
+
+        // Transform the source into an AST through the `typst_syntax` crate
         let typst_document = Source::detached(source_str);
         let typst_tree = Markup::from_untyped(typst_document.root())
             .expect("Unable to create typst document from parsed tree!");
-        let parse_helper = TypstTranslator::new(&typst_document);
 
+        // Recurse through AST to create tokens
+        let parse_helper = TypstTranslator::new(&typst_document);
         let mut tokens = typst_tree
             .exprs()
             .filter_map(|ex| parse_helper.parse_expr(ex, OffsetCursor::new(&typst_document)))
             .flatten()
             .collect_vec();
 
-        // Consolidate conjunctions
+        // Consolidate conjunctions into single tokens
         let mut to_remove = std::collections::VecDeque::default();
         for tok_span in WORD_APOSTROPHE_WORD
             .with(|v| v.clone())
@@ -47,30 +50,39 @@ impl Parser for Typst {
         {
             let start_tok = &tokens[tok_span.start];
             let end_tok = &tokens[tok_span.end - 1];
+
+            // New span including all tokens between `start_tok` and `end_tok` (inclusive) this is
+            // used to replace all the tokens with the single consolidated token
             let char_span = harper_core::Span::new(start_tok.span.start, end_tok.span.end);
 
             if let TokenKind::Word(metadata) = start_tok.kind {
-                tokens[tok_span.start].kind =
-                    TokenKind::Word(if end_tok.span.get_content(source) == ['s'] {
-                        WordMetadata {
-                            noun: Some(NounData {
-                                is_possessive: Some(true),
-                                ..metadata.noun.unwrap_or_default()
-                            }),
-                            conjunction: None,
-                            ..metadata
-                        }
-                    } else {
-                        WordMetadata {
-                            noun: metadata.noun.map(|noun| NounData {
-                                is_possessive: Some(false),
-                                ..noun
-                            }),
-                            conjunction: Some(ConjunctionData {}),
-                            ..metadata
-                        }
-                    });
+                // Mark as plural or conjunction depending on if the portion following the
+                // apostrophe is an `s`
+                let new_metadata = if end_tok.span.get_content(source) == ['s'] {
+                    WordMetadata {
+                        noun: Some(NounData {
+                            is_possessive: Some(true),
+                            ..metadata.noun.unwrap_or_default()
+                        }),
+                        conjunction: None,
+                        ..metadata
+                    }
+                } else {
+                    WordMetadata {
+                        // Mark as non-possessive if a noun
+                        noun: metadata.noun.map(|noun| NounData {
+                            is_possessive: Some(false),
+                            ..noun
+                        }),
+                        conjunction: Some(ConjunctionData {}),
+                        ..metadata
+                    }
+                };
 
+                tokens[tok_span.start].kind = TokenKind::Word(new_metadata);
+
+                // Consolidate tokens by updating the span of the first token to include all
+                // characters in all the matched spans and marking the other tokens for deletion.
                 tokens[tok_span.start].span = char_span;
                 to_remove.extend(tok_span.start + 1..tok_span.end);
             } else {
