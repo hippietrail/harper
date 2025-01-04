@@ -8,7 +8,7 @@ use clap::Parser;
 use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
 use harper_core::parsers::Markdown;
-use harper_core::{remove_overlaps, Dictionary, Document, FstDictionary};
+use harper_core::{remove_overlaps, Dictionary, Document, FstDictionary, TokenKind};
 use harper_literate_haskell::LiterateHaskellParser;
 
 #[derive(Debug, Parser)]
@@ -31,8 +31,13 @@ enum Args {
     Spans {
         /// The file you wish to display the spans.
         file: PathBuf,
+        /// Include newlines in the output
+        #[arg(short, long)]
+        include_newlines: bool,
     },
-    /// Emit decompressed, line-separated list of words in Harper's dictionary.
+    /// Get the metadata associated with a particular word.
+    Metadata { word: String },
+    /// Emit a decompressed, line-separated list of the words in Harper's dictionary.
     Words,
 }
 
@@ -90,11 +95,15 @@ fn main() -> anyhow::Result<()> {
 
             Ok(())
         }
-        Args::Spans { file } => {
+        Args::Spans {
+            file,
+            include_newlines,
+        } => {
             let (doc, source) = load_file(&file)?;
 
             let primary_color = Color::Blue;
             let secondary_color = Color::Magenta;
+            let unlintable_color = Color::Red;
             let filename = file
                 .file_name()
                 .map(|s| s.to_string_lossy().into())
@@ -103,11 +112,19 @@ fn main() -> anyhow::Result<()> {
             let mut report_builder =
                 Report::build(ReportKind::Custom("Spans", primary_color), &filename, 0);
             let mut color = primary_color;
-            for token in doc.tokens() {
+
+            for token in doc.tokens().filter(|t| {
+                include_newlines
+                    || !matches!(t.kind, TokenKind::Newline(_) | TokenKind::ParagraphBreak)
+            }) {
                 report_builder = report_builder.with_label(
                     Label::new((&filename, token.span.into()))
                         .with_message(format!("[{}, {})", token.span.start, token.span.end))
-                        .with_color(color),
+                        .with_color(if matches!(token.kind, TokenKind::Unlintable) {
+                            unlintable_color
+                        } else {
+                            color
+                        }),
                 );
 
                 // Alternate colors so spans are clear
@@ -134,6 +151,15 @@ fn main() -> anyhow::Result<()> {
 
                 println!("{}", word_str);
             }
+
+            Ok(())
+        }
+        Args::Metadata { word } => {
+            let dict = FstDictionary::curated();
+            let metadata = dict.get_word_metadata_str(&word);
+            let json = serde_json::to_string_pretty(&metadata).unwrap();
+
+            println!("{json}");
 
             Ok(())
         }

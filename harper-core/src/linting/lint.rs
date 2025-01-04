@@ -36,6 +36,7 @@ pub enum LintKind {
     Repetition,
     Enhancement,
     Readability,
+    WordChoice,
     #[default]
     Miscellaneous,
 }
@@ -50,6 +51,7 @@ impl Display for LintKind {
             LintKind::Readability => "Readability",
             LintKind::Miscellaneous => "Miscellaneous",
             LintKind::Enhancement => "Enhancement",
+            LintKind::WordChoice => "Word Choice",
         };
 
         write!(f, "{}", s)

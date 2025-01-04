@@ -2,6 +2,7 @@ mod an_a;
 mod avoid_curses;
 mod boring_words;
 mod capitalize_personal_pronouns;
+mod compound_words;
 mod correct_number_suffix;
 mod dot_initialisms;
 mod ellipsis_length;
@@ -13,6 +14,7 @@ mod matcher;
 mod multiple_sequential_pronouns;
 mod number_suffix_capitalization;
 mod pattern_linter;
+mod plural_conjugate;
 mod proper_noun_capitalization_linters;
 mod repeated_words;
 mod sentence_capitalization;
@@ -42,7 +44,7 @@ pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use pattern_linter::PatternLinter;
 pub use proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
-    MetaNames, MicrosoftNames, UnitedOrganizations,
+    Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
 };
 pub use repeated_words::RepeatedWords;
 pub use sentence_capitalization::SentenceCapitalization;
@@ -62,6 +64,7 @@ pub trait Linter {
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
     fn description(&self) -> &str;
 }
+
 #[cfg(feature = "concurrent")]
 pub trait Linter: Send + Sync {
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
@@ -78,6 +81,17 @@ mod tests {
         let lints = linter.lint(&test);
         dbg!(&lints);
         assert_eq!(lints.len(), count);
+    }
+
+    /// Assert the total number of suggestions produced by a [`Linter`], spread across all produced
+    /// [`Lint`]s.
+    pub fn assert_suggestion_count(text: &str, mut linter: impl Linter, count: usize) {
+        let test = Document::new_markdown_curated(text);
+        let lints = linter.lint(&test);
+        assert_eq!(
+            lints.iter().map(|l| l.suggestions.len()).sum::<usize>(),
+            count
+        );
     }
 
     /// Runs a provided linter on text, applies the first suggestion from each

@@ -2,15 +2,15 @@
 title: Obsidian
 ---
 
+![A screenshot of Obsidian with Harper installed](/images/obsidian_screenshot.webp)
+
 [Obsidian](https://obsidian.md/) is a popular Markdown editor and [Zettelkasten](https://en.wikipedia.org/wiki/Zettelkasten) knowledge vault.
 Its extensive plugin ecosystem makes it an attractive choice for note-taking students and documenting professionals.
 
-While one of main features of Obsidian is privacy, server-side LanguageTool is one of the most popular plugins.
-Harper aims to replace LanguageTool by being faster, better and entirely private.
+While one of main features of Obsidian is privacy, a server-side LanguageTool plugin is one of the most popular on the platform.
+Harper aims to replace LanguageTool by being faster, better, and entirely private.
 
 ## Installation
-
-![A screenshot of Obsidian with Harper installed](/images/obsidian_screenshot.webp)
 
 To add Harper to [Obsidian](/obsidian), just install the community plugin.
 More specifically, go to Obsidian's settings and click "Community Plugins."

@@ -106,7 +106,7 @@ mod tests {
     #[test]
     fn detects_python_fib() {
         assert_not_english(
-            r#"
+            r"
 def fibIter(n):
     if n < 2:
         return n
@@ -115,7 +115,7 @@ def fibIter(n):
     for _ in range(2, n):
         fibPrev, fib = fib, fib + fibPrev
     return fib
-        "#,
+        ",
         );
     }
 
