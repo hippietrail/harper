@@ -4,11 +4,6 @@ mod markdown;
 mod mask;
 mod plain_english;
 
-#[cfg(feature = "typst")]
-mod typst;
-#[cfg(feature = "typst")]
-pub use typst::Typst;
-
 use blanket::blanket;
 pub use collapse_identifiers::CollapseIdentifiers;
 pub use isolate_english::IsolateEnglish;

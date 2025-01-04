@@ -1,10 +1,11 @@
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
-use harper_core::{parsers::Markdown, Document, FstDictionary};
+use harper_core::{Document, FstDictionary};
+use harper_typst::Typst;
 
 /// Creates a unit test checking that the linting of a document in
 /// `tests_sources` produces the expected number of lints.
 macro_rules! create_test {
-    ($filename:ident.$ext:ident, $parser:expr, $correct_expected:expr) => {
+    ($filename:ident.$ext:ident, $correct_expected:expr) => {
         paste::paste! {
             #[test]
             fn [<lints_ $filename _correctly>](){
@@ -16,7 +17,7 @@ macro_rules! create_test {
                  );
 
                  let dict = FstDictionary::curated();
-                 let document = Document::new(&source, $parser, &dict);
+                 let document = Document::new(&source, &Typst, &dict);
 
                  let mut linter = LintGroup::new(
                      LintGroupConfig::default(),
@@ -36,13 +37,5 @@ macro_rules! create_test {
     };
 }
 
-create_test!(whack_bullets.md, &Markdown, 1);
-create_test!(preexisting.md, &Markdown, 0);
-create_test!(issue_109.md, &Markdown, 0);
-create_test!(issue_109_ext.md, &Markdown, 0);
-create_test!(chinese_lorem_ipsum.md, &Markdown, 2);
-create_test!(obsidian_links.md, &Markdown, 2);
-create_test!(issue_267.md, &Markdown, 0);
-create_test!(proper_noun_capitalization.md, &Markdown, 2);
-create_test!(amazon_hostname.md, &Markdown, 0);
-create_test!(issue_159.md, &Markdown, 1);
+create_test!(complex_typst.typ, 0);
+create_test!(typst_spelling_mistakes.typ, 4);

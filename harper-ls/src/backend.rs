@@ -5,9 +5,7 @@ use std::sync::Arc;
 use anyhow::anyhow;
 use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, Linter};
-use harper_core::parsers::{
-    CollapseIdentifiers, IsolateEnglish, Markdown, Parser, PlainEnglish, Typst,
-};
+use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Markdown, Parser, PlainEnglish};
 use harper_core::{
     Dictionary, Document, FstDictionary, FullDictionary, MergedDictionary, Token, TokenKind,
     WordMetadata,
@@ -28,6 +26,9 @@ use tower_lsp::lsp_types::{
 };
 use tower_lsp::{Client, LanguageServer};
 use tracing::{error, info};
+
+#[cfg(feature = "typst")]
+use harper_typst::Typst;
 
 use crate::config::Config;
 use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};

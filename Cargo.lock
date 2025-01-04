@@ -594,6 +594,7 @@ dependencies = [
  "clap",
  "harper-comments",
  "harper-core",
+ "harper-typst",
  "serde_json",
 ]
 
@@ -645,7 +646,6 @@ dependencies = [
  "serde_json",
  "smallvec",
  "thiserror 2.0.9",
- "typst-syntax",
  "unicode-blocks",
  "unicode-width 0.2.0",
 ]
@@ -672,6 +672,7 @@ dependencies = [
  "harper-comments",
  "harper-core",
  "harper-html",
+ "harper-typst",
  "itertools 0.13.0",
  "once_cell",
  "open",
@@ -690,6 +691,17 @@ version = "0.14.0"
 dependencies = [
  "harper-core",
  "tree-sitter",
+]
+
+[[package]]
+name = "harper-typst"
+version = "0.14.0"
+dependencies = [
+ "harper-core",
+ "itertools 0.13.0",
+ "ordered-float",
+ "paste",
+ "typst-syntax",
 ]
 
 [[package]]
