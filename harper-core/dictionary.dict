@@ -28344,7 +28344,7 @@ inimitably/
 iniquitous/5Y
 iniquity/1SM
 initial/514SGMDY
-initialism/1
+initialism/1MS
 initialization/1
 initialize/4DSG
 initialized/4AU
@@ -44053,7 +44053,7 @@ subbed/4
 subbing/41
 subbranch/1MS
 subcategory/1SM
-subclass/14
+subclass/14G
 subcommittee/1SM
 subcompact/15SM
 subconscious/51PMY
@@ -45485,7 +45485,7 @@ therapeutically/
 therapeutics/1M
 therapist/1SM
 therapy/14SM
-there/18~
+there/~
 there's/
 thereabout/S
 thereafter/1
@@ -45519,7 +45519,7 @@ thermostatic/5
 thermostatically/
 thesauri/1
 thesaurus/1MS
-these/8S~
+these/8S~9
 thesis/1M
 thespian/51SM
 theta/1SM
@@ -45544,9 +45544,8 @@ thieve/4DSG
 thievery/1M
 thieving/451M
 thievish/5
-thigh/1M
+thigh/1MS
 thighbone/1MS
-thighs/1
 thimble/14MS
 thimbleful/1SM
 thin/514YSP
@@ -45628,7 +45627,7 @@ threesome/1SM
 threnody/1SM
 thresh/4MDRSZG
 thresher/1M
-threshold/1SM
+threshold/1SMG
 threw/4
 thrice/
 thrift/14SM
@@ -49637,7 +49636,6 @@ scatterplot/14SMG
 Wikilink/MS1
 stacktrace/SM1
 scrollbar/1SM
-break-up/1SM
 sweetgrass/1SM
 PowerShell/SM
 WebSocket/SM
@@ -49762,3 +49760,11 @@ glymph/SM
 Snapchat/SM
 middleware/SM
 OpenSearch/SM
+OpenGL/SM
+WebGPU/SM
+backfill/SM
+downsample/SMG
+uncheck/SM
+upsample/SMG
+organoid/SM
+centric/SM

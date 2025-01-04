@@ -16,7 +16,7 @@ pub use markdown::Markdown;
 pub use mask::Mask;
 pub use plain_english::PlainEnglish;
 
-pub use crate::token::{Token, TokenKind, TokenStringExt};
+use crate::{Token, TokenStringExt};
 
 #[cfg(not(feature = "concurrent"))]
 #[blanket(derive(Box))]

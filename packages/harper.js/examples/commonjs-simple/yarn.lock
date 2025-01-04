@@ -2,13 +2,7 @@
 # yarn lockfile v1
 
 
-harper.js@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/harper.js/-/harper.js-0.13.0.tgz#f9e945c842f4e07e1b7042e3eef00a8040b2e0dd"
-  integrity sha512-XjiQG7kpooKCU2xp46mvNra9PUq5n3z5kXOaWvKjOBRyWIllvuEwvDv40cEUODhWD2ABVTEMea8odXRORfyruw==
-  dependencies:
-    wasm "link:../../../../../../.cache/yarn/v6/npm-harper-js-0.13.0-f9e945c842f4e07e1b7042e3eef00a8040b2e0dd-integrity/harper-wasm/pkg"
-
-"wasm@link:../../../../../../.cache/yarn/v6/npm-harper-js-0.13.0-f9e945c842f4e07e1b7042e3eef00a8040b2e0dd-integrity/harper-wasm/pkg":
-  version "0.0.0"
-  uid ""
+harper.js@^0.14.0:
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/harper.js/-/harper.js-0.14.0.tgz#16d511070d4474dca501d4de1c76f7849ec0accb"
+  integrity sha512-WRzop2PmFK2AZiqNMHHWDFIqFmS7DeoNVhyibyu7T6wuSe24E1Tunolz8ZzMPfcaKuBB2SY+yGbyTOyj+/QD8g==

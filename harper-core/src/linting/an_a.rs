@@ -64,7 +64,7 @@ impl Linter for AnA {
     }
 
     fn description(&self) -> &'static str {
-        "A rule that looks for incorrect indefinite articles. For example, \"this is an mule\" would be flagged as incorrect."
+        "A rule that looks for incorrect indefinite articles. For example, `this is an mule` would be flagged as incorrect."
     }
 }
 

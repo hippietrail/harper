@@ -56,7 +56,7 @@ impl Backend {
     fn file_dict_name(url: &Url) -> Option<PathBuf> {
         let mut rewritten = String::new();
 
-        // We assume all URLs are local files and have a base
+        // We assume all URLs are local files and have a base.
         for seg in url.to_file_path().ok()?.components() {
             if !matches!(seg, Component::RootDir) {
                 rewritten.push_str(&seg.as_os_str().to_string_lossy());
@@ -122,7 +122,7 @@ impl Backend {
         );
 
         let Some(file_dictionary) = file_dictionary else {
-            return Err(anyhow!("Unable to compute dictionary path."));
+            return Err(anyhow!("Unable to compute dictionary path for {url}."));
         };
 
         let mut global_dictionary = global_dictionary?;
@@ -210,7 +210,7 @@ impl Backend {
                 Some(Box::new(Markdown))
             } else if language_id == "typst" {
                 Some(Box::new(Typst))
-            } else if language_id == "git-commit" {
+            } else if language_id == "git-commit" || language_id == "gitcommit" {
                 Some(Box::new(GitCommitParser))
             } else if language_id == "html" {
                 Some(Box::new(HtmlParser::default()))
@@ -403,9 +403,13 @@ impl LanguageServer for Backend {
             return;
         };
 
-        self.update_document(&params.text_document.uri, &last.text, None)
+        if let Err(err) = self
+            .update_document(&params.text_document.uri, &last.text, None)
             .await
-            .unwrap();
+        {
+            error!("{err}")
+        }
+
         self.publish_diagnostics(&params.text_document.uri).await;
     }
 

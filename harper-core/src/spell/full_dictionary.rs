@@ -329,4 +329,12 @@ mod tests {
 
         assert!(is_sorted_by_dist)
     }
+
+    #[test]
+    fn there_is_not_a_pronoun() {
+        let dict = FullDictionary::curated();
+
+        assert!(!dict.get_word_metadata_str("there").is_noun());
+        assert!(!dict.get_word_metadata_str("there").is_pronoun_noun());
+    }
 }
