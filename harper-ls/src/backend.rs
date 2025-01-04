@@ -182,8 +182,10 @@ impl Backend {
             return Ok(());
         };
 
-        let parser: Option<Box<dyn Parser>> =
-            if let Some(ts_parser) = CommentParser::new_from_language_id(language_id) {
+        let ts_parser = CommentParser::new_from_language_id(language_id);
+        let parser: Option<Box<dyn Parser>> = match language_id.as_str() {
+            _ if ts_parser.is_some() => {
+                let ts_parser = ts_parser.unwrap();
                 let source: Vec<char> = text.chars().collect();
                 let source = Arc::new(source);
 
@@ -206,19 +208,15 @@ impl Backend {
                 } else {
                     Some(Box::new(ts_parser))
                 }
-            } else if language_id == "markdown" {
-                Some(Box::new(Markdown))
-            } else if language_id == "typst" {
-                Some(Box::new(Typst))
-            } else if language_id == "git-commit" || language_id == "gitcommit" {
-                Some(Box::new(GitCommitParser))
-            } else if language_id == "html" {
-                Some(Box::new(HtmlParser::default()))
-            } else if language_id == "mail" || language_id == "plaintext" {
-                Some(Box::new(PlainEnglish))
-            } else {
-                None
-            };
+            }
+            "markdown" => Some(Box::new(Markdown)),
+            "git-commit" | "gitcommit" => Some(Box::new(GitCommitParser)),
+            "html" => Some(Box::new(HtmlParser::default())),
+            "mail" | "plaintext" => Some(Box::new(PlainEnglish)),
+            #[cfg(feature = "typst")]
+            "typst" => Some(Box::new(Typst)),
+            _ => None,
+        };
 
         match parser {
             None => {
