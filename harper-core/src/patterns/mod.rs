@@ -1,6 +1,6 @@
 use std::collections::VecDeque;
 
-use crate::{Span, Token, VecExt};
+use crate::{document, Document, Span, Token, VecExt};
 
 mod any_pattern;
 mod consumes_remaining_pattern;
@@ -120,5 +120,15 @@ where
         } else {
             0
         }
+    }
+}
+
+trait DocPattern {
+    fn find_all_matches_in_doc(&self, document: &Document) -> Vec<Span>;
+}
+
+impl<P: PatternExt> DocPattern for P {
+    fn find_all_matches_in_doc(&self, document: &Document) -> Vec<Span> {
+        self.find_all_matches(document.get_tokens(), document.get_source())
     }
 }
