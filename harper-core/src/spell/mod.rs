@@ -1,5 +1,4 @@
 use std::borrow::Cow;
-use std::ops::Index;
 
 use itertools::{Itertools, MinMaxResult};
 
