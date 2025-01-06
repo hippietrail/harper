@@ -2,7 +2,7 @@ use hashbrown::HashSet;
 use paste::paste;
 
 use super::whitespace_pattern::WhitespacePattern;
-use super::{EitherPattern, Pattern, RepeatingPattern};
+use super::{NounPhrase, Pattern, RepeatingPattern};
 use crate::{CharStringExt, Lrc, Token, TokenKind};
 
 /// A pattern that checks that a sequence of other patterns match.
@@ -59,19 +59,8 @@ impl SequencePattern {
     gen_then_from_is!(hyphen);
 
     /// Add a pattern that looks for more complex ideas, like nouns with adjectives attached.
-    pub fn then_idea(mut self) -> Self {
-        self.then(Box::new(EitherPattern::new(vec![
-            Box::new(
-                SequencePattern::default()
-                    .then_one_or_more(Box::new(
-                        SequencePattern::default()
-                            .then_adjective()
-                            .then_whitespace(),
-                    ))
-                    .then_noun(),
-            ),
-            Box::new(SequencePattern::default().then_noun()),
-        ])))
+    pub fn then_noun_phrase(self) -> Self {
+        self.then(Box::new(NounPhrase))
     }
 
     pub fn then_exact_word(mut self, word: &'static str) -> Self {
@@ -236,8 +225,8 @@ mod tests {
     use hashbrown::HashSet;
 
     use super::SequencePattern;
-    use crate::patterns::{DocPattern, Pattern};
-    use crate::{Document, Lrc, Span};
+    use crate::patterns::Pattern;
+    use crate::{Document, Lrc};
 
     #[test]
     fn matches_n_whitespace_tokens() {
@@ -286,25 +275,5 @@ mod tests {
             pat.matches(doc.get_tokens(), doc.get_source()),
             doc.get_tokens().len()
         );
-    }
-
-    #[test]
-    fn simple_idea_apple() {
-        let doc = Document::new_markdown_curated("A red apple");
-        let matches = SequencePattern::default()
-            .then_idea()
-            .find_all_matches_in_doc(&doc);
-
-        assert_eq!(matches, vec![Span::new(0, 5)])
-    }
-
-    #[test]
-    fn complex_idea_apple() {
-        let doc = Document::new_markdown_curated("A red apple with a long stem");
-        let matches = SequencePattern::default()
-            .then_idea()
-            .find_all_matches_in_doc(&doc);
-
-        assert_eq!(matches, vec![Span::new(0, 5), Span::new(8, 13)])
     }
 }

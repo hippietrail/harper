@@ -29,7 +29,7 @@ use super::that_which::ThatWhich;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
 use super::wrong_quotes::WrongQuotes;
-use super::{Lint, Linter};
+use super::{Lint, Linter, OxfordComma};
 use crate::{Dictionary, Document};
 
 macro_rules! create_lint_group_config {
@@ -183,7 +183,8 @@ create_lint_group_config!(
     AppleNames => true,
     AzureNames => true,
     MergeWords => true,
-    PluralConjugate => false
+    PluralConjugate => false,
+    OxfordComma => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
