@@ -1,22 +1,22 @@
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
-use harper_core::{parsers::Markdown, Document, FstDictionary};
+use harper_core::{Document, FstDictionary};
 
-/// Creates a unit test checking that the linting of a document in
-/// `tests_sources` produces the expected number of lints.
+/// Creates a unit test checking that the linting of a Markdown document (in
+/// `tests_sources`) produces the expected number of lints.
 macro_rules! create_test {
-    ($filename:ident.$ext:ident, $parser:expr, $correct_expected:expr) => {
+    ($filename:ident.md, $correct_expected:expr) => {
         paste::paste! {
             #[test]
             fn [<lints_ $filename _correctly>](){
                  let source = include_str!(
                     concat!(
                         "./test_sources/",
-                        concat!(stringify!($filename), ".", stringify!($ext))
+                        concat!(stringify!($filename), ".md")
                     )
                  );
 
                  let dict = FstDictionary::curated();
-                 let document = Document::new(&source, $parser, &dict);
+                 let document = Document::new_markdown(&source, &dict);
 
                  let mut linter = LintGroup::new(
                      LintGroupConfig::default(),
@@ -36,13 +36,13 @@ macro_rules! create_test {
     };
 }
 
-create_test!(whack_bullets.md, &Markdown, 1);
-create_test!(preexisting.md, &Markdown, 0);
-create_test!(issue_109.md, &Markdown, 0);
-create_test!(issue_109_ext.md, &Markdown, 0);
-create_test!(chinese_lorem_ipsum.md, &Markdown, 2);
-create_test!(obsidian_links.md, &Markdown, 2);
-create_test!(issue_267.md, &Markdown, 0);
-create_test!(proper_noun_capitalization.md, &Markdown, 2);
-create_test!(amazon_hostname.md, &Markdown, 0);
-create_test!(issue_159.md, &Markdown, 1);
+create_test!(whack_bullets.md, 1);
+create_test!(preexisting.md, 0);
+create_test!(issue_109.md, 0);
+create_test!(issue_109_ext.md, 0);
+create_test!(chinese_lorem_ipsum.md, 2);
+create_test!(obsidian_links.md, 2);
+create_test!(issue_267.md, 0);
+create_test!(proper_noun_capitalization.md, 2);
+create_test!(amazon_hostname.md, 0);
+create_test!(issue_159.md, 1);
