@@ -190,19 +190,6 @@ impl Matcher {
             "take", "a", "decision" => "make a decision"
         };
 
-        // TODO: Improve the description for this lint specifically.
-        // We need to be more explicit that we are replacing with an Em dash
-        triggers.push(Rule {
-            pattern: vec![pt!(Hyphen), pt!(Hyphen), pt!(Hyphen)],
-            replace_with: vecword!("—"),
-        });
-
-        // Same goes for this En dash
-        triggers.push(Rule {
-            pattern: vec![pt!(Hyphen), pt!(Hyphen)],
-            replace_with: vecword!("–"),
-        });
-
         triggers.push(Rule {
             pattern: vec![pt!("L"), pt!(Period), pt!("L"), pt!(Period), pt!("M")],
             replace_with: vecword!("large language model"),

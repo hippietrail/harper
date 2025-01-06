@@ -4,6 +4,7 @@ mod boring_words;
 mod capitalize_personal_pronouns;
 mod compound_words;
 mod correct_number_suffix;
+mod dashes;
 mod dot_initialisms;
 mod ellipsis_length;
 mod linking_verbs;
