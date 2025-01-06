@@ -58,7 +58,7 @@ impl PatternLinter for ThatWhich {
     }
 
     fn description(&self) -> &'static str {
-        "Repeating the word \"that\" twice is often redundent. \"That which\" is easier to read."
+        "Repeating the word \"that\" twice is often redundant. `That which` is easier to read."
     }
 }
 

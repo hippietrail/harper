@@ -5,15 +5,16 @@ use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
-use super::compound_words::CompoundWords;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
 use super::linking_verbs::LinkingVerbs;
 use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
+use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::plural_conjugate::PluralConjugate;
 use super::proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
     Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
@@ -42,6 +43,14 @@ macro_rules! create_lint_group_config {
                     pub [<$linter:snake>]: &'a str,
                 )*
                 pub spell_check: &'a str
+            }
+
+
+            impl<'a>  LintGroupDescriptions<'a> {
+                /// Create a [`Vec`] containing the key-value pairs of this struct.
+                pub fn to_vec_pairs(self) -> Vec<(&'static str, &'a str)>{
+                    vec![$((stringify!([<$linter:snake>]), self.[<$linter:snake>],),)* ("spell_check", self.spell_check)]
+                }
             }
 
             #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
@@ -173,7 +182,8 @@ create_lint_group_config!(
     MicrosoftNames => true,
     AppleNames => true,
     AzureNames => true,
-    CompoundWords => true
+    MergeWords => true,
+    PluralConjugate => false
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
@@ -184,13 +194,30 @@ impl<T: Dictionary + Default> Default for LintGroup<T> {
 
 #[cfg(test)]
 mod tests {
-    use crate::FullDictionary;
+    use crate::{linting::Linter, Document, FstDictionary, FullDictionary};
 
-    use super::LintGroup;
+    use super::{LintGroup, LintGroupConfig};
 
     #[test]
     fn can_get_all_descriptions() {
         let group = LintGroup::<FullDictionary>::default();
         group.all_descriptions();
+    }
+
+    #[test]
+    fn lint_descriptions_are_clean() {
+        let mut group = LintGroup::new(LintGroupConfig::default(), FstDictionary::curated());
+        let pairs: Vec<_> = group
+            .all_descriptions()
+            .to_vec_pairs()
+            .into_iter()
+            .map(|(a, b)| (a.to_string(), b.to_string()))
+            .collect();
+
+        for (key, value) in pairs {
+            let doc = Document::new_markdown_curated(&value);
+            eprintln!("{key}: {value}");
+            assert!(group.lint(&doc).is_empty())
+        }
     }
 }
