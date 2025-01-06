@@ -1,4 +1,5 @@
 use std::borrow::Cow;
+use std::ops::Index;
 
 use itertools::{Itertools, MinMaxResult};
 
@@ -15,7 +16,7 @@ mod full_dictionary;
 mod hunspell;
 mod merged_dictionary;
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Debug)]
 pub struct FuzzyMatchResult<'a> {
     word: &'a [char],
     edit_distance: u8,
@@ -57,6 +58,14 @@ fn order_suggestions(matches: Vec<FuzzyMatchResult>) -> Vec<&[char]> {
     // Swap the lowest edit distance word with the shortest.
     if found.len() >= 3 {
         found.swap(0, 2);
+    }
+
+    if let Some(noun_index) = found
+        .iter()
+        .skip(3)
+        .position(|i| i.metadata.is_proper_noun())
+    {
+        found.swap(2, noun_index + 3);
     }
 
     // Make commonality relevant
