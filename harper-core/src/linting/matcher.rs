@@ -175,7 +175,6 @@ impl Matcher {
             "that","s" => "that is",
             "That","s" => "that is",
             "ms" => "milliseconds",
-            "t","he" => "the",
             "the","hing" => "the thing",
             "The","hing" => "The thing",
             "need","helps" => "need help",

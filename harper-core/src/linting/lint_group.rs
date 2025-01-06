@@ -5,13 +5,13 @@ use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
-use super::compound_words::CompoundWords;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
 use super::linking_verbs::LinkingVerbs;
 use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
+use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::plural_conjugate::PluralConjugate;
@@ -182,7 +182,7 @@ create_lint_group_config!(
     MicrosoftNames => true,
     AppleNames => true,
     AzureNames => true,
-    CompoundWords => true,
+    MergeWords => true,
     PluralConjugate => false
 );
 
