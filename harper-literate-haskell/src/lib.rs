@@ -8,6 +8,7 @@ mod masker;
 use itertools::Itertools;
 use masker::LiterateHaskellMasker;
 
+/// Parses a Literate Haskell document by masking out the code and considering text as Markdown.
 pub struct LiterateHaskellParser;
 
 impl LiterateHaskellParser {

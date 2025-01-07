@@ -1,5 +1,8 @@
 use harper_core::{CharStringExt, Mask, Masker, Span};
 
+/// Masker for selecting portions of Literate Haskell documents.
+///
+/// Based on the specifications outlined at https://wiki.haskell.org/Literate_programming.
 pub struct LiterateHaskellMasker {
     text: bool,
     code: bool,
