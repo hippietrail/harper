@@ -75,4 +75,25 @@ mod tests {
         let doc = Document::new_markdown_curated("a banana");
         assert!(NounPhrase.matches(doc.get_tokens(), doc.get_source()) != 0);
     }
+
+    #[test]
+    fn food() {
+        let doc = Document::new_markdown_curated(
+            "My favorite foods are pizza, sushi, tacos and burgers.",
+        );
+        let matches = NounPhrase.find_all_matches_in_doc(&doc);
+
+        dbg!(&matches);
+
+        assert_eq!(
+            matches,
+            vec![
+                Span::new(2, 5),
+                Span::new(8, 9),
+                Span::new(11, 12),
+                Span::new(14, 15),
+                Span::new(18, 19)
+            ]
+        )
+    }
 }

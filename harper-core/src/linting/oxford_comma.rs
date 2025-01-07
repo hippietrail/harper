@@ -98,11 +98,42 @@ mod tests {
 
     #[test]
     fn people() {
-        // Nancy, Steve and Carl are going
         assert_suggestion_result(
             "Nancy, Steve and Carl are going to the coffee shop.",
             OxfordComma::default(),
             "Nancy, Steve, and Carl are going to the coffee shop.",
         );
+    }
+
+    #[test]
+    fn places() {
+        assert_suggestion_result(
+            "I've always wanted to visit Paris, Tokyo and Rome.",
+            OxfordComma::default(),
+            "I've always wanted to visit Paris, Tokyo, and Rome.",
+        );
+    }
+
+    #[test]
+    fn foods() {
+        assert_suggestion_result(
+            "My favorite foods are pizza, sushi, tacos and burgers.",
+            OxfordComma::default(),
+            "My favorite foods are pizza, sushi, tacos, and burgers.",
+        );
+    }
+
+    #[test]
+    fn allows_clean_music() {
+        assert_lint_count(
+            "I enjoy listening to pop music, rock, hip-hop, electronic dance, and classical music.",
+            OxfordComma::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allows_clean_nations() {
+        assert_lint_count("The team consists of players from different countries: France, Germany, Italy, and Spain.", OxfordComma::default(), 0);
     }
 }
