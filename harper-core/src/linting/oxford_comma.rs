@@ -1,5 +1,5 @@
 use crate::{
-    patterns::{Pattern, SequencePattern},
+    patterns::{EitherPattern, Pattern, SequencePattern},
     Document, Token, TokenStringExt,
 };
 
@@ -21,7 +21,10 @@ impl OxfordComma {
                 ))
                 .then_noun_phrase()
                 .then_whitespace()
-                .then_exact_word("and")
+                .then(Box::new(EitherPattern::new(vec![
+                    Box::new(SequencePattern::aco("and")),
+                    Box::new(SequencePattern::aco("or")),
+                ])))
                 .then_whitespace()
                 .then_noun_phrase(),
         }
@@ -135,5 +138,19 @@ mod tests {
     #[test]
     fn allows_clean_nations() {
         assert_lint_count("The team consists of players from different countries: France, Germany, Italy, and Spain.", OxfordComma::default(), 0);
+    }
+
+    #[test]
+    fn or_writing() {
+        assert_suggestion_result("Harper can be a lifesaver when writing technical documents, emails or other formal forms of communication.", OxfordComma::default(), "Harper can be a lifesaver when writing technical documents, emails, or other formal forms of communication.",);
+    }
+
+    #[test]
+    fn sports() {
+        assert_suggestion_result(
+            "They enjoy playing soccer, basketball or tennis.",
+            OxfordComma::default(),
+            "They enjoy playing soccer, basketball, or tennis.",
+        );
     }
 }
