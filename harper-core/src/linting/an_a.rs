@@ -103,6 +103,7 @@ fn starts_with_vowel(word: &[char]) -> bool {
         [] | ['u', 'k', ..]
             | ['e', 'u', 'p', 'h', ..]
             | ['e', 'u', 'g' | 'l' | 'c', ..]
+            | ['o', 'n', 'e']
             | ['o', 'n', 'c', 'e']
     ) {
         return false;
