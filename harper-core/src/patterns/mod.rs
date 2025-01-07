@@ -14,6 +14,7 @@ mod sequence_pattern;
 mod token_kind_pattern_group;
 mod whitespace_pattern;
 mod word_pattern_group;
+mod word_set;
 
 pub use any_pattern::AnyPattern;
 use blanket::blanket;
@@ -28,6 +29,7 @@ pub use sequence_pattern::SequencePattern;
 pub use token_kind_pattern_group::TokenKindPatternGroup;
 pub use whitespace_pattern::WhitespacePattern;
 pub use word_pattern_group::WordPatternGroup;
+pub use word_set::WordSet;
 
 #[cfg(not(feature = "concurrent"))]
 #[blanket(derive(Rc, Arc))]

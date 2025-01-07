@@ -1,5 +1,5 @@
 use crate::{
-    patterns::{EitherPattern, Pattern, SequencePattern},
+    patterns::{Pattern, SequencePattern, WordSet},
     Document, Token, TokenStringExt,
 };
 
@@ -21,10 +21,7 @@ impl OxfordComma {
                 ))
                 .then_noun_phrase()
                 .then_whitespace()
-                .then(Box::new(EitherPattern::new(vec![
-                    Box::new(SequencePattern::aco("and")),
-                    Box::new(SequencePattern::aco("or")),
-                ])))
+                .then(Box::new(WordSet::all(&["and", "or"])))
                 .then_whitespace()
                 .then_noun_phrase(),
         }
