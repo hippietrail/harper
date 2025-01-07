@@ -112,6 +112,10 @@ export default defineConfig({
 								{
 									title: 'Dictionary',
 									to: '/docs/contributors/dictionary'
+								},
+								{
+									title: 'Author a Rule',
+									to: '/docs/contributors/author_a_rule'
 								}
 							]
 						},
