@@ -54,8 +54,7 @@ impl Linter for MergeWords {
                     span: Span::new(a.span.start, b.span.end),
                     lint_kind: LintKind::Spelling,
                     suggestions: vec![Suggestion::ReplaceWith(merged_word.to_vec())],
-                    message: "These two words are often combined to form a closed compound word."
-                        .to_owned(),
+                    message: "It seems these words would go better together.".to_owned(),
                     priority: 63,
                 });
             }
