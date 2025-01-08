@@ -64,19 +64,35 @@ describe('Integration >', () => {
 
 	it('updates diagnostics when files are deleted', async () => {
 		const markdownContent = await workspace.fs.readFile(markdownUri);
-		// `harper-ls` can only be notified if the deletion happens within VSCode, so use these
-		// commands instead of `workspace.fs.delete`.
+
+		// Delete file through VSCode
 		await commands.executeCommand('workbench.files.action.showActiveFileInExplorer');
 		await commands.executeCommand('deleteFile');
 		// Wait for `harper-ls` to update diagnostics
-		await sleep(75);
+		await sleep(450);
 
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
 			createExpectedDiagnostics()
 		);
 
-		// Re-create deleted file and open it again
+		// Restore and reopen deleted file
+		await workspace.fs.writeFile(markdownUri, markdownContent);
+		await openFile('integration.md');
+		// Wait for `harper-ls` to update diagnostics
+		await sleep(75);
+
+		// Delete file directly
+		await workspace.fs.delete(markdownUri);
+		// Wait for `harper-ls` to update diagnostics
+		await sleep(450);
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(markdownUri),
+			createExpectedDiagnostics()
+		);
+
+		// Restore and reopen deleted file
 		await workspace.fs.writeFile(markdownUri, markdownContent);
 		await openFile('integration.md');
 	});
