@@ -48,7 +48,7 @@ describe('Integration >', () => {
 		const config = workspace.getConfiguration('harper-ls.linters');
 		await config.update('repeated_words', false, ConfigurationTarget.Workspace);
 		// Wait for `harper-ls` to update diagnostics
-		await sleep(250);
+		await sleep(300);
 
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
