@@ -58,6 +58,11 @@ You can find the file-local dictionaries in the following directories on each op
 
 The format of these files is identical to user dictionaries.
 
+### Configuration
+
+Configuration of `harper-ls` varies by editor.
+If you use Neovim, [read this documentation](./neovim#Configuration).
+
 ### Static Dictionary
 
 The static dictionary is built into the binary and is (as of now) immutable.

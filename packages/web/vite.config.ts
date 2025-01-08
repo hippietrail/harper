@@ -115,7 +115,7 @@ export default defineConfig({
 								},
 								{
 									title: 'Author a Rule',
-									to: '/docs/contributors/author_a_rule'
+									to: '/docs/contributors/author-a-rule'
 								}
 							]
 						},

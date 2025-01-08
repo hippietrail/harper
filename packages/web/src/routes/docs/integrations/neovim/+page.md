@@ -37,7 +37,7 @@ sudo pacman -S harper
 
 Neovim is also one of the two primarily supported editors for `harper-ls`.
 As such, you can view this page as canonical documentation for the available configuration options.
-[Helix](./helix) and [Zed](./zed) users may find it helpful.
+[Helix](./helix) and [Zed](./zed) users may also find it helpful.
 
 ### Dictionaries
 
