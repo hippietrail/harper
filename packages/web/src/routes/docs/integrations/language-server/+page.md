@@ -22,6 +22,15 @@ Harper is available through the `extra` repo:
 sudo pacman -S harper
 ```
 
+### Scoop
+
+You can install Harper on Windows through [Scoop](https://scoop.sh/).
+
+```bash
+scoop bucket add main
+scoop install main/harper
+```
+
 ## Dictionaries
 
 `harper-ls` has three kinds of dictionaries: user, file-local, and static dictionaries.

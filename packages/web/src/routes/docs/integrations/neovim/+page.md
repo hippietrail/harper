@@ -33,6 +33,15 @@ Harper is available through the `extra` repo:
 sudo pacman -S harper
 ```
 
+### Scoop
+
+You can install Harper on Windows through [Scoop](https://scoop.sh/).
+
+```bash
+scoop bucket add main
+scoop install main/harper
+```
+
 ## Configuration
 
 Neovim is also one of the two primarily supported editors for `harper-ls`.
