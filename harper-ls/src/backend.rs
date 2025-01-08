@@ -17,17 +17,17 @@ use tower_lsp::jsonrpc::Result;
 use tower_lsp::lsp_types::notification::PublishDiagnostics;
 use tower_lsp::lsp_types::{
     CodeActionOrCommand, CodeActionParams, CodeActionProviderCapability, CodeActionResponse,
-    Command, ConfigurationItem, DeleteFilesParams, Diagnostic, DidChangeConfigurationParams,
-    DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams,
-    DidSaveTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, FileOperationFilter,
-    FileOperationPattern, FileOperationPatternKind, FileOperationRegistrationOptions,
-    InitializeParams, InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams,
-    Range, ServerCapabilities, TextDocumentSyncCapability, TextDocumentSyncKind,
-    TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Url,
-    WorkspaceFileOperationsServerCapabilities, WorkspaceServerCapabilities,
+    Command, ConfigurationItem, Diagnostic, DidChangeConfigurationParams,
+    DidChangeTextDocumentParams, DidChangeWatchedFilesParams,
+    DidChangeWatchedFilesRegistrationOptions, DidCloseTextDocumentParams,
+    DidOpenTextDocumentParams, DidSaveTextDocumentParams, ExecuteCommandOptions,
+    ExecuteCommandParams, FileChangeType, FileSystemWatcher, GlobPattern, InitializeParams,
+    InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams, Range,
+    Registration, ServerCapabilities, TextDocumentSyncCapability, TextDocumentSyncKind,
+    TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Url, WatchKind,
 };
 use tower_lsp::{Client, LanguageServer};
-use tracing::{error, info};
+use tracing::{error, info, warn};
 
 use crate::config::Config;
 use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};
@@ -363,32 +363,6 @@ impl LanguageServer for Backend {
                         save: Some(TextDocumentSyncSaveOptions::Supported(true)),
                     },
                 )),
-                workspace: Some(WorkspaceServerCapabilities {
-                    workspace_folders: None,
-                    file_operations: Some(WorkspaceFileOperationsServerCapabilities {
-                        did_delete: Some(FileOperationRegistrationOptions {
-                            filters: vec![
-                                FileOperationFilter {
-                                    scheme: Some("file".to_owned()),
-                                    pattern: FileOperationPattern {
-                                        glob: "**/*".to_owned(),
-                                        matches: Some(FileOperationPatternKind::File),
-                                        options: None,
-                                    },
-                                },
-                                FileOperationFilter {
-                                    scheme: Some("file".to_owned()),
-                                    pattern: FileOperationPattern {
-                                        glob: "**/*".to_owned(),
-                                        matches: Some(FileOperationPatternKind::Folder),
-                                        options: None,
-                                    },
-                                },
-                            ],
-                        }),
-                        ..Default::default()
-                    }),
-                }),
                 ..Default::default()
             },
         })
@@ -400,6 +374,27 @@ impl LanguageServer for Backend {
             .await;
 
         self.pull_config().await;
+
+        let did_change_watched_files = Registration {
+            id: "workspace/didChangeWatchedFiles".to_owned(),
+            method: "workspace/didChangeWatchedFiles".to_owned(),
+            register_options: Some(
+                serde_json::to_value(DidChangeWatchedFilesRegistrationOptions {
+                    watchers: vec![FileSystemWatcher {
+                        glob_pattern: GlobPattern::String("**/*".to_owned()),
+                        kind: Some(WatchKind::Delete),
+                    }],
+                })
+                .unwrap(),
+            ),
+        };
+        if let Err(err) = self
+            .client
+            .register_capability(vec![did_change_watched_files])
+            .await
+        {
+            warn!("Unable to register watch file capability: {}", err);
+        }
     }
 
     async fn did_save(&self, params: DidSaveTextDocumentParams) {
@@ -439,14 +434,18 @@ impl LanguageServer for Backend {
 
     async fn did_close(&self, _params: DidCloseTextDocumentParams) {}
 
-    async fn did_delete_files(&self, params: DeleteFilesParams) {
+    async fn did_change_watched_files(&self, params: DidChangeWatchedFilesParams) {
         let mut doc_lock = self.doc_state.lock().await;
         let mut urls_to_clear = Vec::new();
 
-        for file in params.files {
+        for change in &params.changes {
+            if change.typ != FileChangeType::DELETED {
+                continue;
+            }
+
             doc_lock.retain(|url, _| {
-                // `file.uri` could be a directory so use `starts_with` rather than `==`
-                let to_remove = url.to_string().starts_with(&file.uri);
+                // `change.uri` could be a directory so use `starts_with` instead of `==`.
+                let to_remove = url.as_str().starts_with(change.uri.as_str());
 
                 if to_remove {
                     urls_to_clear.push(url.clone());
