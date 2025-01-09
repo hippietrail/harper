@@ -38,8 +38,7 @@ sudo pacman -S harper
 You can install Harper on Windows through [Scoop](https://scoop.sh/).
 
 ```bash
-scoop bucket add main
-scoop install main/harper
+scoop install harper
 ```
 
 ## Configuration
