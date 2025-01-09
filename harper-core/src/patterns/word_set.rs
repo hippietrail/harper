@@ -52,7 +52,7 @@ impl Pattern for WordSet {
             let partial_match = tok_chars
                 .iter()
                 .zip(word)
-                .all(|(a, b)| a.to_ascii_lowercase() == b.to_ascii_lowercase());
+                .all(|(a, b)| a.eq_ignore_ascii_case(b));
 
             if partial_match {
                 return 1;

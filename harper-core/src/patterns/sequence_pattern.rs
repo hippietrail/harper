@@ -117,7 +117,7 @@ impl SequencePattern {
                 let partial_match = tok_chars
                     .iter()
                     .zip(word.chars())
-                    .all(|(a, b)| a.to_ascii_lowercase() == b.to_ascii_lowercase());
+                    .all(|(a, b)| a.eq_ignore_ascii_case(&b));
 
                 partial_match
             }));

@@ -1,5 +1,5 @@
 import logoSvg from '../logo.svg';
-import { Plugin, addIcon, Menu, PluginManifest, App } from 'obsidian';
+import { Plugin, Menu, PluginManifest, App } from 'obsidian';
 import { LintConfig, Linter, Suggestion } from 'harper.js';
 import { LocalLinter, SuggestionKind, WorkerLinter } from 'harper.js';
 import { linter } from './lint';
