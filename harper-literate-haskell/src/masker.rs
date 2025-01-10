@@ -35,7 +35,7 @@ impl Masker for LiterateHaskellMasker {
         for line in source.split(|c| *c == '\n') {
             let string_form = line.to_string();
             let trimmed = string_form.trim();
-            let line_is_bird = line.first().map_or(false, |c| *c == '>');
+            let line_is_bird = line.first().is_some_and(|c| *c == '>');
 
             // Code fencing
             let latex_style = matches!(trimmed, r"\begin{code}" | r"\end{code}");
