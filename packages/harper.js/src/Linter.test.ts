@@ -121,6 +121,18 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 			expect(value).not.toHaveLength(0);
 		}
 	});
+
+	test(`${linterName} default lint config has no null values`, async () => {
+		const linter = new Linter();
+
+		await linter.setLintConfigToDefault();
+
+		const lintConfig = await linter.getLintConfig();
+
+		for (const value of Object.values(lintConfig)) {
+			expect(value).not.toBeNull();
+		}
+	});
 }
 
 test('Linters have the same config format', async () => {

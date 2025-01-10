@@ -105,6 +105,10 @@ impl Linter {
         self.lint_group.config.serialize(&serializer).unwrap()
     }
 
+    pub fn fill_lint_config_with_default(&mut self) {
+        self.lint_group.config.fill_default_values();
+    }
+
     pub fn set_lint_config_from_object(&mut self, object: JsValue) -> Result<(), String> {
         self.lint_group.config =
             serde_wasm_bindgen::from_value(object).map_err(|v| v.to_string())?;

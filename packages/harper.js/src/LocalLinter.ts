@@ -84,4 +84,10 @@ export default class LocalLinter implements Linter {
 		await this.initialize();
 		return this.inner!.get_lint_descriptions_as_json();
 	}
+
+	async setLintConfigToDefault(): Promise<void> {
+		await this.initialize();
+
+		this.inner?.fill_lint_config_with_default();
+	}
 }

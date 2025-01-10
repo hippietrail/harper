@@ -25,6 +25,9 @@ export default interface Linter {
 	/** Get the linter's current configuration. */
 	getLintConfig(): Promise<LintConfig>;
 
+	/** Set the linter's current configuration to the official Harper default. */
+	setLintConfigToDefault(): Promise<void>;
+
 	/** Set the linter's current configuration. */
 	setLintConfig(config: LintConfig): Promise<void>;
 
