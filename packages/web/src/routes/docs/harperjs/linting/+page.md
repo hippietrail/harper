@@ -16,7 +16,7 @@ Notice how every method returns a `Promise<...>`.
 @code(../../../../../../harper.js/src/Linter.ts)
 
 The `LocalLinter` will instantiate and prepare Harper's WebAssembly module asynchronously, but **in the same event loop**.
-This can result in high [LCP](https://developer.mozilla.org/en-US/docs/Glossary/Largest_contentful_paint), so this implementation is only recommended in situtations where the event loop will not be doing other latency-sensitive things.
+This can result in high [LCP](https://developer.mozilla.org/en-US/docs/Glossary/Largest_contentful_paint), so this implementation is only recommended in situations where the event loop will not be doing other latency-sensitive things.
 In other words: the `LocalLinter` is not for the web.
 
 The `WorkerLinter`, on the other hand, will instantiate and prepare Harper's WebAssembly module inside a [Web Worker](https://developer.mozilla.org/en-US/docs/Web/API/Web_Workers_API), which means it will **not** block the event loop.
