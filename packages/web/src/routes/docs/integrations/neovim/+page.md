@@ -8,7 +8,7 @@ Its lack of fast grammar-checking was the primary motivation for creating Harper
 ## Installation
 
 How you choose to install `harper-ls` depends on your use-case.
-Right now, we only directly support usage through [`nvim-lspconfig`](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#harper_ls).
+Right now, we only directly support usage through [`nvim-lspconfig`](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#harper_ls).
 Refer to the linked documentation for more information.
 
 If you happen to use [`mason.nvim`](https://github.com/williamboman/mason.nvim), installation will be pretty straightforward.
