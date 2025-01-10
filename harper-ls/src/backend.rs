@@ -11,6 +11,7 @@ use harper_core::{
     WordMetadata,
 };
 use harper_html::HtmlParser;
+use harper_typst::Typst;
 use serde_json::Value;
 use tokio::sync::{Mutex, RwLock};
 use tower_lsp::jsonrpc::Result;
@@ -28,9 +29,6 @@ use tower_lsp::lsp_types::{
 };
 use tower_lsp::{Client, LanguageServer};
 use tracing::{error, info, warn};
-
-#[cfg(feature = "typst")]
-use harper_typst::Typst;
 
 use crate::config::Config;
 use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};
@@ -216,7 +214,6 @@ impl Backend {
             "git-commit" | "gitcommit" => Some(Box::new(GitCommitParser)),
             "html" => Some(Box::new(HtmlParser::default())),
             "mail" | "plaintext" => Some(Box::new(PlainEnglish)),
-            #[cfg(feature = "typst")]
             "typst" => Some(Box::new(Typst)),
             _ => None,
         };

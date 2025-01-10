@@ -171,7 +171,6 @@ fn load_file(file: &Path) -> anyhow::Result<(Document, String)> {
     let parser: Box<dyn harper_core::parsers::Parser> =
         match file.extension().map(|v| v.to_str().unwrap()) {
             Some("md") => Box::new(Markdown),
-            #[cfg(feature = "typst")]
             Some("typ") => Box::new(harper_typst::Typst),
             _ => Box::new(
                 CommentParser::new_from_filename(file)
