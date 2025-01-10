@@ -4,11 +4,7 @@ mod typst_translator;
 use offset_cursor::OffsetCursor;
 use typst_translator::TypstTranslator;
 
-use harper_core::{
-    parsers::Parser,
-    patterns::{PatternExt, SequencePattern},
-    ConjunctionData, Lrc, NounData, Token, TokenKind, VecExt, WordMetadata,
-};
+use harper_core::{parsers::Parser, patterns::SequencePattern, Lrc, Token};
 use itertools::Itertools;
 use typst_syntax::{
     ast::{AstNode, Markup},
@@ -36,62 +32,11 @@ impl Parser for Typst {
 
         // Recurse through AST to create tokens
         let parse_helper = TypstTranslator::new(&typst_document);
-        let mut tokens = typst_tree
+        typst_tree
             .exprs()
             .filter_map(|ex| parse_helper.parse_expr(ex, OffsetCursor::new(&typst_document)))
             .flatten()
-            .collect_vec();
-
-        // Consolidate conjunctions into single tokens
-        let mut to_remove = std::collections::VecDeque::default();
-        for tok_span in WORD_APOSTROPHE_WORD
-            .with(|v| v.clone())
-            .find_all_matches(&tokens, source)
-        {
-            let start_tok = &tokens[tok_span.start];
-            let end_tok = &tokens[tok_span.end - 1];
-
-            // New span including all tokens between `start_tok` and `end_tok` (inclusive) this is
-            // used to replace all the tokens with the single consolidated token
-            let char_span = harper_core::Span::new(start_tok.span.start, end_tok.span.end);
-
-            if let TokenKind::Word(metadata) = start_tok.kind {
-                // Mark as plural or conjunction depending on if the portion following the
-                // apostrophe is an `s`
-                let new_metadata = if end_tok.span.get_content(source) == ['s'] {
-                    WordMetadata {
-                        noun: Some(NounData {
-                            is_possessive: Some(true),
-                            ..metadata.noun.unwrap_or_default()
-                        }),
-                        conjunction: None,
-                        ..metadata
-                    }
-                } else {
-                    WordMetadata {
-                        // Mark as non-possessive if a noun
-                        noun: metadata.noun.map(|noun| NounData {
-                            is_possessive: Some(false),
-                            ..noun
-                        }),
-                        conjunction: Some(ConjunctionData {}),
-                        ..metadata
-                    }
-                };
-
-                tokens[tok_span.start].kind = TokenKind::Word(new_metadata);
-
-                // Consolidate tokens by updating the span of the first token to include all
-                // characters in all the matched spans and marking the other tokens for deletion.
-                tokens[tok_span.start].span = char_span;
-                to_remove.extend(tok_span.start + 1..tok_span.end);
-            } else {
-                panic!("Apostrophe consolidation does not start with Word Token!")
-            }
-        }
-        tokens.remove_indices(to_remove.into_iter().sorted().unique().collect());
-
-        tokens
+            .collect_vec()
     }
 }
 
@@ -101,26 +46,33 @@ mod tests {
     use ordered_float::OrderedFloat;
 
     use super::Typst;
-    use harper_core::{parsers::StrParser, NounData, Punctuation, TokenKind, WordMetadata};
+    use harper_core::{Document, NounData, Punctuation, TokenKind, WordMetadata};
 
     #[test]
-    fn conjunction() {
-        let source = "doesn't";
-
-        let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+    fn contraction() {
+        let document = Document::new_curated("doesn't", &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert_eq!(token_kinds.len(), 1);
-        assert!(token_kinds.into_iter().all(|t| t.is_conjunction()))
+        assert!(!token_kinds.into_iter().any(|t| {
+            matches!(
+                t,
+                TokenKind::Word(WordMetadata {
+                    noun: Some(NounData {
+                        is_possessive: Some(true),
+                        ..
+                    }),
+                    ..
+                })
+            )
+        }))
     }
 
     #[test]
     fn possessive() {
-        let source = "person's";
-
-        let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated("person's", &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert_eq!(token_kinds.len(), 1);
@@ -142,8 +94,8 @@ mod tests {
     fn number() {
         let source = "12 is larger than 11, but much less than 11!";
 
-        let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated(source, &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert!(matches!(
@@ -178,8 +130,8 @@ mod tests {
     fn math_unlintable() {
         let source = "$12 > 11$, $12 << 11!$";
 
-        let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated(source, &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert!(matches!(
@@ -200,11 +152,12 @@ mod tests {
                         born: 2019,
                       )"#;
 
-        let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated(source, &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         let charslice = source.chars().collect_vec();
+        let tokens = document.tokens().collect_vec();
         assert_eq!(tokens[2].span.get_content_string(&charslice), "Typst");
 
         assert!(matches!(
@@ -223,7 +176,8 @@ mod tests {
     fn str_parsing() {
         let source = r#"#let ident = "This is a string""#;
 
-        let token_kinds = Typst.parse_str(source).iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated(source, &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert!(matches!(
@@ -245,7 +199,8 @@ mod tests {
     fn non_adjacent_spaces_not_condensed() {
         let source = r#"#authors_slice.join(", ", last: ", and ")  bob"#;
 
-        let token_kinds = Typst.parse_str(source).iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated(source, &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert!(matches!(
@@ -270,11 +225,12 @@ mod tests {
         let source = r"= Header
                        Paragraph";
 
-        let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated(source, &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         let charslice = source.chars().collect_vec();
+        let tokens = document.tokens().collect_vec();
         assert_eq!(tokens[0].span.get_content_string(&charslice), "Header");
         assert_eq!(tokens[2].span.get_content_string(&charslice), "Paragraph");
 
@@ -294,7 +250,8 @@ mod tests {
 
                        Paragraph";
 
-        let token_kinds = Typst.parse_str(source).iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated(source, &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert!(matches!(
@@ -313,8 +270,8 @@ mod tests {
                        <label>
                        Paragraph";
 
-        let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated(source, &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert!(matches!(
@@ -333,8 +290,8 @@ mod tests {
     fn sentence() {
         let source = "This is a sentence, it is not interesting.";
 
-        let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated(source, &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         assert!(matches!(
@@ -366,11 +323,12 @@ mod tests {
         let source = r#"group’s
 writing"#;
 
-        let tokens = Typst.parse_str(source);
-        let token_kinds = tokens.iter().map(|t| t.kind).collect_vec();
+        let document = Document::new_curated(source, &Typst);
+        let token_kinds = document.tokens().map(|t| t.kind).collect_vec();
         dbg!(&token_kinds);
 
         let charslice = source.chars().collect_vec();
+        let tokens = document.tokens().collect_vec();
         assert_eq!(tokens[2].span.get_content_string(&charslice), "writing");
 
         assert!(matches!(
