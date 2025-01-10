@@ -8,7 +8,8 @@ export type { Linter, Lint, Span, Suggestion };
 
 export enum SuggestionKind {
 	Replace = 0,
-	Remove = 1
+	Remove = 1,
+	InsertAfter = 2
 }
 
 export type LintConfig = Record<string, boolean | undefined>;

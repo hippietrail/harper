@@ -45,7 +45,7 @@ lazy_static! {
 thread_local! {
     // Builders are computationally expensive and do not depend on the word, so we store a
     // collection of builders and the associated edit distance here.
-    // Currently, the edit distance we use is 3, but a value that does not exist in this
+    // Currently, the edit distance we use is three, but a value that does not exist in this
     // collection will create a new builder of that distance and push it to the collection.
     static AUTOMATON_BUILDERS: RefCell<Vec<(u8, LevenshteinAutomatonBuilder)>> = RefCell::new(vec![(
         EXPECTED_DISTANCE,

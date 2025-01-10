@@ -8,7 +8,7 @@ Its lack of fast grammar-checking was the primary motivation for creating Harper
 ## Installation
 
 How you choose to install `harper-ls` depends on your use-case.
-Right now, we only directly support usage through [`nvim-lspconfig`](https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md#harper_ls).
+Right now, we only directly support usage through [`nvim-lspconfig`](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#harper_ls).
 Refer to the linked documentation for more information.
 
 If you happen to use [`mason.nvim`](https://github.com/williamboman/mason.nvim), installation will be pretty straightforward.
@@ -33,11 +33,19 @@ Harper is available through the `extra` repo:
 sudo pacman -S harper
 ```
 
+### Scoop
+
+You can install Harper on Windows through [Scoop](https://scoop.sh/).
+
+```bash
+scoop install harper
+```
+
 ## Configuration
 
 Neovim is also one of the two primarily supported editors for `harper-ls`.
 As such, you can view this page as canonical documentation for the available configuration options.
-[Helix](./helix) and [Zed](./zed) users may find it helpful.
+[Helix](./helix) and [Zed](./zed) users may also find it helpful.
 
 ### Dictionaries
 
@@ -54,6 +62,20 @@ lspconfig.harper_ls.setup {
   },
 }
 ```
+
+For example, if you want to use Vim's dictionary, you can do something like this:
+
+```lua
+lspconfig.harper_ls.setup({
+    settings = {
+        ["harper-ls"] = {
+            userDictPath = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
+        },
+    },
+})
+```
+
+See the [relevant issue for details](https://github.com/Automattic/harper/issues/143).
 
 ### Linters
 

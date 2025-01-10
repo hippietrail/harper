@@ -166,6 +166,7 @@ pub struct Suggestion {
 pub enum SuggestionKind {
     Replace = 0,
     Remove = 1,
+    InsertAfter = 2,
 }
 
 #[wasm_bindgen]
@@ -174,13 +175,14 @@ impl Suggestion {
         Self { inner }
     }
 
-    /// Get the text that is going to replace error.
+    /// Get the text that is going to replace the problematic section.
     /// If [`Self::kind`] is `SuggestionKind::Remove`, this will return an empty
     /// string.
     pub fn get_replacement_text(&self) -> String {
         match &self.inner {
             harper_core::linting::Suggestion::Remove => "".to_string(),
             harper_core::linting::Suggestion::ReplaceWith(chars) => chars.iter().collect(),
+            harper_core::linting::Suggestion::InsertAfter(chars) => chars.iter().collect(),
         }
     }
 
@@ -188,6 +190,7 @@ impl Suggestion {
         match &self.inner {
             harper_core::linting::Suggestion::Remove => SuggestionKind::Remove,
             harper_core::linting::Suggestion::ReplaceWith(_) => SuggestionKind::Replace,
+            harper_core::linting::Suggestion::InsertAfter(_) => SuggestionKind::InsertAfter,
         }
     }
 }

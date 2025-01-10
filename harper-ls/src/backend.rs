@@ -20,14 +20,16 @@ use tower_lsp::lsp_types::notification::PublishDiagnostics;
 use tower_lsp::lsp_types::{
     CodeActionOrCommand, CodeActionParams, CodeActionProviderCapability, CodeActionResponse,
     Command, ConfigurationItem, Diagnostic, DidChangeConfigurationParams,
-    DidChangeTextDocumentParams, DidCloseTextDocumentParams, DidOpenTextDocumentParams,
-    DidSaveTextDocumentParams, ExecuteCommandOptions, ExecuteCommandParams, InitializeParams,
+    DidChangeTextDocumentParams, DidChangeWatchedFilesParams,
+    DidChangeWatchedFilesRegistrationOptions, DidCloseTextDocumentParams,
+    DidOpenTextDocumentParams, DidSaveTextDocumentParams, ExecuteCommandOptions,
+    ExecuteCommandParams, FileChangeType, FileSystemWatcher, GlobPattern, InitializeParams,
     InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams, Range,
-    ServerCapabilities, TextDocumentSyncCapability, TextDocumentSyncKind, TextDocumentSyncOptions,
-    TextDocumentSyncSaveOptions, Url,
+    Registration, ServerCapabilities, TextDocumentSyncCapability, TextDocumentSyncKind,
+    TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Url, WatchKind,
 };
 use tower_lsp::{Client, LanguageServer};
-use tracing::{error, info};
+use tracing::{error, info, warn};
 
 use crate::config::Config;
 use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};
@@ -398,6 +400,27 @@ impl LanguageServer for Backend {
             .await;
 
         self.pull_config().await;
+
+        let did_change_watched_files = Registration {
+            id: "workspace/didChangeWatchedFiles".to_owned(),
+            method: "workspace/didChangeWatchedFiles".to_owned(),
+            register_options: Some(
+                serde_json::to_value(DidChangeWatchedFilesRegistrationOptions {
+                    watchers: vec![FileSystemWatcher {
+                        glob_pattern: GlobPattern::String("**/*".to_owned()),
+                        kind: Some(WatchKind::Delete),
+                    }],
+                })
+                .unwrap(),
+            ),
+        };
+        if let Err(err) = self
+            .client
+            .register_capability(vec![did_change_watched_files])
+            .await
+        {
+            warn!("Unable to register watch file capability: {}", err);
+        }
     }
 
     async fn did_save(&self, params: DidSaveTextDocumentParams) {
@@ -436,6 +459,38 @@ impl LanguageServer for Backend {
     }
 
     async fn did_close(&self, _params: DidCloseTextDocumentParams) {}
+
+    async fn did_change_watched_files(&self, params: DidChangeWatchedFilesParams) {
+        let mut doc_lock = self.doc_state.lock().await;
+        let mut urls_to_clear = Vec::new();
+
+        for change in &params.changes {
+            if change.typ != FileChangeType::DELETED {
+                continue;
+            }
+
+            doc_lock.retain(|url, _| {
+                // `change.uri` could be a directory so use `starts_with` instead of `==`.
+                let to_remove = url.as_str().starts_with(change.uri.as_str());
+
+                if to_remove {
+                    urls_to_clear.push(url.clone());
+                }
+
+                !to_remove
+            });
+        }
+
+        for url in &urls_to_clear {
+            self.client
+                .send_notification::<PublishDiagnostics>(PublishDiagnosticsParams {
+                    uri: url.clone(),
+                    diagnostics: vec![],
+                    version: None,
+                })
+                .await;
+        }
+    }
 
     async fn execute_command(&self, params: ExecuteCommandParams) -> Result<Option<Value>> {
         let mut string_args = params

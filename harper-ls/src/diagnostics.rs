@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use harper_core::linting::{Lint, Suggestion};
+use harper_core::CharStringExt;
 use tower_lsp::lsp_types::{
     CodeAction, CodeActionKind, CodeActionOrCommand, Command, Diagnostic, TextEdit, Url,
     WorkspaceEdit,
@@ -37,6 +38,11 @@ pub fn lint_to_code_actions<'a>(
                 let replace_string = match suggestion {
                     Suggestion::ReplaceWith(with) => with.iter().collect(),
                     Suggestion::Remove => "".to_string(),
+                    Suggestion::InsertAfter(with) => format!(
+                        "{}{}",
+                        lint.span.get_content_string(source),
+                        with.to_string()
+                    ),
                 };
 
                 Some(CodeAction {

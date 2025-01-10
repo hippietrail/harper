@@ -32,6 +32,7 @@ impl Default for Lint {
 pub enum LintKind {
     Spelling,
     Capitalization,
+    Style,
     Formatting,
     Repetition,
     Enhancement,
@@ -52,6 +53,7 @@ impl Display for LintKind {
             LintKind::Miscellaneous => "Miscellaneous",
             LintKind::Enhancement => "Enhancement",
             LintKind::WordChoice => "Word Choice",
+            LintKind::Style => "Style",
         };
 
         write!(f, "{}", s)
@@ -61,6 +63,8 @@ impl Display for LintKind {
 #[derive(Debug, Clone, Serialize, Deserialize, Is)]
 pub enum Suggestion {
     ReplaceWith(Vec<char>),
+    /// Insert the provided characters _after_ the offending text.
+    InsertAfter(Vec<char>),
     Remove,
 }
 
@@ -88,6 +92,11 @@ impl Suggestion {
 
                 source.truncate(source.len() - span.len());
             }
+            Self::InsertAfter(chars) => {
+                let popped = source.split_off(span.end);
+                source.extend(chars);
+                source.extend(popped);
+            }
         }
     }
 }
@@ -98,7 +107,27 @@ impl Display for Suggestion {
             Suggestion::ReplaceWith(with) => {
                 write!(f, "Replace with: “{}”", with.iter().collect::<String>())
             }
+            Suggestion::InsertAfter(with) => {
+                write!(f, "Insert “{}”", with.iter().collect::<String>())
+            }
             Suggestion::Remove => write!(f, "Remove error"),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use crate::Span;
+
+    use super::Suggestion;
+
+    #[test]
+    fn insert_comma_after() {
+        let source = "This is a test";
+        let mut source_chars = source.chars().collect();
+        let sug = Suggestion::InsertAfter(vec![',']);
+        sug.apply(Span::new(0, 4), &mut source_chars);
+
+        assert_eq!(source_chars, "This, is a test".chars().collect::<Vec<_>>());
     }
 }

@@ -1,7 +1,7 @@
 use super::PatternLinter;
 use super::{Lint, LintKind, Suggestion};
 use crate::make_title_case;
-use crate::patterns::{EitherPattern, IsNotTitleCase, Pattern, SequencePattern};
+use crate::patterns::{EitherPattern, IsNotTitleCase, Pattern, SequencePattern, WordSet};
 use crate::FstDictionary;
 use crate::{Token, TokenStringExt};
 use std::sync::Arc;
@@ -62,10 +62,7 @@ macro_rules! create_linter_for {
 create_linter_for!(
     Americas,
     SequencePattern::default()
-        .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::aco("South")),
-            Box::new(SequencePattern::aco("North"))
-        ])))
+        .then(Box::new(WordSet::all(&["South", "North",])))
         .then_whitespace()
         .t_aco("America"),
     "When referring to the continents, make sure to treat them as a proper noun."
@@ -74,10 +71,7 @@ create_linter_for!(
 create_linter_for!(
     Koreas,
     SequencePattern::default()
-        .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::aco("South")),
-            Box::new(SequencePattern::aco("North"))
-        ])))
+        .then(Box::new(WordSet::all(&["South", "North",])))
         .then_whitespace()
         .t_aco("Korea"),
     "When referring to the nations, make sure to treat them as a proper noun."
@@ -119,25 +113,27 @@ create_linter_for!(
         Box::new(
             SequencePattern::default()
                 .then(Box::new(EitherPattern::new(vec![
-                    Box::new(SequencePattern::aco("Presidents'")),
-                    Box::new(SequencePattern::aco("Valentines")),
-                    Box::new(SequencePattern::aco("Christmas")),
-                    Box::new(SequencePattern::aco("Easter")),
-                    Box::new(SequencePattern::aco("Flag")),
-                    Box::new(SequencePattern::aco("Independence")),
-                    Box::new(SequencePattern::aco("Mothers'")),
-                    Box::new(SequencePattern::aco("New").t_aco("Years")),
-                    Box::new(SequencePattern::aco("Fathers'")),
-                    Box::new(SequencePattern::aco("Columbus")),
-                    Box::new(SequencePattern::aco("Thanksgiving")),
-                    Box::new(SequencePattern::aco("Memorial")),
-                    Box::new(SequencePattern::aco("May")),
-                    Box::new(SequencePattern::aco("Halloween")),
-                    Box::new(SequencePattern::aco("Tax")),
-                    Box::new(SequencePattern::aco("Parents")),
-                    Box::new(SequencePattern::aco("Veterans")),
-                    Box::new(SequencePattern::aco("Armistice")),
-                    Box::new(SequencePattern::aco("Groundhog")),
+                    Box::new(WordSet::all(&[
+                        "Presidents'",
+                        "Valentines",
+                        "Christmas",
+                        "Easter",
+                        "Flag",
+                        "Independence",
+                        "Mothers'",
+                        "Years",
+                        "Fathers'",
+                        "Columbus",
+                        "Thanksgiving",
+                        "Memorial",
+                        "May",
+                        "Halloween",
+                        "Tax",
+                        "Parents",
+                        "Veterans",
+                        "Armistice",
+                        "Groundhog"
+                    ])),
                     Box::new(
                         SequencePattern::default()
                             .t_aco("National")
@@ -249,30 +245,30 @@ create_linter_for!(
     SequencePattern::default()
         .t_aco("Google")
         .then_whitespace()
-        .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::aco("Search")),
-            Box::new(SequencePattern::aco("Cloud")),
-            Box::new(SequencePattern::aco("Maps")),
-            Box::new(SequencePattern::aco("Docs")),
-            Box::new(SequencePattern::aco("Sheets")),
-            Box::new(SequencePattern::aco("Slides")),
-            Box::new(SequencePattern::aco("Drive")),
-            Box::new(SequencePattern::aco("Meet")),
-            Box::new(SequencePattern::aco("Gmail")),
-            Box::new(SequencePattern::aco("Calendar")),
-            Box::new(SequencePattern::aco("Chrome")),
-            Box::new(SequencePattern::aco("ChromeOS")),
-            Box::new(SequencePattern::aco("Android")),
-            Box::new(SequencePattern::aco("Play")),
-            Box::new(SequencePattern::aco("Bard")),
-            Box::new(SequencePattern::aco("Gemini")),
-            Box::new(SequencePattern::aco("YouTube")),
-            Box::new(SequencePattern::aco("Photos")),
-            Box::new(SequencePattern::aco("Analytics")),
-            Box::new(SequencePattern::aco("AdSense")),
-            Box::new(SequencePattern::aco("Pixel")),
-            Box::new(SequencePattern::aco("Nest")),
-            Box::new(SequencePattern::aco("Workspace"))
+        .then(Box::new(WordSet::all(&[
+            "Search",
+            "Cloud",
+            "Maps",
+            "Docs",
+            "Sheets",
+            "Slides",
+            "Drive",
+            "Meet",
+            "Gmail",
+            "Calendar",
+            "Chrome",
+            "ChromeOS",
+            "Android",
+            "Play",
+            "Bard",
+            "Gemini",
+            "YouTube",
+            "Photos",
+            "Analytics",
+            "AdSense",
+            "Pixel",
+            "Nest",
+            "Workspace",
         ]))),
     "When referring to Google products and services, make sure to treat them as proper nouns."
 );
@@ -357,20 +353,22 @@ create_linter_for!(
         .t_aco("Microsoft")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::aco("Windows")),
-            Box::new(SequencePattern::aco("Office")),
-            Box::new(SequencePattern::aco("Teams")),
-            Box::new(SequencePattern::aco("Excel")),
-            Box::new(SequencePattern::aco("PowerPoint")),
-            Box::new(SequencePattern::aco("Word")),
-            Box::new(SequencePattern::aco("Outlook")),
-            Box::new(SequencePattern::aco("OneDrive")),
-            Box::new(SequencePattern::aco("SharePoint")),
-            Box::new(SequencePattern::aco("Xbox")),
-            Box::new(SequencePattern::aco("Surface")),
-            Box::new(SequencePattern::aco("Edge")),
-            Box::new(SequencePattern::aco("Bing")),
-            Box::new(SequencePattern::aco("Dynamics")),
+            Box::new(WordSet::all(&[
+                "Windows",
+                "Office",
+                "Teams",
+                "Excel",
+                "PowerPoint",
+                "Word",
+                "Outlook",
+                "OneDrive",
+                "SharePoint",
+                "Xbox",
+                "Surface",
+                "Edge",
+                "Bing",
+                "Dynamics",
+            ])),
             Box::new(
                 SequencePattern::default()
                     .t_aco("Visual")
@@ -387,10 +385,10 @@ create_linter_for!(
         .t_aco("Apple")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::aco("iPhone")),
-            Box::new(SequencePattern::aco("iPad")),
-            Box::new(SequencePattern::aco("iMac")),
-            Box::new(SequencePattern::aco("MacBook")),
+            Box::new(WordSet::all(&[
+                "iPhone", "iPad", "iMac", "MacBook", "Watch", "TV", "Music", "Arcade", "iCloud",
+                "Safari", "HomeKit", "CarPlay",
+            ])),
             Box::new(
                 SequencePattern::aco("MacBook")
                     .then_whitespace()
@@ -414,14 +412,6 @@ create_linter_for!(
                     .then_whitespace()
                     .t_aco("Max")
             ),
-            Box::new(SequencePattern::aco("Watch")),
-            Box::new(SequencePattern::aco("TV")),
-            Box::new(SequencePattern::aco("Music")),
-            Box::new(SequencePattern::aco("Arcade")),
-            Box::new(SequencePattern::aco("iCloud")),
-            Box::new(SequencePattern::aco("Safari")),
-            Box::new(SequencePattern::aco("HomeKit")),
-            Box::new(SequencePattern::aco("CarPlay")),
             Box::new(
                 SequencePattern::default()
                     .t_aco("Vision")
@@ -437,11 +427,9 @@ create_linter_for!(
     SequencePattern::aco("Meta")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::aco("Oculus")),
-            Box::new(SequencePattern::aco("Portals")),
-            Box::new(SequencePattern::aco("Quest")),
-            Box::new(SequencePattern::aco("Gaming")),
-            Box::new(SequencePattern::aco("Horizon")),
+            Box::new(WordSet::all(&[
+                "Oculus", "Portals", "Quest", "Gaming", "Horizon",
+            ])),
             Box::new(
                 SequencePattern::default()
                     .t_aco("Reality")

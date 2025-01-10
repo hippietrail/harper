@@ -79,6 +79,7 @@ pub trait TokenStringExt {
     fn span(&self) -> Option<Span>;
 
     create_decl_for!(word);
+    create_decl_for!(conjunction);
     create_decl_for!(space);
     create_decl_for!(apostrophe);
     create_decl_for!(pipe);
@@ -117,6 +118,7 @@ pub trait TokenStringExt {
 
 impl TokenStringExt for [Token] {
     create_fns_for!(word);
+    create_fns_for!(conjunction);
     create_fns_for!(space);
     create_fns_for!(apostrophe);
     create_fns_for!(pipe);

@@ -104,8 +104,10 @@
 									>
 										{#if suggestion.kind() == SuggestionKind.Remove}
 											Remove "{lint.get_problem_text()}"
-										{:else}
+										{:else if suggestion.kind() == SuggestionKind.Replace}
 											Replace "{lint.get_problem_text()}" with "{suggestion.get_replacement_text()}"
+										{:else}
+											Insert "{suggestion.get_replacement_text()}" after "{lint.get_problem_text()}"
 										{/if}
 									</Button>
 								</div>

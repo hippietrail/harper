@@ -91,6 +91,10 @@ impl TokenKind {
         }
     }
 
+    pub fn is_article(&self) -> bool {
+        matches!(self, TokenKind::Word(WordMetadata { article: true, .. }))
+    }
+
     pub fn is_ellipsis(&self) -> bool {
         matches!(self, TokenKind::Punctuation(Punctuation::Ellipsis))
     }

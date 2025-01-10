@@ -5,7 +5,7 @@ import { nodeResolve } from '@rollup/plugin-node-resolve';
 import svg from 'rollup-plugin-svg-import';
 
 export default {
-	input: 'src/index.js',
+	input: 'src/index.ts',
 	output: {
 		file: 'main.js',
 		format: 'cjs'
