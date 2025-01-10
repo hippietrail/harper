@@ -71,6 +71,38 @@ The format of these files is identical to user dictionaries.
 Configuration of `harper-ls` varies by editor.
 If you use Neovim, [read this documentation](./neovim#Configuration).
 
+## Supported Languages
+
+`harper-ls` supports a wide variety of programming and markup languages.
+
+| Language   |    Language ID    | Just Comments |
+| :--------- | :---------------: | ------------: |
+| Markdown   |    `markdown`     |            ✅ |
+| HTML       |      `html`       |            ❎ |
+| Email      |      `mail`       |            ❎ |
+| Rust       |      `rust`       |            ✅ |
+| Python     |     `python`      |            ✅ |
+| Nix        |       `nix`       |            ✅ |
+| JavaScript |   `javascript`    |            ✅ |
+| TypeScript |   `typescript`    |            ✅ |
+| React JSX  | `javascriptreact` |            ✅ |
+| React TSX  | `typescriptreact` |            ✅ |
+| Go         |       `go`        |            ✅ |
+| C          |        `c`        |            ✅ |
+| C++        |       `cpp`       |            ✅ |
+| CMake      |      `cmake`      |            ✅ |
+| Ruby       |      `ruby`       |            ✅ |
+| Swift      |      `swift`      |            ✅ |
+| C#         |     `csharp`      |            ✅ |
+| TOML       |      `toml`       |            ✅ |
+| Lua        |       `lua`       |            ✅ |
+| Shell      |   `shellscript`   |            ✅ |
+| Java       |      `java`       |            ✅ |
+| Haskell    |     `haskell`     |            ✅ |
+
+Want your language added?
+Let us know by [commenting on this issue](https://github.com/Automattic/harper/issues/79).
+
 ### Static Dictionary
 
 The static dictionary is built into the binary and is (as of now) immutable.
