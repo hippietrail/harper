@@ -42,6 +42,7 @@
 
 code {
 	font-family: 'JetBrains Mono' !important;
+	word-break: keep-all;
 }
 
 code * {

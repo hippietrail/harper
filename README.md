@@ -54,3 +54,5 @@ This project would not be possible without the hard work from those who [contrib
 <a href="https://github.com/automattic/harper/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=automattic/harper" />
 </a>
+
+Harper's logo was designed by [Lukas Werner](https://lukaswerner.com/).

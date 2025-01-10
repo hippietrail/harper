@@ -22,6 +22,14 @@ Harper is available through the `extra` repo:
 sudo pacman -S harper
 ```
 
+### Scoop
+
+You can install Harper on Windows through [Scoop](https://scoop.sh/).
+
+```bash
+scoop install harper
+```
+
 ## Dictionaries
 
 `harper-ls` has three kinds of dictionaries: user, file-local, and static dictionaries.
@@ -57,6 +65,11 @@ You can find the file-local dictionaries in the following directories on each op
 | Windows          |                                              `FOLDERID_LocalAppData/harper-ls/file_dictionaries` |
 
 The format of these files is identical to user dictionaries.
+
+### Configuration
+
+Configuration of `harper-ls` varies by editor.
+If you use Neovim, [read this documentation](./neovim#Configuration).
 
 ### Static Dictionary
 
