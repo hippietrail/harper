@@ -4,7 +4,7 @@ mod typst_translator;
 use offset_cursor::OffsetCursor;
 use typst_translator::TypstTranslator;
 
-use harper_core::{parsers::Parser, patterns::SequencePattern, Lrc, Token};
+use harper_core::{parsers::Parser, Token};
 use itertools::Itertools;
 use typst_syntax::{
     ast::{AstNode, Markup},
@@ -13,13 +13,6 @@ use typst_syntax::{
 
 /// A parser that wraps the [`PlainEnglish`] parser allowing one to parse Typst files.
 pub struct Typst;
-
-thread_local! {
-    static WORD_APOSTROPHE_WORD: Lrc<SequencePattern> = Lrc::new(SequencePattern::default()
-                .then_any_word()
-                .then_apostrophe()
-                .then_any_word());
-}
 
 impl Parser for Typst {
     fn parse(&self, source: &[char]) -> Vec<Token> {
