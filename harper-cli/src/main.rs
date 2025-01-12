@@ -9,6 +9,7 @@ use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
 use harper_core::parsers::Markdown;
 use harper_core::{remove_overlaps, Dictionary, Document, FstDictionary, TokenKind};
+use harper_literate_haskell::LiterateHaskellParser;
 
 #[derive(Debug, Parser)]
 enum Args {
@@ -171,6 +172,7 @@ fn load_file(file: &Path) -> anyhow::Result<(Document, String)> {
     let parser: Box<dyn harper_core::parsers::Parser> =
         match file.extension().map(|v| v.to_str().unwrap()) {
             Some("md") => Box::new(Markdown),
+            Some("lhs") => Box::new(LiterateHaskellParser),
             Some("typ") => Box::new(harper_typst::Typst),
             _ => Box::new(
                 CommentParser::new_from_filename(file)

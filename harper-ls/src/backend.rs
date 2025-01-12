@@ -2,7 +2,7 @@ use std::collections::HashMap;
 use std::path::{Component, PathBuf};
 use std::sync::Arc;
 
-use anyhow::anyhow;
+use anyhow::{anyhow, Result};
 use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, Linter};
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Markdown, Parser, PlainEnglish};
@@ -11,10 +11,11 @@ use harper_core::{
     WordMetadata,
 };
 use harper_html::HtmlParser;
+use harper_literate_haskell::LiterateHaskellParser;
 use harper_typst::Typst;
 use serde_json::Value;
 use tokio::sync::{Mutex, RwLock};
-use tower_lsp::jsonrpc::Result;
+use tower_lsp::jsonrpc::Result as JsonResult;
 use tower_lsp::lsp_types::notification::PublishDiagnostics;
 use tower_lsp::lsp_types::{
     CodeActionOrCommand, CodeActionParams, CodeActionProviderCapability, CodeActionResponse,
@@ -83,7 +84,7 @@ impl Backend {
         }
     }
 
-    async fn save_file_dictionary(&self, url: &Url, dict: impl Dictionary) -> anyhow::Result<()> {
+    async fn save_file_dictionary(&self, url: &Url, dict: impl Dictionary) -> Result<()> {
         Ok(save_dict(
             self.get_file_dict_path(url)
                 .await
@@ -102,13 +103,13 @@ impl Backend {
         }
     }
 
-    async fn save_user_dictionary(&self, dict: impl Dictionary) -> anyhow::Result<()> {
+    async fn save_user_dictionary(&self, dict: impl Dictionary) -> Result<()> {
         let config = self.config.read().await;
 
         Ok(save_dict(&config.user_dict_path, dict).await?)
     }
 
-    async fn generate_global_dictionary(&self) -> anyhow::Result<MergedDictionary> {
+    async fn generate_global_dictionary(&self) -> Result<MergedDictionary> {
         let mut dict = MergedDictionary::new();
         dict.add_dictionary(FstDictionary::curated());
         let user_dict = self.load_user_dictionary().await;
@@ -116,7 +117,7 @@ impl Backend {
         Ok(dict)
     }
 
-    async fn generate_file_dictionary(&self, url: &Url) -> anyhow::Result<MergedDictionary> {
+    async fn generate_file_dictionary(&self, url: &Url) -> Result<MergedDictionary> {
         let (global_dictionary, file_dictionary) = tokio::join!(
             self.generate_global_dictionary(),
             self.load_file_dictionary(url)
@@ -132,11 +133,7 @@ impl Backend {
         Ok(global_dictionary)
     }
 
-    async fn update_document_from_file(
-        &self,
-        url: &Url,
-        language_id: Option<&str>,
-    ) -> anyhow::Result<()> {
+    async fn update_document_from_file(&self, url: &Url, language_id: Option<&str>) -> Result<()> {
         let content = match tokio::fs::read_to_string(
             url.to_file_path()
                 .map_err(|_| anyhow::format_err!("Could not extract file path."))?,
@@ -158,7 +155,7 @@ impl Backend {
         url: &Url,
         text: &str,
         language_id: Option<&str>,
-    ) -> anyhow::Result<()> {
+    ) -> Result<()> {
         self.pull_config().await;
 
         let mut doc_lock = self.doc_state.lock().await;
@@ -183,31 +180,70 @@ impl Backend {
             return Ok(());
         };
 
+        async fn use_ident_dict<'a>(
+            backend: &'a Backend,
+            new_dict: Arc<FullDictionary>,
+            parser: impl Parser + 'static,
+            url: &'a Url,
+            doc_state: &'a mut DocumentState,
+            config_lock: tokio::sync::RwLockReadGuard<'a, Config>,
+        ) -> Result<Box<dyn Parser>> {
+            if doc_state.ident_dict != new_dict {
+                doc_state.ident_dict = new_dict.clone();
+
+                let mut merged = backend.generate_file_dictionary(url).await?;
+                merged.add_dictionary(new_dict);
+                let merged = Arc::new(merged);
+
+                doc_state.linter = LintGroup::new(config_lock.lint_config, merged.clone());
+                doc_state.dict = merged.clone();
+            }
+
+            Ok(Box::new(CollapseIdentifiers::new(
+                Box::new(parser),
+                Box::new(doc_state.dict.clone()),
+            )))
+        }
+
+        let source: Vec<char> = text.chars().collect();
         let ts_parser = CommentParser::new_from_language_id(language_id);
         let parser: Option<Box<dyn Parser>> = match language_id.as_str() {
             _ if ts_parser.is_some() => {
                 let ts_parser = ts_parser.unwrap();
-                let source: Vec<char> = text.chars().collect();
-                let source = Arc::new(source);
 
-                if let Some(new_dict) = ts_parser.create_ident_dict(source.as_slice()) {
-                    let new_dict = Arc::new(new_dict);
-
-                    if doc_state.ident_dict != new_dict {
-                        doc_state.ident_dict = new_dict.clone();
-                        let mut merged = self.generate_file_dictionary(url).await?;
-                        merged.add_dictionary(new_dict);
-                        let merged = Arc::new(merged);
-
-                        doc_state.linter = LintGroup::new(config_lock.lint_config, merged.clone());
-                        doc_state.dict = merged.clone();
-                    }
-                    Some(Box::new(CollapseIdentifiers::new(
-                        Box::new(ts_parser),
-                        Box::new(doc_state.dict.clone()),
-                    )))
+                if let Some(new_dict) = ts_parser.create_ident_dict(&Arc::new(source)) {
+                    Some(
+                        use_ident_dict(
+                            self,
+                            Arc::new(new_dict),
+                            ts_parser,
+                            url,
+                            doc_state,
+                            config_lock,
+                        )
+                        .await?,
+                    )
                 } else {
                     Some(Box::new(ts_parser))
+                }
+            }
+            "lhaskell" => {
+                let parser = LiterateHaskellParser;
+
+                if let Some(new_dict) = parser.create_ident_dict(&Arc::new(source)) {
+                    Some(
+                        use_ident_dict(
+                            self,
+                            Arc::new(new_dict),
+                            parser,
+                            url,
+                            doc_state,
+                            config_lock,
+                        )
+                        .await?,
+                    )
+                } else {
+                    Some(Box::new(parser))
                 }
             }
             "markdown" => Some(Box::new(Markdown)),
@@ -238,7 +274,7 @@ impl Backend {
         &self,
         url: &Url,
         range: Range,
-    ) -> Result<Vec<CodeActionOrCommand>> {
+    ) -> JsonResult<Vec<CodeActionOrCommand>> {
         let (config, mut doc_states) = tokio::join!(self.config.read(), self.doc_state.lock());
         let Some(doc_state) = doc_states.get_mut(url) else {
             return Ok(Vec::new());
@@ -341,7 +377,7 @@ impl Backend {
 
 #[tower_lsp::async_trait]
 impl LanguageServer for Backend {
-    async fn initialize(&self, _: InitializeParams) -> Result<InitializeResult> {
+    async fn initialize(&self, _: InitializeParams) -> JsonResult<InitializeResult> {
         Ok(InitializeResult {
             server_info: None,
             capabilities: ServerCapabilities {
@@ -466,7 +502,7 @@ impl LanguageServer for Backend {
         }
     }
 
-    async fn execute_command(&self, params: ExecuteCommandParams) -> Result<Option<Value>> {
+    async fn execute_command(&self, params: ExecuteCommandParams) -> JsonResult<Option<Value>> {
         let mut string_args = params
             .arguments
             .into_iter()
@@ -554,7 +590,10 @@ impl LanguageServer for Backend {
         }
     }
 
-    async fn code_action(&self, params: CodeActionParams) -> Result<Option<CodeActionResponse>> {
+    async fn code_action(
+        &self,
+        params: CodeActionParams,
+    ) -> JsonResult<Option<CodeActionResponse>> {
         let actions = self
             .generate_code_actions(&params.text_document.uri, params.range)
             .await?;
@@ -562,7 +601,7 @@ impl LanguageServer for Backend {
         Ok(Some(actions))
     }
 
-    async fn shutdown(&self) -> Result<()> {
+    async fn shutdown(&self) -> JsonResult<()> {
         let doc_states = self.doc_state.lock().await;
 
         // Clears the diagnostics for open buffers.

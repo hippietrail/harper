@@ -63,6 +63,20 @@ lspconfig.harper_ls.setup {
 }
 ```
 
+For example, if you want to use Vim's dictionary, you can do something like this:
+
+```lua
+lspconfig.harper_ls.setup({
+    settings = {
+        ["harper-ls"] = {
+            userDictPath = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
+        },
+    },
+})
+```
+
+See the [relevant issue for details](https://github.com/Automattic/harper/issues/143).
+
 ### Linters
 
 Linters are grammatical rules Harper looks for to correct your work.

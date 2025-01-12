@@ -594,6 +594,7 @@ dependencies = [
  "clap",
  "harper-comments",
  "harper-core",
+ "harper-literate-haskell",
  "harper-typst",
  "serde_json",
 ]
@@ -663,6 +664,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "harper-literate-haskell"
+version = "0.15.0"
+dependencies = [
+ "harper-comments",
+ "harper-core",
+ "harper-tree-sitter",
+ "itertools 0.13.0",
+ "paste",
+]
+
+[[package]]
 name = "harper-ls"
 version = "0.15.0"
 dependencies = [
@@ -673,6 +685,7 @@ dependencies = [
  "harper-comments",
  "harper-core",
  "harper-html",
+ "harper-literate-haskell",
  "harper-typst",
  "itertools 0.14.0",
  "once_cell",
@@ -958,6 +971,15 @@ name = "itertools"
 version = "0.10.5"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b0fd2260e829bddf4cb6ea802289de2f86d6a7a690192fbe91b3f46e0f2c8473"
+dependencies = [
+ "either",
+]
+
+[[package]]
+name = "itertools"
+version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
 dependencies = [
  "either",
 ]
