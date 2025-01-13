@@ -11,12 +11,14 @@ mod lint;
 mod lint_group;
 mod long_sentences;
 mod matcher;
+mod merge_linters;
 mod merge_words;
 mod multiple_sequential_pronouns;
 mod number_suffix_capitalization;
 mod oxford_comma;
 mod pattern_linter;
 mod plural_conjugate;
+mod pronoun_contraction;
 mod proper_noun_capitalization_linters;
 mod repeated_words;
 mod sentence_capitalization;
@@ -47,6 +49,7 @@ pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
 pub use plural_conjugate::PluralConjugate;
+pub use pronoun_contraction::PronounContraction;
 pub use proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
     Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
