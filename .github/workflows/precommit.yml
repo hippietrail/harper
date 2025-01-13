@@ -2,7 +2,7 @@ name: Precommit
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "web-prod"]
   pull_request:
     branches: ["master"]
 
