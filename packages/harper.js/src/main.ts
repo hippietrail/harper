@@ -6,5 +6,4 @@ import WorkerLinter from './WorkerLinter';
 
 export { LocalLinter, WorkerLinter, SuggestionKind };
 export type { Linter, Lint, Span, Suggestion };
-
 export type LintConfig = Record<string, boolean | undefined>;

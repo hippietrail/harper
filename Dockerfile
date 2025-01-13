@@ -12,7 +12,7 @@ RUN wasm-pack build --release --target web
 
 FROM node:slim AS node-build
 
-RUN apt-get update && apt-get install git -y
+RUN apt-get update && apt-get install git pandoc -y
 
 RUN mkdir -p /usr/build/
 WORKDIR /usr/build/
@@ -25,7 +25,7 @@ COPY demo.md .
 
 WORKDIR /usr/build/packages/harper.js
 
-RUN yarn install && yarn build
+RUN yarn install && yarn build && ./docs.sh
 
 WORKDIR /usr/build/packages/web
 

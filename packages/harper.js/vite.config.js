@@ -2,6 +2,12 @@ import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
 import { defineConfig } from 'vite';
 import virtual from 'vite-plugin-virtual';
+import fs from 'fs';
+
+function fileAsObject(path) {
+	let content = fs.readFileSync(path);
+	return JSON.parse(content);
+}
 
 export default defineConfig({
 	build: {
@@ -19,7 +25,11 @@ export default defineConfig({
 	},
 	base: './',
 	plugins: [
-		dts({ rollupTypes: true, tsconfigPath: './tsconfig.json', bundledPackages: ['wasm'] }),
+		dts({
+			...fileAsObject('./api-extractor.json'),
+			rollupTypes: true,
+			tsconfigPath: './tsconfig.json'
+		}),
 		virtual({
 			'virtual:wasm': `import wasmUri from 'wasm/harper_wasm_bg.wasm?inline'; export default wasmUri`
 		})

@@ -3,7 +3,7 @@ import Linter from './Linter';
 import loadWasm from './loadWasm';
 import { LintConfig } from './main';
 
-/** A Linter that runs in the current JavaScript context (meaning it is allowed to block the event loop). */
+/** A Linter that runs in the current JavaScript context (meaning it is allowed to block the event loop).  */
 export default class LocalLinter implements Linter {
 	private inner: WasmLinter | undefined;
 
