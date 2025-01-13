@@ -9,8 +9,10 @@ use crate::{Span, Token, TokenKind, TokenStringExt, VecExt};
 /// CommonMark files.
 ///
 /// Will ignore code blocks and tables.
-#[derive(Default, Clone, Debug)]
-pub struct Markdown(MarkdownOptions);
+#[derive(Default, Clone, Debug, Copy)]
+pub struct Markdown {
+    options: MarkdownOptions,
+}
 
 #[derive(Copy, Clone, Debug, Serialize, Deserialize)]
 pub struct MarkdownOptions {
@@ -29,7 +31,7 @@ impl Default for MarkdownOptions {
 
 impl Markdown {
     pub fn new(options: MarkdownOptions) -> Self {
-        Self(options)
+        Self { options }
     }
 
     /// Remove hidden Wikilink target text.
@@ -142,8 +144,8 @@ impl Markdown {
 impl Parser for Markdown {
     /// This implementation is quite gross to look at, but it works.
     /// If any issues arise, it would likely help to refactor this out first.
-    fn parse(&mut self, source: &[char]) -> Vec<Token> {
-        let mut english_parser = PlainEnglish;
+    fn parse(&self, source: &[char]) -> Vec<Token> {
+        let english_parser = PlainEnglish;
 
         let source_str: String = source.iter().collect();
         let md_parser = pulldown_cmark::Parser::new_ext(
@@ -224,7 +226,7 @@ impl Parser for Markdown {
                             });
                             continue;
                         }
-                        if matches!(tag, Tag::Link { .. }) && self.0.ignore_link_title {
+                        if matches!(tag, Tag::Link { .. }) && self.options.ignore_link_title {
                             tokens.push(Token {
                                 span: Span::new_with_len(traversed_chars, text.chars().count()),
                                 kind: TokenKind::Unlintable,
@@ -232,7 +234,7 @@ impl Parser for Markdown {
                             continue;
                         }
                         if !(matches!(tag, Tag::Paragraph)
-                            || matches!(tag, Tag::Link { .. }) && !self.0.ignore_link_title
+                            || matches!(tag, Tag::Link { .. }) && !self.options.ignore_link_title
                             || matches!(tag, Tag::Heading { .. })
                             || matches!(tag, Tag::Item)
                             || matches!(tag, Tag::TableCell)
@@ -292,7 +294,7 @@ mod tests {
 
     #[test]
     fn survives_emojis() {
-        let source = r#"🤷."#;
+        let source = r"🤷.";
 
         Markdown::default().parse_str(source);
     }
@@ -312,7 +314,7 @@ mod tests {
 
     #[test]
     fn math_becomes_unlintable() {
-        let source = r#"$\Katex$ $\text{is}$ $\text{great}$."#;
+        let source = r"$\Katex$ $\text{is}$ $\text{great}$.";
 
         let tokens = Markdown::default().parse_str(source);
         assert_eq!(
@@ -330,7 +332,7 @@ mod tests {
 
     #[test]
     fn hidden_wikilink_text() {
-        let source = r#"[[this is hidden|this is not]]"#;
+        let source = r"[[this is hidden|this is not]]";
 
         let tokens = Markdown::default().parse_str(source);
 
@@ -350,7 +352,7 @@ mod tests {
 
     #[test]
     fn improper_wikilink_text() {
-        let source = r#"this is shown|this is also shown]]"#;
+        let source = r"this is shown|this is also shown]]";
 
         let tokens = Markdown::default().parse_str(source);
 
@@ -382,7 +384,7 @@ mod tests {
 
     #[test]
     fn normal_wikilink() {
-        let source = r#"[[Wikilink]]"#;
+        let source = r"[[Wikilink]]";
         let tokens = Markdown::default().parse_str(source);
         let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
 
@@ -393,14 +395,14 @@ mod tests {
 
     #[test]
     fn html_is_unlintable() {
-        let source = r#"The range of inputs from <ctrl-g> to ctrl-z"#;
+        let source = r"The range of inputs from <ctrl-g> to ctrl-z";
         let tokens = Markdown::default().parse_str(source);
         assert_eq!(tokens.iter_unlintables().count(), 1);
     }
 
     #[test]
     fn link_title_unlintable() {
-        let mut parser = Markdown(MarkdownOptions {
+        let parser = Markdown::new(MarkdownOptions {
             ignore_link_title: true,
             ..MarkdownOptions::default()
         });
@@ -416,7 +418,7 @@ mod tests {
     #[test]
     fn respects_config() {
         let source = r#"[elijah-potter/harper](https://github.com/elijah-potter/harper)"#;
-        let mut parser = Markdown(MarkdownOptions {
+        let parser = Markdown::new(MarkdownOptions {
             ignore_link_title: true,
             ..MarkdownOptions::default()
         });
@@ -428,7 +430,7 @@ mod tests {
 
         assert!(matches!(token_kinds.as_slice(), &[TokenKind::Unlintable]));
 
-        let mut parser = Markdown(MarkdownOptions {
+        let parser = Markdown::new(MarkdownOptions {
             ignore_link_title: false,
             ..MarkdownOptions::default()
         });

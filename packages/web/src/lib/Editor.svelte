@@ -18,6 +18,8 @@
 
 	linter.setup();
 
+	let w: number | undefined;
+
 	$: linter.lint(content).then((newLints) => (lints = newLints));
 	$: boxHeight = calcHeight(content);
 	$: if (focused != null && lintCards[focused])
@@ -38,9 +40,13 @@
 		let newHeight = 20 + numberOfLineBreaks * 30 + 12 + 2;
 		return newHeight;
 	}
+
+	// Whether to display a smallar variant of the editor
+	$: small = (w ?? 1024) < 1024;
+	$: superSmall = (w ?? 1024) < 550;
 </script>
 
-<div class="flex lg:flex-row flex-col w-full h-full p-5">
+<div class={`flex w-full h-full p-5 ${small ? 'flex-col' : 'flex-row'}`} bind:clientWidth={w}>
 	<Card
 		class="flex-grow h-full p-5 grid z-10 max-w-full text-lg overflow-auto mr-5"
 		on:click={() => editor && editor.focus()}
@@ -57,7 +63,7 @@
 			<Underlines {content} bind:focusLintIndex={focused} />
 		</div>
 	</Card>
-	<Card class="flex-none basis-[400px] max-h-full p-1 hidden lg:flex">
+	<Card class={`flex-none basis-[400px] max-h-full p-1 ${small ? 'hidden' : 'flex'}`}>
 		<h2 class="text-2xl font-bold m-2">Suggestions</h2>
 		<div class="flex flex-col overflow-y-auto overflow-x-hidden m-0 p-0 h-full">
 			{#if lints.length == 0}
@@ -75,7 +81,7 @@
 				>
 					<div class="pl-2 border-l-[3px] border-l-primary-500">
 						<div class="flex flex-row">
-							<h3 class="font-bold">
+							<h3 class="font-bold text-base p-0">
 								{lint.lint_kind()} - “<span class="italic">
 									{lint.get_problem_text()}
 								</span>”
@@ -85,7 +91,7 @@
 							class="transition-all overflow-hidden flex flex-col justify-evenly"
 							style={`height: ${focused === i ? `calc(55px * ${lint.suggestion_count() + 1})` : '0px'}`}
 						>
-							<p style="height: 50px" class="text-left text-sm">{lint.message()}</p>
+							<p style="height: 50px" class="text-left text-sm p-0">{lint.message()}</p>
 							{#each lint.suggestions() as suggestion}
 								<div class="w-full p-[4px]">
 									<Button
@@ -98,8 +104,10 @@
 									>
 										{#if suggestion.kind() == SuggestionKind.Remove}
 											Remove "{lint.get_problem_text()}"
-										{:else}
+										{:else if suggestion.kind() == SuggestionKind.Replace}
 											Replace "{lint.get_problem_text()}" with "{suggestion.get_replacement_text()}"
+										{:else}
+											Insert "{suggestion.get_replacement_text()}" after "{lint.get_problem_text()}"
 										{/if}
 									</Button>
 								</div>
@@ -111,10 +119,12 @@
 		</div>
 	</Card>
 	{#if focused != null}
-		<Card class="lg:hidden max-w-full w-full justify-between flex-row">
-			<div>
-				<h1 class="font-bold">{lints[focused].lint_kind()}</h1>
-				<p>{lints[focused].message()}</p>
+		<Card
+			class={`max-w-full w-full ${superSmall ? 'justify-center' : 'justify-between'} flex-row ${small ? '' : 'hidden'}`}
+		>
+			<div class={superSmall ? 'hidden' : ''}>
+				<h1 class={`font-bold p-0 text-base`}>{lints[focused].lint_kind()}</h1>
+				<p class={`p-0 text-sm`}>{lints[focused].message()}</p>
 			</div>
 			<div class="flex flex-row">
 				{#each lints[focused].suggestions() as suggestion}

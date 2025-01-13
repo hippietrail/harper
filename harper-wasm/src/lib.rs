@@ -72,11 +72,16 @@ impl Linter {
     pub fn isolate_english(&self, text: String) -> String {
         let document = Document::new(
             &text,
-            &mut IsolateEnglish::new(Box::new(PlainEnglish), self.dictionary.clone()),
+            &IsolateEnglish::new(Box::new(PlainEnglish), self.dictionary.clone()),
             &self.dictionary,
         );
 
         document.to_string()
+    }
+
+    /// Get a JSON map containing the descriptions of all the linting rules.
+    pub fn get_lint_descriptions_as_json(&self) -> String {
+        serde_json::to_string(&self.lint_group.all_descriptions()).unwrap()
     }
 
     pub fn get_lint_config_as_json(&self) -> String {
@@ -86,6 +91,11 @@ impl Linter {
     pub fn set_lint_config_from_json(&mut self, json: String) -> Result<(), String> {
         self.lint_group.config = serde_json::from_str(&json).map_err(|v| v.to_string())?;
         Ok(())
+    }
+
+    /// Get a Record containing the descriptions of all the linting rules.
+    pub fn get_lint_descriptions_as_object(&self) -> JsValue {
+        serde_wasm_bindgen::to_value(&self.lint_group.all_descriptions()).unwrap()
     }
 
     pub fn get_lint_config_as_object(&self) -> JsValue {
@@ -109,7 +119,7 @@ impl Linter {
         // TODO: Have a way to configure the markdown parser
         let document = Document::new_from_vec(
             source.clone(),
-            &mut Markdown::default(),
+            &Markdown::default(),
             &FullDictionary::curated(),
         );
 
@@ -128,6 +138,11 @@ impl Default for Linter {
     fn default() -> Self {
         Self::new()
     }
+}
+
+#[wasm_bindgen]
+pub fn to_title_case(text: String) -> String {
+    harper_core::make_title_case_str(&text, &mut PlainEnglish, &FstDictionary::curated())
 }
 
 #[wasm_bindgen]
@@ -155,6 +170,7 @@ pub struct Suggestion {
 pub enum SuggestionKind {
     Replace = 0,
     Remove = 1,
+    InsertAfter = 2,
 }
 
 #[wasm_bindgen]
@@ -163,13 +179,14 @@ impl Suggestion {
         Self { inner }
     }
 
-    /// Get the text that is going to replace error.
+    /// Get the text that is going to replace the problematic section.
     /// If [`Self::kind`] is `SuggestionKind::Remove`, this will return an empty
     /// string.
     pub fn get_replacement_text(&self) -> String {
         match &self.inner {
             harper_core::linting::Suggestion::Remove => "".to_string(),
             harper_core::linting::Suggestion::ReplaceWith(chars) => chars.iter().collect(),
+            harper_core::linting::Suggestion::InsertAfter(chars) => chars.iter().collect(),
         }
     }
 
@@ -177,6 +194,7 @@ impl Suggestion {
         match &self.inner {
             harper_core::linting::Suggestion::Remove => SuggestionKind::Remove,
             harper_core::linting::Suggestion::ReplaceWith(_) => SuggestionKind::Replace,
+            harper_core::linting::Suggestion::InsertAfter(_) => SuggestionKind::InsertAfter,
         }
     }
 }

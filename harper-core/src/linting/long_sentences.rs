@@ -25,4 +25,8 @@ impl Linter for LongSentences {
 
         output
     }
+
+    fn description(&self) -> &'static str {
+        "This rule looks for run-on sentences, which can make your work harder to grok."
+    }
 }

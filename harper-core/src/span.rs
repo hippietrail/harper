@@ -122,6 +122,16 @@ impl From<Span> for Range<usize> {
     }
 }
 
+impl IntoIterator for Span {
+    type Item = usize;
+
+    type IntoIter = Range<usize>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.start..self.end
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use crate::Span;

@@ -1,7 +1,7 @@
 use std::path::Path;
 
 use comment_parsers::{Go, JavaDoc, JsDoc, Unit};
-use harper_core::parsers::{self, Markdown, Parser};
+use harper_core::parsers::{self, MarkdownOptions, Parser};
 use harper_core::{FullDictionary, Token};
 use harper_tree_sitter::TreeSitterMasker;
 use tree_sitter::Node;
@@ -17,7 +17,10 @@ impl CommentParser {
         self.inner.masker.create_ident_dict(source)
     }
 
-    pub fn new_from_language_id(language_id: &str, markdown_parser: Markdown) -> Option<Self> {
+    pub fn new_from_language_id(
+        language_id: &str,
+        markdown_options: MarkdownOptions,
+    ) -> Option<Self> {
         let language = match language_id {
             "rust" => tree_sitter_rust::language(),
             "typescriptreact" => tree_sitter_typescript::language_tsx(),
@@ -29,6 +32,7 @@ impl CommentParser {
             "go" => tree_sitter_go::language(),
             "c" => tree_sitter_c::language(),
             "cpp" => tree_sitter_cpp::language(),
+            "cmake" => tree_sitter_cmake::language(),
             "ruby" => tree_sitter_ruby::language(),
             "swift" => tree_sitter_swift::language(),
             "csharp" => tree_sitter_c_sharp::language(),
@@ -36,16 +40,17 @@ impl CommentParser {
             "lua" => tree_sitter_lua::language(),
             "shellscript" => tree_sitter_bash::language(),
             "java" => tree_sitter_java::language(),
+            "haskell" => tree_sitter_haskell::language(),
             _ => return None,
         };
 
         let comment_parser: Box<dyn Parser> = match language_id {
             "javascriptreact" | "typescript" | "typescriptreact" | "javascript" => {
-                Box::new(JsDoc::new(markdown_parser))
+                Box::new(JsDoc::new_markdown(markdown_options))
             }
             "java" => Box::new(JavaDoc::default()),
-            "go" => Box::new(Go::new(markdown_parser)),
-            _ => Box::new(Unit::new(markdown_parser)),
+            "go" => Box::new(Go::new_markdown(markdown_options)),
+            _ => Box::new(Unit::new_markdown(markdown_options)),
         };
 
         Some(Self {
@@ -57,8 +62,8 @@ impl CommentParser {
     }
 
     /// Infer the programming language from a provided filename.
-    pub fn new_from_filename(filename: &Path, markdown_parser: Markdown) -> Option<Self> {
-        Self::new_from_language_id(Self::filename_to_filetype(filename)?, markdown_parser)
+    pub fn new_from_filename(filename: &Path, markdown_options: MarkdownOptions) -> Option<Self> {
+        Self::new_from_language_id(Self::filename_to_filetype(filename)?, markdown_options)
     }
 
     /// Convert a provided path to a corresponding Language Server Protocol file
@@ -78,6 +83,7 @@ impl CommentParser {
             "go" => "go",
             "c" => "c",
             "cpp" => "cpp",
+            "cmake" => "cmake",
             "h" => "cpp",
             "rb" => "ruby",
             "swift" => "swift",
@@ -87,6 +93,7 @@ impl CommentParser {
             "sh" => "shellscript",
             "bash" => "shellscript",
             "java" => "java",
+            "hs" => "haskell",
             _ => return None,
         })
     }
@@ -97,7 +104,7 @@ impl CommentParser {
 }
 
 impl Parser for CommentParser {
-    fn parse(&mut self, source: &[char]) -> Vec<Token> {
+    fn parse(&self, source: &[char]) -> Vec<Token> {
         self.inner.parse(source)
     }
 }

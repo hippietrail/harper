@@ -11,6 +11,7 @@ impl Default for TerminatingConjunctions {
         Self {
             pattern: Box::new(ConsumesRemainingPattern::new(Box::new(
                 SequencePattern::default()
+                    .then_anything_but_hyphen()
                     .then_any_word_in(Lrc::new(
                         [
                             "although",
@@ -68,6 +69,10 @@ impl PatternLinter for TerminatingConjunctions {
             priority: 63,
         }
     }
+
+    fn description(&self) -> &'static str {
+        "Subordinating conjunctions are words that create a grammatical space for another idea or clause. As such, they should never appear at the end of a clause."
+    }
 }
 
 #[cfg(test)]
@@ -87,5 +92,14 @@ mod tests {
     #[test]
     fn no_false_positive() {
         assert_lint_count("Cookies and milk.", TerminatingConjunctions::default(), 0)
+    }
+
+    #[test]
+    fn issue_341() {
+        assert_lint_count(
+            "The structure has a couple of fields marked read-only, like A and B",
+            TerminatingConjunctions::default(),
+            0,
+        );
     }
 }

@@ -13,6 +13,10 @@ impl Linter for WrongQuotes {
             .filter_map(|(quote_idx, quote_token)| lint_quote(document, quote_idx, quote_token))
             .collect()
     }
+
+    fn description(&self) -> &'static str {
+        "The key on the keyboard often used as a quotation mark is actually a double-apostrophe. Use the correct character."
+    }
 }
 
 fn lint_quote(document: &Document, quote_idx: usize, quote_token: Token) -> Option<Lint> {

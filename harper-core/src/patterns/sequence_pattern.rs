@@ -2,10 +2,10 @@ use hashbrown::HashSet;
 use paste::paste;
 
 use super::whitespace_pattern::WhitespacePattern;
-use super::{Pattern, RepeatingPattern};
+use super::{NounPhrase, Pattern, RepeatingPattern};
 use crate::{CharStringExt, Lrc, Token, TokenKind};
 
-/// A pattern that checks that a sequence of others patterns match.
+/// A pattern that checks that a sequence of other patterns match.
 #[derive(Default)]
 pub struct SequencePattern {
     token_patterns: Vec<Box<dyn Pattern>>,
@@ -27,12 +27,25 @@ macro_rules! gen_then_from_is {
                     tok.kind.[< is_$quality >]()
                 }))
             }
+
+            pub fn [< then_anything_but_$quality >] (mut self) -> Self{
+                self.token_patterns.push(Box::new(|tok: &Token, _source: &[char]| {
+                    if tok.kind.[< is_$quality >](){
+                        false
+                    }else{
+                        true
+                    }
+                }));
+
+                self
+            }
         }
     };
 }
 
 impl SequencePattern {
     gen_then_from_is!(noun);
+    gen_then_from_is!(plural_noun);
     gen_then_from_is!(verb);
     gen_then_from_is!(linking_verb);
     gen_then_from_is!(pronoun);
@@ -43,6 +56,13 @@ impl SequencePattern {
     gen_then_from_is!(case_separator);
     gen_then_from_is!(adverb);
     gen_then_from_is!(adjective);
+    gen_then_from_is!(apostrophe);
+    gen_then_from_is!(hyphen);
+
+    /// Add a pattern that looks for more complex ideas, like nouns with adjectives attached.
+    pub fn then_noun_phrase(self) -> Self {
+        self.then(Box::new(NounPhrase))
+    }
 
     pub fn then_exact_word(mut self, word: &'static str) -> Self {
         self.token_patterns
@@ -65,6 +85,49 @@ impl SequencePattern {
                 w_char_count == tok_chars.len()
             }));
         self
+    }
+
+    /// Shorthand for [`Self::any_capitalization_of`].
+    pub fn aco(word: &'static str) -> Self {
+        Self::any_capitalization_of(word)
+    }
+
+    pub fn any_capitalization_of(word: &'static str) -> Self {
+        Self::default().then_any_capitalization_of(word)
+    }
+
+    /// Shorthand for [`Self::then_any_capitalization_of`].
+    pub fn t_aco(self, word: &'static str) -> Self {
+        self.then_any_capitalization_of(word)
+    }
+
+    /// Match examples of `word` that have any capitalization.
+    pub fn then_any_capitalization_of(mut self, word: &'static str) -> Self {
+        self.token_patterns
+            .push(Box::new(|tok: &Token, source: &[char]| {
+                if !tok.kind.is_word() {
+                    return false;
+                }
+
+                let tok_chars = tok.span.get_content(source);
+
+                if tok_chars.len() != word.chars().count() {
+                    return false;
+                }
+
+                let partial_match = tok_chars
+                    .iter()
+                    .zip(word.chars())
+                    .all(|(a, b)| a.eq_ignore_ascii_case(&b));
+
+                partial_match
+            }));
+        self
+    }
+
+    /// Shorthand for [`Self::then_exact_word_or_lowercase`].
+    pub fn t_eworl(self, word: &'static str) -> Self {
+        self.then_exact_word_or_lowercase(word)
     }
 
     pub fn then_exact_word_or_lowercase(mut self, word: &'static str) -> Self {

@@ -46,7 +46,7 @@ export default defineConfig({
 		browser: {
 			provider: 'playwright',
 			enabled: true,
-			name: 'chromium'
+			headless: true
 		}
 	},
 	assetsInclude: ['**/*.wasm']

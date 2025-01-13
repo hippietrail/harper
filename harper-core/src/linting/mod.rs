@@ -3,6 +3,7 @@ mod avoid_curses;
 mod boring_words;
 mod capitalize_personal_pronouns;
 mod correct_number_suffix;
+mod dashes;
 mod dot_initialisms;
 mod ellipsis_length;
 mod linking_verbs;
@@ -10,9 +11,13 @@ mod lint;
 mod lint_group;
 mod long_sentences;
 mod matcher;
+mod merge_words;
 mod multiple_sequential_pronouns;
 mod number_suffix_capitalization;
+mod oxford_comma;
 mod pattern_linter;
+mod plural_conjugate;
+mod proper_noun_capitalization_linters;
 mod repeated_words;
 mod sentence_capitalization;
 mod spaces;
@@ -36,9 +41,15 @@ pub use lint::{Lint, LintKind, Suggestion};
 pub use lint_group::{LintGroup, LintGroupConfig};
 pub use long_sentences::LongSentences;
 pub use matcher::Matcher;
+pub use merge_words::MergeWords;
 pub use multiple_sequential_pronouns::MultipleSequentialPronouns;
 pub use number_suffix_capitalization::NumberSuffixCapitalization;
+pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
+pub use proper_noun_capitalization_linters::{
+    AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
+    Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
+};
 pub use repeated_words::RepeatedWords;
 pub use sentence_capitalization::SentenceCapitalization;
 pub use spaces::Spaces;
@@ -55,33 +66,48 @@ use crate::Document;
 #[cfg(not(feature = "concurrent"))]
 pub trait Linter {
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
+    fn description(&self) -> &str;
 }
+
 #[cfg(feature = "concurrent")]
 pub trait Linter: Send + Sync {
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
+    fn description(&self) -> &str;
 }
 
 #[cfg(test)]
 mod tests {
     use super::Linter;
-    use crate::{parsers::MarkdownOptions, Document};
+    use crate::Document;
 
     pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
-        let test = Document::new_markdown_curated(text, MarkdownOptions::default());
+        let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
         dbg!(&lints);
         assert_eq!(lints.len(), count);
     }
 
+    /// Assert the total number of suggestions produced by a [`Linter`], spread across all produced
+    /// [`Lint`]s.
+    pub fn assert_suggestion_count(text: &str, mut linter: impl Linter, count: usize) {
+        let test = Document::new_markdown_default_curated(text);
+        let lints = linter.lint(&test);
+        assert_eq!(
+            lints.iter().map(|l| l.suggestions.len()).sum::<usize>(),
+            count
+        );
+    }
+
     /// Runs a provided linter on text, applies the first suggestion from each
-    /// lint and asserts that the result is equal to a given value.
+    /// lint and asserts whether the result is equal to a given value.
     pub fn assert_suggestion_result(text: &str, mut linter: impl Linter, expected_result: &str) {
-        let test = Document::new_markdown_curated(text, MarkdownOptions::default());
+        let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
 
         let mut text: Vec<char> = text.chars().collect();
 
         for lint in lints {
+            dbg!(&lint);
             if let Some(sug) = lint.suggestions.first() {
                 sug.apply(lint.span, &mut text);
             }

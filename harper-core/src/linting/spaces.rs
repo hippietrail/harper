@@ -61,6 +61,10 @@ impl Linter for Spaces {
 
         output
     }
+
+    fn description(&self) -> &'static str {
+        "Words should be separated by at most one space."
+    }
 }
 
 #[cfg(test)]

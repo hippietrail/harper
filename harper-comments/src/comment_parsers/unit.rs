@@ -1,4 +1,5 @@
-use harper_core::parsers::{Markdown, Parser};
+use harper_core::parsers::{Markdown, MarkdownOptions, Parser};
+use harper_core::Lrc;
 use harper_core::{Span, Token};
 
 use super::without_initiators;
@@ -11,17 +12,24 @@ use super::without_initiators;
 /// including the comment initiation characters.
 #[derive(Clone)]
 pub struct Unit {
-    markdown_parser: Markdown,
+    inner: Lrc<dyn Parser>,
 }
 
 impl Unit {
-    pub fn new(markdown_parser: Markdown) -> Self {
-        Self { markdown_parser }
+    #[allow(unused)]
+    pub fn new(parser: Lrc<dyn Parser>) -> Self {
+        Self { inner: parser }
+    }
+
+    pub fn new_markdown(markdown_options: MarkdownOptions) -> Self {
+        Self {
+            inner: Lrc::new(Markdown::new(markdown_options)),
+        }
     }
 }
 
 impl Parser for Unit {
-    fn parse(&mut self, source: &[char]) -> Vec<Token> {
+    fn parse(&self, source: &[char]) -> Vec<Token> {
         let mut tokens = Vec::new();
 
         let mut chars_traversed = 0;
@@ -37,7 +45,7 @@ impl Parser for Unit {
                 continue;
             }
 
-            let mut new_tokens = parse_line(line, &mut self.markdown_parser);
+            let mut new_tokens = parse_line(line, self.inner.clone());
 
             if chars_traversed + line.len() < source.len() {
                 new_tokens.push(Token::new(
@@ -58,7 +66,7 @@ impl Parser for Unit {
     }
 }
 
-fn parse_line(source: &[char], markdown_parser: &mut Markdown) -> Vec<Token> {
+fn parse_line(source: &[char], parser: Lrc<dyn Parser>) -> Vec<Token> {
     let actual = without_initiators(source);
 
     if actual.is_empty() {
@@ -67,7 +75,7 @@ fn parse_line(source: &[char], markdown_parser: &mut Markdown) -> Vec<Token> {
 
     let source = actual.get_content(source);
 
-    let mut new_tokens = markdown_parser.parse(source);
+    let mut new_tokens = parser.parse(source);
 
     new_tokens
         .iter_mut()

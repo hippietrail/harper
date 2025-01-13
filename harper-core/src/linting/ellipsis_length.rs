@@ -35,6 +35,10 @@ impl Linter for EllipsisLength {
 
         lints
     }
+
+    fn description(&self) -> &'static str {
+        "Make sure you have the correct number of dots in your ellipsis."
+    }
 }
 
 #[cfg(test)]

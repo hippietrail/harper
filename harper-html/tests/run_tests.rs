@@ -1,5 +1,4 @@
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
-use harper_core::parsers::MarkdownOptions;
 use harper_core::{Document, FstDictionary};
 
 /// Creates a unit test checking that the linting of a Markdown document (in
@@ -17,7 +16,7 @@ macro_rules! create_test {
                  );
 
                  let dict = FstDictionary::curated();
-                 let document = Document::new_markdown(&source, MarkdownOptions::default(), &dict);
+                 let document = Document::new_markdown_default(&source, &dict);
 
                  let mut linter = LintGroup::new(
                      LintGroupConfig::default(),
@@ -38,3 +37,4 @@ macro_rules! create_test {
 }
 
 create_test!(run_on.html, 0);
+create_test!(issue_156.html, 0);

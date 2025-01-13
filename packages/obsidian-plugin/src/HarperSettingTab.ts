@@ -1,26 +1,27 @@
 import './index.js';
 import { startCase } from 'lodash-es';
-import { PluginSettingTab, Setting } from 'obsidian';
+import { App, PluginSettingTab, Setting } from 'obsidian';
+import HarperPlugin, { Settings } from './index.js';
 
 export class HarperSettingTab extends PluginSettingTab {
-	/** @type HarperPlugin
-	 * @private */
-	plugin;
+	private plugin: HarperPlugin;
+	private settings: Settings;
+	private descriptions: Record<string, string>;
 
-	/** @type Record<string, any> */
-	settings;
-
-	/** @param {App} app
-	 * @param {HarperPlugin} plugin  */
-	constructor(app, plugin) {
+	constructor(app: App, plugin: HarperPlugin) {
 		super(app, plugin);
 		this.plugin = plugin;
 
+		this.updateDescriptions();
 		this.updateSettings();
 	}
 
 	updateSettings() {
 		this.plugin.getSettings().then((v) => (this.settings = v));
+	}
+
+	updateDescriptions() {
+		this.plugin.getDescriptions().then((v) => (this.descriptions = v));
 	}
 
 	display() {
@@ -29,12 +30,20 @@ export class HarperSettingTab extends PluginSettingTab {
 
 		console.log(this.settings.lintSettings);
 
-		for (let setting of Object.keys(this.settings.lintSettings)) {
-			let value = this.settings.lintSettings[setting];
+		new Setting(containerEl).setName('Use Web Worker').addToggle((toggle) =>
+			toggle.setValue(this.settings.useWebWorker).onChange(async (value) => {
+				this.settings.useWebWorker = value;
+				await this.plugin.initializeFromSettings(this.settings);
+			})
+		);
+
+		for (const setting of Object.keys(this.settings.lintSettings)) {
+			const value = this.settings.lintSettings[setting];
+			const description = this.descriptions[setting];
 
 			new Setting(containerEl)
 				.setName(startCase(setting))
-				.setDesc(`Whether to include the ${setting} grammar rule.`)
+				.setDesc(description)
 				.addDropdown((dropdown) =>
 					dropdown
 						.addOption('default', 'Default')
@@ -43,16 +52,14 @@ export class HarperSettingTab extends PluginSettingTab {
 						.setValue(valueToString(value))
 						.onChange(async (value) => {
 							this.settings.lintSettings[setting] = stringToValue(value);
-							await this.plugin.setSettings(this.settings);
+							await this.plugin.initializeFromSettings(this.settings);
 						})
 				);
 		}
 	}
 }
 
-/** @param {boolean | undefined} value
- * @returns {string} */
-function valueToString(value) {
+function valueToString(value: boolean | undefined): string {
 	switch (value) {
 		case true:
 			return 'enable';
@@ -65,16 +72,14 @@ function valueToString(value) {
 	throw 'Fell through case';
 }
 
-/** @param {str} value
- * @returns {boolean | undefined} */
-function stringToValue(str) {
+function stringToValue(str): boolean | undefined {
 	switch (str) {
 		case 'enable':
 			return true;
 		case 'disable':
 			return false;
 		case 'default':
-			return null;
+			return undefined;
 	}
 
 	throw 'Fell through case';

@@ -1,29 +1,35 @@
 use std::collections::VecDeque;
 
-use crate::{Span, Token, VecExt};
+use crate::{Document, Span, Token, VecExt};
 
 mod any_pattern;
 mod consumes_remaining_pattern;
 mod either_pattern;
 mod invert;
+mod is_not_title_case;
 mod naive_pattern_group;
+mod noun_phrase;
 mod repeating_pattern;
 mod sequence_pattern;
 mod token_kind_pattern_group;
 mod whitespace_pattern;
 mod word_pattern_group;
+mod word_set;
 
 pub use any_pattern::AnyPattern;
 use blanket::blanket;
 pub use consumes_remaining_pattern::ConsumesRemainingPattern;
 pub use either_pattern::EitherPattern;
 pub use invert::Invert;
+pub use is_not_title_case::IsNotTitleCase;
 pub use naive_pattern_group::NaivePatternGroup;
+pub use noun_phrase::NounPhrase;
 pub use repeating_pattern::RepeatingPattern;
 pub use sequence_pattern::SequencePattern;
 pub use token_kind_pattern_group::TokenKindPatternGroup;
 pub use whitespace_pattern::WhitespacePattern;
 pub use word_pattern_group::WordPatternGroup;
+pub use word_set::WordSet;
 
 #[cfg(not(feature = "concurrent"))]
 #[blanket(derive(Rc, Arc))]
@@ -118,5 +124,15 @@ where
         } else {
             0
         }
+    }
+}
+
+trait DocPattern {
+    fn find_all_matches_in_doc(&self, document: &Document) -> Vec<Span>;
+}
+
+impl<P: PatternExt> DocPattern for P {
+    fn find_all_matches_in_doc(&self, document: &Document) -> Vec<Span> {
+        self.find_all_matches(document.get_tokens(), document.get_source())
     }
 }

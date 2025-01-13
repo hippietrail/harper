@@ -7,6 +7,7 @@
 		"@rollup/plugin-node-resolve": "^15.2.3",
 		"@rollup/plugin-typescript": "^11.1.6",
 		"@rollup/plugin-wasm": "^6.2.2",
+		"obsidian": "^1.7.2",
 		"rollup": "^4.22.4",
 		"rollup-plugin-peer-deps-external": "^2.2.4",
 		"rollup-plugin-svg-import": "^3.0.0"
@@ -30,7 +31,7 @@
 	},
 	"dependencies": {
 		"crelt": "^1.0.5",
-		"lodash-es": "^4.17.21",
-		"harper.js": "link:../harper.js"
+		"harper.js": "link:../harper.js",
+		"lodash-es": "^4.17.21"
 	}
 }

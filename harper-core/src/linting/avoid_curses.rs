@@ -18,6 +18,10 @@ impl Linter for AvoidCurses {
             })
             .collect()
     }
+
+    fn description(&self) -> &'static str {
+        "A rule that looks for common offensive language."
+    }
 }
 
 #[cfg(test)]

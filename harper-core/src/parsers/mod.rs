@@ -11,29 +11,29 @@ pub use markdown::{Markdown, MarkdownOptions};
 pub use mask::Mask;
 pub use plain_english::PlainEnglish;
 
-pub use crate::token::{Token, TokenKind, TokenStringExt};
+use crate::{Token, TokenStringExt};
 
 #[cfg(not(feature = "concurrent"))]
-#[blanket(derive(Box))]
+#[blanket(derive(Box, Rc))]
 pub trait Parser {
-    fn parse(&mut self, source: &[char]) -> Vec<Token>;
+    fn parse(&self, source: &[char]) -> Vec<Token>;
 }
 
 #[cfg(feature = "concurrent")]
-#[blanket(derive(Box))]
+#[blanket(derive(Box, Arc))]
 pub trait Parser: Send + Sync {
-    fn parse(&mut self, source: &[char]) -> Vec<Token>;
+    fn parse(&self, source: &[char]) -> Vec<Token>;
 }
 
 pub trait StrParser {
-    fn parse_str(&mut self, source: impl AsRef<str>) -> Vec<Token>;
+    fn parse_str(&self, source: impl AsRef<str>) -> Vec<Token>;
 }
 
 impl<T> StrParser for T
 where
     T: Parser,
 {
-    fn parse_str(&mut self, source: impl AsRef<str>) -> Vec<Token> {
+    fn parse_str(&self, source: impl AsRef<str>) -> Vec<Token> {
         let source: Vec<_> = source.as_ref().chars().collect();
         self.parse(&source)
     }

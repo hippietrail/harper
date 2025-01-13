@@ -7,10 +7,9 @@ use paste::paste;
 use crate::parsers::{Markdown, MarkdownOptions, Parser, PlainEnglish};
 use crate::patterns::{PatternExt, RepeatingPattern, SequencePattern};
 use crate::punctuation::Punctuation;
-use crate::token::NumberSuffix;
 use crate::vec_ext::VecExt;
-use crate::Span;
 use crate::{Dictionary, FatToken, FstDictionary, Lrc, Token, TokenKind, TokenStringExt};
+use crate::{NumberSuffix, Span};
 
 /// A document containing some amount of lexed and parsed English text.
 #[derive(Debug, Clone)]
@@ -21,14 +20,14 @@ pub struct Document {
 
 impl Default for Document {
     fn default() -> Self {
-        Self::new("", &mut PlainEnglish, &FstDictionary::curated())
+        Self::new("", &PlainEnglish, &FstDictionary::curated())
     }
 }
 
 impl Document {
     /// Lexes and parses text to produce a document using a provided language
     /// parser and dictionary.
-    pub fn new(text: &str, parser: &mut impl Parser, dictionary: &impl Dictionary) -> Self {
+    pub fn new(text: &str, parser: &impl Parser, dictionary: &impl Dictionary) -> Self {
         let source: Vec<_> = text.chars().collect();
 
         Self::new_from_vec(Lrc::new(source), parser, dictionary)
@@ -36,7 +35,7 @@ impl Document {
 
     /// Lexes and parses text to produce a document using a provided language
     /// parser and the included curated dictionary.
-    pub fn new_curated(text: &str, parser: &mut impl Parser) -> Self {
+    pub fn new_curated(text: &str, parser: &impl Parser) -> Self {
         let source: Vec<_> = text.chars().collect();
 
         Self::new_from_vec(Lrc::new(source), parser, &FstDictionary::curated())
@@ -46,7 +45,7 @@ impl Document {
     /// parser and dictionary.
     pub fn new_from_vec(
         source: Lrc<Vec<char>>,
-        parser: &mut impl Parser,
+        parser: &impl Parser,
         dictionary: &impl Dictionary,
     ) -> Self {
         let tokens = parser.parse(&source);
@@ -60,13 +59,13 @@ impl Document {
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
     /// parser and curated dictionary.
     pub fn new_plain_english_curated(text: &str) -> Self {
-        Self::new(text, &mut PlainEnglish, &FstDictionary::curated())
+        Self::new(text, &PlainEnglish, &FstDictionary::curated())
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
     /// parser and a provided dictionary.
     pub fn new_plain_english(text: &str, dictionary: &impl Dictionary) -> Self {
-        Self::new(text, &mut PlainEnglish, dictionary)
+        Self::new(text, &PlainEnglish, dictionary)
     }
 
     /// Parse text to produce a document using the built-in [`Markdown`] parser
@@ -74,9 +73,15 @@ impl Document {
     pub fn new_markdown_curated(text: &str, markdown_options: MarkdownOptions) -> Self {
         Self::new(
             text,
-            &mut Markdown::new(markdown_options),
+            &Markdown::new(markdown_options),
             &FstDictionary::curated(),
         )
+    }
+
+    /// Parse text to produce a document using the built-in [`Markdown`] parser
+    /// and curated dictionary with the default markdown configuration.
+    pub fn new_markdown_default_curated(text: &str) -> Self {
+        Self::new_markdown_curated(text, MarkdownOptions::default())
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
@@ -86,7 +91,13 @@ impl Document {
         markdown_options: MarkdownOptions,
         dictionary: &impl Dictionary,
     ) -> Self {
-        Self::new(text, &mut Markdown::new(markdown_options), dictionary)
+        Self::new(text, &Markdown::new(markdown_options), dictionary)
+    }
+
+    /// Parse text to produce a document using the built-in [`PlainEnglish`]
+    /// parser and the curated dictionary with the default markdown configuration.
+    pub fn new_markdown_default(text: &str, dictionary: &impl Dictionary) -> Self {
+        Self::new_markdown(text, MarkdownOptions::default(), dictionary)
     }
 
     /// Re-parse important language constructs.
@@ -271,7 +282,7 @@ impl Document {
         self.condense_indices(&replace_starts, 2);
     }
 
-    /// Searches for multiple sequential newline tokens and condenses them down
+    /// Searches for multiple sequential space tokens and condenses them down
     /// into one.
     fn condense_spaces(&mut self) {
         let mut cursor = 0;
@@ -292,6 +303,12 @@ impl Document {
                     }
 
                     let child_tok = &copy[cursor];
+
+                    // Only condense adjacent spans
+                    if start_tok.span.end != child_tok.span.start {
+                        break;
+                    }
+
                     if let TokenKind::Space(n) = child_tok.kind {
                         *start_count += n;
                         start_tok.span.end = child_tok.span.end;
@@ -499,6 +516,7 @@ macro_rules! create_fns_on_doc {
 
 impl TokenStringExt for Document {
     create_fns_on_doc!(word);
+    create_fns_on_doc!(conjunction);
     create_fns_on_doc!(space);
     create_fns_on_doc!(apostrophe);
     create_fns_on_doc!(pipe);

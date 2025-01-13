@@ -1,6 +1,6 @@
 import type { Extension } from 'vscode';
 
-import { ConfigurationTarget, Uri, workspace } from 'vscode';
+import { commands, ConfigurationTarget, Uri, workspace } from 'vscode';
 
 import {
 	activateHarper,
@@ -48,7 +48,7 @@ describe('Integration >', () => {
 		const config = workspace.getConfiguration('harper-ls.linters');
 		await config.update('repeated_words', false, ConfigurationTarget.Workspace);
 		// Wait for `harper-ls` to update diagnostics
-		await sleep(250);
+		await sleep(300);
 
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
@@ -60,5 +60,40 @@ describe('Integration >', () => {
 
 		// Set config back to default value
 		await config.update('repeated_words', true, ConfigurationTarget.Workspace);
+	});
+
+	it('updates diagnostics when files are deleted', async () => {
+		const markdownContent = await workspace.fs.readFile(markdownUri);
+
+		// Delete file through VSCode
+		await commands.executeCommand('workbench.files.action.showActiveFileInExplorer');
+		await commands.executeCommand('deleteFile');
+		// Wait for `harper-ls` to update diagnostics
+		await sleep(450);
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(markdownUri),
+			createExpectedDiagnostics()
+		);
+
+		// Restore and reopen deleted file
+		await workspace.fs.writeFile(markdownUri, markdownContent);
+		await openFile('integration.md');
+		// Wait for `harper-ls` to update diagnostics
+		await sleep(75);
+
+		// Delete file directly
+		await workspace.fs.delete(markdownUri);
+		// Wait for `harper-ls` to update diagnostics
+		await sleep(450);
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(markdownUri),
+			createExpectedDiagnostics()
+		);
+
+		// Restore and reopen deleted file
+		await workspace.fs.writeFile(markdownUri, markdownContent);
+		await openFile('integration.md');
 	});
 });
