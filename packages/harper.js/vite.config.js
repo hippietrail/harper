@@ -19,7 +19,7 @@ export default defineConfig({
 	},
 	base: './',
 	plugins: [
-		dts({ rollupTypes: true, tsconfigPath: './tsconfig.json' }),
+		dts({ rollupTypes: true, tsconfigPath: './tsconfig.json', bundledPackages: ['wasm'] }),
 		virtual({
 			'virtual:wasm': `import wasmUri from 'wasm/harper_wasm_bg.wasm?inline'; export default wasmUri`
 		})
