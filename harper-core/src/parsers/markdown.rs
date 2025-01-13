@@ -406,7 +406,7 @@ mod tests {
             ignore_link_title: true,
             ..MarkdownOptions::default()
         });
-        let source = r#"[elijah-potter/harper](https://github.com/elijah-potter/harper)"#;
+        let source = r"[elijah-potter/harper](https://github.com/elijah-potter/harper)";
         let tokens = parser.parse_str(source);
         let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
 
