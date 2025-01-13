@@ -25,7 +25,7 @@ impl LiterateHaskellParser {
 }
 
 impl Parser for LiterateHaskellParser {
-    fn parse(&mut self, source: &[char]) -> Vec<Token> {
+    fn parse(&self, source: &[char]) -> Vec<Token> {
         Mask::new(LiterateHaskellMasker::text_only(), Markdown).parse(source)
     }
 }

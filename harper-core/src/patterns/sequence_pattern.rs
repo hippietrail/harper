@@ -56,6 +56,7 @@ impl SequencePattern {
     gen_then_from_is!(case_separator);
     gen_then_from_is!(adverb);
     gen_then_from_is!(adjective);
+    gen_then_from_is!(apostrophe);
     gen_then_from_is!(hyphen);
 
     /// Add a pattern that looks for more complex ideas, like nouns with adjectives attached.

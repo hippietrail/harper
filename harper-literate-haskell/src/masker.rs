@@ -25,7 +25,7 @@ impl LiterateHaskellMasker {
 }
 
 impl Masker for LiterateHaskellMasker {
-    fn create_mask(&mut self, source: &[char]) -> harper_core::Mask {
+    fn create_mask(&self, source: &[char]) -> harper_core::Mask {
         let mut mask = Mask::new_blank();
 
         let mut location = 0;
