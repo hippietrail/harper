@@ -11,7 +11,7 @@ use typst_syntax::{
     Source,
 };
 
-/// A parser that wraps the [`PlainEnglish`] parser allowing one to parse Typst files.
+/// A parser that wraps Harper's `PlainEnglish` parser allowing one to ingest Typst files.
 pub struct Typst;
 
 impl Parser for Typst {
