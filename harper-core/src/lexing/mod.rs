@@ -44,7 +44,7 @@ pub fn lex_token(source: &[char]) -> Option<FoundToken> {
 fn lex_word(source: &[char]) -> Option<FoundToken> {
     let end = source
         .iter()
-        .position(|c| !c.is_english_lingual())
+        .position(|c| !c.is_english_lingual() && !c.is_numeric())
         .unwrap_or(source.len());
 
     if end == 0 {
