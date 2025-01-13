@@ -21,7 +21,7 @@ build-harperjs:
   yarn run build
 
   # Generate API reference
-  ./build.sh
+  ./docs.sh
 
 test-harperjs:
   #!/bin/bash
@@ -44,7 +44,6 @@ dev-web:
   set -eo pipefail
 
   just build-harperjs
-   s 
 
   cd "{{justfile_directory()}}/packages/web"
   yarn install -f
