@@ -416,8 +416,24 @@ mod tests {
     }
 
     #[test]
-    fn respects_config() {
-        let source = r#"[elijah-potter/harper](https://github.com/elijah-potter/harper)"#;
+    fn issue_194() {
+        let source = r"<http://localhost:9093>";
+        let parser = Markdown::new(MarkdownOptions {
+            ignore_link_title: true,
+            ..MarkdownOptions::default()
+        });
+        let token_kinds = parser
+            .parse_str(source)
+            .iter()
+            .map(|t| t.kind)
+            .collect::<Vec<_>>();
+
+        assert!(matches!(token_kinds.as_slice(), &[TokenKind::Unlintable]));
+    }
+
+    #[test]
+    fn respects_link_title_config() {
+        let source = r"[elijah-potter/harper](https://github.com/elijah-potter/harper)";
         let parser = Markdown::new(MarkdownOptions {
             ignore_link_title: true,
             ..MarkdownOptions::default()
