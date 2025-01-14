@@ -1,6 +1,5 @@
 use super::{Lint, LintKind, PatternLinter};
-use crate::patterns::{ConsumesRemainingPattern, Pattern, SequencePattern};
-use crate::Lrc;
+use crate::patterns::{ConsumesRemainingPattern, Pattern, SequencePattern, WordSet};
 
 pub struct TerminatingConjunctions {
     pattern: Box<dyn Pattern>,
@@ -12,37 +11,33 @@ impl Default for TerminatingConjunctions {
             pattern: Box::new(ConsumesRemainingPattern::new(Box::new(
                 SequencePattern::default()
                     .then_anything_but_hyphen()
-                    .then_any_word_in(Lrc::new(
-                        [
-                            "although",
-                            "as",
-                            "because",
-                            "if",
-                            "lest",
-                            "once",
-                            "only",
-                            "since",
-                            "supposing",
-                            "than",
-                            "though",
-                            "till",
-                            "unless",
-                            "until",
-                            "when",
-                            "whenever",
-                            "where",
-                            "whereas",
-                            "wherever",
-                            "whether",
-                            "not",
-                            "while",
-                            "or",
-                            "nor",
-                            "and",
-                        ]
-                        .into_iter()
-                        .collect(),
-                    ))
+                    .then_word_set(WordSet::all(&[
+                        "although",
+                        "as",
+                        "because",
+                        "if",
+                        "lest",
+                        "once",
+                        "only",
+                        "since",
+                        "supposing",
+                        "than",
+                        "though",
+                        "till",
+                        "unless",
+                        "until",
+                        "when",
+                        "whenever",
+                        "where",
+                        "whereas",
+                        "wherever",
+                        "whether",
+                        "not",
+                        "while",
+                        "or",
+                        "nor",
+                        "and",
+                    ]))
                     .then_comma(),
             ))),
         }
@@ -55,7 +50,7 @@ impl PatternLinter for TerminatingConjunctions {
     }
 
     fn match_to_lint(&self, matched_tokens: &[crate::Token], source: &[char]) -> Lint {
-        let word_span = matched_tokens[0].span;
+        let word_span = matched_tokens[1].span;
         let word = word_span.get_content_string(source);
 
         Lint {

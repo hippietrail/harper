@@ -23,10 +23,7 @@ export default class LocalLinter implements Linter {
 
 	async lint(text: string): Promise<Lint[]> {
 		await this.initialize();
-		let lints = this.inner!.lint(text);
-
-		// We only want to show fixable errors.
-		lints = lints.filter((lint) => lint.suggestion_count() > 0);
+		const lints = this.inner!.lint(text);
 
 		return lints;
 	}
