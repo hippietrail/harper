@@ -5,16 +5,17 @@ use crate::{
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
 
-static DESCRIPTION: &str = "Dollar signs should always come before the quantity being described.";
+static DESCRIPTION: &str =
+    "Currency symbols should always come before the quantity being described.";
 
-pub struct DollarPlacement {
+pub struct CurrencyPlacement {
     pattern: Box<dyn Pattern>,
 }
 
-impl Default for DollarPlacement {
+impl Default for CurrencyPlacement {
     fn default() -> Self {
-        let dollar_pat = Box::new(|t: &Token, _source: &[char]| {
-            matches!(t.kind, TokenKind::Punctuation(Punctuation::Dollar))
+        let currency_pat = Box::new(|t: &Token, _source: &[char]| {
+            matches!(t.kind, TokenKind::Punctuation(Punctuation::Currency(..)))
         });
 
         let pattern = EitherPattern::new(vec![
@@ -22,9 +23,9 @@ impl Default for DollarPlacement {
                 SequencePattern::default()
                     .then_number()
                     .then_whitespace()
-                    .then(dollar_pat.clone()),
+                    .then(currency_pat.clone()),
             ),
-            Box::new(SequencePattern::default().then_number().then(dollar_pat)),
+            Box::new(SequencePattern::default().then_number().then(currency_pat)),
         ]);
 
         Self {
@@ -33,17 +34,24 @@ impl Default for DollarPlacement {
     }
 }
 
-impl PatternLinter for DollarPlacement {
+impl PatternLinter for CurrencyPlacement {
     fn pattern(&self) -> &dyn Pattern {
         self.pattern.as_ref()
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Lint {
+        let currency_tok = matched_tokens.first_punctuation().unwrap();
+        let currency = currency_tok
+            .kind
+            .as_punctuation()
+            .unwrap()
+            .expect_currency();
+
         // We can unwrap like this thanks to the pattern.
         let number_tok = matched_tokens.first_number().unwrap();
-        let (value, suffix) = number_tok.kind.as_number().unwrap();
+        let (value, suffix) = number_tok.kind.expect_number();
 
-        let mut fix = vec!['$'];
+        let mut fix = vec![currency.to_char()];
 
         fix.extend(value.to_string().chars());
 
@@ -69,13 +77,13 @@ impl PatternLinter for DollarPlacement {
 mod tests {
     use crate::linting::tests::assert_suggestion_result;
 
-    use super::DollarPlacement;
+    use super::CurrencyPlacement;
 
     #[test]
     fn eof() {
         assert_suggestion_result(
             "It was my last bill worth more than 4$.",
-            DollarPlacement::default(),
+            CurrencyPlacement::default(),
             "It was my last bill worth more than $4.",
         );
     }
@@ -84,7 +92,7 @@ mod tests {
     fn blog_title() {
         assert_suggestion_result(
             "The Best 25$ I Ever Spent",
-            DollarPlacement::default(),
+            CurrencyPlacement::default(),
             "The Best $25 I Ever Spent",
         );
     }
@@ -93,17 +101,26 @@ mod tests {
     fn blog_title_with_space() {
         assert_suggestion_result(
             "The Best 25   $ I Ever Spent",
-            DollarPlacement::default(),
+            CurrencyPlacement::default(),
             "The Best $25 I Ever Spent",
         );
     }
 
     #[test]
-    fn multiple() {
+    fn multiple_dollar() {
         assert_suggestion_result(
             "They were either 25$ 24$ or 23$.",
-            DollarPlacement::default(),
+            CurrencyPlacement::default(),
             "They were either $25 $24 or $23.",
+        );
+    }
+
+    #[test]
+    fn multiple_pound() {
+        assert_suggestion_result(
+            "They were either 25£ 24£ or 23£.",
+            CurrencyPlacement::default(),
+            "They were either £25 £24 or £23.",
         );
     }
 
@@ -111,7 +128,7 @@ mod tests {
     fn suffix() {
         assert_suggestion_result(
             "It was my 20th$.",
-            DollarPlacement::default(),
+            CurrencyPlacement::default(),
             "It was my $20th.",
         );
     }
