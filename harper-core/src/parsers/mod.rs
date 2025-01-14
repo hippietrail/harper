@@ -45,11 +45,7 @@ mod tests {
     use crate::Punctuation;
     use crate::TokenKind::{self, *};
 
-    fn assert_tokens_eq(
-        test_str: impl AsRef<str>,
-        expected: &[TokenKind],
-        parser: &mut impl Parser,
-    ) {
+    fn assert_tokens_eq(test_str: impl AsRef<str>, expected: &[TokenKind], parser: &impl Parser) {
         let chars: Vec<_> = test_str.as_ref().chars().collect();
         let tokens = parser.parse(&chars);
         let kinds: Vec<_> = tokens.into_iter().map(|v| v.kind).collect();
@@ -58,14 +54,11 @@ mod tests {
     }
 
     fn assert_tokens_eq_plain(test_str: impl AsRef<str>, expected: &[TokenKind]) {
-        let mut parser = PlainEnglish;
-        assert_tokens_eq(test_str, expected, &mut parser);
+        assert_tokens_eq(test_str, expected, &PlainEnglish);
     }
 
     fn assert_tokens_eq_md(test_str: impl AsRef<str>, expected: &[TokenKind]) {
-        let mut parser = Markdown::default();
-
-        assert_tokens_eq(test_str, expected, &mut parser)
+        assert_tokens_eq(test_str, expected, &Markdown::default())
     }
 
     #[test]
