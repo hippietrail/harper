@@ -1,28 +1,20 @@
 use std::path::Path;
 
-use anyhow::{Context, Result};
 use harper_core::{Dictionary, FullDictionary, WordMetadata};
 use tokio::fs::{self, File};
-use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, BufReader, BufWriter};
+use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, BufReader, BufWriter, Result};
 
 /// Save the contents of a dictionary to a file.
 /// Ensures that the path to the destination exists.
 pub async fn save_dict(path: impl AsRef<Path>, dict: impl Dictionary) -> Result<()> {
     if let Some(parent) = path.as_ref().parent() {
-        fs::create_dir_all(parent)
-            .await
-            .context("Unable to create parent directories")?;
+        fs::create_dir_all(parent).await?;
     }
 
-    let file = File::create(path.as_ref())
-        .await
-        .with_context(|| format!("Unable to create file {:?}", path.as_ref()))?;
+    let file = File::create(path.as_ref()).await?;
     let mut write = BufWriter::new(file);
 
-    write_word_list(dict, &mut write)
-        .await
-        .with_context(|| format!("Unable to write to file {:?}", path.as_ref()))?;
-
+    write_word_list(dict, &mut write).await?;
     write.flush().await?;
 
     Ok(())
@@ -43,14 +35,10 @@ async fn write_word_list(dict: impl Dictionary, mut w: impl AsyncWrite + Unpin) 
 }
 
 pub async fn load_dict(path: impl AsRef<Path>) -> Result<FullDictionary> {
-    let file = File::open(path.as_ref())
-        .await
-        .with_context(|| format!("Unable to open file {:?}", path.as_ref()))?;
+    let file = File::open(path.as_ref()).await?;
     let read = BufReader::new(file);
 
-    dict_from_word_list(read)
-        .await
-        .with_context(|| format!("Unable to read from file {:?}", path.as_ref()))
+    dict_from_word_list(read).await
 }
 
 /// This function could definitely be optimized to use less memory.

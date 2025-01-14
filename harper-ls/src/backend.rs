@@ -111,7 +111,9 @@ impl Backend {
     async fn save_user_dictionary(&self, dict: impl Dictionary) -> anyhow::Result<()> {
         let config = self.config.read().await;
 
-        save_dict(&config.user_dict_path, dict).await
+        save_dict(&config.user_dict_path, dict)
+            .await
+            .map_err(|err| anyhow!("Unable to save dictionary to file: {err}"))
     }
 
     async fn generate_global_dictionary(&self) -> anyhow::Result<MergedDictionary> {
