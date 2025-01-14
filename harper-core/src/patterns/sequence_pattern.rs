@@ -11,6 +11,7 @@ pub struct SequencePattern {
     token_patterns: Vec<Box<dyn Pattern>>,
 }
 
+/// Generate a `then_*` method from an available `is_*` function on [`TokenKind`].
 macro_rules! gen_then_from_is {
     ($quality:ident) => {
         paste! {

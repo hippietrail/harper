@@ -1,5 +1,5 @@
 use crate::{
-    patterns::{Pattern, SequencePattern},
+    patterns::{EitherPattern, Pattern, SequencePattern},
     Punctuation, Token, TokenKind, TokenStringExt,
 };
 
@@ -13,11 +13,19 @@ pub struct DollarPlacement {
 
 impl Default for DollarPlacement {
     fn default() -> Self {
-        let pattern = SequencePattern::default().then_number().then(Box::new(
-            |t: &Token, _source: &[char]| {
-                matches!(t.kind, TokenKind::Punctuation(Punctuation::Dollar))
-            },
-        ));
+        let dollar_pat = Box::new(|t: &Token, _source: &[char]| {
+            matches!(t.kind, TokenKind::Punctuation(Punctuation::Dollar))
+        });
+
+        let pattern = EitherPattern::new(vec![
+            Box::new(
+                SequencePattern::default()
+                    .then_number()
+                    .then_whitespace()
+                    .then(dollar_pat.clone()),
+            ),
+            Box::new(SequencePattern::default().then_number().then(dollar_pat)),
+        ]);
 
         Self {
             pattern: Box::new(pattern),
@@ -30,10 +38,10 @@ impl PatternLinter for DollarPlacement {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
-        let _ = source;
+    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Lint {
         // We can unwrap like this thanks to the pattern.
-        let (value, suffix) = matched_tokens.first().unwrap().kind.as_number().unwrap();
+        let number_tok = matched_tokens.first_number().unwrap();
+        let (value, suffix) = number_tok.kind.as_number().unwrap();
 
         let mut fix = vec!['$'];
 
@@ -44,7 +52,7 @@ impl PatternLinter for DollarPlacement {
         }
 
         Lint {
-            span: matched_tokens[0..2].span().unwrap(),
+            span: matched_tokens.span().unwrap(),
             lint_kind: LintKind::Formatting,
             suggestions: vec![Suggestion::ReplaceWith(fix)],
             message: DESCRIPTION.to_string(),
@@ -78,6 +86,24 @@ mod tests {
             "The Best 25$ I Ever Spent",
             DollarPlacement::default(),
             "The Best $25 I Ever Spent",
+        );
+    }
+
+    #[test]
+    fn blog_title_with_space() {
+        assert_suggestion_result(
+            "The Best 25   $ I Ever Spent",
+            DollarPlacement::default(),
+            "The Best $25 I Ever Spent",
+        );
+    }
+
+    #[test]
+    fn multiple() {
+        assert_suggestion_result(
+            "They were either 25$ 24$ or 23$.",
+            DollarPlacement::default(),
+            "They were either $25 $24 or $23.",
         );
     }
 
