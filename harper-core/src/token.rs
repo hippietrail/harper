@@ -93,6 +93,7 @@ pub trait TokenStringExt {
     create_decl_for!(paragraph_break);
     create_decl_for!(chunk_terminator);
     create_decl_for!(punctuation);
+    create_decl_for!(currency);
     create_decl_for!(likely_homograph);
 
     fn iter_linking_verb_indices(&self) -> impl Iterator<Item = usize> + '_;
@@ -133,6 +134,7 @@ impl TokenStringExt for [Token] {
     create_fns_for!(sentence_terminator);
     create_fns_for!(paragraph_break);
     create_fns_for!(chunk_terminator);
+    create_fns_for!(currency);
     create_fns_for!(likely_homograph);
 
     fn first_non_whitespace(&self) -> Option<Token> {

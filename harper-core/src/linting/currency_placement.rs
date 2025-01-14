@@ -1,81 +1,76 @@
-use crate::{
-    patterns::{EitherPattern, Pattern, SequencePattern},
-    Punctuation, Token, TokenKind, TokenStringExt,
-};
+use itertools::Itertools;
 
-use super::{Lint, LintKind, PatternLinter, Suggestion};
+use crate::{remove_overlaps, Document, Token, TokenStringExt};
 
-static DESCRIPTION: &str =
-    "Currency symbols should always come before the quantity being described.";
+use super::{Lint, LintKind, Linter, Suggestion};
 
-pub struct CurrencyPlacement {
-    pattern: Box<dyn Pattern>,
-}
+#[derive(Debug, Default)]
+pub struct CurrencyPlacement {}
 
-impl Default for CurrencyPlacement {
-    fn default() -> Self {
-        let currency_pat = Box::new(|t: &Token, _source: &[char]| {
-            matches!(t.kind, TokenKind::Punctuation(Punctuation::Currency(..)))
-        });
+impl Linter for CurrencyPlacement {
+    fn lint(&mut self, document: &Document) -> Vec<Lint> {
+        let mut lints = Vec::new();
 
-        let pattern = EitherPattern::new(vec![
-            Box::new(
-                SequencePattern::default()
-                    .then_number()
-                    .then_whitespace()
-                    .then(currency_pat.clone()),
-            ),
-            Box::new(SequencePattern::default().then_number().then(currency_pat)),
-        ]);
+        for chunk in document.iter_chunks() {
+            for (a, b) in chunk.iter().tuple_windows() {
+                lints.extend(generate_lint_for_tokens(*a, *b, document));
+            }
 
-        Self {
-            pattern: Box::new(pattern),
+            for (a, b, c) in chunk.iter().tuple_windows() {
+                if !b.kind.is_whitespace() {
+                    continue;
+                }
+
+                lints.extend(generate_lint_for_tokens(*a, *c, document));
+            }
         }
+
+        remove_overlaps(&mut lints);
+
+        lints
+    }
+
+    fn description(&self) -> &str {
+        "The location of currency symbols varies by country. The rule looks for and corrects improper positioning."
     }
 }
 
-impl PatternLinter for CurrencyPlacement {
-    fn pattern(&self) -> &dyn Pattern {
-        self.pattern.as_ref()
-    }
+// Given two tokens that may have an error, check if they do and create a [`Lint`].
+fn generate_lint_for_tokens(a: Token, b: Token, document: &Document) -> Option<Lint> {
+    let matched_tokens = [a, b];
 
-    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Lint {
-        let currency_tok = matched_tokens.first_punctuation().unwrap();
-        let currency = currency_tok
-            .kind
-            .as_punctuation()
-            .unwrap()
-            .expect_currency();
+    let punct = matched_tokens
+        .first_punctuation()?
+        .kind
+        .expect_punctuation();
+    let currency = punct.as_currency()?;
 
-        // We can unwrap like this thanks to the pattern.
-        let number_tok = matched_tokens.first_number().unwrap();
-        let (value, suffix) = number_tok.kind.expect_number();
+    let (value, suffix) = matched_tokens.first_number()?.kind.expect_number();
 
-        let mut fix = vec![currency.to_char()];
+    let span = matched_tokens.span().unwrap();
 
-        fix.extend(value.to_string().chars());
+    let correct: Vec<_> = currency
+        .format_amount(value.into(), suffix)
+        .chars()
+        .collect();
+    let actual = document.get_span_content(span);
 
-        if let Some(suffix) = suffix {
-            fix.extend(suffix.to_chars());
-        }
-
-        Lint {
-            span: matched_tokens.span().unwrap(),
+    if correct != actual {
+        Some(Lint {
+            span,
             lint_kind: LintKind::Formatting,
-            suggestions: vec![Suggestion::ReplaceWith(fix)],
-            message: DESCRIPTION.to_string(),
+            suggestions: vec![Suggestion::ReplaceWith(correct)],
+            message: "The position of the currency symbol matters.".to_string(),
             priority: 63,
-        }
-    }
-
-    fn description(&self) -> &'static str {
-        DESCRIPTION
+        })
+    } else {
+        None
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::assert_suggestion_result;
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::CurrencyPlacement;
 
@@ -89,11 +84,25 @@ mod tests {
     }
 
     #[test]
+    fn blog_title_allows_correct() {
+        assert_lint_count("The Best $25 I Ever Spent", CurrencyPlacement::default(), 0);
+    }
+
+    #[test]
     fn blog_title() {
         assert_suggestion_result(
             "The Best 25$ I Ever Spent",
             CurrencyPlacement::default(),
             "The Best $25 I Ever Spent",
+        );
+    }
+
+    #[test]
+    fn blog_title_cents() {
+        assert_suggestion_result(
+            "The Best ¢25 I Ever Spent",
+            CurrencyPlacement::default(),
+            "The Best 25¢ I Ever Spent",
         );
     }
 
