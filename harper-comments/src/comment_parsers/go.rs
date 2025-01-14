@@ -10,15 +10,12 @@ pub struct Go {
 }
 
 impl Go {
-    #[allow(unused)]
     pub fn new(parser: Lrc<dyn Parser>) -> Self {
         Self { inner: parser }
     }
 
     pub fn new_markdown(markdown_options: MarkdownOptions) -> Self {
-        Self {
-            inner: Lrc::new(Markdown::new(markdown_options)),
-        }
+        Self::new(Lrc::new(Markdown::new(markdown_options)))
     }
 }
 
