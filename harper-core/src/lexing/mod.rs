@@ -72,18 +72,21 @@ pub fn lex_number(source: &[char]) -> Option<FoundToken> {
         .rev()
         .find_map(|(i, v)| v.is_numeric().then_some(i))?;
 
-    {
-        let s: String = source[0..end + 1].iter().collect();
+    let mut s: String = source[0..end + 1].iter().collect();
 
+    // Find the longest possible valid number
+    while !s.is_empty() {
         if let Ok(n) = s.parse::<f64>() {
             return Some(FoundToken {
                 token: TokenKind::Number(n.into(), None),
-                next_index: end + 1,
+                next_index: s.len(),
             });
         }
+
+        s.pop();
     }
 
-    lex_number(&source[0..end])
+    None
 }
 
 fn lex_newlines(source: &[char]) -> Option<FoundToken> {

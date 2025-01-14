@@ -39,6 +39,18 @@ impl TokenKind {
         matches!(self, TokenKind::Punctuation(Punctuation::Pipe))
     }
 
+    /// Checks whether a token is word-like--meaning it is more complex than punctuation and can
+    /// hold semantic meaning in the way a word does.
+    pub fn is_word_like(&self) -> bool {
+        matches!(
+            self,
+            TokenKind::Word(..)
+                | TokenKind::EmailAddress
+                | TokenKind::Hostname
+                | TokenKind::Number(..)
+        )
+    }
+
     pub fn is_pronoun(&self) -> bool {
         matches!(
             self,
