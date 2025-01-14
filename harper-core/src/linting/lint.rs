@@ -60,7 +60,7 @@ impl Display for LintKind {
     }
 }
 
-#[derive(Debug, Clone, Serialize, Deserialize, Is)]
+#[derive(Debug, Clone, Serialize, Deserialize, Is, PartialEq, Eq)]
 pub enum Suggestion {
     ReplaceWith(Vec<char>),
     /// Insert the provided characters _after_ the offending text.
@@ -69,6 +69,25 @@ pub enum Suggestion {
 }
 
 impl Suggestion {
+    /// Construct an instance of [`Self::ReplaceWith`], but make the content match the case of the
+    /// provided template.
+    ///
+    /// For example, if we want to replace "You're" with "You are", we can provide "you are" and
+    /// "You're".
+    pub fn replace_with_match_case(mut value: Vec<char>, template: &[char]) -> Self {
+        for (v, t) in value.iter_mut().zip(template.iter()) {
+            if v.is_ascii_uppercase() != t.is_ascii_uppercase() {
+                if t.is_uppercase() {
+                    *v = v.to_ascii_uppercase();
+                } else {
+                    *v = v.to_ascii_lowercase();
+                }
+            }
+        }
+
+        Self::ReplaceWith(value)
+    }
+
     /// Apply a suggestion to a given text.
     pub fn apply(&self, span: Span, source: &mut Vec<char>) {
         match self {
@@ -129,5 +148,18 @@ mod tests {
         sug.apply(Span::new(0, 4), &mut source_chars);
 
         assert_eq!(source_chars, "This, is a test".chars().collect::<Vec<_>>());
+    }
+
+    #[test]
+    fn suggestion_your_match_case() {
+        let template: Vec<_> = "You're".chars().collect();
+        let value: Vec<_> = "you are".chars().collect();
+
+        let correct = "You are".chars().collect();
+
+        assert_eq!(
+            Suggestion::replace_with_match_case(value, &template),
+            Suggestion::ReplaceWith(correct)
+        )
     }
 }

@@ -159,17 +159,22 @@ pub fn apply_suggestion(
     Ok(source.iter().collect())
 }
 
+/// A suggestion to fix a Lint.
 #[derive(Debug, Serialize, Deserialize)]
 #[wasm_bindgen]
 pub struct Suggestion {
     inner: harper_core::linting::Suggestion,
 }
 
+/// Tags the variant of suggestion.
 #[derive(Debug, Serialize, Deserialize)]
 #[wasm_bindgen]
 pub enum SuggestionKind {
+    /// Replace the problematic text.
     Replace = 0,
+    /// Remove the problematic text.
     Remove = 1,
+    /// Insert additional text after the error.
     InsertAfter = 2,
 }
 
@@ -199,6 +204,9 @@ impl Suggestion {
     }
 }
 
+/// An error found in provided text.
+///
+/// May include zero or more suggestions that may fix the problematic text.
 #[derive(Debug, Deserialize, Serialize)]
 #[wasm_bindgen]
 pub struct Lint {
@@ -222,10 +230,12 @@ impl Lint {
         self.inner.lint_kind.to_string()
     }
 
+    /// Equivalent to calling `.length` on the result of `suggestions()`.
     pub fn suggestion_count(&self) -> usize {
         self.inner.suggestions.len()
     }
 
+    /// Get an array of any suggestions that may resolve the issue.
     pub fn suggestions(&self) -> Vec<Suggestion> {
         self.inner
             .suggestions
@@ -234,15 +244,18 @@ impl Lint {
             .collect()
     }
 
+    /// Get the location of the problematic text.
     pub fn span(&self) -> Span {
         self.inner.span.into()
     }
 
+    /// Get a description of the error.
     pub fn message(&self) -> String {
         self.inner.message.clone()
     }
 }
 
+/// A struct that represents two character indices in a string: a start and an end.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[wasm_bindgen]
 pub struct Span {

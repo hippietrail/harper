@@ -15,6 +15,7 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::plural_conjugate::PluralConjugate;
+use super::pronoun_contraction::PronounContraction;
 use super::proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
     Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
@@ -184,7 +185,8 @@ create_lint_group_config!(
     AzureNames => true,
     MergeWords => true,
     PluralConjugate => false,
-    OxfordComma => true
+    OxfordComma => true,
+    PronounContraction => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

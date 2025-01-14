@@ -2,7 +2,7 @@ use hashbrown::HashSet;
 use paste::paste;
 
 use super::whitespace_pattern::WhitespacePattern;
-use super::{NounPhrase, Pattern, RepeatingPattern};
+use super::{NounPhrase, Pattern, RepeatingPattern, WordSet};
 use crate::{CharStringExt, Lrc, Token, TokenKind};
 
 /// A pattern that checks that a sequence of other patterns match.
@@ -58,6 +58,10 @@ impl SequencePattern {
     gen_then_from_is!(adjective);
     gen_then_from_is!(apostrophe);
     gen_then_from_is!(hyphen);
+
+    pub fn then_word_set(self, set: WordSet) -> Self {
+        self.then(Box::new(set))
+    }
 
     /// Add a pattern that looks for more complex ideas, like nouns with adjectives attached.
     pub fn then_noun_phrase(self) -> Self {

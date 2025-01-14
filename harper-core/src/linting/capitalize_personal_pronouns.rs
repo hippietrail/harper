@@ -42,7 +42,7 @@ impl Linter for CapitalizePersonalPronouns {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::assert_suggestion_result;
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::CapitalizePersonalPronouns;
 
@@ -66,6 +66,15 @@ mod tests {
             "First of all, i am not happy with this.",
             CapitalizePersonalPronouns,
             "First of all, I am not happy with this.",
+        );
+    }
+
+    #[test]
+    fn issue_365() {
+        assert_lint_count(
+            "access will succeed, unlike with UDEREF/i386.",
+            CapitalizePersonalPronouns,
+            0,
         );
     }
 }

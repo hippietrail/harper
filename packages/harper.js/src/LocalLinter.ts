@@ -3,7 +3,7 @@ import Linter from './Linter';
 import loadWasm from './loadWasm';
 import { LintConfig } from './main';
 
-/** A Linter that runs in the current JavaScript context (meaning it is allowed to block the event loop). */
+/** A Linter that runs in the current JavaScript context (meaning it is allowed to block the event loop).  */
 export default class LocalLinter implements Linter {
 	private inner: WasmLinter | undefined;
 
@@ -23,10 +23,7 @@ export default class LocalLinter implements Linter {
 
 	async lint(text: string): Promise<Lint[]> {
 		await this.initialize();
-		let lints = this.inner!.lint(text);
-
-		// We only want to show fixable errors.
-		lints = lints.filter((lint) => lint.suggestion_count() > 0);
+		const lints = this.inner!.lint(text);
 
 		return lints;
 	}

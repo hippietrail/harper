@@ -15,8 +15,7 @@ type RequestItem = {
 /** A Linter that spins up a dedicated web worker to do processing on a separate thread.
  * Main benefit: this Linter will not block the event loop for large documents.
  *
- * NOTE: This class will not work properly in Node. In that case, just use `LocalLinter`.
- * Also requires top-level await to work. */
+ * NOTE: This class will not work properly in Node. In that case, just use `LocalLinter`. */
 export default class WorkerLinter implements Linter {
 	private worker;
 	private requestQueue: RequestItem[];

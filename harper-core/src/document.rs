@@ -516,6 +516,7 @@ macro_rules! create_fns_on_doc {
 
 impl TokenStringExt for Document {
     create_fns_on_doc!(word);
+    create_fns_on_doc!(word_like);
     create_fns_on_doc!(conjunction);
     create_fns_on_doc!(space);
     create_fns_on_doc!(apostrophe);
