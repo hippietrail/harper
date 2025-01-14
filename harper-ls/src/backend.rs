@@ -85,7 +85,7 @@ impl Backend {
         let path = self
             .get_file_dict_path(url)
             .await
-            .context("Unable to get file path.")?;
+            .context("Unable to get the file path.")?;
 
         load_dict(path)
             .await
@@ -97,11 +97,11 @@ impl Backend {
         save_dict(
             self.get_file_dict_path(url)
                 .await
-                .context("Unable to get file path.")?,
+                .context("Unable to get the file path.")?,
             dict,
         )
         .await
-        .context("Unable to save dictionary to path.")
+        .context("Unable to save the dictionary to path.")
     }
 
     async fn load_user_dictionary(&self) -> FullDictionary {
@@ -118,7 +118,7 @@ impl Backend {
 
         save_dict(&config.user_dict_path, dict)
             .await
-            .map_err(|err| anyhow!("Unable to save dictionary to file: {err}"))
+            .map_err(|err| anyhow!("Unable to save the dictionary to file: {err}"))
     }
 
     async fn generate_global_dictionary(&self) -> Result<MergedDictionary> {
@@ -136,9 +136,9 @@ impl Backend {
         );
 
         let mut global_dictionary =
-            global_dictionary.context("Unable to load global dictionary.")?;
+            global_dictionary.context("Unable to load the global dictionary.")?;
         global_dictionary.add_dictionary(Arc::new(
-            file_dictionary.context("Unable to load file dictionary.")?,
+            file_dictionary.context("Unable to load the file dictionary.")?,
         ));
 
         Ok(global_dictionary)
@@ -169,7 +169,7 @@ impl Backend {
         let dict = Arc::new(
             self.generate_file_dictionary(url)
                 .await
-                .context("Unable to generate file dictionary.")?,
+                .context("Unable to generate the file dictionary.")?,
         );
 
         let doc_state = doc_lock.entry(url.clone()).or_insert(DocumentState {
