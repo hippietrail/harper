@@ -13,6 +13,14 @@ pub enum Currency {
     Lira,
     // £
     Pound,
+    // ¥
+    Yen,
+    // ฿
+    Baht,
+    // ₩
+    Won,
+    // ₭,
+    Kip,
 }
 
 impl Currency {
@@ -23,6 +31,10 @@ impl Currency {
             '₽' => Self::Ruble,
             '₺' => Self::Lira,
             '£' => Self::Pound,
+            '¥' => Self::Yen,
+            '฿' => Self::Baht,
+            '₩' => Self::Won,
+            '₭' => Self::Kip,
             _ => return None,
         };
 
@@ -36,6 +48,10 @@ impl Currency {
             Self::Ruble => '₽',
             Self::Lira => '₺',
             Self::Pound => '£',
+            Self::Yen => '¥',
+            Self::Baht => '฿',
+            Self::Won => '₩',
+            Self::Kip => '₭',
         }
     }
 }
