@@ -21,9 +21,9 @@ macro_rules! create_test {
                     )
                  );
 
-                 let mut parser = CommentParser::new_from_filename(Path::new(filename), MarkdownOptions::default()).unwrap();
+                 let parser = CommentParser::new_from_filename(Path::new(filename), MarkdownOptions::default()).unwrap();
                  let dict = FstDictionary::curated();
-                 let document = Document::new(&source, &mut parser, &dict);
+                 let document = Document::new(&source, &parser, &dict);
 
                  let mut linter = LintGroup::new(
                      LintGroupConfig::default(),

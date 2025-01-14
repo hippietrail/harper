@@ -169,17 +169,17 @@ mod tests {
     #[test]
     fn escapes_loop() {
         let source = "/** This should _not_cause an infinite loop: {@ */";
-        let mut parser =
+        let parser =
             CommentParser::new_from_language_id("javascript", MarkdownOptions::default()).unwrap();
-        Document::new_curated(source, &mut parser);
+        Document::new_curated(source, &parser);
     }
 
     #[test]
     fn handles_inline_link() {
         let source = "/** See {@link MyClass} and [MyClass's foo property]{@link MyClass#foo}. */";
-        let mut parser =
+        let parser =
             CommentParser::new_from_language_id("javascript", MarkdownOptions::default()).unwrap();
-        let document = Document::new_curated(source, &mut parser);
+        let document = Document::new_curated(source, &parser);
 
         assert!(matches!(
             document
@@ -222,9 +222,9 @@ mod tests {
     #[test]
     fn handles_class() {
         let source = "/** @class Circle representing a circle. */";
-        let mut parser =
+        let parser =
             CommentParser::new_from_language_id("javascript", MarkdownOptions::default()).unwrap();
-        let document = Document::new_curated(source, &mut parser);
+        let document = Document::new_curated(source, &parser);
 
         assert!(document
             .tokens()

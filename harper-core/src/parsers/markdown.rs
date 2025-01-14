@@ -15,6 +15,7 @@ pub struct Markdown {
 }
 
 #[derive(Copy, Clone, Debug, Serialize, Deserialize)]
+#[non_exhaustive]
 pub struct MarkdownOptions {
     pub ignore_link_title: bool,
 }
