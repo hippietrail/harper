@@ -2,10 +2,10 @@ use hashbrown::HashSet;
 use paste::paste;
 
 use super::whitespace_pattern::WhitespacePattern;
-use super::{Pattern, RepeatingPattern};
+use super::{NounPhrase, Pattern, RepeatingPattern, WordSet};
 use crate::{CharStringExt, Lrc, Token, TokenKind};
 
-/// A pattern that checks that a sequence of others patterns match.
+/// A pattern that checks that a sequence of other patterns match.
 #[derive(Default)]
 pub struct SequencePattern {
     token_patterns: Vec<Box<dyn Pattern>>,
@@ -56,7 +56,17 @@ impl SequencePattern {
     gen_then_from_is!(case_separator);
     gen_then_from_is!(adverb);
     gen_then_from_is!(adjective);
+    gen_then_from_is!(apostrophe);
     gen_then_from_is!(hyphen);
+
+    pub fn then_word_set(self, set: WordSet) -> Self {
+        self.then(Box::new(set))
+    }
+
+    /// Add a pattern that looks for more complex ideas, like nouns with adjectives attached.
+    pub fn then_noun_phrase(self) -> Self {
+        self.then(Box::new(NounPhrase))
+    }
 
     pub fn then_exact_word(mut self, word: &'static str) -> Self {
         self.token_patterns
@@ -112,7 +122,7 @@ impl SequencePattern {
                 let partial_match = tok_chars
                     .iter()
                     .zip(word.chars())
-                    .all(|(a, b)| a.to_ascii_lowercase() == b.to_ascii_lowercase());
+                    .all(|(a, b)| a.eq_ignore_ascii_case(&b));
 
                 partial_match
             }));

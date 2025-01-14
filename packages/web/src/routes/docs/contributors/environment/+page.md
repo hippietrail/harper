@@ -12,6 +12,7 @@ To use the tooling required to build and debug Harper, you'll need to the follow
 - `grep`
 - [`wasm-pack`](https://rustwasm.github.io/wasm-pack/installer/)
 - `zip`
+- `pandoc`
 
 We develop a set of tools, accessible via `just`, to build and debug Harper's algorithm (otherwise known as `harper-core`) and its various integrations.
 To get see all the tools in your toolbox run:

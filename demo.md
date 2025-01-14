@@ -5,6 +5,8 @@ Harper is an language checker for developers. it can detect
 improper capitalization and misspellled words,
 as well as a number of other issues.
 Like if you break up words you shoul dn't.
+Harper can be a lifesaver when writing technical documents, 
+emails or other formal forms of communication.
 
 Harper works everywhere, even offline. Since you r data
 never leaves your device, you don't ned to worry aout us

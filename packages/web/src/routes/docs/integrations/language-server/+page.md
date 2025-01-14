@@ -22,6 +22,14 @@ Harper is available through the `extra` repo:
 sudo pacman -S harper
 ```
 
+### Scoop
+
+You can install Harper on Windows through [Scoop](https://scoop.sh/).
+
+```bash
+scoop install harper
+```
+
 ## Dictionaries
 
 `harper-ls` has three kinds of dictionaries: user, file-local, and static dictionaries.
@@ -57,6 +65,43 @@ You can find the file-local dictionaries in the following directories on each op
 | Windows          |                                              `FOLDERID_LocalAppData/harper-ls/file_dictionaries` |
 
 The format of these files is identical to user dictionaries.
+
+### Configuration
+
+Configuration of `harper-ls` varies by editor.
+If you use Neovim, [read this documentation](./neovim#Configuration).
+
+## Supported Languages
+
+`harper-ls` supports a wide variety of programming and markup languages.
+
+| Language   |    Language ID    | Just Comments |
+| :--------- | :---------------: | ------------: |
+| Markdown   |    `markdown`     |            ✅ |
+| HTML       |      `html`       |            ❎ |
+| Email      |      `mail`       |            ❎ |
+| Rust       |      `rust`       |            ✅ |
+| Python     |     `python`      |            ✅ |
+| Nix        |       `nix`       |            ✅ |
+| JavaScript |   `javascript`    |            ✅ |
+| TypeScript |   `typescript`    |            ✅ |
+| React JSX  | `javascriptreact` |            ✅ |
+| React TSX  | `typescriptreact` |            ✅ |
+| Go         |       `go`        |            ✅ |
+| C          |        `c`        |            ✅ |
+| C++        |       `cpp`       |            ✅ |
+| CMake      |      `cmake`      |            ✅ |
+| Ruby       |      `ruby`       |            ✅ |
+| Swift      |      `swift`      |            ✅ |
+| C#         |     `csharp`      |            ✅ |
+| TOML       |      `toml`       |            ✅ |
+| Lua        |       `lua`       |            ✅ |
+| Shell      |   `shellscript`   |            ✅ |
+| Java       |      `java`       |            ✅ |
+| Haskell    |     `haskell`     |            ✅ |
+
+Want your language added?
+Let us know by [commenting on this issue](https://github.com/Automattic/harper/issues/79).
 
 ### Static Dictionary
 

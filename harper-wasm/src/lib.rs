@@ -72,7 +72,7 @@ impl Linter {
     pub fn isolate_english(&self, text: String) -> String {
         let document = Document::new(
             &text,
-            &mut IsolateEnglish::new(Box::new(PlainEnglish), self.dictionary.clone()),
+            &IsolateEnglish::new(Box::new(PlainEnglish), self.dictionary.clone()),
             &self.dictionary,
         );
 
@@ -117,7 +117,7 @@ impl Linter {
         let source = Lrc::new(source);
 
         let document =
-            Document::new_from_vec(source.clone(), &mut Markdown, &FullDictionary::curated());
+            Document::new_from_vec(source.clone(), &Markdown, &FullDictionary::curated());
 
         let mut lints = self.lint_group.lint(&document);
 
@@ -155,17 +155,23 @@ pub fn apply_suggestion(
     Ok(source.iter().collect())
 }
 
+/// A suggestion to fix a Lint.
 #[derive(Debug, Serialize, Deserialize)]
 #[wasm_bindgen]
 pub struct Suggestion {
     inner: harper_core::linting::Suggestion,
 }
 
+/// Tags the variant of suggestion.
 #[derive(Debug, Serialize, Deserialize)]
 #[wasm_bindgen]
 pub enum SuggestionKind {
+    /// Replace the problematic text.
     Replace = 0,
+    /// Remove the problematic text.
     Remove = 1,
+    /// Insert additional text after the error.
+    InsertAfter = 2,
 }
 
 #[wasm_bindgen]
@@ -174,13 +180,14 @@ impl Suggestion {
         Self { inner }
     }
 
-    /// Get the text that is going to replace error.
+    /// Get the text that is going to replace the problematic section.
     /// If [`Self::kind`] is `SuggestionKind::Remove`, this will return an empty
     /// string.
     pub fn get_replacement_text(&self) -> String {
         match &self.inner {
             harper_core::linting::Suggestion::Remove => "".to_string(),
             harper_core::linting::Suggestion::ReplaceWith(chars) => chars.iter().collect(),
+            harper_core::linting::Suggestion::InsertAfter(chars) => chars.iter().collect(),
         }
     }
 
@@ -188,10 +195,14 @@ impl Suggestion {
         match &self.inner {
             harper_core::linting::Suggestion::Remove => SuggestionKind::Remove,
             harper_core::linting::Suggestion::ReplaceWith(_) => SuggestionKind::Replace,
+            harper_core::linting::Suggestion::InsertAfter(_) => SuggestionKind::InsertAfter,
         }
     }
 }
 
+/// An error found in provided text.
+///
+/// May include zero or more suggestions that may fix the problematic text.
 #[derive(Debug, Deserialize, Serialize)]
 #[wasm_bindgen]
 pub struct Lint {
@@ -215,10 +226,12 @@ impl Lint {
         self.inner.lint_kind.to_string()
     }
 
+    /// Equivalent to calling `.length` on the result of `suggestions()`.
     pub fn suggestion_count(&self) -> usize {
         self.inner.suggestions.len()
     }
 
+    /// Get an array of any suggestions that may resolve the issue.
     pub fn suggestions(&self) -> Vec<Suggestion> {
         self.inner
             .suggestions
@@ -227,15 +240,18 @@ impl Lint {
             .collect()
     }
 
+    /// Get the location of the problematic text.
     pub fn span(&self) -> Span {
         self.inner.span.into()
     }
 
+    /// Get a description of the error.
     pub fn message(&self) -> String {
         self.inner.message.clone()
     }
 }
 
+/// A struct that represents two character indices in a string: a start and an end.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[wasm_bindgen]
 pub struct Span {

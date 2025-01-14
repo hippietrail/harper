@@ -175,7 +175,6 @@ impl Matcher {
             "that","s" => "that is",
             "That","s" => "that is",
             "ms" => "milliseconds",
-            "t","he" => "the",
             "the","hing" => "the thing",
             "The","hing" => "The thing",
             "need","helps" => "need help",
@@ -189,19 +188,6 @@ impl Matcher {
             "the", "this" => "that this",
             "take", "a", "decision" => "make a decision"
         };
-
-        // TODO: Improve the description for this lint specifically.
-        // We need to be more explicit that we are replacing with an Em dash
-        triggers.push(Rule {
-            pattern: vec![pt!(Hyphen), pt!(Hyphen), pt!(Hyphen)],
-            replace_with: vecword!("—"),
-        });
-
-        // Same goes for this En dash
-        triggers.push(Rule {
-            pattern: vec![pt!(Hyphen), pt!(Hyphen)],
-            replace_with: vecword!("–"),
-        });
 
         triggers.push(Rule {
             pattern: vec![pt!("L"), pt!(Period), pt!("L"), pt!(Period), pt!("M")],

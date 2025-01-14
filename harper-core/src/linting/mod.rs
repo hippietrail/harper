@@ -2,8 +2,8 @@ mod an_a;
 mod avoid_curses;
 mod boring_words;
 mod capitalize_personal_pronouns;
-mod compound_words;
 mod correct_number_suffix;
+mod dashes;
 mod dot_initialisms;
 mod ellipsis_length;
 mod linking_verbs;
@@ -11,10 +11,14 @@ mod lint;
 mod lint_group;
 mod long_sentences;
 mod matcher;
+mod merge_linters;
+mod merge_words;
 mod multiple_sequential_pronouns;
 mod number_suffix_capitalization;
+mod oxford_comma;
 mod pattern_linter;
 mod plural_conjugate;
+mod pronoun_contraction;
 mod proper_noun_capitalization_linters;
 mod repeated_words;
 mod sentence_capitalization;
@@ -39,9 +43,13 @@ pub use lint::{Lint, LintKind, Suggestion};
 pub use lint_group::{LintGroup, LintGroupConfig};
 pub use long_sentences::LongSentences;
 pub use matcher::Matcher;
+pub use merge_words::MergeWords;
 pub use multiple_sequential_pronouns::MultipleSequentialPronouns;
 pub use number_suffix_capitalization::NumberSuffixCapitalization;
+pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
+pub use plural_conjugate::PluralConjugate;
+pub use pronoun_contraction::PronounContraction;
 pub use proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
     Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
@@ -95,7 +103,7 @@ mod tests {
     }
 
     /// Runs a provided linter on text, applies the first suggestion from each
-    /// lint and asserts that the result is equal to a given value.
+    /// lint and asserts whether the result is equal to a given value.
     pub fn assert_suggestion_result(text: &str, mut linter: impl Linter, expected_result: &str) {
         let test = Document::new_markdown_curated(text);
         let lints = linter.lint(&test);
@@ -103,6 +111,7 @@ mod tests {
         let mut text: Vec<char> = text.chars().collect();
 
         for lint in lints {
+            dbg!(&lint);
             if let Some(sug) = lint.suggestions.first() {
                 sug.apply(lint.span, &mut text);
             }

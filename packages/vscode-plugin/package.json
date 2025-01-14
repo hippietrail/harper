@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper",
 	"description": "The grammar checker for developers",
-	"version": "0.14.0",
+	"version": "0.15.0",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -32,6 +32,7 @@
 	],
 	"activationEvents": [
 		"onLanguage:c",
+		"onLanguage:cmake",
 		"onLanguage:cpp",
 		"onLanguage:csharp",
 		"onLanguage:git-commit",

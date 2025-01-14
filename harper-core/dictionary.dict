@@ -1,5 +1,4 @@
 50000
-A/125SM
 AA/1254M
 AAA/12
 AB/215M
@@ -10758,7 +10757,7 @@ Zworykin/M
 Zyrtec/M
 Zyuganov/M
 Zzz
-a/1-+4857S~
+a/-+457S~
 aah/14
 aardvark/1SM
 ab/14+SDY
@@ -11894,7 +11893,7 @@ amusing/45Y
 amygdala/1
 amylase/1M
 amyloid/15
-an/-71+CS~
+an/-7+CS~
 anabolism/1M
 anachronism/1SM
 anachronistic/5
@@ -11955,7 +11954,7 @@ anchovy/1SM
 ancient/51SPMRYT
 ancientness/1M
 ancillary/51SM
-and/714~
+and/74~
 andante/15SM
 andiron/1SM
 androgen/1M
@@ -13329,7 +13328,7 @@ bamboozle/41DSG
 ban/41SM
 banal/5Y
 banality/1SM
-banana/15SM
+banana/1SM
 band's
 band/14ESGD
 bandage/14DSMG
@@ -15269,7 +15268,7 @@ bureaucratization/1M
 bureaucratize/4GDS
 burg/1MRZS
 burgeon/14DSG
-burger/1M
+burger/1MS
 burgh/1MRZ
 burgher/1M
 burghs/1
@@ -31305,7 +31304,7 @@ marital/5Y
 maritime/5
 marjoram/1M
 mark/14AMDSG
-markdown/12SM
+Markdown/12SM
 marked/54U
 markedly/
 marker/14MS
@@ -46887,7 +46886,7 @@ type's
 type/14AGDS
 typecast/4GS
 typeface/1MS
-typescript/14MS
+TypeScript/14MS
 typeset/45S
 typesetter/1MS
 typesetting/14M
@@ -49003,7 +49002,7 @@ wit/14+SM
 witch/14MDSG
 witchcraft/1M
 witchery/1M
-with/+1~
+with/+~
 withal/+
 withdraw/41SG
 withdrawal/1MS
@@ -49768,3 +49767,7 @@ uncheck/SM
 upsample/SMG
 organoid/SM
 centric/SM
+Harper/SM
+a8c/SM
+a11n/1
+a12s/9

@@ -98,3 +98,31 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
         "Looks and provides corrections for misspelled words."
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::{
+        linting::tests::{assert_lint_count, assert_suggestion_result},
+        FstDictionary,
+    };
+
+    use super::SpellCheck;
+
+    #[test]
+    fn markdown_capitalized() {
+        assert_suggestion_result(
+            "The word markdown should be capitalized.",
+            SpellCheck::new(FstDictionary::curated()),
+            "The word Markdown should be capitalized.",
+        );
+    }
+
+    #[test]
+    fn harper_automattic_capitalized() {
+        assert_lint_count(
+            "So should harper and automattic.",
+            SpellCheck::new(FstDictionary::curated()),
+            2,
+        );
+    }
+}
