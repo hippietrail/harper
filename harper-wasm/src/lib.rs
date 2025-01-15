@@ -124,8 +124,8 @@ impl Linter {
 
         let parser: Box<dyn Parser> = match language {
             Language::Plain => Box::new(PlainEnglish),
-            // TODO: Have a way to configure the markdown parser
-            Language::Markdown => Box::new(Markdown),
+            // TODO: Have a way to configure the Markdown parser
+            Language::Markdown => Box::new(Markdown::default()),
         };
 
         let document = Document::new_from_vec(source.clone(), &parser, &FullDictionary::curated());
