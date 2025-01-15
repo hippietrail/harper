@@ -1,7 +1,21 @@
-use harper_core::parsers::{Markdown, Parser};
+use harper_core::parsers::{Markdown, MarkdownOptions, Parser};
+use harper_core::Lrc;
 
 /// A Harper parser for Git commit files
-pub struct GitCommitParser;
+#[derive(Clone)]
+pub struct GitCommitParser {
+    inner: Lrc<dyn Parser>,
+}
+
+impl GitCommitParser {
+    pub fn new(parser: Lrc<dyn Parser>) -> Self {
+        Self { inner: parser }
+    }
+
+    pub fn new_markdown(markdown_options: MarkdownOptions) -> Self {
+        Self::new(Lrc::new(Markdown::new(markdown_options)))
+    }
+}
 
 impl Parser for GitCommitParser {
     /// Admittedly a somewhat naive implementation.
@@ -13,6 +27,6 @@ impl Parser for GitCommitParser {
             .position(|c| *c == '#')
             .unwrap_or(source.len());
 
-        Markdown.parse(&source[0..end])
+        self.inner.parse(&source[0..end])
     }
 }

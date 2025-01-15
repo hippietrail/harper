@@ -5,7 +5,7 @@ use std::sync::Arc;
 
 use harper_core::language_detection::is_doc_likely_english;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter as _};
-use harper_core::parsers::{IsolateEnglish, Markdown, PlainEnglish};
+use harper_core::parsers::{IsolateEnglish, Markdown, Parser, PlainEnglish};
 use harper_core::{remove_overlaps, Document, FstDictionary, FullDictionary, Lrc};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -41,6 +41,12 @@ macro_rules! make_serialize_fns_for {
 make_serialize_fns_for!(Suggestion);
 make_serialize_fns_for!(Lint);
 make_serialize_fns_for!(Span);
+
+#[wasm_bindgen]
+pub enum Language {
+    Plain,
+    Markdown,
+}
 
 #[wasm_bindgen]
 pub struct Linter {
@@ -112,12 +118,17 @@ impl Linter {
     }
 
     /// Perform the configured linting on the provided text.
-    pub fn lint(&mut self, text: String) -> Vec<Lint> {
+    pub fn lint(&mut self, text: String, language: Language) -> Vec<Lint> {
         let source: Vec<_> = text.chars().collect();
         let source = Lrc::new(source);
 
-        let document =
-            Document::new_from_vec(source.clone(), &Markdown, &FullDictionary::curated());
+        let parser: Box<dyn Parser> = match language {
+            Language::Plain => Box::new(PlainEnglish),
+            // TODO: Have a way to configure the Markdown parser
+            Language::Markdown => Box::new(Markdown::default()),
+        };
+
+        let document = Document::new_from_vec(source.clone(), &parser, &FullDictionary::curated());
 
         let mut lints = self.lint_group.lint(&document);
 
@@ -138,7 +149,7 @@ impl Default for Linter {
 
 #[wasm_bindgen]
 pub fn to_title_case(text: String) -> String {
-    harper_core::make_title_case_str(&text, &mut PlainEnglish, &FstDictionary::curated())
+    harper_core::make_title_case_str(&text, &PlainEnglish, &FstDictionary::curated())
 }
 
 #[wasm_bindgen]

@@ -1,7 +1,8 @@
 import type { Lint, Span, Suggestion, Linter as WasmLinter } from 'wasm';
+import { Language } from 'wasm';
 import Linter from './Linter';
 import loadWasm from './loadWasm';
-import { LintConfig } from './main';
+import { LintConfig, LintOptions } from './main';
 
 /** A Linter that runs in the current JavaScript context (meaning it is allowed to block the event loop).  */
 export default class LocalLinter implements Linter {
@@ -18,12 +19,15 @@ export default class LocalLinter implements Linter {
 
 	async setup(): Promise<void> {
 		await this.initialize();
-		this.inner!.lint('');
+		this.inner!.lint('', Language.Plain);
 	}
 
-	async lint(text: string): Promise<Lint[]> {
+	async lint(text: string, options?: LintOptions): Promise<Lint[]> {
 		await this.initialize();
-		const lints = this.inner!.lint(text);
+		const lints = this.inner!.lint(
+			text,
+			options?.language === 'plaintext' ? Language.Plain : Language.Markdown
+		);
 
 		return lints;
 	}

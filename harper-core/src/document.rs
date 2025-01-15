@@ -4,7 +4,7 @@ use std::fmt::Display;
 
 use paste::paste;
 
-use crate::parsers::{Markdown, Parser, PlainEnglish};
+use crate::parsers::{Markdown, MarkdownOptions, Parser, PlainEnglish};
 use crate::patterns::{PatternExt, RepeatingPattern, SequencePattern};
 use crate::punctuation::Punctuation;
 use crate::vec_ext::VecExt;
@@ -70,14 +70,34 @@ impl Document {
 
     /// Parse text to produce a document using the built-in [`Markdown`] parser
     /// and curated dictionary.
-    pub fn new_markdown_curated(text: &str) -> Self {
-        Self::new(text, &Markdown, &FstDictionary::curated())
+    pub fn new_markdown_curated(text: &str, markdown_options: MarkdownOptions) -> Self {
+        Self::new(
+            text,
+            &Markdown::new(markdown_options),
+            &FstDictionary::curated(),
+        )
+    }
+
+    /// Parse text to produce a document using the built-in [`Markdown`] parser
+    /// and curated dictionary with the default markdown configuration.
+    pub fn new_markdown_default_curated(text: &str) -> Self {
+        Self::new_markdown_curated(text, MarkdownOptions::default())
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
     /// parser and the curated dictionary.
-    pub fn new_markdown(text: &str, dictionary: &impl Dictionary) -> Self {
-        Self::new(text, &Markdown, dictionary)
+    pub fn new_markdown(
+        text: &str,
+        markdown_options: MarkdownOptions,
+        dictionary: &impl Dictionary,
+    ) -> Self {
+        Self::new(text, &Markdown::new(markdown_options), dictionary)
+    }
+
+    /// Parse text to produce a document using the built-in [`PlainEnglish`]
+    /// parser and the curated dictionary with the default markdown configuration.
+    pub fn new_markdown_default(text: &str, dictionary: &impl Dictionary) -> Self {
+        Self::new_markdown(text, MarkdownOptions::default(), dictionary)
     }
 
     /// Re-parse important language constructs.
@@ -510,6 +530,7 @@ impl TokenStringExt for Document {
     create_fns_on_doc!(paragraph_break);
     create_fns_on_doc!(chunk_terminator);
     create_fns_on_doc!(punctuation);
+    create_fns_on_doc!(currency);
     create_fns_on_doc!(likely_homograph);
 
     fn first_sentence_word(&self) -> Option<Token> {
@@ -560,14 +581,14 @@ mod tests {
     use itertools::Itertools;
 
     use super::Document;
-    use crate::Span;
+    use crate::{parsers::MarkdownOptions, Span};
 
     fn assert_condensed_contractions(text: &str, final_tok_count: usize) {
         let document = Document::new_plain_english_curated(text);
 
         assert_eq!(document.tokens.len(), final_tok_count);
 
-        let document = Document::new_markdown_curated(text);
+        let document = Document::new_markdown_curated(text, MarkdownOptions::default());
 
         assert_eq!(document.tokens.len(), final_tok_count);
     }

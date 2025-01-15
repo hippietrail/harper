@@ -3,7 +3,7 @@ import type { Lint, Suggestion, Span } from 'wasm';
 import Linter from '../Linter';
 import Worker from './worker.js?worker&inline';
 import { getWasmUri } from '../loadWasm';
-import { LintConfig } from '../main';
+import { LintConfig, LintOptions } from '../main';
 
 /** The data necessary to complete a request once the worker has responded. */
 type RequestItem = {
@@ -61,8 +61,8 @@ export default class WorkerLinter implements Linter {
 		return this.rpc('setup', []);
 	}
 
-	lint(text: string): Promise<Lint[]> {
-		return this.rpc('lint', [text]);
+	lint(text: string, options?: LintOptions): Promise<Lint[]> {
+		return this.rpc('lint', [text, options]);
 	}
 
 	applySuggestion(text: string, suggestion: Suggestion, span: Span): Promise<string> {

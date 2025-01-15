@@ -8,29 +8,29 @@ macro_rules! create_test {
         paste::paste! {
             #[test]
             fn [<lints_ $filename _correctly>](){
-                 let source = include_str!(
+                let source = include_str!(
                     concat!(
                         "./test_sources/",
                         concat!(stringify!($filename), ".md")
                     )
-                 );
+                );
 
-                 let dict = FstDictionary::curated();
-                 let document = Document::new_markdown(&source, &dict);
+                let dict = FstDictionary::curated();
+                let document = Document::new_markdown_default(&source, &dict);
 
-                 let mut linter = LintGroup::new(
+                let mut linter = LintGroup::new(
                      LintGroupConfig::default(),
                      dict
-                 );
-                 let lints = linter.lint(&document);
+                );
+                let lints = linter.lint(&document);
 
-                 dbg!(&lints);
-                 assert_eq!(lints.len(), $correct_expected);
+                dbg!(&lints);
+                assert_eq!(lints.len(), $correct_expected);
 
-                 // Make sure that all generated tokens span real characters
-                 for token in document.tokens(){
+                // Make sure that all generated tokens span real characters
+                for token in document.tokens(){
                      assert!(token.span.try_get_content(document.get_source()).is_some());
-                 }
+                }
             }
         }
     };
