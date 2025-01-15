@@ -510,6 +510,7 @@ impl TokenStringExt for Document {
     create_fns_on_doc!(paragraph_break);
     create_fns_on_doc!(chunk_terminator);
     create_fns_on_doc!(punctuation);
+    create_fns_on_doc!(currency);
     create_fns_on_doc!(likely_homograph);
 
     fn first_sentence_word(&self) -> Option<Token> {

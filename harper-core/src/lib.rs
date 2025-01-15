@@ -3,6 +3,7 @@
 
 mod char_ext;
 mod char_string;
+mod currency;
 mod document;
 mod fat_token;
 pub mod language_detection;
@@ -24,6 +25,7 @@ mod word_metadata;
 use std::collections::VecDeque;
 
 pub use char_string::{CharString, CharStringExt};
+pub use currency::Currency;
 pub use document::Document;
 pub use fat_token::FatToken;
 use linting::Lint;
