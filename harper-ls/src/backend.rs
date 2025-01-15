@@ -227,7 +227,7 @@ impl Backend {
                     Some(Box::new(ts_parser))
                 }
             }
-            "lhaskell" => {
+            "literate haskell" | "lhaskell" => {
                 let parser = LiterateHaskellParser;
 
                 if let Some(new_dict) = parser.create_ident_dict(&Arc::new(source)) {
