@@ -16,7 +16,7 @@ macro_rules! create_test {
                  );
 
                  let dict = FstDictionary::curated();
-                 let document = Document::new_markdown(&source, &dict);
+                 let document = Document::new_markdown_default(&source, &dict);
 
                  let mut linter = LintGroup::new(
                      LintGroupConfig::default(),

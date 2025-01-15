@@ -1,4 +1,5 @@
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
+use harper_core::parsers::MarkdownOptions;
 use harper_core::{Document, FstDictionary};
 use harper_literate_haskell::LiterateHaskellParser;
 
@@ -17,7 +18,7 @@ macro_rules! create_test {
                  );
 
                  let dict = FstDictionary::curated();
-                 let document = Document::new_curated(&source, &mut LiterateHaskellParser);
+                 let document = Document::new_curated(&source, &LiterateHaskellParser::new_markdown(MarkdownOptions::default()));
 
                  let mut linter = LintGroup::new(
                      LintGroupConfig::default(),

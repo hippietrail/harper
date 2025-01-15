@@ -1,6 +1,8 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 
+use crate::Currency;
+
 #[derive(
     Debug, Is, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Default, Hash,
 )]
@@ -69,8 +71,7 @@ pub enum Punctuation {
     Carrot,
     /// `+`
     Plus,
-    /// `$`
-    Dollar,
+    Currency(Currency),
     /// `|`
     Pipe,
     /// `_`
@@ -111,10 +112,9 @@ impl Punctuation {
             '…' => Punctuation::Ellipsis,
             '^' => Punctuation::Carrot,
             '+' => Punctuation::Plus,
-            '$' => Punctuation::Dollar,
             '|' => Punctuation::Pipe,
             '_' => Punctuation::Underscore,
-            _ => return None,
+            _ => Punctuation::Currency(Currency::from_char(c)?),
         };
 
         Some(punct)

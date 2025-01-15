@@ -30,7 +30,7 @@ use super::that_which::ThatWhich;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
 use super::wrong_quotes::WrongQuotes;
-use super::{Lint, Linter, OxfordComma};
+use super::{CurrencyPlacement, Lint, Linter, OxfordComma};
 use crate::{Dictionary, Document};
 
 macro_rules! create_lint_group_config {
@@ -186,7 +186,8 @@ create_lint_group_config!(
     MergeWords => true,
     PluralConjugate => false,
     OxfordComma => true,
-    PronounContraction => true
+    PronounContraction => true,
+    CurrencyPlacement => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
@@ -218,7 +219,7 @@ mod tests {
             .collect();
 
         for (key, value) in pairs {
-            let doc = Document::new_markdown_curated(&value);
+            let doc = Document::new_markdown_default_curated(&value);
             eprintln!("{key}: {value}");
             assert!(group.lint(&doc).is_empty())
         }

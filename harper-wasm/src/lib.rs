@@ -124,6 +124,7 @@ impl Linter {
 
         let parser: Box<dyn Parser> = match language {
             Language::Plain => Box::new(PlainEnglish),
+            // TODO: Have a way to configure the markdown parser
             Language::Markdown => Box::new(Markdown),
         };
 
@@ -148,7 +149,7 @@ impl Default for Linter {
 
 #[wasm_bindgen]
 pub fn to_title_case(text: String) -> String {
-    harper_core::make_title_case_str(&text, &mut PlainEnglish, &FstDictionary::curated())
+    harper_core::make_title_case_str(&text, &PlainEnglish, &FstDictionary::curated())
 }
 
 #[wasm_bindgen]

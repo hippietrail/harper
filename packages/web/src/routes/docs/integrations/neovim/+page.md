@@ -47,6 +47,23 @@ Neovim is also one of the two primarily supported editors for `harper-ls`.
 As such, you can view this page as canonical documentation for the available configuration options.
 [Helix](./helix) and [Zed](./zed) users may also find it helpful.
 
+### Markdown-Specific Config
+
+The Markdown parser has it's own configuration option, used to modify its behavior in specific ways.
+For example, the title of a link is linted by default, but this behavior can be changed through the `ignore_link_title` key:
+
+```lua
+lspconfig.harper_ls.setup {
+  settings = {
+    ["harper-ls"] = {
+      markdown = {
+        ignore_link_title = true,
+      }
+    }
+  },
+}
+```
+
 ### Dictionaries
 
 You do not have to stick with the default dictionary locations ([listed on this page](./language-server)).
@@ -66,13 +83,13 @@ lspconfig.harper_ls.setup {
 For example, if you want to use Vim's dictionary, you can do something like this:
 
 ```lua
-lspconfig.harper_ls.setup({
-    settings = {
-        ["harper-ls"] = {
-            userDictPath = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
-        },
-    },
-})
+lspconfig.harper_ls.setup {
+  settings = {
+    ["harper-ls"] = {
+      userDictPath = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
+    }
+  },
+}
 ```
 
 See the [relevant issue for details](https://github.com/Automattic/harper/issues/143).
