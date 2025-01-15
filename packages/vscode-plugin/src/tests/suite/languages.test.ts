@@ -21,13 +21,14 @@ describe('Languages >', () => {
 		// Uncomment when #65 is fixed.
 		// { type: 'Shellscript without extension', file: 'shellscript', row: 2, column: 2 },
 
-		// VSCode doesn't support CMake, Haskell, Literate Haskell, Nix, and TOML files out of the box.
-		// Uncomment when you figure out how to support them during testing.
+		// VSCode doesn't support CMake, Haskell, Literate Haskell, Nix, TOML, and Typst files out of
+		// the box. Uncomment when you figure out how to support them during testing.
 		// { type: 'CMake', file: 'CMakeLists.txt', row: 2, column: 30 },
 		// { type: 'Haskell', file: 'haskell.hs', row: 1, column: 3 },
 		// { type: 'Literate Haskell', file: 'literate-haskell.lhs', row: 5, column: 0 },
 		// { type: 'Nix', file: 'nix.nix', row: 1, column: 2 },
 		// { type: 'TOML', file: 'toml.toml', row: 1, column: 2 },
+		// { type: 'Typst', file: 'typst.typ', row: 2, column: 1 },
 
 		{ type: 'C', file: 'c.c', row: 2, column: 3 },
 		{ type: 'C++', file: 'cpp.cpp', row: 3, column: 5 },

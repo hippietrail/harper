@@ -54,7 +54,8 @@
 		"onLanguage:swift",
 		"onLanguage:toml",
 		"onLanguage:typescript",
-		"onLanguage:typescriptreact"
+		"onLanguage:typescriptreact",
+		"onLanguage:typst"
 	],
 	"main": "./build/extension.js",
 	"contributes": {
