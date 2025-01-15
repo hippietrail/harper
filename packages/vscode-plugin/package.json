@@ -42,6 +42,7 @@
 		"onLanguage:java",
 		"onLanguage:javascript",
 		"onLanguage:javascriptreact",
+		"onLanguage:literate haskell",
 		"onLanguage:lua",
 		"onLanguage:markdown",
 		"onLanguage:nix",
@@ -53,7 +54,8 @@
 		"onLanguage:swift",
 		"onLanguage:toml",
 		"onLanguage:typescript",
-		"onLanguage:typescriptreact"
+		"onLanguage:typescriptreact",
+		"onLanguage:typst"
 	],
 	"main": "./build/extension.js",
 	"contributes": {

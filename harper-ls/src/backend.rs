@@ -237,7 +237,7 @@ impl Backend {
                     Some(Box::new(ts_parser))
                 }
             }
-            "lhaskell" => {
+            "literate haskell" | "lhaskell" => {
                 let parser = LiterateHaskellParser::new_markdown(markdown_options);
 
                 if let Some(new_dict) =
