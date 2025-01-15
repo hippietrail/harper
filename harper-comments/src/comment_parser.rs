@@ -1,7 +1,7 @@
 use std::path::Path;
 
 use comment_parsers::{Go, JavaDoc, JsDoc, Unit};
-use harper_core::parsers::{self, Parser};
+use harper_core::parsers::{self, MarkdownOptions, Parser};
 use harper_core::{FullDictionary, Token};
 use harper_tree_sitter::TreeSitterMasker;
 use tree_sitter::Node;
@@ -17,7 +17,10 @@ impl CommentParser {
         self.inner.masker.create_ident_dict(source)
     }
 
-    pub fn new_from_language_id(language_id: &str) -> Option<Self> {
+    pub fn new_from_language_id(
+        language_id: &str,
+        markdown_options: MarkdownOptions,
+    ) -> Option<Self> {
         let language = match language_id {
             "rust" => tree_sitter_rust::language(),
             "typescriptreact" => tree_sitter_typescript::language_tsx(),
@@ -42,10 +45,12 @@ impl CommentParser {
         };
 
         let comment_parser: Box<dyn Parser> = match language_id {
-            "javascriptreact" | "typescript" | "typescriptreact" | "javascript" => Box::new(JsDoc),
+            "javascriptreact" | "typescript" | "typescriptreact" | "javascript" => {
+                Box::new(JsDoc::new_markdown(markdown_options))
+            }
             "java" => Box::new(JavaDoc::default()),
-            "go" => Box::new(Go),
-            _ => Box::new(Unit),
+            "go" => Box::new(Go::new_markdown(markdown_options)),
+            _ => Box::new(Unit::new_markdown(markdown_options)),
         };
 
         Some(Self {
@@ -57,8 +62,8 @@ impl CommentParser {
     }
 
     /// Infer the programming language from a provided filename.
-    pub fn new_from_filename(filename: &Path) -> Option<Self> {
-        Self::new_from_language_id(Self::filename_to_filetype(filename)?)
+    pub fn new_from_filename(filename: &Path, markdown_options: MarkdownOptions) -> Option<Self> {
+        Self::new_from_language_id(Self::filename_to_filetype(filename)?, markdown_options)
     }
 
     /// Convert a provided path to a corresponding Language Server Protocol file

@@ -6,11 +6,7 @@ use lazy_static::lazy_static;
 use crate::{parsers::Parser, CharStringExt, Dictionary, Document, TokenStringExt};
 
 /// A helper function for [`make_title_case`] that uses Strings instead of char buffers.
-pub fn make_title_case_str(
-    source: &str,
-    parser: &mut impl Parser,
-    dict: &impl Dictionary,
-) -> String {
+pub fn make_title_case_str(source: &str, parser: &impl Parser, dict: &impl Dictionary) -> String {
     let source: Vec<char> = source.chars().collect();
 
     make_title_case_chars(Lrc::new(source), parser, dict).to_string()
@@ -19,7 +15,7 @@ pub fn make_title_case_str(
 // Make a given string [title case](https://en.wikipedia.org/wiki/Title_case) following the Chicago Manual of Style.
 pub fn make_title_case_chars(
     source: Lrc<Vec<char>>,
-    parser: &mut impl Parser,
+    parser: &impl Parser,
     dict: &impl Dictionary,
 ) -> Vec<char> {
     let document = Document::new_from_vec(source.clone(), parser, dict);
@@ -93,17 +89,13 @@ mod tests {
     use super::make_title_case_str;
     use crate::{
         parsers::{Markdown, PlainEnglish},
-        FstDictionary, FullDictionary,
+        FstDictionary,
     };
 
     #[test]
     fn normal() {
         assert_eq!(
-            make_title_case_str(
-                "this is a test",
-                &mut PlainEnglish,
-                &FstDictionary::curated()
-            ),
+            make_title_case_str("this is a test", &PlainEnglish, &FstDictionary::curated()),
             "This Is a Test"
         )
     }
@@ -113,7 +105,7 @@ mod tests {
         assert_eq!(
             make_title_case_str(
                 "the first and last words should be capitalized, even if it is \"the\"",
-                &mut PlainEnglish,
+                &PlainEnglish,
                 &FstDictionary::curated()
             ),
             "The First and Last Words Should Be Capitalized, Even If It Is \"The\""
@@ -123,11 +115,7 @@ mod tests {
     #[test]
     fn start_as_uppercase() {
         assert_eq!(
-            make_title_case_str(
-                "THIS IS A TEST",
-                &mut PlainEnglish,
-                &FstDictionary::curated()
-            ),
+            make_title_case_str("THIS IS A TEST", &PlainEnglish, &FstDictionary::curated()),
             "This Is a Test"
         )
     }
@@ -190,7 +178,7 @@ mod tests {
 
         let title_case: Vec<_> = make_title_case_str(
             &format!("{prefix} a {postfix}"),
-            &mut Markdown,
+            &Markdown::default(),
             &FstDictionary::curated(),
         )
         .chars()
@@ -214,7 +202,7 @@ mod tests {
 
         let title_case: Vec<_> = make_title_case_str(
             &format!("{prefix} about {postfix}"),
-            &mut Markdown,
+            &Markdown::default(),
             &FstDictionary::curated(),
         )
         .chars()
@@ -226,7 +214,7 @@ mod tests {
     #[quickcheck]
     fn first_word_is_upcase(sentence: Sentence) -> TestResult {
         let title_case: Vec<_> =
-            make_title_case_str(&sentence.0, &mut Markdown, &FstDictionary::curated())
+            make_title_case_str(&sentence.0, &Markdown::default(), &FstDictionary::curated())
                 .chars()
                 .collect();
 

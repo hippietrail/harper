@@ -219,7 +219,7 @@ mod tests {
             .collect();
 
         for (key, value) in pairs {
-            let doc = Document::new_markdown_curated(&value);
+            let doc = Document::new_markdown_default_curated(&value);
             eprintln!("{key}: {value}");
             assert!(group.lint(&doc).is_empty())
         }

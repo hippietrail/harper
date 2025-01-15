@@ -46,7 +46,7 @@ mod tests {
 
         let document = Document::new(
             text,
-            &mut IsolateEnglish::new(Box::new(PlainEnglish), dict.clone()),
+            &IsolateEnglish::new(Box::new(PlainEnglish), dict.clone()),
             &dict,
         );
 
@@ -61,7 +61,7 @@ mod tests {
 
         let document = Document::new(
             source,
-            &mut IsolateEnglish::new(Box::new(PlainEnglish), dict.clone()),
+            &IsolateEnglish::new(Box::new(PlainEnglish), dict.clone()),
             &dict,
         );
 

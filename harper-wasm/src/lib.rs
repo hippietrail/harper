@@ -116,8 +116,12 @@ impl Linter {
         let source: Vec<_> = text.chars().collect();
         let source = Lrc::new(source);
 
-        let document =
-            Document::new_from_vec(source.clone(), &Markdown, &FullDictionary::curated());
+        // TODO: Have a way to configure the markdown parser
+        let document = Document::new_from_vec(
+            source.clone(),
+            &Markdown::default(),
+            &FullDictionary::curated(),
+        );
 
         let mut lints = self.lint_group.lint(&document);
 
@@ -138,7 +142,7 @@ impl Default for Linter {
 
 #[wasm_bindgen]
 pub fn to_title_case(text: String) -> String {
-    harper_core::make_title_case_str(&text, &mut PlainEnglish, &FstDictionary::curated())
+    harper_core::make_title_case_str(&text, &PlainEnglish, &FstDictionary::curated())
 }
 
 #[wasm_bindgen]

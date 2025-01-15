@@ -87,7 +87,7 @@ mod tests {
     use crate::Document;
 
     pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
-        let test = Document::new_markdown_curated(text);
+        let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
         dbg!(&lints);
         assert_eq!(lints.len(), count);
@@ -96,7 +96,7 @@ mod tests {
     /// Assert the total number of suggestions produced by a [`Linter`], spread across all produced
     /// [`Lint`]s.
     pub fn assert_suggestion_count(text: &str, mut linter: impl Linter, count: usize) {
-        let test = Document::new_markdown_curated(text);
+        let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
         assert_eq!(
             lints.iter().map(|l| l.suggestions.len()).sum::<usize>(),
@@ -107,7 +107,7 @@ mod tests {
     /// Runs a provided linter on text, applies the first suggestion from each
     /// lint and asserts whether the result is equal to a given value.
     pub fn assert_suggestion_result(text: &str, mut linter: impl Linter, expected_result: &str) {
-        let test = Document::new_markdown_curated(text);
+        let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
 
         let mut text: Vec<char> = text.chars().collect();

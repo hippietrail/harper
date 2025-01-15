@@ -48,8 +48,8 @@ impl Backend {
     pub fn new(client: Client, config: Config) -> Self {
         Self {
             client,
-            doc_state: Mutex::new(HashMap::new()),
             config: RwLock::new(config),
+            doc_state: Mutex::new(HashMap::new()),
         }
     }
 
@@ -214,8 +214,9 @@ impl Backend {
             )))
         }
 
+        let markdown_options = self.config.read().await.markdown_options;
         let source: Vec<char> = text.chars().collect();
-        let ts_parser = CommentParser::new_from_language_id(language_id);
+        let ts_parser = CommentParser::new_from_language_id(language_id, markdown_options);
         let parser: Option<Box<dyn Parser>> = match language_id.as_str() {
             _ if ts_parser.is_some() => {
                 let ts_parser = ts_parser.unwrap();
@@ -237,9 +238,11 @@ impl Backend {
                 }
             }
             "lhaskell" => {
-                let parser = LiterateHaskellParser;
+                let parser = LiterateHaskellParser::new_markdown(markdown_options);
 
-                if let Some(new_dict) = parser.create_ident_dict(&Arc::new(source)) {
+                if let Some(new_dict) =
+                    parser.create_ident_dict(&Arc::new(source), markdown_options)
+                {
                     Some(
                         use_ident_dict(
                             self,
@@ -255,8 +258,10 @@ impl Backend {
                     Some(Box::new(parser))
                 }
             }
-            "markdown" => Some(Box::new(Markdown)),
-            "git-commit" | "gitcommit" => Some(Box::new(GitCommitParser)),
+            "markdown" => Some(Box::new(Markdown::new(markdown_options))),
+            "git-commit" | "gitcommit" => {
+                Some(Box::new(GitCommitParser::new_markdown(markdown_options)))
+            }
             "html" => Some(Box::new(HtmlParser::default())),
             "mail" | "plaintext" => Some(Box::new(PlainEnglish)),
             "typst" => Some(Box::new(Typst)),
