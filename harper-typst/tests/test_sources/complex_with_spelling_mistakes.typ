@@ -7,7 +7,10 @@
   title: "Defalt Title",
   authors: ("Author 1", "Author 2"),
   abstract: [*This is contnt*],
+  body,
 ) = {
+  set document(date: none)
+  set par(justify: true)
   set page(
     header: context {
       if counter(page).get().first() > 1 [
@@ -45,15 +48,16 @@
       #abstract
     ]
   ]
+  body
 }
 
 #show: doc => [
   #titleblock(
     title: "A fluid dynamic model for glaier flow",
     authors: ("Grant Lemons", "John Doe", "Jane Doe"),
-    abstract: lorem(80)
+    abstract: lorem(80),
+    doc,
   )
-  #doc
 ]
 
 = Introduction
