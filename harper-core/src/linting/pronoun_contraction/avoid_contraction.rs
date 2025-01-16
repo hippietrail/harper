@@ -34,7 +34,8 @@ impl PatternLinter for AvoidContraction {
                 vec!['y', 'o', 'u', 'r'],
                 word,
             )],
-            message: "It appears you intended to use the possessive version of this word".to_owned(),
+            message: "It appears you intended to use the possessive version of this word"
+                .to_owned(),
             priority: 63,
         }
     }
