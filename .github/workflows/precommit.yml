@@ -8,6 +8,8 @@ on:
 
 env:
   CARGO_TERM_COLOR: always
+  # Run for 100 times the default
+  QUICKCHECK_TESTS: 10000
 
 jobs:
   precommit:
