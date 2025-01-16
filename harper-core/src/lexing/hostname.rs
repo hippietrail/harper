@@ -28,6 +28,13 @@ pub fn lex_hostname_token(source: &[char]) -> Option<FoundToken> {
 pub fn lex_hostname(source: &[char]) -> Option<usize> {
     let mut passed_chars = 0;
 
+    // The beginning has different requirements from the rest of the hostname.
+    let first = source.first()?;
+
+    if !matches!(first, 'A'..='Z' | 'a'..='z' | '0'..='9' ) {
+        return None;
+    }
+
     for label in source.split(|c| *c == '.') {
         for c in label {
             passed_chars += 1;
@@ -77,5 +84,11 @@ pub mod tests {
             dbg!(domain.iter().collect::<String>());
             assert_eq!(lex_hostname(&domain), Some(domain.len()));
         }
+    }
+
+    #[test]
+    fn hyphen_cannot_open_hostname() {
+        let host: Vec<_> = "-something.com".chars().collect();
+        assert!(lex_hostname(&host).is_none())
     }
 }
