@@ -11,7 +11,9 @@ use harper_core::parsers::{Markdown, MarkdownOptions};
 use harper_core::{remove_overlaps, Dictionary, Document, FstDictionary, TokenKind};
 use harper_literate_haskell::LiterateHaskellParser;
 
+/// A debugging tool for the Harper grammar checker.
 #[derive(Debug, Parser)]
+#[command(version, about)]
 enum Args {
     /// Lint a provided document.
     Lint {
