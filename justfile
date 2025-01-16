@@ -270,12 +270,12 @@ bump-versions:
   lazygit
 
 # Enter an infinite loop of testing until a bug is found.
-fuzz mod:
+fuzz:
   #!/usr/bin/bash
   
   while true
   do
-      QUICKCHECK_TESTS=1000 cargo test {{mod}}
+      QUICKCHECK_TESTS=100000 cargo test
       if [[ x$? != x0 ]] ; then
           exit $?
       fi

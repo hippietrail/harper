@@ -1,5 +1,6 @@
 use crate::Lrc;
 use crate::Token;
+use crate::TokenKind;
 use hashbrown::HashSet;
 use lazy_static::lazy_static;
 
@@ -33,33 +34,8 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
     let mut word_likes = toks.iter_word_likes().enumerate().peekable();
     let mut output = toks.span().unwrap().get_content(source).to_vec();
 
-    // Only specific conjunctions are not capitalized.
-    lazy_static! {
-        static ref SPECIAL_CONJUNCTIONS: HashSet<Vec<char>> = ["and", "but", "for", "or", "nor"]
-            .iter()
-            .map(|v| v.chars().collect())
-            .collect();
-    }
-
     while let Some((index, word)) = word_likes.next() {
-        if !word.kind.is_word() {
-            continue;
-        }
-
-        let chars = word.span.get_content(source);
-        let chars_lower = chars.to_lower();
-
-        let metadata = word
-            .kind
-            .as_word()
-            .unwrap()
-            .or(&dict.get_word_metadata(&chars_lower));
-
-        let is_short_preposition = metadata.preposition && word.span.len() <= 4;
-
-        let should_capitalize = (!is_short_preposition
-            && !metadata.article
-            && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_slice()))
+        let should_capitalize = should_capitalize_token(&word, source, dict)
             || index == 0
             || word_likes.peek().is_none();
 
@@ -82,10 +58,39 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
     output
 }
 
+/// Determines whether a token should be capitalized.
+/// Is not responsible for capitalization requirements that are dependent on token position.
+fn should_capitalize_token(tok: &Token, source: &[char], dict: &impl Dictionary) -> bool {
+    match tok.kind {
+        TokenKind::Word(mut metadata) => {
+            // Only specific conjunctions are not capitalized.
+            lazy_static! {
+                static ref SPECIAL_CONJUNCTIONS: HashSet<Vec<char>> =
+                    ["and", "but", "for", "or", "nor"]
+                        .iter()
+                        .map(|v| v.chars().collect())
+                        .collect();
+            }
+
+            let chars = tok.span.get_content(source);
+            let chars_lower = chars.to_lower();
+
+            metadata = metadata.or(&dict.get_word_metadata(&chars_lower));
+
+            let is_short_preposition = metadata.preposition && tok.span.len() <= 4;
+
+            !is_short_preposition
+                && !metadata.article
+                && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_slice())
+        }
+        _ => true,
+    }
+}
+
 #[cfg(test)]
 mod tests {
 
-    use quickcheck::{Arbitrary, TestResult};
+    use quickcheck::TestResult;
     use quickcheck_macros::quickcheck;
 
     use super::make_title_case_str;
@@ -131,49 +136,28 @@ mod tests {
         )
     }
 
-    #[derive(Debug, Clone)]
-    struct Word(String);
-
-    impl Arbitrary for Word {
-        fn arbitrary(g: &mut quickcheck::Gen) -> Self {
-            let mut s = String::new();
-
-            for _ in 0..g.size() {
-                let c = loop {
-                    let gen = char::arbitrary(g);
-
-                    if gen.is_ascii_alphanumeric() {
-                        break gen;
-                    }
-                };
-
-                s.push(c);
-            }
-
-            Self(s)
-        }
+    #[test]
+    fn pipe_does_not_cause_crash() {
+        assert_eq!(
+            make_title_case_str("|", &Markdown::default(), &FstDictionary::curated()),
+            "|"
+        )
     }
 
-    #[derive(Debug, Clone)]
-    struct Sentence(String);
+    #[test]
+    fn a_paragraph_does_not_cause_crash() {
+        assert_eq!(
+            make_title_case_str("A\n", &Markdown::default(), &FstDictionary::curated()),
+            "A"
+        )
+    }
 
-    /// Builds a sentence out of words from the curated [`FullDictionary`].
-    impl Arbitrary for Sentence {
-        fn arbitrary(g: &mut quickcheck::Gen) -> Self {
-            let mut s = String::new();
-
-            let Word(first_word) = Word::arbitrary(g);
-            s.push_str(&first_word);
-
-            for _ in 0..g.size() {
-                let Word(word) = Word::arbitrary(g);
-
-                s.push(' ');
-                s.push_str(&word);
-            }
-
-            Self(s)
-        }
+    #[test]
+    fn tab_a_becomes_upcase() {
+        assert_eq!(
+            make_title_case_str("\ta", &PlainEnglish, &FstDictionary::curated()),
+            "\tA"
+        )
     }
 
     #[quickcheck]
@@ -194,8 +178,6 @@ mod tests {
         )
         .chars()
         .collect();
-
-        dbg!(&title_case);
 
         TestResult::from_bool(title_case[prefix.chars().count() + 1] == 'a')
     }
@@ -223,15 +205,15 @@ mod tests {
     }
 
     #[quickcheck]
-    fn first_word_is_upcase(sentence: Sentence) -> TestResult {
+    fn first_word_is_upcase(text: String) -> TestResult {
         let title_case: Vec<_> =
-            make_title_case_str(&sentence.0, &Markdown::default(), &FstDictionary::curated())
+            make_title_case_str(&text, &PlainEnglish, &FstDictionary::curated())
                 .chars()
                 .collect();
 
         if let Some(first) = title_case.first() {
-            if first.is_alphabetic() {
-                TestResult::from_bool(first.is_uppercase())
+            if first.is_ascii_alphabetic() {
+                TestResult::from_bool(first.is_ascii_uppercase())
             } else {
                 TestResult::discard()
             }
