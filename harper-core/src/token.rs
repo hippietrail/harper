@@ -156,7 +156,16 @@ impl TokenStringExt for [Token] {
     }
 
     fn span(&self) -> Option<Span> {
-        Some(Span::new(self.first()?.span.start, self.last()?.span.end))
+        let min_max = self
+            .iter()
+            .flat_map(|v| [v.span.start, v.span.end].into_iter())
+            .minmax();
+
+        match min_max {
+            itertools::MinMaxResult::NoElements => None,
+            itertools::MinMaxResult::OneElement(min) => Some(Span::new(min, min)),
+            itertools::MinMaxResult::MinMax(min, max) => Some(Span::new(min, max)),
+        }
     }
 
     fn iter_linking_verb_indices(&self) -> impl Iterator<Item = usize> + '_ {

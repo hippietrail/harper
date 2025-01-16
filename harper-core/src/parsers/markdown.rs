@@ -37,7 +37,7 @@ impl Markdown {
 
     /// Remove hidden Wikilink target text.
     ///
-    /// As in, the stuff to the left of the pipe operator:
+    /// As in the stuff to the left of the pipe operator:
     ///
     /// ```markdown
     /// [[Target text|Display Text]]
@@ -46,6 +46,10 @@ impl Markdown {
         let mut to_remove = VecDeque::new();
 
         for pipe_idx in tokens.iter_pipe_indices() {
+            if pipe_idx < 2 {
+                continue;
+            }
+
             // Locate preceding `[[`
             let mut cursor = pipe_idx - 2;
             let mut open_bracket = None;
@@ -349,6 +353,35 @@ mod tests {
                 TokenKind::Word(_),
             ]
         ))
+    }
+
+    #[test]
+    fn just_pipe() {
+        let source = r"|";
+
+        let tokens = Markdown::default().parse_str(source);
+
+        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+
+        dbg!(&token_kinds);
+
+        assert!(matches!(
+            token_kinds.as_slice(),
+            &[TokenKind::Punctuation(Punctuation::Pipe)]
+        ))
+    }
+
+    #[test]
+    fn empty_wikilink_text() {
+        let source = r"[[|]]";
+
+        let tokens = Markdown::default().parse_str(source);
+
+        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+
+        dbg!(&token_kinds);
+
+        assert!(matches!(token_kinds.as_slice(), &[]))
     }
 
     #[test]
