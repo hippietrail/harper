@@ -4,6 +4,7 @@
   abstract: [*This is content*],
   body,
 ) = {
+  set document(date: none)
   set par(justify: true)
   set page(
     paper: "us-letter",
@@ -20,8 +21,7 @@
     scope: "parent",
     clearance: 2em,
   )[
-    #show heading: set text(17pt)
-    = #title
+    #text(17pt, strong(title))
 
     #let authors-line = if authors.len() > 3 {
       // "et al." isn't parsed properly, but this isn't the fault of the Typst
