@@ -1,0 +1,19 @@
+name: Fuzz
+
+on:
+  schedule: 
+    - cron: "*/30 * * * *"
+
+env:
+  CARGO_TERM_COLOR: always
+  # Run for 100 times the default
+  QUICKCHECK_TESTS: 10000
+
+jobs:
+  precommit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: extractions/setup-just@v2
+      - name: Test
+        run: cargo test
