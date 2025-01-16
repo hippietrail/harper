@@ -30,7 +30,7 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
 
     let start_index = toks.first().unwrap().span.start;
 
-    let mut words = toks.iter_word_likes().enumerate().peekable();
+    let mut word_likes = toks.iter_word_likes().enumerate().peekable();
     let mut output = toks.span().unwrap().get_content(source).to_vec();
 
     // Only specific conjunctions are not capitalized.
@@ -41,7 +41,7 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
             .collect();
     }
 
-    while let Some((index, word)) = words.next() {
+    while let Some((index, word)) = word_likes.next() {
         if !word.kind.is_word() {
             continue;
         }
@@ -55,11 +55,13 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
             .unwrap()
             .or(&dict.get_word_metadata(&chars_lower));
 
-        let should_capitalize = !metadata.preposition
+        let is_short_preposition = metadata.preposition && word.span.len() <= 4;
+
+        let should_capitalize = (!is_short_preposition
             && !metadata.article
-            && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_slice())
+            && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_slice()))
             || index == 0
-            || words.peek().is_none();
+            || word_likes.peek().is_none();
 
         if should_capitalize {
             output[word.span.start - start_index] =
@@ -117,6 +119,15 @@ mod tests {
         assert_eq!(
             make_title_case_str("THIS IS A TEST", &PlainEnglish, &FstDictionary::curated()),
             "This Is a Test"
+        )
+    }
+
+    /// Check that "about" remains uppercase
+    #[test]
+    fn about_uppercase_with_numbers() {
+        assert_eq!(
+            make_title_case_str("0 about 0", &PlainEnglish, &FstDictionary::curated()),
+            "0 About 0"
         )
     }
 
