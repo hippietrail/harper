@@ -30,6 +30,14 @@ You can install Harper on Windows through [Scoop](https://scoop.sh/).
 scoop install harper
 ```
 
+### Homebrew
+
+You may install Harper through [Homebrew](https://brew.sh).
+
+```bash
+brew install harper
+```
+
 ## Dictionaries
 
 `harper-ls` has three kinds of dictionaries: user, file-local, and static dictionaries.

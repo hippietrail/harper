@@ -41,6 +41,14 @@ You can install Harper on Windows through [Scoop](https://scoop.sh/).
 scoop install harper
 ```
 
+### Homebrew
+
+You may install Harper through [Homebrew](https://brew.sh).
+
+```bash
+brew install harper
+```
+
 ## Configuration
 
 Neovim is also one of the two primarily supported editors for `harper-ls`.
