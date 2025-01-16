@@ -13,7 +13,7 @@ Hopefully, we can reduce that 10x down to something a little more reasonable.
 
 Harper tries to do one thing well: find grammatical and spelling errors in English text.
 If possible, provide suggestions to correct those errors.
-An error and it's possible corrections together form what we call a lint.
+An error and its possible corrections together form what we call a lint.
 
 In this vein, Harper serves the role of a [Linter](<https://en.wikipedia.org/wiki/Lint_(software)>) for English.
 

@@ -14,7 +14,7 @@ export function setWasmUri(uri: string) {
 	curWasmUri = uri;
 }
 
-/** Load the WebAssembly manually and dynamically, making sure to setup infrastructure.
+/** Load the WebAssembly manually and dynamically, making sure to set up infrastructure.
  * You can use an optional data URL for the WebAssembly file if the module is being loaded from a Web Worker.
  * */
 export default async function loadWasm() {

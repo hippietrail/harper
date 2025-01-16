@@ -35,7 +35,7 @@ impl Linter for SpelledNumbers {
     }
 }
 
-/// Converts a number to it's spelled-out variant.
+/// Converts a number to its spelled-out variant.
 ///
 /// For example: 100 -> one hundred.
 ///

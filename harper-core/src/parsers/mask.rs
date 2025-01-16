@@ -35,7 +35,7 @@ where
         let mut last_allowed: Option<Span> = None;
 
         for (span, content) in mask.iter_allowed(source) {
-            // Check if there was a line break between the last chunk.
+            // Check for a line break separating the current chunk from the preceding one.
             if let Some(last_allowed) = last_allowed {
                 let intervening = Span::new(last_allowed.end, span.start);
 

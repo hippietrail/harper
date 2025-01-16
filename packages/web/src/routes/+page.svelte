@@ -103,7 +103,7 @@
 <Section>
 	<span slot="title">Wicked Fast</span>
 	<span slot="subtitle"
-		>Since Harper runs on <strong>your</strong> devices, its able to serve up suggestions in under
+		>Since Harper runs on <strong>your</strong> devices, it's able to serve up suggestions in under
 		10 milliseconds.
 		<br />
 		<br />
