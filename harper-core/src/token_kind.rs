@@ -155,7 +155,7 @@ impl TokenKind {
         self.with_default_data() == other.with_default_data()
     }
 
-    /// Produces a copy of `self` with any inner data replaced with it's default
+    /// Produces a copy of `self` with any inner data replaced with its default
     /// value. Useful for making comparisons on just the variant of the
     /// enum.
     pub fn with_default_data(&self) -> Self {

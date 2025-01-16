@@ -57,7 +57,7 @@ As such, you can view this page as canonical documentation for the available con
 
 ### Markdown-Specific Config
 
-The Markdown parser has it's own configuration option, used to modify its behavior in specific ways.
+The Markdown parser has its own configuration option, used to modify its behavior in specific ways.
 For example, the title of a link is linted by default, but this behavior can be changed through the `ignore_link_title` key:
 
 ```lua
