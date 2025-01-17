@@ -1,7 +1,9 @@
 use std::collections::HashMap;
+use std::str::FromStr;
 
 use harper_core::linting::{Lint, Suggestion};
 use harper_core::CharStringExt;
+use serde_json::Value;
 use tower_lsp::lsp_types::{
     CodeAction, CodeActionKind, CodeActionOrCommand, Command, Diagnostic, TextEdit, Url,
     WorkspaceEdit,
@@ -60,7 +62,11 @@ pub fn lint_to_code_actions<'a>(
                         document_changes: None,
                         change_annotations: None,
                     }),
-                    command: None,
+                    command: Some(Command {
+                        title: "Record lint statistic".to_owned(),
+                        command: "HarperRecordLint".to_owned(),
+                        arguments: Some(vec![Value::String(lint.lint_kind.to_string())]),
+                    }),
                     is_preferred: None,
                     disabled: None,
                     data: None,

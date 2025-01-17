@@ -11,6 +11,7 @@ mod dictionary_io;
 mod document_state;
 mod git_commit_parser;
 mod pos_conv;
+mod stats;
 
 use backend::Backend;
 use clap::Parser;
