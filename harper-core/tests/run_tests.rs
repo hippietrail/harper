@@ -48,3 +48,6 @@ create_test!(amazon_hostname.md, 0);
 create_test!(issue_159.md, 1);
 create_test!(issue_358.md, 0);
 create_test!(issue_195.md, 0);
+
+// Make sure it doesn't panic
+create_test!(lukas_homework.md, 3);
