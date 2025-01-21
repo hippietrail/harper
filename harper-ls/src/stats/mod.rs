@@ -1,10 +1,8 @@
 mod lint_record;
-mod lint_summary;
 
 use std::io::Write;
 
 pub use lint_record::LintRecord;
-pub use lint_summary::LintSummary;
 use tokio::io;
 
 pub struct Stats {
@@ -17,17 +15,6 @@ impl Stats {
         Self {
             lints_applied: Vec::new(),
         }
-    }
-
-    /// Count the number of each kind of lint applied.
-    pub fn summarize_lints_applied(&self) -> LintSummary {
-        let mut summary = LintSummary::new();
-
-        for lint in &self.lints_applied {
-            summary.inc(lint.kind);
-        }
-
-        summary
     }
 
     pub fn lint_applied(&mut self, record: LintRecord) {

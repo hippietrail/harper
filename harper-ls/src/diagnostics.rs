@@ -1,5 +1,4 @@
 use std::collections::HashMap;
-use std::str::FromStr;
 
 use harper_core::linting::{Lint, Suggestion};
 use harper_core::CharStringExt;
