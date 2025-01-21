@@ -21,7 +21,7 @@ impl OxfordComma {
                 ))
                 .then_noun_phrase()
                 .then_whitespace()
-                .then(Box::new(WordSet::all(&["and", "or"])))
+                .then(Box::new(WordSet::all(&["and", "or", "nor"])))
                 .then_whitespace()
                 .then_noun_phrase(),
         }
@@ -148,6 +148,15 @@ mod tests {
             "They enjoy playing soccer, basketball or tennis.",
             OxfordComma::default(),
             "They enjoy playing soccer, basketball, or tennis.",
+        );
+    }
+
+    #[test]
+    fn nor_vegetables() {
+        assert_suggestion_result(
+            "I like carrots, kale nor broccoli.",
+            OxfordComma::default(),
+            "I like carrots, kale, nor broccoli.",
         );
     }
 }
