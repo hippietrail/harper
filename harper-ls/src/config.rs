@@ -85,10 +85,13 @@ impl Config {
         };
 
         if let Some(v) = value.get("userDictPath") {
-            if let Value::String(path) = v {
-                base.user_dict_path = path.try_resolve()?.to_path_buf();
-            } else {
+            if !v.is_string() {
                 bail!("userDict path must be a string.");
+            }
+
+            let path = v.as_str().unwrap();
+            if !path.is_empty() {
+                base.user_dict_path = path.try_resolve()?.to_path_buf();
             }
         }
 

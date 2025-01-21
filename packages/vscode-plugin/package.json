@@ -105,6 +105,11 @@
 					"default": false,
 					"description": "Skip linting link titles."
 				},
+				"harper-ls.userDictPath": {
+					"scope": "resource",
+					"type": "string",
+					"description": "Optional path to a global dictionary file to use."
+				},
 				"harper-ls.linters.amazon_names": {
 					"scope": "resource",
 					"type": "boolean",
