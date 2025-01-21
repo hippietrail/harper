@@ -1,6 +1,5 @@
 <script>
 	import { LocalLinter } from 'harper.js';
-	import { CopyCode } from '@sveltepress/theme-default/components';
 	import { Button } from 'flowbite-svelte';
 
 	let linter = new LocalLinter();
