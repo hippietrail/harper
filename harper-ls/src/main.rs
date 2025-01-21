@@ -38,7 +38,7 @@ struct Args {
 async fn main() -> anyhow::Result<()> {
     let subscriber = FmtSubscriber::builder()
         .map_writer(move |_| stderr)
-        .with_max_level(Level::INFO)
+        .with_max_level(Level::WARN)
         .finish();
 
     tracing::subscriber::set_global_default(subscriber)?;
