@@ -87,10 +87,7 @@ impl Backend {
             .await
             .context("Unable to get the file path.")?;
 
-        load_dict(path)
-            .await
-            .map_err(|err| info!("{err}"))
-            .or(Ok(FullDictionary::new()))
+        load_dict(path).await.or(Ok(FullDictionary::new()))
     }
 
     async fn save_file_dictionary(&self, url: &Url, dict: impl Dictionary) -> Result<()> {
