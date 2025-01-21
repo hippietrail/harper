@@ -25,6 +25,7 @@ static DEFAULT_ADDRESS: &str = "127.0.0.1:4000";
 ///
 /// Will listen on 127.0.0.1:4000 by default.
 #[derive(Debug, Parser)]
+#[command(version, about)]
 struct Args {
     /// Set to listen on standard input / output rather than TCP.
     #[arg(short, long, default_value_t = false)]

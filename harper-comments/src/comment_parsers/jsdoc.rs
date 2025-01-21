@@ -121,7 +121,7 @@ pub(super) fn mark_inline_tags(tokens: &mut [Token]) {
     }
 }
 
-/// Checks if the provided token slice begins with an inline tag, returning it's
+/// Checks if the provided token slice begins with an inline tag, returning its
 /// end if so.
 fn parse_inline_tag(tokens: &[Token]) -> Option<usize> {
     if !matches!(

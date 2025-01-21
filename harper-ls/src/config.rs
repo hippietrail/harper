@@ -35,7 +35,7 @@ impl DiagnosticSeverity {
 #[derive(Debug, Clone, Default)]
 pub struct CodeActionConfig {
     /// Instructs `harper-ls` to place unstable code actions last.
-    /// In this case, "unstable" refers their existence and action.
+    /// In this case, "unstable" refers to their existence and action.
     ///
     /// For example, we always want to allow users to add "misspelled" elements
     /// to dictionary, regardless of the spelling suggestions.

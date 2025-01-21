@@ -16,6 +16,10 @@ pub fn lex_email_address(source: &[char]) -> Option<FoundToken> {
 
     let domain_part_len = lex_hostname(&source[at_loc + 1..])?;
 
+    if domain_part_len == 0 {
+        return None;
+    }
+
     Some(FoundToken {
         next_index: at_loc + 1 + domain_part_len,
         token: TokenKind::EmailAddress,
@@ -152,6 +156,18 @@ mod tests {
                 let found = lex_email_address(&address).unwrap();
                 assert_eq!(found.next_index, address.len());
             }
+        }
+    }
+
+    #[test]
+    fn does_not_allow_empty_domain() {
+        for local in example_local_parts() {
+            // Generate invalid email address
+            let mut address = local.clone();
+            address.push('@');
+            address.push(' ');
+
+            assert!(lex_email_address(&address).is_none());
         }
     }
 

@@ -24,8 +24,7 @@ impl<D: Dictionary> Pattern for IsNotTitleCase<D> {
         }
 
         let matched_chars = tokens[0..inner_match].span().unwrap().get_content(source);
-
-        if make_title_case(tokens, source, &self.dict) != matched_chars {
+        if make_title_case(&tokens[0..inner_match], source, &self.dict) != matched_chars {
             inner_match
         } else {
             0
