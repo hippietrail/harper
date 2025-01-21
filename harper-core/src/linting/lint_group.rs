@@ -8,6 +8,7 @@ use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
+use super::let_us_redundancy::LetUsRedundancy;
 use super::linking_verbs::LinkingVerbs;
 use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
@@ -187,7 +188,8 @@ create_lint_group_config!(
     PluralConjugate => false,
     OxfordComma => true,
     PronounContraction => true,
-    CurrencyPlacement => true
+    CurrencyPlacement => true,
+    LetUsRedundancy => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
