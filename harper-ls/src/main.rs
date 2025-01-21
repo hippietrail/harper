@@ -38,6 +38,7 @@ struct Args {
 async fn main() -> anyhow::Result<()> {
     let subscriber = FmtSubscriber::builder()
         .map_writer(move |_| stderr)
+        .with_ansi(false)
         .with_max_level(Level::WARN)
         .finish();
 
