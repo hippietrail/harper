@@ -16,11 +16,10 @@
 }`;
 
 	async function generateConfig() {
-		await linter.setLintConfigToDefault();
-		let config = await linter.getLintConfig();
+		let default_config = await linter.getDefaultLintConfig();
 
-		let rows = Object.entries(config)
-			.map(([key, value]) => `\t${key} = ${value},`)
+		let rows = Object.entries(default_config)
+			.map(([key, value]) => `\t\t\t${key} = ${value},`)
 			.reduce((prev, cur) => prev + '\n' + cur);
 
 		return head + rows + tail;
@@ -32,4 +31,4 @@
 	}
 </script>
 
-<Button onclick={copyConfig}>Copy Default Config</Button>
+<Button onclick={copyConfig}>Copy Default Config to Clipboard</Button>

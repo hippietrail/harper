@@ -125,9 +125,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 	test(`${linterName} default lint config has no null values`, async () => {
 		const linter = new Linter();
 
-		await linter.setLintConfigToDefault();
-
-		const lintConfig = await linter.getLintConfig();
+		const lintConfig = await linter.getDefaultLintConfig();
 
 		for (const value of Object.values(lintConfig)) {
 			expect(value).not.toBeNull();

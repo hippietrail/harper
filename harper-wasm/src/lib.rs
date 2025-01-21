@@ -111,10 +111,6 @@ impl Linter {
         self.lint_group.config.serialize(&serializer).unwrap()
     }
 
-    pub fn fill_lint_config_with_default(&mut self) {
-        self.lint_group.config.fill_default_values();
-    }
-
     pub fn set_lint_config_from_object(&mut self, object: JsValue) -> Result<(), String> {
         self.lint_group.config =
             serde_wasm_bindgen::from_value(object).map_err(|v| v.to_string())?;
@@ -264,6 +260,25 @@ impl Lint {
     pub fn message(&self) -> String {
         self.inner.message.clone()
     }
+}
+
+#[wasm_bindgen]
+pub fn get_default_lint_config_as_json() -> String {
+    let mut config = LintGroupConfig::default();
+    config.fill_default_values();
+
+    serde_json::to_string(&config).unwrap()
+}
+
+#[wasm_bindgen]
+pub fn get_default_lint_config() -> JsValue {
+    let mut config = LintGroupConfig::default();
+    config.fill_default_values();
+
+    // Important for downstream JSON serialization
+    let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+
+    config.serialize(&serializer).unwrap()
 }
 
 /// A struct that represents two character indices in a string: a start and an end.

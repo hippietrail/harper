@@ -105,8 +105,12 @@ export default class WorkerLinter implements Linter {
 		return JSON.parse(await this.getLintDescriptionsAsJSON()) as Record<string, string>;
 	}
 
-	setLintConfigToDefault(): Promise<void> {
-		return this.rpc('setLintConfigToDefault', []);
+	getDefaultLintConfigAsJSON(): Promise<string> {
+		return this.rpc('getDefaultLintConfigAsJSON', []);
+	}
+
+	async getDefaultLintConfig(): Promise<LintConfig> {
+		return JSON.parse(await this.getDefaultLintConfigAsJSON()) as LintConfig;
 	}
 
 	/** Run a procedure on the remote worker. */

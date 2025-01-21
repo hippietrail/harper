@@ -53,6 +53,18 @@ export default class LocalLinter implements Linter {
 		return this.inner!.get_lint_config_as_object();
 	}
 
+	async getDefaultLintConfigAsJSON(): Promise<string> {
+		const wasm = await loadWasm();
+
+		return wasm.get_default_lint_config_as_json();
+	}
+
+	async getDefaultLintConfig(): Promise<LintConfig> {
+		const wasm = await loadWasm();
+
+		return wasm.get_default_lint_config();
+	}
+
 	async setLintConfig(config: LintConfig): Promise<void> {
 		await this.initialize();
 
@@ -84,11 +96,5 @@ export default class LocalLinter implements Linter {
 	async getLintDescriptionsAsJSON(): Promise<string> {
 		await this.initialize();
 		return this.inner!.get_lint_descriptions_as_json();
-	}
-
-	async setLintConfigToDefault(): Promise<void> {
-		await this.initialize();
-
-		this.inner?.fill_lint_config_with_default();
 	}
 }
