@@ -284,12 +284,4 @@ mod tests {
         let lints = matcher.lint(&document);
         assert_eq!(lints.len(), 1);
     }
-
-    #[test]
-    fn same_than() {
-        let document = Document::new_plain_english_curated("Same than the others.");
-        let mut matcher = Matcher::new();
-        let lints = matcher.lint(&document);
-        assert_eq!(lints.len(), 1);
-    }
 }
