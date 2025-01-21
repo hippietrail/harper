@@ -23,6 +23,7 @@ mod pronoun_contraction;
 mod proper_noun_capitalization_linters;
 mod repeated_words;
 mod sentence_capitalization;
+mod somewhat_something;
 mod spaces;
 mod spell_check;
 mod spelled_numbers;
@@ -58,6 +59,7 @@ pub use proper_noun_capitalization_linters::{
 };
 pub use repeated_words::RepeatedWords;
 pub use sentence_capitalization::SentenceCapitalization;
+pub use somewhat_something::SomewhatSomething;
 pub use spaces::Spaces;
 pub use spell_check::SpellCheck;
 pub use spelled_numbers::SpelledNumbers;
