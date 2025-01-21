@@ -186,7 +186,11 @@ impl Matcher {
             "to", "towards" => "towards",
             "though", "process" => "thought process",
             "the", "this" => "that this",
-            "take", "a", "decision" => "make a decision"
+            "take", "a", "decision" => "make a decision",
+            "same", "than" => "same as",
+            "Same", "than" => "same as",
+            "same", "then" => "same as",
+            "Same", "then" => "same as"
         };
 
         triggers.push(Rule {
@@ -276,6 +280,14 @@ mod tests {
     #[test]
     fn matches_therefore() {
         let document = Document::new_plain_english_curated("There fore.");
+        let mut matcher = Matcher::new();
+        let lints = matcher.lint(&document);
+        assert_eq!(lints.len(), 1);
+    }
+
+    #[test]
+    fn same_than() {
+        let document = Document::new_plain_english_curated("Same than the others.");
         let mut matcher = Matcher::new();
         let lints = matcher.lint(&document);
         assert_eq!(lints.len(), 1);
