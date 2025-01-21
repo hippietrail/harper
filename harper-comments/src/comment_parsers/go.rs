@@ -1,13 +1,26 @@
-use harper_core::parsers::{Markdown, Parser};
+use harper_core::parsers::{Markdown, MarkdownOptions, Parser};
+use harper_core::Lrc;
 use harper_core::Token;
 
 use super::without_initiators;
 
-#[derive(Debug, Clone, Copy)]
-pub struct Go;
+#[derive(Clone)]
+pub struct Go {
+    inner: Lrc<dyn Parser>,
+}
+
+impl Go {
+    pub fn new(parser: Lrc<dyn Parser>) -> Self {
+        Self { inner: parser }
+    }
+
+    pub fn new_markdown(markdown_options: MarkdownOptions) -> Self {
+        Self::new(Lrc::new(Markdown::new(markdown_options)))
+    }
+}
 
 impl Parser for Go {
-    fn parse(&mut self, source: &[char]) -> Vec<Token> {
+    fn parse(&self, source: &[char]) -> Vec<Token> {
         let mut actual = without_initiators(source);
         let mut actual_source = actual.get_content(source);
 
@@ -25,9 +38,7 @@ impl Parser for Go {
             actual_source = new_source
         }
 
-        let mut markdown_parser = Markdown;
-
-        let mut new_tokens = markdown_parser.parse(actual_source);
+        let mut new_tokens = self.inner.parse(actual_source);
 
         new_tokens
             .iter_mut()

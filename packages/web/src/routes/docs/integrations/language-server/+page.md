@@ -30,6 +30,14 @@ You can install Harper on Windows through [Scoop](https://scoop.sh/).
 scoop install harper
 ```
 
+### Homebrew
+
+You may install Harper through [Homebrew](https://brew.sh).
+
+```bash
+brew install harper
+```
+
 ## Dictionaries
 
 `harper-ls` has three kinds of dictionaries: user, file-local, and static dictionaries.
@@ -75,30 +83,34 @@ If you use Neovim, [read this documentation](./neovim#Configuration).
 
 `harper-ls` supports a wide variety of programming and markup languages.
 
-| Language   |    Language ID    | Just Comments |
-| :--------- | :---------------: | ------------: |
-| Markdown   |    `markdown`     |            ✅ |
-| HTML       |      `html`       |            ❎ |
-| Email      |      `mail`       |            ❎ |
-| Rust       |      `rust`       |            ✅ |
-| Python     |     `python`      |            ✅ |
-| Nix        |       `nix`       |            ✅ |
-| JavaScript |   `javascript`    |            ✅ |
-| TypeScript |   `typescript`    |            ✅ |
-| React JSX  | `javascriptreact` |            ✅ |
-| React TSX  | `typescriptreact` |            ✅ |
-| Go         |       `go`        |            ✅ |
-| C          |        `c`        |            ✅ |
-| C++        |       `cpp`       |            ✅ |
-| CMake      |      `cmake`      |            ✅ |
-| Ruby       |      `ruby`       |            ✅ |
-| Swift      |      `swift`      |            ✅ |
-| C#         |     `csharp`      |            ✅ |
-| TOML       |      `toml`       |            ✅ |
-| Lua        |       `lua`       |            ✅ |
-| Shell      |   `shellscript`   |            ✅ |
-| Java       |      `java`       |            ✅ |
-| Haskell    |     `haskell`     |            ✅ |
+| Language          |          Language ID          | Comments Only |
+| :---------------- | :---------------------------: | ------------: |
+| C                 |              `c`              |            ✅ |
+| CMake             |            `cmake`            |            ✅ |
+| C++               |             `cpp`             |            ✅ |
+| C#                |           `csharp`            |            ✅ |
+| Email             |            `mail`             |               |
+| Git Commit        |   `git-commit`/`gitcommit`    |               |
+| Go                |             `go`              |            ✅ |
+| Haskell           |           `haskell`           |            ✅ |
+| HTML              |            `html`             |               |
+| Java              |            `java`             |            ✅ |
+| JavaScript        |         `javascript`          |            ✅ |
+| JavaScript React  |       `javascriptreact`       |            ✅ |
+| Literate Haskell  | `literate haskell`/`lhaskell` |               |
+| Lua               |             `lua`             |            ✅ |
+| Markdown          |          `markdown`           |               |
+| Nix               |             `nix`             |            ✅ |
+| Plain Text        |          `plaintext`          |               |
+| Python            |           `python`            |            ✅ |
+| Ruby              |            `ruby`             |            ✅ |
+| Rust              |            `rust`             |            ✅ |
+| Shell/Bash Script |         `shellscript`         |            ✅ |
+| Swift             |            `swift`            |            ✅ |
+| TOML              |            `toml`             |            ✅ |
+| TypeScript        |         `typescript`          |            ✅ |
+| TypeScript React  |       `typescriptreact`       |            ✅ |
+| Typst             |            `typst`            |               |
 
 Want your language added?
 Let us know by [commenting on this issue](https://github.com/Automattic/harper/issues/79).

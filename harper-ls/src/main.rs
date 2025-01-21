@@ -25,6 +25,7 @@ static DEFAULT_ADDRESS: &str = "127.0.0.1:4000";
 ///
 /// Will listen on 127.0.0.1:4000 by default.
 #[derive(Debug, Parser)]
+#[command(version, about)]
 struct Args {
     /// Set to listen on standard input / output rather than TCP.
     #[arg(short, long, default_value_t = false)]
@@ -37,7 +38,8 @@ struct Args {
 async fn main() -> anyhow::Result<()> {
     let subscriber = FmtSubscriber::builder()
         .map_writer(move |_| stderr)
-        .with_max_level(Level::INFO)
+        .with_ansi(false)
+        .with_max_level(Level::WARN)
         .finish();
 
     tracing::subscriber::set_global_default(subscriber)?;

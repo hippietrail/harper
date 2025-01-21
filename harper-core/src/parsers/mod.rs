@@ -7,33 +7,33 @@ mod plain_english;
 use blanket::blanket;
 pub use collapse_identifiers::CollapseIdentifiers;
 pub use isolate_english::IsolateEnglish;
-pub use markdown::Markdown;
+pub use markdown::{Markdown, MarkdownOptions};
 pub use mask::Mask;
 pub use plain_english::PlainEnglish;
 
 use crate::{Token, TokenStringExt};
 
 #[cfg(not(feature = "concurrent"))]
-#[blanket(derive(Box))]
+#[blanket(derive(Box, Rc))]
 pub trait Parser {
-    fn parse(&mut self, source: &[char]) -> Vec<Token>;
+    fn parse(&self, source: &[char]) -> Vec<Token>;
 }
 
 #[cfg(feature = "concurrent")]
-#[blanket(derive(Box))]
+#[blanket(derive(Box, Arc))]
 pub trait Parser: Send + Sync {
-    fn parse(&mut self, source: &[char]) -> Vec<Token>;
+    fn parse(&self, source: &[char]) -> Vec<Token>;
 }
 
 pub trait StrParser {
-    fn parse_str(&mut self, source: impl AsRef<str>) -> Vec<Token>;
+    fn parse_str(&self, source: impl AsRef<str>) -> Vec<Token>;
 }
 
 impl<T> StrParser for T
 where
     T: Parser,
 {
-    fn parse_str(&mut self, source: impl AsRef<str>) -> Vec<Token> {
+    fn parse_str(&self, source: impl AsRef<str>) -> Vec<Token> {
         let source: Vec<_> = source.as_ref().chars().collect();
         self.parse(&source)
     }
@@ -45,11 +45,7 @@ mod tests {
     use crate::Punctuation;
     use crate::TokenKind::{self, *};
 
-    fn assert_tokens_eq(
-        test_str: impl AsRef<str>,
-        expected: &[TokenKind],
-        parser: &mut impl Parser,
-    ) {
+    fn assert_tokens_eq(test_str: impl AsRef<str>, expected: &[TokenKind], parser: &impl Parser) {
         let chars: Vec<_> = test_str.as_ref().chars().collect();
         let tokens = parser.parse(&chars);
         let kinds: Vec<_> = tokens.into_iter().map(|v| v.kind).collect();
@@ -58,14 +54,11 @@ mod tests {
     }
 
     fn assert_tokens_eq_plain(test_str: impl AsRef<str>, expected: &[TokenKind]) {
-        let mut parser = PlainEnglish;
-        assert_tokens_eq(test_str, expected, &mut parser);
+        assert_tokens_eq(test_str, expected, &PlainEnglish);
     }
 
     fn assert_tokens_eq_md(test_str: impl AsRef<str>, expected: &[TokenKind]) {
-        let mut parser = Markdown;
-
-        assert_tokens_eq(test_str, expected, &mut parser)
+        assert_tokens_eq(test_str, expected, &Markdown::default())
     }
 
     #[test]

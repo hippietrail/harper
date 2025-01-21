@@ -5,7 +5,7 @@ use std::sync::Arc;
 
 use harper_core::language_detection::is_doc_likely_english;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter as _};
-use harper_core::parsers::{IsolateEnglish, Markdown, PlainEnglish};
+use harper_core::parsers::{IsolateEnglish, Markdown, Parser, PlainEnglish};
 use harper_core::{remove_overlaps, Document, FstDictionary, FullDictionary, Lrc};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -43,6 +43,12 @@ make_serialize_fns_for!(Lint);
 make_serialize_fns_for!(Span);
 
 #[wasm_bindgen]
+pub enum Language {
+    Plain,
+    Markdown,
+}
+
+#[wasm_bindgen]
 pub struct Linter {
     lint_group: LintGroup<Arc<FstDictionary>>,
     dictionary: Arc<FstDictionary>,
@@ -72,7 +78,7 @@ impl Linter {
     pub fn isolate_english(&self, text: String) -> String {
         let document = Document::new(
             &text,
-            &mut IsolateEnglish::new(Box::new(PlainEnglish), self.dictionary.clone()),
+            &IsolateEnglish::new(Box::new(PlainEnglish), self.dictionary.clone()),
             &self.dictionary,
         );
 
@@ -116,12 +122,17 @@ impl Linter {
     }
 
     /// Perform the configured linting on the provided text.
-    pub fn lint(&mut self, text: String) -> Vec<Lint> {
+    pub fn lint(&mut self, text: String, language: Language) -> Vec<Lint> {
         let source: Vec<_> = text.chars().collect();
         let source = Lrc::new(source);
 
-        let document =
-            Document::new_from_vec(source.clone(), &mut Markdown, &FullDictionary::curated());
+        let parser: Box<dyn Parser> = match language {
+            Language::Plain => Box::new(PlainEnglish),
+            // TODO: Have a way to configure the Markdown parser
+            Language::Markdown => Box::new(Markdown::default()),
+        };
+
+        let document = Document::new_from_vec(source.clone(), &parser, &FullDictionary::curated());
 
         let mut lints = self.lint_group.lint(&document);
 
@@ -142,7 +153,7 @@ impl Default for Linter {
 
 #[wasm_bindgen]
 pub fn to_title_case(text: String) -> String {
-    harper_core::make_title_case_str(&text, &mut PlainEnglish, &FstDictionary::curated())
+    harper_core::make_title_case_str(&text, &PlainEnglish, &FstDictionary::curated())
 }
 
 #[wasm_bindgen]
@@ -159,17 +170,22 @@ pub fn apply_suggestion(
     Ok(source.iter().collect())
 }
 
+/// A suggestion to fix a Lint.
 #[derive(Debug, Serialize, Deserialize)]
 #[wasm_bindgen]
 pub struct Suggestion {
     inner: harper_core::linting::Suggestion,
 }
 
+/// Tags the variant of suggestion.
 #[derive(Debug, Serialize, Deserialize)]
 #[wasm_bindgen]
 pub enum SuggestionKind {
+    /// Replace the problematic text.
     Replace = 0,
+    /// Remove the problematic text.
     Remove = 1,
+    /// Insert additional text after the error.
     InsertAfter = 2,
 }
 
@@ -199,6 +215,9 @@ impl Suggestion {
     }
 }
 
+/// An error found in provided text.
+///
+/// May include zero or more suggestions that may fix the problematic text.
 #[derive(Debug, Deserialize, Serialize)]
 #[wasm_bindgen]
 pub struct Lint {
@@ -222,10 +241,12 @@ impl Lint {
         self.inner.lint_kind.to_string()
     }
 
+    /// Equivalent to calling `.length` on the result of `suggestions()`.
     pub fn suggestion_count(&self) -> usize {
         self.inner.suggestions.len()
     }
 
+    /// Get an array of any suggestions that may resolve the issue.
     pub fn suggestions(&self) -> Vec<Suggestion> {
         self.inner
             .suggestions
@@ -234,15 +255,18 @@ impl Lint {
             .collect()
     }
 
+    /// Get the location of the problematic text.
     pub fn span(&self) -> Span {
         self.inner.span.into()
     }
 
+    /// Get a description of the error.
     pub fn message(&self) -> String {
         self.inner.message.clone()
     }
 }
 
+/// A struct that represents two character indices in a string: a start and an end.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize)]
 #[wasm_bindgen]
 pub struct Span {

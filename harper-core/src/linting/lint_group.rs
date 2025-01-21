@@ -15,6 +15,7 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::plural_conjugate::PluralConjugate;
+use super::pronoun_contraction::PronounContraction;
 use super::proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
     Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
@@ -29,7 +30,7 @@ use super::that_which::ThatWhich;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
 use super::wrong_quotes::WrongQuotes;
-use super::{Lint, Linter, OxfordComma};
+use super::{CurrencyPlacement, Lint, Linter, OxfordComma};
 use crate::{Dictionary, Document};
 
 macro_rules! create_lint_group_config {
@@ -184,7 +185,9 @@ create_lint_group_config!(
     AzureNames => true,
     MergeWords => true,
     PluralConjugate => false,
-    OxfordComma => true
+    OxfordComma => true,
+    PronounContraction => true,
+    CurrencyPlacement => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
@@ -216,7 +219,7 @@ mod tests {
             .collect();
 
         for (key, value) in pairs {
-            let doc = Document::new_markdown_curated(&value);
+            let doc = Document::new_markdown_default_curated(&value);
             eprintln!("{key}: {value}");
             assert!(group.lint(&doc).is_empty())
         }

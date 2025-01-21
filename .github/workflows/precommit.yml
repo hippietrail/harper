@@ -2,12 +2,14 @@ name: Precommit
 
 on:
   push:
-    branches: ["master"]
+    branches: ["master", "web-prod"]
   pull_request:
     branches: ["master"]
 
 env:
   CARGO_TERM_COLOR: always
+  # Run for 100 times the default
+  QUICKCHECK_TESTS: 10000
 
 jobs:
   precommit:
@@ -18,6 +20,8 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 23
+      - name: Install `pandoc`
+        run: sudo apt-get update && sudo apt-get install pandoc -y
       - name: Install `wasm-pack`
         run: curl https://rustwasm.github.io/wasm-pack/installer/init.sh -sSf | sh
       - name: Precommit

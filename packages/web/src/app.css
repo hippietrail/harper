@@ -96,3 +96,11 @@ textarea {
 .header {
 	top: 6px !important;
 }
+
+th[align='center'] {
+	text-align: center;
+}
+
+th[align='right'] {
+	text-align: right;
+}

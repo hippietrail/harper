@@ -2,6 +2,7 @@ use std::path::Path;
 
 use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
+use harper_core::parsers::MarkdownOptions;
 use harper_core::{Document, FstDictionary};
 
 /// Creates a unit test checking that the linting of a source file in
@@ -20,9 +21,9 @@ macro_rules! create_test {
                     )
                  );
 
-                 let mut parser = CommentParser::new_from_filename(Path::new(filename)).unwrap();
+                 let parser = CommentParser::new_from_filename(Path::new(filename), MarkdownOptions::default()).unwrap();
                  let dict = FstDictionary::curated();
-                 let document = Document::new(&source, &mut parser, &dict);
+                 let document = Document::new(&source, &parser, &dict);
 
                  let mut linter = LintGroup::new(
                      LintGroupConfig::default(),

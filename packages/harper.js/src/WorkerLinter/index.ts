@@ -3,7 +3,7 @@ import type { Lint, Suggestion, Span } from 'wasm';
 import Linter from '../Linter';
 import Worker from './worker.js?worker&inline';
 import { getWasmUri } from '../loadWasm';
-import { LintConfig } from '../main';
+import { LintConfig, LintOptions } from '../main';
 
 /** The data necessary to complete a request once the worker has responded. */
 type RequestItem = {
@@ -15,8 +15,7 @@ type RequestItem = {
 /** A Linter that spins up a dedicated web worker to do processing on a separate thread.
  * Main benefit: this Linter will not block the event loop for large documents.
  *
- * NOTE: This class will not work properly in Node. In that case, just use `LocalLinter`.
- * Also requires top-level await to work. */
+ * NOTE: This class will not work properly in Node. In that case, just use `LocalLinter`. */
 export default class WorkerLinter implements Linter {
 	private worker;
 	private requestQueue: RequestItem[];
@@ -62,8 +61,8 @@ export default class WorkerLinter implements Linter {
 		return this.rpc('setup', []);
 	}
 
-	lint(text: string): Promise<Lint[]> {
-		return this.rpc('lint', [text]);
+	lint(text: string, options?: LintOptions): Promise<Lint[]> {
+		return this.rpc('lint', [text, options]);
 	}
 
 	applySuggestion(text: string, suggestion: Suggestion, span: Span): Promise<string> {

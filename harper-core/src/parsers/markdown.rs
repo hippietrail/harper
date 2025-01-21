@@ -1,5 +1,7 @@
 use std::collections::VecDeque;
 
+use serde::{Deserialize, Serialize};
+
 use super::{Parser, PlainEnglish};
 use crate::{Span, Token, TokenKind, TokenStringExt, VecExt};
 
@@ -7,12 +9,35 @@ use crate::{Span, Token, TokenKind, TokenStringExt, VecExt};
 /// CommonMark files.
 ///
 /// Will ignore code blocks and tables.
-pub struct Markdown;
+#[derive(Default, Clone, Debug, Copy)]
+pub struct Markdown {
+    options: MarkdownOptions,
+}
+
+#[derive(Copy, Clone, Debug, Serialize, Deserialize)]
+#[non_exhaustive]
+pub struct MarkdownOptions {
+    pub ignore_link_title: bool,
+}
+
+// Clippy rule excepted because this can easily be expanded later
+#[allow(clippy::derivable_impls)]
+impl Default for MarkdownOptions {
+    fn default() -> Self {
+        Self {
+            ignore_link_title: false,
+        }
+    }
+}
 
 impl Markdown {
+    pub fn new(options: MarkdownOptions) -> Self {
+        Self { options }
+    }
+
     /// Remove hidden Wikilink target text.
     ///
-    /// As in, the stuff to the left of the pipe operator:
+    /// As in the stuff to the left of the pipe operator:
     ///
     /// ```markdown
     /// [[Target text|Display Text]]
@@ -21,6 +46,10 @@ impl Markdown {
         let mut to_remove = VecDeque::new();
 
         for pipe_idx in tokens.iter_pipe_indices() {
+            if pipe_idx < 2 {
+                continue;
+            }
+
             // Locate preceding `[[`
             let mut cursor = pipe_idx - 2;
             let mut open_bracket = None;
@@ -120,8 +149,8 @@ impl Markdown {
 impl Parser for Markdown {
     /// This implementation is quite gross to look at, but it works.
     /// If any issues arise, it would likely help to refactor this out first.
-    fn parse(&mut self, source: &[char]) -> Vec<Token> {
-        let mut english_parser = PlainEnglish;
+    fn parse(&self, source: &[char]) -> Vec<Token> {
+        let english_parser = PlainEnglish;
 
         let source_str: String = source.iter().collect();
         let md_parser = pulldown_cmark::Parser::new_ext(
@@ -202,9 +231,15 @@ impl Parser for Markdown {
                             });
                             continue;
                         }
-
+                        if matches!(tag, Tag::Link { .. }) && self.options.ignore_link_title {
+                            tokens.push(Token {
+                                span: Span::new_with_len(traversed_chars, text.chars().count()),
+                                kind: TokenKind::Unlintable,
+                            });
+                            continue;
+                        }
                         if !(matches!(tag, Tag::Paragraph)
-                            || matches!(tag, Tag::Link { .. })
+                            || matches!(tag, Tag::Link { .. }) && !self.options.ignore_link_title
                             || matches!(tag, Tag::Heading { .. })
                             || matches!(tag, Tag::Item)
                             || matches!(tag, Tag::TableCell)
@@ -260,13 +295,13 @@ impl Parser for Markdown {
 mod tests {
     use super::super::StrParser;
     use super::Markdown;
-    use crate::{Punctuation, TokenKind, TokenStringExt};
+    use crate::{parsers::markdown::MarkdownOptions, Punctuation, TokenKind, TokenStringExt};
 
     #[test]
     fn survives_emojis() {
         let source = r"🤷.";
 
-        Markdown.parse_str(source);
+        Markdown::default().parse_str(source);
     }
 
     /// Check whether the Markdown parser will emit a breaking newline
@@ -277,7 +312,7 @@ mod tests {
     fn ends_with_newline() {
         let source = "This is a test.";
 
-        let tokens = Markdown.parse_str(source);
+        let tokens = Markdown::default().parse_str(source);
         assert_ne!(tokens.len(), 0);
         assert!(!tokens.last().unwrap().kind.is_newline());
     }
@@ -286,7 +321,7 @@ mod tests {
     fn math_becomes_unlintable() {
         let source = r"$\Katex$ $\text{is}$ $\text{great}$.";
 
-        let tokens = Markdown.parse_str(source);
+        let tokens = Markdown::default().parse_str(source);
         assert_eq!(
             tokens.iter().map(|t| t.kind).collect::<Vec<_>>(),
             vec![
@@ -304,7 +339,7 @@ mod tests {
     fn hidden_wikilink_text() {
         let source = r"[[this is hidden|this is not]]";
 
-        let tokens = Markdown.parse_str(source);
+        let tokens = Markdown::default().parse_str(source);
 
         let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
 
@@ -321,10 +356,39 @@ mod tests {
     }
 
     #[test]
+    fn just_pipe() {
+        let source = r"|";
+
+        let tokens = Markdown::default().parse_str(source);
+
+        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+
+        dbg!(&token_kinds);
+
+        assert!(matches!(
+            token_kinds.as_slice(),
+            &[TokenKind::Punctuation(Punctuation::Pipe)]
+        ))
+    }
+
+    #[test]
+    fn empty_wikilink_text() {
+        let source = r"[[|]]";
+
+        let tokens = Markdown::default().parse_str(source);
+
+        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+
+        dbg!(&token_kinds);
+
+        assert!(matches!(token_kinds.as_slice(), &[]))
+    }
+
+    #[test]
     fn improper_wikilink_text() {
         let source = r"this is shown|this is also shown]]";
 
-        let tokens = Markdown.parse_str(source);
+        let tokens = Markdown::default().parse_str(source);
 
         let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
 
@@ -355,7 +419,7 @@ mod tests {
     #[test]
     fn normal_wikilink() {
         let source = r"[[Wikilink]]";
-        let tokens = Markdown.parse_str(source);
+        let tokens = Markdown::default().parse_str(source);
         let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
 
         dbg!(&token_kinds);
@@ -366,7 +430,77 @@ mod tests {
     #[test]
     fn html_is_unlintable() {
         let source = r"The range of inputs from <ctrl-g> to ctrl-z";
-        let tokens = Markdown.parse_str(source);
+        let tokens = Markdown::default().parse_str(source);
         assert_eq!(tokens.iter_unlintables().count(), 1);
+    }
+
+    #[test]
+    fn link_title_unlintable() {
+        let parser = Markdown::new(MarkdownOptions {
+            ignore_link_title: true,
+            ..MarkdownOptions::default()
+        });
+        let source = r"[elijah-potter/harper](https://github.com/elijah-potter/harper)";
+        let tokens = parser.parse_str(source);
+        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+
+        dbg!(&token_kinds);
+
+        assert!(matches!(token_kinds.as_slice(), &[TokenKind::Unlintable]))
+    }
+
+    #[test]
+    fn issue_194() {
+        let source = r"<http://localhost:9093>";
+        let parser = Markdown::new(MarkdownOptions {
+            ignore_link_title: true,
+            ..MarkdownOptions::default()
+        });
+        let token_kinds = parser
+            .parse_str(source)
+            .iter()
+            .map(|t| t.kind)
+            .collect::<Vec<_>>();
+
+        assert!(matches!(token_kinds.as_slice(), &[TokenKind::Unlintable]));
+    }
+
+    #[test]
+    fn respects_link_title_config() {
+        let source = r"[elijah-potter/harper](https://github.com/elijah-potter/harper)";
+        let parser = Markdown::new(MarkdownOptions {
+            ignore_link_title: true,
+            ..MarkdownOptions::default()
+        });
+        let token_kinds = parser
+            .parse_str(source)
+            .iter()
+            .map(|t| t.kind)
+            .collect::<Vec<_>>();
+
+        assert!(matches!(token_kinds.as_slice(), &[TokenKind::Unlintable]));
+
+        let parser = Markdown::new(MarkdownOptions {
+            ignore_link_title: false,
+            ..MarkdownOptions::default()
+        });
+        let token_kinds = parser
+            .parse_str(source)
+            .iter()
+            .map(|t| t.kind)
+            .collect::<Vec<_>>();
+
+        dbg!(&token_kinds);
+
+        assert!(matches!(
+            token_kinds.as_slice(),
+            &[
+                TokenKind::Word(_),
+                TokenKind::Punctuation(Punctuation::Hyphen),
+                TokenKind::Word(_),
+                TokenKind::Punctuation(Punctuation::ForwardSlash),
+                TokenKind::Word(_)
+            ]
+        ));
     }
 }

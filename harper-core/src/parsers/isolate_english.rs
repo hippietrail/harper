@@ -19,7 +19,7 @@ impl<D: Dictionary> IsolateEnglish<D> {
 }
 
 impl<D: Dictionary> Parser for IsolateEnglish<D> {
-    fn parse(&mut self, source: &[char]) -> Vec<Token> {
+    fn parse(&self, source: &[char]) -> Vec<Token> {
         let tokens = self.inner.parse(source);
 
         let mut english_tokens: Vec<Token> = Vec::with_capacity(tokens.len());
@@ -46,7 +46,7 @@ mod tests {
 
         let document = Document::new(
             text,
-            &mut IsolateEnglish::new(Box::new(PlainEnglish), dict.clone()),
+            &IsolateEnglish::new(Box::new(PlainEnglish), dict.clone()),
             &dict,
         );
 
@@ -61,7 +61,7 @@ mod tests {
 
         let document = Document::new(
             source,
-            &mut IsolateEnglish::new(Box::new(PlainEnglish), dict.clone()),
+            &IsolateEnglish::new(Box::new(PlainEnglish), dict.clone()),
             &dict,
         );
 

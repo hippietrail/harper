@@ -87,6 +87,10 @@ export default defineConfig({
 								{
 									title: 'CDN',
 									to: '/docs/harperjs/CDN'
+								},
+								{
+									title: 'API Reference',
+									to: '/docs/harperjs/ref/index.html'
 								}
 							]
 						},

@@ -1,19 +1,33 @@
-use harper_core::parsers::{Markdown, Parser};
+use harper_core::parsers::{Markdown, MarkdownOptions, Parser};
+use harper_core::Lrc;
 use harper_core::{Punctuation, Span, Token, TokenKind};
 use itertools::Itertools;
 
 use super::without_initiators;
 
-pub struct JsDoc;
+#[derive(Clone)]
+pub struct JsDoc {
+    inner: Lrc<dyn Parser>,
+}
+
+impl JsDoc {
+    pub fn new(parser: Lrc<dyn Parser>) -> Self {
+        Self { inner: parser }
+    }
+
+    pub fn new_markdown(markdown_options: MarkdownOptions) -> Self {
+        Self::new(Lrc::new(Markdown::new(markdown_options)))
+    }
+}
 
 impl Parser for JsDoc {
-    fn parse(&mut self, source: &[char]) -> Vec<Token> {
+    fn parse(&self, source: &[char]) -> Vec<Token> {
         let mut tokens = Vec::new();
 
         let mut chars_traversed = 0;
 
         for line in source.split(|c| *c == '\n') {
-            let mut new_tokens = parse_line(line);
+            let mut new_tokens = parse_line(line, self.inner.clone());
 
             if chars_traversed + line.len() < source.len() {
                 new_tokens.push(Token::new(
@@ -34,7 +48,7 @@ impl Parser for JsDoc {
     }
 }
 
-fn parse_line(source: &[char]) -> Vec<Token> {
+fn parse_line(source: &[char], parser: Lrc<dyn Parser>) -> Vec<Token> {
     let actual_line = without_initiators(source);
 
     if actual_line.is_empty() {
@@ -43,7 +57,7 @@ fn parse_line(source: &[char]) -> Vec<Token> {
 
     let source_line = actual_line.get_content(source);
 
-    let mut new_tokens = Markdown.parse(source_line);
+    let mut new_tokens = parser.parse(source_line);
 
     // Handle inline tags
     mark_inline_tags(&mut new_tokens);
@@ -107,7 +121,7 @@ pub(super) fn mark_inline_tags(tokens: &mut [Token]) {
     }
 }
 
-/// Checks if the provided token slice begins with an inline tag, returning it's
+/// Checks if the provided token slice begins with an inline tag, returning its
 /// end if so.
 fn parse_inline_tag(tokens: &[Token]) -> Option<usize> {
     if !matches!(
@@ -148,22 +162,24 @@ fn parse_inline_tag(tokens: &[Token]) -> Option<usize> {
 
 #[cfg(test)]
 mod tests {
-    use harper_core::{Document, Punctuation, TokenKind};
+    use harper_core::{parsers::MarkdownOptions, Document, Punctuation, TokenKind};
 
     use crate::CommentParser;
 
     #[test]
     fn escapes_loop() {
         let source = "/** This should _not_cause an infinite loop: {@ */";
-        let mut parser = CommentParser::new_from_language_id("javascript").unwrap();
-        Document::new_curated(source, &mut parser);
+        let parser =
+            CommentParser::new_from_language_id("javascript", MarkdownOptions::default()).unwrap();
+        Document::new_curated(source, &parser);
     }
 
     #[test]
     fn handles_inline_link() {
         let source = "/** See {@link MyClass} and [MyClass's foo property]{@link MyClass#foo}. */";
-        let mut parser = CommentParser::new_from_language_id("javascript").unwrap();
-        let document = Document::new_curated(source, &mut parser);
+        let parser =
+            CommentParser::new_from_language_id("javascript", MarkdownOptions::default()).unwrap();
+        let document = Document::new_curated(source, &parser);
 
         assert!(matches!(
             document
@@ -206,8 +222,9 @@ mod tests {
     #[test]
     fn handles_class() {
         let source = "/** @class Circle representing a circle. */";
-        let mut parser = CommentParser::new_from_language_id("javascript").unwrap();
-        let document = Document::new_curated(source, &mut parser);
+        let parser =
+            CommentParser::new_from_language_id("javascript", MarkdownOptions::default()).unwrap();
+        let document = Document::new_curated(source, &parser);
 
         assert!(document
             .tokens()

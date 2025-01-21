@@ -4,7 +4,7 @@ use std::fmt::Display;
 
 use paste::paste;
 
-use crate::parsers::{Markdown, Parser, PlainEnglish};
+use crate::parsers::{Markdown, MarkdownOptions, Parser, PlainEnglish};
 use crate::patterns::{PatternExt, RepeatingPattern, SequencePattern};
 use crate::punctuation::Punctuation;
 use crate::vec_ext::VecExt;
@@ -20,14 +20,14 @@ pub struct Document {
 
 impl Default for Document {
     fn default() -> Self {
-        Self::new("", &mut PlainEnglish, &FstDictionary::curated())
+        Self::new("", &PlainEnglish, &FstDictionary::curated())
     }
 }
 
 impl Document {
     /// Lexes and parses text to produce a document using a provided language
     /// parser and dictionary.
-    pub fn new(text: &str, parser: &mut impl Parser, dictionary: &impl Dictionary) -> Self {
+    pub fn new(text: &str, parser: &impl Parser, dictionary: &impl Dictionary) -> Self {
         let source: Vec<_> = text.chars().collect();
 
         Self::new_from_vec(Lrc::new(source), parser, dictionary)
@@ -35,7 +35,7 @@ impl Document {
 
     /// Lexes and parses text to produce a document using a provided language
     /// parser and the included curated dictionary.
-    pub fn new_curated(text: &str, parser: &mut impl Parser) -> Self {
+    pub fn new_curated(text: &str, parser: &impl Parser) -> Self {
         let source: Vec<_> = text.chars().collect();
 
         Self::new_from_vec(Lrc::new(source), parser, &FstDictionary::curated())
@@ -45,7 +45,7 @@ impl Document {
     /// parser and dictionary.
     pub fn new_from_vec(
         source: Lrc<Vec<char>>,
-        parser: &mut impl Parser,
+        parser: &impl Parser,
         dictionary: &impl Dictionary,
     ) -> Self {
         let tokens = parser.parse(&source);
@@ -59,25 +59,45 @@ impl Document {
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
     /// parser and curated dictionary.
     pub fn new_plain_english_curated(text: &str) -> Self {
-        Self::new(text, &mut PlainEnglish, &FstDictionary::curated())
+        Self::new(text, &PlainEnglish, &FstDictionary::curated())
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
     /// parser and a provided dictionary.
     pub fn new_plain_english(text: &str, dictionary: &impl Dictionary) -> Self {
-        Self::new(text, &mut PlainEnglish, dictionary)
+        Self::new(text, &PlainEnglish, dictionary)
     }
 
     /// Parse text to produce a document using the built-in [`Markdown`] parser
     /// and curated dictionary.
-    pub fn new_markdown_curated(text: &str) -> Self {
-        Self::new(text, &mut Markdown, &FstDictionary::curated())
+    pub fn new_markdown_curated(text: &str, markdown_options: MarkdownOptions) -> Self {
+        Self::new(
+            text,
+            &Markdown::new(markdown_options),
+            &FstDictionary::curated(),
+        )
+    }
+
+    /// Parse text to produce a document using the built-in [`Markdown`] parser
+    /// and curated dictionary with the default markdown configuration.
+    pub fn new_markdown_default_curated(text: &str) -> Self {
+        Self::new_markdown_curated(text, MarkdownOptions::default())
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
     /// parser and the curated dictionary.
-    pub fn new_markdown(text: &str, dictionary: &impl Dictionary) -> Self {
-        Self::new(text, &mut Markdown, dictionary)
+    pub fn new_markdown(
+        text: &str,
+        markdown_options: MarkdownOptions,
+        dictionary: &impl Dictionary,
+    ) -> Self {
+        Self::new(text, &Markdown::new(markdown_options), dictionary)
+    }
+
+    /// Parse text to produce a document using the built-in [`PlainEnglish`]
+    /// parser and the curated dictionary with the default markdown configuration.
+    pub fn new_markdown_default(text: &str, dictionary: &impl Dictionary) -> Self {
+        Self::new_markdown(text, MarkdownOptions::default(), dictionary)
     }
 
     /// Re-parse important language constructs.
@@ -283,6 +303,12 @@ impl Document {
                     }
 
                     let child_tok = &copy[cursor];
+
+                    // Only condense adjacent spans
+                    if start_tok.span.end != child_tok.span.start {
+                        break;
+                    }
+
                     if let TokenKind::Space(n) = child_tok.kind {
                         *start_count += n;
                         start_tok.span.end = child_tok.span.end;
@@ -490,6 +516,7 @@ macro_rules! create_fns_on_doc {
 
 impl TokenStringExt for Document {
     create_fns_on_doc!(word);
+    create_fns_on_doc!(word_like);
     create_fns_on_doc!(conjunction);
     create_fns_on_doc!(space);
     create_fns_on_doc!(apostrophe);
@@ -503,6 +530,7 @@ impl TokenStringExt for Document {
     create_fns_on_doc!(paragraph_break);
     create_fns_on_doc!(chunk_terminator);
     create_fns_on_doc!(punctuation);
+    create_fns_on_doc!(currency);
     create_fns_on_doc!(likely_homograph);
 
     fn first_sentence_word(&self) -> Option<Token> {
@@ -553,14 +581,14 @@ mod tests {
     use itertools::Itertools;
 
     use super::Document;
-    use crate::Span;
+    use crate::{parsers::MarkdownOptions, Span};
 
     fn assert_condensed_contractions(text: &str, final_tok_count: usize) {
         let document = Document::new_plain_english_curated(text);
 
         assert_eq!(document.tokens.len(), final_tok_count);
 
-        let document = Document::new_markdown_curated(text);
+        let document = Document::new_markdown_curated(text, MarkdownOptions::default());
 
         assert_eq!(document.tokens.len(), final_tok_count);
     }

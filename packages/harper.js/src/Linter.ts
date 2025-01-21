@@ -1,5 +1,5 @@
 import type { Lint, Span, Suggestion } from 'wasm';
-import { LintConfig } from './main';
+import { LintConfig, LintOptions } from './main';
 
 /** An interface for an object that can perform linting actions. */
 export default interface Linter {
@@ -9,7 +9,7 @@ export default interface Linter {
 	setup(): Promise<void>;
 
 	/** Lint the provided text. */
-	lint(text: string): Promise<Lint[]>;
+	lint(text: string, options?: LintOptions): Promise<Lint[]>;
 
 	/** Apply a suggestion to the given text, returning the transformed result. */
 	applySuggestion(text: string, suggestion: Suggestion, span: Span): Promise<string>;

@@ -1,5 +1,6 @@
 #![doc = include_str!("../README.md")]
 
+use std::collections::{BTreeMap, HashMap};
 use std::path::{Path, PathBuf};
 
 use anyhow::format_err;
@@ -7,10 +8,14 @@ use ariadne::{Color, Label, Report, ReportKind, Source};
 use clap::Parser;
 use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
-use harper_core::parsers::Markdown;
+use harper_core::parsers::{Markdown, MarkdownOptions};
 use harper_core::{remove_overlaps, Dictionary, Document, FstDictionary, TokenKind};
+use harper_literate_haskell::LiterateHaskellParser;
+use serde::Serialize;
 
+/// A debugging tool for the Harper grammar checker.
 #[derive(Debug, Parser)]
+#[command(version, about)]
 enum Args {
     /// Lint a provided document.
     Lint {
@@ -38,16 +43,21 @@ enum Args {
     Metadata { word: String },
     /// Emit a decompressed, line-separated list of the words in Harper's dictionary.
     Words,
+    /// Print the default config with descriptions.
+    Config,
 }
 
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();
+    let markdown_options = MarkdownOptions::default();
+    let linting_options = LintGroupConfig::default();
+    let dictionary = FstDictionary::curated();
 
     match args {
         Args::Lint { file, count } => {
-            let (doc, source) = load_file(&file)?;
+            let (doc, source) = load_file(&file, markdown_options)?;
 
-            let mut linter = LintGroup::new(LintGroupConfig::default(), FstDictionary::curated());
+            let mut linter = LintGroup::new(linting_options, dictionary);
             let mut lints = linter.lint(&doc);
 
             if count {
@@ -85,7 +95,7 @@ fn main() -> anyhow::Result<()> {
             Ok(())
         }
         Args::Parse { file } => {
-            let (doc, _) = load_file(&file)?;
+            let (doc, _) = load_file(&file, markdown_options)?;
 
             for token in doc.tokens() {
                 let json = serde_json::to_string(&token)?;
@@ -98,7 +108,7 @@ fn main() -> anyhow::Result<()> {
             file,
             include_newlines,
         } => {
-            let (doc, source) = load_file(&file)?;
+            let (doc, source) = load_file(&file, markdown_options)?;
 
             let primary_color = Color::Blue;
             let secondary_color = Color::Magenta;
@@ -140,11 +150,9 @@ fn main() -> anyhow::Result<()> {
             Ok(())
         }
         Args::Words => {
-            let dict = FstDictionary::curated();
-
             let mut word_str = String::new();
 
-            for word in dict.words_iter() {
+            for word in dictionary.words_iter() {
                 word_str.clear();
                 word_str.extend(word);
 
@@ -154,30 +162,61 @@ fn main() -> anyhow::Result<()> {
             Ok(())
         }
         Args::Metadata { word } => {
-            let dict = FstDictionary::curated();
-            let metadata = dict.get_word_metadata_str(&word);
+            let metadata = dictionary.get_word_metadata_str(&word);
             let json = serde_json::to_string_pretty(&metadata).unwrap();
 
             println!("{json}");
 
             Ok(())
         }
+        Args::Config => {
+            #[derive(Serialize)]
+            struct Config {
+                default_value: bool,
+                description: String,
+            }
+
+            let mut linter = LintGroup::new(linting_options, dictionary);
+            linter.config.fill_default_values();
+
+            let default_config: HashMap<String, bool> =
+                serde_json::from_str(&serde_json::to_string(&linter.config).unwrap()).unwrap();
+
+            // Use `BTreeMap` so output is sorted by keys.
+            let mut configs = BTreeMap::new();
+            for (key, desc) in linter.all_descriptions().to_vec_pairs() {
+                configs.insert(
+                    key.to_owned(),
+                    Config {
+                        default_value: default_config[key],
+                        description: desc.to_owned(),
+                    },
+                );
+            }
+
+            println!("{}", serde_json::to_string_pretty(&configs).unwrap());
+
+            Ok(())
+        }
     }
 }
 
-fn load_file(file: &Path) -> anyhow::Result<(Document, String)> {
+fn load_file(file: &Path, markdown_options: MarkdownOptions) -> anyhow::Result<(Document, String)> {
     let source = std::fs::read_to_string(file)?;
 
-    let mut parser: Box<dyn harper_core::parsers::Parser> =
-        if let Some("md") = file.extension().map(|v| v.to_str().unwrap()) {
-            Box::new(Markdown)
-        } else {
-            Box::new(
-                CommentParser::new_from_filename(file)
+    let parser: Box<dyn harper_core::parsers::Parser> =
+        match file.extension().map(|v| v.to_str().unwrap()) {
+            Some("md") => Box::new(Markdown::default()),
+            Some("lhs") => Box::new(LiterateHaskellParser::new_markdown(
+                MarkdownOptions::default(),
+            )),
+            Some("typ") => Box::new(harper_typst::Typst),
+            _ => Box::new(
+                CommentParser::new_from_filename(file, markdown_options)
                     .map(Box::new)
                     .ok_or(format_err!("Could not detect language ID."))?,
-            )
+            ),
         };
 
-    Ok((Document::new_curated(&source, &mut parser), source))
+    Ok((Document::new_curated(&source, &parser), source))
 }

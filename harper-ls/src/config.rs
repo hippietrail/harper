@@ -1,7 +1,8 @@
 use std::path::PathBuf;
 
+use anyhow::{bail, Result};
 use dirs::{config_dir, data_local_dir};
-use harper_core::linting::LintGroupConfig;
+use harper_core::{linting::LintGroupConfig, parsers::MarkdownOptions};
 use resolve_path::PathResolveExt;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -34,7 +35,7 @@ impl DiagnosticSeverity {
 #[derive(Debug, Clone, Default)]
 pub struct CodeActionConfig {
     /// Instructs `harper-ls` to place unstable code actions last.
-    /// In this case, "unstable" refers their existence and action.
+    /// In this case, "unstable" refers to their existence and action.
     ///
     /// For example, we always want to allow users to add "misspelled" elements
     /// to dictionary, regardless of the spelling suggestions.
@@ -42,18 +43,16 @@ pub struct CodeActionConfig {
 }
 
 impl CodeActionConfig {
-    pub fn from_lsp_config(value: Value) -> anyhow::Result<Self> {
+    pub fn from_lsp_config(value: Value) -> Result<Self> {
         let mut base = CodeActionConfig::default();
 
         let Value::Object(value) = value else {
-            return Err(anyhow::format_err!(
-                "The code action configuration must be an object."
-            ));
+            bail!("The code action configuration must be an object.");
         };
 
         if let Some(force_stable_val) = value.get("forceStable") {
             let Value::Bool(force_stable) = force_stable_val else {
-                return Err(anyhow::format_err!("forceStable must be a boolean value."));
+                bail!("forceStable must be a boolean value.");
             };
             base.force_stable = *force_stable;
         };
@@ -70,35 +69,40 @@ pub struct Config {
     pub diagnostic_severity: DiagnosticSeverity,
     pub code_action_config: CodeActionConfig,
     pub isolate_english: bool,
+    pub markdown_options: MarkdownOptions,
 }
 
 impl Config {
-    pub fn from_lsp_config(value: Value) -> anyhow::Result<Self> {
+    pub fn from_lsp_config(value: Value) -> Result<Self> {
         let mut base = Config::default();
 
         let Value::Object(value) = value else {
-            return Err(anyhow::format_err!("Settings must be an object."));
+            bail!("Settings must be an object.");
         };
 
         let Some(Value::Object(value)) = value.get("harper-ls") else {
-            return Err(anyhow::format_err!(
-                "Settings must contain a \"harper-ls\" key."
-            ));
+            bail!("Settings must contain a \"harper-ls\" key.");
         };
 
         if let Some(v) = value.get("userDictPath") {
-            if let Value::String(path) = v {
+            if !v.is_string() {
+                bail!("userDict path must be a string.");
+            }
+
+            let path = v.as_str().unwrap();
+            if !path.is_empty() {
                 base.user_dict_path = path.try_resolve()?.to_path_buf();
-            } else {
-                return Err(anyhow::format_err!("userDict path must be a string."));
             }
         }
 
         if let Some(v) = value.get("fileDictPath") {
-            if let Value::String(path) = v {
+            if !v.is_string() {
+                bail!("fileDict path must be a string.");
+            }
+
+            let path = v.as_str().unwrap();
+            if !path.is_empty() {
                 base.file_dict_path = path.try_resolve()?.to_path_buf();
-            } else {
-                return Err(anyhow::format_err!("fileDict path must be a string."));
             }
         }
 
@@ -118,10 +122,12 @@ impl Config {
             if let Value::Bool(v) = v {
                 base.isolate_english = *v;
             } else {
-                return Err(anyhow::format_err!(
-                    "isolateEnglish path must be a boolean."
-                ));
+                bail!("isolateEnglish path must be a boolean.");
             }
+        }
+
+        if let Some(v) = value.get("markdown") {
+            base.markdown_options = serde_json::from_value(v.clone())?;
         }
 
         Ok(base)
@@ -139,6 +145,7 @@ impl Default for Config {
             diagnostic_severity: DiagnosticSeverity::Hint,
             code_action_config: CodeActionConfig::default(),
             isolate_english: false,
+            markdown_options: MarkdownOptions::default(),
         }
     }
 }

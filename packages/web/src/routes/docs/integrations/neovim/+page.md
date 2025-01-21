@@ -41,11 +41,36 @@ You can install Harper on Windows through [Scoop](https://scoop.sh/).
 scoop install harper
 ```
 
+### Homebrew
+
+You may install Harper through [Homebrew](https://brew.sh).
+
+```bash
+brew install harper
+```
+
 ## Configuration
 
 Neovim is also one of the two primarily supported editors for `harper-ls`.
 As such, you can view this page as canonical documentation for the available configuration options.
 [Helix](./helix) and [Zed](./zed) users may also find it helpful.
+
+### Markdown-Specific Config
+
+The Markdown parser has its own configuration option, used to modify its behavior in specific ways.
+For example, the title of a link is linted by default, but this behavior can be changed through the `ignore_link_title` key:
+
+```lua
+lspconfig.harper_ls.setup {
+  settings = {
+    ["harper-ls"] = {
+      markdown = {
+        ignore_link_title = true,
+      }
+    }
+  },
+}
+```
 
 ### Dictionaries
 
@@ -66,13 +91,13 @@ lspconfig.harper_ls.setup {
 For example, if you want to use Vim's dictionary, you can do something like this:
 
 ```lua
-lspconfig.harper_ls.setup({
-    settings = {
-        ["harper-ls"] = {
-            userDictPath = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
-        },
-    },
-})
+lspconfig.harper_ls.setup {
+  settings = {
+    ["harper-ls"] = {
+      userDictPath = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
+    }
+  },
+}
 ```
 
 See the [relevant issue for details](https://github.com/Automattic/harper/issues/143).
