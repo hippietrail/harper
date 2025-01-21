@@ -36,6 +36,11 @@ impl Parser for Typst {
     }
 }
 
+/// Converts newlines after certain elements to paragraph breaks
+/// This is accomplished here instead of in the translating module because at this point there is
+/// still semantic information associated with the elements.
+///
+/// Newlines are separate expressions in the parse tree (as the Space variant)
 fn convert_parbreaks<'a>(buf: &'a mut Vec<SyntaxNode>, exprs: &'a [Expr]) -> Vec<Expr<'a>> {
     // Owned collection of nodes forcibly casted to paragraph breaks
     *buf = exprs
@@ -47,11 +52,6 @@ fn convert_parbreaks<'a>(buf: &'a mut Vec<SyntaxNode>, exprs: &'a [Expr]) -> Vec
         })
         .collect_vec();
 
-    // Converts newlines after certain elements to paragraph breaks
-    // This is accomplished here instead of in the translating module because at this point there is
-    // still semantic information associated with the elements.
-    //
-    // Newlines are separate expressions in the parse tree (as the Space variant)
     let should_parbreak = |e1, e2, e3| {
         matches!(e2, Expr::Space(_))
             && (matches!(e1, Expr::Heading(_) | Expr::List(_))
