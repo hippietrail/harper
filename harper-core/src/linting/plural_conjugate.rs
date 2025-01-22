@@ -18,7 +18,7 @@ impl Default for PluralConjugate {
 
         let non_plural_case = SequencePattern::default()
             .then(Box::new(|tok: &Token, _source: &[char]| {
-                tok.kind.is_not_plural_noun() && tok.kind.is_noun() && !tok.kind.is_pronoun()
+                tok.kind.is_not_plural_noun() && tok.kind.is_noun()
             }))
             .then_whitespace()
             .then_exact_word("are");
@@ -98,6 +98,15 @@ mod tests {
             "If you are testing it, try harder.",
             PluralConjugate::default(),
             0,
+        );
+    }
+
+    #[test]
+    fn pronoun_singular() {
+        assert_suggestion_result(
+            "If he are testing it.",
+            PluralConjugate::default(),
+            "If he is testing it.",
         );
     }
 }
