@@ -6,7 +6,7 @@ use paste::paste;
 
 use crate::parsers::{Markdown, MarkdownOptions, Parser, PlainEnglish};
 use crate::patterns::{
-    DocPattern, EitherPattern, Pattern, PatternExt, RepeatingPattern, SequencePattern, WordSet,
+    DocPattern, EitherPattern, Pattern, RepeatingPattern, SequencePattern, WordSet,
 };
 use crate::punctuation::Punctuation;
 use crate::vec_ext::VecExt;
