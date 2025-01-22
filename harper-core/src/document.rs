@@ -5,7 +5,9 @@ use std::fmt::Display;
 use paste::paste;
 
 use crate::parsers::{Markdown, MarkdownOptions, Parser, PlainEnglish};
-use crate::patterns::{PatternExt, RepeatingPattern, SequencePattern};
+use crate::patterns::{
+    DocPattern, EitherPattern, Pattern, PatternExt, RepeatingPattern, SequencePattern, WordSet,
+};
 use crate::punctuation::Punctuation;
 use crate::vec_ext::VecExt;
 use crate::{Dictionary, FatToken, FstDictionary, Lrc, Token, TokenKind, TokenStringExt};
@@ -111,6 +113,7 @@ impl Document {
         self.condense_contractions();
         self.condense_dotted_initialisms();
         self.condense_number_suffixes();
+        self.condense_latin();
         self.match_quotes();
 
         for token in self.tokens.iter_mut() {
@@ -324,6 +327,44 @@ impl Document {
         }
 
         self.tokens.remove_indices(remove_these);
+    }
+
+    thread_local! {
+        static LATIN_PATTERN: Lrc<EitherPattern> = Document::uncached_latin_pattern();
+    }
+
+    fn uncached_latin_pattern() -> Lrc<EitherPattern> {
+        Lrc::new(EitherPattern::new(vec![
+            Box::new(
+                SequencePattern::default()
+                    .then_word_set(WordSet::all(&["etc", "vs"]))
+                    .then_period(),
+            ),
+            Box::new(
+                SequencePattern::aco("et")
+                    .then_whitespace()
+                    .t_aco("al")
+                    .then_period(),
+            ),
+        ]))
+    }
+
+    /// Assumes that the first matched token is the canonical one to be condensed into.
+    fn condense_pattern(&mut self, pattern: &impl Pattern) {
+        let matches = pattern.find_all_matches_in_doc(self);
+
+        let mut remove_indices = VecDeque::with_capacity(matches.len());
+
+        for m in matches {
+            remove_indices.extend(m.start + 1..m.end);
+            self.tokens[m.start].span.end = self.tokens[m.end - 1].span.end;
+        }
+
+        self.tokens.remove_indices(remove_indices);
+    }
+
+    fn condense_latin(&mut self) {
+        self.condense_pattern(&Self::LATIN_PATTERN.with(|v| v.clone()))
     }
 
     /// Searches for multiple sequential newline tokens and condenses them down

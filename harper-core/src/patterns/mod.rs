@@ -127,7 +127,7 @@ where
     }
 }
 
-trait DocPattern {
+pub trait DocPattern {
     fn find_all_matches_in_doc(&self, document: &Document) -> Vec<Span>;
 }
 
