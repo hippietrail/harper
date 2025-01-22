@@ -45,6 +45,6 @@ impl PatternLinter for NoContractionWithVerb {
     }
 
     fn description(&self) -> &'static str {
-        "Make sure you include a subject."
+        "Make sure you include a subject when giving permission to it."
     }
 }

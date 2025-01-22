@@ -5,7 +5,7 @@ use super::merge_linters::merge_linters;
 use let_us_redundancy::LetUsRedundancy;
 use no_contraction_with_verb::NoContractionWithVerb;
 
-merge_linters!(LetsConfusion => LetUsRedundancy, NoContractionWithVerb => "TODO");
+merge_linters!(LetsConfusion => LetUsRedundancy, NoContractionWithVerb => "It's often hard to determine where the subject should go with the word `let`. This rule attempts to find common errors with redundancy and contractions that may lead to confusion for readers.");
 
 #[cfg(test)]
 mod tests {
