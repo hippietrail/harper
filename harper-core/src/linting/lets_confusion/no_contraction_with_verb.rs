@@ -1,6 +1,6 @@
 use crate::{
     linting::{Lint, LintKind, Suggestion},
-    patterns::{Pattern, SequencePattern},
+    patterns::{Pattern, SequencePattern, WordSet},
     Token,
 };
 
@@ -12,7 +12,10 @@ pub struct NoContractionWithVerb {
 
 impl Default for NoContractionWithVerb {
     fn default() -> Self {
-        let pattern = SequencePattern::aco("lets").then_whitespace().then_verb();
+        let pattern = SequencePattern::default()
+            .then_word_set(WordSet::all(&["lets", "let"]))
+            .then_whitespace()
+            .then_verb();
 
         Self {
             pattern: Box::new(pattern),
