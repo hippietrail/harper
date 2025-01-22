@@ -2,7 +2,7 @@ use super::Parser;
 use crate::lexing::{lex_token, FoundToken};
 use crate::{Span, Token};
 
-/// A parser that will attempt to lex as many tokens a possible,
+/// A parser that will attempt to lex as many tokens as possible,
 /// without discrimination and until the end of input.
 #[derive(Clone, Copy)]
 pub struct PlainEnglish;
