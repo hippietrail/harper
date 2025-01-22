@@ -14,13 +14,22 @@ mod tests {
     use super::LetsConfusion;
 
     #[test]
+    fn walking() {
+        assert_suggestion_result(
+            "The crutch let's him walk.",
+            LetsConfusion::default(),
+            "The crutch lets him walk.",
+        );
+    }
+
+    #[test]
     fn issue_426_us() {
-        assert_suggestion_result("let's us do", LetsConfusion::default(), "let's do");
+        assert_suggestion_result("let's us do", LetsConfusion::default(), "lets us do");
     }
 
     #[test]
     fn issue_426_me() {
-        assert_suggestion_result("let's me do", LetsConfusion::default(), "let's do");
+        assert_suggestion_result("let's me do", LetsConfusion::default(), "lets me do");
     }
 
     #[test]

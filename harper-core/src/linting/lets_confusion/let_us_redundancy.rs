@@ -26,11 +26,27 @@ impl PatternLinter for LetUsRedundancy {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
+        let template = matched_tokens.span().unwrap().get_content(source);
+        let pronoun = matched_tokens
+            .last()
+            .unwrap()
+            .span
+            .get_content_string(source);
+
         Lint {
-            span: matched_tokens[1..3].span().unwrap(),
+            span: matched_tokens.span().unwrap(),
             lint_kind: LintKind::Repetition,
-            suggestions: vec![Suggestion::Remove],
+            suggestions: vec![
+                Suggestion::replace_with_match_case(
+                    format!("lets {pronoun}").chars().collect(),
+                    template,
+                ),
+                Suggestion::replace_with_match_case(
+                    "let's".to_string().chars().collect(),
+                    template,
+                ),
+            ],
             message: "`let's` stands for `let us`, so including another pronoun is redundant."
                 .to_owned(),
             priority: 31,
