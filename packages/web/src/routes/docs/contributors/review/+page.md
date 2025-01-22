@@ -10,7 +10,7 @@ If a patch only affects a grammar rule or otherwise something part of `harper-co
 ## Using GitHub Actions Artifacts
 
 We run builds for a variety of platforms whenever a Pull Request is pushed to.
-You can use these to review changes to various aspects of Harper including `harper-ls`, `harper-cli` and the Visual Studio Code plugin.
+You can use these to review changes to various aspects of Harper, including `harper-ls`, `harper-cli`, and the Visual Studio Code plugin.
 
 ![How to download the Windows Visual Studio Code plugin from the GitHub Actions run.](/images/download_artifact.gif)
 
