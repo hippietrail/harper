@@ -134,6 +134,12 @@ lspconfig.harper_ls.setup {
 }
 ```
 
+<script>
+import DefaultNeovimConfig from "$lib/DefaultNeovimConfig.svelte"
+</script>
+
+<DefaultNeovimConfig/>
+
 By default, `harper-ls` will mark all diagnostics with HINT.
 If you want to configure this, refer below:
 
