@@ -107,12 +107,12 @@ impl Document {
     /// Should be run after every change to the underlying [`Self::source`].
     fn parse(&mut self, dictionary: &impl Dictionary) {
         self.condense_spaces();
-        self.condense_ellipsis();
         self.condense_newlines();
         self.newlines_to_breaks();
         self.condense_contractions();
         self.condense_dotted_initialisms();
         self.condense_number_suffixes();
+        self.condense_ellipsis();
         self.condense_latin();
         self.match_quotes();
 
@@ -350,21 +350,26 @@ impl Document {
     }
 
     /// Assumes that the first matched token is the canonical one to be condensed into.
-    fn condense_pattern(&mut self, pattern: &impl Pattern) {
+    /// Takes a callback that can be used to retroactively edit the canonical token afterwards.
+    fn condense_pattern<F>(&mut self, pattern: &impl Pattern, edit: F)
+    where
+        F: Fn(&mut Token),
+    {
         let matches = pattern.find_all_matches_in_doc(self);
 
         let mut remove_indices = VecDeque::with_capacity(matches.len());
 
         for m in matches {
             remove_indices.extend(m.start + 1..m.end);
-            self.tokens[m.start].span.end = self.tokens[m.end - 1].span.end;
+            self.tokens[m.start].span = self.tokens[m.into_iter()].span().unwrap();
+            edit(&mut self.tokens[m.start]);
         }
 
         self.tokens.remove_indices(remove_indices);
     }
 
     fn condense_latin(&mut self) {
-        self.condense_pattern(&Self::LATIN_PATTERN.with(|v| v.clone()))
+        self.condense_pattern(&Self::LATIN_PATTERN.with(|v| v.clone()), |_| {})
     }
 
     /// Searches for multiple sequential newline tokens and condenses them down
@@ -455,7 +460,7 @@ impl Document {
 
     fn uncached_ellipsis_pattern() -> Lrc<RepeatingPattern> {
         let period = SequencePattern::default().then_period();
-        Lrc::new(RepeatingPattern::new(Box::new(period)))
+        Lrc::new(RepeatingPattern::new(Box::new(period), 2))
     }
 
     thread_local! {
@@ -463,68 +468,31 @@ impl Document {
     }
 
     fn condense_ellipsis(&mut self) {
-        let found = Self::ELLIPSIS_PATTERN
-            .with(|v| v.clone())
-            .find_all_matches(&self.tokens, &self.source);
-        let mut to_remove = VecDeque::new();
+        let pattern = Self::ELLIPSIS_PATTERN.with(|v| v.clone());
+        self.condense_pattern(&pattern, |tok| {
+            tok.kind = TokenKind::Punctuation(Punctuation::Ellipsis)
+        });
+    }
 
-        for found_slice in found {
-            if found_slice.len() <= 1 {
-                continue;
-            }
+    fn uncached_contraction_pattern() -> Lrc<SequencePattern> {
+        Lrc::new(
+            SequencePattern::default()
+                .then_any_word()
+                .then_apostrophe()
+                .then_any_word(),
+        )
+    }
 
-            let found_toks = &mut self.tokens[found_slice.start..found_slice.end];
-
-            let end_char = found_toks.last().unwrap().span.end;
-            let first = found_toks.first_mut().unwrap();
-            first.kind = TokenKind::Punctuation(Punctuation::Ellipsis);
-            first.span.end = end_char;
-            for i in found_slice.start + 1..found_slice.end {
-                to_remove.push_back(i)
-            }
-        }
-
-        self.tokens.remove_indices(to_remove);
+    thread_local! {
+        static CONTRACTION_PATTERN: Lrc<SequencePattern> = Document::uncached_contraction_pattern();
     }
 
     /// Searches for contractions and condenses them down into single
     /// tokens.
     fn condense_contractions(&mut self) {
-        if self.tokens.len() < 3 {
-            return;
-        }
+        let pattern = Self::CONTRACTION_PATTERN.with(|v| v.clone());
 
-        // Indices of the three token stretches we are going to condense.
-        let mut replace_starts = Vec::new();
-
-        for idx in 0..self.tokens.len() - 2 {
-            let a = self.tokens[idx];
-            let b = self.tokens[idx + 1];
-            let c = self.tokens[idx + 2];
-
-            if matches!(
-                (a.kind, b.kind, c.kind),
-                (
-                    TokenKind::Word(..),
-                    TokenKind::Punctuation(Punctuation::Apostrophe),
-                    TokenKind::Word(..)
-                )
-            ) {
-                // Ensure there is no overlapping between replacements
-                let should_replace = if let Some(last_idx) = replace_starts.last() {
-                    *last_idx < idx - 2
-                } else {
-                    true
-                };
-
-                if should_replace {
-                    replace_starts.push(idx);
-                    self.tokens[idx].span.end = c.span.end;
-                }
-            }
-        }
-
-        self.condense_indices(&replace_starts, 3);
+        self.condense_pattern(&pattern, |_| {});
     }
 }
 

@@ -67,8 +67,6 @@ where
             return found;
         }
 
-        found.sort_by_key(|s| s.start);
-
         let mut remove_indices = VecDeque::new();
 
         for i in 0..found.len() - 1 {
