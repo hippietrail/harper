@@ -120,6 +120,10 @@ export default defineConfig({
 								{
 									title: 'Author a Rule',
 									to: '/docs/contributors/author-a-rule'
+								},
+								{
+									title: 'Reviewing Pull Requests',
+									to: '/docs/contributors/review'
 								}
 							]
 						},
