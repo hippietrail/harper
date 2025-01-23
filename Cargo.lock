@@ -626,6 +626,7 @@ dependencies = [
  "harper-comments",
  "harper-core",
  "harper-literate-haskell",
+ "harper-stats",
  "harper-typst",
  "serde_json",
 ]
