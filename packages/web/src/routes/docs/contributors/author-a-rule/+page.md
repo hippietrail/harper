@@ -57,7 +57,7 @@ mod capitalize_personal_pronouns;
 ```
 
 Next, we need to configure whether your rule will be enabled by default.
-While you're working on it, we __highly suggest__ you enable it to avoid confusion.
+While you're working on it, we **highly suggest** you enable it to avoid confusion.
 
 To do that, import your rule at the top of the `lint_group` [file](https://github.com/Automattic/harper/blob/master/harper-core/src/linting/mod.rs).
 
@@ -115,7 +115,7 @@ impl PatternLinter for ThatWhich {
         self.pattern.as_ref()
     }
 
-    /// Any series of tokens that match the pattern provided in the `default()` method above will 
+    /// Any series of tokens that match the pattern provided in the `default()` method above will
     /// be provided to this function, which you are required to map into a [`Lint`] object.
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
         unimplemented!();
@@ -136,11 +136,30 @@ This is an test of the `an_a` rule.
 Your test should look different.
 ```
 
+### Using the Command Line
+
 From there, you can run `just lint <test filename>`.
 It should emit a readable report of the grammatical errors in the document.
 If the error your rule looks for does _not_ appear in this list, something is wrong.
 
 If you need any help writing or debugging rules, don't be afraid to contact the Harper team in your draft pull request.
+
+> **Note:** if two lints (or suggestions) overlap or address the same problem, this command will only display the first one.
+> In that case, you might want to use another method of debugging.
+
+### Using Visual Studio Code
+
+First make sure you have [the extension installed from the marketplace](https://marketplace.visualstudio.com/items?itemName=elijah-potter.harper).
+Then, can configure the path of the `harper-ls` binary the Visual Studio Code extension uses in settings.
+Set it to `<harper repo>/target/release/harper-ls`.
+
+![How to change the `harper-ls` path](/images/vscode_harper_path.webp)
+
+Now every time you want to test a change, you'll have to recompile `harper-ls` and reload Visual Studio Code using `Developer: Reload Window`.
+
+```bash
+cargo build --release # Run in the monorepo to compile `harper-ls`.
+```
 
 ## Elevate Your Pull Request
 
