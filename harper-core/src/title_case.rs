@@ -50,7 +50,7 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
         } else {
             // The whole word should be lowercase.
             for i in word.span {
-                output[i - start_index] = output[i].to_ascii_lowercase();
+                output[i - start_index] = output[i - start_index].to_ascii_lowercase();
             }
         }
     }

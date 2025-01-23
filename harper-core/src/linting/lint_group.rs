@@ -22,6 +22,7 @@ use super::proper_noun_capitalization_linters::{
 };
 use super::repeated_words::RepeatedWords;
 use super::sentence_capitalization::SentenceCapitalization;
+use super::somewhat_something::SomewhatSomething;
 use super::spaces::Spaces;
 use super::spell_check::SpellCheck;
 use super::spelled_numbers::SpelledNumbers;
@@ -187,7 +188,8 @@ create_lint_group_config!(
     PluralConjugate => false,
     OxfordComma => true,
     PronounContraction => true,
-    CurrencyPlacement => true
+    CurrencyPlacement => true,
+    SomewhatSomething => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

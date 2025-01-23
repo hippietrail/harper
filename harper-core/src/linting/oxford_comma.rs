@@ -21,7 +21,7 @@ impl OxfordComma {
                 ))
                 .then_noun_phrase()
                 .then_whitespace()
-                .then(Box::new(WordSet::all(&["and", "or"])))
+                .then(Box::new(WordSet::all(&["and", "or", "nor"])))
                 .then_whitespace()
                 .then_noun_phrase(),
         }
@@ -81,7 +81,7 @@ impl Linter for OxfordComma {
     }
 
     fn description(&self) -> &str {
-        "The Oxford comma is one of the more controversial rules in common use today. Here, we make sure that we put a comma before `and` when listing out more than two ideas."
+        "The Oxford comma is one of the more controversial rules in common use today. Enabling this lint checks that there is a comma before `and`, `or`, or `nor` when listing out more than two ideas."
     }
 }
 
@@ -148,6 +148,15 @@ mod tests {
             "They enjoy playing soccer, basketball or tennis.",
             OxfordComma::default(),
             "They enjoy playing soccer, basketball, or tennis.",
+        );
+    }
+
+    #[test]
+    fn nor_vegetables() {
+        assert_suggestion_result(
+            "I like carrots, kale nor broccoli.",
+            OxfordComma::default(),
+            "I like carrots, kale, nor broccoli.",
         );
     }
 }

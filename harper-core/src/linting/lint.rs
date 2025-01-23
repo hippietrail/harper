@@ -86,6 +86,11 @@ pub enum Suggestion {
 }
 
 impl Suggestion {
+    /// Variant of [`Self::replace_with_match_case`] that accepts a static string.
+    pub fn replace_with_match_case_str(value: &'static str, template: &[char]) -> Self {
+        Self::replace_with_match_case(value.chars().collect(), template)
+    }
+
     /// Construct an instance of [`Self::ReplaceWith`], but make the content match the case of the
     /// provided template.
     ///
