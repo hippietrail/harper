@@ -713,13 +713,13 @@ version = "0.16.0"
 dependencies = [
  "anyhow",
  "clap",
- "csv",
  "dirs 6.0.0",
  "futures",
  "harper-comments",
  "harper-core",
  "harper-html",
  "harper-literate-haskell",
+ "harper-stats",
  "harper-typst",
  "itertools 0.14.0",
  "once_cell",
@@ -731,6 +731,15 @@ dependencies = [
  "tower-lsp",
  "tracing",
  "tracing-subscriber",
+]
+
+[[package]]
+name = "harper-stats"
+version = "0.16.0"
+dependencies = [
+ "csv",
+ "harper-core",
+ "serde",
  "uuid",
 ]
 

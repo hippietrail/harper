@@ -1,9 +1,8 @@
 mod lint_record;
 
-use std::io::Write;
+use std::io::{self, Write};
 
 pub use lint_record::LintRecord;
-use tokio::io;
 
 pub struct Stats {
     /// A record of the lints the user has applied.

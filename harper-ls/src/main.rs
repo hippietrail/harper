@@ -11,7 +11,6 @@ mod dictionary_io;
 mod document_state;
 mod git_commit_parser;
 mod pos_conv;
-mod stats;
 
 use backend::Backend;
 use clap::Parser;
@@ -33,7 +32,7 @@ struct Args {
     stdio: bool,
 }
 
-// Setting worker threads to 4 means the process will use about 5 threads total
+// Setting worker threads to four means the process will use about five threads total
 // This is because worker threads do not include blocking threads
 #[tokio::main(worker_threads = 4)]
 async fn main() -> anyhow::Result<()> {

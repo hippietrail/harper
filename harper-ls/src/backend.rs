@@ -40,7 +40,7 @@ use crate::dictionary_io::{load_dict, save_dict};
 use crate::document_state::DocumentState;
 use crate::git_commit_parser::GitCommitParser;
 use crate::pos_conv::range_to_span;
-use crate::stats::{LintRecord, Stats};
+use harper_stats::{LintRecord, Stats};
 
 pub struct Backend {
     client: Client,
