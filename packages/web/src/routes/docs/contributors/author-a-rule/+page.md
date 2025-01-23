@@ -15,7 +15,7 @@ If you like to learn by example, you can make a copy of the `ThatWhich` rule and
 Here's the general playbook:
 
 - Start by forking the [Harper monorepo](https://github.com/Automattic/harper/fork) and create a new file under `harper-core/src/linting` called `my_rule.rs`.
-- Follow our [guide to get your environment setup.](./environment)
+- Follow our [guide to get your environment set up.](./environment)
 - Copy in a template rule (like from `that_which.rs`).
 - Modify the constructor to create a pattern to look for the problematic text you have in mind.
 - Export your rule from the `linting module` ([which you can find here](https://github.com/Automattic/harper/blob/master/harper-core/src/linting/mod.rs))
