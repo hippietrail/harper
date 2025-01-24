@@ -111,6 +111,8 @@ If you use Neovim, [read this documentation](./neovim#Configuration).
 | TypeScript        |         `typescript`          |            ✅ |
 | TypeScript React  |       `typescriptreact`       |            ✅ |
 | Typst             |            `typst`            |               |
+| PHP               |             `php`             |            ✅ |
+| Dart              |            `dart`             |            ✅ |
 
 Want your language added?
 Let us know by [commenting on this issue](https://github.com/Automattic/harper/issues/79).
