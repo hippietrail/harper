@@ -32,6 +32,7 @@ mod that_which;
 mod unclosed_quotes;
 mod use_genitive;
 mod wrong_quotes;
+mod despite_of;
 
 pub use an_a::AnA;
 pub use avoid_curses::AvoidCurses;
@@ -68,6 +69,7 @@ pub use that_which::ThatWhich;
 pub use unclosed_quotes::UnclosedQuotes;
 pub use use_genitive::UseGenitive;
 pub use wrong_quotes::WrongQuotes;
+pub use despite_of::DespiteOf;
 
 use crate::Document;
 

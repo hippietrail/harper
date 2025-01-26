@@ -31,6 +31,7 @@ use super::that_which::ThatWhich;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
 use super::wrong_quotes::WrongQuotes;
+use super::despite_of::DespiteOf;
 use super::{CurrencyPlacement, Lint, Linter, OxfordComma};
 use crate::{Dictionary, Document};
 
@@ -189,7 +190,8 @@ create_lint_group_config!(
     OxfordComma => true,
     PronounContraction => true,
     CurrencyPlacement => true,
-    SomewhatSomething => true
+    SomewhatSomething => true,
+    DespiteOf => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

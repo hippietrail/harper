@@ -342,6 +342,12 @@
 					"type": "boolean",
 					"default": false,
 					"description": "The key on the keyboard often used as a quotation mark is actually a double-apostrophe. Use the correct character."
+				},
+				"harper-ls.linters.despite_of": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": false,
+					"description": "Flag “despite of”."
 				}
 			}
 		}
