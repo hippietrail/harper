@@ -36,7 +36,7 @@ use super::{CurrencyPlacement, Lint, Linter, OxfordComma};
 use crate::{Dictionary, Document};
 
 macro_rules! create_lint_group_config {
-    ($($linter:ident => $default:expr),*) => {
+    ($($linter:ident => $default:expr),* $(,)?) => {
         paste! {
             /// A collection of all the descriptions from the composing linters.
             #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
@@ -191,7 +191,7 @@ create_lint_group_config!(
     PronounContraction => true,
     CurrencyPlacement => true,
     SomewhatSomething => true,
-    LetsConfusion => true
+    LetsConfusion => true,
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
