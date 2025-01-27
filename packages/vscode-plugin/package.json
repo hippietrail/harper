@@ -55,7 +55,9 @@
 		"onLanguage:toml",
 		"onLanguage:typescript",
 		"onLanguage:typescriptreact",
-		"onLanguage:typst"
+		"onLanguage:typst",
+		"onLanguage:php",
+		"onLanguage:dart"
 	],
 	"main": "./build/extension.js",
 	"contributes": {
