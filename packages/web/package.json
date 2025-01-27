@@ -31,7 +31,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltepress/theme-default": "^5.0.5",
+		"@sveltepress/theme-default": "^5.0.7",
 		"@sveltepress/vite": "^1.1.2",
 		"@zachleat/snow-fall": "^1.0.3",
 		"harper.js": "link:../harper.js",

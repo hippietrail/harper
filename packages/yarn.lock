@@ -2316,17 +2316,17 @@
     magic-string "^0.30.15"
     vitefu "^1.0.4"
 
-"@sveltepress/theme-default@^5.0.5":
-  version "5.0.5"
-  resolved "https://registry.yarnpkg.com/@sveltepress/theme-default/-/theme-default-5.0.5.tgz#03f9a15709ac312ed1cf692f6fd9fc468e99ce4f"
-  integrity sha512-vV1a1qDo+PDKI0OR/Mce8QRJ89d3mpF1JXiqdreozRsQ+wHLeKe2HGFK6GwYZ2y7AVgVKXSl9pDyXbHGZDOZDA==
+"@sveltepress/theme-default@^5.0.7":
+  version "5.0.7"
+  resolved "https://registry.yarnpkg.com/@sveltepress/theme-default/-/theme-default-5.0.7.tgz#5dd10be6f1a39cbded5f6d51303f8b1972ff76d2"
+  integrity sha512-gbjb2qVrOQ7jfr0owm+I4x7CDZKPW6yCXOrjvMi72RBWULGyHJbmzJq6Alo8RGL47LjIMYtYti+S7TzjjjFhbg==
   dependencies:
     uid "^2.0.2"
     "@docsearch/css" "^3.5.2"
     "@docsearch/js" "^3.5.2"
     "@shikijs/twoslash" "^1.24.0"
     "@sveltejs/vite-plugin-svelte" "^4.0.1"
-    "@sveltepress/twoslash" "1.1.5"
+    "@sveltepress/twoslash" "1.1.6"
     "@unocss/extractor-svelte" "^0.61.5"
     "@vite-pwa/sveltekit" "^0.6.6"
     lru-cache "^10.2.0"
@@ -2338,10 +2338,10 @@
     workbox-precaching "^7.0.0"
     workbox-routing "^7.0.0"
 
-"@sveltepress/twoslash@1.1.5":
-  version "1.1.5"
-  resolved "https://registry.yarnpkg.com/@sveltepress/twoslash/-/twoslash-1.1.5.tgz#6956c00f74ffabd0432aa27d7f2b4a24d99ee7ee"
-  integrity sha512-9uFJCLAlc/iGndqWjm9livltcrxGHcmZWlkg0fu6Rnzz8SOWzPvIFZknaDirzEyOA5aSORYbgEmMevCaYL5XCw==
+"@sveltepress/twoslash@1.1.6":
+  version "1.1.6"
+  resolved "https://registry.yarnpkg.com/@sveltepress/twoslash/-/twoslash-1.1.6.tgz#053536c26786b61299ae56473c8ab85e691adc7b"
+  integrity sha512-ittvzgiC7lZUONK31Go95i4EtfacmdAoF0fnNuYdUzL2sN8MZZKYoYEkTkdUk7h+7TUhKjbGNQjVaRnZHHfwOQ==
   dependencies:
     "@floating-ui/dom" "^1.6.3"
     "@shikijs/twoslash" "^1.24.0"
@@ -5298,7 +5298,7 @@ gzip-size@^6.0.0:
     duplexer "^0.1.2"
 
 "harper.js@link:harper.js":
-  version "0.16.0"
+  version "0.18.0"
 
 has-bigints@^1.0.2:
   version "1.1.0"
