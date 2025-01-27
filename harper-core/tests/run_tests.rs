@@ -50,6 +50,7 @@ create_test!(issue_358.md, 0);
 create_test!(issue_195.md, 0);
 create_test!(issue_118.md, 0);
 create_test!(lots_of_latin.md, 0);
+create_test!(pr_452.md, 2);
 
 // Make sure it doesn't panic
 create_test!(lukas_homework.md, 3);
