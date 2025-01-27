@@ -5,11 +5,21 @@ use serde::{Deserialize, Serialize};
 
 use crate::Span;
 
+/// An error found in text.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Lint {
+    /// The location in the source text the error lies.
+    /// Important for automatic lint resolution through [`Self::suggestions`].
     pub span: Span,
+    /// The general category the lint belongs to.
+    /// Mostly used for UI elements in integrations.
     pub lint_kind: LintKind,
+    /// A list of zero or more suggested edits that would resolve the underling problem.
+    /// See [`Suggestion`].
     pub suggestions: Vec<Suggestion>,
+    /// A message to be displayed to the user describing the specific error found.
+    ///
+    /// You may use the [`format`] macro to generate more complex messages.
     pub message: String,
     /// A numerical value for the importance of a lint.
     /// Lower = more important.
@@ -28,6 +38,9 @@ impl Default for Lint {
     }
 }
 
+/// The general category a [`Lint`] falls into.
+/// There's no reason not to add a new item here if you are adding a new rule that doesn't fit
+/// the existing categories.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, Is, Default)]
 pub enum LintKind {
     Spelling,
@@ -60,11 +73,14 @@ impl Display for LintKind {
     }
 }
 
+/// A suggested edit that could resolve a [`Lint`].
 #[derive(Debug, Clone, Serialize, Deserialize, Is, PartialEq, Eq)]
 pub enum Suggestion {
+    /// Replace the offending text with a specific character sequence.
     ReplaceWith(Vec<char>),
     /// Insert the provided characters _after_ the offending text.
     InsertAfter(Vec<char>),
+    /// Remove the offending text.
     Remove,
 }
 

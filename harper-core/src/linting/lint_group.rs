@@ -56,6 +56,7 @@ macro_rules! create_lint_group_config {
                 }
             }
 
+            /// A collection of all officially supported
             #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
             pub struct LintGroupConfig {
                 $(
