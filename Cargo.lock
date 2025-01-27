@@ -662,6 +662,7 @@ dependencies = [
  "smallvec",
  "thiserror 2.0.11",
  "unicode-blocks",
+ "unicode-script",
  "unicode-width 0.2.0",
 ]
 
