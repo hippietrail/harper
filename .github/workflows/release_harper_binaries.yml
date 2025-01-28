@@ -1,10 +1,9 @@
-name: Build Binaries
+name: Release Binaries
 
 on:
   push:
-    branches: ["master"]
-  pull_request:
-    branches: ["master"]
+    tags:
+      - "v*"
 
 jobs:
   release:
@@ -106,8 +105,14 @@ jobs:
             tar czvf ../../../${{ matrix.platform.name }} ${{ matrix.platform.bin }}
           fi
           cd -
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: ${{ matrix.platform.name }}
+          allowUpdates: true
+          draft: true
       - name: Upload Artifacts
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform.bin }}-${{ matrix.platform.target }}
           path: ${{ matrix.platform.name }}
+
