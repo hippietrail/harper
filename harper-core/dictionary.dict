@@ -49781,7 +49781,7 @@ WhatsApp/124MG
 VARCHAR/1MS
 DATETIME/1MS
 hardcode/4GDS
-subquery/14S
+subquery/14SGD
 CTE/1S
 unnest/4SGD
 ORM/12S
