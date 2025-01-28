@@ -14,7 +14,11 @@ build-harperjs:
   just build-wasm web
 
   # Removes a duplicate copy of the WASM binary if Vite is left to its devices.
-  sed -i 's/new URL(.*)/new URL()/g' "{{justfile_directory()}}/harper-wasm/pkg/harper_wasm.js"
+  if [[ "$OSTYPE" == "darwin"* ]]; then
+    sed -i '' 's/new URL(.*)/new URL()/g' "{{justfile_directory()}}/harper-wasm/pkg/harper_wasm.js"
+  else
+    sed -i 's/new URL(.*)/new URL()/g' "{{justfile_directory()}}/harper-wasm/pkg/harper_wasm.js"
+  fi
 
   cd "{{justfile_directory()}}/packages/harper.js"
   yarn install -f
