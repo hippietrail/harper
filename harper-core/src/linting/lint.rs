@@ -14,7 +14,7 @@ pub struct Lint {
     /// The general category the lint belongs to.
     /// Mostly used for UI elements in integrations.
     pub lint_kind: LintKind,
-    /// A list of zero or more suggested edits that would resolve the underling problem.
+    /// A list of zero or more suggested edits that would resolve the underlying problem.
     /// See [`Suggestion`].
     pub suggestions: Vec<Suggestion>,
     /// A message to be displayed to the user describing the specific error found.
