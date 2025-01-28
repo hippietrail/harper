@@ -4,6 +4,7 @@ use smallvec::SmallVec;
 /// Most English words are fewer than 12 characters.
 pub type CharString = SmallVec<[char; 12]>;
 
+/// Extensions to character sequences that make them easier to wrangle.
 pub trait CharStringExt {
     fn to_lower(&self) -> CharString;
     fn to_string(&self) -> String;

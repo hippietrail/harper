@@ -1,3 +1,7 @@
+//! Frameworks and rules that locate errors in text.
+//!
+//! See the [`Linter`] trait and the [documentation for authoring a rule](https://writewithharper.com/docs/contributors/author-a-rule) for more information.
+
 mod an_a;
 mod avoid_curses;
 mod boring_words;
@@ -73,15 +77,33 @@ pub use wrong_quotes::WrongQuotes;
 
 use crate::Document;
 
+/// A __stateless__ rule that searches documents for grammatical errors.
+///
+/// Commonly implemented via [`PatternLinter`].
+///
+/// See also: [`LintGroup`].
 #[cfg(not(feature = "concurrent"))]
 pub trait Linter {
+    /// Analyzes a document and produces zero or more [`Lint`]s.
+    /// We pass `self` mutably for caching purposes.
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
+    /// A user-facing description of what kinds of grammatical errors this rule looks for.
+    /// It is usually shown in settings menus.
     fn description(&self) -> &str;
 }
 
+/// A __stateless__ rule that searches documents for grammatical errors.
+///
+/// Commonly implemented via [`PatternLinter`].
+///
+/// See also: [`LintGroup`].
 #[cfg(feature = "concurrent")]
 pub trait Linter: Send + Sync {
+    /// Analyzes a document and produces zero or more [`Lint`]s.
+    /// We pass `self` mutably for caching purposes.
     fn lint(&mut self, document: &Document) -> Vec<Lint>;
+    /// A user-facing description of what kinds of grammatical errors this rule looks for.
+    /// It is usually shown in settings menus.
     fn description(&self) -> &str;
 }
 
