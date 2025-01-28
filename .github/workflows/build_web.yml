@@ -15,7 +15,8 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: '.node-version'
-      - id: nodenv
+      - name: Retrieve version after install
+        id: nodenv
         run: echo "node-version=$(node -v | sed 's/^v//')" >> $GITHUB_OUTPUT
       - uses: redhat-actions/buildah-build@v2
         with:
