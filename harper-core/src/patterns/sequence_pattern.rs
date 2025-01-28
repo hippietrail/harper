@@ -6,6 +6,26 @@ use super::{NounPhrase, Pattern, RepeatingPattern, WordSet};
 use crate::{CharStringExt, Lrc, Token, TokenKind};
 
 /// A pattern that checks that a sequence of other patterns match.
+/// There are specific extension methods available, but you can also use [`Self::then`] to add
+/// arbitrary patterns.
+///
+/// ## Example
+///
+/// Let's say we wanted to locate places in a [`Document`] where an article is followed by a noun.
+/// We can do that with a `SequencePattern`.
+///
+/// ```rust
+/// use harper_core::patterns::{SequencePattern, DocPattern};
+/// use harper_core::{Document, Span};
+///
+/// let document = Document::new_markdown_default_curated("This is a test.");
+///
+/// let pattern = SequencePattern::default().then_article().then_whitespace().then_noun();
+/// let matches = pattern.find_all_matches_in_doc(&document);
+///
+/// // The pattern found that the tokens at indexes 4, 5, and 6 fit the criteria.
+/// assert_eq!(matches, vec![Span::new(4, 7)]);
+/// ```
 #[derive(Default)]
 pub struct SequencePattern {
     token_patterns: Vec<Box<dyn Pattern>>,
@@ -60,6 +80,7 @@ impl SequencePattern {
     gen_then_from_is!(adjective);
     gen_then_from_is!(apostrophe);
     gen_then_from_is!(hyphen);
+    gen_then_from_is!(article);
 
     pub fn then_word_set(self, set: WordSet) -> Self {
         self.then(Box::new(set))

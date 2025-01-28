@@ -150,12 +150,12 @@ If you need any help writing or debugging rules, don't be afraid to contact the 
 ### Using Visual Studio Code
 
 First make sure you have [the extension installed from the marketplace](https://marketplace.visualstudio.com/items?itemName=elijah-potter.harper).
-Then, can configure the path of the `harper-ls` binary the Visual Studio Code extension uses in settings.
+Then, configure the path of the `harper-ls` binary the Visual Studio Code extension uses in the settings page.
 Set it to `<harper repo>/target/release/harper-ls`.
 
 ![How to change the `harper-ls` path](/images/vscode_harper_path.webp)
 
-Now every time you want to test a change, you'll have to recompile `harper-ls` and reload Visual Studio Code using `Developer: Reload Window`.
+Every time you want to test a change, you'll have to recompile `harper-ls` and reload Visual Studio Code with the `Developer: Reload Window` command in the command palette.
 
 ```bash
 cargo build --release # Run in the monorepo to compile `harper-ls`.
@@ -163,5 +163,5 @@ cargo build --release # Run in the monorepo to compile `harper-ls`.
 
 ## Elevate Your Pull Request
 
-Once you're satisfied with your rule, you can go ahead and elevate your pull requests to mark it as "ready for review."
+Once you're satisfied with your rule, you can go ahead and elevate your pull request to mark it as "ready for review."
 At that point, a maintainer on the Harper team take a look at it and (hopefully) merge it.
