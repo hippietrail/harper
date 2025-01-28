@@ -1,4 +1,4 @@
-//! [`Pattern`]s are one of the more powerful constructs inside Harper, especially for beginners.
+//! [`Pattern`]s are one of the more powerful ways to query text inside Harper, especially for beginners.
 //!
 //! Through the [`PatternLinter`](crate::linting::PatternLinter) trait, they make it much easier to
 //! build Harper [rules](crate::linting::Linter).

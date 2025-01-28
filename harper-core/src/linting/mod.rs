@@ -1,3 +1,7 @@
+//! Frameworks and rules that locate errors in text.
+//!
+//! See the [`Linter`] trait and the [documentation for authoring a rule](https://writewithharper.com/docs/contributors/author-a-rule) for more information.
+
 mod an_a;
 mod avoid_curses;
 mod boring_words;
