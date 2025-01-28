@@ -12,7 +12,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - id: nodenv
-        run: echo "node-version=${$(node -v)#v}" >> $GITHUB_OUTPUT
+        run: echo "node-version=$(node -v | sed 's/^v//')" >> $GITHUB_OUTPUT
       - uses: redhat-actions/buildah-build@v2
         with:
           image: web
