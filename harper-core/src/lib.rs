@@ -6,6 +6,7 @@ mod char_string;
 mod currency;
 mod document;
 mod fat_token;
+mod ignored_lints;
 pub mod language_detection;
 mod lexing;
 pub mod linting;

@@ -1,3 +1,5 @@
+use std::hash::{DefaultHasher, Hash, Hasher};
+
 use serde::{Deserialize, Serialize};
 
 use crate::Span;
@@ -5,7 +7,7 @@ use crate::Span;
 use super::{LintKind, Suggestion};
 
 /// An error found in text.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, PartialEq)]
 pub struct Lint {
     /// The location in the source text the error lies.
     /// Important for automatic lint resolution through [`Self::suggestions`].
@@ -23,6 +25,23 @@ pub struct Lint {
     /// A numerical value for the importance of a lint.
     /// Lower = more important.
     pub priority: u8,
+}
+
+impl Lint {
+    /// Creates a SHA-3 hash of all elements of the lint, sans [`Self::span`].
+    /// This is useful for comparing lints while ignoring their position within the document.
+    ///
+    /// Do not assume that these hash values are stable across Harper versions.
+    pub fn spanless_hash(&self) -> u64 {
+        let mut hasher = DefaultHasher::new();
+
+        self.lint_kind.hash(&mut hasher);
+        self.suggestions.hash(&mut hasher);
+        self.message.hash(&mut hasher);
+        self.priority.hash(&mut hasher);
+
+        hasher.finish()
+    }
 }
 
 impl Default for Lint {

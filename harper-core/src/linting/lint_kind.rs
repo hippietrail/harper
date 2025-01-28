@@ -6,7 +6,7 @@ use serde::{Deserialize, Serialize};
 /// The general category a [`Lint`] falls into.
 /// There's no reason not to add a new item here if you are adding a new rule that doesn't fit
 /// the existing categories.
-#[derive(Debug, Clone, Copy, Serialize, Deserialize, Is, Default)]
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, Is, Default, Hash, PartialEq)]
 pub enum LintKind {
     Spelling,
     Capitalization,
