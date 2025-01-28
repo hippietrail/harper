@@ -8,6 +8,7 @@ use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
+use super::lets_confusion::LetsConfusion;
 use super::linking_verbs::LinkingVerbs;
 use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
@@ -35,7 +36,7 @@ use super::{CurrencyPlacement, Lint, Linter, OxfordComma};
 use crate::{Dictionary, Document};
 
 macro_rules! create_lint_group_config {
-    ($($linter:ident => $default:expr),*) => {
+    ($($linter:ident => $default:expr),* $(,)?) => {
         paste! {
             /// A collection of all the descriptions from the composing linters.
             #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
@@ -189,7 +190,8 @@ create_lint_group_config!(
     OxfordComma => true,
     PronounContraction => true,
     CurrencyPlacement => true,
-    SomewhatSomething => true
+    SomewhatSomething => true,
+    LetsConfusion => true,
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

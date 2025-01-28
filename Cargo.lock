@@ -612,7 +612,7 @@ dependencies = [
 
 [[package]]
 name = "harper-comments"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "harper-core",
  "harper-html",
@@ -641,7 +641,7 @@ dependencies = [
 
 [[package]]
 name = "harper-core"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "blanket",
  "criterion",
@@ -668,7 +668,7 @@ dependencies = [
 
 [[package]]
 name = "harper-html"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -679,7 +679,7 @@ dependencies = [
 
 [[package]]
 name = "harper-literate-haskell"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "harper-comments",
  "harper-core",
@@ -690,7 +690,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ls"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -715,7 +715,7 @@ dependencies = [
 
 [[package]]
 name = "harper-tree-sitter"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "harper-core",
  "tree-sitter",
@@ -723,7 +723,7 @@ dependencies = [
 
 [[package]]
 name = "harper-typst"
-version = "0.17.0"
+version = "0.18.0"
 dependencies = [
  "harper-core",
  "itertools 0.14.0",
