@@ -1,6 +1,5 @@
-import * as harper from 'harper.js';
-
 async function main() {
+	const harper = await import('harper.js');
 	// We cannot use `WorkerLinter` on Node.js since it relies on web-specific APIs.
 	let linter = new harper.LocalLinter();
 
