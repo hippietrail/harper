@@ -11,7 +11,9 @@ pub struct DespiteOf {
 
 impl Default for DespiteOf {
     fn default() -> Self {
-        let pattern = SequencePattern::aco("despite").then_whitespace().then_exact_word("of");
+        let pattern = SequencePattern::aco("despite")
+            .then_whitespace()
+            .then_exact_word("of");
 
         Self {
             pattern: Box::new(pattern),
@@ -27,7 +29,7 @@ impl PatternLinter for DespiteOf {
     fn match_to_lint(&self, matched: &[Token], source: &[char]) -> Lint {
         let span = matched.span().unwrap();
         let matched = span.get_content(source);
-    
+
         Lint {
             span,
             lint_kind: LintKind::WordChoice,
