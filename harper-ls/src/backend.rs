@@ -336,6 +336,7 @@ impl LanguageServer for Backend {
                         "HarperAddToUserDict".to_owned(),
                         "HarperAddToFileDict".to_owned(),
                         "HarperOpen".to_owned(),
+                        "HarperIgnoreLint".to_owned(),
                     ],
                     ..Default::default()
                 }),
@@ -456,8 +457,8 @@ impl LanguageServer for Backend {
     async fn execute_command(&self, params: ExecuteCommandParams) -> JsonResult<Option<Value>> {
         let mut string_args = params
             .arguments
-            .into_iter()
-            .map(|v| serde_json::from_value::<String>(v).unwrap());
+            .iter()
+            .map(|v| serde_json::from_value::<String>(v.clone()).unwrap());
 
         let Some(first) = string_args.next() else {
             return Ok(None);
@@ -533,6 +534,34 @@ impl LanguageServer for Backend {
                     error!("Unable to open URL: {}", err);
                 }
             },
+            "HarperIgnoreLint" => {
+                let Ok(url) = Url::parse(&first) else {
+                    error!("Unable to parse URL from command: {first}");
+                    return Ok(None);
+                };
+
+                let Some(second) = params.arguments.into_iter().nth(1) else {
+                    error!("Not enough arguments to HarperIgnoreLint");
+                    return Ok(None);
+                };
+
+                let Ok(lint) = serde_json::from_value(second) else {
+                    error!("Unable to parse lint.");
+                    return Ok(None);
+                };
+
+                let mut doc_lock = self.doc_state.lock().await;
+                let Some(doc_state) = doc_lock.get_mut(&url) else {
+                    error!("Requested document has not been loaded.");
+                    return Ok(None);
+                };
+
+                doc_state.ignore_lint(&lint);
+
+                drop(doc_lock);
+
+                self.publish_diagnostics(&url).await;
+            }
             _ => (),
         }
 

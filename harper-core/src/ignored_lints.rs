@@ -16,12 +16,22 @@ impl IgnoredLints {
     }
 
     fn hash_lint_context(&self, lint: &Lint, document: &Document) -> u64 {
-        let problem_tokens = document.tokens_intersecting(lint.span);
+        let problem_tokens = document.token_indices_intersecting(lint.span);
+        let prequel_tokens = lint
+            .span
+            .with_len(2)
+            .pulled_by(2)
+            .map(|v| document.token_indices_intersecting(v))
+            .unwrap_or_default();
+        let sequel_tokens = document.token_indices_intersecting(lint.span.with_len(2).pushed_by(2));
 
         let mut hasher = DefaultHasher::default();
 
         problem_tokens
             .into_iter()
+            .chain(prequel_tokens)
+            .chain(sequel_tokens)
+            .flat_map(|idx| document.get_token(idx))
             .for_each(|tok| tok.kind.hash(&mut hasher));
 
         let lint_hash = lint.spanless_hash();

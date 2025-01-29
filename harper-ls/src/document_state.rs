@@ -1,8 +1,8 @@
 use crate::config::{CodeActionConfig, DiagnosticSeverity};
 use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};
 use crate::pos_conv::range_to_span;
-use harper_core::linting::{LintGroup, Linter};
-use harper_core::{Document, FullDictionary, MergedDictionary, TokenKind};
+use harper_core::linting::{Lint, LintGroup, Linter};
+use harper_core::{Document, FullDictionary, IgnoredLints, MergedDictionary, TokenKind};
 use harper_core::{Lrc, Token};
 use tower_lsp::lsp_types::{CodeActionOrCommand, Command, Diagnostic, Range, Url};
 
@@ -12,12 +12,19 @@ pub struct DocumentState {
     pub dict: Lrc<MergedDictionary>,
     pub linter: LintGroup<Lrc<MergedDictionary>>,
     pub language_id: Option<String>,
+    pub ignored_lints: IgnoredLints,
     pub url: Url,
 }
 
 impl DocumentState {
+    pub fn ignore_lint(&mut self, lint: &Lint) {
+        self.ignored_lints.ignore_lint(lint, &self.document);
+    }
+
     pub fn generate_diagnostics(&mut self, severity: DiagnosticSeverity) -> Vec<Diagnostic> {
-        let lints = self.linter.lint(&self.document);
+        let mut lints = self.linter.lint(&self.document);
+        self.ignored_lints
+            .remove_ignored(&mut lints, &self.document);
 
         lints_to_diagnostics(self.document.get_full_content(), &lints, severity)
     }
@@ -29,6 +36,9 @@ impl DocumentState {
         code_action_config: &CodeActionConfig,
     ) -> Vec<CodeActionOrCommand> {
         let mut lints = self.linter.lint(&self.document);
+        self.ignored_lints
+            .remove_ignored(&mut lints, &self.document);
+
         lints.sort_by_key(|l| l.priority);
 
         let source_chars = self.document.get_full_content();
@@ -69,6 +79,7 @@ impl Default for DocumentState {
             dict: Default::default(),
             linter: Default::default(),
             language_id: Default::default(),
+            ignored_lints: Default::default(),
             url: Url::parse("https://example.net").unwrap(),
         }
     }

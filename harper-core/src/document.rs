@@ -28,9 +28,10 @@ impl Document {
     /// Locate all the tokens that intersect a provided span.
     ///
     /// Desperately needs optimization.
-    pub fn tokens_intersecting(&self, span: Span) -> Vec<Token> {
+    pub fn token_indices_intersecting(&self, span: Span) -> Vec<usize> {
         self.tokens()
-            .filter(|tok| tok.span.overlaps_with(span))
+            .enumerate()
+            .filter_map(|(idx, tok)| tok.span.overlaps_with(span).then_some(idx))
             .collect()
     }
 

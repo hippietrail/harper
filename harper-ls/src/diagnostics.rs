@@ -27,7 +27,14 @@ pub fn lint_to_code_actions<'a>(
     source: &'a [char],
     config: &CodeActionConfig,
 ) -> Vec<CodeActionOrCommand> {
-    let mut results = Vec::new();
+    let mut results = vec![CodeActionOrCommand::Command(Command {
+        title: "Ignore grammatical error.".to_owned(),
+        command: "HarperIgnoreLint".to_owned(),
+        arguments: Some(vec![
+            serde_json::Value::String(url.to_string()),
+            serde_json::to_value(lint).unwrap(),
+        ]),
+    })];
 
     results.extend(
         lint.suggestions
