@@ -1,4 +1,4 @@
-use crate::config::{CodeActionConfig, Config, DiagnosticSeverity};
+use crate::config::{CodeActionConfig, DiagnosticSeverity};
 use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};
 use crate::pos_conv::range_to_span;
 use harper_core::linting::{LintGroup, Linter};
@@ -40,7 +40,7 @@ impl DocumentState {
             .into_iter()
             .filter(|lint| lint.span.overlaps_with(span))
             .flat_map(|lint| {
-                lint_to_code_actions(&lint, &self.url, source_chars, &code_action_config)
+                lint_to_code_actions(&lint, &self.url, source_chars, code_action_config)
             })
             .collect();
 
