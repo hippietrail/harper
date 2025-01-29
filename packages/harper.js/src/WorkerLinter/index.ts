@@ -113,6 +113,10 @@ export default class WorkerLinter implements Linter {
 		return JSON.parse(await this.getDefaultLintConfigAsJSON()) as LintConfig;
 	}
 
+	async ignoreLint(lint: Lint): Promise<void> {
+		return this.rpc('ignoreLint', [lint]);
+	}
+
 	/** Run a procedure on the remote worker. */
 	private async rpc(procName: string, args: any[]): Promise<any> {
 		const promise = new Promise((resolve, reject) => {

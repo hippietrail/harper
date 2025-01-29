@@ -50,4 +50,7 @@ export default interface Linter {
 
 	/** Convert a string to Chicago-style title case. */
 	toTitleCase(text: string): Promise<string>;
+
+	/** Ignore future instances of a lint from a previous linting run in future invocations. */
+	ignoreLint(lint: Lint): Promise<void>;
 }

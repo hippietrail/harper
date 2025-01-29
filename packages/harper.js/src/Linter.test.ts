@@ -131,6 +131,28 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 			expect(value).not.toBeNull();
 		}
 	});
+
+	test(`${linterName} can ignore lints`, async () => {
+		const linter = new Linter();
+		const source = 'This is an test.';
+
+		const firstRound = await linter.lint(source);
+		for (const lint of firstRound) {
+			console.log(lint.message());
+		}
+
+		expect(firstRound.length).toBeGreaterThanOrEqual(1);
+
+		await linter.ignoreLint(firstRound[0]);
+
+		const secondRound = await linter.lint(source);
+
+		for (const lint of secondRound) {
+			console.log(lint.message());
+		}
+
+		expect(secondRound.length).toBeLessThan(firstRound.length);
+	});
 }
 
 test('Linters have the same config format', async () => {
