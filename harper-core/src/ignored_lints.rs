@@ -5,22 +5,18 @@ use hashbrown::HashSet;
 use crate::{linting::Lint, Document};
 
 /// A structure that keeps track of lints that have been ignored by users.
-#[derive(Debug)]
-pub struct IgnoredLints<'a> {
+#[derive(Debug, Default)]
+pub struct IgnoredLints {
     context_hashes: HashSet<u64>,
-    document: &'a Document,
 }
 
-impl<'a> IgnoredLints<'a> {
-    pub fn new(document: &'a Document) -> Self {
-        Self {
-            context_hashes: Default::default(),
-            document,
-        }
+impl IgnoredLints {
+    pub fn new() -> Self {
+        Self::default()
     }
 
-    fn hash_lint_context(&self, lint: &Lint) -> u64 {
-        let problem_tokens = self.document.tokens_intersecting(lint.span);
+    fn hash_lint_context(&self, lint: &Lint, document: &Document) -> u64 {
+        let problem_tokens = document.tokens_intersecting(lint.span);
 
         let mut hasher = DefaultHasher::default();
 
@@ -35,21 +31,21 @@ impl<'a> IgnoredLints<'a> {
     }
 
     /// Add a lint to the list.
-    pub fn ignore_lint(&mut self, lint: &Lint) {
-        let context_hash = self.hash_lint_context(lint);
+    pub fn ignore_lint(&mut self, lint: &Lint, document: &Document) {
+        let context_hash = self.hash_lint_context(lint, document);
 
         self.context_hashes.insert(context_hash);
     }
 
-    pub fn is_ignored(&self, lint: &Lint) -> bool {
-        let hash = self.hash_lint_context(lint);
+    pub fn is_ignored(&self, lint: &Lint, document: &Document) -> bool {
+        let hash = self.hash_lint_context(lint, document);
 
         self.context_hashes.contains(&hash)
     }
 
     /// Remove ignored Lints from a [`Vec`].
-    pub fn remove_ignored(&self, lints: &mut Vec<Lint>) {
-        lints.retain(|lint| !self.is_ignored(lint));
+    pub fn remove_ignored(&self, lints: &mut Vec<Lint>, document: &Document) {
+        lints.retain(|lint| !self.is_ignored(lint, document));
     }
 }
 
@@ -71,32 +67,15 @@ mod tests {
         let mut lints =
             LintGroup::new(LintGroupConfig::default(), FstDictionary::curated()).lint(&document);
 
-        let mut ignored = IgnoredLints::new(&document);
+        let mut ignored = IgnoredLints::new();
 
         for lint in &lints {
-            ignored.ignore_lint(lint);
+            ignored.ignore_lint(lint, &document);
         }
 
-        ignored.remove_ignored(&mut lints);
+        ignored.remove_ignored(&mut lints, &document);
         lints.is_empty()
     }
-
-    //#[test]
-    //fn throwaway() {
-    //    let document = Document::new_markdown_default_curated("\0\t\0\t\0");
-    //
-    //    let mut lints =
-    //        LintGroup::new(LintGroupConfig::default(), FstDictionary::curated()).lint(&document);
-    //
-    //    let first = lints.first().cloned().unwrap();
-    //
-    //    let mut ignored = IgnoredLints::new(&document);
-    //    ignored.ignore_lint(&first);
-    //
-    //    dbg!(&lints);
-    //    ignored.remove_ignored(&mut lints);
-    //    dbg!(&lints);
-    //}
 
     #[quickcheck]
     fn can_ignore_first(text: String) -> TestResult {
@@ -109,10 +88,10 @@ mod tests {
             return TestResult::discard();
         };
 
-        let mut ignored = IgnoredLints::new(&document);
-        ignored.ignore_lint(&first);
+        let mut ignored = IgnoredLints::new();
+        ignored.ignore_lint(&first, &document);
 
-        ignored.remove_ignored(&mut lints);
+        ignored.remove_ignored(&mut lints, &document);
 
         TestResult::from_bool(!lints.contains(&first))
     }
