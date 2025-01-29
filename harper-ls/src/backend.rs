@@ -32,8 +32,7 @@ use tower_lsp::{Client, LanguageServer};
 use tracing::{error, info, warn};
 
 use crate::config::Config;
-use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};
-use crate::dictionary_io::{load_dict, save_dict};
+use crate::dictionary_io::{file_dict_name, load_dict, save_dict};
 use crate::document_state::DocumentState;
 use crate::git_commit_parser::GitCommitParser;
 use crate::pos_conv::range_to_span;
@@ -53,33 +52,6 @@ impl Backend {
         }
     }
 
-    /// Rewrites a path to a filename using the same conventions as
-    /// [Neovim's undo-files](https://neovim.io/doc/user/options.html#'undodir').
-    fn file_dict_name(url: &Url) -> anyhow::Result<PathBuf> {
-        let mut rewritten = String::new();
-
-        // We assume all URLs are local files and have a base.
-        for seg in url
-            .to_file_path()
-            .map_err(|_| anyhow!("Unable to convert URL to file path."))?
-            .components()
-        {
-            if !matches!(seg, Component::RootDir) {
-                rewritten.push_str(&seg.as_os_str().to_string_lossy());
-                rewritten.push('%');
-            }
-        }
-
-        Ok(rewritten.into())
-    }
-
-    /// Get the location of the file's specific dictionary
-    async fn get_file_dict_path(&self, url: &Url) -> anyhow::Result<PathBuf> {
-        let config = self.config.read().await;
-
-        Ok(config.file_dict_path.join(Self::file_dict_name(url)?))
-    }
-
     /// Load a specific file's dictionary
     async fn load_file_dictionary(&self, url: &Url) -> anyhow::Result<FullDictionary> {
         let path = self
@@ -91,6 +63,13 @@ impl Backend {
             .await
             .map_err(|err| info!("{err}"))
             .or(Ok(FullDictionary::new()))
+    }
+
+    /// Compute the location of the file's specific dictionary
+    async fn get_file_dict_path(&self, url: &Url) -> anyhow::Result<PathBuf> {
+        let config = self.config.read().await;
+
+        Ok(config.file_dict_path.join(file_dict_name(url)?))
     }
 
     async fn save_file_dictionary(&self, url: &Url, dict: impl Dictionary) -> Result<()> {
@@ -294,36 +273,7 @@ impl Backend {
             return Ok(Vec::new());
         };
 
-        let mut lints = doc_state.linter.lint(&doc_state.document);
-        lints.sort_by_key(|l| l.priority);
-
-        let source_chars = doc_state.document.get_full_content();
-
-        // Find lints whole span overlaps with range
-        let span = range_to_span(source_chars, range).with_len(1);
-
-        let mut actions: Vec<CodeActionOrCommand> = lints
-            .into_iter()
-            .filter(|lint| lint.span.overlaps_with(span))
-            .flat_map(|lint| {
-                lint_to_code_actions(&lint, url, source_chars, &config.code_action_config)
-            })
-            .collect();
-
-        if let Some(Token {
-            kind: TokenKind::Url,
-            span,
-            ..
-        }) = doc_state.document.get_token_at_char_index(span.start)
-        {
-            actions.push(CodeActionOrCommand::Command(Command::new(
-                "Open URL".to_string(),
-                "HarperOpen".to_string(),
-                Some(vec![doc_state.document.get_span_content_str(span).into()]),
-            )))
-        }
-
-        Ok(actions)
+        Ok(doc_state.generate_code_actions(range, &config.code_action_config))
     }
 
     async fn generate_diagnostics(&self, url: &Url) -> Vec<Diagnostic> {
@@ -332,14 +282,9 @@ impl Backend {
             return Vec::new();
         };
 
-        let lints = doc_state.linter.lint(&doc_state.document);
         let config = self.config.read().await;
 
-        lints_to_diagnostics(
-            doc_state.document.get_full_content(),
-            &lints,
-            config.diagnostic_severity,
-        )
+        doc_state.generate_diagnostics(config.diagnostic_severity)
     }
 
     async fn publish_diagnostics(&self, url: &Url) {

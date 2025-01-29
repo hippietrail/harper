@@ -29,6 +29,7 @@ pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use document::Document;
 pub use fat_token::FatToken;
+pub use ignored_lints::IgnoredLints;
 use linting::Lint;
 pub use mask::{Mask, Masker};
 pub use punctuation::{Punctuation, Quote};
