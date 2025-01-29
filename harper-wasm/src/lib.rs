@@ -160,6 +160,20 @@ impl Linter {
             .map(|l| Lint::new(l, source.to_vec(), language))
             .collect()
     }
+
+    /// Export the linter's ignored lints as a privacy-respecting JSON list of hashes.
+    pub fn export_ignored_lints(&self) -> String {
+        serde_json::to_string(&self.ignored_lints).unwrap()
+    }
+
+    /// Import into the linter's ignored lints from a privacy-respecting JSON list of hashes.
+    pub fn import_ignored_lints(&mut self, json: String) -> Result<(), String> {
+        let list: IgnoredLints = serde_json::from_str(&json).map_err(|err| err.to_string())?;
+
+        self.ignored_lints.append(list);
+
+        Ok(())
+    }
 }
 
 impl Default for Linter {

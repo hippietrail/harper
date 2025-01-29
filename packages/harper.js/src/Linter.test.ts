@@ -137,9 +137,6 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		const source = 'This is an test.';
 
 		const firstRound = await linter.lint(source);
-		for (const lint of firstRound) {
-			console.log(lint.message());
-		}
 
 		expect(firstRound.length).toBeGreaterThanOrEqual(1);
 
@@ -147,11 +144,30 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 
 		const secondRound = await linter.lint(source);
 
-		for (const lint of secondRound) {
-			console.log(lint.message());
+		expect(secondRound.length).toBeLessThan(firstRound.length);
+	});
+
+	test(`${linterName} can reimport ignored lints.`, async () => {
+		const source = 'This is an test of xporting lints.';
+
+		const firstLinter = new Linter();
+
+		const firstLints = await firstLinter.lint(source);
+
+		for (const lint of firstLints) {
+			await firstLinter.ignoreLint(lint);
 		}
 
-		expect(secondRound.length).toBeLessThan(firstRound.length);
+		const exported = await firstLinter.exportIgnoredLints();
+
+		/// Create a new instance and reimport the lints.
+		const secondLinter = new Linter();
+		await secondLinter.importIgnoredLints(exported);
+
+		const secondLints = await secondLinter.lint(source);
+
+		expect(firstLints.length).toBeGreaterThan(secondLints.length);
+		expect(secondLints.length).toBe(0);
 	});
 }
 

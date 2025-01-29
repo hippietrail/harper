@@ -53,4 +53,11 @@ export default interface Linter {
 
 	/** Ignore future instances of a lint from a previous linting run in future invocations. */
 	ignoreLint(lint: Lint): Promise<void>;
+
+	/** Export the ignored lints to a JSON list of privacy-respecting hashes. */
+	exportIgnoredLints(): Promise<string>;
+
+	/** Import ignored lints from a JSON list to the linter.
+	 * This function appends to the existing lints, if any. */
+	importIgnoredLints(json: string): Promise<void>;
 }

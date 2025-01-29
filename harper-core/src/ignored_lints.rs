@@ -1,11 +1,12 @@
 use std::hash::{DefaultHasher, Hash, Hasher};
 
 use hashbrown::HashSet;
+use serde::{Deserialize, Serialize};
 
 use crate::{linting::Lint, Document};
 
 /// A structure that keeps track of lints that have been ignored by users.
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct IgnoredLints {
     context_hashes: HashSet<u64>,
 }
@@ -13,6 +14,11 @@ pub struct IgnoredLints {
 impl IgnoredLints {
     pub fn new() -> Self {
         Self::default()
+    }
+
+    /// Move entries from another instance to this one.
+    pub fn append(&mut self, other: Self) {
+        self.context_hashes.extend(other.context_hashes)
     }
 
     fn hash_lint_context(&self, lint: &Lint, document: &Document) -> u64 {

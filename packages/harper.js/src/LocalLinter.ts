@@ -103,4 +103,16 @@ export default class LocalLinter implements Linter {
 
 		this.inner!.ignore_lint(lint);
 	}
+
+	async exportIgnoredLints(): Promise<string> {
+		await this.initialize();
+
+		return this.inner!.export_ignored_lints();
+	}
+
+	async importIgnoredLints(json: string): Promise<void> {
+		await this.initialize();
+
+		return this.inner!.import_ignored_lints(json);
+	}
 }
