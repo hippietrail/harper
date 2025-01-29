@@ -2,18 +2,10 @@
 title: Visual Studio Code
 ---
 
-With more than 14 million users Visual Studio Code is undeniably the most widely used programming environment in the world.
-Most programming languages support doc-comments, a type of inline comment used to generate public-facing documentation.
+Harper is the next-generation grammar checker for your code. It catches common stylistic errors, as well as complex grammatical or layout-related problems. It works for almost [all common programming languages](./language-server#Supported-Languages) and a number of markup formats.
 
-- [Javadoc](https://en.wikipedia.org/wiki/Javadoc) for Java
-- [JSDoc](https://jsdoc.app/) for JavaScript
-- [Annex D](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/documentation-comments) for C#.
-- ... and many more
+If you use Rust, Java, JavaScript, or any number of other programming languages, you comments may be ending up as part of your API's documentation. If that's the case, grammatical mistakes in your code could be down-ranking your site on search results and tarnishing your reputation for quality.
 
-The problem: most of these users aren't spending a sufficient amount of time ensuring their comments meet the editorial standards that readers expect.
-This can leave a poor first impression on readers.
-
-Fortunately, Harper can help!
-By parsing your comments and checking them for style, Harper can significantly improve the professionalism and readability of written documentation.
+Most importantly, Harper runs on-device and uses barely any memory at all. That means you can get feedback on your work in milliseconds, dramatically increasing your iteration speed.
 
 Just search for "Harper" in the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=elijah-potter.harper) and hit install!
