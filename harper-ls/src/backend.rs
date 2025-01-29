@@ -152,6 +152,7 @@ impl Backend {
             linter: LintGroup::new(config_lock.lint_config, dict.clone()),
             language_id: language_id.map(|v| v.to_string()),
             dict: dict.clone(),
+            url: url.clone(),
             ..Default::default()
         });
 
