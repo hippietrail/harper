@@ -283,7 +283,7 @@ bump-versions:
   #! /bin/bash
   set -eo pipefail
 
-  cargo ws version --no-git-push --no-git-tag
+  cargo ws version --no-git-push --no-git-tag --force '*'
 
   HARPER_VERSION=$(tq --file harper-core/Cargo.toml .package.version)
 
