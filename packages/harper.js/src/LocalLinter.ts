@@ -115,4 +115,10 @@ export default class LocalLinter implements Linter {
 
 		return this.inner!.import_ignored_lints(json);
 	}
+
+	async clearIgnoredLints(): Promise<void> {
+		await this.initialize();
+
+		return this.inner!.clear_ignored_lints();
+	}
 }

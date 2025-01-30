@@ -174,6 +174,10 @@ impl Linter {
 
         Ok(())
     }
+
+    pub fn clear_ignored_lints(&mut self) {
+        self.ignored_lints = IgnoredLints::new();
+    }
 }
 
 impl Default for Linter {

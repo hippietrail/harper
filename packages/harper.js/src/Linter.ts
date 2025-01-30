@@ -60,4 +60,7 @@ export default interface Linter {
 	/** Import ignored lints from a JSON list to the linter.
 	 * This function appends to the existing lints, if any. */
 	importIgnoredLints(json: string): Promise<void>;
+
+	/** Clear records of all previously ignored lints. */
+	clearIgnoredLints(): Promise<void>;
 }
