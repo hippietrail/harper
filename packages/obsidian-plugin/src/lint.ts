@@ -21,7 +21,6 @@ import {
 	RangeSet
 } from '@codemirror/state';
 import elt from 'crelt';
-import { Lint } from 'harper.js';
 
 type Severity = 'hint' | 'info' | 'warning' | 'error';
 
