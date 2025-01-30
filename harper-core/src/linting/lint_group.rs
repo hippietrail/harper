@@ -6,6 +6,7 @@ use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
+use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
 use super::lets_confusion::LetsConfusion;
@@ -193,6 +194,7 @@ create_lint_group_config!(
     CurrencyPlacement => true,
     SomewhatSomething => true,
     LetsConfusion => true,
+    DespiteOf => true,
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
