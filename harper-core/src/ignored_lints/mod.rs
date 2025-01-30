@@ -98,4 +98,42 @@ mod tests {
 
         TestResult::from_bool(!lints.contains(&first))
     }
+
+    // Check that ignoring the nth lint found in source text actually removes it (and no others).
+    fn assert_ignore_lint_reduction(source: &str, nth_lint: usize) {
+        let document = Document::new_markdown_default_curated(&source);
+
+        let mut lints =
+            LintGroup::new(LintGroupConfig::default(), FstDictionary::curated()).lint(&document);
+
+        let nth = lints.get(nth_lint).cloned().unwrap_or_else(|| {
+            panic!("If ignoring the lint at {nth_lint}, make sure there are enough problems.")
+        });
+
+        let mut ignored = IgnoredLints::new();
+        ignored.ignore_lint(&nth, &document);
+
+        let prev_count = lints.len();
+
+        ignored.remove_ignored(&mut lints, &document);
+
+        assert_eq!(prev_count, lints.len() + 1);
+        assert!(!lints.contains(&nth));
+    }
+
+    #[test]
+    fn an_a() {
+        let source = "There is an problem in this text. Here is an second one.";
+
+        assert_ignore_lint_reduction(source, 0);
+        assert_ignore_lint_reduction(source, 1);
+    }
+
+    #[test]
+    fn spelling() {
+        let source = "There is a problm in this text. Here is a scond one.";
+
+        assert_ignore_lint_reduction(source, 0);
+        assert_ignore_lint_reduction(source, 1);
+    }
 }
