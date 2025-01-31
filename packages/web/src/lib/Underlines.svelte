@@ -6,6 +6,7 @@
 
 	import type { Lint } from 'harper.js';
 	import { WorkerLinter } from 'harper.js';
+	import lintKindColor from '$lib/lintKindColor';
 
 	export let content: string;
 	export let focusLintIndex: number | undefined;
@@ -47,6 +48,7 @@
 		focused: boolean;
 		content: string;
 		index: number;
+		color: string;
 	};
 
 	type UnderlineToken = string | null | undefined | UnderlineDetails;
@@ -72,7 +74,8 @@
 				let lintContent: UnderlineDetails = {
 					focused: lintIndex === focusLintIndex,
 					index: lintIndex,
-					content: lint.get_problem_text().replaceAll(' ', '\u00A0')
+					content: lint.get_problem_text().replaceAll(' ', '\u00A0'),
+					color: lintKindColor(lint.lint_kind())
 				};
 
 				return [...prevContent, lintContent];
@@ -112,7 +115,7 @@
 						bind:this={lintHighlights[chunk.index]}
 						on:click={() =>
 							chunk != null && typeof chunk == 'object' && (focusLintIndex = chunk.index)}
-						style={`--line-color: #DB2B39; --line-width: ${chunk.focused ? '4px' : '2px'}; --bg-color: ${chunk.focused ? '#dbafb3' : 'transparent'};`}
+						style={`--line-color: ${chunk.color}; --line-width: ${chunk.focused ? '4px' : '2px'}; --bg-color: ${chunk.focused ? '#dbafb3' : 'transparent'};`}
 					>
 						{chunk.content}
 					</button>
