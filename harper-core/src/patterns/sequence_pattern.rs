@@ -204,7 +204,7 @@ impl SequencePattern {
 
     pub fn then_one_or_more(mut self, pat: Box<dyn Pattern>) -> Self {
         self.token_patterns
-            .push(Box::new(RepeatingPattern::new(pat)));
+            .push(Box::new(RepeatingPattern::new(pat, 0)));
         self
     }
 
