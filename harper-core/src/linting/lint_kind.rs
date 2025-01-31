@@ -3,7 +3,7 @@ use std::fmt::Display;
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 
-/// The general category a [`Lint`] falls into.
+/// The general category a [`Lint`](super::Lint) falls into.
 /// There's no reason not to add a new item here if you are adding a new rule that doesn't fit
 /// the existing categories.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, Is, Default, Hash, PartialEq)]

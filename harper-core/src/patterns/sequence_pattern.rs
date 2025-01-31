@@ -11,7 +11,7 @@ use crate::{CharStringExt, Lrc, Token, TokenKind};
 ///
 /// ## Example
 ///
-/// Let's say we wanted to locate places in a [`Document`] where an article is followed by a noun.
+/// Let's say we wanted to locate places in a [`Document`](crate::Document) where an article is followed by a noun.
 /// We can do that with a `SequencePattern`.
 ///
 /// ```rust
