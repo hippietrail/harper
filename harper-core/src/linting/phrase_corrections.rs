@@ -74,12 +74,13 @@ create_linter_for_phrase!(NoLonger, "no longer", 1);
 create_linter_for_phrase!(NeedHelp, "need help", 1);
 create_linter_for_phrase!(AndThis, "and this", 1);
 create_linter_for_phrase!(Decision, "make a decision", 1);
+create_linter_for_phrase!(OfCourse, "of course", 1);
 
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
-    use super::{Decision, TurnItOff};
+    use super::{Decision, OfCourse, TurnItOff};
 
     #[test]
     fn turn_it_off_clean_lower() {
@@ -107,6 +108,24 @@ mod tests {
             "we should take a decision on this",
             Decision::default(),
             "we should make a decision on this",
+        );
+    }
+
+    #[test]
+    fn off_course() {
+        assert_suggestion_result(
+            "Yes, off course we should do that.",
+            OfCourse::default(),
+            "Yes, of course we should do that.",
+        );
+    }
+
+    #[test]
+    fn o_course() {
+        assert_suggestion_result(
+            "Yes, o course we should do that.",
+            OfCourse::default(),
+            "Yes, of course we should do that.",
         );
     }
 }

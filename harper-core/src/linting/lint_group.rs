@@ -17,7 +17,7 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
-    AndThis, Decision, HumanLife, NeedHelp, NoLonger, ThatChallenged, TurnItOff,
+    AndThis, Decision, HumanLife, NeedHelp, NoLonger, OfCourse, ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
 use super::pronoun_contraction::PronounContraction;
@@ -204,7 +204,8 @@ create_lint_group_config!(
     NeedHelp => true,
     NoLonger => true,
     ThatChallenged => true,
-    TurnItOff => true
+    TurnItOff => true,
+    OfCourse => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
