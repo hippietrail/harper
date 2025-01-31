@@ -1,7 +1,7 @@
 use hashbrown::HashMap;
 use smallvec::ToSmallVec;
 
-use super::lint::Suggestion;
+use super::Suggestion;
 use super::{Lint, LintKind, Linter};
 use crate::document::Document;
 use crate::spell::suggest_correct_spelling;

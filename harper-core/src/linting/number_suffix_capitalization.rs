@@ -15,7 +15,9 @@ impl Linter for NumberSuffixCapitalization {
                 continue;
             }
 
-            let suffix_span = Span::new_with_len(number_tok.span.end, 2).pulled_by(2);
+            let suffix_span = Span::new_with_len(number_tok.span.end, 2)
+                .pulled_by(2)
+                .unwrap();
             let chars = document.get_span_content(suffix_span);
 
             if chars.iter().any(|c| !c.is_lowercase()) {

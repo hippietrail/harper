@@ -2,8 +2,8 @@ use crate::{make_title_case, Dictionary, Token, TokenStringExt};
 
 use super::Pattern;
 
-/// Will match full length of wrapped pattern __only if the matched
-/// text is not already title case__.
+/// Will match full length of wrapped pattern only if the matched
+/// text is not already title case.
 pub struct IsNotTitleCase<D: Dictionary> {
     inner: Box<dyn Pattern>,
     dict: D,

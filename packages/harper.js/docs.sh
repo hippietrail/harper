@@ -14,7 +14,7 @@ for file in ./markdown/*.md
 do 
   BASE=$(basename $file .md)
   pandoc $file -o html/$BASE.html
-  sed -i 's/"\(.*\).md"/"\1.html"/g' html/$BASE.html
+  perl -pi -e 's/"\K([^"]+)\.md(?=")/\1.html/g' html/$BASE.html
 
   echo '<link rel="stylesheet" href="https://unpkg.com/mvp.css">' >> html/$BASE.html
 done

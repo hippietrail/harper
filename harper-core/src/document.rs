@@ -27,6 +27,16 @@ impl Default for Document {
 }
 
 impl Document {
+    /// Locate all the tokens that intersect a provided span.
+    ///
+    /// Desperately needs optimization.
+    pub fn token_indices_intersecting(&self, span: Span) -> Vec<usize> {
+        self.tokens()
+            .enumerate()
+            .filter_map(|(idx, tok)| tok.span.overlaps_with(span).then_some(idx))
+            .collect()
+    }
+
     /// Lexes and parses text to produce a document using a provided language
     /// parser and dictionary.
     pub fn new(text: &str, parser: &impl Parser, dictionary: &impl Dictionary) -> Self {

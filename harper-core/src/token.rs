@@ -71,6 +71,7 @@ macro_rules! create_fns_for {
     };
 }
 
+/// Extension methods for [`Token`] sequences that make them easier to wrangle and query.
 pub trait TokenStringExt {
     fn first_sentence_word(&self) -> Option<Token>;
     fn first_non_whitespace(&self) -> Option<Token>;

@@ -13,12 +13,20 @@ pub struct RepeatedWords {
 impl RepeatedWords {
     pub fn new() -> Self {
         Self {
-            special_cases: vec![smallvec!['i', 's'], smallvec!['a']],
+            special_cases: vec![
+                smallvec!['i', 's'],
+                smallvec!['a'],
+                smallvec!['a', 'n', 'd'],
+            ],
         }
     }
 
     fn is_special_case(&self, chars: &[char]) -> bool {
-        self.special_cases.iter().any(|v| v.as_slice() == chars)
+        let lower = chars.to_lower();
+
+        self.special_cases
+            .iter()
+            .any(|v| v.as_slice() == lower.as_slice())
     }
 }
 
@@ -111,6 +119,15 @@ mod tests {
             "This is a a test",
             RepeatedWords::default(),
             "This is a test",
+        );
+    }
+
+    #[test]
+    fn double_and() {
+        assert_suggestion_result(
+            "And and this is also a test",
+            RepeatedWords::default(),
+            "And this is also a test",
         );
     }
 }

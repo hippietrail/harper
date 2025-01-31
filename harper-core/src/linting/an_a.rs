@@ -33,7 +33,9 @@ impl Linter for AnA {
 
                 let is_a_an = match chars_first {
                     ['a'] => Some(true),
+                    ['A'] => Some(true),
                     ['a', 'n'] => Some(false),
+                    ['A', 'n'] => Some(false),
                     _ => None,
                 };
 
@@ -52,7 +54,10 @@ impl Linter for AnA {
                     lints.push(Lint {
                         span: first.span,
                         lint_kind: LintKind::Miscellaneous,
-                        suggestions: vec![Suggestion::ReplaceWith(replacement)],
+                        suggestions: vec![Suggestion::replace_with_match_case(
+                            replacement,
+                            chars_first,
+                        )],
                         message: "Incorrect indefinite article.".to_string(),
                         priority: 31,
                     })
@@ -113,7 +118,8 @@ fn starts_with_vowel(word: &[char]) -> bool {
         | ['u', 'n', 'i', 'n' | 'm', ..]
         | ['u', 'n', 'a' | 'u', ..]
         | ['h', 'e', 'r', 'b', ..]
-        | ['u', 'r', 'b', ..])
+        | ['u', 'r', 'b', ..]
+        | ['i', 'n', 't', ..])
     {
         return true;
     }
@@ -249,5 +255,14 @@ mod tests {
     #[test]
     fn disallows_uppercase_consonants() {
         assert_lint_count("not an Crash", AnA, 1);
+    }
+
+    #[test]
+    fn disallows_a_interface() {
+        assert_lint_count(
+            "A interface for an object that can perform linting actions.",
+            AnA,
+            1,
+        );
     }
 }
