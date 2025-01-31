@@ -282,6 +282,11 @@ impl Lint {
 
     /// Get a string representing the general category of the lint.
     pub fn lint_kind(&self) -> String {
+        self.inner.lint_kind.to_string_key()
+    }
+
+    /// Get a string representing the general category of the lint.
+    pub fn lint_kind_pretty(&self) -> String {
         self.inner.lint_kind.to_string()
     }
 

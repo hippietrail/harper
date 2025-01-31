@@ -5,7 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::Span;
 
-/// A suggested edit that could resolve a [`Lint`].
+/// A suggested edit that could resolve a [`Lint`](super::Lint).
 #[derive(Debug, Clone, Serialize, Deserialize, Is, PartialEq, Eq, Hash)]
 pub enum Suggestion {
     /// Replace the offending text with a specific character sequence.
