@@ -1,8 +1,10 @@
-use std::path::Path;
+use anyhow::anyhow;
+use std::path::{Component, Path, PathBuf};
 
 use harper_core::{Dictionary, FullDictionary, WordMetadata};
 use tokio::fs::{self, File};
 use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, BufReader, BufWriter, Result};
+use tower_lsp::lsp_types::Url;
 
 /// Save the contents of a dictionary to a file.
 /// Ensures that the path to the destination exists.
@@ -20,6 +22,7 @@ pub async fn save_dict(path: impl AsRef<Path>, dict: impl Dictionary) -> Result<
     Ok(())
 }
 
+/// Write a dictionary somewhere.
 async fn write_word_list(dict: impl Dictionary, mut w: impl AsyncWrite + Unpin) -> Result<()> {
     let mut cur_str = String::new();
 
@@ -34,6 +37,7 @@ async fn write_word_list(dict: impl Dictionary, mut w: impl AsyncWrite + Unpin) 
     Ok(())
 }
 
+/// Load a dictionary from a file on disk.
 pub async fn load_dict(path: impl AsRef<Path>) -> Result<FullDictionary> {
     let file = File::open(path.as_ref()).await?;
     let read = BufReader::new(file);
@@ -41,7 +45,8 @@ pub async fn load_dict(path: impl AsRef<Path>) -> Result<FullDictionary> {
     dict_from_word_list(read).await
 }
 
-/// This function could definitely be optimized to use less memory.
+/// Load a dictionary from a list of words.
+/// It could definitely be optimized to use less memory.
 /// Right now it isn't an issue.
 async fn dict_from_word_list(mut r: impl AsyncRead + Unpin) -> Result<FullDictionary> {
     let mut str = String::new();
@@ -55,4 +60,24 @@ async fn dict_from_word_list(mut r: impl AsyncRead + Unpin) -> Result<FullDictio
     );
 
     Ok(dict)
+}
+
+/// Rewrites a path to a filename using the same conventions as
+/// [Neovim's undo-files](https://neovim.io/doc/user/options.html#'undodir').
+pub fn file_dict_name(url: &Url) -> anyhow::Result<PathBuf> {
+    let mut rewritten = String::new();
+
+    // We assume all URLs are local files and have a base.
+    for seg in url
+        .to_file_path()
+        .map_err(|_| anyhow!("Unable to convert URL to file path."))?
+        .components()
+    {
+        if !matches!(seg, Component::RootDir) {
+            rewritten.push_str(&seg.as_os_str().to_string_lossy());
+            rewritten.push('%');
+        }
+    }
+
+    Ok(rewritten.into())
 }
