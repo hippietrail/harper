@@ -1,3 +1,5 @@
+ARG NODE_VERSION=slim
+
 FROM rust:latest AS wasm-build
 
 RUN mkdir -p /usr/build/
@@ -10,7 +12,7 @@ COPY . .
 WORKDIR /usr/build/harper-wasm
 RUN wasm-pack build --release --target web
 
-FROM node:slim AS node-build
+FROM node:${NODE_VERSION} AS node-build
 
 RUN apt-get update && apt-get install git pandoc -y
 
@@ -31,7 +33,7 @@ WORKDIR /usr/build/packages/web
 
 RUN yarn install && yarn build
 
-FROM node:slim
+FROM node:${NODE_VERSION}
 
 COPY --from=node-build /usr/build/packages/web/build /usr/build/packages/web/build
 COPY --from=node-build /usr/build/packages/web/package.json /usr/build/packages/web/package.json

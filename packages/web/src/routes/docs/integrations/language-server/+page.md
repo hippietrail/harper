@@ -14,6 +14,8 @@ To install `harper-ls`, simply run:
 cargo install harper-ls --locked
 ```
 
+If you are on a Debian-based Linux distribution, you may need to install `build-essential`.
+
 ### Arch Linux
 
 Harper is available through the `extra` repo:
@@ -111,6 +113,8 @@ If you use Neovim, [read this documentation](./neovim#Configuration).
 | TypeScript        |         `typescript`          |            ✅ |
 | TypeScript React  |       `typescriptreact`       |            ✅ |
 | Typst             |            `typst`            |               |
+| PHP               |             `php`             |            ✅ |
+| Dart              |            `dart`             |            ✅ |
 
 Want your language added?
 Let us know by [commenting on this issue](https://github.com/Automattic/harper/issues/79).

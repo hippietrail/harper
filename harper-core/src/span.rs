@@ -95,11 +95,15 @@ impl Span {
     }
 
     // Subtract an amount to a copy of both [`Self::start`] and [`Self::end`]
-    pub fn pulled_by(&self, by: usize) -> Self {
+    pub fn pulled_by(&self, by: usize) -> Option<Self> {
+        if by > self.start {
+            return None;
+        }
+
         let mut clone = *self;
         clone.start -= by;
         clone.end -= by;
-        clone
+        Some(clone)
     }
 
     // Add an amount a copy of both [`Self::start`] and [`Self::end`]

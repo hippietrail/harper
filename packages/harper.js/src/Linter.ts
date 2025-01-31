@@ -25,6 +25,14 @@ export default interface Linter {
 	/** Get the linter's current configuration. */
 	getLintConfig(): Promise<LintConfig>;
 
+	/** Get the default (unset) linter configuration as JSON.
+	 * This method does not effect the caller's lint configuration, nor does it return the current one. */
+	getDefaultLintConfigAsJSON(): Promise<string>;
+
+	/** Get the default (unset) linter configuration.
+	 * This method does not effect the caller's lint configuration, nor does it return the current one. */
+	getDefaultLintConfig(): Promise<LintConfig>;
+
 	/** Set the linter's current configuration. */
 	setLintConfig(config: LintConfig): Promise<void>;
 
@@ -42,4 +50,17 @@ export default interface Linter {
 
 	/** Convert a string to Chicago-style title case. */
 	toTitleCase(text: string): Promise<string>;
+
+	/** Ignore future instances of a lint from a previous linting run in future invocations. */
+	ignoreLint(lint: Lint): Promise<void>;
+
+	/** Export the ignored lints to a JSON list of privacy-respecting hashes. */
+	exportIgnoredLints(): Promise<string>;
+
+	/** Import ignored lints from a JSON list to the linter.
+	 * This function appends to the existing lints, if any. */
+	importIgnoredLints(json: string): Promise<void>;
+
+	/** Clear records of all previously ignored lints. */
+	clearIgnoredLints(): Promise<void>;
 }

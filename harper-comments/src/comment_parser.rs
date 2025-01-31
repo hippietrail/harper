@@ -41,6 +41,8 @@ impl CommentParser {
             "shellscript" => tree_sitter_bash::language(),
             "java" => tree_sitter_java::language(),
             "haskell" => tree_sitter_haskell::language(),
+            "php" => tree_sitter_php::language_php(),
+            "dart" => tree_sitter_dart::language(),
             _ => return None,
         };
 
@@ -94,6 +96,8 @@ impl CommentParser {
             "bash" => "shellscript",
             "java" => "java",
             "hs" => "haskell",
+            "php" => "php",
+            "dart" => "dart",
             _ => return None,
         })
     }

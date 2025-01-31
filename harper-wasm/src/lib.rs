@@ -6,7 +6,7 @@ use std::sync::Arc;
 use harper_core::language_detection::is_doc_likely_english;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter as _};
 use harper_core::parsers::{IsolateEnglish, Markdown, Parser, PlainEnglish};
-use harper_core::{remove_overlaps, Document, FstDictionary, FullDictionary, Lrc};
+use harper_core::{remove_overlaps, Document, FstDictionary, FullDictionary, IgnoredLints, Lrc};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::wasm_bindgen;
 use wasm_bindgen::JsValue;
@@ -43,15 +43,27 @@ make_serialize_fns_for!(Lint);
 make_serialize_fns_for!(Span);
 
 #[wasm_bindgen]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
 pub enum Language {
     Plain,
     Markdown,
+}
+
+impl Language {
+    fn create_parser(&self) -> Box<dyn Parser> {
+        match self {
+            Language::Plain => Box::new(PlainEnglish),
+            // TODO: Have a way to configure the Markdown parser
+            Language::Markdown => Box::new(Markdown::default()),
+        }
+    }
 }
 
 #[wasm_bindgen]
 pub struct Linter {
     lint_group: LintGroup<Arc<FstDictionary>>,
     dictionary: Arc<FstDictionary>,
+    ignored_lints: IgnoredLints,
 }
 
 #[wasm_bindgen]
@@ -65,6 +77,7 @@ impl Linter {
         Self {
             lint_group: LintGroup::new(LintGroupConfig::default(), dictionary.clone()),
             dictionary,
+            ignored_lints: IgnoredLints::default(),
         }
     }
 
@@ -117,16 +130,22 @@ impl Linter {
         Ok(())
     }
 
+    pub fn ignore_lint(&mut self, lint: Lint) {
+        let document = Document::new_from_vec(
+            lint.source.into(),
+            &lint.language.create_parser(),
+            &self.dictionary,
+        );
+
+        self.ignored_lints.ignore_lint(&lint.inner, &document);
+    }
+
     /// Perform the configured linting on the provided text.
     pub fn lint(&mut self, text: String, language: Language) -> Vec<Lint> {
         let source: Vec<_> = text.chars().collect();
         let source = Lrc::new(source);
 
-        let parser: Box<dyn Parser> = match language {
-            Language::Plain => Box::new(PlainEnglish),
-            // TODO: Have a way to configure the Markdown parser
-            Language::Markdown => Box::new(Markdown::default()),
-        };
+        let parser = language.create_parser();
 
         let document = Document::new_from_vec(source.clone(), &parser, &FullDictionary::curated());
 
@@ -134,10 +153,30 @@ impl Linter {
 
         remove_overlaps(&mut lints);
 
+        self.ignored_lints.remove_ignored(&mut lints, &document);
+
         lints
             .into_iter()
-            .map(|l| Lint::new(l, source.to_vec()))
+            .map(|l| Lint::new(l, source.to_vec(), language))
             .collect()
+    }
+
+    /// Export the linter's ignored lints as a privacy-respecting JSON list of hashes.
+    pub fn export_ignored_lints(&self) -> String {
+        serde_json::to_string(&self.ignored_lints).unwrap()
+    }
+
+    /// Import into the linter's ignored lints from a privacy-respecting JSON list of hashes.
+    pub fn import_ignored_lints(&mut self, json: String) -> Result<(), String> {
+        let list: IgnoredLints = serde_json::from_str(&json).map_err(|err| err.to_string())?;
+
+        self.ignored_lints.append(list);
+
+        Ok(())
+    }
+
+    pub fn clear_ignored_lints(&mut self) {
+        self.ignored_lints = IgnoredLints::new();
     }
 }
 
@@ -219,12 +258,21 @@ impl Suggestion {
 pub struct Lint {
     inner: harper_core::linting::Lint,
     source: Vec<char>,
+    language: Language,
 }
 
 #[wasm_bindgen]
 impl Lint {
-    pub(crate) fn new(inner: harper_core::linting::Lint, source: Vec<char>) -> Self {
-        Self { inner, source }
+    pub(crate) fn new(
+        inner: harper_core::linting::Lint,
+        source: Vec<char>,
+        language: Language,
+    ) -> Self {
+        Self {
+            inner,
+            source,
+            language,
+        }
     }
 
     /// Get the content of the source material pointed to by [`Self::span`]
@@ -234,6 +282,11 @@ impl Lint {
 
     /// Get a string representing the general category of the lint.
     pub fn lint_kind(&self) -> String {
+        self.inner.lint_kind.to_string_key()
+    }
+
+    /// Get a string representing the general category of the lint.
+    pub fn lint_kind_pretty(&self) -> String {
         self.inner.lint_kind.to_string()
     }
 
@@ -260,6 +313,25 @@ impl Lint {
     pub fn message(&self) -> String {
         self.inner.message.clone()
     }
+}
+
+#[wasm_bindgen]
+pub fn get_default_lint_config_as_json() -> String {
+    let mut config = LintGroupConfig::default();
+    config.fill_default_values();
+
+    serde_json::to_string(&config).unwrap()
+}
+
+#[wasm_bindgen]
+pub fn get_default_lint_config() -> JsValue {
+    let mut config = LintGroupConfig::default();
+    config.fill_default_values();
+
+    // Important for downstream JSON serialization
+    let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+
+    config.serialize(&serializer).unwrap()
 }
 
 /// A struct that represents two character indices in a string: a start and an end.

@@ -7819,6 +7819,7 @@ Pinkerton/21M
 Pinocchio/21M
 Pinochet/2M
 Pinter/2M
+Pinterest/21M
 Pinyin/21
 Pippin/2M
 Piraeus/2M
@@ -41527,7 +41528,7 @@ shawl/14MS
 shay/1MS
 she'd/
 she'll/
-she/81DSM~
+she/81DM~
 sheaf/14M
 shear/415MDRSZG
 shearer/1M
@@ -47557,6 +47558,7 @@ usurp/4SDRZG
 usurpation/1M
 usurper/1M
 usury/1M
+us/8
 utensil/1SM
 uteri/1
 uterine/51
@@ -49457,7 +49459,7 @@ you'd/
 you'll/
 you're/
 you've/
-you/841SMH~
+you/8SMH~
 young/514TMR
 youngish/5
 youngster/1MS
@@ -49773,3 +49775,27 @@ a8c/SM
 a11n/1
 a12s/9
 intergenerational
+etc.
+vs.
+et al.
+Laravel/M
+Typst/SM
+Lua/SM
+CMake/SM
+DBMS/12SM
+RDBMS/12SM
+WhatsApp/124MG
+VARCHAR/1MS
+DATETIME/1MS
+hardcode/4GDS
+subquery/14SGD
+CTE/1S
+unnest/4SGD
+ORM/12S
+NoSQL/1
+HQL/1
+CQL/1
+KSQL/1
+PRQL/1
+MapReduce/1
+SQLAlchemy/1

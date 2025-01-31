@@ -25,6 +25,8 @@ To install `harper-ls`, simply run:
 cargo install harper-ls --locked
 ```
 
+If you are on a Debian-based Linux distribution, you may need to install `build-essential`.
+
 ### Arch Linux
 
 Harper is available through the `extra` repo:
@@ -133,6 +135,12 @@ lspconfig.harper_ls.setup {
   },
 }
 ```
+
+<script>
+import DefaultNeovimConfig from "$lib/DefaultNeovimConfig.svelte"
+</script>
+
+<DefaultNeovimConfig/>
 
 By default, `harper-ls` will mark all diagnostics with HINT.
 If you want to configure this, refer below:

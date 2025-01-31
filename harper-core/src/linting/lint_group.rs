@@ -6,14 +6,19 @@ use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
+use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
+use super::lets_confusion::LetsConfusion;
 use super::linking_verbs::LinkingVerbs;
 use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
 use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::phrase_corrections::{
+    AndThis, Decision, HumanLife, NeedHelp, NoLonger, OfCourse, ThatChallenged, TurnItOff,
+};
 use super::plural_conjugate::PluralConjugate;
 use super::pronoun_contraction::PronounContraction;
 use super::proper_noun_capitalization_linters::{
@@ -22,6 +27,7 @@ use super::proper_noun_capitalization_linters::{
 };
 use super::repeated_words::RepeatedWords;
 use super::sentence_capitalization::SentenceCapitalization;
+use super::somewhat_something::SomewhatSomething;
 use super::spaces::Spaces;
 use super::spell_check::SpellCheck;
 use super::spelled_numbers::SpelledNumbers;
@@ -34,7 +40,7 @@ use super::{CurrencyPlacement, Lint, Linter, OxfordComma};
 use crate::{Dictionary, Document};
 
 macro_rules! create_lint_group_config {
-    ($($linter:ident => $default:expr),*) => {
+    ($($linter:ident => $default:expr),* $(,)?) => {
         paste! {
             /// A collection of all the descriptions from the composing linters.
             #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
@@ -54,6 +60,7 @@ macro_rules! create_lint_group_config {
                 }
             }
 
+            /// A collection of all officially supported
             #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
             pub struct LintGroupConfig {
                 $(
@@ -187,7 +194,18 @@ create_lint_group_config!(
     PluralConjugate => false,
     OxfordComma => true,
     PronounContraction => true,
-    CurrencyPlacement => true
+    CurrencyPlacement => true,
+    SomewhatSomething => true,
+    LetsConfusion => true,
+    DespiteOf => true,
+    AndThis => true,
+    Decision => true,
+    HumanLife => true,
+    NeedHelp => true,
+    NoLonger => true,
+    ThatChallenged => true,
+    TurnItOff => true,
+    OfCourse => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

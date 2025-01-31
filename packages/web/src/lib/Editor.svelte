@@ -7,6 +7,7 @@
 	import type { Lint } from 'harper.js';
 	import CheckMark from '$lib/CheckMark.svelte';
 	import { fly } from 'svelte/transition';
+	import lintKindColor from './lintKindColor';
 
 	export let content = demo;
 
@@ -79,10 +80,10 @@
 					on:click={() => (focused = i)}
 					bind:this={lintCards[i]}
 				>
-					<div class="pl-2 border-l-[3px] border-l-primary-500">
+					<div class={`pl-2`} style={`border-left: 4px solid ${lintKindColor(lint.lint_kind())}`}>
 						<div class="flex flex-row">
 							<h3 class="font-bold text-base p-0">
-								{lint.lint_kind()} - “<span class="italic">
+								{lint.lint_kind_pretty()} - “<span class="italic">
 									{lint.get_problem_text()}
 								</span>”
 							</h3>

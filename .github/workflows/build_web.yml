@@ -2,18 +2,26 @@ name: Build Web
 
 on:
   push:
-    branches: ["master", "web-prod"]
+    branches: ['master', 'web-prod']
   pull_request:
-    branches: ["master"]
+    branches: ['master']
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.node-version'
+      - name: Retrieve version after install
+        id: nodenv
+        run: echo "node-version=$(node -v | sed 's/^v//')" >> $GITHUB_OUTPUT
       - uses: redhat-actions/buildah-build@v2
         with:
           image: web
           layers: false
           containerfiles: |
             Dockerfile
+          build-args: NODE_VERSION=${{ steps.nodenv.outputs.node-version }}-slim
