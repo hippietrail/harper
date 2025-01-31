@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use super::lint::Suggestion;
+use super::Suggestion;
 use super::{Lint, LintKind, Linter};
 use crate::document::Document;
 use crate::{Token, TokenKind, TokenStringExt};

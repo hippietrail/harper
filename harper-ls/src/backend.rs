@@ -1,14 +1,13 @@
 use std::collections::HashMap;
-use std::path::{Component, PathBuf};
+use std::path::PathBuf;
 use std::sync::Arc;
 
 use anyhow::{anyhow, Context, Result};
 use harper_comments::CommentParser;
-use harper_core::linting::{LintGroup, Linter};
+use harper_core::linting::LintGroup;
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Markdown, Parser, PlainEnglish};
 use harper_core::{
-    Dictionary, Document, FstDictionary, FullDictionary, MergedDictionary, Token, TokenKind,
-    WordMetadata,
+    Dictionary, Document, FstDictionary, FullDictionary, MergedDictionary, WordMetadata,
 };
 use harper_html::HtmlParser;
 use harper_literate_haskell::LiterateHaskellParser;
@@ -19,24 +18,21 @@ use tower_lsp::jsonrpc::Result as JsonResult;
 use tower_lsp::lsp_types::notification::PublishDiagnostics;
 use tower_lsp::lsp_types::{
     CodeActionOrCommand, CodeActionParams, CodeActionProviderCapability, CodeActionResponse,
-    Command, ConfigurationItem, Diagnostic, DidChangeConfigurationParams,
-    DidChangeTextDocumentParams, DidChangeWatchedFilesParams,
-    DidChangeWatchedFilesRegistrationOptions, DidCloseTextDocumentParams,
-    DidOpenTextDocumentParams, DidSaveTextDocumentParams, ExecuteCommandOptions,
-    ExecuteCommandParams, FileChangeType, FileSystemWatcher, GlobPattern, InitializeParams,
-    InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams, Range,
-    Registration, ServerCapabilities, TextDocumentSyncCapability, TextDocumentSyncKind,
+    ConfigurationItem, Diagnostic, DidChangeConfigurationParams, DidChangeTextDocumentParams,
+    DidChangeWatchedFilesParams, DidChangeWatchedFilesRegistrationOptions,
+    DidCloseTextDocumentParams, DidOpenTextDocumentParams, DidSaveTextDocumentParams,
+    ExecuteCommandOptions, ExecuteCommandParams, FileChangeType, FileSystemWatcher, GlobPattern,
+    InitializeParams, InitializeResult, InitializedParams, MessageType, PublishDiagnosticsParams,
+    Range, Registration, ServerCapabilities, TextDocumentSyncCapability, TextDocumentSyncKind,
     TextDocumentSyncOptions, TextDocumentSyncSaveOptions, Url, WatchKind,
 };
 use tower_lsp::{Client, LanguageServer};
 use tracing::{error, info, warn};
 
 use crate::config::Config;
-use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};
-use crate::dictionary_io::{load_dict, save_dict};
+use crate::dictionary_io::{file_dict_name, load_dict, save_dict};
 use crate::document_state::DocumentState;
 use crate::git_commit_parser::GitCommitParser;
-use crate::pos_conv::range_to_span;
 
 pub struct Backend {
     client: Client,
@@ -53,33 +49,6 @@ impl Backend {
         }
     }
 
-    /// Rewrites a path to a filename using the same conventions as
-    /// [Neovim's undo-files](https://neovim.io/doc/user/options.html#'undodir').
-    fn file_dict_name(url: &Url) -> anyhow::Result<PathBuf> {
-        let mut rewritten = String::new();
-
-        // We assume all URLs are local files and have a base.
-        for seg in url
-            .to_file_path()
-            .map_err(|_| anyhow!("Unable to convert URL to file path."))?
-            .components()
-        {
-            if !matches!(seg, Component::RootDir) {
-                rewritten.push_str(&seg.as_os_str().to_string_lossy());
-                rewritten.push('%');
-            }
-        }
-
-        Ok(rewritten.into())
-    }
-
-    /// Get the location of the file's specific dictionary
-    async fn get_file_dict_path(&self, url: &Url) -> anyhow::Result<PathBuf> {
-        let config = self.config.read().await;
-
-        Ok(config.file_dict_path.join(Self::file_dict_name(url)?))
-    }
-
     /// Load a specific file's dictionary
     async fn load_file_dictionary(&self, url: &Url) -> anyhow::Result<FullDictionary> {
         let path = self
@@ -91,6 +60,13 @@ impl Backend {
             .await
             .map_err(|err| info!("{err}"))
             .or(Ok(FullDictionary::new()))
+    }
+
+    /// Compute the location of the file's specific dictionary
+    async fn get_file_dict_path(&self, url: &Url) -> anyhow::Result<PathBuf> {
+        let config = self.config.read().await;
+
+        Ok(config.file_dict_path.join(file_dict_name(url)?))
     }
 
     async fn save_file_dictionary(&self, url: &Url, dict: impl Dictionary) -> Result<()> {
@@ -176,6 +152,7 @@ impl Backend {
             linter: LintGroup::new(config_lock.lint_config, dict.clone()),
             language_id: language_id.map(|v| v.to_string()),
             dict: dict.clone(),
+            url: url.clone(),
             ..Default::default()
         });
 
@@ -294,36 +271,7 @@ impl Backend {
             return Ok(Vec::new());
         };
 
-        let mut lints = doc_state.linter.lint(&doc_state.document);
-        lints.sort_by_key(|l| l.priority);
-
-        let source_chars = doc_state.document.get_full_content();
-
-        // Find lints whole span overlaps with range
-        let span = range_to_span(source_chars, range).with_len(1);
-
-        let mut actions: Vec<CodeActionOrCommand> = lints
-            .into_iter()
-            .filter(|lint| lint.span.overlaps_with(span))
-            .flat_map(|lint| {
-                lint_to_code_actions(&lint, url, source_chars, &config.code_action_config)
-            })
-            .collect();
-
-        if let Some(Token {
-            kind: TokenKind::Url,
-            span,
-            ..
-        }) = doc_state.document.get_token_at_char_index(span.start)
-        {
-            actions.push(CodeActionOrCommand::Command(Command::new(
-                "Open URL".to_string(),
-                "HarperOpen".to_string(),
-                Some(vec![doc_state.document.get_span_content_str(span).into()]),
-            )))
-        }
-
-        Ok(actions)
+        Ok(doc_state.generate_code_actions(range, &config.code_action_config))
     }
 
     async fn generate_diagnostics(&self, url: &Url) -> Vec<Diagnostic> {
@@ -332,14 +280,9 @@ impl Backend {
             return Vec::new();
         };
 
-        let lints = doc_state.linter.lint(&doc_state.document);
         let config = self.config.read().await;
 
-        lints_to_diagnostics(
-            doc_state.document.get_full_content(),
-            &lints,
-            config.diagnostic_severity,
-        )
+        doc_state.generate_diagnostics(config.diagnostic_severity)
     }
 
     async fn publish_diagnostics(&self, url: &Url) {
@@ -393,6 +336,7 @@ impl LanguageServer for Backend {
                         "HarperAddToUserDict".to_owned(),
                         "HarperAddToFileDict".to_owned(),
                         "HarperOpen".to_owned(),
+                        "HarperIgnoreLint".to_owned(),
                     ],
                     ..Default::default()
                 }),
@@ -513,8 +457,8 @@ impl LanguageServer for Backend {
     async fn execute_command(&self, params: ExecuteCommandParams) -> JsonResult<Option<Value>> {
         let mut string_args = params
             .arguments
-            .into_iter()
-            .map(|v| serde_json::from_value::<String>(v).unwrap());
+            .iter()
+            .map(|v| serde_json::from_value::<String>(v.clone()).unwrap());
 
         let Some(first) = string_args.next() else {
             return Ok(None);
@@ -590,6 +534,34 @@ impl LanguageServer for Backend {
                     error!("Unable to open URL: {}", err);
                 }
             },
+            "HarperIgnoreLint" => {
+                let Ok(url) = Url::parse(&first) else {
+                    error!("Unable to parse URL from command: {first}");
+                    return Ok(None);
+                };
+
+                let Some(second) = params.arguments.into_iter().nth(1) else {
+                    error!("Not enough arguments to HarperIgnoreLint");
+                    return Ok(None);
+                };
+
+                let Ok(lint) = serde_json::from_value(second) else {
+                    error!("Unable to parse lint.");
+                    return Ok(None);
+                };
+
+                let mut doc_lock = self.doc_state.lock().await;
+                let Some(doc_state) = doc_lock.get_mut(&url) else {
+                    error!("Requested document has not been loaded.");
+                    return Ok(None);
+                };
+
+                doc_state.ignore_lint(&lint);
+
+                drop(doc_lock);
+
+                self.publish_diagnostics(&url).await;
+            }
             _ => (),
         }
 

@@ -17,6 +17,7 @@ function suggestionToLabel(sug: Suggestion) {
 }
 
 export type Settings = {
+	ignoredLints?: string;
 	useWebWorker: boolean;
 	lintSettings: LintConfig;
 };
@@ -36,10 +37,20 @@ export default class HarperPlugin extends Plugin {
 			settings = { useWebWorker: true, lintSettings: {} };
 		}
 
-		if (settings.useWebWorker) {
-			this.harper = new WorkerLinter();
+		const oldSettings = await this.getSettings();
+
+		if (settings.useWebWorker != oldSettings.useWebWorker) {
+			if (settings.useWebWorker) {
+				this.harper = new WorkerLinter();
+			} else {
+				this.harper = new LocalLinter();
+			}
 		} else {
-			this.harper = new LocalLinter();
+			await this.harper.clearIgnoredLints();
+		}
+
+		if (settings.ignoredLints !== undefined) {
+			await this.harper.importIgnoredLints(settings.ignoredLints);
 		}
 
 		await this.harper.setLintConfig(settings.lintSettings);
@@ -54,10 +65,16 @@ export default class HarperPlugin extends Plugin {
 		await this.saveData(settings);
 	}
 
+	public async reinitialize() {
+		const settings = await this.getSettings();
+		await this.initializeFromSettings(settings);
+	}
+
 	public async getSettings(): Promise<Settings> {
 		const usingWebWorker = this.harper instanceof WorkerLinter;
 
 		return {
+			ignoredLints: await this.harper.exportIgnoredLints(),
 			useWebWorker: usingWebWorker,
 			lintSettings: await this.harper.getLintConfig()
 		};
@@ -157,6 +174,10 @@ export default class HarperPlugin extends Plugin {
 						severity: 'error',
 						title: lint.lint_kind(),
 						message: lint.message(),
+						ignore: async () => {
+							await this.harper.ignoreLint(lint);
+							await this.reinitialize();
+						},
 						actions: lint.suggestions().map((sug) => {
 							return {
 								name: suggestionToLabel(sug),

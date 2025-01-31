@@ -38,3 +38,4 @@ macro_rules! create_test {
 
 create_test!(run_on.html, 0);
 create_test!(issue_156.html, 0);
+create_test!(issue_541.html, 0);

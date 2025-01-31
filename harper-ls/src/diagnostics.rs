@@ -69,6 +69,15 @@ pub fn lint_to_code_actions<'a>(
             .map(CodeActionOrCommand::CodeAction),
     );
 
+    results.push(CodeActionOrCommand::Command(Command {
+        title: "Ignore Harper error.".to_owned(),
+        command: "HarperIgnoreLint".to_owned(),
+        arguments: Some(vec![
+            serde_json::Value::String(url.to_string()),
+            serde_json::to_value(lint).unwrap(),
+        ]),
+    }));
+
     if lint.lint_kind.is_spelling() {
         let orig = lint.span.get_content_string(source);
 
@@ -83,10 +92,10 @@ pub fn lint_to_code_actions<'a>(
             "HarperAddToFileDict".to_string(),
             Some(vec![orig.into(), url.to_string().into()]),
         )));
+    }
 
-        if config.force_stable {
-            results.reverse();
-        }
+    if config.force_stable {
+        results.reverse();
     }
 
     results
