@@ -25,7 +25,7 @@ To install `harper-ls`, simply run:
 cargo install harper-ls --locked
 ```
 
-If you have issues with a missing `algorithm` file and you're on a Debian-based Linux distribution, try installing `libstdc++-14-dev`.
+If you are on a Debian-based Linux distribution, you may need to install `build-essential`.
 
 ### Arch Linux
 
