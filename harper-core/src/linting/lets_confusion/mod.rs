@@ -9,7 +9,7 @@ merge_linters!(LetsConfusion => LetUsRedundancy, NoContractionWithVerb => "It's 
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::assert_suggestion_result;
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::LetsConfusion;
 
@@ -45,5 +45,14 @@ mod tests {
     #[test]
     fn issue_470_missing_subject() {
         assert_suggestion_result("let play", LetsConfusion::default(), "let's play");
+    }
+
+    #[test]
+    fn issue_548() {
+        assert_lint_count(
+            "A simple web app that lets you fetch random issues.",
+            LetsConfusion::default(),
+            0,
+        );
     }
 }
