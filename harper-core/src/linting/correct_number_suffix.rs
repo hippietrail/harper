@@ -11,7 +11,9 @@ impl Linter for CorrectNumberSuffix {
         let mut output = Vec::new();
 
         for number_tok in document.iter_numbers() {
-            let suffix_span = Span::new_with_len(number_tok.span.end, 2).pulled_by(2);
+            let Some(suffix_span) = Span::new_with_len(number_tok.span.end, 2).pulled_by(2) else {
+                continue;
+            };
 
             if let TokenKind::Number(number, Some(suffix)) = number_tok.kind {
                 if let Some(correct_suffix) = NumberSuffix::correct_suffix_for(number) {

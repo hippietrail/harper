@@ -56,6 +56,16 @@ export class HarperSettingTab extends PluginSettingTab {
 						})
 				);
 		}
+
+		new Setting(containerEl).setName('The Danger Zone').addButton((button) => {
+			button
+				.setButtonText('Forget Ignored Suggestions')
+				.onClick(() => {
+					this.settings.ignoredLints = undefined;
+					this.plugin.initializeFromSettings(this.settings);
+				})
+				.setWarning();
+		});
 	}
 }
 

@@ -1,9 +1,10 @@
 use harper_core::parsers::{self, Parser, PlainEnglish};
-use harper_core::Token;
+use harper_core::{Token, TokenKind};
 use harper_tree_sitter::TreeSitterMasker;
 use tree_sitter::Node;
 
 pub struct HtmlParser {
+    /// Used to grab the text nodes.
     inner: parsers::Mask<TreeSitterMasker, PlainEnglish>,
 }
 
@@ -26,6 +27,14 @@ impl Default for HtmlParser {
 
 impl Parser for HtmlParser {
     fn parse(&self, source: &[char]) -> Vec<Token> {
-        self.inner.parse(source)
+        let mut tokens = self.inner.parse(source);
+
+        for token in &mut tokens {
+            if let TokenKind::Space(v) = &mut token.kind {
+                *v = (*v).clamp(0, 1);
+            }
+        }
+
+        tokens
     }
 }

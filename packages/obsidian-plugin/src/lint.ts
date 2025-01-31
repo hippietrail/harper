@@ -50,6 +50,8 @@ export interface Diagnostic {
 	/// An optional array of actions that can be taken on this
 	/// diagnostic.
 	actions?: readonly Action[];
+	/// A callback for when the user selects to "ignore" the diagnostic.
+	ignore?: () => void;
 }
 
 /// An action associated with a diagnostic.
@@ -420,6 +422,20 @@ function renderDiagnostic(view: EditorView, diagnostic: Diagnostic, inPanel: boo
 				nameElt
 			);
 		}),
+		diagnostic.ignore &&
+			elt(
+				'div',
+				{
+					class: 'cm-diagnosticIgnore',
+					onclick: (e) => {
+						e.preventDefault();
+						if (diagnostic.ignore) {
+							diagnostic.ignore();
+						}
+					}
+				},
+				'Ignore Diagnostic'
+			),
 		diagnostic.source && elt('div', { class: 'cm-diagnosticSource' }, diagnostic.source)
 	);
 }
@@ -498,6 +514,16 @@ const baseTheme = EditorView.baseTheme({
 	'.cm-diagnosticSource': {
 		fontSize: '70%',
 		opacity: 0.7
+	},
+
+	'.cm-diagnosticIgnore': {
+		color: 'black',
+		padding: 'var(--size-4-1) 0px',
+		fontSize: 'var(--font-ui-small)'
+	},
+
+	'.cm-diagnosticIgnore:hover': {
+		textDecoration: 'underline'
 	},
 
 	'.cm-lintRange': {

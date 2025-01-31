@@ -131,6 +131,44 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 			expect(value).not.toBeNull();
 		}
 	});
+
+	test(`${linterName} can ignore lints`, async () => {
+		const linter = new Linter();
+		const source = 'This is an test.';
+
+		const firstRound = await linter.lint(source);
+
+		expect(firstRound.length).toBeGreaterThanOrEqual(1);
+
+		await linter.ignoreLint(firstRound[0]);
+
+		const secondRound = await linter.lint(source);
+
+		expect(secondRound.length).toBeLessThan(firstRound.length);
+	});
+
+	test(`${linterName} can reimport ignored lints.`, async () => {
+		const source = 'This is an test of xporting lints.';
+
+		const firstLinter = new Linter();
+
+		const firstLints = await firstLinter.lint(source);
+
+		for (const lint of firstLints) {
+			await firstLinter.ignoreLint(lint);
+		}
+
+		const exported = await firstLinter.exportIgnoredLints();
+
+		/// Create a new instance and reimport the lints.
+		const secondLinter = new Linter();
+		await secondLinter.importIgnoredLints(exported);
+
+		const secondLints = await secondLinter.lint(source);
+
+		expect(firstLints.length).toBeGreaterThan(secondLints.length);
+		expect(secondLints.length).toBe(0);
+	});
 }
 
 test('Linters have the same config format', async () => {
