@@ -2,8 +2,9 @@ use hashbrown::HashSet;
 use paste::paste;
 
 use super::whitespace_pattern::WhitespacePattern;
-use super::{NounPhrase, Pattern, RepeatingPattern, WordSet};
-use crate::{CharStringExt, Lrc, Token, TokenKind};
+use super::{AnyCapitalization, NounPhrase, Pattern, RepeatingPattern, WordSet};
+use crate::Lrc;
+use crate::{CharStringExt, Token, TokenKind};
 
 /// A pattern that checks that a sequence of other patterns match.
 /// There are specific extension methods available, but you can also use [`Self::then`] to add
@@ -131,24 +132,7 @@ impl SequencePattern {
     /// Match examples of `word` that have any capitalization.
     pub fn then_any_capitalization_of(mut self, word: &'static str) -> Self {
         self.token_patterns
-            .push(Box::new(|tok: &Token, source: &[char]| {
-                if !tok.kind.is_word() {
-                    return false;
-                }
-
-                let tok_chars = tok.span.get_content(source);
-
-                if tok_chars.len() != word.chars().count() {
-                    return false;
-                }
-
-                let partial_match = tok_chars
-                    .iter()
-                    .zip(word.chars())
-                    .all(|(a, b)| a.eq_ignore_ascii_case(&b));
-
-                partial_match
-            }));
+            .push(Box::new(AnyCapitalization::from_string(word)));
         self
     }
 

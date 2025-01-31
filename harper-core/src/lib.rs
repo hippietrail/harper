@@ -5,6 +5,7 @@ mod char_ext;
 mod char_string;
 mod currency;
 mod document;
+mod edit_distance;
 mod fat_token;
 pub mod language_detection;
 mod lexing;

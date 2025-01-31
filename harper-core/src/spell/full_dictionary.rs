@@ -1,8 +1,8 @@
 use super::{
-    edit_distance_min_alloc,
     hunspell::{parse_default_attribute_list, parse_default_word_list},
     seq_to_normalized,
 };
+use crate::edit_distance::edit_distance_min_alloc;
 use hashbrown::HashMap;
 use itertools::Itertools;
 use lazy_static::lazy_static;

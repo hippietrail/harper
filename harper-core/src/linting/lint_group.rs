@@ -16,6 +16,9 @@ use super::matcher::Matcher;
 use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::phrase_corrections::{
+    AndThis, Decision, HumanLife, NeedHelp, NoLonger, ThatChallenged, TurnItOff,
+};
 use super::plural_conjugate::PluralConjugate;
 use super::pronoun_contraction::PronounContraction;
 use super::proper_noun_capitalization_linters::{
@@ -195,6 +198,13 @@ create_lint_group_config!(
     SomewhatSomething => true,
     LetsConfusion => true,
     DespiteOf => true,
+    AndThis => true,
+    Decision => true,
+    HumanLife => true,
+    NeedHelp => true,
+    NoLonger => true,
+    ThatChallenged => true,
+    TurnItOff => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
