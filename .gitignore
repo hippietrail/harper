@@ -2,3 +2,4 @@ target
 build
 .idea
 .vscode
+.DS_Store
