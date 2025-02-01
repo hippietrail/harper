@@ -25,6 +25,8 @@ To install `harper-ls`, simply run:
 cargo install harper-ls --locked
 ```
 
+If you are on a Debian-based Linux distribution, you may need to install `build-essential`.
+
 ### Arch Linux
 
 Harper is available through the `extra` repo:

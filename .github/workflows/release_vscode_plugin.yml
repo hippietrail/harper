@@ -68,6 +68,7 @@ jobs:
           pat: ${{ secrets.OPEN_VSX_TOKEN }}
           packagePath: "./packages/vscode-plugin/"
           extensionFile: ${{ steps.package_extension.outputs.artifact }}
+          skipDuplicate: true
       - name: Publish to the Visual Studio Marketplace
         uses: HaaLeo/publish-vscode-extension@v1
         with:

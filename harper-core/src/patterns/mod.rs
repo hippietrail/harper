@@ -9,6 +9,8 @@ use std::collections::VecDeque;
 
 use crate::{Document, Span, Token, VecExt};
 
+mod all;
+mod any_capitalization;
 mod any_pattern;
 mod consumes_remaining_pattern;
 mod either_pattern;
@@ -18,11 +20,15 @@ mod naive_pattern_group;
 mod noun_phrase;
 mod repeating_pattern;
 mod sequence_pattern;
+mod similar_to_phrase;
 mod token_kind_pattern_group;
 mod whitespace_pattern;
+mod within_edit_distance;
 mod word_pattern_group;
 mod word_set;
 
+pub use all::All;
+pub use any_capitalization::AnyCapitalization;
 pub use any_pattern::AnyPattern;
 use blanket::blanket;
 pub use consumes_remaining_pattern::ConsumesRemainingPattern;
@@ -33,6 +39,7 @@ pub use naive_pattern_group::NaivePatternGroup;
 pub use noun_phrase::NounPhrase;
 pub use repeating_pattern::RepeatingPattern;
 pub use sequence_pattern::SequencePattern;
+pub use similar_to_phrase::SimilarToPhrase;
 pub use token_kind_pattern_group::TokenKindPatternGroup;
 pub use whitespace_pattern::WhitespacePattern;
 pub use word_pattern_group::WordPatternGroup;
@@ -73,8 +80,6 @@ where
         if found.len() < 2 {
             return found;
         }
-
-        found.sort_by_key(|s| s.start);
 
         let mut remove_indices = VecDeque::new();
 
