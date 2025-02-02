@@ -203,9 +203,9 @@ fn lex_catch(_source: &[char]) -> Option<FoundToken> {
 
 #[cfg(test)]
 mod tests {
+    use super::lex_hex_number;
     use super::lex_token;
     use super::lex_word;
-    use super::lex_hex_number;
     use super::{FoundToken, TokenKind};
 
     #[test]
@@ -251,12 +251,7 @@ mod tests {
 
     #[test]
     fn lexes_bad_hex() {
-        let cases = [
-            "0x",
-            "0xg",
-            "0x123g",
-            "0Xf00d",
-        ];
+        let cases = ["0x", "0xg", "0x123g", "0Xf00d"];
 
         for &case in &cases {
             let source: Vec<_> = case.chars().collect();
