@@ -25,7 +25,7 @@ pub fn lex_token(source: &[char]) -> Option<FoundToken> {
         lex_tabs,
         lex_spaces,
         lex_newlines,
-        lex_hex_number,
+        lex_hex_number, // before lex_number, which would match the initial 0
         lex_number,
         lex_url,
         lex_email_address,
@@ -92,28 +92,36 @@ pub fn lex_number(source: &[char]) -> Option<FoundToken> {
 }
 
 pub fn lex_hex_number(source: &[char]) -> Option<FoundToken> {
-    if source.len() < 3 || source[0] != '0' || source[1] != 'x' {
+    // < 3 to avoid accepting 0x alone
+    if source.len() < 3 || source[0] != '0' || source[1] != 'x' || !source[2].is_ascii_hexdigit() {
         return None;
     }
 
-    let end = &source[2..]
-        .iter()
-        .enumerate()
-        .rev()
-        .find_map(|(i, v)| v.is_ascii_hexdigit().then_some(i))?;
+    let mut i = 2;
+    let len = source.len();
 
-    let mut s: String = source[2..end + 2 + 1].iter().collect();
+    while i < len {
+        let next = source[i];
 
-    // Find the longest possible valid number
-    while !s.is_empty() {
-        if let Ok(n) = u64::from_str_radix(&s, 16) {
-            return Some(FoundToken {
-                token: TokenKind::Number(OrderedFloat(n as f64), None),
-                next_index: s.len() + 2,
-            });
+        if !next.is_ascii_hexdigit() {
+            if !next.is_alphanumeric() {
+                break;
+            } else {
+                return None;
+            }
         }
 
-        s.pop();
+        i += 1;
+    }
+
+    let s: String = source[2..i].iter().collect();
+
+    // Should always succeed unless the logic above is broken
+    if let Ok(n) = u64::from_str_radix(&s, 16) {
+        return Some(FoundToken {
+            token: TokenKind::Number(OrderedFloat(n as f64), None),
+            next_index: s.len() + 2,
+        });
     }
 
     None
@@ -197,6 +205,7 @@ fn lex_catch(_source: &[char]) -> Option<FoundToken> {
 mod tests {
     use super::lex_token;
     use super::lex_word;
+    use super::lex_hex_number;
     use super::{FoundToken, TokenKind};
 
     #[test]
@@ -215,5 +224,43 @@ mod tests {
                 ..
             })
         ));
+    }
+
+    #[test]
+    fn lexes_good_hex() {
+        let cases = [
+            "0x0",
+            "0xa",
+            "0xF",
+            "0xaF",
+            "0x0123456789abcdef",
+            "0xAbCdEf9876543210",
+        ];
+
+        for case in cases {
+            let source: Vec<_> = case.chars().collect();
+            assert!(matches!(
+                lex_hex_number(&source),
+                Some(FoundToken {
+                    token: TokenKind::Number(_, None),
+                    ..
+                })
+            ));
+        }
+    }
+
+    #[test]
+    fn lexes_bad_hex() {
+        let cases = [
+            "0x",
+            "0xg",
+            "0x123g",
+            "0Xf00d",
+        ];
+
+        for &case in &cases {
+            let source: Vec<_> = case.chars().collect();
+            assert!(lex_hex_number(&source).is_none());
+        }
     }
 }
