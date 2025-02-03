@@ -10,7 +10,7 @@ It just depends on which editor and marketplace you're using.
 If you use the official Microsoft Visual Studio Code release, go ahead and go to the marketplace and search for "Harper" and click "Install".
 You can also visit our [official page](https://marketplace.visualstudio.com/items?itemName=elijah-potter.harper&ssr=false#overview).
 
-If you use OpenVSX, for instance if you use VSCodium, you'll want to install from [here](https://open-vsx.org/extension/automattic/harper).
+If you use OpenVSX, for instance if you use VSCodium, you'll want to install from [here](https://open-vsx.org/extension/elijah-potter/harper).
 
 ### Commands
 
