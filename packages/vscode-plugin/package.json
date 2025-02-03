@@ -35,6 +35,7 @@
 		"onLanguage:cmake",
 		"onLanguage:cpp",
 		"onLanguage:csharp",
+		"onLanguage:dart",
 		"onLanguage:git-commit",
 		"onLanguage:go",
 		"onLanguage:haskell",
@@ -46,6 +47,7 @@
 		"onLanguage:lua",
 		"onLanguage:markdown",
 		"onLanguage:nix",
+		"onLanguage:php",
 		"onLanguage:plaintext",
 		"onLanguage:python",
 		"onLanguage:ruby",
@@ -55,9 +57,7 @@
 		"onLanguage:toml",
 		"onLanguage:typescript",
 		"onLanguage:typescriptreact",
-		"onLanguage:typst",
-		"onLanguage:php",
-		"onLanguage:dart"
+		"onLanguage:typst"
 	],
 	"main": "./build/extension.js",
 	"contributes": {
