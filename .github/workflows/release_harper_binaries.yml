@@ -115,4 +115,3 @@ jobs:
         with:
           name: ${{ matrix.platform.bin }}-${{ matrix.platform.target }}
           path: ${{ matrix.platform.name }}
-

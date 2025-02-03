@@ -279,7 +279,7 @@ userdictoverlap:
 getmetadata word:
   cargo run --bin harper-cli -- metadata {{word}}
 
-bump-versions:
+bump-versions: update-vscode-linters
   #! /bin/bash
   set -eo pipefail
 
