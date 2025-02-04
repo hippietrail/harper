@@ -72,7 +72,6 @@ create_linter_for_phrase!(HumanLife, "human life", 1);
 create_linter_for_phrase!(ThatChallenged, "that challenged", 2);
 create_linter_for_phrase!(NoLonger, "no longer", 1);
 create_linter_for_phrase!(NeedHelp, "need help", 1);
-create_linter_for_phrase!(AndThis, "and this", 1);
 create_linter_for_phrase!(Decision, "make a decision", 1);
 create_linter_for_phrase!(OfCourse, "of course", 1);
 

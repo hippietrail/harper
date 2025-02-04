@@ -64,7 +64,7 @@ pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
 pub use phrase_corrections::{
-    AndThis, Decision, HumanLife, NeedHelp, NoLonger, OfCourse, ThatChallenged, TurnItOff,
+    Decision, HumanLife, NeedHelp, NoLonger, OfCourse, ThatChallenged, TurnItOff,
 };
 pub use plural_conjugate::PluralConjugate;
 pub use pronoun_contraction::PronounContraction;

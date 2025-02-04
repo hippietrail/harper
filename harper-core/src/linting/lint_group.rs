@@ -17,7 +17,7 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
-    AndThis, Decision, HumanLife, NeedHelp, NoLonger, OfCourse, ThatChallenged, TurnItOff,
+    Decision, HumanLife, NeedHelp, NoLonger, OfCourse, ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
 use super::pronoun_contraction::PronounContraction;
@@ -198,7 +198,6 @@ create_lint_group_config!(
     SomewhatSomething => true,
     LetsConfusion => true,
     DespiteOf => true,
-    AndThis => true,
     Decision => true,
     HumanLife => true,
     NeedHelp => true,
