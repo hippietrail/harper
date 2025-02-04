@@ -67,8 +67,8 @@ macro_rules! create_linter_for_phrase {
     };
 }
 
-create_linter_for_phrase!(TurnItOff, "turn it off", 2);
-create_linter_for_phrase!(HumanLife, "human life", 2);
+create_linter_for_phrase!(TurnItOff, "turn it off", 1);
+create_linter_for_phrase!(HumanLife, "human life", 1);
 create_linter_for_phrase!(ThatChallenged, "that challenged", 2);
 create_linter_for_phrase!(NoLonger, "no longer", 1);
 create_linter_for_phrase!(NeedHelp, "need help", 1);
@@ -81,6 +81,11 @@ mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::{Decision, OfCourse, TurnItOff};
+
+    #[test]
+    fn issue_574() {
+        assert_lint_count("run by one", TurnItOff::default(), 0);
+    }
 
     #[test]
     fn turn_it_off_clean_lower() {
