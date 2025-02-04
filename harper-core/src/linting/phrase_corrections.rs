@@ -78,7 +78,7 @@ create_linter_for_phrase!(BadRap, "bad rap", 1);
 create_linter_for_phrase!(BatedBreath, "bated breath", 1);
 create_linter_for_phrase!(BeckAndCall, "beck and call", 1);
 create_linter_for_phrase!(ChangeTack, "change tack", 1);
-create_linter_for_phrase!(HungerPang, "hunger pang", 3);
+create_linter_for_phrase!(HungerPang, "hunger pang", 2);
 create_linter_for_phrase!(EnMasse, "en masse", 1);
 create_linter_for_phrase!(LetAlone, "let alone", 1);
 create_linter_for_phrase!(LoAndBehold, "lo and behold", 2);
