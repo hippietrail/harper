@@ -36,7 +36,7 @@ use super::that_which::ThatWhich;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
 use super::wrong_quotes::WrongQuotes;
-use super::{CurrencyPlacement, Lint, Linter, OxfordComma};
+use super::{CurrencyPlacement, Lint, Linter, NoOxfordComma, OxfordComma};
 use crate::{Dictionary, Document};
 
 macro_rules! create_lint_group_config {
@@ -193,6 +193,7 @@ create_lint_group_config!(
     MergeWords => true,
     PluralConjugate => false,
     OxfordComma => true,
+    NoOxfordComma => true,
     PronounContraction => true,
     CurrencyPlacement => true,
     SomewhatSomething => true,

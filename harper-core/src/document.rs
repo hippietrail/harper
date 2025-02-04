@@ -551,6 +551,7 @@ impl TokenStringExt for Document {
     create_fns_on_doc!(punctuation);
     create_fns_on_doc!(currency);
     create_fns_on_doc!(likely_homograph);
+    create_fns_on_doc!(comma);
 
     fn first_sentence_word(&self) -> Option<Token> {
         self.tokens.first_sentence_word()
