@@ -1,5 +1,5 @@
 import logoSvg from '../logo.svg';
-import { Plugin, Menu, PluginManifest, App } from 'obsidian';
+import { Plugin, Menu, PluginManifest, App, Notice } from 'obsidian';
 import { LintConfig, Linter, Suggestion } from 'harper.js';
 import { LocalLinter, SuggestionKind, WorkerLinter } from 'harper.js';
 import { linter } from './lint';
@@ -81,6 +81,11 @@ export default class HarperPlugin extends Plugin {
 	}
 
 	async onload() {
+		if (typeof Response == 'undefined') {
+			new Notice('Please update your Electron version before running Harper.', 0);
+			return;
+		}
+
 		const data = await this.loadData();
 		await this.initializeFromSettings(data);
 		this.registerEditorExtension(this.editorExtensions);
