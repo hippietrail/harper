@@ -72,9 +72,7 @@ create_linter_for_phrase!(HumanLife, "human life", 1);
 create_linter_for_phrase!(ThatChallenged, "that challenged", 2);
 create_linter_for_phrase!(NoLonger, "no longer", 1);
 create_linter_for_phrase!(NeedHelp, "need help", 1);
-create_linter_for_phrase!(Decision, "make a decision", 1);
 create_linter_for_phrase!(OfCourse, "of course", 1);
-
 create_linter_for_phrase!(AndAlike, "and alike", 1);
 create_linter_for_phrase!(BadRap, "bad rap", 1);
 create_linter_for_phrase!(BatedBreath, "bated breath", 1);
@@ -93,8 +91,8 @@ mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::{
-        BadRap, BatedBreath, ChangeTack, Decision, EnMasse, HungerPang, LetAlone, LoAndBehold,
-        MootPoint, OfCourse, SneakingSuspicion, SupposeTo, TurnItOff,
+        BadRap, BatedBreath, ChangeTack, EnMasse, HungerPang, LetAlone, LoAndBehold, MootPoint,
+        OfCourse, SneakingSuspicion, SupposeTo, TurnItOff,
     };
 
     #[test]
@@ -120,15 +118,6 @@ mod tests {
     #[test]
     fn i_and_of_confusion() {
         assert_suggestion_result("Turn i of", TurnItOff::default(), "Turn it off");
-    }
-
-    #[test]
-    fn take_a_decision() {
-        assert_suggestion_result(
-            "we should take a decision on this",
-            Decision::default(),
-            "we should make a decision on this",
-        );
     }
 
     #[test]
