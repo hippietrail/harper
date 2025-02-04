@@ -18,7 +18,7 @@ use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
-    LetAlone, LoAndBehold, MootPoint, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SupposeTo,
+    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SupposeTo,
     ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
@@ -215,7 +215,6 @@ create_lint_group_config!(
     EnMasse => true,
     LetAlone => true,
     LoAndBehold => true,
-    MootPoint => true,
     SneakingSuspicion => true,
     SupposeTo => true
 );

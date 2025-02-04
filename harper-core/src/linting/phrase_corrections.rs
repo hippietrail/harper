@@ -82,7 +82,6 @@ create_linter_for_phrase!(HungerPang, "hunger pang", 3);
 create_linter_for_phrase!(EnMasse, "en masse", 1);
 create_linter_for_phrase!(LetAlone, "let alone", 1);
 create_linter_for_phrase!(LoAndBehold, "lo and behold", 2);
-create_linter_for_phrase!(MootPoint, "moot point", 3);
 create_linter_for_phrase!(SneakingSuspicion, "sneaking suspicion", 3);
 create_linter_for_phrase!(SupposeTo, "suppose to", 1);
 
@@ -91,8 +90,8 @@ mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::{
-        BadRap, BatedBreath, ChangeTack, EnMasse, HungerPang, LetAlone, LoAndBehold, MootPoint,
-        OfCourse, SneakingSuspicion, SupposeTo, TurnItOff,
+        BadRap, BatedBreath, ChangeTack, EnMasse, HungerPang, LetAlone, LoAndBehold, OfCourse,
+        SneakingSuspicion, SupposeTo, TurnItOff,
     };
 
     #[test]
@@ -171,11 +170,6 @@ mod tests {
     #[test]
     fn long_and_behold() {
         assert_suggestion_result("long and behold", LoAndBehold::default(), "lo and behold");
-    }
-
-    #[test]
-    fn mute_point() {
-        assert_suggestion_result("mute point", MootPoint::default(), "moot point");
     }
 
     #[test]
