@@ -49,6 +49,7 @@ fn generate_lint_for_tokens(a: Token, b: Token, document: &Document) -> Option<L
 
     let span = matched_tokens.span().unwrap();
 
+    dbg!(number);
     let correct: Vec<_> = currency.format_amount(number).chars().collect();
     let actual = document.get_span_content(span);
 
@@ -137,5 +138,10 @@ mod tests {
             CurrencyPlacement::default(),
             "It was my $20th.",
         );
+    }
+
+    #[test]
+    fn seven_even_two_decimal_clean() {
+        assert_lint_count("$7.00", CurrencyPlacement::default(), 0);
     }
 }

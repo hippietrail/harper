@@ -9,11 +9,16 @@ pub struct Number {
     pub value: OrderedFloat<f64>,
     pub suffix: Option<NumberSuffix>,
     pub radix: u32,
+    pub precision: usize,
 }
 
 impl Display for Number {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.value)?;
+        if self.radix == 16 {
+            write!(f, "0x{:X}", self.value.0 as u64)?;
+        } else {
+            write!(f, "{:.*}", self.precision, self.value.0)?;
+        }
 
         if let Some(suffix) = self.suffix {
             for c in suffix.to_chars() {
@@ -100,5 +105,70 @@ impl NumberSuffix {
             ('R', 'D') => Some(NumberSuffix::Rd),
             _ => None,
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use ordered_float::OrderedFloat;
+
+    use crate::NumberSuffix;
+
+    use super::Number;
+
+    #[test]
+    fn hex_fifteen() {
+        assert_eq!(
+            Number {
+                value: OrderedFloat(15.0),
+                suffix: None,
+                radix: 16,
+                precision: 0
+            }
+            .to_string(),
+            "0xF"
+        )
+    }
+
+    #[test]
+    fn decimal_fifteen() {
+        assert_eq!(
+            Number {
+                value: OrderedFloat(15.0),
+                suffix: None,
+                radix: 10,
+                precision: 0
+            }
+            .to_string(),
+            "15"
+        )
+    }
+
+    #[test]
+    fn decimal_fifteen_suffix() {
+        assert_eq!(
+            Number {
+                value: OrderedFloat(15.0),
+                suffix: Some(NumberSuffix::Th),
+                radix: 10,
+                precision: 0
+            }
+            .to_string(),
+            "15th"
+        )
+    }
+
+    #[test]
+    fn decimal_fifteen_and_a_half() {
+        assert_eq!(
+            Number {
+                value: OrderedFloat(15.5),
+                suffix: None,
+                radix: 10,
+                precision: 2
+            }
+            .to_string(),
+            "15.50"
+        )
     }
 }

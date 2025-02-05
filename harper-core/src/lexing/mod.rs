@@ -79,11 +79,14 @@ pub fn lex_number(source: &[char]) -> Option<FoundToken> {
     // Find the longest possible valid number
     while !s.is_empty() {
         if let Ok(n) = s.parse::<f64>() {
+            let precision = s.chars().rev().position(|c| c == '.').unwrap_or_default();
+
             return Some(FoundToken {
                 token: TokenKind::Number(Number {
                     value: n.into(),
                     suffix: None,
                     radix: 10,
+                    precision,
                 }),
                 next_index: s.len(),
             });
@@ -127,6 +130,7 @@ pub fn lex_hex_number(source: &[char]) -> Option<FoundToken> {
                 value: OrderedFloat(n as f64),
                 suffix: None,
                 radix: 16,
+                precision: 0,
             }),
             next_index: s.len() + 2,
         });
