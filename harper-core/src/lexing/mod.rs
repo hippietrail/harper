@@ -9,7 +9,7 @@ use url::lex_url;
 use self::email_address::lex_email_address;
 use crate::char_ext::CharExt;
 use crate::punctuation::{Punctuation, Quote};
-use crate::{TokenKind, WordMetadata};
+use crate::{Number, TokenKind, WordMetadata};
 
 #[derive(Debug)]
 pub struct FoundToken {
@@ -80,7 +80,11 @@ pub fn lex_number(source: &[char]) -> Option<FoundToken> {
     while !s.is_empty() {
         if let Ok(n) = s.parse::<f64>() {
             return Some(FoundToken {
-                token: TokenKind::Number(n.into(), None),
+                token: TokenKind::Number(Number {
+                    value: n.into(),
+                    suffix: None,
+                    radix: 10,
+                }),
                 next_index: s.len(),
             });
         }
@@ -119,7 +123,11 @@ pub fn lex_hex_number(source: &[char]) -> Option<FoundToken> {
     // Should always succeed unless the logic above is broken
     if let Ok(n) = u64::from_str_radix(&s, 16) {
         return Some(FoundToken {
-            token: TokenKind::Number(OrderedFloat(n as f64), None),
+            token: TokenKind::Number(Number {
+                value: OrderedFloat(n as f64),
+                suffix: None,
+                radix: 16,
+            }),
             next_index: s.len() + 2,
         });
     }
@@ -232,7 +240,7 @@ mod tests {
         assert!(matches!(
             lex_hex_number(&source),
             Some(FoundToken {
-                token: TokenKind::Number(_, None),
+                token: TokenKind::Number(_),
                 ..
             })
         ));
@@ -244,7 +252,7 @@ mod tests {
         assert!(matches!(
             lex_hex_number(&source),
             Some(FoundToken {
-                token: TokenKind::Number(_, None),
+                token: TokenKind::Number(_),
                 ..
             })
         ));
@@ -256,7 +264,7 @@ mod tests {
         assert!(matches!(
             lex_hex_number(&source),
             Some(FoundToken {
-                token: TokenKind::Number(_, None),
+                token: TokenKind::Number(_),
                 ..
             })
         ));
@@ -268,7 +276,7 @@ mod tests {
         assert!(matches!(
             lex_hex_number(&source),
             Some(FoundToken {
-                token: TokenKind::Number(_, None),
+                token: TokenKind::Number(_),
                 ..
             })
         ));
@@ -280,7 +288,7 @@ mod tests {
         assert!(matches!(
             lex_hex_number(&source),
             Some(FoundToken {
-                token: TokenKind::Number(_, None),
+                token: TokenKind::Number(_),
                 ..
             })
         ));
@@ -292,7 +300,7 @@ mod tests {
         assert!(matches!(
             lex_hex_number(&source),
             Some(FoundToken {
-                token: TokenKind::Number(_, None),
+                token: TokenKind::Number(_),
                 ..
             })
         ));
