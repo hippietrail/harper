@@ -1,7 +1,7 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 
-use crate::{Number, NumberSuffix};
+use crate::Number;
 
 #[derive(Debug, Is, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Hash)]
 pub enum Currency {

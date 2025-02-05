@@ -1,5 +1,4 @@
 use is_macro::Is;
-use ordered_float::OrderedFloat;
 use serde::{Deserialize, Serialize};
 
 use crate::{ConjunctionData, NounData, Number, Punctuation, Quote, WordMetadata};

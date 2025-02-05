@@ -11,7 +11,14 @@ impl Linter for SpelledNumbers {
         let mut lints = Vec::new();
 
         for number_tok in document.iter_numbers() {
-            let Number { value, suffix, .. } = number_tok.kind.number().unwrap();
+            let Number {
+                value,
+                suffix: None,
+                ..
+            } = number_tok.kind.number().unwrap()
+            else {
+                continue;
+            };
             let value: f64 = value.into();
 
             if (value - value.floor()).abs() < f64::EPSILON && value < 10. {
