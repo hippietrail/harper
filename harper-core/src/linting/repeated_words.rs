@@ -16,6 +16,7 @@ impl RepeatedWords {
             special_cases: vec![
                 smallvec!['i', 's'],
                 smallvec!['a'],
+                smallvec!['o', 'n'],
                 smallvec!['a', 'n', 'd'],
             ],
         }
@@ -128,6 +129,15 @@ mod tests {
             "And and this is also a test",
             RepeatedWords::default(),
             "And this is also a test",
+        );
+    }
+
+    #[test]
+    fn on_on_github() {
+        assert_suggestion_result(
+            "Take a look at the project on on GitHub.",
+            RepeatedWords::default(),
+            "Take a look at the project on GitHub.",
         );
     }
 }
