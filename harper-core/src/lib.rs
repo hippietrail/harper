@@ -21,6 +21,7 @@ mod sync;
 mod title_case;
 mod token;
 mod token_kind;
+mod token_string_ext;
 mod vec_ext;
 mod word_metadata;
 
@@ -38,8 +39,9 @@ pub use span::Span;
 pub use spell::{Dictionary, FstDictionary, FullDictionary, MergedDictionary};
 pub use sync::Lrc;
 pub use title_case::{make_title_case, make_title_case_str};
-pub use token::{Token, TokenStringExt};
+pub use token::Token;
 pub use token_kind::{NumberSuffix, TokenKind};
+pub use token_string_ext::TokenStringExt;
 pub use vec_ext::VecExt;
 pub use word_metadata::{AdverbData, ConjunctionData, NounData, Tense, VerbData, WordMetadata};
 

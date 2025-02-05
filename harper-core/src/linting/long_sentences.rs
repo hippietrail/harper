@@ -1,5 +1,5 @@
 use super::{Lint, LintKind, Linter};
-use crate::token::TokenStringExt;
+use crate::TokenStringExt;
 use crate::{Document, Span};
 
 /// Detect and warn that the sentence is too long.

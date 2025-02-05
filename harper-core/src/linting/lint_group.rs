@@ -17,7 +17,9 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
-    AndThis, Decision, HumanLife, NeedHelp, NoLonger, OfCourse, ThatChallenged, TurnItOff,
+    AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
+    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SupposeTo,
+    ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
 use super::pronoun_contraction::PronounContraction;
@@ -199,14 +201,23 @@ create_lint_group_config!(
     SomewhatSomething => true,
     LetsConfusion => true,
     DespiteOf => true,
-    AndThis => true,
-    Decision => true,
     HumanLife => true,
     NeedHelp => true,
     NoLonger => true,
     ThatChallenged => true,
     TurnItOff => true,
-    OfCourse => true
+    OfCourse => true,
+    AndAlike => true,
+    BadRap => true,
+    BatedBreath => true,
+    BeckAndCall => true,
+    ChangeTack => true,
+    HungerPang => true,
+    EnMasse => true,
+    LetAlone => true,
+    LoAndBehold => true,
+    SneakingSuspicion => true,
+    SupposeTo => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

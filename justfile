@@ -234,7 +234,11 @@ addnoun noun:
     exit 0
   fi
 
-  echo "{{noun}}/SM" >> $DICT_FILE
+  if [[ "{{noun}}" =~ ^[A-Z] ]]; then
+    echo "{{noun}}/M" >> $DICT_FILE
+  else
+    echo "{{noun}}/SM" >> $DICT_FILE
+  fi
 
 # Search Harper's curated dictionary for a specific word
 searchdictfor word:
