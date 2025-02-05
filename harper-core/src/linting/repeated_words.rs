@@ -1,7 +1,7 @@
 use smallvec::smallvec;
 
 use super::{Lint, LintKind, Linter, Suggestion};
-use crate::token::TokenStringExt;
+use crate::TokenStringExt;
 use crate::{CharString, CharStringExt, Document, Span};
 
 #[derive(Debug, Clone)]
