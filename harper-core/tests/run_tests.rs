@@ -50,6 +50,8 @@ create_test!(issue_358.md, 0);
 create_test!(issue_195.md, 0);
 create_test!(pr_504.md, 1);
 create_test!(pr_452.md, 2);
+create_test!(hex_basic_clean.md, 0);
+create_test!(hex_basic_dirty.md, 1);
 
 // Make sure it doesn't panic
 create_test!(lukas_homework.md, 3);
