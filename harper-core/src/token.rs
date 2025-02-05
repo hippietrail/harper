@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{FatToken, Span, TokenKind, TokenStringExt};
+use crate::{FatToken, Span, TokenKind};
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, Default)]
 pub struct Token {
