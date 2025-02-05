@@ -286,3 +286,9 @@ fuzz:
           exit $?
       fi
   done
+
+# Print affixes and their descriptions from affixes.json
+printaffixes:
+  #! /bin/bash
+  node -e "Object.entries(require('./harper-core/affixes.json').affixes).forEach(([key, value]) => { if (value['#']) console.log(key + ': ' + value['#']); });"
+  
