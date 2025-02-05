@@ -19,7 +19,7 @@ use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
-    SupposeTo, ThatChallenged, TurnItOff,
+    SupposeTo, ThanOthers, ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
 use super::pronoun_contraction::PronounContraction;
@@ -219,6 +219,7 @@ create_lint_group_config!(
     SneakingSuspicion => true,
     SupposeTo => true,
     SpecialAttention => true,
+    ThanOthers => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

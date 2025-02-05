@@ -85,6 +85,7 @@ create_linter_for_phrase!(LoAndBehold, "lo and behold", 2);
 create_linter_for_phrase!(SneakingSuspicion, "sneaking suspicion", 3);
 create_linter_for_phrase!(SupposeTo, "suppose to", 1);
 create_linter_for_phrase!(SpecialAttention, "special attention", 1);
+create_linter_for_phrase!(ThanOthers, "than others", 1);
 
 #[cfg(test)]
 mod tests {
@@ -92,7 +93,7 @@ mod tests {
 
     use super::{
         BadRap, BatedBreath, ChangeTack, EnMasse, HungerPang, LetAlone, LoAndBehold, OfCourse,
-        SneakingSuspicion, SpecialAttention, SupposeTo, TurnItOff,
+        SneakingSuspicion, SpecialAttention, SupposeTo, ThanOthers, TurnItOff,
     };
 
     #[test]
@@ -194,5 +195,10 @@ mod tests {
             SpecialAttention::default(),
             "special attention",
         );
+    }
+
+    #[test]
+    fn than_others() {
+        assert_suggestion_result("Then others", ThanOthers::default(), "Than others");
     }
 }

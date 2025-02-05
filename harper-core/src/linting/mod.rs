@@ -68,7 +68,7 @@ pub use pattern_linter::PatternLinter;
 pub use phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
-    SupposeTo, ThatChallenged, TurnItOff,
+    SupposeTo, ThanOthers, ThatChallenged, TurnItOff,
 };
 pub use plural_conjugate::PluralConjugate;
 pub use pronoun_contraction::PronounContraction;
