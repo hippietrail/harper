@@ -3,6 +3,7 @@ mod hostname;
 mod url;
 
 use hostname::lex_hostname_token;
+use ordered_float::OrderedFloat;
 use url::lex_url;
 
 use self::email_address::lex_email_address;
@@ -24,6 +25,7 @@ pub fn lex_token(source: &[char]) -> Option<FoundToken> {
         lex_tabs,
         lex_spaces,
         lex_newlines,
+        lex_hex_number, // before lex_number, which would match the initial 0
         lex_number,
         lex_url,
         lex_email_address,
@@ -84,6 +86,42 @@ pub fn lex_number(source: &[char]) -> Option<FoundToken> {
         }
 
         s.pop();
+    }
+
+    None
+}
+
+pub fn lex_hex_number(source: &[char]) -> Option<FoundToken> {
+    // < 3 to avoid accepting 0x alone
+    if source.len() < 3 || source[0] != '0' || source[1] != 'x' || !source[2].is_ascii_hexdigit() {
+        return None;
+    }
+
+    let mut i = 2;
+    let len = source.len();
+
+    while i < len {
+        let next = source[i];
+
+        if !next.is_ascii_hexdigit() {
+            if !next.is_alphanumeric() {
+                break;
+            } else {
+                return None;
+            }
+        }
+
+        i += 1;
+    }
+
+    let s: String = source[2..i].iter().collect();
+
+    // Should always succeed unless the logic above is broken
+    if let Ok(n) = u64::from_str_radix(&s, 16) {
+        return Some(FoundToken {
+            token: TokenKind::Number(OrderedFloat(n as f64), None),
+            next_index: s.len() + 2,
+        });
     }
 
     None
@@ -165,6 +203,7 @@ fn lex_catch(_source: &[char]) -> Option<FoundToken> {
 
 #[cfg(test)]
 mod tests {
+    use super::lex_hex_number;
     use super::lex_token;
     use super::lex_word;
     use super::{FoundToken, TokenKind};
@@ -185,5 +224,101 @@ mod tests {
                 ..
             })
         ));
+    }
+
+    #[test]
+    fn lexes_good_hex_numeric() {
+        let source: Vec<_> = "0x0".chars().collect();
+        assert!(matches!(
+            lex_hex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_, None),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn lexes_good_hex_lowercase() {
+        let source: Vec<_> = "0xa".chars().collect();
+        assert!(matches!(
+            lex_hex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_, None),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn lexes_good_hex_uppercase() {
+        let source: Vec<_> = "0xF".chars().collect();
+        assert!(matches!(
+            lex_hex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_, None),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn lexes_good_hex_mixed_case() {
+        let source: Vec<_> = "0xaF".chars().collect();
+        assert!(matches!(
+            lex_hex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_, None),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn lexes_good_hex_lowercase_long() {
+        let source: Vec<_> = "0x0123456789abcdef".chars().collect();
+        assert!(matches!(
+            lex_hex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_, None),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn lexes_good_hex_uppercase_long() {
+        let source: Vec<_> = "0x0123456789ABCDEF".chars().collect();
+        assert!(matches!(
+            lex_hex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_, None),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn does_not_lex_prefix_only() {
+        let source: Vec<_> = "0x".chars().collect();
+        assert!(lex_hex_number(&source).is_none());
+    }
+
+    #[test]
+    fn does_not_lex_bad_alphabetic() {
+        let source: Vec<_> = "0xg".chars().collect();
+        assert!(lex_hex_number(&source).is_none());
+    }
+
+    #[test]
+    fn does_not_lex_bad_after_good() {
+        let source: Vec<_> = "0x123g".chars().collect();
+        assert!(lex_hex_number(&source).is_none());
+    }
+
+    #[test]
+    fn does_not_lex_uppercase_prefix() {
+        let source: Vec<_> = "0Xf00d".chars().collect();
+        assert!(lex_hex_number(&source).is_none());
     }
 }
