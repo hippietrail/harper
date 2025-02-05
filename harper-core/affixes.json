@@ -605,7 +605,7 @@
       }
     },
     "~": {
-      "#": "common noun property",
+      "#": "common word property",
       "suffix": true,
       "cross_product": true,
       "replacements": [],
