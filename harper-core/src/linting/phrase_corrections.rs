@@ -84,6 +84,7 @@ create_linter_for_phrase!(LetAlone, "let alone", 1);
 create_linter_for_phrase!(LoAndBehold, "lo and behold", 2);
 create_linter_for_phrase!(SneakingSuspicion, "sneaking suspicion", 3);
 create_linter_for_phrase!(SupposeTo, "suppose to", 1);
+create_linter_for_phrase!(SpecialAttention, "special attention", 1);
 
 #[cfg(test)]
 mod tests {
@@ -91,7 +92,7 @@ mod tests {
 
     use super::{
         BadRap, BatedBreath, ChangeTack, EnMasse, HungerPang, LetAlone, LoAndBehold, OfCourse,
-        SneakingSuspicion, SupposeTo, TurnItOff,
+        SneakingSuspicion, SpecialAttention, SupposeTo, TurnItOff,
     };
 
     #[test]
@@ -184,5 +185,14 @@ mod tests {
     #[test]
     fn supposed_to() {
         assert_suggestion_result("supposed to", SupposeTo::default(), "suppose to");
+    }
+
+    #[test]
+    fn spacial_attention() {
+        assert_suggestion_result(
+            "spacial attention",
+            SpecialAttention::default(),
+            "special attention",
+        );
     }
 }

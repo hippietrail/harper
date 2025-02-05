@@ -18,8 +18,8 @@ use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
-    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SupposeTo,
-    ThatChallenged, TurnItOff,
+    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
+    SupposeTo, ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
 use super::pronoun_contraction::PronounContraction;
@@ -217,7 +217,8 @@ create_lint_group_config!(
     LetAlone => true,
     LoAndBehold => true,
     SneakingSuspicion => true,
-    SupposeTo => true
+    SupposeTo => true,
+    SpecialAttention => true,
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
