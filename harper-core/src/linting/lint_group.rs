@@ -5,34 +5,12 @@ use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
-use super::closed_compounds::Altogether;
-use super::closed_compounds::Asleep;
-use super::closed_compounds::However;
-use super::closed_compounds::Intact;
-use super::closed_compounds::Itself;
-use super::closed_compounds::Likewise;
-use super::closed_compounds::Misunderstand;
-use super::closed_compounds::Misunderstood;
-use super::closed_compounds::Misuse;
-use super::closed_compounds::Misused;
-use super::closed_compounds::Myself;
-use super::closed_compounds::Overall;
-use super::closed_compounds::Postpone;
-use super::closed_compounds::Somehow;
-use super::closed_compounds::Therefore;
-use super::closed_compounds::Thumbnail;
-use super::closed_compounds::Tonight;
-use super::closed_compounds::Upset;
-use super::closed_compounds::Worldwide;
-use super::compound_words::Bathroom;
-use super::compound_words::Facewash;
-use super::compound_words::Handheld;
-use super::compound_words::Northeast;
-use super::compound_words::Northeastern;
-use super::compound_words::Playground;
-use super::compound_words::Proofread;
-use super::compound_words::Runway;
-use super::compound_words::Upholstery;
+use super::closed_compounds::{
+    Altogether, Asleep, Bathroom, Facewash, Handheld, However, Intact, Itself, Likewise,
+    Misunderstand, Misunderstood, Misuse, Misused, Myself, Northeast, Northeastern, Overall,
+    Playground, Postpone, Proofread, Runway, Somehow, Therefore, Thumbnail, Tonight, Upholstery,
+    Upset, Worldwide,
+};
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;

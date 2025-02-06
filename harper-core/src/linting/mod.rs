@@ -42,39 +42,19 @@ mod terminating_conjunctions;
 mod that_which;
 mod unclosed_quotes;
 mod use_genitive;
+mod whereas;
 mod wrong_quotes;
 
 pub use an_a::AnA;
 pub use avoid_curses::AvoidCurses;
 pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
-pub use closed_compounds::Altogether;
-pub use closed_compounds::Asleep;
-pub use closed_compounds::However;
-pub use closed_compounds::Intact;
-pub use closed_compounds::Likewise;
-pub use closed_compounds::Misunderstand;
-pub use closed_compounds::Misunderstood;
-pub use closed_compounds::Misuse;
-pub use closed_compounds::Misused;
-pub use closed_compounds::Myself;
-pub use closed_compounds::Overall;
-pub use closed_compounds::Postpone;
-pub use closed_compounds::Somehow;
-pub use closed_compounds::Therefore;
-pub use closed_compounds::Thumbnail;
-pub use closed_compounds::Tonight;
-pub use closed_compounds::Upset;
-pub use closed_compounds::Worldwide;
-pub use compound_words::Bathroom;
-pub use compound_words::Facewash;
-pub use compound_words::Handheld;
-pub use compound_words::Northeast;
-pub use compound_words::Northeastern;
-pub use compound_words::Playground;
-pub use compound_words::Proofread;
-pub use compound_words::Runway;
-pub use compound_words::Upholstery;
+pub use closed_compounds::{
+    Altogether, Asleep, Bathroom, Facewash, Handheld, However, Intact, Itself, Likewise,
+    Misunderstand, Misunderstood, Misuse, Misused, Myself, Northeast, Northeastern, Overall,
+    Playground, Postpone, Proofread, Runway, Somehow, Therefore, Thumbnail, Tonight, Upholstery,
+    Upset, Worldwide,
+};
 pub use correct_number_suffix::CorrectNumberSuffix;
 pub use currency_placement::CurrencyPlacement;
 pub use despite_of::DespiteOf;
@@ -115,6 +95,7 @@ pub use terminating_conjunctions::TerminatingConjunctions;
 pub use that_which::ThatWhich;
 pub use unclosed_quotes::UnclosedQuotes;
 pub use use_genitive::UseGenitive;
+pub use whereas::Whereas;
 pub use wrong_quotes::WrongQuotes;
 
 use crate::Document;
@@ -195,5 +176,3 @@ mod tests {
         assert_lint_count(&transformed_str, linter, 0);
     }
 }
-pub use whereas::Whereas;
-mod whereas;
