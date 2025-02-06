@@ -50,10 +50,18 @@ pub use avoid_curses::AvoidCurses;
 pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
 pub use closed_compounds::{
-    Altogether, Asleep, Bathroom, Facewash, Handheld, However, Intact, Itself, Likewise,
-    Misunderstand, Misunderstood, Misuse, Misused, Myself, Northeast, Northeastern, Overall,
-    Playground, Postpone, Proofread, Runway, Somehow, Therefore, Thumbnail, Tonight, Upholstery,
-    Upset, Worldwide,
+    Altogether, Anybody, Anyhow, Anytime, Anyway, Anywhere, Asleep, Backpack, Backplane, Bathroom,
+    Bitrate, Bitstream, Blockchain, Cupboard, Cyberattack, Cyberspace, Dashboard, Datacenter,
+    Datamining, Datascience, Desktop, Devops, Downright, Ecommerce, Evermore, Everyone, Everywhere,
+    Facewash, Fingerprint, Firewall, Firmware, Forever, Forthwith, Framework, Handheld, Headphone,
+    Headset, Henceforth, Hereafter, Hereby, Hereunder, However, Insofar, Instead, Intact, Into,
+    Itself, Keyboard, Laptop, Likewise, Microprocessor, Microservices, Middleware, Misunderstand,
+    Misunderstood, Misuse, Misused, Multicore, Multimedia, Multithreading, Myself, Nobody,
+    Nonetheless, Northeast, Northeastern, Notebook, Nothing, Notwithstanding, Nowhere, Opensource,
+    Otherwise, Overall, Overclocking, Overload, Overnight, Playground, Postpone, Proofread,
+    Regardless, Runway, Sitemap, Smartcard, Smartphone, Smartwatch, Somebody, Somehow, Somewhere,
+    Thereafter, Therefore, Therein, Thereupon, Thumbnail, Tonight, Touchpad, Touchscreen,
+    Underclock, Upholstery, Upset, Upward, Webcam, Websocket, Whereupon, Widespread, Worldwide,
 };
 pub use correct_number_suffix::CorrectNumberSuffix;
 pub use currency_placement::CurrencyPlacement;

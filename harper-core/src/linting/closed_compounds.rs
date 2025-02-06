@@ -82,11 +82,93 @@ create_closed_compound_linter!(Northeastern, "north eastern", "northeastern");
 create_closed_compound_linter!(Upholstery, "up holstery", "upholstery");
 create_closed_compound_linter!(Proofread, "proof read", "proofread");
 
+create_closed_compound_linter!(Forever, "for ever", "forever");
+create_closed_compound_linter!(Into, "in to", "into");
+create_closed_compound_linter!(Everyone, "every one", "everyone");
+create_closed_compound_linter!(Nobody, "no body", "nobody");
+create_closed_compound_linter!(Somebody, "some body", "somebody");
+create_closed_compound_linter!(Anybody, "any body", "anybody");
+create_closed_compound_linter!(Nothing, "no thing", "nothing");
+create_closed_compound_linter!(Anyway, "any way", "anyway");
+create_closed_compound_linter!(Anytime, "any time", "anytime");
+create_closed_compound_linter!(Anywhere, "any where", "anywhere");
+create_closed_compound_linter!(Nowhere, "no where", "nowhere");
+create_closed_compound_linter!(Everywhere, "every where", "everywhere");
+create_closed_compound_linter!(Overnight, "over night", "overnight");
+create_closed_compound_linter!(Instead, "in stead", "instead");
+create_closed_compound_linter!(Backpack, "back pack", "backpack");
+create_closed_compound_linter!(Cupboard, "cup board", "cupboard");
+create_closed_compound_linter!(Keyboard, "key board", "keyboard");
+create_closed_compound_linter!(Somewhere, "some where", "somewhere");
+create_closed_compound_linter!(Notebook, "note book", "notebook");
+create_closed_compound_linter!(Middleware, "middle ware", "middleware");
+create_closed_compound_linter!(Firmware, "firm ware", "firmware");
+create_closed_compound_linter!(Smartwatch, "smart watch", "smartwatch");
+create_closed_compound_linter!(Touchscreen, "touch screen", "touchscreen");
+create_closed_compound_linter!(Headset, "head set", "headset");
+create_closed_compound_linter!(Framework, "frame work", "framework");
+create_closed_compound_linter!(Touchpad, "touch pad", "touchpad");
+create_closed_compound_linter!(Microprocessor, "micro processor", "microprocessor");
+create_closed_compound_linter!(Datacenter, "data center", "datacenter");
+create_closed_compound_linter!(Smartphone, "smart phone", "smartphone");
+create_closed_compound_linter!(Webcam, "web cam", "webcam");
+create_closed_compound_linter!(Headphone, "head phone", "headphone");
+create_closed_compound_linter!(Desktop, "desk top", "desktop");
+create_closed_compound_linter!(Laptop, "lap top", "laptop");
+create_closed_compound_linter!(Overclocking, "over clocking", "overclocking");
+create_closed_compound_linter!(Backplane, "back plane", "backplane");
+create_closed_compound_linter!(Smartcard, "smart card", "smartcard");
+create_closed_compound_linter!(Bitrate, "bit rate", "bitrate");
+create_closed_compound_linter!(Overload, "over load", "overload");
+create_closed_compound_linter!(Underclock, "under clock", "underclock");
+create_closed_compound_linter!(Blockchain, "block chain", "blockchain");
+create_closed_compound_linter!(Opensource, "open source", "opensource");
+create_closed_compound_linter!(Devops, "dev ops", "devops");
+create_closed_compound_linter!(Bitstream, "bit stream", "bitstream");
+create_closed_compound_linter!(Firewall, "fire wall", "firewall");
+create_closed_compound_linter!(Sitemap, "site map", "sitemap");
+create_closed_compound_linter!(Multithreading, "multi threading", "multithreading");
+create_closed_compound_linter!(Multicore, "multi core", "multicore");
+create_closed_compound_linter!(Microservices, "micro services", "microservices");
+create_closed_compound_linter!(Dashboard, "dash board", "dashboard");
+create_closed_compound_linter!(Cyberspace, "cyber space", "cyberspace");
+create_closed_compound_linter!(Multimedia, "multi media", "multimedia");
+create_closed_compound_linter!(Ecommerce, "e commerce", "ecommerce");
+create_closed_compound_linter!(Datamining, "data mining", "datamining");
+create_closed_compound_linter!(Datascience, "data science", "datascience");
+create_closed_compound_linter!(Cyberattack, "cyber attack", "cyberattack");
+create_closed_compound_linter!(Websocket, "web socket", "websocket");
+create_closed_compound_linter!(Fingerprint, "finger print", "fingerprint");
+create_closed_compound_linter!(Widespread, "wide spread", "widespread");
+create_closed_compound_linter!(Notwithstanding, "not with standing", "notwithstanding");
+create_closed_compound_linter!(Anyhow, "any how", "anyhow");
+create_closed_compound_linter!(Nonetheless, "none the less", "nonetheless");
+create_closed_compound_linter!(Hereafter, "here after", "hereafter");
+create_closed_compound_linter!(Otherwise, "other wise", "otherwise");
+create_closed_compound_linter!(Therein, "there in", "therein");
+create_closed_compound_linter!(Thereupon, "there upon", "thereupon");
+create_closed_compound_linter!(Hereby, "here by", "hereby");
+create_closed_compound_linter!(Hereunder, "here under", "hereunder");
+create_closed_compound_linter!(Forthwith, "forth with", "forthwith");
+create_closed_compound_linter!(Insofar, "in so far", "insofar");
+create_closed_compound_linter!(Whereupon, "where upon", "whereupon");
+create_closed_compound_linter!(Thereafter, "there after", "thereafter");
+create_closed_compound_linter!(Downright, "down right", "downright");
+create_closed_compound_linter!(Upward, "up ward", "upward");
+create_closed_compound_linter!(Henceforth, "hence forth", "henceforth");
+create_closed_compound_linter!(Regardless, "regard less", "regardless");
+create_closed_compound_linter!(Evermore, "ever more", "evermore");
+
 #[cfg(test)]
 mod tests {
     use super::{
         Altogether, Asleep, However, Itself, Likewise, Misunderstood, Misuse, Misused, Myself,
         Overall, Therefore, Tonight, Worldwide,
+    };
+    use super::{
+        Anyhow, Downright, Evermore, Forthwith, Henceforth, Hereafter, Hereby, Hereunder, Insofar,
+        Nonetheless, Notwithstanding, Otherwise, Regardless, Thereafter, Therein, Thereupon,
+        Upward, Whereupon, Widespread,
     };
     use crate::linting::tests::assert_suggestion_result;
 
@@ -179,5 +261,131 @@ mod tests {
         let test_sentence = "She fell a sleep.";
         let expected = "She fell asleep.";
         assert_suggestion_result(test_sentence, Asleep::default(), expected);
+    }
+
+    #[test]
+    fn wide_spread() {
+        let test_sentence = "The news was wide spread throughout the region.";
+        let expected = "The news was widespread throughout the region.";
+        assert_suggestion_result(test_sentence, Widespread::default(), expected);
+    }
+
+    #[test]
+    fn not_with_standing() {
+        let test_sentence = "They decided to proceed not with standing any further delay.";
+        let expected = "They decided to proceed notwithstanding any further delay.";
+        assert_suggestion_result(test_sentence, Notwithstanding::default(), expected);
+    }
+
+    #[test]
+    fn any_how() {
+        let test_sentence = "She solved the problem any how, even under pressure.";
+        let expected = "She solved the problem anyhow, even under pressure.";
+        assert_suggestion_result(test_sentence, Anyhow::default(), expected);
+    }
+
+    #[test]
+    fn none_the_less() {
+        let test_sentence = "The results were disappointing, none the less, they continued.";
+        let expected = "The results were disappointing, nonetheless, they continued.";
+        assert_suggestion_result(test_sentence, Nonetheless::default(), expected);
+    }
+
+    #[test]
+    fn here_after() {
+        let test_sentence = "He promised to abide by the rules here after the meeting.";
+        let expected = "He promised to abide by the rules hereafter the meeting.";
+        assert_suggestion_result(test_sentence, Hereafter::default(), expected);
+    }
+
+    #[test]
+    fn other_wise() {
+        let test_sentence = "Review the guidelines, other wise you might miss an important detail.";
+        let expected = "Review the guidelines, otherwise you might miss an important detail.";
+        assert_suggestion_result(test_sentence, Otherwise::default(), expected);
+    }
+
+    #[test]
+    fn there_in() {
+        let test_sentence = "All the answers can be found there in the document.";
+        let expected = "All the answers can be found therein the document.";
+        assert_suggestion_result(test_sentence, Therein::default(), expected);
+    }
+
+    #[test]
+    fn there_upon() {
+        let test_sentence = "A decision was made there upon reviewing the data.";
+        let expected = "A decision was made thereupon reviewing the data.";
+        assert_suggestion_result(test_sentence, Thereupon::default(), expected);
+    }
+
+    #[test]
+    fn here_by() {
+        let test_sentence = "The contract is here by declared null and void.";
+        let expected = "The contract is hereby declared null and void.";
+        assert_suggestion_result(test_sentence, Hereby::default(), expected);
+    }
+
+    #[test]
+    fn here_under() {
+        let test_sentence = "All terms are set forth here under.";
+        let expected = "All terms are set forth hereunder.";
+        assert_suggestion_result(test_sentence, Hereunder::default(), expected);
+    }
+
+    #[test]
+    fn forth_with() {
+        let test_sentence = "Please reply forth with to our previous inquiry.";
+        let expected = "Please reply forthwith to our previous inquiry.";
+        assert_suggestion_result(test_sentence, Forthwith::default(), expected);
+    }
+
+    #[test]
+    fn in_so_far() {
+        let test_sentence = "This rule applies in so far as it covers all cases.";
+        let expected = "This rule applies insofar as it covers all cases.";
+        assert_suggestion_result(test_sentence, Insofar::default(), expected);
+    }
+
+    #[test]
+    fn where_upon() {
+        let test_sentence = "They acted where upon the circumstances allowed.";
+        let expected = "They acted whereupon the circumstances allowed.";
+        assert_suggestion_result(test_sentence, Whereupon::default(), expected);
+    }
+
+    #[test]
+    fn there_after() {
+        let test_sentence = "The system shutdown occurred there after the update.";
+        let expected = "The system shutdown occurred thereafter the update.";
+        assert_suggestion_result(test_sentence, Thereafter::default(), expected);
+    }
+
+    #[test]
+    fn down_right() {
+        let test_sentence = "His comment was down right insulting to everyone present.";
+        let expected = "His comment was downright insulting to everyone present.";
+        assert_suggestion_result(test_sentence, Downright::default(), expected);
+    }
+
+    #[test]
+    fn up_ward() {
+        let test_sentence = "The temperature moved up ward during the afternoon.";
+        let expected = "The temperature moved upward during the afternoon.";
+        assert_suggestion_result(test_sentence, Upward::default(), expected);
+    }
+
+    #[test]
+    fn hence_forth() {
+        let test_sentence = "All new policies apply hence forth immediately.";
+        let expected = "All new policies apply henceforth immediately.";
+        assert_suggestion_result(test_sentence, Henceforth::default(), expected);
+    }
+
+    #[test]
+    fn regard_less() {
+        let test_sentence = "The decision was made, regard less of the opposition.";
+        let expected = "The decision was made, regardless of the opposition.";
+        assert_suggestion_result(test_sentence, Regardless::default(), expected);
     }
 }
