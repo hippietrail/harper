@@ -72,6 +72,15 @@ create_closed_compound_linter!(Upset, "up set", "upset");
 create_closed_compound_linter!(Thumbnail, "thumb nail", "thumbnail");
 create_closed_compound_linter!(Intact, "in tact", "intact");
 create_closed_compound_linter!(Somehow, "some how", "somehow");
+create_closed_compound_linter!(Bathroom, "bath room", "bathroom");
+create_closed_compound_linter!(Facewash, "face wash", "facewash");
+create_closed_compound_linter!(Handheld, "hand held", "handheld");
+create_closed_compound_linter!(Playground, "play ground", "playground");
+create_closed_compound_linter!(Runway, "run way", "runway");
+create_closed_compound_linter!(Northeast, "north east", "northeast");
+create_closed_compound_linter!(Northeastern, "north eastern", "northeastern");
+create_closed_compound_linter!(Upholstery, "up holstery", "upholstery");
+create_closed_compound_linter!(Proofread, "proof read", "proofread");
 
 #[cfg(test)]
 mod tests {

@@ -24,6 +24,15 @@ use super::closed_compounds::Thumbnail;
 use super::closed_compounds::Tonight;
 use super::closed_compounds::Upset;
 use super::closed_compounds::Worldwide;
+use super::compound_words::Bathroom;
+use super::compound_words::Facewash;
+use super::compound_words::Handheld;
+use super::compound_words::Northeast;
+use super::compound_words::Northeastern;
+use super::compound_words::Playground;
+use super::compound_words::Proofread;
+use super::compound_words::Runway;
+use super::compound_words::Upholstery;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
@@ -180,6 +189,15 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Proofread => true,
+    Upholstery => true,
+    Northeastern => true,
+    Northeast => true,
+    Runway => true,
+    Playground => true,
+    Handheld => true,
+    Facewash => true,
+    Bathroom => true,
     Somehow => true,
     Intact => true,
     Thumbnail => true,
