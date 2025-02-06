@@ -296,9 +296,8 @@ registerlinter module name:
 
   D="{{justfile_directory()}}/harper-core/src/linting"
 
-  echo "pub use {{module}}::{{name}};" >> "$D/mod.rs"
-  echo "use super::{{module}}::{{name}};" >> "$D/lint_group.rs"
-  echo "mod {{module}};" >> "$D/mod.rs"
-
-  sed -i "/create_lint_group_config\!/a {{name}} => true," "$D/lint_group.rs"
+  sed -i "/mod an_a;/a mod {{module}};" "$D/mod.rs"
+  sed -i "/pub use an_a::AnA;/a pub use {{module}}::{{name}};" "$D/mod.rs"
+  sed -i "/use super::an_a::AnA;/a use super::{{module}}::{{name}};" "$D/lint_group.rs"
+  sed -i "/create_lint_group_config\!/a \ \ \ \ {{name}} => true," "$D/lint_group.rs"
   just format

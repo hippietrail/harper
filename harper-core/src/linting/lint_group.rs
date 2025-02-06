@@ -9,6 +9,7 @@ use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
+use super::itself::Itself;
 use super::lets_confusion::LetsConfusion;
 use super::linking_verbs::LinkingVerbs;
 use super::long_sentences::LongSentences;
@@ -161,6 +162,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Itself => true,
     Whereas => true,
     SpelledNumbers => false,
     AnA => true,
