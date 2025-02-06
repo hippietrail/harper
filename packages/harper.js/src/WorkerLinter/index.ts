@@ -1,5 +1,5 @@
 import { DeserializedRequest, deserializeArg, serialize } from './communication';
-import type { Lint, Suggestion, Span } from 'wasm';
+import type { Lint, Suggestion, Span } from 'harper-wasm';
 import Linter, { LinterInit } from '../Linter';
 import Worker from './worker?worker&inline';
 import { LintConfig, LintOptions } from '../main';

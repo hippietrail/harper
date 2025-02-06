@@ -1,4 +1,4 @@
-export { Lint, Span, Suggestion, SuggestionKind } from 'wasm';
+export { Lint, Span, Suggestion, SuggestionKind } from 'harper-wasm';
 export { default as LocalLinter } from './LocalLinter';
 export { default as WorkerLinter } from './WorkerLinter';
 export type { default as Linter } from './Linter';

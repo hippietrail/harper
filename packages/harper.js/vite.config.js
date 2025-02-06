@@ -23,7 +23,7 @@ export default defineConfig({
 		dts({
 			...require('./api-extractor.json'),
 			rollupTypes: true,
-			tsconfigPath: './tsconfig.json'
+			tsconfigPath: './tsconfig.json',
 		}),
 	],
 	worker: {

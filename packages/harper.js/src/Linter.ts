@@ -1,4 +1,4 @@
-import type { Lint, Span, Suggestion, InitInput as BinaryInitInput } from 'wasm';
+import type { Lint, Span, Suggestion, InitInput as BinaryInitInput } from 'harper-wasm';
 import { LintConfig, LintOptions } from './main';
 
 /** An interface for an object that can perform linting actions. */

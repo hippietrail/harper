@@ -1,5 +1,5 @@
-import type { Lint, Span, Suggestion, Linter as WasmLinter } from 'wasm';
-import { Language } from 'wasm';
+import type { Lint, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
+import { Language } from 'harper-wasm';
 import Linter, { LinterInit } from './Linter';
 import { LintConfig, LintOptions } from './main';
 import { binary, BinaryInit, loadBinary } from './binary';

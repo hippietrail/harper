@@ -1,6 +1,6 @@
 import { expect, test } from 'vitest';
 import { deserializeArg, serializeArg } from './communication';
-import { Span } from 'wasm';
+import { Span } from 'harper-wasm';
 import LocalLinter from '../LocalLinter';
 import { binary } from '../binary';
 
