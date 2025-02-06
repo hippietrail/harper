@@ -7,6 +7,7 @@ mod avoid_curses;
 mod boring_words;
 mod capitalize_personal_pronouns;
 mod closed_compounds;
+mod compound_nouns;
 mod correct_number_suffix;
 mod currency_placement;
 mod dashes;
@@ -50,19 +51,15 @@ pub use avoid_curses::AvoidCurses;
 pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
 pub use closed_compounds::{
-    Altogether, Anybody, Anyhow, Anytime, Anyway, Anywhere, Asleep, Backpack, Backplane, Bathroom,
-    Bitrate, Bitstream, Blockchain, Cupboard, Cyberattack, Cyberspace, Dashboard, Datacenter,
-    Datamining, Datascience, Desktop, Devops, Downright, Ecommerce, Evermore, Everyone, Everywhere,
-    Facewash, Fingerprint, Firewall, Firmware, Forever, Forthwith, Framework, Handheld, Headphone,
-    Headset, Henceforth, Hereafter, Hereby, Hereunder, However, Insofar, Instead, Intact, Into,
-    Itself, Keyboard, Laptop, Likewise, Microprocessor, Microservices, Middleware, Misunderstand,
-    Misunderstood, Misuse, Misused, Multicore, Multimedia, Multithreading, Myself, Nobody,
-    Nonetheless, Northeast, Northeastern, Notebook, Nothing, Notwithstanding, Nowhere, Opensource,
-    Otherwise, Overall, Overclocking, Overload, Overnight, Playground, Postpone, Proofread,
-    Regardless, Runway, Sitemap, Smartcard, Smartphone, Smartwatch, Somebody, Somehow, Somewhere,
-    Thereafter, Therefore, Therein, Thereupon, Thumbnail, Tonight, Touchpad, Touchscreen,
-    Underclock, Upholstery, Upset, Upward, Webcam, Websocket, Whereupon, Widespread, Worldwide,
+    Altogether, Anybody, Anyhow, Anytime, Anyway, Anywhere, Asleep, Backplane, Bitrate, Devops,
+    Downright, Ecommerce, Evermore, Everywhere, Forthwith, Henceforth, Hereafter, Hereby,
+    Hereunder, However, Insofar, Instead, Intact, Into, Itself, Likewise, Middleware,
+    Misunderstand, Misunderstood, Misuse, Misused, Multicore, Multimedia, Multithreading, Myself,
+    Nobody, Nonetheless, Nothing, Notwithstanding, Opensource, Otherwise, Overall, Overclocking,
+    Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere, Thereafter, Therefore,
+    Therein, Thereupon, Tonight, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
 };
+pub use compound_nouns::CompoundNouns;
 pub use correct_number_suffix::CorrectNumberSuffix;
 pub use currency_placement::CurrencyPlacement;
 pub use despite_of::DespiteOf;
