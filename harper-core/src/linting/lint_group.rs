@@ -5,7 +5,21 @@ use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
+use super::closed_compounds::Altogether;
+use super::closed_compounds::Asleep;
+use super::closed_compounds::However;
 use super::closed_compounds::Itself;
+use super::closed_compounds::Likewise;
+use super::closed_compounds::Misunderstand;
+use super::closed_compounds::Misunderstood;
+use super::closed_compounds::Misuse;
+use super::closed_compounds::Misused;
+use super::closed_compounds::Myself;
+use super::closed_compounds::Overall;
+use super::closed_compounds::Postpone;
+use super::closed_compounds::Therefore;
+use super::closed_compounds::Tonight;
+use super::closed_compounds::Worldwide;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
@@ -162,6 +176,20 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Misunderstood => true,
+    Asleep => true,
+    Altogether => true,
+    However => true,
+    Likewise => true,
+    Overall => true,
+    Worldwide => true,
+    Postpone => true,
+    Misused => true,
+    Misuse => true,
+    Misunderstand => true,
+    Therefore => true,
+    Myself => true,
+    Tonight => true,
     Itself => true,
     Whereas => true,
     SpelledNumbers => false,
