@@ -37,6 +37,7 @@ use super::terminating_conjunctions::TerminatingConjunctions;
 use super::that_which::ThatWhich;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
+use super::whereas::Whereas;
 use super::wrong_quotes::WrongQuotes;
 use super::{CurrencyPlacement, Lint, Linter, NoOxfordComma, OxfordComma};
 use crate::{Dictionary, Document};
@@ -160,6 +161,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Whereas => true,
     SpelledNumbers => false,
     AnA => true,
     SentenceCapitalization => true,
@@ -219,7 +221,7 @@ create_lint_group_config!(
     SneakingSuspicion => true,
     SupposeTo => true,
     SpecialAttention => true,
-    ThanOthers => true
+    ThanOthers => true,
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

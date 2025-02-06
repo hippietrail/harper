@@ -167,3 +167,5 @@ mod tests {
         assert_lint_count(&transformed_str, linter, 0);
     }
 }
+pub use whereas::Whereas;
+mod whereas;

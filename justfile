@@ -290,3 +290,15 @@ fuzz:
           exit $?
       fi
   done
+
+registerlinter module name:
+  #! /bin/bash
+
+  D="{{justfile_directory()}}/harper-core/src/linting"
+
+  echo "pub use {{module}}::{{name}};" >> "$D/mod.rs"
+  echo "use super::{{module}}::{{name}};" >> "$D/lint_group.rs"
+  echo "mod {{module}};" >> "$D/mod.rs"
+
+  sed -i "/create_lint_group_config\!/a {{name}} => true," "$D/lint_group.rs"
+  just format
