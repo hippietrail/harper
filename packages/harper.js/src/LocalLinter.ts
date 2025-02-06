@@ -2,11 +2,11 @@ import type { Lint, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
 import { Language } from 'harper-wasm';
 import Linter, { LinterInit } from './Linter';
 import { LintConfig, LintOptions } from './main';
-import { binary, BinaryInit, loadBinary } from './binary';
+import { binary, loadBinary } from './binary';
 
 /** A Linter that runs in the current JavaScript context (meaning it is allowed to block the event loop).  */
 export default class LocalLinter implements Linter {
-	private binary: BinaryInit;
+	private binary: string;
 	private inner: WasmLinter | undefined;
 
 	constructor(init: LinterInit) {

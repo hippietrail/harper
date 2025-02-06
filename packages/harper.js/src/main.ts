@@ -1,8 +1,8 @@
 export { Lint, Span, Suggestion, SuggestionKind } from 'harper-wasm';
+export type { default as Linter, LinterInit } from './Linter';
 export { default as LocalLinter } from './LocalLinter';
 export { default as WorkerLinter } from './WorkerLinter';
-export type { default as Linter } from './Linter';
-export { type BinaryInit, binary, inlinedBinary, loadBinary } from './binary';
+export { binary, inlinedBinary } from './binary';
 
 /** A linting rule configuration dependent on upstream Harper's available rules.
  * This is a record, since you shouldn't hard-code the existence of any particular rules and should generalize based on this struct. */

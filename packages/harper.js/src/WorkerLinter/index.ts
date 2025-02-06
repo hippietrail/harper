@@ -11,10 +11,6 @@ type RequestItem = {
 	request: DeserializedRequest;
 };
 
-export interface WorkerLinterInit extends LinterInit {
-	binary: string;
-}
-
 /** A Linter that spins up a dedicated web worker to do processing on a separate thread.
  * Main benefit: this Linter will not block the event loop for large documents.
  *
@@ -25,9 +21,8 @@ export default class WorkerLinter implements Linter {
 	private requestQueue: RequestItem[];
 	private working = true;
 
-	constructor(init: WorkerLinterInit) {
+	constructor(init: LinterInit) {
 		this.binary = init.binary;
-
 		this.worker = new Worker();
 		this.requestQueue = [];
 
