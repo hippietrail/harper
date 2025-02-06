@@ -8,6 +8,7 @@ use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::closed_compounds::Altogether;
 use super::closed_compounds::Asleep;
 use super::closed_compounds::However;
+use super::closed_compounds::Intact;
 use super::closed_compounds::Itself;
 use super::closed_compounds::Likewise;
 use super::closed_compounds::Misunderstand;
@@ -17,8 +18,11 @@ use super::closed_compounds::Misused;
 use super::closed_compounds::Myself;
 use super::closed_compounds::Overall;
 use super::closed_compounds::Postpone;
+use super::closed_compounds::Somehow;
 use super::closed_compounds::Therefore;
+use super::closed_compounds::Thumbnail;
 use super::closed_compounds::Tonight;
+use super::closed_compounds::Upset;
 use super::closed_compounds::Worldwide;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
@@ -176,6 +180,10 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Somehow => true,
+    Intact => true,
+    Thumbnail => true,
+    Upset => true,
     Misunderstood => true,
     Asleep => true,
     Altogether => true,

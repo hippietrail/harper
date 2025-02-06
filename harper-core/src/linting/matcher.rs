@@ -140,7 +140,6 @@ impl Matcher {
             "World","War","iI" => "World War II",
             "black","sea" => "Black Sea",
             "I","a","m" => "I am",
-            "We","a","re" => "We are",
             "The","re" => "There",
             "my","french" => "my French",
             "It","cam" => "It can",

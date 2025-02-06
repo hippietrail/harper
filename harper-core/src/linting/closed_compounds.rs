@@ -68,6 +68,10 @@ create_closed_compound_linter!(Likewise, "like wise", "likewise");
 create_closed_compound_linter!(However, "how ever", "however");
 create_closed_compound_linter!(Altogether, "all together", "altogether");
 create_closed_compound_linter!(Asleep, "a sleep", "asleep");
+create_closed_compound_linter!(Upset, "up set", "upset");
+create_closed_compound_linter!(Thumbnail, "thumb nail", "thumbnail");
+create_closed_compound_linter!(Intact, "in tact", "intact");
+create_closed_compound_linter!(Somehow, "some how", "somehow");
 
 #[cfg(test)]
 mod tests {
