@@ -971,6 +971,7 @@ Batista/2M
 Batman/24M
 Battle/2M
 Batu/2M
+Batumi/2M
 Baudelaire/M
 Baudouin/M
 Baudrillard/M
@@ -1240,6 +1241,7 @@ Bloemfontein/2M
 Blondel/M
 Blondie/M
 Bloom/2MR
+Bloomberg/2M
 Bloomer/2M
 Bloomfield/2M
 Bloomingdale/2M
@@ -1596,13 +1598,14 @@ CCU/1
 CD/14SM
 CDC/21
 CDT/1
-CEO/14M
+CEO/1MS
 CF/125
 CFC/21M
 CFO/12
 CGI/124
 CIA/215M
 CID/12
+CLI/1M
 CNN/21M
 CNS/1M
 CO/214M
@@ -7111,6 +7114,7 @@ Nesselrode/2M
 Nestle/2M
 Nestor/21M
 Nestorius/M
+Netanyahu/2M
 Netflix/4M
 Netherlander/1SM
 Netherlands/251M
@@ -7291,6 +7295,7 @@ OB/15
 OCR/214
 OD/14SM
 OE/2154
+OECD/2M
 OED/2
 OH/21
 OHSA/M
@@ -8136,6 +8141,7 @@ REM/1SM
 RF/12
 RFC/21S
 RFD/512
+RGB
 RI/21
 RIF/14
 RIP/21
@@ -10663,6 +10669,7 @@ Yuri/2M
 Yves/M
 Yvette/21M
 Yvonne/2M
+Z80/12SM
 Z/1SMNXT
 Zachariah/2M
 Zachary/2M
@@ -14664,6 +14671,7 @@ bootlegged/4
 bootlegger/1MS
 bootlegging/14M
 bootless/5
+bootlicker/1SM
 bootstrap/14MS
 bootstrapped/4
 bootstrapping/41
@@ -14844,7 +14852,7 @@ brambly/5
 bran/1M
 branch/14GMDS
 branchlike/5
-brand/14ZGMDRS
+brand/14ZGMDRSA
 branded/54U
 brander/14M
 brandish/41DSG
@@ -19651,6 +19659,7 @@ defroster/1MS
 deft/5PTRY
 deftness/1M
 defunct/541
+defund/4DGS
 defy/41GDS
 deg/14
 degeneracy/1M
@@ -22567,6 +22576,7 @@ excl/+
 exclaim/41DGS
 exclamation/1SM
 exclamatory/5
+exclave/1MS
 exclude/4GDS
 exclusion/1MS
 exclusionary/5
@@ -23478,6 +23488,7 @@ finalize/4DSG
 finance's
 finance/14ADSG
 financial/5Y
+financials/9SM
 financier/14MS
 financing/14M
 finch/14MS
@@ -24165,7 +24176,7 @@ formalities/1
 formality/1IM
 formalization/1M
 formalize/4GDS
-format/14SMV
+format/14SMVR
 formation/1CFASM
 formatted/45A
 formatting/14M
@@ -31754,6 +31765,7 @@ merchandise/14MZGDRS
 merchandiser/1M
 merchandising/14M
 merchant/14MBS
+merchantability/1M
 merchantman/1M
 merchantmen/1
 merciful/5UY
@@ -34061,6 +34073,7 @@ number's
 number/145ASDG
 numbered/4U
 numberless/5
+numbing/5Y
 numbness/1M
 numerable/5I
 numeracy/1IM
@@ -39436,6 +39449,7 @@ reportorial/5
 reposeful/5
 reposition/41
 repository/1SM
+repost/14DGMS
 repo/14SM
 reprehend/4DGS
 reprehensibility/1M
@@ -42647,7 +42661,7 @@ sociopath/1M
 sociopaths/1
 sociopolitical/5
 sock/145MDGS
-socket/14SM
+socket/14SMD
 sockeye/1SM
 sod/145SM
 soda/1MS
@@ -44067,6 +44081,7 @@ subbing/41
 subbranch/1MS
 subcategory/1SM
 subclass/14G
+subcommand/1SM
 subcommittee/1SM
 subcompact/15SM
 subconscious/51PMY
@@ -44084,6 +44099,7 @@ subdominant/1
 subdue/4DSG
 subeditor/1S
 subfamily/1SM
+subframe/1MS
 subfreezing/5
 subgroup/14MS
 subhead/1GJMS
@@ -45223,7 +45239,7 @@ telephony/1M
 telephoto/514SM
 telephotography/1M
 teleplay/1MS
-teleport/41
+teleport/41MSDG
 teleportation/1
 teleprinter/1MS
 teleprocessing/1M
@@ -47277,6 +47293,7 @@ unimportant/5
 unimpressive/5
 uninformative/5
 uninhibited/5Y
+uninsurable/5
 uninsured/51
 unintelligent/5
 unintended/5
