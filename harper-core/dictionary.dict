@@ -1589,6 +1589,7 @@ CATV/1
 CB/152
 CBC/215M
 CBS/21M
+CCP/2M
 CCTV/12
 CCU/1
 CD/14SM
@@ -3853,6 +3854,7 @@ God/21M
 Godard/2M
 Goddard/2M
 Godel/2M
+Godfrey/1M
 Godhead/2M
 Godiva/2M
 Godot/2M
@@ -6250,6 +6252,7 @@ Marjorie/2M
 Marjory/2M
 Mark/21SM
 Markab/2M
+Markdown/12SM
 Markham/2M
 Markov/2M
 Marks/2M
@@ -8672,10 +8675,6 @@ Salvadorian/15MS
 Salvatore/2M
 Salween/2M
 Salyut/1M
-sam/145m
-samantha/m
-samar/m
-samara/1m
 Samaritan/152MS
 Samarkand/2M
 Sammie/12M
@@ -10808,7 +10807,7 @@ abhorrence/1M
 abhorrent/5Y
 abhorring/14
 abidance/1M
-abide/4GS
+abide/4GSD
 abiding/541Y
 ability/1IEMS
 abject/514YP
@@ -14675,6 +14674,7 @@ borax/14M
 bordello/1MS
 border/14GMDS
 borderland/1MS
+borderless/5
 borderline/514MS
 bore/41DRSMZG
 boredom/1M
@@ -17873,7 +17873,7 @@ congregational/5
 congregationalism/1M
 congregationalist/51MS
 congress/14MS
-congressional/5
+congressional/5Y
 congressman/1M
 congressmen/1
 congresspeople/1
@@ -18952,6 +18952,7 @@ crummy/51PTR
 crumpet/1MS
 crumple/14MGDS
 crunch/41GMDRS
+cruncher/1MS
 crunchiness/1M
 crunchy/51TRP
 crupper/14MS
@@ -19547,6 +19548,7 @@ decrepit/5
 decrepitude/1M
 decriminalization/1M
 decry/4GDS
+decrypt/4GDS
 decryption/1
 dedicate/451AGDS
 dedication/1SM
@@ -28035,6 +28037,7 @@ include/41GDS
 inclusion/1MS
 inclusive/5YP
 inclusiveness/1M
+inclusivity/1M
 incognito/51MS
 incombustible/51
 incommode/451GD
@@ -29421,6 +29424,7 @@ kerfuffle/14S
 kernel/14SM
 kerosene/1M
 kestrel/1MS
+ketamine/1M
 ketch/14MS
 ketchup/14M
 keto/15
@@ -31305,7 +31309,6 @@ marital/5Y
 maritime/5
 marjoram/1M
 mark/14AMDSG
-Markdown/12SM
 marked/54U
 markedly/
 marker/14MS
@@ -34916,7 +34919,7 @@ overcareful/5
 overcast/154MGS
 overcautious/5
 overcharge/41DSMG
-overclock/41GD
+overclock/41GDS
 overcloud/4SGD
 overcoat/14MS
 overcome/41GS
@@ -40391,6 +40394,10 @@ salvation/14M
 salve/14MZGDRS
 salver/1M
 salvo/14MS
+sam/145m
+samantha/m
+samar/m
+samara/1m
 samarium/1M
 samba/14MDSG
 same/58SP
@@ -43188,7 +43195,7 @@ sponger/1M
 sponginess/1M
 spongy/5RPT
 sponsor/14MDGS
-sponsorship/1M
+sponsorship/1MS
 spontaneity/1M
 spontaneous/5Y
 spoof/154SMDG
@@ -48213,7 +48220,6 @@ vulva/1M
 vulvae/1
 vuvuzela/1MS
 vying/41
-w/15+DNXTGVJ
 wabbit/51S
 wack/51MRTS
 wackiness/1M
@@ -49357,7 +49363,6 @@ xylene/1
 xylophone/14SM
 xylophonist/1MS
 y'all/84
-y/1F
 ya/81
 yacht/14SMDG
 yachting/41M
@@ -49799,4 +49804,5 @@ KSQL/1
 PRQL/1
 MapReduce/1
 SQLAlchemy/1
-inclusivity/SM
+RTX/1SM
+PDP/1SM
