@@ -18,7 +18,7 @@ Before you can open a pull request or modify any code, you need a mutable copy o
 The best way to do that is to [fork it in GitHub](https://github.com/Automattic/harper/fork).
 
 Next, you'll want to copy this fork onto your computer and create a new branch.
-GitHub has an [excellent page explaining how clone repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
+GitHub has an [excellent page explaining how to clone repositories](https://docs.github.com/en/repositories/creating-and-managing-repositories/cloning-a-repository).
 
 ## Get Your Environment Set Up
 
