@@ -6,13 +6,13 @@ use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::closed_compounds::{
-    Altogether, Anybody, Anyhow, Anytime, Anyway, Anywhere, Asleep, Backplane, Bitrate, Devops,
-    Downright, Ecommerce, Evermore, Everywhere, Forthwith, Henceforth, Hereafter, Hereby,
-    Hereunder, However, Insofar, Instead, Intact, Into, Itself, Likewise, Middleware,
-    Misunderstand, Misunderstood, Misuse, Misused, Multicore, Multimedia, Multithreading, Myself,
-    Nobody, Nonetheless, Nothing, Notwithstanding, Opensource, Otherwise, Overall, Overclocking,
-    Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere, Thereafter, Therefore,
-    Therein, Thereupon, Tonight, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
+    Altogether, Anybody, Anyhow, Anywhere, Asleep, Backplane, Devops, Downright, Ecommerce,
+    Everywhere, Forthwith, Henceforth, Hereafter, Hereby, Hereunder, However, Insofar, Instead,
+    Intact, Into, Itself, Likewise, Middleware, Misunderstand, Misunderstood, Misuse, Misused,
+    Multicore, Multimedia, Multithreading, Myself, Nobody, Nonetheless, Nothing, Notwithstanding,
+    Otherwise, Overall, Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow,
+    Somewhere, Thereafter, Therefore, Therein, Thereupon, Tonight, Underclock, Upset, Upward,
+    Whereupon, Widespread, Worldwide,
 };
 use super::compound_nouns::CompoundNouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
@@ -172,7 +172,6 @@ macro_rules! create_lint_group_config {
 
 create_lint_group_config!(
     CompoundNouns => true,
-    Evermore => true,
     Regardless => true,
     Henceforth => true,
     Upward => true,
@@ -196,18 +195,14 @@ create_lint_group_config!(
     Multicore => true,
     Multithreading => true,
     Devops => true,
-    Opensource => true,
     Underclock => true,
     Overload => true,
-    Bitrate => true,
     Backplane => true,
     Overclocking => true,
     Middleware => true,
     Somewhere => true,
     Instead => true,
     Anywhere => true,
-    Anytime => true,
-    Anyway => true,
     Nothing => true,
     Anybody => true,
     Somebody => true,

@@ -51,13 +51,13 @@ pub use avoid_curses::AvoidCurses;
 pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
 pub use closed_compounds::{
-    Altogether, Anybody, Anyhow, Anytime, Anyway, Anywhere, Asleep, Backplane, Bitrate, Devops,
-    Downright, Ecommerce, Evermore, Everywhere, Forthwith, Henceforth, Hereafter, Hereby,
-    Hereunder, However, Insofar, Instead, Intact, Into, Itself, Likewise, Middleware,
-    Misunderstand, Misunderstood, Misuse, Misused, Multicore, Multimedia, Multithreading, Myself,
-    Nobody, Nonetheless, Nothing, Notwithstanding, Opensource, Otherwise, Overall, Overclocking,
-    Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere, Thereafter, Therefore,
-    Therein, Thereupon, Tonight, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
+    Altogether, Anybody, Anyhow, Anywhere, Asleep, Backplane, Devops, Downright, Ecommerce,
+    Everywhere, Forthwith, Henceforth, Hereafter, Hereby, Hereunder, However, Insofar, Instead,
+    Intact, Into, Itself, Likewise, Middleware, Misunderstand, Misunderstood, Misuse, Misused,
+    Multicore, Multimedia, Multithreading, Myself, Nobody, Nonetheless, Nothing, Notwithstanding,
+    Otherwise, Overall, Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow,
+    Somewhere, Thereafter, Therefore, Therein, Thereupon, Tonight, Underclock, Upset, Upward,
+    Whereupon, Widespread, Worldwide,
 };
 pub use compound_nouns::CompoundNouns;
 pub use correct_number_suffix::CorrectNumberSuffix;

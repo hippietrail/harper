@@ -76,8 +76,6 @@ create_closed_compound_linter!(Nobody, "no body", "nobody");
 create_closed_compound_linter!(Somebody, "some body", "somebody");
 create_closed_compound_linter!(Anybody, "any body", "anybody");
 create_closed_compound_linter!(Nothing, "no thing", "nothing");
-create_closed_compound_linter!(Anyway, "any way", "anyway");
-create_closed_compound_linter!(Anytime, "any time", "anytime");
 create_closed_compound_linter!(Anywhere, "any where", "anywhere");
 create_closed_compound_linter!(Instead, "in stead", "instead");
 create_closed_compound_linter!(Somewhere, "some where", "somewhere");
@@ -85,10 +83,8 @@ create_closed_compound_linter!(Middleware, "middle ware", "middleware");
 create_closed_compound_linter!(Into, "in to", "into");
 create_closed_compound_linter!(Overclocking, "over clocking", "overclocking");
 create_closed_compound_linter!(Backplane, "back plane", "backplane");
-create_closed_compound_linter!(Bitrate, "bit rate", "bitrate");
 create_closed_compound_linter!(Overload, "over load", "overload");
 create_closed_compound_linter!(Underclock, "under clock", "underclock");
-create_closed_compound_linter!(Opensource, "open source", "opensource");
 create_closed_compound_linter!(Devops, "dev ops", "devops");
 create_closed_compound_linter!(Multithreading, "multi threading", "multithreading");
 create_closed_compound_linter!(Everywhere, "every where", "everywhere");
@@ -113,7 +109,6 @@ create_closed_compound_linter!(Downright, "down right", "downright");
 create_closed_compound_linter!(Upward, "up ward", "upward");
 create_closed_compound_linter!(Henceforth, "hence forth", "henceforth");
 create_closed_compound_linter!(Regardless, "regard less", "regardless");
-create_closed_compound_linter!(Evermore, "ever more", "evermore");
 
 #[cfg(test)]
 mod tests {
@@ -122,7 +117,7 @@ mod tests {
         Overall, Therefore, Tonight, Worldwide,
     };
     use super::{
-        Anyhow, Downright, Evermore, Forthwith, Henceforth, Hereafter, Hereby, Hereunder, Insofar,
+        Anyhow, Downright, Forthwith, Henceforth, Hereafter, Hereby, Hereunder, Insofar,
         Nonetheless, Notwithstanding, Otherwise, Regardless, Thereafter, Therein, Thereupon,
         Upward, Whereupon, Widespread,
     };
