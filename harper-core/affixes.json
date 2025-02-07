@@ -596,6 +596,15 @@
       "gifts_metadata": {
         "article": true
       }
+    },
+    "j": {
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "adverb": {}
+      }
     }
   }
 }

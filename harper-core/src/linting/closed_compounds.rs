@@ -72,7 +72,6 @@ create_closed_compound_linter!(Upset, "up set", "upset");
 create_closed_compound_linter!(Intact, "in tact", "intact");
 create_closed_compound_linter!(Somehow, "some how", "somehow");
 create_closed_compound_linter!(Proofread, "proof read", "proofread");
-create_closed_compound_linter!(Nobody, "no body", "nobody");
 create_closed_compound_linter!(Somebody, "some body", "somebody");
 create_closed_compound_linter!(Anybody, "any body", "anybody");
 create_closed_compound_linter!(Nothing, "no thing", "nothing");

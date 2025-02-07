@@ -6,13 +6,11 @@ use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::closed_compounds::{
-    Altogether, Anybody, Anyhow, Anywhere, Asleep, Backplane, Devops, Downright, Ecommerce,
-    Everywhere, Forthwith, Henceforth, Hereafter, Hereby, Hereunder, However, Insofar, Instead,
-    Intact, Into, Itself, Likewise, Middleware, Misunderstand, Misunderstood, Misuse, Misused,
-    Multicore, Multimedia, Multithreading, Myself, Nobody, Nonetheless, Nothing, Notwithstanding,
-    Otherwise, Overall, Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow,
-    Somewhere, Thereafter, Therefore, Therein, Thereupon, Tonight, Underclock, Upset, Upward,
-    Whereupon, Widespread, Worldwide,
+    Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, Hereafter, However,
+    Insofar, Instead, Intact, Into, Itself, Middleware, Misunderstand, Misunderstood, Misuse,
+    Misused, Multicore, Multimedia, Multithreading, Myself, Nonetheless, Nothing, Notwithstanding,
+    Overall, Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
+    Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
 };
 use super::compound_nouns::CompoundNouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
@@ -25,6 +23,7 @@ use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
 use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
+use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
@@ -175,22 +174,14 @@ create_lint_group_config!(
     Regardless => true,
     Henceforth => true,
     Upward => true,
-    Downright => true,
-    Thereafter => true,
     Whereupon => true,
     Insofar => true,
-    Forthwith => true,
-    Hereunder => true,
-    Hereby => true,
     Thereupon => true,
-    Therein => true,
-    Otherwise => true,
     Hereafter => true,
     Nonetheless => true,
     Anyhow => true,
     Notwithstanding => true,
     Widespread => true,
-    Ecommerce => true,
     Multimedia => true,
     Multicore => true,
     Multithreading => true,
@@ -213,10 +204,7 @@ create_lint_group_config!(
     Intact => true,
     Upset => true,
     Misunderstood => true,
-    Asleep => true,
-    Altogether => true,
     However => true,
-    Likewise => true,
     Overall => true,
     Worldwide => true,
     Postpone => true,
@@ -225,7 +213,6 @@ create_lint_group_config!(
     Misunderstand => true,
     Therefore => true,
     Myself => true,
-    Tonight => true,
     Itself => true,
     Whereas => true,
     SpelledNumbers => false,
@@ -322,7 +309,11 @@ mod tests {
         for (key, value) in pairs {
             let doc = Document::new_markdown_default_curated(&value);
             eprintln!("{key}: {value}");
-            assert!(group.lint(&doc).is_empty())
+
+            if !group.lint(&doc).is_empty() {
+                dbg!(&group.lint(&doc));
+                panic!();
+            }
         }
     }
 }

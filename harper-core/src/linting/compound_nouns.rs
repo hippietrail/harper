@@ -75,6 +75,7 @@ impl Linter for CompoundNouns {
                 || matches!(b_chars.as_slice(), &['i', 's'])
                 || a_meta.article
                 || b_meta.article
+                || (a_meta.is_verb() && b_meta.is_adverb())
             {
                 continue;
             }

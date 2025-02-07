@@ -25,6 +25,7 @@ mod merge_linters;
 mod merge_words;
 mod multiple_sequential_pronouns;
 mod no_oxford_comma;
+mod nobody;
 mod number_suffix_capitalization;
 mod oxford_comma;
 mod pattern_linter;
@@ -51,13 +52,11 @@ pub use avoid_curses::AvoidCurses;
 pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
 pub use closed_compounds::{
-    Altogether, Anybody, Anyhow, Anywhere, Asleep, Backplane, Devops, Downright, Ecommerce,
-    Everywhere, Forthwith, Henceforth, Hereafter, Hereby, Hereunder, However, Insofar, Instead,
-    Intact, Into, Itself, Likewise, Middleware, Misunderstand, Misunderstood, Misuse, Misused,
-    Multicore, Multimedia, Multithreading, Myself, Nobody, Nonetheless, Nothing, Notwithstanding,
-    Otherwise, Overall, Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow,
-    Somewhere, Thereafter, Therefore, Therein, Thereupon, Tonight, Underclock, Upset, Upward,
-    Whereupon, Widespread, Worldwide,
+    Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, Hereafter, However,
+    Insofar, Instead, Intact, Into, Itself, Middleware, Misunderstand, Misunderstood, Misuse,
+    Misused, Multicore, Multimedia, Multithreading, Myself, Nonetheless, Nothing, Notwithstanding,
+    Overall, Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
+    Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
 };
 pub use compound_nouns::CompoundNouns;
 pub use correct_number_suffix::CorrectNumberSuffix;
@@ -75,6 +74,7 @@ pub use matcher::Matcher;
 pub use merge_words::MergeWords;
 pub use multiple_sequential_pronouns::MultipleSequentialPronouns;
 pub use no_oxford_comma::NoOxfordComma;
+pub use nobody::Nobody;
 pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
