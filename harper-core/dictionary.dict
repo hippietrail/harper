@@ -2462,6 +2462,7 @@ Czerny/M
 D/152M
 DA/1254M
 DAR/2
+DARPA/2M
 DAT/1M
 DBMS/1M
 DC/2154M
@@ -8586,6 +8587,7 @@ SDI/12
 SE/125M
 SEATO/2
 SEC/21M
+SEO/1M
 SF/125
 SGML/2M
 SIDS/12M
@@ -14906,7 +14908,7 @@ breakfast/14MDGS
 breakfront/1MS
 breakneck/51
 breakout/15MS
-breakpoints/1
+breakpoint/1SM
 breakthrough/51M
 breakthroughs/1
 breakup/1SM
@@ -18221,6 +18223,7 @@ conviviality/1M
 convoke/4DSG
 convoluted/54
 convolution/1MS
+convolutional/5
 convoy/14SMDG
 convulse/4GNVXDS
 convulsion/1M
@@ -22748,6 +22751,7 @@ expire/4DSG
 expired/45U
 expiry/1M
 explain/4ADGS
+explanability/1M
 explainable/5
 explained/4U
 explanation/1MS
@@ -25694,6 +25698,7 @@ grievous/5PY
 grievousness/1M
 griffin/1SM
 griffon/1SM
+grift/14SMGDR
 grill/145SGMDJ
 grille/1MS
 grim/541DYPG
@@ -26015,7 +26020,7 @@ habituate/4GNDS
 habituation/1M
 habitue/1SM
 hacienda/1SM
-hack/41MDRZGS
+hack/41MDRZGSB
 hacker/14M
 hacking/541M
 hackish/5
@@ -27473,7 +27478,7 @@ hyperactive/5
 hyperactivity/1M
 hyperbola/1SM
 hyperbole/1M
-hyperbolic/5
+hyperbolic/5Q
 hypercritical/5Y
 hypercube/1
 hyperglycemia/1M
@@ -27876,7 +27881,7 @@ implantation/1M
 implausibility/1SM
 implausible/5
 implausibly/
-implement/41GBMDRS
+implement/41GBMDRSA
 implementable/5U
 implementation/1SM
 implemented/4U
@@ -28701,7 +28706,7 @@ interpolate/4XDSGN
 interpolation/1M
 interpose/4GDS
 interposition/1M
-interpret/4AGVDS
+interpret/4AGVDSB
 interpretation/1AMS
 interpretative/5
 interpreted/45U
@@ -30121,8 +30126,8 @@ legit/15
 legitimacy/1M
 legitimate/514DSYG
 legitimatize/4GDS
-legitimization/1M
-legitimize/4DSG
+legitimization/1MC
+legitimize/4DSGC
 legless/5
 legman/1M
 legmen/1
@@ -33406,7 +33411,8 @@ neurologist/1SM
 neurology/1M
 neuron/1MS
 neuronal/5
-neuroscience/1
+neuroscience/1M
+neuroscientist/1SM
 neuroses/1
 neurosis/1M
 neurosurgeon/1MS
@@ -37514,6 +37520,7 @@ prelacy/1M
 prelate/14SM
 prelim/51SM
 preliminary/51SM
+preliminarily
 preliterate/51
 prelude/14MS
 premarital/51
@@ -49628,6 +49635,7 @@ GPU/12S
 codebase/1S
 LIDAR/1
 LiDAR/1
+LinkedIn/2M
 LADAR
 TODO
 struct/1
@@ -49636,7 +49644,8 @@ hackathon/1SM
 pseudocode/1MG
 Zettelkasten/1M
 OAuth/M
-MacOS/M
+MacBook/2SM
+MacOS/2M
 SVG/21s
 URI/1s
 suprachiasmatic/5
