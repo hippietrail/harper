@@ -17,6 +17,7 @@ use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
+use super::hereby::Hereby;
 use super::lets_confusion::LetsConfusion;
 use super::likewise::Likewise;
 use super::linking_verbs::LinkingVerbs;
@@ -171,6 +172,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Hereby => true,
     Likewise => true,
     CompoundNouns => true,
     Regardless => true,
