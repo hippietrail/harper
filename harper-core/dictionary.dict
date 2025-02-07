@@ -1605,7 +1605,7 @@ CFO/12
 CGI/124
 CIA/215M
 CID/12
-CLI/1M
+CLI/1MS
 CNN/21M
 CNS/1M
 CO/214M
@@ -6258,7 +6258,7 @@ Marjorie/2M
 Marjory/2M
 Mark/21SM
 Markab/2M
-Markdown/12SM
+Markdown/12M
 Markham/2M
 Markov/2M
 Marks/2M
@@ -10651,7 +10651,8 @@ Yorktown/2M
 Yoruba/12M
 Yosemite/2M
 Yossarian/M
-YouTube/214MR
+YouTube/214M
+YouTuber/1SM
 Young/2M
 Youngstown/2M
 Ypres/2M
@@ -23492,7 +23493,7 @@ finalize/4DSG
 finance's
 finance/14ADSG
 financial/5Y
-financials/9SM
+financials/9
 financier/14MS
 financing/14M
 finch/14MS
