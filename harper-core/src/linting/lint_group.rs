@@ -18,6 +18,7 @@ use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
 use super::lets_confusion::LetsConfusion;
+use super::likewise::Likewise;
 use super::linking_verbs::LinkingVerbs;
 use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
@@ -170,6 +171,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Likewise => true,
     CompoundNouns => true,
     Regardless => true,
     Henceforth => true,

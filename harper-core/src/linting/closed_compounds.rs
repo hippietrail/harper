@@ -54,7 +54,6 @@ macro_rules! create_closed_compound_linter {
 }
 
 create_closed_compound_linter!(Itself, "it self", "itself");
-create_closed_compound_linter!(Tonight, "to night", "tonight");
 create_closed_compound_linter!(Myself, "my self", "myself");
 create_closed_compound_linter!(Therefore, "there fore", "therefore");
 create_closed_compound_linter!(Misunderstand, "miss understand", "misunderstand");
@@ -64,10 +63,7 @@ create_closed_compound_linter!(Misused, "miss used", "misused");
 create_closed_compound_linter!(Postpone, "post pone", "postpone");
 create_closed_compound_linter!(Worldwide, "world wide", "worldwide");
 create_closed_compound_linter!(Overall, "over all", "overall");
-create_closed_compound_linter!(Likewise, "like wise", "likewise");
 create_closed_compound_linter!(However, "how ever", "however");
-create_closed_compound_linter!(Altogether, "all together", "altogether");
-create_closed_compound_linter!(Asleep, "a sleep", "asleep");
 create_closed_compound_linter!(Upset, "up set", "upset");
 create_closed_compound_linter!(Intact, "in tact", "intact");
 create_closed_compound_linter!(Somehow, "some how", "somehow");
@@ -89,22 +85,15 @@ create_closed_compound_linter!(Multithreading, "multi threading", "multithreadin
 create_closed_compound_linter!(Everywhere, "every where", "everywhere");
 create_closed_compound_linter!(Multicore, "multi core", "multicore");
 create_closed_compound_linter!(Multimedia, "multi media", "multimedia");
-create_closed_compound_linter!(Ecommerce, "e commerce", "ecommerce");
 create_closed_compound_linter!(Widespread, "wide spread", "widespread");
 create_closed_compound_linter!(Notwithstanding, "not with standing", "notwithstanding");
 create_closed_compound_linter!(Anyhow, "any how", "anyhow");
 create_closed_compound_linter!(Nonetheless, "none the less", "nonetheless");
 create_closed_compound_linter!(Hereafter, "here after", "hereafter");
-create_closed_compound_linter!(Otherwise, "other wise", "otherwise");
-create_closed_compound_linter!(Therein, "there in", "therein");
 create_closed_compound_linter!(Thereupon, "there upon", "thereupon");
-create_closed_compound_linter!(Hereby, "here by", "hereby");
-create_closed_compound_linter!(Hereunder, "here under", "hereunder");
 create_closed_compound_linter!(Forthwith, "forth with", "forthwith");
 create_closed_compound_linter!(Insofar, "in so far", "insofar");
 create_closed_compound_linter!(Whereupon, "where upon", "whereupon");
-create_closed_compound_linter!(Thereafter, "there after", "thereafter");
-create_closed_compound_linter!(Downright, "down right", "downright");
 create_closed_compound_linter!(Upward, "up ward", "upward");
 create_closed_compound_linter!(Henceforth, "hence forth", "henceforth");
 create_closed_compound_linter!(Regardless, "regard less", "regardless");
@@ -112,13 +101,11 @@ create_closed_compound_linter!(Regardless, "regard less", "regardless");
 #[cfg(test)]
 mod tests {
     use super::{
-        Altogether, Asleep, However, Itself, Likewise, Misunderstood, Misuse, Misused, Myself,
-        Overall, Therefore, Tonight, Worldwide,
+        Anyhow, Forthwith, Henceforth, Hereafter, Insofar, Nonetheless, Notwithstanding,
+        Regardless, Thereupon, Upward, Whereupon, Widespread,
     };
     use super::{
-        Anyhow, Downright, Forthwith, Henceforth, Hereafter, Hereby, Hereunder, Insofar,
-        Nonetheless, Notwithstanding, Otherwise, Regardless, Thereafter, Therein, Thereupon,
-        Upward, Whereupon, Widespread,
+        However, Itself, Misunderstood, Misuse, Misused, Myself, Overall, Therefore, Worldwide,
     };
     use crate::linting::tests::assert_suggestion_result;
 
@@ -127,13 +114,6 @@ mod tests {
         let test_sentence = "The project, it self, was quite challenging.";
         let expected = "The project, itself, was quite challenging.";
         assert_suggestion_result(test_sentence, Itself::default(), expected);
-    }
-
-    #[test]
-    fn to_night() {
-        let test_sentence = "She spent the night to night.";
-        let expected = "She spent the night tonight.";
-        assert_suggestion_result(test_sentence, Tonight::default(), expected);
     }
 
     #[test]
@@ -186,31 +166,10 @@ mod tests {
     }
 
     #[test]
-    fn like_wise() {
-        let test_sentence = "He acted, like wise, without hesitation.";
-        let expected = "He acted, likewise, without hesitation.";
-        assert_suggestion_result(test_sentence, Likewise::default(), expected);
-    }
-
-    #[test]
     fn how_ever() {
         let test_sentence = "This is true, how ever, details matter.";
         let expected = "This is true, however, details matter.";
         assert_suggestion_result(test_sentence, However::default(), expected);
-    }
-
-    #[test]
-    fn all_together() {
-        let test_sentence = "They did it all together.";
-        let expected = "They did it altogether.";
-        assert_suggestion_result(test_sentence, Altogether::default(), expected);
-    }
-
-    #[test]
-    fn a_sleep() {
-        let test_sentence = "She fell a sleep.";
-        let expected = "She fell asleep.";
-        assert_suggestion_result(test_sentence, Asleep::default(), expected);
     }
 
     #[test]
@@ -249,38 +208,10 @@ mod tests {
     }
 
     #[test]
-    fn other_wise() {
-        let test_sentence = "Review the guidelines, other wise you might miss an important detail.";
-        let expected = "Review the guidelines, otherwise you might miss an important detail.";
-        assert_suggestion_result(test_sentence, Otherwise::default(), expected);
-    }
-
-    #[test]
-    fn there_in() {
-        let test_sentence = "All the answers can be found there in the document.";
-        let expected = "All the answers can be found therein the document.";
-        assert_suggestion_result(test_sentence, Therein::default(), expected);
-    }
-
-    #[test]
     fn there_upon() {
         let test_sentence = "A decision was made there upon reviewing the data.";
         let expected = "A decision was made thereupon reviewing the data.";
         assert_suggestion_result(test_sentence, Thereupon::default(), expected);
-    }
-
-    #[test]
-    fn here_by() {
-        let test_sentence = "The contract is here by declared null and void.";
-        let expected = "The contract is hereby declared null and void.";
-        assert_suggestion_result(test_sentence, Hereby::default(), expected);
-    }
-
-    #[test]
-    fn here_under() {
-        let test_sentence = "All terms are set forth here under.";
-        let expected = "All terms are set forth hereunder.";
-        assert_suggestion_result(test_sentence, Hereunder::default(), expected);
     }
 
     #[test]
@@ -302,20 +233,6 @@ mod tests {
         let test_sentence = "They acted where upon the circumstances allowed.";
         let expected = "They acted whereupon the circumstances allowed.";
         assert_suggestion_result(test_sentence, Whereupon::default(), expected);
-    }
-
-    #[test]
-    fn there_after() {
-        let test_sentence = "The system shutdown occurred there after the update.";
-        let expected = "The system shutdown occurred thereafter the update.";
-        assert_suggestion_result(test_sentence, Thereafter::default(), expected);
-    }
-
-    #[test]
-    fn down_right() {
-        let test_sentence = "His comment was down right insulting to everyone present.";
-        let expected = "His comment was downright insulting to everyone present.";
-        assert_suggestion_result(test_sentence, Downright::default(), expected);
     }
 
     #[test]
