@@ -20,6 +20,9 @@ export default class LocalLinter implements Linter {
 	async setup(): Promise<void> {
 		await this.initialize();
 		this.inner!.lint('', Language.Plain);
+
+		const exported = await this.exportIgnoredLints();
+		await this.importIgnoredLints(exported);
 	}
 
 	async lint(text: string, options?: LintOptions): Promise<Lint[]> {
