@@ -44,6 +44,7 @@ ASAP/
 ASCII/2SM
 ASL/2M
 ASPCA/2
+AST/1MS
 ATM/1M
 ATP/21M
 ATV/21
@@ -4242,6 +4243,7 @@ Head/2M
 Hearst/2M
 Heath/2MR
 Heather/2M
+Heathrow/2M
 Heaviside/2M
 Heb
 Hebe/21M
@@ -10641,7 +10643,7 @@ Yorktown/2M
 Yoruba/12M
 Yosemite/2M
 Yossarian/M
-YouTube/214M
+YouTube/214MR
 Young/2M
 Youngstown/2M
 Ypres/2M
@@ -14108,6 +14110,8 @@ biology/1M
 biomarker/1MS
 biomass/1M
 biomedical/51
+biometric/5
+biometrics/1
 bionic/5S
 bionically/
 bionics/1M
@@ -19470,6 +19474,7 @@ decal/14MS
 decampment/1M
 decapitate/4XGNDS
 decapitator/1MS
+decarbonize/4DSG
 decathlete/1S
 decathlon/1SM
 decay/14GD
@@ -19579,6 +19584,7 @@ defamation/1M
 defamatory/5
 defame/415ZGDRS
 defamer/1M
+defang/4DGS
 defaulter/1SM
 defeat/41MDRZGS
 defeated/54U
@@ -24821,7 +24827,7 @@ gaseous/5
 gash/154MDSG
 gasholder/1S
 gasket/14SM
-gaslight/14MS
+gaslight/14MSDG
 gasman/1
 gasmen/1
 gasohol/1M
@@ -27508,7 +27514,7 @@ hypothermia/1M
 hypotheses/1
 hypothesis/1M
 hypothesize/4DSG
-hypothetical/51Y
+hypothetical/51YS
 hypothyroid/5M
 hypothyroidism/1M
 hyssop/1M
@@ -28276,7 +28282,7 @@ inflectional/5
 inflict/4SDGV
 infliction/1M
 inflow/14SM
-influence/14MGDS
+influence/14MGDSR
 influenced/45U
 influential/51Y
 influenza/1M
@@ -36913,7 +36919,7 @@ pocketknife/1M
 pocketknives/1
 pockmark/1MDGS
 pod/14SM
-podcast/14SMG
+podcast/14SMGR
 podded/54
 podding/4
 podiatrist/1SM
@@ -38626,8 +38632,8 @@ radiation/1M
 radiator/1SM
 radical/51SMY
 radicalism/1M
-radicalization/1M
-radicalize/4DSG
+radicalization/1MC
+radicalize/4DSGC
 radicchio/1M
 radii/1
 radio/14MDGS
@@ -47131,6 +47137,7 @@ underpart/41MS
 underpass/1MS
 underpay/4GSL
 underpayment/1SM
+underperform/4GDSR
 underpin/4S
 underpinned/4
 underpinning/41MS
