@@ -5164,6 +5164,7 @@ Karachi/2M
 Karaganda/2M
 Karakorum/2M
 Karamazov/M
+Kardashian/2MS
 Kareem/2M
 Karen/21M
 Karenina/M
@@ -5999,6 +6000,7 @@ MIPS/12
 MIRV/1
 MIT/21M
 MM/12
+MMA/1M
 MN/21
 MO/215
 MOOC/1
@@ -8420,6 +8422,7 @@ Rodriguez/2M
 Rodriquez/2M
 Roeg/M
 Roentgen/2
+Rogan/1MS
 Rogelio/M
 Roger/12MS
 Rogers/2M
@@ -14817,6 +14820,7 @@ bracer/1M
 bracero/1MS
 bracken/1M
 bracket/14GMDS
+bracketry/1M
 brackish/5P
 brackishness/1M
 bract/1MS
@@ -16439,6 +16443,7 @@ cheerfulness/1M
 cheerily/
 cheeriness/1M
 cheerio/1MS
+cheerleading/4
 cheerleader/1SM
 cheerless/5PY
 cheerlessness/1M
@@ -17668,7 +17673,7 @@ compress/41CGVDS
 compressed/54U
 compressible/5
 compression/1CM
-compressor/1SM
+compressor/1SMC
 comprise/4GDS
 compromise/14MGDS
 comptroller/1MS
@@ -18447,7 +18452,7 @@ cosmonaut/1SM
 cosmopolitan/51MS
 cosmopolitanism/1M
 cosmos/1MS
-cosplay/14
+cosplay/14DGMSR
 cosponsor/14GSMD
 cosset/41SGD
 cossetted/4
@@ -19413,7 +19418,7 @@ deaconess/1MS
 dead/514XTMNRY
 deadbeat/15MS
 deadbolt/14SM
-deaden/4GD
+deaden/4GDR
 deadhead/14SDG
 deadline/14SM
 deadliness/1M
@@ -26873,6 +26878,8 @@ hitchhike/41DRSMZG
 hitchhiker/1M
 hither/5
 hitherto/
+hitman/1M
+hitmen/9M
 hitter/1SM
 hitting/14
 hive/14MGDS
@@ -28025,8 +28032,8 @@ incarnate/54AXGNDS
 incarnation/1AM
 incendiary/51SM
 incense/14MGDS
-incentive's
-incentive/15ES
+incentive/1MES
+incentivize/4GDS
 inception/1SM
 incessant/5Y
 incest/14M
@@ -40417,7 +40424,7 @@ salutatorian/1MS
 salutatory/51
 salute/14DSMG
 salvage/14DSMG
-salvageable/5
+salvageable/5U
 salvation/14M
 salve/14MZGDRS
 salver/1M
@@ -46332,6 +46339,7 @@ transgenic/51
 transgress/4GDS
 transgression/1SM
 transgressor/1SM
+transhumanism/1M
 transience/1M
 transiency/1M
 transient/51SMY
@@ -47585,6 +47593,7 @@ usefulness/1M
 useless/5YP
 uselessness/1M
 user/1MS
+userland/1MS
 username/1MS
 usher/14SMDG
 usherette/1SM
