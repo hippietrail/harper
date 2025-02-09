@@ -28,6 +28,7 @@ mod oxford_comma;
 mod pattern_linter;
 mod phrase_corrections;
 mod plural_conjugate;
+mod possessive_your;
 mod pronoun_contraction;
 mod proper_noun_capitalization_linters;
 mod repeated_words;
@@ -71,6 +72,7 @@ pub use phrase_corrections::{
     ThatChallenged, TurnItOff,
 };
 pub use plural_conjugate::PluralConjugate;
+pub use possessive_your::PossessiveYour;
 pub use pronoun_contraction::PronounContraction;
 pub use proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
