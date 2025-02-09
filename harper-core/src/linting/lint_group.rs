@@ -22,6 +22,7 @@ use super::phrase_corrections::{
     ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
+use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
 use super::proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
@@ -160,6 +161,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    PossessiveYour => true,
     SpelledNumbers => false,
     AnA => true,
     SentenceCapitalization => true,
@@ -195,7 +197,7 @@ create_lint_group_config!(
     MergeWords => true,
     PluralConjugate => false,
     OxfordComma => true,
-    NoOxfordComma => true,
+    NoOxfordComma => false,
     PronounContraction => true,
     CurrencyPlacement => true,
     SomewhatSomething => true,
