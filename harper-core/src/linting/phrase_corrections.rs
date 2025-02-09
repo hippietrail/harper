@@ -83,7 +83,7 @@ create_linter_for_phrase!(EnMasse, "en masse", 1);
 create_linter_for_phrase!(LetAlone, "let alone", 1);
 create_linter_for_phrase!(LoAndBehold, "lo and behold", 2);
 create_linter_for_phrase!(SneakingSuspicion, "sneaking suspicion", 3);
-create_linter_for_phrase!(SupposeTo, "suppose to", 1);
+create_linter_for_phrase!(SupposeTo, "supposed to", 1);
 
 #[cfg(test)]
 mod tests {
@@ -183,6 +183,6 @@ mod tests {
 
     #[test]
     fn supposed_to() {
-        assert_suggestion_result("supposed to", SupposeTo::default(), "suppose to");
+        assert_suggestion_result("suppose to", SupposeTo::default(), "supposed to");
     }
 }
