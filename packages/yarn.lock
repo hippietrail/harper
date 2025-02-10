@@ -9111,7 +9111,6 @@ vscode-uri@^3.0.8:
 
 "wasm@link:../harper-wasm/pkg":
   version "0.0.0"
-  uid ""
 
 webidl-conversions@^4.0.2:
   version "4.0.2"
