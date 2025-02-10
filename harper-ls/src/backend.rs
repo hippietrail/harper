@@ -4,7 +4,7 @@ use std::sync::Arc;
 
 use anyhow::{anyhow, Context, Result};
 use harper_comments::CommentParser;
-use harper_core::linting::LintGroup;
+use harper_core::linting::{LintGroup, LintGroupConfig};
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Markdown, Parser, PlainEnglish};
 use harper_core::{
     Dictionary, Document, FstDictionary, FullDictionary, MergedDictionary, WordMetadata,
@@ -139,8 +139,15 @@ impl Backend {
     ) -> Result<()> {
         self.pull_config().await;
 
-        let mut doc_lock = self.doc_state.lock().await;
-        let config_lock = self.config.read().await;
+        // Copy necessary configuration to avoid holding lock.
+        let (lint_config, markdown_options, isolate_english) = {
+            let config = self.config.read().await;
+            (
+                config.lint_config,
+                config.markdown_options,
+                config.isolate_english,
+            )
+        };
 
         let dict = Arc::new(
             self.generate_file_dictionary(url)
@@ -148,8 +155,10 @@ impl Backend {
                 .context("Unable to generate the file dictionary.")?,
         );
 
+        let mut doc_lock = self.doc_state.lock().await;
+
         let doc_state = doc_lock.entry(url.clone()).or_insert(DocumentState {
-            linter: LintGroup::new(config_lock.lint_config, dict.clone()),
+            linter: LintGroup::new(lint_config, dict.clone()),
             language_id: language_id.map(|v| v.to_string()),
             dict: dict.clone(),
             url: url.clone(),
@@ -158,7 +167,7 @@ impl Backend {
 
         if doc_state.dict != dict {
             doc_state.dict = dict.clone();
-            doc_state.linter = LintGroup::new(config_lock.lint_config, dict.clone());
+            doc_state.linter = LintGroup::new(lint_config, dict.clone());
         }
 
         let Some(language_id) = &doc_state.language_id else {
@@ -172,7 +181,7 @@ impl Backend {
             parser: impl Parser + 'static,
             url: &'a Url,
             doc_state: &'a mut DocumentState,
-            config_lock: tokio::sync::RwLockReadGuard<'a, Config>,
+            lint_config: LintGroupConfig,
         ) -> Result<Box<dyn Parser>> {
             if doc_state.ident_dict != new_dict {
                 doc_state.ident_dict = new_dict.clone();
@@ -181,7 +190,7 @@ impl Backend {
                 merged.add_dictionary(new_dict);
                 let merged = Arc::new(merged);
 
-                doc_state.linter = LintGroup::new(config_lock.lint_config, merged.clone());
+                doc_state.linter = LintGroup::new(lint_config, merged.clone());
                 doc_state.dict = merged.clone();
             }
 
@@ -191,7 +200,6 @@ impl Backend {
             )))
         }
 
-        let markdown_options = self.config.read().await.markdown_options;
         let source: Vec<char> = text.chars().collect();
         let ts_parser = CommentParser::new_from_language_id(language_id, markdown_options);
         let parser: Option<Box<dyn Parser>> = match language_id.as_str() {
@@ -206,7 +214,7 @@ impl Backend {
                             ts_parser,
                             url,
                             doc_state,
-                            config_lock,
+                            lint_config,
                         )
                         .await?,
                     )
@@ -227,7 +235,7 @@ impl Backend {
                             parser,
                             url,
                             doc_state,
-                            config_lock,
+                            lint_config,
                         )
                         .await?,
                     )
@@ -250,7 +258,7 @@ impl Backend {
                 doc_lock.remove(url);
             }
             Some(mut parser) => {
-                if self.config.read().await.isolate_english {
+                if isolate_english {
                     parser = Box::new(IsolateEnglish::new(parser, doc_state.dict.clone()));
                 }
 
@@ -275,14 +283,18 @@ impl Backend {
     }
 
     async fn generate_diagnostics(&self, url: &Url) -> Vec<Diagnostic> {
+        // Copy necessary configuration to avoid holding lock.
+        let diagnostic_severity = {
+            let config = self.config.read().await;
+            config.diagnostic_severity
+        };
+
         let mut doc_states = self.doc_state.lock().await;
         let Some(doc_state) = doc_states.get_mut(url) else {
             return Vec::new();
         };
 
-        let config = self.config.read().await;
-
-        doc_state.generate_diagnostics(config.diagnostic_severity)
+        doc_state.generate_diagnostics(diagnostic_severity)
     }
 
     async fn publish_diagnostics(&self, url: &Url) {

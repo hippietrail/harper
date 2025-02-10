@@ -1,5 +1,5 @@
 use super::{Lint, LintKind, Linter, Suggestion};
-use crate::token::TokenStringExt;
+use crate::TokenStringExt;
 use crate::{Document, Token, TokenKind};
 
 #[derive(Debug, Default)]

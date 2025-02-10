@@ -234,7 +234,11 @@ addnoun noun:
     exit 0
   fi
 
-  echo "{{noun}}/SM" >> $DICT_FILE
+  if [[ "{{noun}}" =~ ^[A-Z] ]]; then
+    echo "{{noun}}/M" >> $DICT_FILE
+  else
+    echo "{{noun}}/SM" >> $DICT_FILE
+  fi
 
 # Search Harper's curated dictionary for a specific word
 searchdictfor word:
@@ -286,3 +290,13 @@ fuzz:
           exit $?
       fi
   done
+
+# Print affixes and their descriptions from affixes.json
+printaffixes:
+  #! /usr/bin/env node
+  Object.entries(
+    require('{{justfile_directory()}}/harper-core/affixes.json').affixes
+  ).forEach(([affix, fields]) => {
+    const description = fields['#'] || '';
+    description && console.log(affix + ': ' + description);
+  });

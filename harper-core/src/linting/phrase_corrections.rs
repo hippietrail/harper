@@ -67,20 +67,37 @@ macro_rules! create_linter_for_phrase {
     };
 }
 
-create_linter_for_phrase!(TurnItOff, "turn it off", 2);
-create_linter_for_phrase!(HumanLife, "human life", 2);
+create_linter_for_phrase!(TurnItOff, "turn it off", 1);
+create_linter_for_phrase!(HumanLife, "human life", 1);
 create_linter_for_phrase!(ThatChallenged, "that challenged", 2);
 create_linter_for_phrase!(NoLonger, "no longer", 1);
 create_linter_for_phrase!(NeedHelp, "need help", 1);
-create_linter_for_phrase!(AndThis, "and this", 1);
-create_linter_for_phrase!(Decision, "make a decision", 1);
 create_linter_for_phrase!(OfCourse, "of course", 1);
+create_linter_for_phrase!(AndAlike, "and alike", 1);
+create_linter_for_phrase!(BadRap, "bad rap", 1);
+create_linter_for_phrase!(BatedBreath, "bated breath", 1);
+create_linter_for_phrase!(BeckAndCall, "beck and call", 1);
+create_linter_for_phrase!(ChangeTack, "change tack", 1);
+create_linter_for_phrase!(HungerPang, "hunger pang", 2);
+create_linter_for_phrase!(EnMasse, "en masse", 1);
+create_linter_for_phrase!(LetAlone, "let alone", 1);
+create_linter_for_phrase!(LoAndBehold, "lo and behold", 2);
+create_linter_for_phrase!(SneakingSuspicion, "sneaking suspicion", 3);
+create_linter_for_phrase!(SupposeTo, "suppose to", 1);
 
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
-    use super::{Decision, OfCourse, TurnItOff};
+    use super::{
+        BadRap, BatedBreath, ChangeTack, EnMasse, HungerPang, LetAlone, LoAndBehold, OfCourse,
+        SneakingSuspicion, SupposeTo, TurnItOff,
+    };
+
+    #[test]
+    fn issue_574() {
+        assert_lint_count("run by one", TurnItOff::default(), 0);
+    }
 
     #[test]
     fn turn_it_off_clean_lower() {
@@ -103,15 +120,6 @@ mod tests {
     }
 
     #[test]
-    fn take_a_decision() {
-        assert_suggestion_result(
-            "we should take a decision on this",
-            Decision::default(),
-            "we should make a decision on this",
-        );
-    }
-
-    #[test]
     fn off_course() {
         assert_suggestion_result(
             "Yes, off course we should do that.",
@@ -127,5 +135,54 @@ mod tests {
             OfCourse::default(),
             "Yes, of course we should do that.",
         );
+    }
+
+    #[test]
+    fn bad_rep() {
+        assert_suggestion_result("bad rep", BadRap::default(), "bad rap");
+    }
+
+    #[test]
+    fn baited_breath() {
+        assert_suggestion_result("baited breath", BatedBreath::default(), "bated breath");
+    }
+
+    #[test]
+    fn change_tact() {
+        assert_suggestion_result("change tact", ChangeTack::default(), "change tack");
+    }
+
+    #[test]
+    fn hunger_pain() {
+        assert_suggestion_result("hunger pain", HungerPang::default(), "hunger pang");
+    }
+
+    #[test]
+    fn in_mass() {
+        assert_suggestion_result("in mass", EnMasse::default(), "en masse");
+    }
+
+    #[test]
+    fn let_along() {
+        assert_suggestion_result("let along", LetAlone::default(), "let alone");
+    }
+
+    #[test]
+    fn long_and_behold() {
+        assert_suggestion_result("long and behold", LoAndBehold::default(), "lo and behold");
+    }
+
+    #[test]
+    fn sneaky_suspicion() {
+        assert_suggestion_result(
+            "sneaky suspicion",
+            SneakingSuspicion::default(),
+            "sneaking suspicion",
+        );
+    }
+
+    #[test]
+    fn supposed_to() {
+        assert_suggestion_result("supposed to", SupposeTo::default(), "suppose to");
     }
 }

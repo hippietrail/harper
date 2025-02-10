@@ -11,3 +11,5 @@ Once you do, add this to you configuration:
 command = "harper-ls"
 args = ["--stdio"]
 ```
+
+Helix has [official documentation](https://github.com/helix-editor/helix/wiki/Language-Server-Configurations#harper-ls) as well.

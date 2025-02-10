@@ -17,9 +17,12 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
-    AndThis, Decision, HumanLife, NeedHelp, NoLonger, OfCourse, ThatChallenged, TurnItOff,
+    AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
+    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SupposeTo,
+    ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
+use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
 use super::proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
@@ -158,6 +161,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    PossessiveYour => true,
     SpelledNumbers => false,
     AnA => true,
     SentenceCapitalization => true,
@@ -193,20 +197,29 @@ create_lint_group_config!(
     MergeWords => true,
     PluralConjugate => false,
     OxfordComma => true,
-    NoOxfordComma => true,
+    NoOxfordComma => false,
     PronounContraction => true,
     CurrencyPlacement => true,
     SomewhatSomething => true,
     LetsConfusion => true,
     DespiteOf => true,
-    AndThis => true,
-    Decision => true,
     HumanLife => true,
     NeedHelp => true,
     NoLonger => true,
     ThatChallenged => true,
     TurnItOff => true,
-    OfCourse => true
+    OfCourse => true,
+    AndAlike => true,
+    BadRap => true,
+    BatedBreath => true,
+    BeckAndCall => true,
+    ChangeTack => true,
+    HungerPang => true,
+    EnMasse => true,
+    LetAlone => true,
+    LoAndBehold => true,
+    SneakingSuspicion => true,
+    SupposeTo => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {
