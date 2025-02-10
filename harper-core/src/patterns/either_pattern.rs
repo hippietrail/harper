@@ -12,6 +12,10 @@ impl EitherPattern {
     pub fn new(patterns: Vec<Box<dyn Pattern>>) -> Self {
         Self { patterns }
     }
+
+    pub fn add(&mut self, pattern: Box<dyn Pattern>) {
+        self.patterns.push(pattern);
+    }
 }
 
 impl Pattern for EitherPattern {

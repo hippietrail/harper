@@ -5,21 +5,33 @@ use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
+use super::closed_compounds::Overnight;
+use super::closed_compounds::{
+    Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
+    Instead, Intact, Into, Itself, Middleware, Misunderstand, Misunderstood, Misuse, Misused,
+    Multicore, Multimedia, Multithreading, Myself, Nonetheless, Nothing, Notwithstanding, Overall,
+    Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
+    Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
+};
+use super::compound_nouns::CompoundNouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
+use super::hereby::Hereby;
 use super::lets_confusion::LetsConfusion;
+use super::likewise::Likewise;
 use super::linking_verbs::LinkingVerbs;
 use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
 use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
+use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
-    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SupposedTo,
-    ThatChallenged, TurnItOff,
+    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
+    SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
@@ -38,6 +50,7 @@ use super::terminating_conjunctions::TerminatingConjunctions;
 use super::that_which::ThatWhich;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
+use super::whereas::Whereas;
 use super::wrong_quotes::WrongQuotes;
 use super::{CurrencyPlacement, Lint, Linter, NoOxfordComma, OxfordComma};
 use crate::{Dictionary, Document};
@@ -161,6 +174,53 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Overnight => true,
+    Hereby => true,
+    Likewise => true,
+    CompoundNouns => true,
+    Regardless => true,
+    Henceforth => true,
+    Upward => true,
+    Whereupon => true,
+    Insofar => true,
+    Thereupon => true,
+    Nonetheless => true,
+    Anyhow => true,
+    Notwithstanding => true,
+    Widespread => true,
+    Multimedia => true,
+    Multicore => true,
+    Multithreading => true,
+    Devops => true,
+    Underclock => true,
+    Overload => true,
+    Backplane => true,
+    Overclocking => true,
+    Middleware => true,
+    Somewhere => true,
+    Instead => true,
+    Anywhere => true,
+    Nothing => true,
+    Anybody => true,
+    Somebody => true,
+    Nobody => true,
+    Into => true,
+    Proofread => true,
+    Somehow => true,
+    Intact => true,
+    Upset => true,
+    Misunderstood => true,
+    However => true,
+    Overall => true,
+    Worldwide => true,
+    Postpone => true,
+    Misused => true,
+    Misuse => true,
+    Misunderstand => true,
+    Therefore => true,
+    Myself => true,
+    Itself => true,
+    Whereas => true,
     PossessiveYour => true,
     SpelledNumbers => false,
     AnA => true,
@@ -219,6 +279,9 @@ create_lint_group_config!(
     LetAlone => true,
     LoAndBehold => true,
     SneakingSuspicion => true,
+    SpecialAttention => true,
+    Everywhere => true,
+    ThanOthers => true,
     SupposedTo => true
 );
 
@@ -253,7 +316,11 @@ mod tests {
         for (key, value) in pairs {
             let doc = Document::new_markdown_default_curated(&value);
             eprintln!("{key}: {value}");
-            assert!(group.lint(&doc).is_empty())
+
+            if !group.lint(&doc).is_empty() {
+                dbg!(&group.lint(&doc));
+                panic!();
+            }
         }
     }
 }
