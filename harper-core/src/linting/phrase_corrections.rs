@@ -1,24 +1,9 @@
 use super::{Lint, LintKind, PatternLinter};
 use crate::linting::Suggestion;
-use crate::patterns::{Pattern, SimilarToPhrase};
+use crate::patterns::{ExactPhrase, Pattern, SimilarToPhrase};
 use crate::{Token, TokenStringExt};
 
-/// Generate a linter that will look for a common phrase and correct mild errors that
-/// are still composed of real words.
-macro_rules! create_linter_for_phrase {
-    ($name:ident, $correct_form:literal, $dist:literal) => {
-        create_linter_for_phrase!(
-            $name,
-            SimilarToPhrase::from_phrase($correct_form, $dist),
-            $correct_form,
-            concat!("Did you mean the phrase `", $correct_form, "`?"),
-            concat!(
-                "Looks for slight improper modifications to the phrase `",
-                $correct_form,
-                "`."
-            )
-        );
-    };
+macro_rules! create_linter_map_phrase {
     ($name:ident, $pattern:expr, $correct_form:expr, $message:expr, $description:expr) => {
         #[doc = $description]
         pub struct $name {
@@ -67,6 +52,24 @@ macro_rules! create_linter_for_phrase {
     };
 }
 
+/// Generate a linter that will look for a common phrase and correct mild errors that
+/// are still composed of real words.
+macro_rules! create_linter_for_phrase {
+    ($name:ident, $correct_form:literal, $dist:literal) => {
+        create_linter_map_phrase!(
+            $name,
+            SimilarToPhrase::from_phrase($correct_form, $dist),
+            $correct_form,
+            concat!("Did you mean the phrase `", $correct_form, "`?"),
+            concat!(
+                "Looks for slight improper modifications to the phrase `",
+                $correct_form,
+                "`."
+            )
+        );
+    };
+}
+
 create_linter_for_phrase!(TurnItOff, "turn it off", 1);
 create_linter_for_phrase!(HumanLife, "human life", 1);
 create_linter_for_phrase!(ThatChallenged, "that challenged", 2);
@@ -81,11 +84,12 @@ create_linter_for_phrase!(ChangeTack, "change tack", 1);
 create_linter_for_phrase!(HungerPang, "hunger pang", 2);
 create_linter_for_phrase!(EnMasse, "en masse", 1);
 create_linter_for_phrase!(LetAlone, "let alone", 1);
-create_linter_for_phrase!(LoAndBehold, "lo and behold", 2);
 create_linter_for_phrase!(SneakingSuspicion, "sneaking suspicion", 3);
 create_linter_for_phrase!(SpecialAttention, "special attention", 1);
 create_linter_for_phrase!(ThanOthers, "than others", 1);
 create_linter_for_phrase!(SupposedTo, "supposed to", 1);
+
+create_linter_map_phrase!(LoAndBehold, ExactPhrase::from_phrase("long and behold"), "lo and behold", "Did you mean `lo and behold`?", "Detects the exact phrase `long and behold` and suggests replacing it with the idiomatically correct `lo and behold`");
 
 #[cfg(test)]
 mod tests {
@@ -200,5 +204,14 @@ mod tests {
     #[test]
     fn than_others() {
         assert_suggestion_result("Then others", ThanOthers::default(), "Than others");
+    }
+
+    #[test]
+    fn now_on_hold() {
+        assert_lint_count(
+            "Those are now on hold for month.",
+            LoAndBehold::default(),
+            0,
+        );
     }
 }
