@@ -635,6 +635,7 @@
       }
     },
     "j": {
+      "#": "adverb property",
       "suffix": true,
       "cross_product": true,
       "replacements": [],
