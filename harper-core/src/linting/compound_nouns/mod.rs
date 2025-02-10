@@ -1,89 +1,17 @@
-use crate::{
-    patterns::{All, SplitCompoundWord},
-    CharString, CharStringExt, Dictionary, Document, FstDictionary, Span, TokenKind,
-    TokenStringExt, WordMetadata,
-};
+mod general_compound_nouns;
+mod implied_ownership_compound_nouns;
 
-use super::{Lint, LintKind, Linter, Suggestion};
+use super::{merge_linters::merge_linters, Lint, LintKind, Suggestion};
 
-use crate::{
-    patterns::{Pattern, SequencePattern, WordPatternGroup},
-    Lrc, Token,
-};
+use general_compound_nouns::GeneralCompoundNouns;
+use implied_ownership_compound_nouns::ImpliedOwnershipCompoundNouns;
 
-use super::PatternLinter;
-
-pub struct CompoundNouns {
-    pattern: Box<dyn Pattern>,
-    split_pattern: Lrc<SplitCompoundWord>,
-}
-
-impl Default for CompoundNouns {
-    fn default() -> Self {
-        let exceptions_pattern = SequencePattern::default()
-            .then(Box::new(|tok: &Token, _: &[char]| {
-                let Some(meta) = tok.kind.as_word() else {
-                    return false;
-                };
-
-                tok.span.len() > 1 && !meta.article && !meta.preposition
-            }))
-            .then_whitespace()
-            .then(Box::new(|tok: &Token, _: &[char]| {
-                let Some(meta) = tok.kind.as_word() else {
-                    return false;
-                };
-
-                tok.span.len() > 1 && !meta.article && !meta.is_adverb() && !meta.preposition
-            }));
-
-        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| meta.is_noun()));
-
-        let mut pattern = All::default();
-        pattern.add(Box::new(split_pattern.clone()));
-        pattern.add(Box::new(exceptions_pattern));
-
-        Self {
-            pattern: Box::new(pattern),
-            split_pattern,
-        }
-    }
-}
-
-impl PatternLinter for CompoundNouns {
-    fn pattern(&self) -> &dyn Pattern {
-        self.pattern.as_ref()
-    }
-
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
-        let span = matched_tokens.span().unwrap();
-        // If the pattern matched, this will not return `None`.
-        let word = self
-            .split_pattern
-            .get_merged_word(matched_tokens[0], matched_tokens[2], source)
-            .unwrap();
-
-        Lint {
-            span,
-            lint_kind: LintKind::Spelling,
-            suggestions: vec![Suggestion::ReplaceWith(word.to_vec())],
-            message: format!(
-                "Did you mean the closed compound noun “{}”?",
-                word.to_string()
-            ),
-            priority: 63,
-        }
-    }
-
-    fn description(&self) -> &str {
-        "Accidentally inserting a space inside a word is common. This rule looks for valid compound nouns that are split by whitespace and whose components are also valid words."
-    }
-}
+merge_linters!(CompoundNouns => GeneralCompoundNouns, ImpliedOwnershipCompoundNouns => "Detects compound nouns split by a space and suggests merging them when both parts form a valid noun." );
 
 #[cfg(test)]
 mod tests {
     use super::CompoundNouns;
-    use crate::linting::tests::assert_suggestion_result;
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     #[test]
     fn lap_top() {
@@ -328,5 +256,10 @@ mod tests {
         let test_sentence = "The detective collected a finger print as evidence.";
         let expected = "The detective collected a fingerprint as evidence.";
         assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
+    }
+
+    #[test]
+    fn got_is_not_possessive() {
+        assert_lint_count("I got here by car...", CompoundNouns::default(), 0);
     }
 }

@@ -4,7 +4,7 @@ macro_rules! merge_linters {
 
         mod merge_rule_hidden {
             use paste::paste;
-            use crate::{Document, linting::{Lint, Linter}};
+            use crate::{Document, linting::{Lint, Linter}, remove_overlaps};
 
             $(
                 use super::$linter;
@@ -25,6 +25,8 @@ macro_rules! merge_linters {
                         $(
                             lints.extend(self.[< $linter:snake >].lint(document));
                         )*
+
+                        remove_overlaps(&mut lints);
 
                         lints
                     }

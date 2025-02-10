@@ -67,6 +67,7 @@ macro_rules! gen_then_from_is {
 
 impl SequencePattern {
     gen_then_from_is!(noun);
+    gen_then_from_is!(possessive_noun);
     gen_then_from_is!(plural_noun);
     gen_then_from_is!(verb);
     gen_then_from_is!(linking_verb);
