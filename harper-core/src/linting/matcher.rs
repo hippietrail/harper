@@ -217,8 +217,9 @@ impl Matcher {
 
         // wrong set phrases and collocations
         triggers.extend(pt! {
-        "same", "than" => "same as",
-        "Same", "than" => "same as"        });
+            "same", "than" => "same as",
+            "Same", "than" => "same as"
+        });
 
         // belonging to multiple of the other categories
         triggers.extend(pt! {
