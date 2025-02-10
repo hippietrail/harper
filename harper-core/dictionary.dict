@@ -11410,6 +11410,7 @@ afoul/
 afraid/5U
 afresh/
 aft/15RZ
+after/+
 afterbirth/1M
 afterbirths/1
 afterburner/1MS
@@ -19204,6 +19205,7 @@ cyanobacteria/1
 cyberbully/14SM
 cybercafe/1S
 cybernetic/5S
+cyber/5
 cybernetics/1M
 cyberpunk/1SM
 cybersex/14
@@ -20108,10 +20110,9 @@ diaereses/1
 diaeresis/1M
 diagnose/4DSG
 diagnosis/14M
-diagnostic/51S
+diagnostic/51MS
 diagnostically/
 diagnostician/1SM
-diagnostics/1M
 diagonal/51SMY
 diagram/14SM
 diagrammatic/5
@@ -26669,7 +26670,7 @@ herd/14MDRZGS
 herder/1M
 herdsman/1M
 herdsmen/1
-here/15M
+here/15Mj
 hereabout/S
 hereafter/15SM
 hereby/
@@ -34755,7 +34756,7 @@ our/4S~
 ourselves/8
 oust/4ZGDRS
 ouster/14M
-out/+145SJGMDR~
+out/+145SJGMDR~j
 outage/1SM
 outargue/4GDS
 outback/154MS
@@ -34834,7 +34835,8 @@ outlying/51
 outmaneuver/4GDS
 outmatch/4GDS
 outmoded/54
-outnumber/4DSG
+outnumber/4DG
+outnumbers/5
 outpace/4GDS
 outpatient/15MS
 outperform/4GSD
@@ -48523,7 +48525,7 @@ waxiness/1M
 waxwing/1SM
 waxwork/1SM
 waxy/51RPT
-way/145SM~
+way/15SM~
 waybill/14SM
 wayfarer/1MS
 wayfaring/514SM
@@ -49917,5 +49919,10 @@ unmute/4SGD
 validator/1MS
 WebKit/2M
 Zuckerberg/2MS
+inclusivity/SM
+touchpad/SM
+bitstream/SM
+backplane/SM
+cyberattack/SM
 RTX/1SM
 PDP/1SM
