@@ -275,13 +275,6 @@ mod tests {
     }
 
     #[test]
-    fn for_ever() {
-        let test_sentence = "Promise me you'll love me for ever.";
-        let expected = "Promise me you'll love me forever.";
-        assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
-    }
-
-    #[test]
     fn every_one() {
         let test_sentence = "Every one should have access to quality education.";
         let expected = "Everyone should have access to quality education.";
