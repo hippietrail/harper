@@ -12,7 +12,9 @@ pub struct PossessiveYour {
 impl Default for PossessiveYour {
     fn default() -> Self {
         let pattern = SequencePattern::aco("you").then_whitespace().then(Box::new(
-            |tok: &Token, _source: &[char]| tok.kind.is_noun() && !tok.kind.is_verb(),
+            |tok: &Token, _source: &[char]| {
+                tok.kind.is_noun() && !tok.kind.is_verb() && !tok.kind.is_adverb()
+            },
         ));
 
         Self {
