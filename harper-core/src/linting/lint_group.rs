@@ -31,9 +31,10 @@ use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
-    SupposeTo, ThanOthers, ThatChallenged, TurnItOff,
+    SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
+use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
 use super::proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
@@ -220,6 +221,7 @@ create_lint_group_config!(
     Myself => true,
     Itself => true,
     Whereas => true,
+    PossessiveYour => true,
     SpelledNumbers => false,
     AnA => true,
     SentenceCapitalization => true,
@@ -255,7 +257,7 @@ create_lint_group_config!(
     MergeWords => true,
     PluralConjugate => false,
     OxfordComma => true,
-    NoOxfordComma => true,
+    NoOxfordComma => false,
     PronounContraction => true,
     CurrencyPlacement => true,
     SomewhatSomething => true,
@@ -277,10 +279,10 @@ create_lint_group_config!(
     LetAlone => true,
     LoAndBehold => true,
     SneakingSuspicion => true,
-    SupposeTo => true,
     SpecialAttention => true,
     Everywhere => true,
     ThanOthers => true,
+    SupposedTo => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

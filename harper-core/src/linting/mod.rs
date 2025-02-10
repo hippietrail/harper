@@ -33,6 +33,7 @@ mod oxford_comma;
 mod pattern_linter;
 mod phrase_corrections;
 mod plural_conjugate;
+mod possessive_your;
 mod pronoun_contraction;
 mod proper_noun_capitalization_linters;
 mod repeated_words;
@@ -86,9 +87,10 @@ pub use pattern_linter::PatternLinter;
 pub use phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
-    SupposeTo, ThanOthers, ThatChallenged, TurnItOff,
+    SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
 };
 pub use plural_conjugate::PluralConjugate;
+pub use possessive_your::PossessiveYour;
 pub use pronoun_contraction::PronounContraction;
 pub use proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,

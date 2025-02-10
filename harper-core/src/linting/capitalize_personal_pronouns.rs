@@ -25,7 +25,8 @@ impl Linter for CapitalizePersonalPronouns {
                         span: tok.span,
                         lint_kind: LintKind::Capitalization,
                         suggestions: vec![Suggestion::ReplaceWith(vec!['I'])],
-                        message: "First-person singular pronouns must be capitalized.".to_string(),
+                        message: "The first-person singular subject pronoun must be capitalized."
+                            .to_string(),
                         priority: 31,
                     });
                 }

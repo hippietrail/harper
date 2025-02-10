@@ -300,3 +300,13 @@ registerlinter module name:
   sed -i "/use super::an_a::AnA;/a use super::{{module}}::{{name}};" "$D/lint_group.rs"
   sed -i "/create_lint_group_config\!/a \ \ \ \ {{name}} => true," "$D/lint_group.rs"
   just format
+
+# Print affixes and their descriptions from affixes.json
+printaffixes:
+  #! /usr/bin/env node
+  Object.entries(
+    require('{{justfile_directory()}}/harper-core/affixes.json').affixes
+  ).forEach(([affix, fields]) => {
+    const description = fields['#'] || '';
+    description && console.log(affix + ': ' + description);
+  });
