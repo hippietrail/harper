@@ -101,90 +101,152 @@ impl Matcher {
     pub fn new() -> Self {
         // This match list needs to be automatically expanded instead of explicitly
         // defined like it is now.
-        let mut triggers = pt! {
-            "spacial","attention" => "special attention",
-            "wellbeing" => "well-being",
-            "hashtable" => "hash table",
-            "hashmap" => "hash map",
-            "dep" => "dependency",
-            "deps" => "dependencies",
-            "off","the","cuff" => "off-the-cuff",
+        let mut triggers = Vec::new();
+
+        // stylistic improvements
+        triggers.extend(pt! {
+            "all", "of", "the" => "all the",
+            "and","also" => "and"
+        });
+
+        // phrase typos, each word passes spellcheck but one word is wrong
+        triggers.extend(pt! {
             "an","in" => "and in",
-            "my","self" => "myself",
+            "bee","there" => "been there",
+            "can","be","seem" => "can be seen",
             "eight","grade" => "eighth grade",
-            "and","also" => "and",
-            "todo" => "to-do",
-            "To-Do" => "To-do",
-            "performing","this" => "perform this",
-            "mins" => "minutes",
-            "min" => "minute",
-            "min" => "minimum",
-            "secs" => "seconds",
-            "sec" => "second",
-            "hrs" => "hours",
-            "hr" => "hour",
-            "w/o" => "without",
-            "w/" => "with",
-            "wordlist" => "word list",
-            "the","challenged" => "that challenged",
-            "stdin" => "standard input",
-            "stdout" => "standard output",
+            "gong","to" => "going to",
+            "I","a","m" => "I am",
+            "It","cam" => "It can",
+            "kid","regards" => "kind regards",
+            "mu","house" => "my house",
             "no","to" => "not to",
             "No","to" => "not to",
-            "ngram" => "n-gram",
-            "grammer" => "grammar",
-            "There","fore" => "Therefore",
-            "fatal","outcome" => "death",
-            "geiger","counter" => "Geiger counter",
-            "world","war","2" => "World War II",
-            "World","war","ii" => "World War II",
-            "world","War","ii" => "World War II",
-            "World","War","Ii" => "World War II",
-            "World","War","iI" => "World War II",
-            "black","sea" => "Black Sea",
-            "I","a","m" => "I am",
-            "We","a","re" => "We are",
+            "spacial","attention" => "special attention",
+            "the", "this" => "that this",
             "The","re" => "There",
-            "my","french" => "my French",
-            "It","cam" => "It can",
-            "can","be","seem" => "can be seen",
-            "mu","house" => "my house",
-            "kid","regards" => "kind regards",
+            "There","fore" => "Therefore",
+            "though", "process" => "thought process",
+            "We","a","re" => "We are",
+            "you","r" => "your",
+            "you","re" => "you're"
+        });
+
+        // phrase capitalization
+        triggers.extend(pt! {
+            "black","sea" => "Black Sea",
+            "geiger","counter" => "Geiger counter",
+            "my","french" => "my French"
+        });
+
+        // hyphenate phrasal adjectives
+        triggers.extend(pt! {
+            "case", "sensitive" => "case-sensitive",
+            "ngram" => "n-gram",
+            "off","the","cuff" => "off-the-cuff",
+            "Tree", "sitter" => "Tree-sitter",
+            "wellbeing" => "well-being"
+        });
+
+        // expand abbreviations
+        triggers.extend(pt! {
+            "dep" => "dependency",
+            "deps" => "dependencies",
+            "hr" => "hour",
+            "hrs" => "hours",
+            "min" => "minimum",
+            "min" => "minute",
+            "mins" => "minutes",
+            "ms" => "milliseconds",
+            "sec" => "second",
+            "secs" => "seconds",
+            "stdin" => "standard input",
+            "stdout" => "standard output",
+            "w/" => "with",
+            "w/o" => "without"
+        });
+
+        // replace euphemisms
+        triggers.extend(pt! {
+            "fatal","outcome" => "death"
+        });
+
+        // spellos
+        triggers.extend(pt! {
+            "grammer" => "grammar"
+        });
+
+        // expand compound words
+        triggers.extend(pt! {
+            "hashmap" => "hash map",
+            "hashtable" => "hash table",
+            "wordlist" => "word list"
+        });
+
+        // prefixes written as separate words
+        triggers.extend(pt! {
             "miss","understand" => "misunderstand",
             "miss","use" => "misuse",
             "miss","used" => "misused",
-            "bee","there" => "been there",
-            "want","be" => "won't be",
+            "my","self" => "myself"
+        });
+
+        // mixing up than/then in context
+        triggers.extend(pt! {
             "more","then" => "more than",
-            "gong","to" => "going to",
-            "then","others" => "than others",
-            "Then","others" => "than others",
             "then","before" => "than before",
             "Then","before" => "than before",
-            "then","last","week" => "than last week",
             "then","her" => "than her",
             "then","hers" => "than hers",
             "then","him" => "than him",
             "then","his" => "than his",
+            "then","last","week" => "than last week",
+            "then","others" => "than others",
+            "Then","others" => "than others"
+        });
+
+        // not a perfect fit for any of the other categories
+        triggers.extend(pt! {
+            "performing","this" => "perform this",
             "simply","grammatical" => "simple grammatical",
-            "you","r" => "your",
-            "you","re" => "you're",
-            "that","s" => "that's",
-            "That","s" => "That's",
-            "that","s" => "that is",
-            "That","s" => "that is",
-            "ms" => "milliseconds",
-            "case", "sensitive" => "case-sensitive",
-            "Tree", "sitter" => "Tree-sitter",
-            "all", "of", "the" => "all the",
+            "the","challenged" => "that challenged",
             "to", "towards" => "towards",
-            "though", "process" => "thought process",
-            "the", "this" => "that this",
-            "same", "than" => "same as",
-            "Same", "than" => "same as",
+            "To-Do" => "To-do",
+            "todo" => "to-do"
+        });
+
+        // wrong set phrases and collocations
+        triggers.extend(pt! {
+        "same", "than" => "same as",
+        "Same", "than" => "same as"        });
+
+        // belonging to multiple of the other categories
+        triggers.extend(pt! {
             "same", "then" => "same as",
             "Same", "then" => "same as"
-        };
+        });
+
+        // suffixes written as separate words
+        triggers.extend(pt! {
+            "that","s" => "that is",
+            "That","s" => "that is",
+            "that","s" => "that's",
+            "That","s" => "That's"
+        });
+
+        // near homophones
+        triggers.extend(pt! {
+            "want","be" => "won't be"
+        });
+
+        // normalization
+        triggers.extend(pt! {
+            "world","war","2" => "World War II",
+            "world","War","ii" => "World War II",
+            "World","war","ii" => "World War II",
+            "World","War","iI" => "World War II",
+            "World","War","Ii" => "World War II"
+        });
 
         triggers.push(Rule {
             pattern: vec![pt!("L"), pt!(Period), pt!("L"), pt!(Period), pt!("M")],
