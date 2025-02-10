@@ -2,7 +2,7 @@ use hashbrown::HashSet;
 use paste::paste;
 
 use super::whitespace_pattern::WhitespacePattern;
-use super::{AnyCapitalization, NounPhrase, Pattern, RepeatingPattern, WordSet};
+use super::{AnyCapitalization, AnyPattern, NounPhrase, Pattern, RepeatingPattern, WordSet};
 use crate::Lrc;
 use crate::{CharStringExt, Token, TokenKind};
 
@@ -67,6 +67,7 @@ macro_rules! gen_then_from_is {
 
 impl SequencePattern {
     gen_then_from_is!(noun);
+    gen_then_from_is!(possessive_noun);
     gen_then_from_is!(plural_noun);
     gen_then_from_is!(verb);
     gen_then_from_is!(linking_verb);
@@ -205,6 +206,11 @@ impl SequencePattern {
     pub fn then_one_or_more(mut self, pat: Box<dyn Pattern>) -> Self {
         self.token_patterns
             .push(Box::new(RepeatingPattern::new(pat, 0)));
+        self
+    }
+
+    pub fn then_anything(mut self) -> Self {
+        self.token_patterns.push(Box::new(AnyPattern));
         self
     }
 

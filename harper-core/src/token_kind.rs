@@ -51,6 +51,19 @@ impl TokenKind {
         )
     }
 
+    pub fn is_possessive_noun(&self) -> bool {
+        matches!(
+            self,
+            TokenKind::Word(WordMetadata {
+                noun: Some(NounData {
+                    is_possessive: Some(true),
+                    ..
+                }),
+                ..
+            })
+        )
+    }
+
     pub fn is_pronoun(&self) -> bool {
         matches!(
             self,

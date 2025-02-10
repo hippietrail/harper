@@ -633,6 +633,16 @@
       "gifts_metadata": {
         "article": true
       }
+    },
+    "j": {
+      "#": "adverb property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "adverb": {}
+      }
     }
   }
 }
