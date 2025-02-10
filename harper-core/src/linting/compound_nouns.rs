@@ -1,115 +1,78 @@
-use std::sync::Arc;
-
-use itertools::Itertools;
-
 use crate::{
-    CharString, CharStringExt, Dictionary, Document, FstDictionary, Span, TokenKind, TokenStringExt,
+    patterns::{All, SplitCompoundWord},
+    CharString, CharStringExt, Dictionary, Document, FstDictionary, Span, TokenKind,
+    TokenStringExt, WordMetadata,
 };
 
 use super::{Lint, LintKind, Linter, Suggestion};
 
+use crate::{
+    patterns::{Pattern, SequencePattern, WordPatternGroup},
+    Lrc, Token,
+};
+
+use super::PatternLinter;
+
 pub struct CompoundNouns {
-    dict: Arc<FstDictionary>,
-}
-
-impl CompoundNouns {
-    pub fn new() -> Self {
-        Self {
-            dict: FstDictionary::curated(),
-        }
-    }
-
-    /// Create a lint for two attempted lint matches.
-    /// Since this function does not have access to tokens, you must set and modify the span
-    /// yourself.
-    fn attempt_lint_match(
-        &self,
-        word_a: &[char],
-        word_b: &[char],
-        buffer: &mut CharString,
-    ) -> Option<Lint> {
-        buffer.clear();
-        buffer.extend_from_slice(word_a);
-        buffer.extend_from_slice(word_b);
-
-        if self.dict.contains_word(word_a)
-            && self.dict.contains_word(word_b)
-            && self.dict.get_word_metadata(buffer).is_noun()
-        {
-            Some(Lint {
-                span: Span::default(),
-                lint_kind: LintKind::Spelling,
-                suggestions: vec![Suggestion::ReplaceWith(buffer.to_vec())],
-                message: format!(
-                    "Did you mean the closed compound noun “{}”?",
-                    buffer.to_string()
-                ),
-                priority: 63,
-            })
-        } else {
-            None
-        }
-    }
+    pattern: Box<dyn Pattern>,
+    split_pattern: Lrc<SplitCompoundWord>,
 }
 
 impl Default for CompoundNouns {
     fn default() -> Self {
-        Self::new()
+        let exceptions_pattern = SequencePattern::default()
+            .then(Box::new(|tok: &Token, _: &[char]| {
+                let Some(meta) = tok.kind.as_word() else {
+                    return false;
+                };
+
+                tok.span.len() > 1 && !meta.article && !meta.preposition
+            }))
+            .then_whitespace()
+            .then(Box::new(|tok: &Token, _: &[char]| {
+                let Some(meta) = tok.kind.as_word() else {
+                    return false;
+                };
+
+                tok.span.len() > 1 && !meta.article && !meta.is_adverb() && !meta.preposition
+            }));
+
+        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| meta.is_noun()));
+
+        let mut pattern = All::default();
+        pattern.add(Box::new(split_pattern.clone()));
+        pattern.add(Box::new(exceptions_pattern));
+
+        Self {
+            pattern: Box::new(pattern),
+            split_pattern,
+        }
     }
 }
 
-impl Linter for CompoundNouns {
-    fn lint(&mut self, document: &Document) -> Vec<Lint> {
-        let mut lints = Vec::new();
+impl PatternLinter for CompoundNouns {
+    fn pattern(&self) -> &dyn Pattern {
+        self.pattern.as_ref()
+    }
 
-        // A persistent buffer for misc operations.
-        let mut buffer = CharString::new();
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
+        let span = matched_tokens.span().unwrap();
+        // If the pattern matched, this will not return `None`.
+        let word = self
+            .split_pattern
+            .get_merged_word(matched_tokens[0], matched_tokens[2], source)
+            .unwrap();
 
-        for (a, w, b) in document.tokens().tuple_windows() {
-            if !a.kind.is_word() || !w.kind.is_whitespace() || !b.kind.is_word() {
-                continue;
-            }
-
-            let a_meta = a.kind.expect_word();
-            let b_meta = b.kind.expect_word();
-            let mut a_chars: CharString = document.get_span_content(a.span).into();
-            let mut b_chars: CharString = document.get_span_content(b.span).into();
-
-            if a_chars.len() <= 1
-                || b_chars.len() <= 1
-                || matches!(b_chars.as_slice(), &['i', 's'])
-                || a_meta.article
-                || b_meta.article
-                || (a_meta.is_verb() && b_meta.is_adverb())
-            {
-                continue;
-            }
-
-            let span = [a, w, b].span().unwrap();
-
-            macro_rules! attempt {
-                () => {
-                    if let Some(mut lint) = self.attempt_lint_match(&a_chars, &b_chars, &mut buffer)
-                    {
-                        lint.span = span;
-                        lints.push(lint);
-                        continue;
-                    }
-                };
-            }
-
-            attempt!();
-            a_chars[0] = a_chars[0].to_ascii_uppercase();
-            attempt!();
-            b_chars[0] = b_chars[0].to_ascii_uppercase();
-            attempt!();
-            a_chars[0] = a_chars[0].to_ascii_lowercase();
-            attempt!();
-            b_chars[0] = b_chars[0].to_ascii_lowercase();
-            attempt!();
+        Lint {
+            span,
+            lint_kind: LintKind::Spelling,
+            suggestions: vec![Suggestion::ReplaceWith(word.to_vec())],
+            message: format!(
+                "Did you mean the closed compound noun “{}”?",
+                word.to_string()
+            ),
+            priority: 63,
         }
-
-        lints
     }
 
     fn description(&self) -> &str {
@@ -132,9 +95,6 @@ mod tests {
     #[test]
     fn web_cam() {
         let test_sentence = "The web cam captured a stunning image.";
-        let expected = "The web cam captured a stunning image."; // see note below
-                                                                 // In many contexts, "web cam" is acceptable if meant as a phrase.
-                                                                 // However, if your dictionary marks "webcam" as the noun, then:
         let expected = "The webcam captured a stunning image.";
         assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
     }
