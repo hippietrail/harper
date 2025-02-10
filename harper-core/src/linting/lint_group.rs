@@ -5,11 +5,12 @@ use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
+use super::closed_compounds::Overnight;
 use super::closed_compounds::{
-    Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, Hereafter, However,
-    Insofar, Instead, Intact, Into, Itself, Middleware, Misunderstand, Misunderstood, Misuse,
-    Misused, Multicore, Multimedia, Multithreading, Myself, Nonetheless, Nothing, Notwithstanding,
-    Overall, Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
+    Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
+    Instead, Intact, Into, Itself, Middleware, Misunderstand, Misunderstood, Misuse, Misused,
+    Multicore, Multimedia, Multithreading, Myself, Nonetheless, Nothing, Notwithstanding, Overall,
+    Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
     Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
 };
 use super::compound_nouns::CompoundNouns;
@@ -172,6 +173,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Overnight => true,
     Hereby => true,
     Likewise => true,
     CompoundNouns => true,
@@ -181,7 +183,6 @@ create_lint_group_config!(
     Whereupon => true,
     Insofar => true,
     Thereupon => true,
-    Hereafter => true,
     Nonetheless => true,
     Anyhow => true,
     Notwithstanding => true,

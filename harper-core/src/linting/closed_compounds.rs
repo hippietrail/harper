@@ -89,7 +89,6 @@ create_closed_compound_linter!(Widespread, "wide spread", "widespread");
 create_closed_compound_linter!(Notwithstanding, "not with standing", "notwithstanding");
 create_closed_compound_linter!(Anyhow, "any how", "anyhow");
 create_closed_compound_linter!(Nonetheless, "none the less", "nonetheless");
-create_closed_compound_linter!(Hereafter, "here after", "hereafter");
 create_closed_compound_linter!(Thereupon, "there upon", "thereupon");
 create_closed_compound_linter!(Forthwith, "forth with", "forthwith");
 create_closed_compound_linter!(Insofar, "in so far", "insofar");
@@ -97,11 +96,12 @@ create_closed_compound_linter!(Whereupon, "where upon", "whereupon");
 create_closed_compound_linter!(Upward, "up ward", "upward");
 create_closed_compound_linter!(Henceforth, "hence forth", "henceforth");
 create_closed_compound_linter!(Regardless, "regard less", "regardless");
+create_closed_compound_linter!(Overnight, "over night", "overnight");
 
 #[cfg(test)]
 mod tests {
     use super::{
-        Anyhow, Forthwith, Henceforth, Hereafter, Insofar, Nonetheless, Notwithstanding,
+        Anyhow, Forthwith, Henceforth, Insofar, Nonetheless, Notwithstanding, Overnight,
         Regardless, Thereupon, Upward, Whereupon, Widespread,
     };
     use super::{
@@ -201,13 +201,6 @@ mod tests {
     }
 
     #[test]
-    fn here_after() {
-        let test_sentence = "He promised to abide by the rules here after the meeting.";
-        let expected = "He promised to abide by the rules hereafter the meeting.";
-        assert_suggestion_result(test_sentence, Hereafter::default(), expected);
-    }
-
-    #[test]
     fn there_upon() {
         let test_sentence = "A decision was made there upon reviewing the data.";
         let expected = "A decision was made thereupon reviewing the data.";
@@ -254,5 +247,12 @@ mod tests {
         let test_sentence = "The decision was made, regard less of the opposition.";
         let expected = "The decision was made, regardless of the opposition.";
         assert_suggestion_result(test_sentence, Regardless::default(), expected);
+    }
+
+    #[test]
+    fn over_night() {
+        let test_sentence = "They set off on their journey over night.";
+        let expected = "They set off on their journey overnight.";
+        assert_suggestion_result(test_sentence, Overnight::default(), expected);
     }
 }

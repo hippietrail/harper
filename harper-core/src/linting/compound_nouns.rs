@@ -2,7 +2,9 @@ use std::sync::Arc;
 
 use itertools::Itertools;
 
-use crate::{CharString, CharStringExt, Dictionary, Document, FstDictionary, Span, TokenStringExt};
+use crate::{
+    CharString, CharStringExt, Dictionary, Document, FstDictionary, Span, TokenKind, TokenStringExt,
+};
 
 use super::{Lint, LintKind, Linter, Suggestion};
 
@@ -38,7 +40,10 @@ impl CompoundNouns {
                 span: Span::default(),
                 lint_kind: LintKind::Spelling,
                 suggestions: vec![Suggestion::ReplaceWith(buffer.to_vec())],
-                message: format!("Did you mean the closed compound “{}”?", buffer.to_string()),
+                message: format!(
+                    "Did you mean the closed compound noun “{}”?",
+                    buffer.to_string()
+                ),
                 priority: 63,
             })
         } else {
@@ -115,7 +120,7 @@ impl Linter for CompoundNouns {
 #[cfg(test)]
 mod tests {
     use super::CompoundNouns;
-    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
+    use crate::linting::tests::assert_suggestion_result;
 
     #[test]
     fn lap_top() {
@@ -313,13 +318,6 @@ mod tests {
     fn for_ever() {
         let test_sentence = "Promise me you'll love me for ever.";
         let expected = "Promise me you'll love me forever.";
-        assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
-    }
-
-    #[test]
-    fn over_night() {
-        let test_sentence = "They set off on their journey over night.";
-        let expected = "They set off on their journey overnight.";
         assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
     }
 
