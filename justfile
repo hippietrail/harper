@@ -259,6 +259,21 @@ getmetadata word:
 # Get all the forms of a word using the affixes.
 getforms word:
   cargo run --bin harper-cli -- forms {{word}}
+# Get a random sample of words from Harper's dictionary and list all forms of each.
+sampleforms count:
+  #!/bin/bash
+  DICT_FILE=./harper-core/dictionary.dict 
+  # USER_DICT_FILE="$HOME/.config/harper-ls/dictionary.txt"
+
+  if [ "{{count}}" -eq 0 ]; then
+    exit 0
+  fi
+
+  total_lines=$(wc -l < $DICT_FILE)
+  words=$(jot -r {{count}} 1 "$total_lines" | while read -r line_num; do \
+    sed -n "$line_num"p $DICT_FILE; \
+  done)
+  cargo run --bin harper-cli -- forms $words
 
 bump-versions: update-vscode-linters
   #! /bin/bash
