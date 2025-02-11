@@ -134,8 +134,8 @@ mod tests {
         FstDictionary, FullDictionary,
     };
 
-    const RESULT_LIMIT: usize = 60;
-    const MAX_EDIT_DIST: u8 = 3;
+    const RESULT_LIMIT: usize = 100;
+    const MAX_EDIT_DIST: u8 = 2;
 
     #[test]
     fn normalizes_weve() {
