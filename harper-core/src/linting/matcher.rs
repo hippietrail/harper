@@ -205,7 +205,9 @@ impl Matcher {
             "discusses", "about" => "discusses",
             "discussing", "about" => "discussing",
             "same", "than" => "same as",
-            "Same", "than" => "same as"
+            "Same", "than" => "same as",
+            "sooner","than","later" => "sooner rather than later",
+            "sooner","than","later" => "sooner or later"
         });
 
         // belonging to multiple of the other categories
