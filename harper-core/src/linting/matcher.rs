@@ -200,6 +200,18 @@ impl Matcher {
 
         // wrong set phrases and collocations
         triggers.extend(pt! {
+            "could", "of" => "could have",
+            "could", "of" => "could've",
+            "couldn't", "of" => "couldn't have",
+            "had", "of" => "had have",
+            "had", "of" => "had've",
+            "hadn't", "of" => "hadn't have",
+            "should", "of" => "should have",
+            "should", "of" => "should've",
+            "shouldn't", "of" => "shouldn't have",
+            "would", "of" => "would have",
+            "would", "of" => "would've",
+            "wouldn't", "of" => "wouldn't have",
             "same", "than" => "same as",
             "Same", "than" => "same as"
         });
