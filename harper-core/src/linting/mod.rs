@@ -94,7 +94,7 @@ pub use possessive_your::PossessiveYour;
 pub use pronoun_contraction::PronounContraction;
 pub use proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
-    Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
+    Koreas, Malaysia, MetaNames, MicrosoftNames, UnitedOrganizations,
 };
 pub use repeated_words::RepeatedWords;
 pub use sentence_capitalization::SentenceCapitalization;

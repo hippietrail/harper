@@ -78,6 +78,60 @@ create_linter_for!(
 );
 
 create_linter_for!(
+    Malaysia,
+    EitherPattern::new(vec![
+        // multi-word states
+        Box::new(SequencePattern::default()
+            .t_aco("Negeri")
+            .then_whitespace()
+            .t_aco("Sembilan")
+        ),
+        // multi-word state capitals
+        Box::new(SequencePattern::default()
+            .t_aco("Alor")
+            .then_whitespace()
+            .t_aco("Setar")
+        ),
+        Box::new(SequencePattern::default()
+            .t_aco("George")
+            .then_whitespace()
+            .t_aco("Town")
+        ),
+        Box::new(SequencePattern::default()
+            .then(Box::new(EitherPattern::new(vec![
+                Box::new(WordSet::all(&[
+                    "Johor",
+                    "Kota"
+                ])),
+            ])))
+            .then_whitespace()
+            .t_aco("Bahru")
+        ),
+        Box::new(SequencePattern::default()
+            .t_aco("Kota")
+            .then_whitespace()
+            .t_aco("Kinabalu")
+        ),
+        Box::new(SequencePattern::default()
+            .t_aco("Kuala")
+            .then_whitespace()
+            .then(Box::new(EitherPattern::new(vec![
+                Box::new(WordSet::all(&[
+                    "Lumpur",
+                    "Terengganu"
+                ])),
+            ])))
+        ),
+        Box::new(SequencePattern::default()
+            .t_aco("Shah")
+            .then_whitespace()
+            .t_aco("Alam")
+        )
+    ]),
+    "When referring to the states of Malaysia and their capitals, make sure to treat them as a proper noun."
+);
+
+create_linter_for!(
     ChineseCommunistParty,
     SequencePattern::aco("Chinese")
         .then_whitespace()
