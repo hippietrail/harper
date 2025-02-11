@@ -192,8 +192,6 @@ impl Matcher {
         triggers.extend(pt! {
             "performing","this" => "perform this",
             "simply","grammatical" => "simple grammatical",
-            "sooner","than","later" => "sooner rather than later",
-            "sooner","than","later" => "sooner or later",
             "the","challenged" => "that challenged",
             "to", "towards" => "towards",
             "To-Do" => "To-do",
@@ -203,7 +201,9 @@ impl Matcher {
         // wrong set phrases and collocations
         triggers.extend(pt! {
             "same", "than" => "same as",
-            "Same", "than" => "same as"
+            "Same", "than" => "same as",
+            "sooner","than","later" => "sooner rather than later",
+            "sooner","than","later" => "sooner or later"
         });
 
         // belonging to multiple of the other categories
