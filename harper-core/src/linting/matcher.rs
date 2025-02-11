@@ -212,6 +212,10 @@ impl Matcher {
             "would", "of" => "would have",
             "would", "of" => "would've",
             "wouldn't", "of" => "wouldn't have",
+            "discuss", "about" => "discuss",
+            "discussed", "about" => "discussed",
+            "discusses", "about" => "discusses",
+            "discussing", "about" => "discussing",
             "same", "than" => "same as",
             "Same", "than" => "same as"
         });
