@@ -1,6 +1,6 @@
 use super::{
     hunspell::{parse_default_attribute_list, parse_default_word_list},
-    seq_to_normalized, FullDictionary,
+    seq_to_normalized, MutableDictionary,
 };
 use fst::{map::StreamWithState, IntoStreamer, Map as FstMap, Streamer};
 use hashbrown::HashMap;
@@ -13,9 +13,13 @@ use crate::{CharString, CharStringExt, WordMetadata};
 use super::Dictionary;
 use super::FuzzyMatchResult;
 
+/// An immutable dictionary allowing for very fast spellchecking.
+///
+/// For dictionaries with changing contents, such as user and file dictionaries, prefer
+/// [`super::MutableDictionary`].
 pub struct FstDictionary {
-    /// Underlying FullDictionary used for everything except fuzzy finding
-    full_dict: Arc<FullDictionary>,
+    /// Underlying [`super::MutableDictionary`] used for everything except fuzzy finding
+    full_dict: Arc<MutableDictionary>,
     /// Used for fuzzy-finding the index of words or metadata
     word_map: FstMap<Vec<u8>>,
     /// Used for fuzzy-finding the index of words or metadata
@@ -79,7 +83,7 @@ impl FstDictionary {
                 .expect("Insertion not in lexicographical order!");
         }
 
-        let mut full_dict = FullDictionary::new();
+        let mut full_dict = MutableDictionary::new();
         full_dict.extend_words(words.iter().cloned());
 
         let fst_bytes = builder.into_inner().unwrap();

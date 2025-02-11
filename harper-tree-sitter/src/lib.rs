@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use harper_core::{FullDictionary, Mask, Masker, Span, WordMetadata};
+use harper_core::{MutableDictionary, Mask, Masker, Span, WordMetadata};
 use tree_sitter::{Language, Node, Tree, TreeCursor};
 
 /// A Harper [`Masker`] that wraps a given tree-sitter language and a condition,
@@ -26,7 +26,7 @@ impl TreeSitterMasker {
         parser.parse(text, None)
     }
 
-    pub fn create_ident_dict(&self, source: &[char]) -> Option<FullDictionary> {
+    pub fn create_ident_dict(&self, source: &[char]) -> Option<MutableDictionary> {
         let text: String = source.iter().collect();
 
         // Byte-indexed
@@ -52,7 +52,7 @@ impl TreeSitterMasker {
             .map(|ident| (ident, WordMetadata::default()))
             .collect();
 
-        let mut dictionary = FullDictionary::new();
+        let mut dictionary = MutableDictionary::new();
         dictionary.extend_words(idents);
 
         Some(dictionary)

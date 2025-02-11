@@ -5,8 +5,7 @@ use crate::WordMetadata;
 
 /// An in-memory database that contains everything necessary to parse and analyze English text.
 ///
-/// See also: [`FstDictionary`](super::FstDictionary) and
-/// [`FullDictionary`](super::FullDictionary).
+/// See also: [`super::FstDictionary`] and [`super::MutableDictionary`].
 #[blanket(derive(Arc))]
 pub trait Dictionary: Send + Sync {
     /// Check if the dictionary contains a given word.
