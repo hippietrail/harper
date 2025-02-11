@@ -86,7 +86,7 @@ mod tests {
     use ordered_float::OrderedFloat;
 
     use super::Typst;
-    use harper_core::{Document, NounData, Punctuation, TokenKind, WordMetadata};
+    use harper_core::{Document, NounData, Number, Punctuation, TokenKind, WordMetadata};
 
     #[test]
     fn number() {
@@ -99,7 +99,11 @@ mod tests {
         assert!(matches!(
             token_kinds.as_slice(),
             &[
-                TokenKind::Number(OrderedFloat(12.0), None),
+                TokenKind::Number(Number {
+                    value: OrderedFloat(12.0),
+                    suffix: None,
+                    ..
+                }),
                 TokenKind::Space(1),
                 TokenKind::Word(_),
                 TokenKind::Space(1),
@@ -107,7 +111,11 @@ mod tests {
                 TokenKind::Space(1),
                 TokenKind::Word(_),
                 TokenKind::Space(1),
-                TokenKind::Number(OrderedFloat(11.0), None),
+                TokenKind::Number(Number {
+                    value: OrderedFloat(11.0),
+                    suffix: None,
+                    ..
+                }),
                 TokenKind::Punctuation(Punctuation::Comma),
                 TokenKind::Space(1),
                 TokenKind::Word(_),
@@ -118,7 +126,11 @@ mod tests {
                 TokenKind::Space(1),
                 TokenKind::Word(_),
                 TokenKind::Space(1),
-                TokenKind::Number(OrderedFloat(11.0), None),
+                TokenKind::Number(Number {
+                    value: OrderedFloat(11.0),
+                    suffix: None,
+                    ..
+                }),
                 TokenKind::Punctuation(Punctuation::Bang),
             ]
         ))

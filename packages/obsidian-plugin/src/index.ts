@@ -1,5 +1,6 @@
+import { toArray } from 'lodash-es';
 import logoSvg from '../logo.svg';
-import { Plugin, Menu, PluginManifest, App } from 'obsidian';
+import { Plugin, Menu, PluginManifest, App, Notice } from 'obsidian';
 import { LintConfig, Linter, Suggestion } from 'harper.js';
 import { LocalLinter, SuggestionKind, WorkerLinter } from 'harper.js';
 import { linter } from './lint';
@@ -81,6 +82,11 @@ export default class HarperPlugin extends Plugin {
 	}
 
 	async onload() {
+		if (typeof Response == 'undefined') {
+			new Notice('Please update your Electron version before running Harper.', 0);
+			return;
+		}
+
 		const data = await this.loadData();
 		await this.initializeFromSettings(data);
 		this.registerEditorExtension(this.editorExtensions);
@@ -162,11 +168,15 @@ export default class HarperPlugin extends Plugin {
 		return linter(
 			async (view) => {
 				const text = view.state.doc.sliceString(-1);
+				const chars = toArray(text);
 
 				const lints = await this.harper.lint(text);
 
 				return lints.map((lint) => {
 					const span = lint.span();
+
+					span.start = charIndexToCodePointIndex(span.start, chars);
+					span.end = charIndexToCodePointIndex(span.end, chars);
 
 					return {
 						from: span.start,
@@ -218,4 +228,19 @@ export default class HarperPlugin extends Plugin {
 			}
 		);
 	}
+}
+
+/** Harper returns positions based on char indexes,
+ * but Obsidian identifies locations in documents based on Unicode code points.
+ * This converts between from the former to the latter.*/
+function charIndexToCodePointIndex(index: number, sourceChars: string[]): number {
+	let traversed = 0;
+
+	for (let i = 0; i < index; i++) {
+		const delta = sourceChars[i].length;
+
+		traversed += delta;
+	}
+
+	return traversed;
 }

@@ -52,6 +52,9 @@ create_test!(issue_118.md, 0);
 create_test!(lots_of_latin.md, 0);
 create_test!(pr_504.md, 1);
 create_test!(pr_452.md, 2);
+create_test!(hex_basic_clean.md, 0);
+create_test!(hex_basic_dirty.md, 1);
+create_test!(misc_closed_compound_clean.md, 0);
 
 // Make sure it doesn't panic
 create_test!(lukas_homework.md, 3);

@@ -4,14 +4,13 @@ format:
   cd "{{justfile_directory()}}/packages"; yarn prettier -w .
 
 # Build the WebAssembly for a specific target (usually either `web` or `bundler`)
-build-wasm target:
-  cd "{{justfile_directory()}}/harper-wasm" && wasm-pack build --target {{target}}
+build-wasm:
+  cd "{{justfile_directory()}}/harper-wasm" && wasm-pack build --target web
 
 # Build `harper.js` with all size optimizations available.
-build-harperjs:
+build-harperjs: build-wasm 
   #! /bin/bash
   set -eo pipefail
-  just build-wasm web
 
   # Removes a duplicate copy of the WASM binary if Vite is left to its devices.
   perl -pi -e 's/new URL\(.*\)/new URL()/g' "{{justfile_directory()}}/harper-wasm/pkg/harper_wasm.js"
@@ -23,10 +22,9 @@ build-harperjs:
   # Generate API reference
   ./docs.sh
 
-test-harperjs:
+test-harperjs: build-harperjs
   #!/bin/bash
   set -eo pipefail
-  just build-harperjs
   
   cd "{{justfile_directory()}}/packages/harper.js"
   yarn install -f
@@ -50,22 +48,19 @@ dev-web:
   yarn dev
 
 # Build the Harper website.
-build-web:
+build-web: build-harperjs
   #! /bin/bash
   set -eo pipefail
-  
-  just build-harperjs
   
   cd "{{justfile_directory()}}/packages/web"
   yarn install -f
   yarn run build
 
 # Build the Harper Obsidian plugin.
-build-obsidian:
+build-obsidian: build-harperjs
   #! /bin/bash
   set -eo pipefail
   
-  just build-harperjs
   cd "{{justfile_directory()}}/packages/obsidian-plugin"
 
   yarn install -f
@@ -169,11 +164,9 @@ check-rust:
   cargo clippy -- -Dwarnings -D clippy::dbg_macro -D clippy::needless_raw_string_hashes
 
 # Perform format and type checking.
-check:
+check: check-rust build-web
   #! /bin/bash
   set -eo pipefail
-
-  just check-rust
 
   cd "{{justfile_directory()}}/packages"
   yarn install
@@ -182,42 +175,25 @@ check:
 
   # Needed because Svelte has special linters
   cd web
-  just build-web
   yarn run check
 
 # Populate build caches and install necessary local tooling (tools callable via `yarn run <tool>`).
-setup:
-  #! /bin/bash
-  set -eo pipefail
-
-  cargo build
-  just build-harperjs
-  just build-obsidian
-  just test-vscode
-  just test-harperjs
-  just build-web
+setup: build-harperjs build-obsidian test-vscode test-harperjs build-web
 
 # Perform full format and type checking, build all projects and run all tests. Run this before pushing your code.
-precommit:
+precommit: check test build-harperjs build-obsidian build-web
   #! /bin/bash
   set -eo pipefail
-
-  just check
-  just test
 
   cargo doc
   cargo build
   cargo build --release
   cargo bench
 
-  just build-harperjs
-  just build-obsidian
-  just build-web
-
 # Install `harper-cli` and `harper-ls` to your machine via `cargo`
 install:
-  cargo install --path harper-ls
-  cargo install --path harper-cli
+  cargo install --path harper-ls --locked
+  cargo install --path harper-cli --locked
 
 # Run `harper-cli` on the Harper repository
 dogfood:
@@ -230,10 +206,8 @@ dogfood:
   done
 
 # Test everything.
-test:
+test: test-vscode test-harperjs
   cargo test
-  just test-vscode
-  just test-harperjs
 
 # Use `harper-cli` to parse a provided file and print out the resulting tokens.
 parse file:
@@ -260,7 +234,11 @@ addnoun noun:
     exit 0
   fi
 
-  echo "{{noun}}/SM" >> $DICT_FILE
+  if [[ "{{noun}}" =~ ^[A-Z] ]]; then
+    echo "{{noun}}/M" >> $DICT_FILE
+  else
+    echo "{{noun}}/SM" >> $DICT_FILE
+  fi
 
 # Search Harper's curated dictionary for a specific word
 searchdictfor word:
@@ -278,8 +256,11 @@ userdictoverlap:
 # Get the metadata associated with a particular word in Harper's dictionary as JSON.
 getmetadata word:
   cargo run --bin harper-cli -- metadata {{word}}
+# Get all the forms of a word using the affixes.
+getforms word:
+  cargo run --bin harper-cli -- forms {{word}}
 
-bump-versions:
+bump-versions: update-vscode-linters
   #! /bin/bash
   set -eo pipefail
 
@@ -312,3 +293,23 @@ fuzz:
           exit $?
       fi
   done
+
+registerlinter module name:
+  #! /bin/bash
+
+  D="{{justfile_directory()}}/harper-core/src/linting"
+
+  sed -i "/pub use an_a::AnA;/a pub use {{module}}::{{name}};" "$D/mod.rs"
+  sed -i "/use super::an_a::AnA;/a use super::{{module}}::{{name}};" "$D/lint_group.rs"
+  sed -i "/create_lint_group_config\!/a \ \ \ \ {{name}} => true," "$D/lint_group.rs"
+  just format
+
+# Print affixes and their descriptions from affixes.json
+printaffixes:
+  #! /usr/bin/env node
+  Object.entries(
+    require('{{justfile_directory()}}/harper-core/affixes.json').affixes
+  ).forEach(([affix, fields]) => {
+    const description = fields['#'] || '';
+    description && console.log(affix + ': ' + description);
+  });

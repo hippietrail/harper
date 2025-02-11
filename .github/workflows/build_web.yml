@@ -2,9 +2,9 @@ name: Build Web
 
 on:
   push:
-    branches: ['master', 'web-prod']
+    branches: ["master", "web-prod"]
   pull_request:
-    branches: ['master']
+    branches: ["master"]
 
 jobs:
   build:
@@ -14,7 +14,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v4
         with:
-          node-version-file: '.node-version'
+          node-version-file: ".node-version"
       - name: Retrieve version after install
         id: nodenv
         run: echo "node-version=$(node -v | sed 's/^v//')" >> $GITHUB_OUTPUT

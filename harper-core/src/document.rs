@@ -286,7 +286,7 @@ impl Document {
             if let (TokenKind::Number(..), TokenKind::Word(..)) = (a.kind, b.kind) {
                 if let Some(found_suffix) = NumberSuffix::from_chars(self.get_span_content(b.span))
                 {
-                    *self.tokens[idx].kind.as_mut_number().unwrap().1 = Some(found_suffix);
+                    self.tokens[idx].kind.as_mut_number().unwrap().suffix = Some(found_suffix);
                     replace_starts.push(idx);
                 }
             }
@@ -551,6 +551,7 @@ impl TokenStringExt for Document {
     create_fns_on_doc!(punctuation);
     create_fns_on_doc!(currency);
     create_fns_on_doc!(likely_homograph);
+    create_fns_on_doc!(comma);
 
     fn first_sentence_word(&self) -> Option<Token> {
         self.tokens.first_sentence_word()
