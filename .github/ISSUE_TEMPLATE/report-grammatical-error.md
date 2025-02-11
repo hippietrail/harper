@@ -1,6 +1,6 @@
 ---
 name: Report Grammatical Error
-about: If a grammatical error is not found by Harper, let us tus now
+about: If a grammatical error is not found by Harper, let us know
 title: ''
 labels: enhancement, harper-core, linting
 assignees: ''
