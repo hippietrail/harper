@@ -38,7 +38,7 @@ use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
 use super::proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, Australia, AzureNames, ChineseCommunistParty, GoogleNames,
-    Holidays, Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
+    Holidays, Koreas, Malaysia, MetaNames, MicrosoftNames, UnitedOrganizations,
 };
 use super::repeated_words::RepeatedWords;
 use super::sentence_capitalization::SentenceCapitalization;
@@ -221,7 +221,7 @@ create_lint_group_config!(
     Myself => true,
     Itself => true,
     Whereas => true,
-    PossessiveYour => true,
+    PossessiveYour => false,
     SpelledNumbers => false,
     AnA => true,
     SentenceCapitalization => true,
@@ -246,6 +246,7 @@ create_lint_group_config!(
     Americas => true,
     Australia => true,
     Koreas => true,
+    Malaysia => true,
     ChineseCommunistParty => true,
     UnitedOrganizations => true,
     Holidays => true,
