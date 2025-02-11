@@ -271,9 +271,19 @@ sampleforms count:
   fi
 
   total_lines=$(wc -l < $DICT_FILE)
-  words=$(jot -r {{count}} 1 "$total_lines" | while read -r line_num; do \
-    sed -n "$line_num"p $DICT_FILE; \
-  done)
+  
+  # Cross-platform random line selection
+  if command -v shuf >/dev/null 2>&1; then
+    words=$(shuf -n "{{count}}" "$DICT_FILE")
+  elif command -v jot >/dev/null 2>&1; then
+    words=$(jot -r "{{count}}" 1 "$total_lines" | while read -r line_num; do \
+      sed -n "$line_num"p "$DICT_FILE"; \
+    done)
+  else
+    echo "Error: Neither 'shuf' nor 'jot' found. Cannot generate random words." >&2
+    exit 1
+  fi
+  
   cargo run --bin harper-cli -- forms $words
 
 bump-versions: update-vscode-linters
