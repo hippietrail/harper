@@ -200,6 +200,10 @@ impl Matcher {
 
         // wrong set phrases and collocations
         triggers.extend(pt! {
+            "discuss", "about" => "discuss",
+            "discussed", "about" => "discussed",
+            "discusses", "about" => "discusses",
+            "discussing", "about" => "discussing",
             "same", "than" => "same as",
             "Same", "than" => "same as"
         });
