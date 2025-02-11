@@ -5,6 +5,7 @@ use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
+use super::closed_compounds::Furthermore;
 use super::closed_compounds::Overnight;
 use super::closed_compounds::{
     Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
@@ -13,7 +14,6 @@ use super::closed_compounds::{
     Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
     Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
 };
-use super::closed_compunds::Furthermore;
 use super::compound_nouns::CompoundNouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;

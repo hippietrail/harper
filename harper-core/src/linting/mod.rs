@@ -54,6 +54,7 @@ pub use an_a::AnA;
 pub use avoid_curses::AvoidCurses;
 pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
+pub use closed_compounds::Furthermore;
 pub use closed_compounds::Overnight;
 pub use closed_compounds::{
     Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
@@ -62,7 +63,6 @@ pub use closed_compounds::{
     Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
     Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
 };
-pub use closed_compunds::Furthermore;
 pub use compound_nouns::CompoundNouns;
 pub use correct_number_suffix::CorrectNumberSuffix;
 pub use currency_placement::CurrencyPlacement;
