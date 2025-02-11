@@ -262,6 +262,7 @@ getforms word:
 # Get a random sample of words from Harper's dictionary and list all forms of each.
 sampleforms count:
   #!/bin/bash
+  set -eo pipefail
   DICT_FILE=./harper-core/dictionary.dict 
   # USER_DICT_FILE="$HOME/.config/harper-ls/dictionary.txt"
 
