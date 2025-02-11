@@ -6,7 +6,7 @@ use std::sync::Arc;
 use harper_core::language_detection::is_doc_likely_english;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter as _};
 use harper_core::parsers::{IsolateEnglish, Markdown, Parser, PlainEnglish};
-use harper_core::{remove_overlaps, Document, FstDictionary, FullDictionary, IgnoredLints, Lrc};
+use harper_core::{remove_overlaps, Document, FstDictionary, IgnoredLints, Lrc, MutableDictionary};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::wasm_bindgen;
 use wasm_bindgen::JsValue;
@@ -147,7 +147,8 @@ impl Linter {
 
         let parser = language.create_parser();
 
-        let document = Document::new_from_vec(source.clone(), &parser, &FullDictionary::curated());
+        let document =
+            Document::new_from_vec(source.clone(), &parser, &MutableDictionary::curated());
 
         let mut lints = self.lint_group.lint(&document);
 

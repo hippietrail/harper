@@ -297,13 +297,13 @@ impl<T: Dictionary + Default> Default for LintGroup<T> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{linting::Linter, Document, FstDictionary, FullDictionary};
+    use crate::{linting::Linter, Document, FstDictionary, MutableDictionary};
 
     use super::{LintGroup, LintGroupConfig};
 
     #[test]
     fn can_get_all_descriptions() {
-        let group = LintGroup::<FullDictionary>::default();
+        let group = LintGroup::<MutableDictionary>::default();
         group.all_descriptions();
     }
 
