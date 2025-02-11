@@ -94,7 +94,7 @@ impl FstDictionary {
 }
 
 fn build_dfa(max_distance: u8, query: &str) -> DFA {
-    // Insert if does not exist
+    // Insert if it does not exist
     AUTOMATON_BUILDERS.with_borrow_mut(|v| {
         if !v.iter().any(|t| t.0 == max_distance) {
             v.push((
@@ -181,6 +181,7 @@ impl Dictionary for FstDictionary {
         }
 
         merged.sort_unstable_by_key(|v| v.word);
+        merged.dedup_by_key(|v| v.word);
         merged.sort_unstable_by_key(|v| v.edit_distance);
         merged.truncate(max_results);
 
@@ -265,5 +266,12 @@ mod tests {
             .all(|(a, b)| a <= b);
 
         assert!(is_sorted_by_dist)
+    }
+
+    #[test]
+    fn curated_contains_no_duplicates() {
+        let dict = FstDictionary::curated();
+
+        assert!(dict.words.iter().map(|(word, _)| word).all_unique());
     }
 }
