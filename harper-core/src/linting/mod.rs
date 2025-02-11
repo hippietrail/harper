@@ -93,7 +93,7 @@ pub use plural_conjugate::PluralConjugate;
 pub use possessive_your::PossessiveYour;
 pub use pronoun_contraction::PronounContraction;
 pub use proper_noun_capitalization_linters::{
-    AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
+    AmazonNames, Americas, Australia, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
     Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
 };
 pub use repeated_words::RepeatedWords;

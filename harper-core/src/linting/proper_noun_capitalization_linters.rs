@@ -69,6 +69,67 @@ create_linter_for!(
 );
 
 create_linter_for!(
+    Australia,
+    EitherPattern::new(vec![
+        // the states and territories
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Australian")
+                .then_whitespace()
+                .t_aco("Capital")
+                .then_whitespace()
+                .t_aco("Territory")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("New")
+                .then_whitespace()
+                .t_aco("South")
+                .then_whitespace()
+                .t_aco("Wales")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Northern")
+                .then_whitespace()
+                .t_aco("Territory")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("South")
+                .then_whitespace()
+                .t_aco("Australia")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Western")
+                .then_whitespace()
+                .t_aco("Australia")
+        ),
+        // major cities
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Alice")
+                .then_whitespace()
+                .t_aco("Springs")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Gold")
+                .then_whitespace()
+                .t_aco("Coast")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Sunshine")
+                .then_whitespace()
+                .t_aco("Coast")
+        ),
+    ]),
+    "When referring to the states of Australia, make sure to treat them as a proper noun."
+);
+
+create_linter_for!(
     Koreas,
     SequencePattern::default()
         .then(Box::new(WordSet::all(&["South", "North",])))
