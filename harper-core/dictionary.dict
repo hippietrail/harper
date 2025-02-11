@@ -9984,7 +9984,7 @@ URL/1S
 US/215M
 USA/21M
 USAF/2
-USB/21
+USB/21MS
 USCG/2
 USDA/2M
 USIA/2
@@ -13281,7 +13281,7 @@ bait/145SGMD
 baize/14M
 bake/41DRSMZG
 baked/45U
-baker/1M
+baker/1MS
 bakery/1SM
 bakeshop/1MS
 baklava/1M
@@ -26230,7 +26230,7 @@ happy/514URTP
 haptic/5
 harangue/14MGDS
 harass/41LZGDRS
-harasser/1M
+harasser/1MS
 harassment/1M
 harbinger/14SM
 harbor/14GMDS
@@ -28292,7 +28292,7 @@ infinity/1SM
 infirm/54
 infirmary/1SM
 infirmity/1SM
-infix/41
+infix/41SMGD
 inflame/4DSG
 inflammable/51
 inflammation/1SM
@@ -33063,7 +33063,7 @@ mutational/5
 mute/514MYTGDRSPB
 muteness/1M
 mutilate/45DSGNX
-mutilation/1M
+mutilation/1MS
 mutilator/1SM
 mutineer/14SM
 mutinous/5Y
@@ -41217,7 +41217,7 @@ semester/1SM
 semi/1MS
 semiannual/51Y
 semiarid/5
-semiautomatic/51MS
+semiautomatic/51MSQ
 semibreve/1S
 semicircle/14SM
 semicircular/5
@@ -41394,7 +41394,7 @@ serviceability/1M
 serviceable/5
 serviced/4
 serviceman/1M
-servicemen/1
+servicemen/1M
 servicewoman/1M
 servicewomen/1
 servicing/41
@@ -43329,7 +43329,7 @@ spun/4
 spunk/14SM
 spunky/5TR
 spur/14MS
-spurge/14M
+spurge/14MSDG
 spurious/5PY
 spuriousness/1M
 spurn/41SDG
@@ -49010,7 +49010,7 @@ winnable/5U
 winner/1SM
 winning/451MYS
 winnow/41ZGSDR
-winnower/1M
+winnower/1MS
 wino/1MS
 winsome/5YTRP
 winsomeness/1M
