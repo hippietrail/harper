@@ -15,7 +15,7 @@ mod full_dictionary;
 pub mod hunspell;
 mod merged_dictionary;
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Hash, Eq)]
 pub struct FuzzyMatchResult<'a> {
     word: &'a [char],
     edit_distance: u8,
@@ -85,6 +85,7 @@ pub fn suggest_correct_spelling<'a>(
         .fuzzy_match(misspelled_word, max_edit_dist, result_limit)
         .into_iter()
         .collect();
+
     order_suggestions(matches)
 }
 
@@ -133,8 +134,8 @@ mod tests {
         FstDictionary, FullDictionary,
     };
 
-    const RESULT_LIMIT: usize = 60;
-    const MAX_EDIT_DIST: u8 = 3;
+    const RESULT_LIMIT: usize = 100;
+    const MAX_EDIT_DIST: u8 = 2;
 
     #[test]
     fn normalizes_weve() {
@@ -145,7 +146,7 @@ mod tests {
     }
 
     #[test]
-    fn produces_no_duplicates() {
+    fn punctation_no_duplicates() {
         let results = suggest_correct_spelling_str(
             "punctation",
             RESULT_LIMIT,
@@ -153,9 +154,7 @@ mod tests {
             &FstDictionary::curated(),
         );
 
-        dbg!(&results, results.iter().unique().collect_vec());
-
-        assert_eq!(results.iter().unique().count(), results.len())
+        assert!(results.iter().all_unique())
     }
 
     /// Ensures that the suggestions are ordered taking into account commonality
@@ -248,6 +247,20 @@ mod tests {
         dbg!(&results);
 
         assert!(results.iter().take(3).contains(&"need".to_string()));
+    }
+
+    #[test]
+    fn issue_624_no_duplicates() {
+        let results = suggest_correct_spelling_str(
+            "Semantical",
+            RESULT_LIMIT,
+            MAX_EDIT_DIST,
+            &FstDictionary::curated(),
+        );
+
+        dbg!(&results);
+
+        assert!(results.iter().all_unique())
     }
 
     #[test]
