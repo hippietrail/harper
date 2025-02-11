@@ -13,6 +13,7 @@ use super::closed_compounds::{
     Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
     Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
 };
+use super::closed_compunds::Furthermore;
 use super::compound_nouns::CompoundNouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
@@ -174,6 +175,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Furthermore => true,
     Overnight => true,
     Hereby => true,
     Likewise => true,

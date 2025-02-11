@@ -97,6 +97,7 @@ create_closed_compound_linter!(Upward, "up ward", "upward");
 create_closed_compound_linter!(Henceforth, "hence forth", "henceforth");
 create_closed_compound_linter!(Regardless, "regard less", "regardless");
 create_closed_compound_linter!(Overnight, "over night", "overnight");
+create_closed_compound_linter!(Furthermore, "further more", "furthermore");
 
 #[cfg(test)]
 mod tests {

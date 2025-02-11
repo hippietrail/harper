@@ -62,6 +62,7 @@ pub use closed_compounds::{
     Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
     Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
 };
+pub use closed_compunds::Furthermore;
 pub use compound_nouns::CompoundNouns;
 pub use correct_number_suffix::CorrectNumberSuffix;
 pub use currency_placement::CurrencyPlacement;
