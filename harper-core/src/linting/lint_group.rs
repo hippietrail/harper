@@ -221,7 +221,7 @@ create_lint_group_config!(
     Myself => true,
     Itself => true,
     Whereas => true,
-    PossessiveYour => true,
+    PossessiveYour => false,
     SpelledNumbers => false,
     AnA => true,
     SentenceCapitalization => true,
