@@ -25,6 +25,9 @@ enum Args {
         /// without further details.
         #[arg(short, long)]
         count: bool,
+        /// Specify the language ID to use for the grammar check.
+        #[arg(short, long)]
+        lang: Option<String>,
     },
     /// Parse a provided document and print the detected symbols.
     Parse {
@@ -54,8 +57,8 @@ fn main() -> anyhow::Result<()> {
     let dictionary = FstDictionary::curated();
 
     match args {
-        Args::Lint { file, count } => {
-            let (doc, source) = load_file(&file, markdown_options)?;
+        Args::Lint { file, count, lang } => {
+            let (doc, source) = load_file(&file, markdown_options, lang.as_deref())?;
 
             let mut linter = LintGroup::new(linting_options, dictionary);
             let mut lints = linter.lint(&doc);
@@ -95,7 +98,7 @@ fn main() -> anyhow::Result<()> {
             Ok(())
         }
         Args::Parse { file } => {
-            let (doc, _) = load_file(&file, markdown_options)?;
+            let (doc, _) = load_file(&file, markdown_options, None)?;
 
             for token in doc.tokens() {
                 let json = serde_json::to_string(&token)?;
@@ -108,7 +111,7 @@ fn main() -> anyhow::Result<()> {
             file,
             include_newlines,
         } => {
-            let (doc, source) = load_file(&file, markdown_options)?;
+            let (doc, source) = load_file(&file, markdown_options, None)?;
 
             let primary_color = Color::Blue;
             let secondary_color = Color::Magenta;
@@ -201,8 +204,16 @@ fn main() -> anyhow::Result<()> {
     }
 }
 
-fn load_file(file: &Path, markdown_options: MarkdownOptions) -> anyhow::Result<(Document, String)> {
+fn load_file(file: &Path, markdown_options: MarkdownOptions, language_id: Option<&str>) -> anyhow::Result<(Document, String)> {
     let source = std::fs::read_to_string(file)?;
+
+    // eprintln!("File extension: {:?}", language_id);
+
+    // let file_extension = if language_id.is_none() {
+    //     file.extension().map(|v| v.to_str().unwrap())
+    // } else {
+    //     language_id
+    // };
 
     let parser: Box<dyn harper_core::parsers::Parser> =
         match file.extension().map(|v| v.to_str().unwrap()) {
@@ -211,11 +222,20 @@ fn load_file(file: &Path, markdown_options: MarkdownOptions) -> anyhow::Result<(
                 MarkdownOptions::default(),
             )),
             Some("typ") => Box::new(harper_typst::Typst),
-            _ => Box::new(
-                CommentParser::new_from_filename(file, markdown_options)
-                    .map(Box::new)
-                    .ok_or(format_err!("Could not detect language ID."))?,
-            ),
+            _ => {
+                let parser = if let Some(lang_id) = language_id {
+                    // Use the language ID if provided
+                    CommentParser::new_from_language_id(lang_id, markdown_options)
+                        .map(Box::new)
+                        .ok_or(format_err!("Unknown language ID."))?
+                } else {
+                    // Fallback to using the filename
+                    CommentParser::new_from_filename(file, markdown_options)
+                        .map(Box::new)
+                        .ok_or(format_err!("Could not detect language ID."))?
+                };
+                Box::new(parser)
+            },
         };
 
     Ok((Document::new_curated(&source, &parser), source))
