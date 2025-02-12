@@ -6,13 +6,17 @@ mod an_a;
 mod avoid_curses;
 mod boring_words;
 mod capitalize_personal_pronouns;
+mod closed_compounds;
+mod compound_nouns;
 mod correct_number_suffix;
 mod currency_placement;
 mod dashes;
 mod despite_of;
 mod dot_initialisms;
 mod ellipsis_length;
+mod hereby;
 mod lets_confusion;
+mod likewise;
 mod linking_verbs;
 mod lint;
 mod lint_group;
@@ -23,6 +27,7 @@ mod merge_linters;
 mod merge_words;
 mod multiple_sequential_pronouns;
 mod no_oxford_comma;
+mod nobody;
 mod number_suffix_capitalization;
 mod oxford_comma;
 mod pattern_linter;
@@ -42,18 +47,31 @@ mod terminating_conjunctions;
 mod that_which;
 mod unclosed_quotes;
 mod use_genitive;
+mod whereas;
 mod wrong_quotes;
 
 pub use an_a::AnA;
 pub use avoid_curses::AvoidCurses;
 pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
+pub use closed_compounds::Furthermore;
+pub use closed_compounds::Overnight;
+pub use closed_compounds::{
+    Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
+    Instead, Intact, Into, Itself, Middleware, Misunderstand, Misunderstood, Misuse, Misused,
+    Multicore, Multimedia, Multithreading, Myself, Nonetheless, Nothing, Notwithstanding, Overall,
+    Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
+    Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
+};
+pub use compound_nouns::CompoundNouns;
 pub use correct_number_suffix::CorrectNumberSuffix;
 pub use currency_placement::CurrencyPlacement;
 pub use despite_of::DespiteOf;
 pub use dot_initialisms::DotInitialisms;
 pub use ellipsis_length::EllipsisLength;
+pub use hereby::Hereby;
 pub use lets_confusion::LetsConfusion;
+pub use likewise::Likewise;
 pub use linking_verbs::LinkingVerbs;
 pub use lint::Lint;
 pub use lint_group::{LintGroup, LintGroupConfig};
@@ -63,20 +81,21 @@ pub use matcher::Matcher;
 pub use merge_words::MergeWords;
 pub use multiple_sequential_pronouns::MultipleSequentialPronouns;
 pub use no_oxford_comma::NoOxfordComma;
+pub use nobody::Nobody;
 pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
 pub use phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
-    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SupposeTo,
-    ThatChallenged, TurnItOff,
+    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
+    SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
 };
 pub use plural_conjugate::PluralConjugate;
 pub use possessive_your::PossessiveYour;
 pub use pronoun_contraction::PronounContraction;
 pub use proper_noun_capitalization_linters::{
-    AmazonNames, Americas, AppleNames, AzureNames, ChineseCommunistParty, GoogleNames, Holidays,
-    Koreas, MetaNames, MicrosoftNames, UnitedOrganizations,
+    AmazonNames, Americas, AppleNames, Australia, AzureNames, ChineseCommunistParty, GoogleNames,
+    Holidays, Koreas, Malaysia, MetaNames, MicrosoftNames, UnitedOrganizations,
 };
 pub use repeated_words::RepeatedWords;
 pub use sentence_capitalization::SentenceCapitalization;
@@ -89,6 +108,7 @@ pub use terminating_conjunctions::TerminatingConjunctions;
 pub use that_which::ThatWhich;
 pub use unclosed_quotes::UnclosedQuotes;
 pub use use_genitive::UseGenitive;
+pub use whereas::Whereas;
 pub use wrong_quotes::WrongQuotes;
 
 use crate::Document;

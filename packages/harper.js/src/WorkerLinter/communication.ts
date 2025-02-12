@@ -1,7 +1,8 @@
 import { binary, loadBinary } from '../binary';
 
 /** This module aims to define the communication protocol between the main thread and the worker.
- * Note that most of the complication here comes from the fact that we can't serialize function calls or referenced WebAssembly memory.*/
+ * Note that much of the complication here comes from the fact that we can't serialize function calls or referenced WebAssembly memory.*/
+
 export type Type =
 	| 'string'
 	| 'number'

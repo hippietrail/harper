@@ -192,8 +192,8 @@ precommit: check test build-harperjs build-obsidian build-web
 
 # Install `harper-cli` and `harper-ls` to your machine via `cargo`
 install:
-  cargo install --path harper-ls
-  cargo install --path harper-cli
+  cargo install --path harper-ls --locked
+  cargo install --path harper-cli --locked
 
 # Run `harper-cli` on the Harper repository
 dogfood:
@@ -256,6 +256,9 @@ userdictoverlap:
 # Get the metadata associated with a particular word in Harper's dictionary as JSON.
 getmetadata word:
   cargo run --bin harper-cli -- metadata {{word}}
+# Get all the forms of a word using the affixes.
+getforms word:
+  cargo run --bin harper-cli -- forms {{word}}
 
 bump-versions: update-vscode-linters
   #! /bin/bash
@@ -290,6 +293,16 @@ fuzz:
           exit $?
       fi
   done
+
+registerlinter module name:
+  #! /bin/bash
+
+  D="{{justfile_directory()}}/harper-core/src/linting"
+
+  sed -i "/pub use an_a::AnA;/a pub use {{module}}::{{name}};" "$D/mod.rs"
+  sed -i "/use super::an_a::AnA;/a use super::{{module}}::{{name}};" "$D/lint_group.rs"
+  sed -i "/create_lint_group_config\!/a \ \ \ \ {{name}} => true," "$D/lint_group.rs"
+  just format
 
 # Print affixes and their descriptions from affixes.json
 printaffixes:

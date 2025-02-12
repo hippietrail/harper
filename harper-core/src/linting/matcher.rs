@@ -122,14 +122,9 @@ impl Matcher {
             "mu","house" => "my house",
             "no","to" => "not to",
             "No","to" => "not to",
-            "spacial","attention" => "special attention",
             "the", "this" => "that this",
             "The","re" => "There",
-            "There","fore" => "Therefore",
-            "though", "process" => "thought process",
-            "We","a","re" => "We are",
-            "you","r" => "your",
-            "you","re" => "you're"
+            "though", "process" => "thought process"
         });
 
         // phrase capitalization
@@ -183,26 +178,14 @@ impl Matcher {
             "wordlist" => "word list"
         });
 
-        // prefixes written as separate words
-        triggers.extend(pt! {
-            "miss","understand" => "misunderstand",
-            "miss","use" => "misuse",
-            "miss","used" => "misused",
-            "my","self" => "myself"
-        });
-
         // mixing up than/then in context
         triggers.extend(pt! {
             "more","then" => "more than",
-            "then","before" => "than before",
-            "Then","before" => "than before",
             "then","her" => "than her",
             "then","hers" => "than hers",
             "then","him" => "than him",
             "then","his" => "than his",
-            "then","last","week" => "than last week",
-            "then","others" => "than others",
-            "Then","others" => "than others"
+            "then","last","week" => "than last week"
         });
 
         // not a perfect fit for any of the other categories
@@ -217,22 +200,32 @@ impl Matcher {
 
         // wrong set phrases and collocations
         triggers.extend(pt! {
+            "could", "of" => "could have",
+            "could", "of" => "could've",
+            "couldn't", "of" => "couldn't have",
+            "had", "of" => "had have",
+            "had", "of" => "had've",
+            "hadn't", "of" => "hadn't have",
+            "should", "of" => "should have",
+            "should", "of" => "should've",
+            "shouldn't", "of" => "shouldn't have",
+            "would", "of" => "would have",
+            "would", "of" => "would've",
+            "wouldn't", "of" => "wouldn't have",
+            "discuss", "about" => "discuss",
+            "discussed", "about" => "discussed",
+            "discusses", "about" => "discusses",
+            "discussing", "about" => "discussing",
             "same", "than" => "same as",
-            "Same", "than" => "same as"
+            "Same", "than" => "same as",
+            "sooner","than","later" => "sooner rather than later",
+            "sooner","than","later" => "sooner or later"
         });
 
         // belonging to multiple of the other categories
         triggers.extend(pt! {
             "same", "then" => "same as",
             "Same", "then" => "same as"
-        });
-
-        // suffixes written as separate words
-        triggers.extend(pt! {
-            "that","s" => "that is",
-            "That","s" => "that is",
-            "that","s" => "that's",
-            "That","s" => "That's"
         });
 
         // near homophones
@@ -325,19 +318,5 @@ impl Linter for Matcher {
 
     fn description(&self) -> &'static str {
         "A collection of curated rules. A catch-all that will be removed in the future."
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    use super::{Linter, Matcher};
-    use crate::Document;
-
-    #[test]
-    fn matches_therefore() {
-        let document = Document::new_plain_english_curated("There fore.");
-        let mut matcher = Matcher::new();
-        let lints = matcher.lint(&document);
-        assert_eq!(lints.len(), 1);
     }
 }

@@ -2,13 +2,13 @@ use crate::config::{CodeActionConfig, DiagnosticSeverity};
 use crate::diagnostics::{lint_to_code_actions, lints_to_diagnostics};
 use crate::pos_conv::range_to_span;
 use harper_core::linting::{Lint, LintGroup, Linter};
-use harper_core::{Document, FullDictionary, IgnoredLints, MergedDictionary, TokenKind};
+use harper_core::{Document, IgnoredLints, MergedDictionary, MutableDictionary, TokenKind};
 use harper_core::{Lrc, Token};
 use tower_lsp::lsp_types::{CodeActionOrCommand, Command, Diagnostic, Range, Url};
 
 pub struct DocumentState {
     pub document: Document,
-    pub ident_dict: Lrc<FullDictionary>,
+    pub ident_dict: Lrc<MutableDictionary>,
     pub dict: Lrc<MergedDictionary>,
     pub linter: LintGroup<Lrc<MergedDictionary>>,
     pub language_id: Option<String>,

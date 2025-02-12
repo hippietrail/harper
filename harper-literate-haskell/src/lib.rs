@@ -1,7 +1,7 @@
 use harper_comments::CommentParser;
 use harper_core::{
     parsers::{Markdown, MarkdownOptions, Mask, Parser},
-    FullDictionary, Lrc, Masker, Token,
+    Lrc, Masker, MutableDictionary, Token,
 };
 
 mod masker;
@@ -28,7 +28,7 @@ impl LiterateHaskellParser {
         &self,
         source: &[char],
         markdown_options: MarkdownOptions,
-    ) -> Option<FullDictionary> {
+    ) -> Option<MutableDictionary> {
         let parser = CommentParser::new_from_language_id("haskell", markdown_options).unwrap();
         let mask = LiterateHaskellMasker::code_only().create_mask(source);
 
