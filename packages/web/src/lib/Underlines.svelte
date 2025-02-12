@@ -4,7 +4,7 @@
 	// Someday, I'll return to it and spruce it up.
 	// For now, it works.
 
-	import type { Lint } from 'harper.js';
+	import type { Lint, WorkerLinter } from 'harper.js';
 	import lintKindColor from '$lib/lintKindColor';
 
 	export let content: string;
@@ -14,10 +14,10 @@
 
 	let loadTime = Date.now();
 
-	function slideUnderline(node, { duration = 300 }) {
+	function slideUnderline(node: any) {
 		return {
-			duration,
-			css: (t) => {
+			duration: 300,
+			css: (t: number) => {
 				if (Date.now() - loadTime > 2000) {
 					t = 1;
 				}
@@ -36,7 +36,7 @@
 	let linter: WorkerLinter;
 
 	(async () => {
-		let { WorkerLinter, SuggestionKind } = await import('harper.js');
+		let { WorkerLinter } = await import('harper.js');
 
 		linter = new WorkerLinter();
 

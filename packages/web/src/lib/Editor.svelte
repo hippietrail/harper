@@ -3,7 +3,7 @@
 	import demo from '../../../../demo.md?raw';
 	import Underlines from '$lib/Underlines.svelte';
 	import { Button } from 'flowbite-svelte';
-	import type { Lint, WorkerLinter } from 'harper.js';
+	import { type Lint, type WorkerLinter, SuggestionKind } from 'harper.js';
 	import CheckMark from '$lib/CheckMark.svelte';
 	import { fly } from 'svelte/transition';
 	import lintKindColor from './lintKindColor';
@@ -16,14 +16,8 @@
 	let editor: HTMLTextAreaElement | null;
 	let linter: WorkerLinter;
 
-	let remove;
-	let replace;
-
 	(async () => {
-		let { WorkerLinter, SuggestionKind } = await import('harper.js');
-		remove = SuggestionKind.Remove;
-		replace = SuggestionKind.Replace;
-
+		let { WorkerLinter } = await import('harper.js');
 		linter = new WorkerLinter();
 
 		await linter.setup();
@@ -113,9 +107,9 @@
 												.applySuggestion(content, suggestion, lint.span())
 												.then((edited) => (content = edited))}
 									>
-										{#if suggestion.kind() == remove}
+										{#if suggestion.kind() == SuggestionKind.Remove}
 											Remove "{lint.get_problem_text()}"
-										{:else if suggestion.kind() == replace}
+										{:else if suggestion.kind() == SuggestionKind.Replace}
 											Replace "{lint.get_problem_text()}" with "{suggestion.get_replacement_text()}"
 										{:else}
 											Insert "{suggestion.get_replacement_text()}" after "{lint.get_problem_text()}"
