@@ -11,6 +11,27 @@
 	export let content: string;
 	export let focusLintIndex: number | undefined;
 
+	import { quintOut } from 'svelte/easing';
+
+	let loadTime = Date.now();
+
+	function slideUnderline(node, { duration = 300 }) {
+		return {
+			duration,
+			css: (t) => {
+				if (Date.now() - loadTime > 2000) {
+					t = 1;
+				}
+
+				return `
+        transform: scaleX(${t});
+        transform-origin: left;
+      `;
+			},
+			easing: quintOut
+		};
+	}
+
 	let lints: [Lint, number][] = [];
 	let lintHighlights: HTMLSpanElement[] = [];
 	let linter = new WorkerLinter();
@@ -49,6 +70,7 @@
 		content: string;
 		index: number;
 		color: string;
+		context: string;
 	};
 
 	type UnderlineToken = string | null | undefined | UnderlineDetails;
@@ -75,7 +97,8 @@
 					focused: lintIndex === focusLintIndex,
 					index: lintIndex,
 					content: lint.get_problem_text().replaceAll(' ', '\u00A0'),
-					color: lintKindColor(lint.lint_kind())
+					color: lintKindColor(lint.lint_kind()),
+					context: prevContent[prevContent.length - 1] ?? ''
 				};
 
 				return [...prevContent, lintContent];
@@ -113,6 +136,7 @@
 					<button
 						class={`underlinespecial transition-all rounded-sm ${chunk.focused ? 'animate-after-bigbounce text-white' : 'text-transparent'}`}
 						bind:this={lintHighlights[chunk.index]}
+						in:slideUnderline
 						on:click={() =>
 							chunk != null && typeof chunk == 'object' && (focusLintIndex = chunk.index)}
 						style={`--line-color: ${chunk.color}; --line-width: ${chunk.focused ? '4px' : '2px'}; --bg-color: ${chunk.focused ? '#dbafb3' : 'transparent'};`}
