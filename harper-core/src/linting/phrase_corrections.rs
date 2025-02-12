@@ -1,11 +1,6 @@
-use serde::de::SeqAccess;
-
 use super::{Lint, LintKind, PatternLinter};
 use crate::linting::Suggestion;
-use crate::patterns::{
-    EitherPattern, ExactPhrase, OwnedPatternExt, Pattern, PatternExt, SequencePattern,
-    SimilarToPhrase, WordSet,
-};
+use crate::patterns::{ExactPhrase, OwnedPatternExt, Pattern, SimilarToPhrase};
 use crate::{Token, TokenStringExt};
 
 macro_rules! create_linter_map_phrase {

@@ -1,8 +1,8 @@
 use super::super::{Lint, LintKind, PatternLinter};
 use crate::linting::Suggestion;
-use crate::patterns::{Pattern, PatternExt, SequencePattern, SimilarToPhrase, WordSet};
-use crate::CharStringExt;
-use crate::{char_string::char_string, CharString, Token, TokenStringExt};
+use crate::patterns::{Pattern, SequencePattern, WordSet};
+use crate::{char_string::char_string, Token};
+use crate::{CharString, CharStringExt};
 
 pub struct ToHop {
     pattern: Box<dyn Pattern>,

@@ -24,9 +24,11 @@ impl CharStringExt for [char] {
 }
 
 macro_rules! char_string {
-    ($string:literal) => {
+    ($string:literal) => {{
+        use crate::char_string::CharString;
+
         $string.chars().collect::<CharString>()
-    };
+    }};
 }
 
 pub(crate) use char_string;
