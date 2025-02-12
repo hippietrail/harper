@@ -22,3 +22,11 @@ impl CharStringExt for [char] {
         self.iter().collect()
     }
 }
+
+macro_rules! char_string {
+    ($string:literal) => {
+        $string.chars().collect::<CharString>()
+    };
+}
+
+pub(crate) use char_string;

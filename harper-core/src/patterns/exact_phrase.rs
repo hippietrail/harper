@@ -25,6 +25,11 @@ impl ExactPhrase {
                 TokenKind::Space(_) => {
                     phrase = phrase.then_whitespace();
                 }
+                TokenKind::Punctuation(p) => {
+                    phrase = phrase.then(Box::new(move |t: &Token, _source: &[char]| {
+                        t.kind.as_punctuation().cloned() == Some(p)
+                    }))
+                }
                 TokenKind::ParagraphBreak => {
                     phrase = phrase.then_whitespace();
                 }

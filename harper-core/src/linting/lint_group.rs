@@ -20,6 +20,7 @@ use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
 use super::hereby::Hereby;
+use super::hop_hope::HopHope;
 use super::lets_confusion::LetsConfusion;
 use super::likewise::Likewise;
 use super::linking_verbs::LinkingVerbs;
@@ -29,6 +30,9 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::phrase_corrections::FastPaste;
+use super::phrase_corrections::StateOfTheArt;
+use super::phrase_corrections::WantBe;
 use super::phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
@@ -175,6 +179,10 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    FastPaste => true,
+    StateOfTheArt => true,
+    WantBe => true,
+    HopHope => true,
     Furthermore => true,
     Overnight => true,
     Hereby => true,

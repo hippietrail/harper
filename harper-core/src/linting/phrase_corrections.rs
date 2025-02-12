@@ -1,10 +1,15 @@
+use serde::de::SeqAccess;
+
 use super::{Lint, LintKind, PatternLinter};
 use crate::linting::Suggestion;
-use crate::patterns::{ExactPhrase, Pattern, SimilarToPhrase};
+use crate::patterns::{
+    EitherPattern, ExactPhrase, OwnedPatternExt, Pattern, PatternExt, SequencePattern,
+    SimilarToPhrase, WordSet,
+};
 use crate::{Token, TokenStringExt};
 
 macro_rules! create_linter_map_phrase {
-    ($name:ident, $pattern:expr, $correct_form:expr, $message:expr, $description:expr) => {
+    ($name:ident, $pattern:expr, $($correct_form:literal).*, $message:expr, $description:expr) => {
         #[doc = $description]
         pub struct $name {
             pattern: Box<dyn Pattern>,
@@ -36,10 +41,12 @@ macro_rules! create_linter_map_phrase {
                 Lint {
                     span,
                     lint_kind: LintKind::Miscellaneous,
-                    suggestions: vec![Suggestion::replace_with_match_case(
-                        $correct_form.chars().collect(),
-                        matched_text,
-                    )],
+                    suggestions: vec![$(
+                        Suggestion::replace_with_match_case(
+                            $correct_form.chars().collect(),
+                            matched_text,
+                        ),
+                    )*],
                     message: $message.to_string(),
                     priority: 31,
                 }
@@ -90,6 +97,10 @@ create_linter_for_phrase!(ThanOthers, "than others", 1);
 create_linter_for_phrase!(SupposedTo, "supposed to", 1);
 
 create_linter_map_phrase!(LoAndBehold, ExactPhrase::from_phrase("long and behold"), "lo and behold", "Did you mean `lo and behold`?", "Detects the exact phrase `long and behold` and suggests replacing it with the idiomatically correct `lo and behold`");
+
+create_linter_map_phrase!(WantBe, ExactPhrase::from_phrase("want be"),"won't be"."want to be","Did you mean `won't be` or `want to be`?", "Detects incorrect usage of `want be` and suggests `won't be` or `want to be` based on context.");
+create_linter_map_phrase!(StateOfTheArt, ExactPhrase::from_phrase("state of art"), "state of the art", "Did you mean `state of the art`?", "Detects incorrect usage of `state of art` and suggests `state of the art` as the correct phrase.");
+create_linter_map_phrase!(FastPaste, ExactPhrase::from_phrase("fast paste").or(Box::new(ExactPhrase::from_phrase("fast-paste"))), "fast-paced", "Did you mean `fast-paced`?", "Detects incorrect usage of `fast paste` or `fast-paste` and suggests `fast-paced` as the correct phrase.");
 
 #[cfg(test)]
 mod tests {

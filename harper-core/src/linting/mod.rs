@@ -15,6 +15,7 @@ mod despite_of;
 mod dot_initialisms;
 mod ellipsis_length;
 mod hereby;
+mod hop_hope;
 mod lets_confusion;
 mod likewise;
 mod linking_verbs;
@@ -70,6 +71,7 @@ pub use despite_of::DespiteOf;
 pub use dot_initialisms::DotInitialisms;
 pub use ellipsis_length::EllipsisLength;
 pub use hereby::Hereby;
+pub use hop_hope::HopHope;
 pub use lets_confusion::LetsConfusion;
 pub use likewise::Likewise;
 pub use linking_verbs::LinkingVerbs;
@@ -85,6 +87,9 @@ pub use nobody::Nobody;
 pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
+pub use phrase_corrections::FastPaste;
+pub use phrase_corrections::StateOfTheArt;
+pub use phrase_corrections::WantBe;
 pub use phrase_corrections::{
     AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
