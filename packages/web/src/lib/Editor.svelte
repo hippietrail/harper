@@ -3,8 +3,7 @@
 	import demo from '../../../../demo.md?raw';
 	import Underlines from '$lib/Underlines.svelte';
 	import { Button } from 'flowbite-svelte';
-	import { WorkerLinter, SuggestionKind } from 'harper.js';
-	import type { Lint } from 'harper.js';
+	import type { Lint, WorkerLinter } from 'harper.js';
 	import CheckMark from '$lib/CheckMark.svelte';
 	import { fly } from 'svelte/transition';
 	import lintKindColor from './lintKindColor';
@@ -15,13 +14,24 @@
 	let lintCards: HTMLButtonElement[] = [];
 	let focused: number | undefined;
 	let editor: HTMLTextAreaElement | null;
-	let linter = new WorkerLinter();
+	let linter: WorkerLinter;
 
-	linter.setup();
+	let remove;
+	let replace;
+
+	(async () => {
+		let { WorkerLinter, SuggestionKind } = await import('harper.js');
+		remove = SuggestionKind.Remove;
+		replace = SuggestionKind.Replace;
+
+		linter = new WorkerLinter();
+
+		await linter.setup();
+	})();
 
 	let w: number | undefined;
 
-	$: linter.lint(content).then((newLints) => (lints = newLints));
+	$: linter?.lint(content).then((newLints) => (lints = newLints));
 	$: boxHeight = calcHeight(content);
 	$: if (focused != null && lintCards[focused])
 		lintCards[focused].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
@@ -103,9 +113,9 @@
 												.applySuggestion(content, suggestion, lint.span())
 												.then((edited) => (content = edited))}
 									>
-										{#if suggestion.kind() == SuggestionKind.Remove}
+										{#if suggestion.kind() == remove}
 											Remove "{lint.get_problem_text()}"
-										{:else if suggestion.kind() == SuggestionKind.Replace}
+										{:else if suggestion.kind() == replace}
 											Replace "{lint.get_problem_text()}" with "{suggestion.get_replacement_text()}"
 										{:else}
 											Insert "{suggestion.get_replacement_text()}" after "{lint.get_problem_text()}"
