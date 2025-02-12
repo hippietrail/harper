@@ -6,14 +6,14 @@ use crate::{CharString, CharStringExt, WordMetadata};
 
 pub use self::dictionary::Dictionary;
 pub use self::fst_dictionary::FstDictionary;
-pub use self::full_dictionary::FullDictionary;
 pub use self::merged_dictionary::MergedDictionary;
+pub use self::mutable_dictionary::MutableDictionary;
 
 mod dictionary;
 mod fst_dictionary;
-mod full_dictionary;
 pub mod hunspell;
 mod merged_dictionary;
+mod mutable_dictionary;
 
 #[derive(PartialEq, Debug, Hash, Eq)]
 pub struct FuzzyMatchResult<'a> {
@@ -131,7 +131,7 @@ mod tests {
 
     use super::{
         order_suggestions, seq_to_normalized, suggest_correct_spelling_str, Dictionary,
-        FstDictionary, FullDictionary,
+        FstDictionary, MutableDictionary,
     };
 
     const RESULT_LIMIT: usize = 100;
@@ -227,7 +227,7 @@ mod tests {
             "ned",
             RESULT_LIMIT,
             MAX_EDIT_DIST,
-            &FullDictionary::curated(),
+            &MutableDictionary::curated(),
         );
 
         dbg!(&results);
@@ -283,7 +283,7 @@ mod tests {
             "Im",
             RESULT_LIMIT,
             MAX_EDIT_DIST,
-            &FullDictionary::curated(),
+            &MutableDictionary::curated(),
         );
 
         dbg!(&results);
@@ -311,7 +311,7 @@ mod tests {
             "hvllo",
             RESULT_LIMIT,
             MAX_EDIT_DIST,
-            &FullDictionary::curated(),
+            &MutableDictionary::curated(),
         );
 
         dbg!(&results);
@@ -339,7 +339,7 @@ mod tests {
             "aboot",
             RESULT_LIMIT,
             MAX_EDIT_DIST,
-            &FullDictionary::curated(),
+            &MutableDictionary::curated(),
         );
 
         dbg!(&results);

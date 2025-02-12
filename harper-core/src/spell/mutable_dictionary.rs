@@ -14,10 +14,16 @@ use crate::{CharString, CharStringExt, WordMetadata};
 use super::dictionary::Dictionary;
 use super::FuzzyMatchResult;
 
-/// A full, fat dictionary.
-/// All elements are stored in-memory.
+/// A basic dictionary that allows words to be added.
+/// This is useful for user and file dictionaries that may change at runtime.
+///
+/// For immutable use-cases, such as the curated dictionary, prefer [`super::FstDictionary`],
+/// as it is much faster.
+///
+/// To combine the contents of multiple dictionaries, regardless of type, use
+/// [`super::MergedDictionary`].
 #[derive(Debug, Clone, Eq, PartialEq)]
-pub struct FullDictionary {
+pub struct MutableDictionary {
     /// Storing a separate [`Vec`] for iterations speeds up spellchecking by
     /// ~16% at the cost of additional memory.
     ///
@@ -35,7 +41,7 @@ pub struct FullDictionary {
 
 /// The uncached function that is used to produce the original copy of the
 /// curated dictionary.
-fn uncached_inner_new() -> Arc<FullDictionary> {
+fn uncached_inner_new() -> Arc<MutableDictionary> {
     let word_list = parse_default_word_list().unwrap();
     let attr_list = parse_default_attribute_list();
 
@@ -50,18 +56,18 @@ fn uncached_inner_new() -> Arc<FullDictionary> {
     words.dedup();
     words.sort_unstable_by_key(|w| w.len());
 
-    Arc::new(FullDictionary {
+    Arc::new(MutableDictionary {
         word_map,
-        word_len_starts: FullDictionary::create_len_starts(&words),
+        word_len_starts: MutableDictionary::create_len_starts(&words),
         words,
     })
 }
 
 lazy_static! {
-    static ref DICT: Arc<FullDictionary> = uncached_inner_new();
+    static ref DICT: Arc<MutableDictionary> = uncached_inner_new();
 }
 
-impl FullDictionary {
+impl MutableDictionary {
     pub fn new() -> Self {
         Self {
             words: Vec::new(),
@@ -130,13 +136,13 @@ impl FullDictionary {
     }
 }
 
-impl Default for FullDictionary {
+impl Default for MutableDictionary {
     fn default() -> Self {
         Self::new()
     }
 }
 
-impl Dictionary for FullDictionary {
+impl Dictionary for MutableDictionary {
     fn get_word_metadata(&self, word: &[char]) -> WordMetadata {
         let normalized = seq_to_normalized(word);
         let lowercase: CharString = normalized.to_lower();
@@ -259,11 +265,11 @@ mod tests {
     use crate::CharString;
     use itertools::Itertools;
 
-    use crate::{Dictionary, FullDictionary};
+    use crate::{Dictionary, MutableDictionary};
 
     #[test]
     fn words_with_len_contains_self() {
-        let dict = FullDictionary::curated();
+        let dict = MutableDictionary::curated();
 
         let word: CharString = "hello".chars().collect();
         let words_with_same_len = dict.words_with_len_iter(word.len()).collect_vec();
@@ -272,53 +278,53 @@ mod tests {
 
     #[test]
     fn curated_contains_no_duplicates() {
-        let dict = FullDictionary::curated();
+        let dict = MutableDictionary::curated();
         assert!(dict.words.iter().all_unique());
     }
 
     #[test]
     fn curated_matches_capitalized() {
-        let dict = FullDictionary::curated();
+        let dict = MutableDictionary::curated();
         assert!(dict.contains_word_str("this"));
         assert!(dict.contains_word_str("This"));
     }
 
     #[test]
     fn this_is_noun() {
-        let dict = FullDictionary::curated();
+        let dict = MutableDictionary::curated();
         assert!(dict.get_word_metadata_str("this").is_noun());
         assert!(dict.get_word_metadata_str("This").is_noun());
     }
 
     #[test]
     fn than_is_conjunction() {
-        let dict = FullDictionary::curated();
+        let dict = MutableDictionary::curated();
         assert!(dict.get_word_metadata_str("than").is_conjunction());
         assert!(dict.get_word_metadata_str("Than").is_conjunction());
     }
 
     #[test]
     fn herself_is_pronoun() {
-        let dict = FullDictionary::curated();
+        let dict = MutableDictionary::curated();
         assert!(dict.get_word_metadata_str("herself").is_pronoun_noun());
         assert!(dict.get_word_metadata_str("Herself").is_pronoun_noun());
     }
 
     #[test]
     fn discussion_171() {
-        let dict = FullDictionary::curated();
+        let dict = MutableDictionary::curated();
         assert!(dict.contains_word_str("natively"));
     }
 
     #[test]
     fn im_is_common() {
-        let dict = FullDictionary::curated();
+        let dict = MutableDictionary::curated();
         assert!(dict.get_word_metadata_str("I'm").common);
     }
 
     #[test]
     fn fuzzy_result_sorted_by_edit_distance() {
-        let dict = FullDictionary::curated();
+        let dict = MutableDictionary::curated();
 
         let results = dict.fuzzy_match_str("hello", 3, 100);
         let is_sorted_by_dist = results
@@ -332,7 +338,7 @@ mod tests {
 
     #[test]
     fn there_is_not_a_pronoun() {
-        let dict = FullDictionary::curated();
+        let dict = MutableDictionary::curated();
 
         assert!(!dict.get_word_metadata_str("there").is_noun());
         assert!(!dict.get_word_metadata_str("there").is_pronoun_noun());

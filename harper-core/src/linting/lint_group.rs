@@ -5,6 +5,7 @@ use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
+use super::closed_compounds::Furthermore;
 use super::closed_compounds::Overnight;
 use super::closed_compounds::{
     Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
@@ -174,6 +175,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Furthermore => true,
     Overnight => true,
     Hereby => true,
     Likewise => true,
@@ -295,13 +297,13 @@ impl<T: Dictionary + Default> Default for LintGroup<T> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{linting::Linter, Document, FstDictionary, FullDictionary};
+    use crate::{linting::Linter, Document, FstDictionary, MutableDictionary};
 
     use super::{LintGroup, LintGroupConfig};
 
     #[test]
     fn can_get_all_descriptions() {
-        let group = LintGroup::<FullDictionary>::default();
+        let group = LintGroup::<MutableDictionary>::default();
         group.all_descriptions();
     }
 

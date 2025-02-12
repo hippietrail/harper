@@ -2,7 +2,7 @@ use std::path::Path;
 
 use comment_parsers::{Go, JavaDoc, JsDoc, Unit};
 use harper_core::parsers::{self, MarkdownOptions, Parser};
-use harper_core::{FullDictionary, Token};
+use harper_core::{MutableDictionary, Token};
 use harper_tree_sitter::TreeSitterMasker;
 use tree_sitter::Node;
 
@@ -13,7 +13,7 @@ pub struct CommentParser {
 }
 
 impl CommentParser {
-    pub fn create_ident_dict(&self, source: &[char]) -> Option<FullDictionary> {
+    pub fn create_ident_dict(&self, source: &[char]) -> Option<MutableDictionary> {
         self.inner.masker.create_ident_dict(source)
     }
 
