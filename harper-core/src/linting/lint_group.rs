@@ -21,7 +21,7 @@ use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
 use super::hereby::Hereby;
 use super::hop_hope::HopHope;
-use super::hyphenate_number_work_week::HyphenateNumberWorkWeek;
+use super::hyphenate_number_day::HyphenateNumberDay;
 use super::left_right_hand::LeftRightHand;
 use super::lets_confusion::LetsConfusion;
 use super::likewise::Likewise;
@@ -182,7 +182,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
-    HyphenateNumberWorkWeek => true,
+    HyphenateNumberDay => true,
     FaceFirst => true,
     LeftRightHand => true,
     FastPaste => true,
