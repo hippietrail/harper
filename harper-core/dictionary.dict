@@ -4,6 +4,7 @@ AAA/12
 AB/215M
 ABA/21
 ABC/125SM
+ABI/1MS
 ABM/21SM
 ABS/12
 AC/152M
@@ -7463,7 +7464,7 @@ Orphic/51M
 Orr/2M
 Ortega/2M
 Orthodox/51
-Ortiz/2M
+Ortiz/2MS
 Orval/M
 Orville/2M
 Orwell/2M
@@ -9714,7 +9715,7 @@ Thracian/512M
 Thu/12
 Thucydides/2M
 Thule/2M
-Thunderbird/12M
+Thunderbird/12MS
 Thur/1S
 Thurber/2M
 Thurman/2M
@@ -22007,8 +22008,7 @@ engulfment/1M
 enhance/4LZGDRS
 enhancement/1SM
 enigma/1SM
-enigmatic/5
-enigmatically/
+enigmatic/5Q
 enjambment/1SM
 enjoin/4SGD
 enjoy/4GBLSD
@@ -24547,7 +24547,7 @@ ft/14
 ftp/5124ZGS
 fuchsia/15MS
 fuck/41SMGDRZ!6
-fucker/1M!6
+fucker/1M!6S
 fuckhead/1S!6
 fuddle/41DSMG
 fudge/14DSMG
@@ -26548,7 +26548,7 @@ hedger/1M
 hedgerow/1SM
 hedonism/1M
 hedonist/1MS
-hedonistic/5
+hedonistic/5Q
 heed/14MDGS
 heeded/4U
 heedful/5Y
@@ -37657,7 +37657,7 @@ preteen/51MS
 pretend/451DRZGS
 pretender/14M
 pretense/1SXMN
-pretension/14M
+pretension/14MDGS
 pretentious/5UY
 pretentiousness/1M
 preterit/15SM
@@ -39525,7 +39525,6 @@ resat/4
 rescind/4SDG
 rescission/1M
 rescue/41DRSMZG
-rescuer/1M
 reseal/4B
 resemble/4DSG
 resend/41
@@ -43479,7 +43478,7 @@ stanchion/14SM
 stand/41SMRJZG
 standalone/51
 standard/51MS
-standardization/1M
+standardization/1MS
 standardize/4DSG
 standby/14M
 standbys/14
@@ -44844,6 +44843,7 @@ syringe/14DSMG
 syrup/14SM
 syrupy/5
 sysadmin/1S
+syscall/1MS
 sysop/14S
 system/1SM
 systematic/5U
@@ -46272,7 +46272,7 @@ trainer/1M
 training/41M
 trainload/1MS
 trainman/1M
-trainmen/1
+trainmen/1M
 trainspotter/1S
 trainspotting/1
 traipse/41DSMG
