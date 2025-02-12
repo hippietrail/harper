@@ -102,6 +102,14 @@ create_linter_map_phrase!(WantBe, ExactPhrase::from_phrase("want be"),"won't be"
 create_linter_map_phrase!(StateOfTheArt, ExactPhrase::from_phrase("state of art"), "state of the art", "Did you mean `state of the art`?", "Detects incorrect usage of `state of art` and suggests `state of the art` as the correct phrase.");
 create_linter_map_phrase!(FastPaste, ExactPhrase::from_phrase("fast paste").or(Box::new(ExactPhrase::from_phrase("fast-paste"))), "fast-paced", "Did you mean `fast-paced`?", "Detects incorrect usage of `fast paste` or `fast-paste` and suggests `fast-paced` as the correct phrase.");
 
+create_linter_map_phrase!(
+    FaceFirst,
+    ExactPhrase::from_phrase("face first into"),
+    "Should this be `face-first`?",
+    "face-first into",
+    "Ensures `face first` is correctly hyphenated as `face-first` when used before `into`."
+);
+
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};

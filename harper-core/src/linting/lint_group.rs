@@ -21,6 +21,7 @@ use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
 use super::hereby::Hereby;
 use super::hop_hope::HopHope;
+use super::left_right_hand::LeftRightHand;
 use super::lets_confusion::LetsConfusion;
 use super::likewise::Likewise;
 use super::linking_verbs::LinkingVerbs;
@@ -30,6 +31,7 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::phrase_corrections::FaceFirst;
 use super::phrase_corrections::FastPaste;
 use super::phrase_corrections::StateOfTheArt;
 use super::phrase_corrections::WantBe;
@@ -179,6 +181,8 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    FaceFirst => true,
+    LeftRightHand => true,
     FastPaste => true,
     StateOfTheArt => true,
     WantBe => true,
