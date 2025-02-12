@@ -5,7 +5,7 @@ mod to_hope;
 use to_hop::ToHop;
 use to_hope::ToHope;
 
-merge_linters!(HopHope => ToHop, ToHope => "" );
+merge_linters!(HopHope => ToHop, ToHope => "Handles common errors involving `hop` and `hope`. Ensures `hop` is used correctly in phrases like `hop on a bus` while correcting mistaken uses of `hope` in contexts where `hop` is expected.");
 
 #[cfg(test)]
 mod tests {
