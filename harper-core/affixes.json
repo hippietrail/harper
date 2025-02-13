@@ -144,7 +144,9 @@
           "condition": "[^ey]"
         }
       ],
-      "adds_metadata": {},
+      "adds_metadata": {
+        "adjective": {}
+      },
       "gifts_metadata": {}
     },
     "C": {

@@ -106,14 +106,6 @@ create_linter_map_phrase!(
 );
 
 create_linter_map_phrase!(
-    OtherThen,
-    ExactPhrase::from_phrase("other then"),
-    "other than",
-    "Did you mean `other than`?",
-    "Corrects the misuse of `other then` to `other than`."
-);
-
-create_linter_map_phrase!(
     EludedTo,
     ExactPhrase::from_phrase("eluded to"),
     "alluded to",

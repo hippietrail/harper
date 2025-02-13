@@ -38,7 +38,6 @@ use super::phrase_corrections::EludedTo;
 use super::phrase_corrections::FaceFirst;
 use super::phrase_corrections::FastPaste;
 use super::phrase_corrections::MutePoint;
-use super::phrase_corrections::OtherThen;
 use super::phrase_corrections::StateOfTheArt;
 use super::phrase_corrections::WantBe;
 use super::phrase_corrections::{
@@ -62,6 +61,7 @@ use super::spell_check::SpellCheck;
 use super::spelled_numbers::SpelledNumbers;
 use super::terminating_conjunctions::TerminatingConjunctions;
 use super::that_which::ThatWhich;
+use super::then_than::ThenThan;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
 use super::was_aloud::WasAloud;
@@ -189,12 +189,12 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    ThenThan => true,
     MutePoint => true,
     PiqueInterest => true,
     BareInMind => true,
     BaitedBreath => true,
     EludedTo => true,
-    OtherThen => true,
     WasAloud => true,
     HyphenateNumberDay => true,
     FaceFirst => true,
