@@ -1,7 +1,7 @@
 use anyhow::anyhow;
 use std::path::{Component, Path, PathBuf};
 
-use harper_core::{Dictionary, FullDictionary, WordMetadata};
+use harper_core::{Dictionary, MutableDictionary, WordMetadata};
 use tokio::fs::{self, File};
 use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, BufReader, BufWriter, Result};
 use tower_lsp::lsp_types::Url;
@@ -38,7 +38,7 @@ async fn write_word_list(dict: impl Dictionary, mut w: impl AsyncWrite + Unpin) 
 }
 
 /// Load a dictionary from a file on disk.
-pub async fn load_dict(path: impl AsRef<Path>) -> Result<FullDictionary> {
+pub async fn load_dict(path: impl AsRef<Path>) -> Result<MutableDictionary> {
     let file = File::open(path.as_ref()).await?;
     let read = BufReader::new(file);
 
@@ -48,12 +48,12 @@ pub async fn load_dict(path: impl AsRef<Path>) -> Result<FullDictionary> {
 /// Load a dictionary from a list of words.
 /// It could definitely be optimized to use less memory.
 /// Right now it isn't an issue.
-async fn dict_from_word_list(mut r: impl AsyncRead + Unpin) -> Result<FullDictionary> {
+async fn dict_from_word_list(mut r: impl AsyncRead + Unpin) -> Result<MutableDictionary> {
     let mut str = String::new();
 
     r.read_to_string(&mut str).await?;
 
-    let mut dict = FullDictionary::new();
+    let mut dict = MutableDictionary::new();
     dict.extend_words(
         str.lines()
             .map(|l| (l.chars().collect::<Vec<char>>(), WordMetadata::default())),

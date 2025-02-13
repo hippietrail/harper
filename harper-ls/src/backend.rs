@@ -7,7 +7,7 @@ use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, LintGroupConfig};
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Markdown, Parser, PlainEnglish};
 use harper_core::{
-    Dictionary, Document, FstDictionary, FullDictionary, MergedDictionary, WordMetadata,
+    Dictionary, Document, FstDictionary, MergedDictionary, MutableDictionary, WordMetadata,
 };
 use harper_html::HtmlParser;
 use harper_literate_haskell::LiterateHaskellParser;
@@ -50,7 +50,7 @@ impl Backend {
     }
 
     /// Load a specific file's dictionary
-    async fn load_file_dictionary(&self, url: &Url) -> anyhow::Result<FullDictionary> {
+    async fn load_file_dictionary(&self, url: &Url) -> anyhow::Result<MutableDictionary> {
         let path = self
             .get_file_dict_path(url)
             .await
@@ -59,7 +59,7 @@ impl Backend {
         load_dict(path)
             .await
             .map_err(|err| info!("{err}"))
-            .or(Ok(FullDictionary::new()))
+            .or(Ok(MutableDictionary::new()))
     }
 
     /// Compute the location of the file's specific dictionary
@@ -80,13 +80,13 @@ impl Backend {
         .context("Unable to save the dictionary to path.")
     }
 
-    async fn load_user_dictionary(&self) -> FullDictionary {
+    async fn load_user_dictionary(&self) -> MutableDictionary {
         let config = self.config.read().await;
 
         load_dict(&config.user_dict_path)
             .await
             .map_err(|err| info!("{err}"))
-            .unwrap_or(FullDictionary::new())
+            .unwrap_or(MutableDictionary::new())
     }
 
     async fn save_user_dictionary(&self, dict: impl Dictionary) -> Result<()> {
@@ -177,7 +177,7 @@ impl Backend {
 
         async fn use_ident_dict<'a>(
             backend: &'a Backend,
-            new_dict: Arc<FullDictionary>,
+            new_dict: Arc<MutableDictionary>,
             parser: impl Parser + 'static,
             url: &'a Url,
             doc_state: &'a mut DocumentState,
