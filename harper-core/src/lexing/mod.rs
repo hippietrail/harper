@@ -136,8 +136,6 @@ pub fn lex_regexish(src: &[char]) -> Option<FoundToken> {
         token: TokenKind::Regexish,
         next_index: i + 1,
     });
-
-    // return None;
 }
 
 pub fn lex_hex_number(source: &[char]) -> Option<FoundToken> {
