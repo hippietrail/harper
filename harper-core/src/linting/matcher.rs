@@ -134,9 +134,10 @@ impl Matcher {
             "my","french" => "my French"
         });
 
-        // hyphenate phrasal adjectives
+        // hyphenated phrases
         triggers.extend(pt! {
             "case", "sensitive" => "case-sensitive",
+            "chock","full" => "chock-full",
             "ngram" => "n-gram",
             "off","the","cuff" => "off-the-cuff",
             "Tree", "sitter" => "Tree-sitter",

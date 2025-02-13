@@ -6,6 +6,7 @@ mod an_a;
 mod avoid_curses;
 mod boring_words;
 mod capitalize_personal_pronouns;
+mod chock_full;
 mod closed_compounds;
 mod compound_nouns;
 mod correct_number_suffix;
@@ -54,6 +55,7 @@ pub use an_a::AnA;
 pub use avoid_curses::AvoidCurses;
 pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
+pub use chock_full::ChockFull;
 pub use closed_compounds::Furthermore;
 pub use closed_compounds::Overnight;
 pub use closed_compounds::{
