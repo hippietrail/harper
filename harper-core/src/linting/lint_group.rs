@@ -5,6 +5,7 @@ use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
+use super::chock_full::ChockFull;
 use super::closed_compounds::Overnight;
 use super::closed_compounds::{
     Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
@@ -265,6 +266,7 @@ create_lint_group_config!(
     SomewhatSomething => true,
     LetsConfusion => true,
     DespiteOf => true,
+    ChockFull => true,
     HumanLife => true,
     NeedHelp => true,
     NoLonger => true,
