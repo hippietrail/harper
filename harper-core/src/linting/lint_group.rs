@@ -32,8 +32,13 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::phrase_corrections::BaitedBreath;
+use super::phrase_corrections::BareInMind;
+use super::phrase_corrections::EludedTo;
 use super::phrase_corrections::FaceFirst;
 use super::phrase_corrections::FastPaste;
+use super::phrase_corrections::MutePoint;
+use super::phrase_corrections::OtherThen;
 use super::phrase_corrections::StateOfTheArt;
 use super::phrase_corrections::WantBe;
 use super::phrase_corrections::{
@@ -41,6 +46,7 @@ use super::phrase_corrections::{
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
     SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
 };
+use super::pique_interest::PiqueInterest;
 use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
@@ -58,6 +64,7 @@ use super::terminating_conjunctions::TerminatingConjunctions;
 use super::that_which::ThatWhich;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
+use super::was_aloud::WasAloud;
 use super::whereas::Whereas;
 use super::wrong_quotes::WrongQuotes;
 use super::{CurrencyPlacement, Lint, Linter, NoOxfordComma, OxfordComma};
@@ -182,6 +189,13 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    MutePoint => true,
+    PiqueInterest => true,
+    BareInMind => true,
+    BaitedBreath => true,
+    EludedTo => true,
+    OtherThen => true,
+    WasAloud => true,
     HyphenateNumberDay => true,
     FaceFirst => true,
     LeftRightHand => true,

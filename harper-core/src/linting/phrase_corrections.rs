@@ -105,6 +105,43 @@ create_linter_map_phrase!(
     "Ensures `face first` is correctly hyphenated as `face-first` when used before `into`."
 );
 
+create_linter_map_phrase!(
+    OtherThen,
+    ExactPhrase::from_phrase("other then"),
+    "other than",
+    "Did you mean `other than`?",
+    "Corrects the misuse of `other then` to `other than`."
+);
+
+create_linter_map_phrase!(
+    EludedTo,
+    ExactPhrase::from_phrase("eluded to"),
+    "alluded to",
+    "Did you mean `alluded to`?",
+    "Corrects `eluded to` to `alluded to` in contexts referring to indirect references."
+);
+
+create_linter_map_phrase!(
+    BaitedBreath,
+    ExactPhrase::from_phrase("baited breath"),
+    "bated breath",
+    "Did you mean `bated breath`?",
+    "Ensures `bated breath` is written correctly, as `baited breath` is incorrect."
+);
+
+create_linter_map_phrase!(
+    BareInMind,
+    ExactPhrase::from_phrase("bare in mind"),
+    "bear in mind",
+    "Did you mean `bear in mind`?",
+    "Ensures the phrase `bear in mind` is used correctly instead of `bare in mind`."
+);
+
+create_linter_map_phrase!(MutePoint, ExactPhrase::from_phrase("mute point"),
+    "moot point",
+    "Did you mean `moot point`?",
+    "Ensures `moot point` is used instead of `mute point`, as `moot` means debatable or irrelevant.");
+
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};

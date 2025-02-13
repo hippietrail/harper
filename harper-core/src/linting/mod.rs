@@ -35,6 +35,7 @@ mod number_suffix_capitalization;
 mod oxford_comma;
 mod pattern_linter;
 mod phrase_corrections;
+mod pique_interest;
 mod plural_conjugate;
 mod possessive_your;
 mod pronoun_contraction;
@@ -50,6 +51,7 @@ mod terminating_conjunctions;
 mod that_which;
 mod unclosed_quotes;
 mod use_genitive;
+mod was_aloud;
 mod whereas;
 mod wrong_quotes;
 
@@ -91,8 +93,13 @@ pub use nobody::Nobody;
 pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
+pub use phrase_corrections::BaitedBreath;
+pub use phrase_corrections::BareInMind;
+pub use phrase_corrections::EludedTo;
 pub use phrase_corrections::FaceFirst;
 pub use phrase_corrections::FastPaste;
+pub use phrase_corrections::MutePoint;
+pub use phrase_corrections::OtherThen;
 pub use phrase_corrections::StateOfTheArt;
 pub use phrase_corrections::WantBe;
 pub use phrase_corrections::{
@@ -100,6 +107,7 @@ pub use phrase_corrections::{
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
     SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
 };
+pub use pique_interest::PiqueInterest;
 pub use plural_conjugate::PluralConjugate;
 pub use possessive_your::PossessiveYour;
 pub use pronoun_contraction::PronounContraction;
@@ -118,6 +126,7 @@ pub use terminating_conjunctions::TerminatingConjunctions;
 pub use that_which::ThatWhich;
 pub use unclosed_quotes::UnclosedQuotes;
 pub use use_genitive::UseGenitive;
+pub use was_aloud::WasAloud;
 pub use whereas::Whereas;
 pub use wrong_quotes::WrongQuotes;
 
