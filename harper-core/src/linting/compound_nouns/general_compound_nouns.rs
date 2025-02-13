@@ -11,6 +11,7 @@ use crate::{
     Lrc, Token,
 };
 
+/// Covers the general cases of accidentally split compound nouns.
 pub struct GeneralCompoundNouns {
     pattern: Box<dyn Pattern>,
     split_pattern: Lrc<SplitCompoundWord>,

@@ -262,4 +262,13 @@ mod tests {
     fn got_is_not_possessive() {
         assert_lint_count("I got here by car...", CompoundNouns::default(), 0);
     }
+
+    #[test]
+    fn allow_issue_662() {
+        assert_lint_count(
+            "They are as old as *modern* computers ",
+            CompoundNouns::default(),
+            0,
+        );
+    }
 }
