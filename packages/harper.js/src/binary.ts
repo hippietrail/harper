@@ -159,10 +159,11 @@ export class BinaryModule {
 				return Lint.from_json(requestArg.json);
 			case 'Span':
 				return Span.from_json(requestArg.json);
-			case 'Array':
+			case 'Array': {
 				const parsed = JSON.parse(requestArg.json);
 				invariant(Array.isArray(parsed));
 				return await Promise.all(parsed.map((arg) => this.deserializeArg(arg)));
+			}
 			default:
 				throw new Error(`Unhandled case: ${requestArg.type}`);
 		}

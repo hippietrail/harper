@@ -1,6 +1,7 @@
 /// <reference types="vitest" />
 import { resolve } from 'path';
 import dts from 'vite-plugin-dts';
+import apiExtractorConfig from './api-extractor.json';
 import { defineConfig, type Plugin } from 'vite';
 
 function removeAssetsPlugin(options: { test: RegExp }): Plugin {
@@ -40,7 +41,7 @@ export default defineConfig({
 	base: './',
 	plugins: [
 		dts({
-			...require('./api-extractor.json'),
+			...apiExtractorConfig,
 			rollupTypes: true,
 			tsconfigPath: './tsconfig.json'
 		})

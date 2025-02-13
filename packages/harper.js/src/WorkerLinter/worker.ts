@@ -26,6 +26,8 @@ self.onmessage = (e) => {
 	}
 
 	self.onmessage = (e) => {
-		isSerializedRequest(e.data) && processRequest(e.data);
+		if (isSerializedRequest(e.data)) {
+			processRequest(e.data);
+		}
 	};
 };
