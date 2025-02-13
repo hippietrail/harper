@@ -24,7 +24,6 @@ export default class WorkerLinter implements Linter {
 	constructor(init: LinterInit) {
 		this.binary = init.binary;
 		this.worker = new Worker();
-		console.log('worker', Worker, this.worker);
 		this.requestQueue = [];
 
 		// Fires when the worker sends 'ready'.
@@ -133,13 +132,9 @@ export default class WorkerLinter implements Linter {
 
 	/** Run a procedure on the remote worker. */
 	private async rpc(procName: string, args: any[]): Promise<any> {
-		console.log('rpc >', procName, args);
 		const promise = new Promise((resolve, reject) => {
 			this.requestQueue.push({
-				resolve: (v) => {
-					console.log('rpc <', procName, v);
-					resolve(v);
-				},
+				resolve,
 				reject,
 				request: { procName, args }
 			});
@@ -151,18 +146,15 @@ export default class WorkerLinter implements Linter {
 	}
 
 	private async submitRemainingRequests() {
-		console.log('submitRemainingRequests', this.working);
 		if (this.working) {
 			return;
 		}
 
 		this.working = true;
 
-		console.log(this.requestQueue[0]);
 		if (this.requestQueue.length > 0) {
 			const { request } = this.requestQueue[0];
 			const serialized = await this.binary.serialize(request);
-			console.log('submitRemainingRequests >', serialized);
 			this.worker.postMessage(serialized);
 		} else {
 			this.working = false;
