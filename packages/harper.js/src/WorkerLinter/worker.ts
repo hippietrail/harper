@@ -1,9 +1,8 @@
 /// <reference lib="webworker" />
+import './shims';
 import { isSerializedRequest, SerializedRequest } from '../binary';
-// @ts-expect-error: https://github.com/vitest-dev/vitest/pull/6569/files#diff-929cb96abb1c2e297c6711af0875db4ecdc700c54b824cc4ce7e0716657b28aeR375
-import { BinaryModule } from '../binary?worker_file&type=module';
-// @ts-expect-error
-import LocalLinter from '../LocalLinter?worker_file&type=module';
+import { BinaryModule } from '../binary';
+import LocalLinter from '../LocalLinter';
 
 // Notify the main thread that we are ready
 self.postMessage('ready');
@@ -20,6 +19,7 @@ self.onmessage = (e) => {
 		const { procName, args } = await binary.deserialize(v);
 
 		if (procName in linter) {
+			// @ts-expect-error
 			const res = await linter[procName](...args);
 			postMessage(await binary.serializeArg(res));
 		}

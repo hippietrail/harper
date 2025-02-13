@@ -1,4 +1,4 @@
-import { default as binaryUrl } from 'harper-wasm/harper_wasm_bg.wasm?url';
+import { default as binaryUrl } from 'harper-wasm/harper_wasm_bg.wasm?no-inline';
 import { default as binaryInlinedUrl } from 'harper-wasm/harper_wasm_bg.wasm?inline';
 import type { Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
 import { invariant } from './utils';
@@ -58,7 +58,7 @@ export function isSerializedRequest(v: unknown): v is SerializedRequest {
 export class BinaryModule {
 	private exported: Promise<typeof import('harper-wasm')>;
 
-	constructor(public url: string) {
+	constructor(public url: string | URL) {
 		this.exported = import('harper-wasm').then(async (exports) => {
 			await exports.default({ module_or_path: url });
 			return exports;
@@ -176,6 +176,6 @@ export class BinaryModule {
 	}
 }
 
-export const binary = new BinaryModule(binaryUrl);
+export const binary = /*@__PURE__*/ new BinaryModule(binaryUrl);
 
-export const binaryInlined = new BinaryModule(binaryInlinedUrl);
+export const binaryInlined = /*@__PURE__*/ new BinaryModule(binaryInlinedUrl);
