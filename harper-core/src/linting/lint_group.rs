@@ -6,7 +6,9 @@ use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::chock_full::ChockFull;
+use super::closed_compounds::Desktop;
 use super::closed_compounds::Furthermore;
+use super::closed_compounds::Laptop;
 use super::closed_compounds::Overnight;
 use super::closed_compounds::{
     Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
@@ -176,6 +178,8 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    Desktop => true,
+    Laptop => true,
     Furthermore => true,
     Overnight => true,
     Hereby => true,

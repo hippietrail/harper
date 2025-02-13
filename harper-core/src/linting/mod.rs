@@ -56,7 +56,9 @@ pub use avoid_curses::AvoidCurses;
 pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
 pub use chock_full::ChockFull;
+pub use closed_compounds::Desktop;
 pub use closed_compounds::Furthermore;
+pub use closed_compounds::Laptop;
 pub use closed_compounds::Overnight;
 pub use closed_compounds::{
     Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
