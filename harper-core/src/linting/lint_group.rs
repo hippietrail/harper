@@ -259,7 +259,7 @@ create_lint_group_config!(
     Itself => true,
     Whereas => true,
     PossessiveYour => true,
-    SpelledNumbers => true,
+    SpelledNumbers => false,
     AnA => true,
     SentenceCapitalization => true,
     UnclosedQuotes => true,
