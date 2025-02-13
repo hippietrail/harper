@@ -17,7 +17,10 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
-		"test": "vitest run --browser"
+		"test": "vitest run --browser",
+		"test:debug": "vitest run --browser.headless false --testTimeout 0",
+		"api:extractor": "api-extractor run",
+		"api:documenter": "api-documenter markdown -i temp"
 	},
 	"devDependencies": {
 		"@microsoft/api-documenter": "^7.26.7",

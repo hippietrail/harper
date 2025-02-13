@@ -1,30 +1,31 @@
 /// <reference lib="webworker" />
-import LocalLinter from '../LocalLinter';
-import { deserialize, serializeArg, SerializedRequest, isSerializedRequest } from './communication';
+import { isSerializedRequest, SerializedRequest } from '../binary';
+// @ts-expect-error: https://github.com/vitest-dev/vitest/pull/6569/files#diff-929cb96abb1c2e297c6711af0875db4ecdc700c54b824cc4ce7e0716657b28aeR375
+import { BinaryModule } from '../binary?worker_file&type=module';
+// @ts-expect-error
+import LocalLinter from '../LocalLinter?worker_file&type=module';
 
-const scope = self as unknown as ServiceWorkerGlobalScope;
+// Notify the main thread that we are ready
+self.postMessage('ready');
 
-scope.onmessage = (e) => {
-	const binary = e.data;
-	if (typeof binary !== 'string') {
-		throw new TypeError(`Expected binary to be a string of url but got ${typeof binary}.`);
+self.onmessage = (e) => {
+	const binaryUrl = e.data;
+	if (typeof binaryUrl !== 'string') {
+		throw new TypeError(`Expected binary to be a string of url but got ${typeof binaryUrl}.`);
 	}
+	const binary = new BinaryModule(binaryUrl);
 	const linter = new LocalLinter({ binary });
 
 	async function processRequest(v: SerializedRequest) {
-		const { procName, args } = await deserialize(v);
+		const { procName, args } = await binary.deserialize(v);
 
 		if (procName in linter) {
-			// @ts-expect-error
 			const res = await linter[procName](...args);
-			postMessage(await serializeArg(res));
+			postMessage(await binary.serializeArg(res));
 		}
 	}
 
-	scope.onmessage = (e) => {
+	self.onmessage = (e) => {
 		isSerializedRequest(e.data) && processRequest(e.data);
 	};
 };
-
-// Notify the main thread that we are ready
-postMessage('ready');

@@ -27,10 +27,10 @@ export default defineConfig({
 		}),
 	],
 	worker: {
-		format: 'es',
+		format: 'iife',
 		rollupOptions: {
 			output: {
-				inlineDynamicImports: true
+				// inlineDynamicImports: true
 			}
 		}
 	},
@@ -42,8 +42,8 @@ export default defineConfig({
 	test: {
 		browser: {
 			provider: 'playwright',
-			enabled: true,
 			headless: true,
+			enabled: true,
 			screenshotFailures: false,
 			instances: [
 				{ browser: 'chromium' },

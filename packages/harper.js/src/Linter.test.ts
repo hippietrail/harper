@@ -26,11 +26,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 			linter.lint('The the problem is...')
 		];
 
-		const results = [];
-
-		for (const promise of promises) {
-			results.push(await promise);
-		}
+		const results = await Promise.all(promises);
 
 		expect(results[0].length).toBe(1);
 		expect(results[0][0].suggestions().length).toBe(1);

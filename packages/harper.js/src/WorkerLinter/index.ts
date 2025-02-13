@@ -1,22 +1,22 @@
-import { DeserializedRequest, deserializeArg, serialize } from './communication';
 import type { Lint, Suggestion, Span } from 'harper-wasm';
 import Linter, { LinterInit } from '../Linter';
-import Worker from './worker?worker&inline';
+import Worker from './worker.ts?worker&inline';
 import { LintConfig, LintOptions } from '../main';
+import { BinaryModule, DeserializedRequest } from '../binary';
 
 /** The data necessary to complete a request once the worker has responded. */
-type RequestItem = {
+export interface RequestItem {
 	resolve: (item: unknown) => void;
 	reject: (item: unknown) => void;
 	request: DeserializedRequest;
-};
+}
 
 /** A Linter that spins up a dedicated web worker to do processing on a separate thread.
  * Main benefit: this Linter will not block the event loop for large documents.
  *
  * NOTE: This class will not work properly in Node. In that case, just use `LocalLinter`. */
 export default class WorkerLinter implements Linter {
-	private binary: string;
+	private binary: BinaryModule;
 	private worker: Worker;
 	private requestQueue: RequestItem[];
 	private working = true;
@@ -24,13 +24,14 @@ export default class WorkerLinter implements Linter {
 	constructor(init: LinterInit) {
 		this.binary = init.binary;
 		this.worker = new Worker();
+		console.log('worker', Worker, this.worker);
 		this.requestQueue = [];
 
 		// Fires when the worker sends 'ready'.
 		this.worker.onmessage = () => {
 			this.setupMainEventListeners();
 
-			this.worker.postMessage(this.binary);
+			this.worker.postMessage(this.binary.url);
 
 			this.working = false;
 			this.submitRemainingRequests();
@@ -40,7 +41,7 @@ export default class WorkerLinter implements Linter {
 	private setupMainEventListeners() {
 		this.worker.onmessage = (e: MessageEvent) => {
 			const { resolve } = this.requestQueue.shift()!;
-			deserializeArg(e.data).then((v) => {
+			this.binary.deserializeArg(e.data).then((v) => {
 				resolve(v);
 
 				this.working = false;
@@ -132,9 +133,13 @@ export default class WorkerLinter implements Linter {
 
 	/** Run a procedure on the remote worker. */
 	private async rpc(procName: string, args: any[]): Promise<any> {
+		console.log('rpc >', procName, args);
 		const promise = new Promise((resolve, reject) => {
 			this.requestQueue.push({
-				resolve,
+				resolve: (v) => {
+					console.log('rpc <', procName, v);
+					resolve(v);
+				},
 				reject,
 				request: { procName, args }
 			});
@@ -146,16 +151,19 @@ export default class WorkerLinter implements Linter {
 	}
 
 	private async submitRemainingRequests() {
+		console.log('submitRemainingRequests', this.working);
 		if (this.working) {
 			return;
 		}
 
 		this.working = true;
 
+		console.log(this.requestQueue[0]);
 		if (this.requestQueue.length > 0) {
 			const { request } = this.requestQueue[0];
-
-			this.worker.postMessage(await serialize(request));
+			const serialized = await this.binary.serialize(request);
+			console.log('submitRemainingRequests >', serialized);
+			this.worker.postMessage(serialized);
 		} else {
 			this.working = false;
 		}
