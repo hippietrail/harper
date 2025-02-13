@@ -11,7 +11,7 @@ pub struct WasAloud {
 impl Default for WasAloud {
     fn default() -> Self {
         let pattern = SequencePattern::default()
-            .then_word_set(WordSet::all(&["was", "were"]))
+            .then_word_set(WordSet::all(&["was", "were", "be", "been"]))
             .then_whitespace()
             .then_exact_word("aloud");
 
@@ -84,6 +84,24 @@ mod tests {
             "The concert was loud and exciting.",
             WasAloud::default(),
             "The concert was loud and exciting.",
+        );
+    }
+
+    #[test]
+    fn be_aloud() {
+        assert_suggestion_result(
+            "You may be aloud to enter the room.",
+            WasAloud::default(),
+            "You may be allowed to enter the room.",
+        );
+    }
+
+    #[test]
+    fn been_aloud() {
+        assert_suggestion_result(
+            "If I had been aloud to enter I would've jumped at the chance.",
+            WasAloud::default(),
+            "If I had been allowed to enter I would've jumped at the chance.",
         );
     }
 }
