@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper",
 	"description": "The grammar checker for developers",
-	"version": "0.21.0",
+	"version": "0.21.1",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -762,7 +762,7 @@
 				"harper-ls.linters.spelled_numbers": {
 					"scope": "resource",
 					"type": "boolean",
-					"default": true,
+					"default": false,
 					"description": "Most style guides recommend that you spell out numbers less than ten."
 				},
 				"harper-ls.linters.state_of_the_art": {
