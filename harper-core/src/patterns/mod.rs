@@ -15,6 +15,7 @@ mod any_pattern;
 mod consumes_remaining_pattern;
 mod either_pattern;
 mod exact_phrase;
+mod indefinite_article;
 mod invert;
 mod is_not_title_case;
 mod naive_pattern_group;
@@ -22,6 +23,7 @@ mod noun_phrase;
 mod repeating_pattern;
 mod sequence_pattern;
 mod similar_to_phrase;
+mod singular_subject;
 mod split_compound_word;
 mod token_kind_pattern_group;
 mod whitespace_pattern;
@@ -36,6 +38,7 @@ use blanket::blanket;
 pub use consumes_remaining_pattern::ConsumesRemainingPattern;
 pub use either_pattern::EitherPattern;
 pub use exact_phrase::ExactPhrase;
+pub use indefinite_article::IndefiniteArticle;
 pub use invert::Invert;
 pub use is_not_title_case::IsNotTitleCase;
 pub use naive_pattern_group::NaivePatternGroup;
@@ -43,6 +46,7 @@ pub use noun_phrase::NounPhrase;
 pub use repeating_pattern::RepeatingPattern;
 pub use sequence_pattern::SequencePattern;
 pub use similar_to_phrase::SimilarToPhrase;
+pub use singular_subject::SingularSubject;
 pub use split_compound_word::SplitCompoundWord;
 pub use token_kind_pattern_group::TokenKindPatternGroup;
 pub use whitespace_pattern::WhitespacePattern;
@@ -99,6 +103,19 @@ where
         found.remove_indices(remove_indices);
 
         found
+    }
+}
+
+pub trait OwnedPatternExt {
+    fn or(self, other: Box<dyn Pattern>) -> EitherPattern;
+}
+
+impl<P> OwnedPatternExt for P
+where
+    P: Pattern + 'static,
+{
+    fn or(self, other: Box<dyn Pattern>) -> EitherPattern {
+        EitherPattern::new(vec![Box::new(self), other])
     }
 }
 

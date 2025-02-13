@@ -11,6 +11,7 @@ use crate::{
     Lrc, Token,
 };
 
+/// Covers the general cases of accidentally split compound nouns.
 pub struct GeneralCompoundNouns {
     pattern: Box<dyn Pattern>,
     split_pattern: Lrc<SplitCompoundWord>,
@@ -35,7 +36,9 @@ impl Default for GeneralCompoundNouns {
                 tok.span.len() > 1 && !meta.article && !meta.is_adverb() && !meta.preposition
             }));
 
-        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| meta.is_noun()));
+        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| {
+            meta.is_noun() && !meta.is_adjective()
+        }));
 
         let mut pattern = All::default();
         pattern.add(Box::new(split_pattern.clone()));

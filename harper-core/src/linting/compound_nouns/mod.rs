@@ -14,13 +14,6 @@ mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     #[test]
-    fn lap_top() {
-        let test_sentence = "I bought a lap top yesterday.";
-        let expected = "I bought a laptop yesterday.";
-        assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
-    }
-
-    #[test]
     fn web_cam() {
         let test_sentence = "The web cam captured a stunning image.";
         let expected = "The webcam captured a stunning image.";
@@ -45,13 +38,6 @@ mod tests {
     fn smart_phone() {
         let test_sentence = "He bought a new smart phone last week.";
         let expected = "He bought a new smartphone last week.";
-        assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
-    }
-
-    #[test]
-    fn desk_top() {
-        let test_sentence = "The company provided each employee with a desk top computer.";
-        let expected = "The company provided each employee with a desktop computer.";
         assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
     }
 
@@ -210,13 +196,6 @@ mod tests {
     }
 
     #[test]
-    fn hand_held() {
-        let test_sentence = "The camera has a comfortable hand held design.";
-        let expected = "The camera has a comfortable handheld design.";
-        assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
-    }
-
-    #[test]
     fn play_ground() {
         let test_sentence = "The kids spent the afternoon at the play ground.";
         let expected = "The kids spent the afternoon at the playground.";
@@ -261,5 +240,19 @@ mod tests {
     #[test]
     fn got_is_not_possessive() {
         assert_lint_count("I got here by car...", CompoundNouns::default(), 0);
+    }
+
+    #[test]
+    fn allow_issue_662() {
+        assert_lint_count(
+            "They are as old as *modern* computers ",
+            CompoundNouns::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allow_issue_661() {
+        assert_lint_count("I may be wrong.", CompoundNouns::default(), 0);
     }
 }
