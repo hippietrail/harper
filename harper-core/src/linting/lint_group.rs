@@ -37,6 +37,7 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::out_of_date::OutOfDate;
 use super::phrase_corrections::BaitedBreath;
 use super::phrase_corrections::BareInMind;
 use super::phrase_corrections::EludedTo;
@@ -194,6 +195,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    OutOfDate => true,
     Desktop => true,
     Laptop => true,
     ThenThan => true,
