@@ -690,57 +690,46 @@ create_linter_for!(
         .t_aco("Jetpack")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::default()
-                .t_aco("VaultPress")
-                .then_whitespace()
-                .t_aco("Backup")
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("VaultPress")
+                    .then_whitespace()
+                    .t_aco("Backup")
             ),
-            Box::new(SequencePattern::default()
-                .t_aco("VaultPress")
+            Box::new(SequencePattern::default().t_aco("VaultPress")),
+            Box::new(SequencePattern::default().t_aco("Scan")),
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("Akismet")
+                    .then_whitespace()
+                    .t_aco("Anti-spam")
             ),
-            Box::new(SequencePattern::default()
-                .t_aco("Scan")
+            Box::new(SequencePattern::default().t_aco("Stats")),
+            Box::new(SequencePattern::default().t_aco("Social")),
+            Box::new(SequencePattern::default().t_aco("Blaze")),
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("AI")
+                    .then_whitespace()
+                    .t_aco("Assistant")
             ),
-            Box::new(SequencePattern::default()
-                .t_aco("Akismet")
-                .then_whitespace()
-                .t_aco("Anti-spam")
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("Site")
+                    .then_whitespace()
+                    .t_aco("Search")
             ),
-            Box::new(SequencePattern::default()
-                .t_aco("Stats")
+            Box::new(SequencePattern::default().t_aco("Boost")),
+            Box::new(SequencePattern::default().t_aco("VideoPress")),
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("For")
+                    .then_whitespace()
+                    .t_aco("Agencies")
             ),
-            Box::new(SequencePattern::default()
-                .t_aco("Social")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("Blaze")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("AI")
-                .then_whitespace()
-                .t_aco("Assistant")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("Site")
-                .then_whitespace()
-                .t_aco("Search")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("Boost")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("VideoPress")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("For")
-                .then_whitespace()
-                .t_aco("Agencies")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("CRM")
-            ),
+            Box::new(SequencePattern::default().t_aco("CRM")),
         ]))),
-    "Ensure proper capitalization of Jetpack-related terms, including products and features such as Jetpack VaultPress Backup, Jetpack Blaze, and Jetpack AI Assistant."
+    "Ensure proper capitalization of Jetpack-related terms."
 );
 
 create_linter_for!(
@@ -749,29 +738,15 @@ create_linter_for!(
         .t_aco("Tumblr")
         .then_whitespace()
         .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::default()
-                .t_aco("Blaze")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("Pro")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("Live")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("Ads")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("Communities")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("Shop")
-            ),
-            Box::new(SequencePattern::default()
-                .t_aco("Dashboard")
-            )
+            Box::new(SequencePattern::default().t_aco("Blaze")),
+            Box::new(SequencePattern::default().t_aco("Pro")),
+            Box::new(SequencePattern::default().t_aco("Live")),
+            Box::new(SequencePattern::default().t_aco("Ads")),
+            Box::new(SequencePattern::default().t_aco("Communities")),
+            Box::new(SequencePattern::default().t_aco("Shop")),
+            Box::new(SequencePattern::default().t_aco("Dashboard"))
         ]))),
-    "Ensure proper capitalization of Tumblr-related terms, including products and features such as Tumblr Blaze, Tumblr Post+, and Tumblr Communities."
+    "Ensure proper capitalization of Tumblr-related terms."
 );
 
 create_linter_for!(
