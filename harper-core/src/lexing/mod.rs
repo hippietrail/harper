@@ -148,10 +148,10 @@ pub fn lex_long_decade(source: &[char]) -> Option<FoundToken> {
     if source[0] != '1' && source[0] != '2' {
         return None;
     }
-    if !source[1].is_numeric() {
+    if !source[1].is_ascii_digit() {
         return None;
     }
-    if !source[2].is_numeric() {
+    if !source[2].is_ascii_digit() {
         return None;
     }
     if source[3] != '0' {
@@ -392,6 +392,30 @@ mod tests {
         let source: Vec<_> = "1010s".chars().collect();
         assert!(matches!(
             lex_long_decade(&source),
+            Some(FoundToken {
+                token: TokenKind::Decade,
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn lexes_word_before_decade() {
+        let source: Vec<_> = "late 1980s".chars().collect();
+        assert!(matches!(
+            lex_token(&source),
+            Some(FoundToken {
+                token: TokenKind::Word(_),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn lexes_word_after_decade() {
+        let source: Vec<_> = "1980s and".chars().collect();
+        assert!(matches!(
+            lex_token(&source),
             Some(FoundToken {
                 token: TokenKind::Decade,
                 ..
