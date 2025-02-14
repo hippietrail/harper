@@ -55,6 +55,7 @@ use super::pique_interest::PiqueInterest;
 use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
+use super::proper_noun_capitalization_linters::DayOneNames;
 use super::proper_noun_capitalization_linters::JetpackNames;
 use super::proper_noun_capitalization_linters::PocketCastsNames;
 use super::proper_noun_capitalization_linters::TumblrNames;
@@ -198,6 +199,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    DayOneNames => true,
     PocketCastsNames => true,
     TumblrNames => true,
     JetpackNames => true,

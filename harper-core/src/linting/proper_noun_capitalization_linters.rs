@@ -795,6 +795,27 @@ create_linter_for!(
     "Ensure proper capitalization of Pocket Casts and Pocket Casts Plus as brand names."
 );
 
+create_linter_for!(
+    DayOneNames,
+    EitherPattern::new(vec![
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Day")
+                .then_whitespace()
+                .t_aco("One")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Day")
+                .then_whitespace()
+                .t_aco("One")
+                .then_whitespace()
+                .t_aco("Premium")
+        )
+    ]),
+    "Ensure proper capitalization of Day One and Day One Premium as brand names."
+);
+
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
