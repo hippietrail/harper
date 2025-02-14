@@ -102,8 +102,6 @@ pub fn lex_number(source: &[char]) -> Option<FoundToken> {
 // Often in comments we mention partial- or pseudo- regexes. Here's an example from Ghidra:
 // ([a-z0-9]+ only) - We previously flagged just the z0 in the middle of it.
 pub fn lex_regexish(src: &[char]) -> Option<FoundToken> {
-    eprintln!("** lex_regexish: {}", src.iter().collect::<String>());
-
     let l = src.len();
     let mut i = 0;
 
@@ -132,10 +130,10 @@ pub fn lex_regexish(src: &[char]) -> Option<FoundToken> {
         break;
     }
 
-    return Some(FoundToken {
+    Some(FoundToken {
         token: TokenKind::Regexish,
         next_index: i + 1,
-    });
+    })
 }
 
 pub fn lex_hex_number(source: &[char]) -> Option<FoundToken> {
