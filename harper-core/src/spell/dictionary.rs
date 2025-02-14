@@ -38,6 +38,9 @@ pub trait Dictionary: Send + Sync {
     /// Iterate over the words in the dictionary.
     fn words_iter(&self) -> Box<dyn Iterator<Item = &'_ [char]> + Send + '_>;
 
+    /// The number of words in the dictionary.
+    fn word_count(&self) -> usize;
+
     /// Iterate over all the words in the dictionary of a given length
     fn words_with_len_iter(&self, len: usize) -> Box<dyn Iterator<Item = &'_ [char]> + Send + '_>;
 }

@@ -104,4 +104,8 @@ impl Dictionary for MergedDictionary {
             .take(max_results)
             .collect()
     }
+
+    fn word_count(&self) -> usize {
+        self.children.iter().map(|d| d.word_count()).sum()
+    }
 }

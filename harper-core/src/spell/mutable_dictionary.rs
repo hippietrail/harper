@@ -260,6 +260,10 @@ impl Dictionary for MutableDictionary {
 
         Box::new(self.words[start..end].iter().map(|v| v.as_slice()))
     }
+
+    fn word_count(&self) -> usize {
+        self.words.len()
+    }
 }
 
 #[cfg(test)]

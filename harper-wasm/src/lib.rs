@@ -209,6 +209,8 @@ impl Linter {
 
     /// Import words into the dictionary.
     pub fn import_words(&mut self, additional_words: Vec<String>) {
+        let init_len = self.user_dictionary.word_count();
+
         self.user_dictionary
             .extend_words(additional_words.iter().map(|word| {
                 (
@@ -216,7 +218,11 @@ impl Linter {
                     WordMetadata::default(),
                 )
             }));
-        self.synchronize_lint_dict();
+
+        // Only synchronize if we added words that were not there before.
+        if self.user_dictionary.word_count() > init_len {
+            self.synchronize_lint_dict();
+        }
     }
 
     /// Export words from the dictionary.
