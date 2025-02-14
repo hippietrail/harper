@@ -684,6 +684,28 @@ create_linter_for!(
     "When referring to Meta products and services, make sure to treat them as proper nouns."
 );
 
+create_linter_for!(
+    AutomatticNames,
+    SequencePattern::default()
+        .t_aco("Automattic")
+        .then_whitespace()
+        .then(Box::new(EitherPattern::new(vec![Box::new(WordSet::all(
+            &[
+                "WordPress",
+                "WooCommerce",
+                "Jetpack",
+                "Tumblr",
+                "Akismet",
+                "Simplenote",
+                "Longreads",
+                "VaultPress",
+                "Gravatar",
+                "Crowdsignal",
+            ]
+        ))]))),
+    "When referring to Automattic products and services, make sure to treat them as proper nouns."
+);
+
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};

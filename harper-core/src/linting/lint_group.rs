@@ -55,6 +55,7 @@ use super::pique_interest::PiqueInterest;
 use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
+use super::proper_noun_capitalization_linters::AutomatticNames;
 use super::proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, Australia, AzureNames, Canada, ChineseCommunistParty,
     GoogleNames, Holidays, Koreas, Malaysia, MetaNames, MicrosoftNames, UnitedOrganizations,
@@ -195,6 +196,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    AutomatticNames => true,
     OutOfDate => true,
     Desktop => true,
     Laptop => true,

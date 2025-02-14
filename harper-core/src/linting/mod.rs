@@ -117,6 +117,7 @@ pub use pique_interest::PiqueInterest;
 pub use plural_conjugate::PluralConjugate;
 pub use possessive_your::PossessiveYour;
 pub use pronoun_contraction::PronounContraction;
+pub use proper_noun_capitalization_linters::AutomatticNames;
 pub use proper_noun_capitalization_linters::{
     AmazonNames, Americas, AppleNames, Australia, AzureNames, Canada, ChineseCommunistParty,
     GoogleNames, Holidays, Koreas, Malaysia, MetaNames, MicrosoftNames, UnitedOrganizations,
