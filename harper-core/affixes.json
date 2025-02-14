@@ -183,7 +183,7 @@
       "gifts_metadata": {}
     },
     "N": {
-      "#": "nominalization suffixes",
+      "#": "nominalization suffixes: -ion, -ication, -en",
       "suffix": true,
       "cross_product": true,
       "replacements": [
