@@ -142,7 +142,7 @@ pub fn lex_hex_number(source: &[char]) -> Option<FoundToken> {
 
 pub fn lex_long_decade(source: &[char]) -> Option<FoundToken> {
     // lex 4-digit decades in their plural such as: 1980s 1990s 2000s 2020s
-    if source.len() != 5 {
+    if source.len() < 5 {
         return None;
     }
     if source[0] != '1' && source[0] != '2' {
