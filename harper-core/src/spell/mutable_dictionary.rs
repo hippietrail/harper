@@ -92,7 +92,9 @@ impl MutableDictionary {
     ) {
         let pairs: Vec<_> = words
             .into_iter()
-            .map(|(v, m)| (v.as_ref().to_smallvec(), m))
+            .filter_map(|(v, m)| {
+                (!self.contains_word(v.as_ref())).then(|| (v.as_ref().to_smallvec(), m))
+            })
             .collect();
 
         self.words.extend(pairs.iter().map(|(v, _)| v.clone()));
