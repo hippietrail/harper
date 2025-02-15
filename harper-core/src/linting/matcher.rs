@@ -175,9 +175,13 @@ impl Matcher {
             "fatal","outcome" => "death"
         });
 
-        // spellos
+        // misspellings
         triggers.extend(pt! {
-            "grammer" => "grammar",
+            "grammer" => "grammar"
+        });
+
+        // slang & nonstandard spellings
+        triggers.extend(pt! {
             "yea" => "yeah",    // new slang spelling; also formal opposite of "nay"
             "yeh" => "yeah"     // new slang spelling
         });
