@@ -4,6 +4,7 @@ AAA/12
 AB/215M
 ABA/21
 ABC/125SM
+ABI/1MS
 ABM/21SM
 ABS/12
 AC/152M
@@ -7460,7 +7461,7 @@ Orphic/51M
 Orr/2M
 Ortega/2M
 Orthodox/51
-Ortiz/2M
+Ortiz/2MS
 Orval/M
 Orville/2M
 Orwell/2M
@@ -9710,7 +9711,7 @@ Thracian/512M
 Thu/12
 Thucydides/2M
 Thule/2M
-Thunderbird/12M
+Thunderbird/12MS
 Thur/1S
 Thurber/2M
 Thurman/2M
@@ -10768,7 +10769,8 @@ Zworykin/M
 Zyrtec/M
 Zyuganov/M
 Zzz
-a/-+457S~
+a/-+457~
+as/j
 aah/14
 aardvark/1SM
 ab/14+SDY
@@ -11976,7 +11978,7 @@ androgyny/1M
 android/15SM
 anecdotal/5Y
 anecdote/14MS
-anemia/1M
+anemia/1MS
 anemic/51
 anemically/
 anemometer/1SM
@@ -16225,7 +16227,7 @@ cesarean/51MS
 cesium/1M
 cessation/1MS
 cession/1KAFSM
-cesspit/1S
+cesspit/1SM
 cesspool/1MS
 cetacean/51MS
 ceteris
@@ -17559,7 +17561,7 @@ commutativity/1
 commutator/1SM
 commute/41BDRSMZG
 commuter/1M
-comorbidity/1
+comorbidity/1SM
 comp/514MDYGS
 compact/145TGSMDRYP
 compaction/1
@@ -17905,7 +17907,7 @@ conic/51SM
 conical/51Y
 conifer/1SM
 coniferous/5
-conjectural/51
+conjectural/51Y
 conjecture/14MGDS
 conjoint/5
 conjugal/5Y
@@ -18177,7 +18179,7 @@ contumacy/1M
 contumelious/5
 contumely/1SM
 contuse/4XDSGN
-contusion/1M
+contusion/1MS
 conundrum/1SM
 conurbation/1MS
 convalesce/4DSG
@@ -19390,7 +19392,7 @@ davit/1MS
 dawdle/41ZGDRS
 dawdler/1M
 dawn/41SGMD
-day/14SM~
+day/1SM~
 daybed/1MS
 daybreak/1M
 daycare/1M
@@ -21932,7 +21934,9 @@ endeavor/14GSMD
 endemic/51MS
 endemically/
 endgame/15S
+endian/1SM
 ending/14M
+endianness/1M
 endive/1SM
 endless/5PY
 endlessness/1M
@@ -22003,8 +22007,7 @@ engulfment/1M
 enhance/4LZGDRS
 enhancement/1SM
 enigma/1SM
-enigmatic/5
-enigmatically/
+enigmatic/5Q
 enjambment/1SM
 enjoin/4SGD
 enjoy/4GBLSD
@@ -24543,7 +24546,7 @@ ft/14
 ftp/5124ZGS
 fuchsia/15MS
 fuck/41SMGDRZ!6
-fucker/1M!6
+fucker/1M!6S
 fuckhead/1S!6
 fuddle/41DSMG
 fudge/14DSMG
@@ -26544,7 +26547,7 @@ hedger/1M
 hedgerow/1SM
 hedonism/1M
 hedonist/1MS
-hedonistic/5
+hedonistic/5Q
 heed/14MDGS
 heeded/4U
 heedful/5Y
@@ -26744,7 +26747,8 @@ heyday/1SM
 hf/
 hgt/1
 hgwy/1
-hi/15SD
+hi/15D
+his/8
 hiatus/1MS
 hibachi/1MS
 hibernate/4GNDS
@@ -27237,7 +27241,7 @@ houselights/1M
 housemaid/14SM
 houseman/1M
 housemaster/1S
-housemate/1S
+housemate/1SM
 housemen/1
 housemistress/1S
 housemother/1SM
@@ -29337,7 +29341,8 @@ julep/1SM
 julienne/14
 jumble/41MGDS
 jumbo/51SM
-jump/415MDRSZG
+jump/415MDRZG
+jumps/4
 jumper/14M
 jumpily/
 jumpiness/1M
@@ -31529,7 +31534,7 @@ maximization/1M
 maximize/4GDS
 maximum/15SM
 may/41M
-maybe/51SM
+maybe/5j1SM
 mayday/1MS
 mayflower/1MS
 mayfly/1SM
@@ -37653,7 +37658,7 @@ preteen/51MS
 pretend/451DRZGS
 pretender/14M
 pretense/1SXMN
-pretension/14M
+pretension/14MDGS
 pretentious/5UY
 pretentiousness/1M
 preterit/15SM
@@ -39521,7 +39526,6 @@ resat/4
 rescind/4SDG
 rescission/1M
 rescue/41DRSMZG
-rescuer/1M
 reseal/4B
 resemble/4DSG
 resend/41
@@ -40222,7 +40226,8 @@ rumormonger/14SM
 rump/14MYS
 rumple/41DSMG
 rumpus/1MS
-run/415ASM
+run/415AM
+runs/4
 runabout/1MS
 runaround/1SM
 runaway/15MS
@@ -43475,7 +43480,7 @@ stanchion/14SM
 stand/41SMRJZG
 standalone/51
 standard/51MS
-standardization/1M
+standardization/1MS
 standardize/4DSG
 standby/14M
 standbys/14
@@ -44840,6 +44845,7 @@ syringe/14DSMG
 syrup/14SM
 syrupy/5
 sysadmin/1S
+syscall/1MS
 sysop/14S
 system/1SM
 systematic/5U
@@ -46268,7 +46274,7 @@ trainer/1M
 training/41M
 trainload/1MS
 trainman/1M
-trainmen/1
+trainmen/1M
 trainspotter/1S
 trainspotting/1
 traipse/41DSMG

@@ -98,6 +98,8 @@ create_closed_compound_linter!(Henceforth, "hence forth", "henceforth");
 create_closed_compound_linter!(Regardless, "regard less", "regardless");
 create_closed_compound_linter!(Overnight, "over night", "overnight");
 create_closed_compound_linter!(Furthermore, "further more", "furthermore");
+create_closed_compound_linter!(Laptop, "lap top", "laptop");
+create_closed_compound_linter!(Desktop, "desk top", "desktop");
 
 #[cfg(test)]
 mod tests {

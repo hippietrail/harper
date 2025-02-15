@@ -62,10 +62,10 @@ macro_rules! create_linter_for {
 create_linter_for!(
     Americas,
     SequencePattern::default()
-        .then(Box::new(WordSet::all(&["South", "North",])))
+        .then(Box::new(WordSet::all(&["South", "North", "Central"])))
         .then_whitespace()
         .t_aco("America"),
-    "When referring to the continents, make sure to treat them as a proper noun."
+    "When referring to North, Central, and South America, make sure to treat them as a proper noun."
 );
 
 create_linter_for!(
@@ -127,6 +127,53 @@ create_linter_for!(
         ),
     ]),
     "When referring to the states of Australia, make sure to treat them as a proper noun."
+);
+
+create_linter_for!(
+    Canada,
+    EitherPattern::new(vec![
+        // the provinces and territories
+        Box::new(
+            SequencePattern::default()
+                .t_aco("British")
+                .then_whitespace()
+                .t_aco("Columbia")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("New")
+                .then_whitespace()
+                .t_aco("Brunswick")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Northwest")
+                .then_whitespace()
+                .t_aco("Territories")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Nova")
+                .then_whitespace()
+                .t_aco("Scotia")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Prince")
+                .then_whitespace()
+                .t_aco("Edward")
+                .then_whitespace()
+                .t_aco("Island")
+        ),
+        // major cities
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Quebec")
+                .then_whitespace()
+                .t_aco("City")
+        )
+    ]),
+    "When referring to the provinces of Canada, make sure to treat them as a proper noun."
 );
 
 create_linter_for!(

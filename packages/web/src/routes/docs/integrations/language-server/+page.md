@@ -40,6 +40,24 @@ You may install Harper through [Homebrew](https://brew.sh).
 brew install harper
 ```
 
+### Nixpkgs/NixOS
+
+You may install Harper via
+[Nixpkgs](https://search.nixos.org/packages?channel=unstable&show=harper&from=0&size=50&sort=relevance&type=packages&query=harper).
+You can install the `harper` package via any of the normal methods such as
+adding it to `environment.systemPackages`. You can try Harper within an
+ephemeral shell using:
+
+```bash
+nix-shell -p harper
+```
+
+or if you have the `nix-command` and `flakes` experimental features enabled:
+
+```bash
+nix shell 'nixpkgs#harper'
+```
+
 ## Dictionaries
 
 `harper-ls` has three kinds of dictionaries: user, file-local, and static dictionaries.
