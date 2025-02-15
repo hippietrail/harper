@@ -1,7 +1,7 @@
 import { default as binaryUrl } from 'harper-wasm/harper_wasm_bg.wasm?no-inline';
 import { default as binaryInlinedUrl } from 'harper-wasm/harper_wasm_bg.wasm?inline';
 import type { Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
-import { invariant } from './utils';
+import { assert } from './utils';
 import { LintConfig } from './main';
 
 const _loadedBinaryMap = new Map<string, typeof import('harper-wasm')>();
@@ -161,7 +161,7 @@ export class BinaryModule {
 				return Span.from_json(requestArg.json);
 			case 'Array': {
 				const parsed = JSON.parse(requestArg.json);
-				invariant(Array.isArray(parsed));
+				assert(Array.isArray(parsed));
 				return await Promise.all(parsed.map((arg) => this.deserializeArg(arg)));
 			}
 			default:
