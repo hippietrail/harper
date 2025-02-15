@@ -61,7 +61,7 @@ export default defineConfig({
 		}
 	},
 	test: {
-    retry: process.env.CI ? 5 : 0,
+		retry: process.env.CI ? 5 : 0,
 		browser: {
 			provider: 'playwright',
 			enabled: true,
