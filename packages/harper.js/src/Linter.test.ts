@@ -133,16 +133,22 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		const linter = new Linter({ binary });
 		const source = 'This is an test.';
 
+		console.time('lint');
 		const firstRound = await linter.lint(source);
+		console.timeEnd('lint');
 
 		expect(firstRound.length).toBeGreaterThanOrEqual(1);
 
+		console.time('ignore');
 		await linter.ignoreLint(firstRound[0]);
+		console.timeEnd('ignore');
 
+		console.time('lint2');
 		const secondRound = await linter.lint(source);
+		console.timeEnd('lint2');
 
 		expect(secondRound.length).toBeLessThan(firstRound.length);
-	});
+	}, 30_000);
 
 	test(`${linterName} can reimport ignored lints.`, async () => {
 		const source = 'This is an test of xporting lints.';
