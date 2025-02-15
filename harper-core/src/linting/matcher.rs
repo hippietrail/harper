@@ -109,7 +109,7 @@ impl Matcher {
             "and","also" => "and"
         });
 
-        // phrase typos, each word passes spellcheck but one word is wrong
+        // phrase typos and misspellings, each word passes spellcheck but one word is wrong
         triggers.extend(pt! {
             "an","in" => "and in",
             "bee","there" => "been there",
@@ -129,6 +129,8 @@ impl Matcher {
             "mu","house" => "my house",
             "no","to" => "not to",
             "No","to" => "not to",
+            "operative","system" => "operating system",
+            "operative","systems" => "operating systems",
             "the", "this" => "that this",
             "The","re" => "There",
             "though", "process" => "thought process",
