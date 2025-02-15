@@ -177,7 +177,9 @@ impl Matcher {
 
         // spellos
         triggers.extend(pt! {
-            "grammer" => "grammar"
+            "grammer" => "grammar",
+            "yea" => "yeah",    // new slang spelling; also formal opposite of "nay"
+            "yeh" => "yeah"     // new slang spelling
         });
 
         // expand compound words
