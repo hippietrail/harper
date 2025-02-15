@@ -119,8 +119,11 @@ impl Matcher {
             "gets","rid","off" => "gets rid of",
             "getting","rid","off" => "getting rid of",
             "got","rid","off" => "got rid of",
+            "far","to","many" => "far too many",
+            "far","to","much" => "far too much",
             "gong","to" => "going to",
             "I","a","m" => "I am",
+            "in","particularly" => "in particular",
             "It","cam" => "It can",
             "kid","regards" => "kind regards",
             "mu","house" => "my house",
@@ -128,7 +131,9 @@ impl Matcher {
             "No","to" => "not to",
             "the", "this" => "that this",
             "The","re" => "There",
-            "though", "process" => "thought process"
+            "though", "process" => "thought process",
+            "way","to","many" => "way too many",
+            "way","to","much" => "way too much"
         });
 
         // phrase capitalization
@@ -184,6 +189,7 @@ impl Matcher {
 
         // mixing up than/then in context
         triggers.extend(pt! {
+            "better","then" => "better than",
             "more","then" => "more than",
             "then","her" => "than her",
             "then","hers" => "than hers",
