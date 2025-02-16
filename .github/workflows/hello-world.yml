@@ -3,6 +3,7 @@ name: Hello World
 on:
   workflow_dispatch:  # This allows you to manually trigger the workflow
   pull_request:       # This ensures the workflow runs when a pull request is opened or updated
+  push:
 
 jobs:
   say_hello:
