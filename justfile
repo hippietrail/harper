@@ -313,3 +313,89 @@ printaffixes:
     const description = fields['#'] || '';
     description && console.log(affix + ': ' + description);
   });
+
+# Get the most recent changes to the curated dictionary.
+newest-dict-changes numCommits:
+  #! /usr/bin/env -S node
+
+  const { exec } = require('child_process');
+
+  // Get the number of commits to look back for the curated dictionary file
+  console.log(`PROCESS ARGV: "${process.argv}"`);
+  console.log(`Full ARGV: ${JSON.stringify(process.argv)}`);
+  const numCommits = process.argv[2] || 1; // 1 means the most recent change
+  console.log(`GOT NUMCOMMITS: "${numCommits}"`);
+
+  // Command to get the last commit hash that modified the specified file
+  // const hashCommand = `git log --no-merges -n 1 --format="%H" -- harper-core/dictionary.dict`;
+  const hashCommand = `git log --no-merges -n ${numCommits} --format="%H" -- harper-core/dictionary.dict`;
+
+  // Execute the command to get the hash
+  exec(hashCommand, (error, hash, stderr) => {
+    console.log(`GOT HASH: "${hash}"`);
+    if (error) {
+      console.error(`Error executing command: ${error.message}`);
+      return;
+    }
+    if (stderr) {
+      console.error(`stderr: ${stderr}`);
+      return;
+    }
+
+    // keep just the last line
+    const lines = hash.split('\n');
+    const lastLine = lines[lines.length - 2]; // last line is blank, keep 2nd last
+
+    // Trim the hash to remove any extra whitespace
+    const trimmedHash = lastLine.trim();
+
+    // Check if a hash was returned
+    if (!trimmedHash) {
+      console.error('No hash returned. Exiting.');
+      process.exit(1); // Exit with an error code
+    }
+
+    // Command to get the word-level diff using the retrieved hash
+    const diffCommand = `git diff --word-diff --no-color --unified=0 ${trimmedHash} -- harper-core/dictionary.dict`;
+
+    // Execute the diff command
+    exec(diffCommand, (diffError, stdout, diffStderr) => {
+      if (diffError) {
+        console.error(`Error executing diff command: ${diffError.message}`);
+        return;
+      }
+      if (diffStderr) {
+        console.error(`stderr: ${diffStderr}`);
+        return;
+      }
+
+      const lines = stdout.split("\n");
+      lines.forEach(line => {
+        const match = line.match(/^(?:\[-(.*?)-\])?(?:\{\+(.*?)\+\})?$/);
+        if (match)  {
+          let [x, before, after] = match;
+
+          if (before && after) {
+            // a word was changed
+            console.log(`CHG # '${before}' -> '${after}'`);
+            const [oldword, oldaff] = before.split('/');
+            const [newword, newaff] = after.split('/');
+          } else if (before) {
+            // a word was deleted
+            console.log(`DEL - '${before}'`);
+            // const [oldword, oldaff] = before.split('/');
+            // if (true) {
+            //   console.log(`      WORD: '${oldword}' AFFIX '${oldaff}'`);
+            // }
+          } else if (after) {
+            // a line was added
+            console.log(`ADD + '${after}'`);
+            const [newword, newaff] = after.split('/');
+            if (true) {
+              console.log(`      WORD: '${newword}' AFFIX '${newaff}'`);
+            }
+          }
+        }
+      });
+    });
+  });
