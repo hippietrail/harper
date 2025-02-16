@@ -315,24 +315,21 @@ printaffixes:
   });
 
 # Get the most recent changes to the curated dictionary.
-newest-dict-changes numCommits:
-  #! /usr/bin/env -S node
+newest-dict-changes *numCommits:
+  #! /usr/bin/env node
 
   const { exec } = require('child_process');
 
   // Get the number of commits to look back for the curated dictionary file
-  console.log(`PROCESS ARGV: "${process.argv}"`);
-  console.log(`Full ARGV: ${JSON.stringify(process.argv)}`);
-  const numCommits = process.argv[2] || 1; // 1 means the most recent change
-  console.log(`GOT NUMCOMMITS: "${numCommits}"`);
+  const numCommits = "{{numCommits}}" || 1; // 1 means the most recent change
 
   // Command to get the last commit hash that modified the specified file
-  // const hashCommand = `git log --no-merges -n 1 --format="%H" -- harper-core/dictionary.dict`;
   const hashCommand = `git log --no-merges -n ${numCommits} --format="%H" -- harper-core/dictionary.dict`;
+  console.log(`GET HASHES: ${hashCommand}`);
 
   // Execute the command to get the hash
-  exec(hashCommand, (error, hash, stderr) => {
-    console.log(`GOT HASH: "${hash}"`);
+  exec(hashCommand, (error, hashes, stderr) => {
+    // console.log(`GOT HASHES: "${hashes.trim()}"`);
     if (error) {
       console.error(`Error executing command: ${error.message}`);
       return;
@@ -343,20 +340,21 @@ newest-dict-changes numCommits:
     }
 
     // keep just the last line
-    const lines = hash.split('\n');
-    const lastLine = lines[lines.length - 2]; // last line is blank, keep 2nd last
-
-    // Trim the hash to remove any extra whitespace
-    const trimmedHash = lastLine.trim();
+    const lines = hashes.trim().split('\n');
+    console.log(lines);
 
     // Check if a hash was returned
-    if (!trimmedHash) {
+    if (lines.length < 1) {
       console.error('No hash returned. Exiting.');
       process.exit(1); // Exit with an error code
     }
 
-    // Command to get the word-level diff using the retrieved hash
-    const diffCommand = `git diff --word-diff --no-color --unified=0 ${trimmedHash} -- harper-core/dictionary.dict`;
+    // Command to get the word-level diff using the retrieved hash, using either one or two hashes
+    const diffCommand = lines.length == 1
+      ? `git diff --word-diff --no-color --unified=0 ${lines[lines.length - 1].trim()} -- harper-core/dictionary.dict`
+      : `git diff --word-diff --no-color --unified=0 ${lines[lines.length - 1].trim()} ${lines[lines.length - 2].trim()} -- harper-core/dictionary.dict`;
+
+    console.log(`GET DIFF: ${diffCommand}`);
 
     // Execute the diff command
     exec(diffCommand, (diffError, stdout, diffStderr) => {
@@ -369,6 +367,11 @@ newest-dict-changes numCommits:
         return;
       }
 
+      console.log(`DIFFSTART\n${stdout}\nDIFFEND`)
+
+      // load the affix object
+      const affixOb = require('{{justfile_directory()}}/harper-core/affixes.json').affixes
+
       const lines = stdout.split("\n");
       lines.forEach(line => {
         const match = line.match(/^(?:\[-(.*?)-\])?(?:\{\+(.*?)\+\})?$/);
@@ -377,9 +380,28 @@ newest-dict-changes numCommits:
 
           if (before && after) {
             // a word was changed
-            console.log(`CHG # '${before}' -> '${after}'`);
+            // console.log(`CHG # '${before}' -> '${after}'`);
             const [oldword, oldaff] = before.split('/');
             const [newword, newaff] = after.split('/');
+            // make sure it's the same word and not a new word in the old position
+            if (oldword === newword) {
+              // make sure the affix has changed
+              if (oldaff !== newaff) {
+                console.log(`CHG # WORD: '${oldword}' AFFIX: '${oldaff}' -> '${newaff}'`);
+                const [oldnormalized, newnormalized] = [oldaff, newaff].map(a => a.split('')).map(a => new Set(a)).map(a => Array.from(a)).map(a => a.sort());
+                const removed = oldnormalized.filter(x => !newnormalized.includes(x));
+                const added = newnormalized.filter(x => !oldnormalized.includes(x));
+                const [addedString, removedString] = [added, removed].map(a => a.map(a => `    ${a} -> ${affixOb[a]['#'] || ''}`).join('\n'));
+                if (removed.length > 0)
+                  console.log(`  REMOVED:\n${removedString}`);
+                if (added.length > 0)
+                  console.log(`  ADDED:\n${addedString}`);
+              } else {
+                console.log(`      ?NO AFFIX CHG? '${oldaff}' -> '${newaff}'`);
+              }
+            } else {
+              console.log(`      ?WORD CHG? '${oldword}' -> '${newword}'`);
+            }
           } else if (before) {
             // a word was deleted
             console.log(`DEL - '${before}'`);
@@ -389,10 +411,10 @@ newest-dict-changes numCommits:
             // }
           } else if (after) {
             // a line was added
-            console.log(`ADD + '${after}'`);
+            // console.log(`ADD + '${after}'`);
             const [newword, newaff] = after.split('/');
             if (true) {
-              console.log(`      WORD: '${newword}' AFFIX '${newaff}'`);
+              console.log(`ADD + WORD: '${newword}' AFFIX '${newaff}'`);
             }
           }
         }
