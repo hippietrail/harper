@@ -323,7 +323,6 @@ create_linter_for!(
                 .then_whitespace()
                 .t_aco("Salvador")
         ),
-        // Box::new(SequencePattern::aco("Equatorial").then_whitespace().t_aco("Guinea")),
         Box::new(
             SequencePattern::aco("French")
                 .then_whitespace()
