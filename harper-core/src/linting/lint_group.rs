@@ -47,7 +47,7 @@ use super::phrase_corrections::MutePoint;
 use super::phrase_corrections::StateOfTheArt;
 use super::phrase_corrections::WantBe;
 use super::phrase_corrections::{
-    AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
+    AndTheLike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
     SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
 };
@@ -312,7 +312,7 @@ create_lint_group_config!(
     ThatChallenged => true,
     TurnItOff => true,
     OfCourse => true,
-    AndAlike => true,
+    AndTheLike => true,
     BadRap => true,
     BatedBreath => true,
     BeckAndCall => true,
