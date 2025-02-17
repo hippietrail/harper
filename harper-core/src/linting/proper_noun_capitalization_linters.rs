@@ -285,7 +285,7 @@ create_linter_for!(
                 .then_whitespace()
                 .t_aco("and")
                 .then_whitespace()
-                .t_aco("herzegovina")
+                .t_aco("Herzegovina")
         ),
         Box::new(
             SequencePattern::aco("Burkina")
@@ -305,13 +305,13 @@ create_linter_for!(
         Box::new(
             SequencePattern::aco("Democratic")
                 .then_whitespace()
-                .t_aco("republic")
+                .t_aco("Republic")
                 .then_whitespace()
                 .t_aco("of")
                 .then_whitespace()
                 .t_aco("the")
                 .then_whitespace()
-                .t_aco("congo")
+                .t_aco("Congo")
         ),
         Box::new(
             SequencePattern::aco("East")
@@ -350,6 +350,15 @@ create_linter_for!(
             SequencePattern::aco("Puerto")
                 .then_whitespace()
                 .t_aco("Rico")
+        ),
+        Box::new(
+            SequencePattern::aco("São")
+                .then_whitespace()
+                .t_aco("Tomé")
+                .then_whitespace()
+                .t_aco("and")
+                .then_whitespace()
+                .t_aco("Príncipe")
         ),
         Box::new(
             SequencePattern::aco("Saudi")
@@ -444,7 +453,7 @@ create_linter_for!(
         Box::new(
             SequencePattern::aco("San")
                 .then_whitespace()
-                .then(Box::new(WordSet::all(&["Juan", "Marino", "Salvador"])))
+                .then(Box::new(WordSet::all(&["José", "Juan", "Marino", "Salvador"])))
         ),
         // St. ... TODO the period should be optional but this doesn't match even when it's not optional
         // Box::new(
@@ -512,6 +521,7 @@ create_linter_for!(
                 .then_whitespace()
                 .t_aco("Domingo")
         ),
+        Box::new(SequencePattern::aco("São").then_whitespace().t_aco("Tomé")),
         Box::new(
             SequencePattern::aco("The")
                 .then_whitespace()
