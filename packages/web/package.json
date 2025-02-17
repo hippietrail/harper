@@ -16,7 +16,7 @@
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@types/reveal.js": "^5.0.3",
 		"autoprefixer": "^10.4.16",
-		"flowbite": "^3.0.0",
+		"flowbite": "^3.1.2",
 		"flowbite-svelte": "^0.44.18",
 		"postcss": "^8.4.31",
 		"svelte": "^5.15.0",
