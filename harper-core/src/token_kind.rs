@@ -76,6 +76,19 @@ impl TokenKind {
         )
     }
 
+    pub fn is_proper_noun(&self) -> bool {
+        matches!(
+            self,
+            TokenKind::Word(WordMetadata {
+                noun: Some(NounData {
+                    is_proper: Some(true),
+                    ..
+                }),
+                ..
+            })
+        )
+    }
+
     pub fn is_conjunction(&self) -> bool {
         matches!(
             self,

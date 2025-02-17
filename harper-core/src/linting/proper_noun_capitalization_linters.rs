@@ -62,10 +62,10 @@ macro_rules! create_linter_for {
 create_linter_for!(
     Americas,
     SequencePattern::default()
-        .then(Box::new(WordSet::all(&["South", "North",])))
+        .then(Box::new(WordSet::all(&["South", "North", "Central"])))
         .then_whitespace()
         .t_aco("America"),
-    "When referring to the continents, make sure to treat them as a proper noun."
+    "When referring to North, Central, and South America, make sure to treat them as a proper noun."
 );
 
 create_linter_for!(
@@ -127,6 +127,53 @@ create_linter_for!(
         ),
     ]),
     "When referring to the states of Australia, make sure to treat them as a proper noun."
+);
+
+create_linter_for!(
+    Canada,
+    EitherPattern::new(vec![
+        // the provinces and territories
+        Box::new(
+            SequencePattern::default()
+                .t_aco("British")
+                .then_whitespace()
+                .t_aco("Columbia")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("New")
+                .then_whitespace()
+                .t_aco("Brunswick")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Northwest")
+                .then_whitespace()
+                .t_aco("Territories")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Nova")
+                .then_whitespace()
+                .t_aco("Scotia")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Prince")
+                .then_whitespace()
+                .t_aco("Edward")
+                .then_whitespace()
+                .t_aco("Island")
+        ),
+        // major cities
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Quebec")
+                .then_whitespace()
+                .t_aco("City")
+        )
+    ]),
+    "When referring to the provinces of Canada, make sure to treat them as a proper noun."
 );
 
 create_linter_for!(
@@ -974,6 +1021,113 @@ create_linter_for!(
             ),
         ]))),
     "When referring to Meta products and services, make sure to treat them as proper nouns."
+);
+
+create_linter_for!(
+    JetpackNames,
+    SequencePattern::default()
+        .t_aco("Jetpack")
+        .then_whitespace()
+        .then(Box::new(EitherPattern::new(vec![
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("VaultPress")
+                    .then_whitespace()
+                    .t_aco("Backup")
+            ),
+            Box::new(SequencePattern::default().t_aco("VaultPress")),
+            Box::new(SequencePattern::default().t_aco("Scan")),
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("Akismet")
+                    .then_whitespace()
+                    .t_aco("Anti-spam")
+            ),
+            Box::new(SequencePattern::default().t_aco("Stats")),
+            Box::new(SequencePattern::default().t_aco("Social")),
+            Box::new(SequencePattern::default().t_aco("Blaze")),
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("AI")
+                    .then_whitespace()
+                    .t_aco("Assistant")
+            ),
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("Site")
+                    .then_whitespace()
+                    .t_aco("Search")
+            ),
+            Box::new(SequencePattern::default().t_aco("Boost")),
+            Box::new(SequencePattern::default().t_aco("VideoPress")),
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("For")
+                    .then_whitespace()
+                    .t_aco("Agencies")
+            ),
+            Box::new(SequencePattern::default().t_aco("CRM")),
+        ]))),
+    "Ensure proper capitalization of Jetpack-related terms."
+);
+
+create_linter_for!(
+    TumblrNames,
+    SequencePattern::default()
+        .t_aco("Tumblr")
+        .then_whitespace()
+        .then(Box::new(EitherPattern::new(vec![
+            Box::new(SequencePattern::default().t_aco("Blaze")),
+            Box::new(SequencePattern::default().t_aco("Pro")),
+            Box::new(SequencePattern::default().t_aco("Live")),
+            Box::new(SequencePattern::default().t_aco("Ads")),
+            Box::new(SequencePattern::default().t_aco("Communities")),
+            Box::new(SequencePattern::default().t_aco("Shop")),
+            Box::new(SequencePattern::default().t_aco("Dashboard"))
+        ]))),
+    "Ensure proper capitalization of Tumblr-related terms."
+);
+
+create_linter_for!(
+    PocketCastsNames,
+    EitherPattern::new(vec![
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Pocket")
+                .then_whitespace()
+                .t_aco("Casts")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Pocket")
+                .then_whitespace()
+                .t_aco("Casts")
+                .then_whitespace()
+                .t_aco("Plus")
+        )
+    ]),
+    "Ensure proper capitalization of Pocket Casts and Pocket Casts Plus as brand names."
+);
+
+create_linter_for!(
+    DayOneNames,
+    EitherPattern::new(vec![
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Day")
+                .then_whitespace()
+                .t_aco("One")
+        ),
+        Box::new(
+            SequencePattern::default()
+                .t_aco("Day")
+                .then_whitespace()
+                .t_aco("One")
+                .then_whitespace()
+                .t_aco("Premium")
+        )
+    ]),
+    "Ensure proper capitalization of Day One and Day One Premium as brand names."
 );
 
 #[cfg(test)]

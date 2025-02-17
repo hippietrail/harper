@@ -5,7 +5,10 @@ use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
+use super::chock_full::ChockFull;
+use super::closed_compounds::Desktop;
 use super::closed_compounds::Furthermore;
+use super::closed_compounds::Laptop;
 use super::closed_compounds::Overnight;
 use super::closed_compounds::{
     Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
@@ -20,6 +23,9 @@ use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
 use super::hereby::Hereby;
+use super::hop_hope::HopHope;
+use super::hyphenate_number_day::HyphenateNumberDay;
+use super::left_right_hand::LeftRightHand;
 use super::lets_confusion::LetsConfusion;
 use super::likewise::Likewise;
 use super::linking_verbs::LinkingVerbs;
@@ -29,17 +35,31 @@ use super::merge_words::MergeWords;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::out_of_date::OutOfDate;
+use super::phrase_corrections::BaitedBreath;
+use super::phrase_corrections::BareInMind;
+use super::phrase_corrections::EludedTo;
+use super::phrase_corrections::FaceFirst;
+use super::phrase_corrections::FastPaste;
+use super::phrase_corrections::MutePoint;
+use super::phrase_corrections::StateOfTheArt;
+use super::phrase_corrections::WantBe;
 use super::phrase_corrections::{
-    AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
+    AndTheLike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
     SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
 };
+use super::pique_interest::PiqueInterest;
 use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
+use super::proper_noun_capitalization_linters::DayOneNames;
+use super::proper_noun_capitalization_linters::JetpackNames;
+use super::proper_noun_capitalization_linters::PocketCastsNames;
+use super::proper_noun_capitalization_linters::TumblrNames;
 use super::proper_noun_capitalization_linters::{
-    AmazonNames, Americas, AppleNames, Australia, AzureNames, ChineseCommunistParty, Countries,
-    GoogleNames, Holidays, Koreas, Malaysia, MetaNames, MicrosoftNames, NationalCapitals,
+    AmazonNames, Americas, AppleNames, Australia, AzureNames, Canada, ChineseCommunistParty,
+    Countries, GoogleNames, Holidays, Koreas, Malaysia, MetaNames, MicrosoftNames, NationalCapitals,
     UnitedOrganizations,
 };
 use super::repeated_words::RepeatedWords;
@@ -50,9 +70,12 @@ use super::spell_check::SpellCheck;
 use super::spelled_numbers::SpelledNumbers;
 use super::terminating_conjunctions::TerminatingConjunctions;
 use super::that_which::ThatWhich;
+use super::then_than::ThenThan;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
+use super::was_aloud::WasAloud;
 use super::whereas::Whereas;
+use super::wordpress_dotcom::WordPressDotcom;
 use super::wrong_quotes::WrongQuotes;
 use super::{CurrencyPlacement, Lint, Linter, NoOxfordComma, OxfordComma};
 use crate::{Dictionary, Document};
@@ -176,6 +199,28 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    WordPressDotcom => true,
+    DayOneNames => true,
+    PocketCastsNames => true,
+    TumblrNames => true,
+    JetpackNames => true,
+    OutOfDate => true,
+    Desktop => true,
+    Laptop => true,
+    ThenThan => true,
+    MutePoint => true,
+    PiqueInterest => true,
+    BareInMind => true,
+    BaitedBreath => true,
+    EludedTo => true,
+    WasAloud => true,
+    HyphenateNumberDay => true,
+    FaceFirst => true,
+    LeftRightHand => true,
+    FastPaste => true,
+    StateOfTheArt => true,
+    WantBe => true,
+    HopHope => true,
     Furthermore => true,
     Overnight => true,
     Hereby => true,
@@ -224,7 +269,7 @@ create_lint_group_config!(
     Myself => true,
     Itself => true,
     Whereas => true,
-    PossessiveYour => false,
+    PossessiveYour => true,
     SpelledNumbers => false,
     AnA => true,
     SentenceCapitalization => true,
@@ -248,6 +293,7 @@ create_lint_group_config!(
     CapitalizePersonalPronouns => true,
     Americas => true,
     Australia => true,
+    Canada => true,
     Koreas => true,
     Malaysia => true,
     ChineseCommunistParty => true,
@@ -268,13 +314,14 @@ create_lint_group_config!(
     SomewhatSomething => true,
     LetsConfusion => true,
     DespiteOf => true,
+    ChockFull => true,
     HumanLife => true,
     NeedHelp => true,
     NoLonger => true,
     ThatChallenged => true,
     TurnItOff => true,
     OfCourse => true,
-    AndAlike => true,
+    AndTheLike => true,
     BadRap => true,
     BatedBreath => true,
     BeckAndCall => true,

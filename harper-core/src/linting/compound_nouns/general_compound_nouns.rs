@@ -11,6 +11,7 @@ use crate::{
     Lrc, Token,
 };
 
+/// Covers the general cases of accidentally split compound nouns.
 pub struct GeneralCompoundNouns {
     pattern: Box<dyn Pattern>,
     split_pattern: Lrc<SplitCompoundWord>,
@@ -35,7 +36,9 @@ impl Default for GeneralCompoundNouns {
                 tok.span.len() > 1 && !meta.article && !meta.is_adverb() && !meta.preposition
             }));
 
-        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| meta.is_noun()));
+        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| {
+            meta.is_noun() && !meta.is_adjective()
+        }));
 
         let mut pattern = All::default();
         pattern.add(Box::new(split_pattern.clone()));
@@ -55,6 +58,7 @@ impl PatternLinter for GeneralCompoundNouns {
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
         let span = matched_tokens.span().unwrap();
+        let orig = span.get_content(source);
         // If the pattern matched, this will not return `None`.
         let word = self
             .split_pattern
@@ -64,7 +68,7 @@ impl PatternLinter for GeneralCompoundNouns {
         Lint {
             span,
             lint_kind: LintKind::Spelling,
-            suggestions: vec![Suggestion::ReplaceWith(word.to_vec())],
+            suggestions: vec![Suggestion::replace_with_match_case(word.to_vec(), orig)],
             message: format!(
                 "Did you mean the closed compound noun “{}”?",
                 word.to_string()

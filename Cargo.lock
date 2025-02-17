@@ -235,9 +235,9 @@ dependencies = [
 
 [[package]]
 name = "clap"
-version = "4.5.28"
+version = "4.5.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3e77c3243bd94243c03672cb5154667347c457ca271254724f9f393aee1c05ff"
+checksum = "8acebd8ad879283633b343856142139f2da2317c96b05b4dd6181c61e2480184"
 dependencies = [
  "clap_builder",
  "clap_derive",
@@ -245,9 +245,9 @@ dependencies = [
 
 [[package]]
 name = "clap_builder"
-version = "4.5.27"
+version = "4.5.29"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "1b26884eb4b57140e4d2d93652abfa49498b938b3c9179f9fc487b0acc3edad7"
+checksum = "f6ba32cbda51c7e1dfd49acc1457ba1a7dec5b64fe360e828acb13ca8dc9c2f9"
 dependencies = [
  "anstream",
  "anstyle",
@@ -614,7 +614,7 @@ dependencies = [
 
 [[package]]
 name = "harper-comments"
-version = "0.20.0"
+version = "0.22.0"
 dependencies = [
  "harper-core",
  "harper-html",
@@ -645,7 +645,7 @@ dependencies = [
 
 [[package]]
 name = "harper-core"
-version = "0.20.0"
+version = "0.22.0"
 dependencies = [
  "blanket",
  "criterion",
@@ -672,7 +672,7 @@ dependencies = [
 
 [[package]]
 name = "harper-html"
-version = "0.20.0"
+version = "0.22.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -683,7 +683,7 @@ dependencies = [
 
 [[package]]
 name = "harper-literate-haskell"
-version = "0.20.0"
+version = "0.22.0"
 dependencies = [
  "harper-comments",
  "harper-core",
@@ -694,7 +694,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ls"
-version = "0.20.0"
+version = "0.22.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -719,7 +719,7 @@ dependencies = [
 
 [[package]]
 name = "harper-tree-sitter"
-version = "0.20.0"
+version = "0.22.0"
 dependencies = [
  "harper-core",
  "tree-sitter",
@@ -727,7 +727,7 @@ dependencies = [
 
 [[package]]
 name = "harper-typst"
-version = "0.20.0"
+version = "0.22.0"
 dependencies = [
  "harper-core",
  "itertools 0.14.0",
@@ -1564,9 +1564,9 @@ dependencies = [
 
 [[package]]
 name = "smallvec"
-version = "1.13.2"
+version = "1.14.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "3c5e1a9a646d36c3599cd173a41282daf47c44583ad367b8e6837255952e5c67"
+checksum = "7fcf8323ef1faaee30a44a340193b1ac6814fd9b7b4e88e9d4519a3e4abe1cfd"
 dependencies = [
  "serde",
 ]

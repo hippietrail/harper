@@ -6,7 +6,10 @@ use std::sync::Arc;
 use harper_core::language_detection::is_doc_likely_english;
 use harper_core::linting::{LintGroup, LintGroupConfig, Linter as _};
 use harper_core::parsers::{IsolateEnglish, Markdown, Parser, PlainEnglish};
-use harper_core::{remove_overlaps, Document, FstDictionary, IgnoredLints, Lrc, MutableDictionary};
+use harper_core::{
+    remove_overlaps, CharString, Dictionary, Document, FstDictionary, IgnoredLints, Lrc,
+    MergedDictionary, MutableDictionary, WordMetadata,
+};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::prelude::wasm_bindgen;
 use wasm_bindgen::JsValue;
@@ -61,8 +64,12 @@ impl Language {
 
 #[wasm_bindgen]
 pub struct Linter {
-    lint_group: LintGroup<Arc<FstDictionary>>,
-    dictionary: Arc<FstDictionary>,
+    lint_group: LintGroup<Arc<MergedDictionary>>,
+    /// The user-supplied dictionary.
+    ///
+    /// To make changes affect linting, run [`Self::synchronize_lint_dict`].
+    user_dictionary: MutableDictionary,
+    dictionary: Arc<MergedDictionary>,
     ignored_lints: IgnoredLints,
 }
 
@@ -72,13 +79,33 @@ impl Linter {
     /// Note that this can mean constructing the curated dictionary, which is the most expensive operation
     /// in Harper.
     pub fn new() -> Self {
-        let dictionary = FstDictionary::curated();
+        let dictionary = Self::construct_merged_dict(MutableDictionary::default());
 
         Self {
             lint_group: LintGroup::new(LintGroupConfig::default(), dictionary.clone()),
+            user_dictionary: MutableDictionary::new(),
             dictionary,
             ignored_lints: IgnoredLints::default(),
         }
+    }
+
+    /// Update the dictionary inside [`Self::lint_group`] to include [`Self::user_dictionary`].
+    /// This clears any linter caches, so use it sparingly.
+    fn synchronize_lint_dict(&mut self) {
+        let lint_config = self.lint_group.config;
+        self.dictionary = Self::construct_merged_dict(self.user_dictionary.clone());
+        self.lint_group = LintGroup::new(lint_config, self.dictionary.clone());
+    }
+
+    /// Construct the actual dictionary to be used for linting and parsing from the curated dictionary
+    /// and [`Self::user_dictionary`].
+    fn construct_merged_dict(user_dictionary: MutableDictionary) -> Arc<MergedDictionary> {
+        let mut lint_dict = MergedDictionary::new();
+
+        lint_dict.add_dictionary(FstDictionary::curated());
+        lint_dict.add_dictionary(Arc::new(user_dictionary.clone()));
+
+        Arc::new(lint_dict)
     }
 
     /// Helper method to quickly check if a plain string is likely intended to be English
@@ -178,6 +205,33 @@ impl Linter {
 
     pub fn clear_ignored_lints(&mut self) {
         self.ignored_lints = IgnoredLints::new();
+    }
+
+    /// Import words into the dictionary.
+    pub fn import_words(&mut self, additional_words: Vec<String>) {
+        let init_len = self.user_dictionary.word_count();
+
+        self.user_dictionary
+            .extend_words(additional_words.iter().map(|word| {
+                (
+                    word.chars().collect::<CharString>(),
+                    WordMetadata::default(),
+                )
+            }));
+
+        // Only synchronize if we added words that were not there before.
+        if self.user_dictionary.word_count() > init_len {
+            self.synchronize_lint_dict();
+        }
+    }
+
+    /// Export words from the dictionary.
+    /// Note: this will only return words previously added by [`Self::import_words`].
+    pub fn export_words(&mut self) -> Vec<String> {
+        self.user_dictionary
+            .words_iter()
+            .map(|v| v.iter().collect())
+            .collect()
     }
 }
 

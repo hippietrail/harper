@@ -63,4 +63,11 @@ export default interface Linter {
 
 	/** Clear records of all previously ignored lints. */
 	clearIgnoredLints(): Promise<void>;
+
+	/** Import words into the dictionary. This is a significant operation, so try to batch words. */
+	importWords(words: string[]): Promise<void>;
+
+	/** Export all added words from the dictionary. Note that this will NOT export anything from the curated dictionary,
+	 * only words from previous calls to `this.importWords`. */
+	exportWords(): Promise<string[]>;
 }

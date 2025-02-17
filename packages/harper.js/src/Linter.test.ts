@@ -169,6 +169,20 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		expect(firstLints.length).toBeGreaterThan(secondLints.length);
 		expect(secondLints.length).toBe(0);
 	});
+
+	test(`${linterName} can add words to the dictionary`, async () => {
+		const source = 'asdf is not a word';
+
+		const linter = new Linter();
+		let lints = await linter.lint(source);
+
+		expect(lints).toHaveLength(1);
+
+		await linter.importWords(['asdf']);
+		lints = await linter.lint(source);
+
+		expect(lints).toHaveLength(0);
+	});
 }
 
 test('Linters have the same config format', async () => {
