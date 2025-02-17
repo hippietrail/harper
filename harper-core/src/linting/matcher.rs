@@ -245,7 +245,7 @@ impl Matcher {
         // countries and capitals with special casing or punctuation
         triggers.extend(pt! {
            "andorra","la","vella" => "Andorra la Vella",
-           "Andorra","La","vella" => "Andorra la Vella",
+           "Andorra","la","vella" => "Andorra la Vella",
            "Andorra","La","Vella" => "Andorra la Vella",
            "guinea","bissau" => "Guinea-Bissau",
            "Guinea","bissau" => "Guinea-Bissau",
@@ -260,8 +260,9 @@ impl Matcher {
            // port-au-prince won't work here because the left side has hyphens
            // Port-au-prince ditto
            // Port-Au-Prince ditto
-           "porto","novovo" => "Porto-Novo",
-           "Porto","novovo" => "Porto-Novo",
+           "porto","novo" => "Porto-Novo",
+           "Porto","novo" => "Porto-Novo",
+           "Porto","Novo" => "Porto-Novo",
            "st","georges" => "St. George's",
            // "st.","georges" => "St. George's",
            "st","george's" => "St. George's",
