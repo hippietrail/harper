@@ -500,7 +500,9 @@ create_linter_for!(
         Box::new(
             SequencePattern::aco("San")
                 .then_whitespace()
-                .then(Box::new(WordSet::all(&["José", "Juan", "Marino", "Salvador"])))
+                .then(Box::new(WordSet::all(&[
+                    "José", "Juan", "Marino", "Salvador"
+                ])))
         ),
         // St. ... TODO the period should be optional but this doesn't match even when it's not optional
         // Box::new(
