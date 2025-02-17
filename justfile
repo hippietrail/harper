@@ -1,6 +1,6 @@
 # Format entire project
 format:
-  cargo fmt
+  cargo fmt  
   cd "{{justfile_directory()}}/packages"; yarn prettier -w .
 
 # Build the WebAssembly for a specific target (usually either `web` or `bundler`)
@@ -8,7 +8,7 @@ build-wasm:
   cd "{{justfile_directory()}}/harper-wasm" && wasm-pack build --target web
 
 # Build `harper.js` with all size optimizations available.
-build-harperjs: build-wasm
+build-harperjs: build-wasm 
   #! /bin/bash
   set -eo pipefail
 
@@ -25,7 +25,7 @@ build-harperjs: build-wasm
 test-harperjs: build-harperjs
   #!/bin/bash
   set -eo pipefail
-
+  
   cd "{{justfile_directory()}}/packages/harper.js"
   yarn install -f
   yarn playwright install
@@ -51,7 +51,7 @@ dev-web:
 build-web: build-harperjs
   #! /bin/bash
   set -eo pipefail
-
+  
   cd "{{justfile_directory()}}/packages/web"
   yarn install -f
   yarn run build
@@ -60,7 +60,7 @@ build-web: build-harperjs
 build-obsidian: build-harperjs
   #! /bin/bash
   set -eo pipefail
-
+  
   cd "{{justfile_directory()}}/packages/obsidian-plugin"
 
   yarn install -f
@@ -224,7 +224,7 @@ spans file:
 # Add a noun to Harper's curated dictionary.
 addnoun noun:
   #! /bin/bash
-  DICT_FILE=./harper-core/dictionary.dict
+  DICT_FILE=./harper-core/dictionary.dict 
 
   cat $DICT_FILE | grep "^{{noun}}/"
 
@@ -285,7 +285,7 @@ bump-versions: update-vscode-linters
 # Enter an infinite loop of testing until a bug is found.
 fuzz:
   #!/usr/bin/bash
-
+  
   while true
   do
       QUICKCHECK_TESTS=100000 cargo test
