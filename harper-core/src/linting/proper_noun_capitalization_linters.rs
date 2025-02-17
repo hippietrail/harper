@@ -190,6 +190,16 @@ create_linter_for!(
     Countries,
     EitherPattern::new(vec![
         // Grouped country names
+        // ... Guinea
+        Box::new(
+            SequencePattern::default()
+                .then(Box::new(EitherPattern::new(vec![
+                    Box::new(SequencePattern::aco("Equatorial")),
+                    Box::new(SequencePattern::aco("Papua").then_whitespace().t_aco("New")),
+                ])))
+                .then_whitespace()
+                .t_aco("Guinea")
+        ),
         // ... Islands
         Box::new(
             SequencePattern::default()
@@ -262,7 +272,21 @@ create_linter_for!(
                 .then_whitespace()
                 .t_aco("Samoa")
         ),
+        Box::new(
+            SequencePattern::aco("Antigua")
+                .then_whitespace()
+                .t_aco("and")
+                .then_whitespace()
+                .t_aco("Barbuda")
+        ),
         // United Arab Emirates is under "United Organizations"
+        Box::new(
+            SequencePattern::aco("Bosnia")
+                .then_whitespace()
+                .t_aco("and")
+                .then_whitespace()
+                .t_aco("herzegovina")
+        ),
         Box::new(
             SequencePattern::aco("Burkina")
                 .then_whitespace()
@@ -279,6 +303,17 @@ create_linter_for!(
                 .t_aco("Rica")
         ),
         Box::new(
+            SequencePattern::aco("Democratic")
+                .then_whitespace()
+                .t_aco("republic")
+                .then_whitespace()
+                .t_aco("of")
+                .then_whitespace()
+                .t_aco("the")
+                .then_whitespace()
+                .t_aco("congo")
+        ),
+        Box::new(
             SequencePattern::aco("East")
                 .then_whitespace()
                 .t_aco("Timor")
@@ -288,42 +323,40 @@ create_linter_for!(
                 .then_whitespace()
                 .t_aco("Salvador")
         ),
-        Box::new(
-            SequencePattern::aco("Equatorial")
-                .then_whitespace()
-                .t_aco("Guinea")
-        ),
-        // Box::new(SequencePattern::aco("Falkland").then_whitespace().t_aco("Islands")),
+        // Box::new(SequencePattern::aco("Equatorial").then_whitespace().t_aco("Guinea")),
         Box::new(
             SequencePattern::aco("French")
                 .then_whitespace()
-                .t_aco("Polyynesia")
+                .t_aco("Polynesia")
         ),
         Box::new(SequencePattern::aco("Guinea").then_hyphen().t_aco("Bissau")),
+        Box::new(
+            SequencePattern::aco("Isle")
+                .then_whitespace()
+                .t_aco("of")
+                .then_whitespace()
+                .t_aco("Man")
+        ),
         Box::new(
             SequencePattern::aco("Ivory")
                 .then_whitespace()
                 .t_aco("Coast")
         ),
-        Box::new(SequencePattern::aco("La").then_whitespace().t_aco("Paz")),
         Box::new(
             SequencePattern::aco("North")
                 .then_whitespace()
                 .t_aco("Macedonia")
         ),
         Box::new(
-            SequencePattern::aco("Papua")
-                .then_whitespace()
-                .t_aco("New")
-                .then_whitespace()
-                .t_aco("Guinea")
-        ),
-        Box::new(
             SequencePattern::aco("Puerto")
                 .then_whitespace()
                 .t_aco("Rico")
         ),
-        // Saint Kitts and Nevis has lowercase "and"
+        Box::new(
+            SequencePattern::aco("Saudi")
+                .then_whitespace()
+                .t_aco("Arabia")
+        ),
         Box::new(
             SequencePattern::aco("Sierra")
                 .then_whitespace()
@@ -336,9 +369,11 @@ create_linter_for!(
         ),
         Box::new(SequencePattern::aco("Sri").then_whitespace().t_aco("Lanka")),
         Box::new(
-            SequencePattern::aco("Saudi")
+            SequencePattern::aco("Trinidad")
                 .then_whitespace()
-                .t_aco("Arabia")
+                .t_aco("and")
+                .then_whitespace()
+                .t_aco("Tobago")
         ),
         Box::new(
             SequencePattern::aco("Western")
@@ -376,6 +411,36 @@ create_linter_for!(
                 .then_whitespace()
                 .t_aco("City")
         ),
+        // Saint ...
+        Box::new(
+            SequencePattern::aco("Saint")
+                .then_whitespace()
+                .then(Box::new(EitherPattern::new(vec![
+                    Box::new(
+                        SequencePattern::aco("Kitts")
+                            .then_whitespace()
+                            .t_aco("and")
+                            .then_whitespace()
+                            .t_aco("Nevis")
+                    ),
+                    Box::new(
+                        SequencePattern::aco("Pierre")
+                            .then_whitespace()
+                            .t_aco("and")
+                            .then_whitespace()
+                            .t_aco("Miquelon")
+                    ),
+                    Box::new(
+                        SequencePattern::aco("Vincent")
+                            .then_whitespace()
+                            .t_aco("and")
+                            .then_whitespace()
+                            .t_aco("the")
+                            .then_whitespace()
+                            .t_aco("Grenadines")
+                    )
+                ])))
+        ),
         // San ...
         Box::new(
             SequencePattern::aco("San")
@@ -398,7 +463,6 @@ create_linter_for!(
                 .then_whitespace()
                 .t_aco("Town")
         ),
-        // George Town is with "Cape Town"
         // One-off capital names
         Box::new(SequencePattern::aco("Abu").then_whitespace().t_aco("Dhabi")),
         Box::new(
@@ -406,7 +470,7 @@ create_linter_for!(
                 .then_whitespace()
                 .t_aco("Ababa")
         ),
-        // Andorra la Vella has lowercase "la"
+        // Andorra la Vella can't be done here because "la" must not be capitalized
         Box::new(
             SequencePattern::aco("Bandar")
                 .then_whitespace()
@@ -419,15 +483,14 @@ create_linter_for!(
                 .then_whitespace()
                 .t_aco("Aires")
         ),
+        // Dar es Salaam can't be done here because "es" must not be capitalized
         Box::new(
             SequencePattern::aco("Diego")
                 .then_whitespace()
                 .t_aco("Garcia")
         ),
-        // Guatemala City is with "Belize City"
-        // Ho Chi Minh City is with "Belize City"
         // Kuala Lumpur is under "Malaysia"
-        // Mexico City is with "Belize City"
+        Box::new(SequencePattern::aco("La").then_whitespace().t_aco("Paz")),
         Box::new(SequencePattern::aco("New").then_whitespace().t_aco("Delhi")),
         Box::new(SequencePattern::aco("Pago").then_whitespace().t_aco("Pago")),
         Box::new(
@@ -435,15 +498,21 @@ create_linter_for!(
                 .then_whitespace()
                 .t_aco("Penh")
         ),
+        // Port-au-Prince can't be done here because "au" must not be capitalized
         Box::new(
-            // Port-au-Prince can't be done here because "au" must not be capitalized
-            // Port of Spain can't be done here because "of" must not be capitalized
             SequencePattern::aco("Port")
                 .then_whitespace()
-                .then(Box::new(WordSet::all(&["Louis", "Moresby", "Vila"])))
+                .then(Box::new(EitherPattern::new(vec![
+                    Box::new(WordSet::all(&["Louis", "Moresby", "Vila"])),
+                    Box::new(SequencePattern::aco("of").then_whitespace().t_aco("Spain"))
+                ])))
         ),
         Box::new(SequencePattern::aco("Porto").then_hyphen().t_aco("Novo")),
-        Box::new(SequencePattern::aco("Santo").then_hyphen().t_aco("Domingo")),
+        Box::new(
+            SequencePattern::aco("Santo")
+                .then_whitespace()
+                .t_aco("Domingo")
+        ),
         Box::new(
             SequencePattern::aco("The")
                 .then_whitespace()
