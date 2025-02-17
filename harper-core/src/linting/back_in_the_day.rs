@@ -1,5 +1,3 @@
-use itertools::Itertools;
-
 use crate::{
     patterns::{ExactPhrase, OwnedPatternExt, Pattern, SequencePattern, WordSet},
     Lrc, Token, TokenStringExt,
@@ -37,13 +35,7 @@ impl PatternLinter for BackInTheDay {
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        dbg!(matched_tokens
-            .iter()
-            .map(|t| t.to_fat(source))
-            .enumerate()
-            .collect_vec());
         if let Some(tail) = matched_tokens.get(8..) {
-            dbg!(tail.iter().map(|t| t.to_fat(source)).collect_vec());
             if self.exceptions.matches(tail, source) != 0 {
                 return None;
             }
