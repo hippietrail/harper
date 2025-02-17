@@ -213,6 +213,10 @@ impl Dictionary for FstDictionary {
         self.full_dict.words_with_len_iter(len)
     }
 
+    fn word_count(&self) -> usize {
+        self.full_dict.word_count()
+    }
+
     fn contains_exact_word(&self, word: &[char]) -> bool {
         self.full_dict.contains_exact_word(word)
     }
