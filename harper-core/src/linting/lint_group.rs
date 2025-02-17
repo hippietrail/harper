@@ -76,6 +76,7 @@ use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
 use super::was_aloud::WasAloud;
 use super::whereas::Whereas;
+use super::wordpress_dotcom::WordPressDotcom;
 use super::wrong_quotes::WrongQuotes;
 use super::{CurrencyPlacement, Lint, Linter, NoOxfordComma, OxfordComma};
 use crate::{Dictionary, Document};
@@ -199,6 +200,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    WordPressDotcom => true,
     DayOneNames => true,
     PocketCastsNames => true,
     TumblrNames => true,

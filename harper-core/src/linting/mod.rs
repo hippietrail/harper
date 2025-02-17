@@ -56,6 +56,7 @@ mod unclosed_quotes;
 mod use_genitive;
 mod was_aloud;
 mod whereas;
+mod wordpress_dotcom;
 mod wrong_quotes;
 
 pub use an_a::AnA;
@@ -139,6 +140,7 @@ pub use unclosed_quotes::UnclosedQuotes;
 pub use use_genitive::UseGenitive;
 pub use was_aloud::WasAloud;
 pub use whereas::Whereas;
+pub use wordpress_dotcom::WordPressDotcom;
 pub use wrong_quotes::WrongQuotes;
 
 use crate::Document;
