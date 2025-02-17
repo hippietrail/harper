@@ -8570,7 +8570,6 @@ Ryan/2M
 Rydberg/2M
 Ryder/2M
 Ryukyu/2M
-S/152MN
 SA/5124
 SAC/12
 SALT/2M
@@ -34027,7 +34026,6 @@ notional/51Y
 notoriety/1M
 notorious/5Y
 notwithstanding/7+
-notwork/1S
 nougat/1MS
 noun/14KMS
 nourish/14DSLG
@@ -37361,7 +37359,6 @@ pox/14MS
 pp/1
 ppm/1
 ppr
-pr/5
 practicability/1M
 practicably/
 practical/51SMY
@@ -42779,7 +42776,7 @@ somatosensory/5
 somber/54PY
 somberness/1M
 sombrero/1MS
-some/8~
+some/8~j5
 somebody/81SM
 someday/
 somehow/
@@ -42791,7 +42788,8 @@ somersetted/4
 somersetting/4
 something/8541SM
 sometime/5S
-someway/S
+someway/
+someways/j
 somewhat/81S
 somewhere/1
 somnambulism/1M
@@ -49928,3 +49926,19 @@ backplane/SM
 cyberattack/SM
 RTX/1SM
 PDP/1SM
+Jetpack/2M
+learnt/4
+WooCommerce/2M
+Tumblr/2M
+Akismet/2M
+Simplenote/2M
+Longreads/2M
+VaultPress/2M
+Gravatar/2M
+Crowdsignal/2M
+Mullenweg/M
+journaling/SM3
+Polldaddy/2M
+P2/M
+VideoPress/2M
+stylization/SM

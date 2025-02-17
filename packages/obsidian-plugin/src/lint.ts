@@ -517,7 +517,6 @@ const baseTheme = EditorView.baseTheme({
 	},
 
 	'.cm-diagnosticIgnore': {
-		color: 'black',
 		padding: 'var(--size-4-1) 0px',
 		fontSize: 'var(--font-ui-small)'
 	},

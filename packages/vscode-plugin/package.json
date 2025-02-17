@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper",
 	"description": "The grammar checker for developers",
-	"version": "0.21.1",
+	"version": "0.22.0",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -135,11 +135,11 @@
 					"default": true,
 					"description": "A rule that looks for incorrect indefinite articles. For example, `this is an mule` would be flagged as incorrect."
 				},
-				"harper-ls.linters.and_alike": {
+				"harper-ls.linters.and_the_like": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `and alike`."
+					"description": "Looks for slight improper modifications to the phrase `and the like`."
 				},
 				"harper-ls.linters.anybody": {
 					"scope": "resource",
@@ -241,7 +241,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `change tack`."
+					"description": "Locates minor errors in the sailing idiom `change tack`."
 				},
 				"harper-ls.linters.chinese_communist_party": {
 					"scope": "resource",
@@ -272,6 +272,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "The location of currency symbols varies by country. The rule looks for and corrects improper positioning."
+				},
+				"harper-ls.linters.day_one_names": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of Day One and Day One Premium as brand names."
 				},
 				"harper-ls.linters.desktop": {
 					"scope": "resource",
@@ -422,6 +428,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `itself`."
+				},
+				"harper-ls.linters.jetpack_names": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of Jetpack-related terms."
 				},
 				"harper-ls.linters.koreas": {
 					"scope": "resource",
@@ -627,6 +639,12 @@
 					"default": true,
 					"description": "Looks for slight improper modifications to the phrase `of course`."
 				},
+				"harper-ls.linters.out_of_date": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures that the phrase `out of date` is written with a hyphen as `out-of-date` when used as a compound adjective."
+				},
 				"harper-ls.linters.overall": {
 					"scope": "resource",
 					"type": "boolean",
@@ -668,6 +686,12 @@
 					"type": "boolean",
 					"default": false,
 					"description": "Make sure you use the correct conjugation of the verb \"to be\" in plural contexts."
+				},
+				"harper-ls.linters.pocket_casts_names": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of Pocket Casts and Pocket Casts Plus as brand names."
 				},
 				"harper-ls.linters.possessive_your": {
 					"scope": "resource",
@@ -819,6 +843,12 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `thereupon`."
 				},
+				"harper-ls.linters.tumblr_names": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of Tumblr-related terms."
+				},
 				"harper-ls.linters.turn_it_off": {
 					"scope": "resource",
 					"type": "boolean",
@@ -891,6 +921,12 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `widespread`."
 				},
+				"harper-ls.linters.word_press_dotcom": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures correct capitalization of WordPress.com. This rule verifies that the official stylization of WordPress.com is used when referring to the hosting provider."
+				},
 				"harper-ls.linters.worldwide": {
 					"scope": "resource",
 					"type": "boolean",
@@ -916,7 +952,7 @@
 		"lint": "eslint src --ext ts"
 	},
 	"devDependencies": {
-		"@types/jasmine": "^5.1.4",
+		"@types/jasmine": "^5.1.6",
 		"@types/node": "22.x",
 		"@types/vscode": "^1.89.0",
 		"@typescript-eslint/eslint-plugin": "^7.7.1",
@@ -925,7 +961,7 @@
 		"@vscode/vsce": "^3.0.0",
 		"esbuild": "^0.25.0",
 		"eslint": "^8.57.0",
-		"jasmine": "^5.3.0",
+		"jasmine": "^5.6.0",
 		"typescript": "^5.7.3"
 	},
 	"dependencies": {

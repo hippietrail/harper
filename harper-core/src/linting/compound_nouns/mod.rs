@@ -226,7 +226,7 @@ mod tests {
     #[test]
     fn web_socket() {
         let test_sentence = "Real-time updates are sent via a web socket.";
-        let expected = "Real-time updates are sent via a WebSocket.";
+        let expected = "Real-time updates are sent via a websocket.";
         assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
     }
 
@@ -254,5 +254,14 @@ mod tests {
     #[test]
     fn allow_issue_661() {
         assert_lint_count("I may be wrong.", CompoundNouns::default(), 0);
+    }
+
+    #[test]
+    fn allow_issue_704() {
+        assert_lint_count(
+            "Here are some ways to do that:",
+            CompoundNouns::default(),
+            0,
+        );
     }
 }
