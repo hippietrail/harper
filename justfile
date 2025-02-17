@@ -1,6 +1,6 @@
 # Format entire project
 format:
-  cargo fmt  
+  cargo fmt
   cd "{{justfile_directory()}}/packages"; yarn prettier -w .
 
 # Build the WebAssembly for a specific target (usually either `web` or `bundler`)
@@ -8,7 +8,7 @@ build-wasm:
   cd "{{justfile_directory()}}/harper-wasm" && wasm-pack build --target web
 
 # Build `harper.js` with all size optimizations available.
-build-harperjs: build-wasm 
+build-harperjs: build-wasm
   #! /bin/bash
   set -eo pipefail
 
@@ -25,7 +25,7 @@ build-harperjs: build-wasm
 test-harperjs: build-harperjs
   #!/bin/bash
   set -eo pipefail
-  
+
   cd "{{justfile_directory()}}/packages/harper.js"
   yarn install -f
   yarn playwright install
@@ -51,7 +51,7 @@ dev-web:
 build-web: build-harperjs
   #! /bin/bash
   set -eo pipefail
-  
+
   cd "{{justfile_directory()}}/packages/web"
   yarn install -f
   yarn run build
@@ -60,7 +60,7 @@ build-web: build-harperjs
 build-obsidian: build-harperjs
   #! /bin/bash
   set -eo pipefail
-  
+
   cd "{{justfile_directory()}}/packages/obsidian-plugin"
 
   yarn install -f
@@ -224,7 +224,7 @@ spans file:
 # Add a noun to Harper's curated dictionary.
 addnoun noun:
   #! /bin/bash
-  DICT_FILE=./harper-core/dictionary.dict 
+  DICT_FILE=./harper-core/dictionary.dict
 
   cat $DICT_FILE | grep "^{{noun}}/"
 
@@ -285,7 +285,7 @@ bump-versions: update-vscode-linters
 # Enter an infinite loop of testing until a bug is found.
 fuzz:
   #!/usr/bin/bash
-  
+
   while true
   do
       QUICKCHECK_TESTS=100000 cargo test
@@ -320,102 +320,100 @@ newest-dict-changes *numCommits:
 
   const { exec } = require('child_process');
 
-  // Get the number of commits to look back for the curated dictionary file
-  const numCommits = "{{numCommits}}" || 1; // 1 means the most recent change
+  const DICT_FILE = 'harper-core/dictionary.dict';
+
+  const [RST, BOLD, DIM, ITAL, NORM] = [0, 1, 2, 3, 22].map(c => `\x1b[${c}m`);
+  const [RED, GRN, YLW, BLU, MGN, CYN, WHT] = [1, 2, 3, 4, 5, 6, 7].map(c => `\x1b[${30+c}m`);
+
+  const argv = [...process.argv];
+
+  const showHashes = argv.includes('--show-hashes');
+  if (showHashes) argv.splice(argv.indexOf('--show-hashes'), 1);
+  const showDiff = argv.includes('--show-diff');
+  if (showDiff) argv.splice(argv.indexOf('--show-diff'), 1);
+
+  // uncomment first line to use in justfile, comment out second line to use standalone
+  const numCommits = "{{numCommits}}" || 1;
+  // const numCommits = argv[2] || 1;
 
   // Command to get the last commit hash that modified the specified file
-  const hashCommand = `git log --no-merges -n ${numCommits} --format="%H" -- harper-core/dictionary.dict`;
-  console.log(`GET HASHES: ${hashCommand}`);
+  const hashCommand = `git log --no-merges -n ${numCommits} --format="%H" -- ${DICT_FILE}`;
+  console.log(`${MGN}${BOLD}GET HASHES${NORM}: ${hashCommand}${RST}`);
 
   // Execute the command to get the hash
-  exec(hashCommand, (error, hashes, stderr) => {
-    // console.log(`GOT HASHES: "${hashes.trim()}"`);
-    if (error) {
-      console.error(`Error executing command: ${error.message}`);
-      return;
-    }
-    if (stderr) {
-      console.error(`stderr: ${stderr}`);
-      return;
+  exec(hashCommand, (error, hashString, stderr) => {
+    if (error) return console.error(`Error executing command: ${error.message}`);
+    if (stderr) return console.error(`stderr: ${stderr}`);
+
+    // avoid empty last line
+    const longHashes = hashString.trim().split('\n');
+    if (showHashes) console.log(longHashes.length, longHashes);
+
+    if (longHashes.length < 1) {
+      console.error('No hash(es) returned. Exiting.');
+      process.exit(1);
     }
 
-    // keep just the last line
-    const lines = hashes.trim().split('\n');
-    console.log(lines);
-
-    // Check if a hash was returned
-    if (lines.length < 1) {
-      console.error('No hash returned. Exiting.');
-      process.exit(1); // Exit with an error code
-    }
+    // keep the last line and second last if there's more than one hash
+    const [hash2, hash1] = longHashes.slice(-2).map((h) => h.substring(0, 7));
 
     // Command to get the word-level diff using the retrieved hash, using either one or two hashes
-    const diffCommand = lines.length == 1
-      ? `git diff --word-diff --no-color --unified=0 ${lines[lines.length - 1].trim()} -- harper-core/dictionary.dict`
-      : `git diff --word-diff --no-color --unified=0 ${lines[lines.length - 1].trim()} ${lines[lines.length - 2].trim()} -- harper-core/dictionary.dict`;
+    const hashes = longHashes.length == 1 ? `${hash2}` : `${hash1} ${hash2}`;
+    const diffCommand = `git diff --word-diff --no-color --unified=0 ${hashes} -- ${DICT_FILE}`;
+    console.log(`${MGN}${BOLD}GET DIFF${NORM}: ${diffCommand}${RST}`);
 
-    console.log(`GET DIFF: ${diffCommand}`);
-
-    // Execute the diff command
-    exec(diffCommand, (diffError, stdout, diffStderr) => {
+    // Execute the diff command with a large buffer to avoid failing to handle large diffs such as:
+    // git diff --word-diff --no-color --unified=0 0761702 baeb08e -- harper-core/dictionary.dict
+    exec(diffCommand, { maxBuffer: 2048 * 1024 }, (diffError, diffString, diffStderr) => {
       if (diffError) {
         console.error(`Error executing diff command: ${diffError.message}`);
         return;
       }
-      if (diffStderr) {
-        console.error(`stderr: ${diffStderr}`);
-        return;
-      }
+      if (diffStderr) return console.error(`stderr: ${diffStderr}`);
 
-      console.log(`DIFFSTART\n${stdout}\nDIFFEND`)
+      if (showDiff) console.log(`DIFFSTART\n${diffString}\nDIFFEND`);
 
-      // load the affix object
-      const affixOb = require('{{justfile_directory()}}/harper-core/affixes.json').affixes
+      // uncomment first line to use in justfile, comment out second line to use standalone
+      const affixes = require('{{justfile_directory()}}/harper-core/affixes.json').affixes;
+      // const affixes = require('./harper-core/affixes.json').affixes;
 
-      const lines = stdout.split("\n");
-      lines.forEach(line => {
+      diffString.split("\n").forEach(line => {
         const match = line.match(/^(?:\[-(.*?)-\])?(?:\{\+(.*?)\+\})?$/);
-        if (match)  {
-          let [x, before, after] = match;
+        if (match) {
+          let [, before, after] = match;
 
           if (before && after) {
-            // a word was changed
-            // console.log(`CHG # '${before}' -> '${after}'`);
-            const [oldword, oldaff] = before.split('/');
-            const [newword, newaff] = after.split('/');
-            // make sure it's the same word and not a new word in the old position
+            // An entry changed
+            const [[oldword, oldaff], [newword, newaff]] = [before, after].map(e => e.split('/'));
             if (oldword === newword) {
-              // make sure the affix has changed
               if (oldaff !== newaff) {
-                console.log(`CHG # WORD: '${oldword}' AFFIX: '${oldaff}' -> '${newaff}'`);
-                const [oldnormalized, newnormalized] = [oldaff, newaff].map(a => a.split('')).map(a => new Set(a)).map(a => Array.from(a)).map(a => a.sort());
-                const removed = oldnormalized.filter(x => !newnormalized.includes(x));
-                const added = newnormalized.filter(x => !oldnormalized.includes(x));
-                const [addedString, removedString] = [added, removed].map(a => a.map(a => `    ${a} -> ${affixOb[a]['#'] || ''}`).join('\n'));
-                if (removed.length > 0)
-                  console.log(`  REMOVED:\n${removedString}`);
-                if (added.length > 0)
-                  console.log(`  ADDED:\n${addedString}`);
+                const [oldRest, newRest] = [oldaff, newaff].map(aff => aff ? `${DIM}/${aff}${RST}`: '');
+                console.log(`${BOLD}${CYN}CHG${RST} # ${oldword}${oldRest} -> ${newRest}`);
+                const [oldNorm, newNorm] = [oldaff, newaff].map(a => a ? a.split(''): [])
+                                                           .map(a => new Set(a))
+                                                           .map(a => Array.from(a))
+                                                           .map(a => a.sort());
+                const removed = oldNorm.filter(o => !newNorm.includes(o));
+                const added = newNorm.filter(n => !oldNorm.includes(n));
+                const [addStr, remStr] = [added, removed]
+                  .map(a => a.map(a => `    ${BOLD}${ITAL}${a}${RST} -> ${ (affixes[a] && affixes[a]['#']) || '???' }`)
+                             .join('\n')
+                  );
+                if (removed.length > 0) console.log(`${RED}  ${BOLD}REMOVED${RST}:\n${remStr}`);
+                if (added.length > 0) console.log(`${GRN}  ${BOLD}ADDED${RST}:\n${addStr}`);
               } else {
-                console.log(`      ?NO AFFIX CHG? '${oldaff}' -> '${newaff}'`);
+                // should never happen
+                console.log(`${YLW} ?NO AFFIX CHG? '${oldaff}' -> '${newaff}'${RST}`);
               }
             } else {
-              console.log(`      ?WORD CHG? '${oldword}' -> '${newword}'`);
+              // The word changed rather than its affixes
+              console.log(`${YLW}  ${BOLD}CHANGED${RST} ${RED}${oldword}${RST} -> ${GRN}${newword}${RST}`);
             }
-          } else if (before) {
-            // a word was deleted
-            console.log(`DEL - '${before}'`);
-            // const [oldword, oldaff] = before.split('/');
-            // if (true) {
-            //   console.log(`      WORD: '${oldword}' AFFIX '${oldaff}'`);
-            // }
-          } else if (after) {
-            // a line was added
-            // console.log(`ADD + '${after}'`);
-            const [newword, newaff] = after.split('/');
-            if (true) {
-              console.log(`ADD + WORD: '${newword}' AFFIX '${newaff}'`);
-            }
+          } else if (before || after) {
+            // An entry was added or removed
+            const [entry, symbol, action, colour] = before ? [before, "-", 'DEL', RED] : [after, "+", 'ADD', GRN];
+            const [word, affix] = entry.split('/');
+            console.log(`${colour}${BOLD}${action}${RST} ${symbol} ${word}${ affix ? `${DIM}/${affix}` : '' }${RST}`);
           }
         }
       });
