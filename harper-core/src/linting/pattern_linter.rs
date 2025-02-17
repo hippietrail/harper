@@ -12,7 +12,9 @@ pub trait PatternLinter {
     fn pattern(&self) -> &dyn Pattern;
     /// If any portions of a [`Document`](crate::Document) match [`Self::pattern`], they are passed through [`PatternLinter::match_to_lint`] to be
     /// transformed into a [`Lint`] for editor consumption.
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint;
+    ///
+    /// This function may return `None` to elect _not_ to produce a lint.
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint>;
     /// A user-facing description of what kinds of grammatical errors this rule looks for.
     /// It is usually shown in settings menus.
     fn description(&self) -> &str;

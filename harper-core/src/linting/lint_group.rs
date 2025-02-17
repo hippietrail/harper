@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
+use super::back_in_the_day::BackInTheDay;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::chock_full::ChockFull;
@@ -200,6 +201,7 @@ macro_rules! create_lint_group_config {
 }
 
 create_lint_group_config!(
+    BackInTheDay => true,
     WordPressDotcom => true,
     DayOneNames => true,
     PocketCastsNames => true,

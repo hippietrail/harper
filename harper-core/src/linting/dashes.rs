@@ -49,7 +49,7 @@ impl PatternLinter for Dashes {
                 message: "A sequence of hyphens is not an em dash.".to_owned(),
                 priority: 63,
             }),
-            _ => Some(panic!("Received unexpected number of tokens.")),
+            _ => panic!("Received unexpected number of tokens."),
         }
     }
 
