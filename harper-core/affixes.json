@@ -289,7 +289,9 @@
           "is_possessive": true
         }
       },
-      "gifts_metadata": {}
+      "gifts_metadata": {
+        "noun": {}
+      }
     },
     "F": {
       "#": "'con-' prefix",
