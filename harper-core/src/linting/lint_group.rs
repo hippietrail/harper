@@ -30,7 +30,7 @@ use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
-    AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
+    AndTheLike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
     LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
     SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
 };
@@ -273,7 +273,7 @@ create_lint_group_config!(
     ThatChallenged => true,
     TurnItOff => true,
     OfCourse => true,
-    AndAlike => true,
+    AndTheLike => true,
     BadRap => true,
     BatedBreath => true,
     BeckAndCall => true,
