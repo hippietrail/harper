@@ -160,16 +160,11 @@ impl Default for MutableDictionary {
 }
 
 impl Dictionary for MutableDictionary {
-    fn get_word_metadata(&self, word: &[char]) -> WordMetadata {
+    fn get_word_metadata(&self, word: &[char]) -> Option<WordMetadata> {
         let normalized = seq_to_normalized(word);
-        let Some(correct_caps) = self.get_correct_capitalization_of(&normalized) else {
-            return WordMetadata::default();
-        };
+        let correct_caps = self.get_correct_capitalization_of(&normalized)?;
 
-        self.word_map
-            .get(correct_caps)
-            .cloned()
-            .unwrap_or(WordMetadata::default())
+        self.word_map.get(correct_caps).cloned()
     }
 
     fn contains_word(&self, word: &[char]) -> bool {
@@ -184,7 +179,7 @@ impl Dictionary for MutableDictionary {
         self.contains_word(&chars)
     }
 
-    fn get_word_metadata_str(&self, word: &str) -> WordMetadata {
+    fn get_word_metadata_str(&self, word: &str) -> Option<WordMetadata> {
         let chars: CharString = word.chars().collect();
         self.get_word_metadata(&chars)
     }
@@ -252,7 +247,7 @@ impl Dictionary for MutableDictionary {
             .map(|(word, edit_distance)| FuzzyMatchResult {
                 word,
                 edit_distance,
-                metadata: self.get_word_metadata(word),
+                metadata: self.get_word_metadata(word).unwrap(),
             })
             .collect()
     }
@@ -332,22 +327,28 @@ mod tests {
     #[test]
     fn this_is_noun() {
         let dict = MutableDictionary::curated();
-        assert!(dict.get_word_metadata_str("this").is_noun());
-        assert!(dict.get_word_metadata_str("This").is_noun());
+        assert!(dict.get_word_metadata_str("this").unwrap().is_noun());
+        assert!(dict.get_word_metadata_str("This").unwrap().is_noun());
     }
 
     #[test]
     fn than_is_conjunction() {
         let dict = MutableDictionary::curated();
-        assert!(dict.get_word_metadata_str("than").is_conjunction());
-        assert!(dict.get_word_metadata_str("Than").is_conjunction());
+        assert!(dict.get_word_metadata_str("than").unwrap().is_conjunction());
+        assert!(dict.get_word_metadata_str("Than").unwrap().is_conjunction());
     }
 
     #[test]
     fn herself_is_pronoun() {
         let dict = MutableDictionary::curated();
-        assert!(dict.get_word_metadata_str("herself").is_pronoun_noun());
-        assert!(dict.get_word_metadata_str("Herself").is_pronoun_noun());
+        assert!(dict
+            .get_word_metadata_str("herself")
+            .unwrap()
+            .is_pronoun_noun());
+        assert!(dict
+            .get_word_metadata_str("Herself")
+            .unwrap()
+            .is_pronoun_noun());
     }
 
     #[test]
@@ -359,7 +360,7 @@ mod tests {
     #[test]
     fn im_is_common() {
         let dict = MutableDictionary::curated();
-        assert!(dict.get_word_metadata_str("I'm").common);
+        assert!(dict.get_word_metadata_str("I'm").unwrap().common);
     }
 
     #[test]
@@ -380,7 +381,10 @@ mod tests {
     fn there_is_not_a_pronoun() {
         let dict = MutableDictionary::curated();
 
-        assert!(!dict.get_word_metadata_str("there").is_noun());
-        assert!(!dict.get_word_metadata_str("there").is_pronoun_noun());
+        assert!(!dict.get_word_metadata_str("there").unwrap().is_noun());
+        assert!(!dict
+            .get_word_metadata_str("there")
+            .unwrap()
+            .is_pronoun_noun());
     }
 }

@@ -129,11 +129,8 @@ impl Document {
         for token in self.tokens.iter_mut() {
             if let TokenKind::Word(meta) = &mut token.kind {
                 let word_source = token.span.get_content(&self.source);
-                let found_meta = dictionary
-                    .get_correct_capitalization_of(word_source)
-                    .map(|canonical_caps| dictionary.get_word_metadata(canonical_caps))
-                    .unwrap_or_default();
-                *meta = meta.or(&found_meta);
+                let found_meta = dictionary.get_word_metadata(word_source);
+                *meta = found_meta
             }
         }
     }

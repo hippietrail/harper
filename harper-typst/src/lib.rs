@@ -297,13 +297,13 @@ mod tests {
         assert!(matches!(
             token_kinds.as_slice(),
             &[
-                TokenKind::Word(WordMetadata {
+                TokenKind::Word(Some(WordMetadata {
                     noun: Some(NounData {
                         is_possessive: Some(true),
                         ..
                     }),
                     ..
-                }),
+                })),
                 TokenKind::Newline(1),
                 TokenKind::Word(_),
             ]

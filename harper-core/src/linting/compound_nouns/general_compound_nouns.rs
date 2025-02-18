@@ -21,7 +21,7 @@ impl Default for GeneralCompoundNouns {
     fn default() -> Self {
         let exceptions_pattern = SequencePattern::default()
             .then(Box::new(|tok: &Token, _: &[char]| {
-                let Some(meta) = tok.kind.as_word() else {
+                let Some(Some(meta)) = tok.kind.as_word() else {
                     return false;
                 };
 
@@ -29,7 +29,7 @@ impl Default for GeneralCompoundNouns {
             }))
             .then_whitespace()
             .then(Box::new(|tok: &Token, _: &[char]| {
-                let Some(meta) = tok.kind.as_word() else {
+                let Some(Some(meta)) = tok.kind.as_word() else {
                     return false;
                 };
 

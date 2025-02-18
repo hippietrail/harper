@@ -1,5 +1,5 @@
 use crate::linting::{Lint, LintKind, Linter, Suggestion};
-use crate::{CharString, Document, Punctuation, Span, Token, TokenKind, WordMetadata};
+use crate::{CharString, Document, Punctuation, Span, Token, TokenKind};
 
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 struct PatternToken {
@@ -35,7 +35,7 @@ macro_rules! vecword {
 macro_rules! pt {
     ($str:literal) => {
         PatternToken {
-            kind: TokenKind::Word(WordMetadata::default()),
+            kind: TokenKind::Word(None),
             content: Some($str.chars().collect()),
         }
     };
