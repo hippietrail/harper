@@ -45,7 +45,7 @@ impl PatternLinter for ImpliedOwnershipCompoundNouns {
 
         Some(Lint {
             span,
-            lint_kind: LintKind::Spelling,
+            lint_kind: LintKind::WordChoice,
             suggestions: vec![Suggestion::ReplaceWith(word.to_vec())],
             message: format!(
                 "The possessive noun implies ownership of the closed compound noun “{}”.",
