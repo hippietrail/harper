@@ -2,7 +2,7 @@ use smallvec::SmallVec;
 
 /// A char sequence that improves cache locality.
 /// Most English words are fewer than 12 characters.
-pub type CharString = SmallVec<[char; 12]>;
+pub type CharString = SmallVec<[char; 16]>;
 
 /// Extensions to character sequences that make them easier to wrangle.
 pub trait CharStringExt {

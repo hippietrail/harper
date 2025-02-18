@@ -1,4 +1,4 @@
-use paste::paste;
+use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 
 use super::an_a::AnA;
@@ -76,269 +76,383 @@ use super::was_aloud::WasAloud;
 use super::whereas::Whereas;
 use super::wordpress_dotcom::WordPressDotcom;
 use super::wrong_quotes::WrongQuotes;
-use super::{CurrencyPlacement, Lint, Linter, NoOxfordComma, OxfordComma};
-use crate::{Dictionary, Document};
+use super::Lint;
+use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
+use crate::Dictionary;
+use crate::Document;
+use crate::MutableDictionary;
 
-macro_rules! create_lint_group_config {
-    ($($linter:ident => $default:expr),* $(,)?) => {
-        paste! {
-            /// A collection of all the descriptions from the composing linters.
-            #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
-            pub struct LintGroupDescriptions<'a> {
-                $(
-                    #[doc = "The description for the [`" $linter "`] linter."]
-                    pub [<$linter:snake>]: &'a str,
-                )*
-                pub spell_check: &'a str
-            }
-
-
-            impl<'a>  LintGroupDescriptions<'a> {
-                /// Create a [`Vec`] containing the key-value pairs of this struct.
-                pub fn to_vec_pairs(self) -> Vec<(&'static str, &'a str)>{
-                    vec![$((stringify!([<$linter:snake>]), self.[<$linter:snake>],),)* ("spell_check", self.spell_check)]
-                }
-            }
-
-            /// A collection of all officially supported
-            #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
-            pub struct LintGroupConfig {
-                $(
-                    #[doc = "Configures the use of the [`" $linter "`] linter.
-                    If set to [`None`], the default configuration will be used."]
-                    pub [<$linter:snake>]: Option<bool>,
-                )*
-                pub spell_check: Option<bool>
-            }
-
-            impl LintGroupConfig {
-                /// Creates a config with all lints disabled.
-                pub fn none() -> Self{
-                    Self {
-                        $(
-                            [<$linter:snake>]: Some(false),
-                        )*
-                        spell_check: Some(false)
-                    }
-                }
-
-                /// Fills the [`None`] values in the configuration with the default values.
-                pub fn fill_default_values(&mut self){
-                    $(
-                        if self.[<$linter:snake>].is_none() {
-                            self.[<$linter:snake>] = Some($default);
-                        }
-                    )*
-
-                    if self.spell_check.is_none() {
-                        self.spell_check = Some(true);
-                    }
-                }
-            }
-
-            /// A wrapper that combines all built-in Harper linters
-            /// into a single, configurable [`Linter`].
-            pub struct LintGroup<T: Dictionary> {
-                $(
-                    [<$linter:snake>]: $linter,
-                )*
-                spell_check: SpellCheck<T>,
-                pub config: LintGroupConfig
-            }
-
-
-            impl<T: Dictionary> LintGroup<T> {
-                pub fn new(config: LintGroupConfig, dictionary: T) -> Self {
-                    Self {
-                        $(
-                            [<$linter:snake>]: $linter::default(),
-                        )*
-                        spell_check: SpellCheck::new(dictionary),
-                        config,
-                    }
-                }
-
-                pub fn all_descriptions(&self) -> LintGroupDescriptions<'_> {
-                    LintGroupDescriptions {
-                        $(
-                            [<$linter:snake>]: self.[<$linter:snake>].description(),
-                        )*
-                        spell_check: self.spell_check.description(),
-                    }
-                }
-            }
-
-            impl<T: Dictionary> Linter for LintGroup<T> {
-                fn lint(&mut self, document: &Document) -> Vec<Lint> {
-                    let mut lints = Vec::new();
-
-                    let mut config = self.config.clone();
-                    config.fill_default_values();
-
-                    $(
-                        if config.[<$linter:snake>].unwrap() {
-                            lints.append(&mut self.[<$linter:snake>].lint(document));
-                        }
-                    )*
-
-                    if config.spell_check.unwrap() {
-                        lints.append(&mut self.spell_check.lint(document));
-                    }
-
-
-                    lints
-                }
-
-                fn description(&self) -> &'static str {
-                    "A collection of linters that can be run as one."
-                }
-            }
-        }
-    };
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+#[serde(transparent)]
+pub struct LintGroupConfig {
+    inner: HashMap<String, bool>,
 }
 
-create_lint_group_config!(
-    WordPressDotcom => true,
-    DayOneNames => true,
-    PocketCastsNames => true,
-    TumblrNames => true,
-    JetpackNames => true,
-    OutOfDate => true,
-    Desktop => true,
-    Laptop => true,
-    ThenThan => true,
-    MutePoint => true,
-    PiqueInterest => true,
-    BareInMind => true,
-    BaitedBreath => true,
-    EludedTo => true,
-    WasAloud => true,
-    HyphenateNumberDay => true,
-    FaceFirst => true,
-    LeftRightHand => true,
-    FastPaste => true,
-    StateOfTheArt => true,
-    WantBe => true,
-    HopHope => true,
-    Furthermore => true,
-    Overnight => true,
-    Hereby => true,
-    Likewise => true,
-    CompoundNouns => true,
-    Regardless => true,
-    Henceforth => true,
-    Upward => true,
-    Whereupon => true,
-    Insofar => true,
-    Thereupon => true,
-    Nonetheless => true,
-    Anyhow => true,
-    Notwithstanding => true,
-    Widespread => true,
-    Multimedia => true,
-    Multicore => true,
-    Multithreading => true,
-    Devops => true,
-    Underclock => true,
-    Overload => true,
-    Backplane => true,
-    Overclocking => true,
-    Middleware => true,
-    Somewhere => true,
-    Instead => true,
-    Anywhere => true,
-    Nothing => true,
-    Anybody => true,
-    Somebody => true,
-    Nobody => true,
-    Into => true,
-    Proofread => true,
-    Somehow => true,
-    Intact => true,
-    Upset => true,
-    Misunderstood => true,
-    However => true,
-    Overall => true,
-    Worldwide => true,
-    Postpone => true,
-    Misused => true,
-    Misuse => true,
-    Misunderstand => true,
-    Therefore => true,
-    Myself => true,
-    Itself => true,
-    Whereas => true,
-    PossessiveYour => true,
-    SpelledNumbers => false,
-    AnA => true,
-    SentenceCapitalization => true,
-    UnclosedQuotes => true,
-    WrongQuotes => false,
-    LongSentences => true,
-    RepeatedWords => true,
-    Spaces => true,
-    Matcher => true,
-    CorrectNumberSuffix => true,
-    NumberSuffixCapitalization => true,
-    MultipleSequentialPronouns => true,
-    LinkingVerbs => false,
-    AvoidCurses => true,
-    TerminatingConjunctions => true,
-    EllipsisLength => true,
-    DotInitialisms => true,
-    BoringWords => false,
-    UseGenitive => false,
-    ThatWhich => true,
-    CapitalizePersonalPronouns => true,
-    Americas => true,
-    Australia => true,
-    Canada => true,
-    Koreas => true,
-    Malaysia => true,
-    ChineseCommunistParty => true,
-    UnitedOrganizations => true,
-    Holidays => true,
-    AmazonNames => true,
-    GoogleNames => true,
-    MetaNames => true,
-    MicrosoftNames => true,
-    AppleNames => true,
-    AzureNames => true,
-    MergeWords => true,
-    PluralConjugate => false,
-    OxfordComma => true,
-    NoOxfordComma => false,
-    PronounContraction => true,
-    CurrencyPlacement => true,
-    SomewhatSomething => true,
-    LetsConfusion => true,
-    DespiteOf => true,
-    ChockFull => true,
-    HumanLife => true,
-    NeedHelp => true,
-    NoLonger => true,
-    ThatChallenged => true,
-    TurnItOff => true,
-    OfCourse => true,
-    AndTheLike => true,
-    BadRap => true,
-    BatedBreath => true,
-    BeckAndCall => true,
-    ChangeTack => true,
-    HungerPang => true,
-    EnMasse => true,
-    LetAlone => true,
-    LoAndBehold => true,
-    SneakingSuspicion => true,
-    SpecialAttention => true,
-    Everywhere => true,
-    ThanOthers => true,
-    SupposedTo => true
-);
+impl LintGroupConfig {
+    pub fn set_rule_enabled(&mut self, key: impl ToString, val: bool) {
+        self.inner.insert(key.to_string(), val);
+    }
 
-impl<T: Dictionary + Default> Default for LintGroup<T> {
+    pub fn set_rule_enabled_if_unset(&mut self, key: impl AsRef<str>, val: bool) {
+        if self.inner.get(key.as_ref()).is_none() {
+            self.set_rule_enabled(key.as_ref().to_string(), val);
+        }
+    }
+
+    pub fn is_rule_enabled(&self, key: &str) -> bool {
+        self.inner.get(key).cloned().unwrap_or(false)
+    }
+
+    pub fn fill_default_values(&mut self) {
+        self.set_rule_enabled_if_unset(stringify!(WordPressDotcom), true);
+        self.set_rule_enabled_if_unset(stringify!(DayOneNames), true);
+        self.set_rule_enabled_if_unset(stringify!(PocketCastsNames), true);
+        self.set_rule_enabled_if_unset(stringify!(TumblrNames), true);
+        self.set_rule_enabled_if_unset(stringify!(JetpackNames), true);
+        self.set_rule_enabled_if_unset(stringify!(OutOfDate), true);
+        self.set_rule_enabled_if_unset(stringify!(Desktop), true);
+        self.set_rule_enabled_if_unset(stringify!(Laptop), true);
+        self.set_rule_enabled_if_unset(stringify!(ThenThan), true);
+        self.set_rule_enabled_if_unset(stringify!(MutePoint), true);
+        self.set_rule_enabled_if_unset(stringify!(PiqueInterest), true);
+        self.set_rule_enabled_if_unset(stringify!(BareInMind), true);
+        self.set_rule_enabled_if_unset(stringify!(BaitedBreath), true);
+        self.set_rule_enabled_if_unset(stringify!(EludedTo), true);
+        self.set_rule_enabled_if_unset(stringify!(WasAloud), true);
+        self.set_rule_enabled_if_unset(stringify!(HyphenateNumberDay), true);
+        self.set_rule_enabled_if_unset(stringify!(FaceFirst), true);
+        self.set_rule_enabled_if_unset(stringify!(LeftRightHand), true);
+        self.set_rule_enabled_if_unset(stringify!(FastPaste), true);
+        self.set_rule_enabled_if_unset(stringify!(StateOfTheArt), true);
+        self.set_rule_enabled_if_unset(stringify!(WantBe), true);
+        self.set_rule_enabled_if_unset(stringify!(HopHope), true);
+        self.set_rule_enabled_if_unset(stringify!(Furthermore), true);
+        self.set_rule_enabled_if_unset(stringify!(Overnight), true);
+        self.set_rule_enabled_if_unset(stringify!(Hereby), true);
+        self.set_rule_enabled_if_unset(stringify!(Likewise), true);
+        self.set_rule_enabled_if_unset(stringify!(CompoundNouns), true);
+        self.set_rule_enabled_if_unset(stringify!(Regardless), true);
+        self.set_rule_enabled_if_unset(stringify!(Henceforth), true);
+        self.set_rule_enabled_if_unset(stringify!(Upward), true);
+        self.set_rule_enabled_if_unset(stringify!(Whereupon), true);
+        self.set_rule_enabled_if_unset(stringify!(Insofar), true);
+        self.set_rule_enabled_if_unset(stringify!(Thereupon), true);
+        self.set_rule_enabled_if_unset(stringify!(Nonetheless), true);
+        self.set_rule_enabled_if_unset(stringify!(Anyhow), true);
+        self.set_rule_enabled_if_unset(stringify!(Notwithstanding), true);
+        self.set_rule_enabled_if_unset(stringify!(Widespread), true);
+        self.set_rule_enabled_if_unset(stringify!(Multimedia), true);
+        self.set_rule_enabled_if_unset(stringify!(Multicore), true);
+        self.set_rule_enabled_if_unset(stringify!(Multithreading), true);
+        self.set_rule_enabled_if_unset(stringify!(Devops), true);
+        self.set_rule_enabled_if_unset(stringify!(Underclock), true);
+        self.set_rule_enabled_if_unset(stringify!(Overload), true);
+        self.set_rule_enabled_if_unset(stringify!(Backplane), true);
+        self.set_rule_enabled_if_unset(stringify!(Overclocking), true);
+        self.set_rule_enabled_if_unset(stringify!(Middleware), true);
+        self.set_rule_enabled_if_unset(stringify!(Somewhere), true);
+        self.set_rule_enabled_if_unset(stringify!(Instead), true);
+        self.set_rule_enabled_if_unset(stringify!(Anywhere), true);
+        self.set_rule_enabled_if_unset(stringify!(Nothing), true);
+        self.set_rule_enabled_if_unset(stringify!(Anybody), true);
+        self.set_rule_enabled_if_unset(stringify!(Somebody), true);
+        self.set_rule_enabled_if_unset(stringify!(Nobody), true);
+        self.set_rule_enabled_if_unset(stringify!(Into), true);
+        self.set_rule_enabled_if_unset(stringify!(Proofread), true);
+        self.set_rule_enabled_if_unset(stringify!(Somehow), true);
+        self.set_rule_enabled_if_unset(stringify!(Intact), true);
+        self.set_rule_enabled_if_unset(stringify!(Upset), true);
+        self.set_rule_enabled_if_unset(stringify!(Misunderstood), true);
+        self.set_rule_enabled_if_unset(stringify!(However), true);
+        self.set_rule_enabled_if_unset(stringify!(Overall), true);
+        self.set_rule_enabled_if_unset(stringify!(Worldwide), true);
+        self.set_rule_enabled_if_unset(stringify!(Postpone), true);
+        self.set_rule_enabled_if_unset(stringify!(Misused), true);
+        self.set_rule_enabled_if_unset(stringify!(Misuse), true);
+        self.set_rule_enabled_if_unset(stringify!(Misunderstand), true);
+        self.set_rule_enabled_if_unset(stringify!(Therefore), true);
+        self.set_rule_enabled_if_unset(stringify!(Myself), true);
+        self.set_rule_enabled_if_unset(stringify!(Itself), true);
+        self.set_rule_enabled_if_unset(stringify!(Whereas), true);
+        self.set_rule_enabled_if_unset(stringify!(PossessiveYour), true);
+        self.set_rule_enabled_if_unset(stringify!(SpelledNumbers), false);
+        self.set_rule_enabled_if_unset(stringify!(AnA), true);
+        self.set_rule_enabled_if_unset(stringify!(SentenceCapitalization), true);
+        self.set_rule_enabled_if_unset(stringify!(UnclosedQuotes), true);
+        self.set_rule_enabled_if_unset(stringify!(WrongQuotes), false);
+        self.set_rule_enabled_if_unset(stringify!(LongSentences), true);
+        self.set_rule_enabled_if_unset(stringify!(RepeatedWords), true);
+        self.set_rule_enabled_if_unset(stringify!(Spaces), true);
+        self.set_rule_enabled_if_unset(stringify!(Matcher), true);
+        self.set_rule_enabled_if_unset(stringify!(CorrectNumberSuffix), true);
+        self.set_rule_enabled_if_unset(stringify!(NumberSuffixCapitalization), true);
+        self.set_rule_enabled_if_unset(stringify!(MultipleSequentialPronouns), true);
+        self.set_rule_enabled_if_unset(stringify!(LinkingVerbs), false);
+        self.set_rule_enabled_if_unset(stringify!(AvoidCurses), true);
+        self.set_rule_enabled_if_unset(stringify!(TerminatingConjunctions), true);
+        self.set_rule_enabled_if_unset(stringify!(EllipsisLength), true);
+        self.set_rule_enabled_if_unset(stringify!(DotInitialisms), true);
+        self.set_rule_enabled_if_unset(stringify!(BoringWords), false);
+        self.set_rule_enabled_if_unset(stringify!(UseGenitive), false);
+        self.set_rule_enabled_if_unset(stringify!(ThatWhich), true);
+        self.set_rule_enabled_if_unset(stringify!(CapitalizePersonalPronouns), true);
+        self.set_rule_enabled_if_unset(stringify!(Americas), true);
+        self.set_rule_enabled_if_unset(stringify!(Australia), true);
+        self.set_rule_enabled_if_unset(stringify!(Canada), true);
+        self.set_rule_enabled_if_unset(stringify!(Koreas), true);
+        self.set_rule_enabled_if_unset(stringify!(Malaysia), true);
+        self.set_rule_enabled_if_unset(stringify!(ChineseCommunistParty), true);
+        self.set_rule_enabled_if_unset(stringify!(UnitedOrganizations), true);
+        self.set_rule_enabled_if_unset(stringify!(Holidays), true);
+        self.set_rule_enabled_if_unset(stringify!(AmazonNames), true);
+        self.set_rule_enabled_if_unset(stringify!(GoogleNames), true);
+        self.set_rule_enabled_if_unset(stringify!(MetaNames), true);
+        self.set_rule_enabled_if_unset(stringify!(MicrosoftNames), true);
+        self.set_rule_enabled_if_unset(stringify!(AppleNames), true);
+        self.set_rule_enabled_if_unset(stringify!(AzureNames), true);
+        self.set_rule_enabled_if_unset(stringify!(MergeWords), true);
+        self.set_rule_enabled_if_unset(stringify!(PluralConjugate), false);
+        self.set_rule_enabled_if_unset(stringify!(OxfordComma), true);
+        self.set_rule_enabled_if_unset(stringify!(NoOxfordComma), false);
+        self.set_rule_enabled_if_unset(stringify!(PronounContraction), true);
+        self.set_rule_enabled_if_unset(stringify!(CurrencyPlacement), true);
+        self.set_rule_enabled_if_unset(stringify!(SomewhatSomething), true);
+        self.set_rule_enabled_if_unset(stringify!(LetsConfusion), true);
+        self.set_rule_enabled_if_unset(stringify!(DespiteOf), true);
+        self.set_rule_enabled_if_unset(stringify!(ChockFull), true);
+        self.set_rule_enabled_if_unset(stringify!(HumanLife), true);
+        self.set_rule_enabled_if_unset(stringify!(NeedHelp), true);
+        self.set_rule_enabled_if_unset(stringify!(NoLonger), true);
+        self.set_rule_enabled_if_unset(stringify!(ThatChallenged), true);
+        self.set_rule_enabled_if_unset(stringify!(TurnItOff), true);
+        self.set_rule_enabled_if_unset(stringify!(OfCourse), true);
+        self.set_rule_enabled_if_unset(stringify!(AndTheLike), true);
+        self.set_rule_enabled_if_unset(stringify!(BadRap), true);
+        self.set_rule_enabled_if_unset(stringify!(BatedBreath), true);
+        self.set_rule_enabled_if_unset(stringify!(BeckAndCall), true);
+        self.set_rule_enabled_if_unset(stringify!(ChangeTack), true);
+        self.set_rule_enabled_if_unset(stringify!(HungerPang), true);
+        self.set_rule_enabled_if_unset(stringify!(EnMasse), true);
+        self.set_rule_enabled_if_unset(stringify!(LetAlone), true);
+        self.set_rule_enabled_if_unset(stringify!(LoAndBehold), true);
+        self.set_rule_enabled_if_unset(stringify!(SneakingSuspicion), true);
+        self.set_rule_enabled_if_unset(stringify!(SpecialAttention), true);
+        self.set_rule_enabled_if_unset(stringify!(Everywhere), true);
+        self.set_rule_enabled_if_unset(stringify!(ThanOthers), true);
+        self.set_rule_enabled_if_unset(stringify!(SupposedTo), true);
+        self.set_rule_enabled("SpellCheck", true);
+    }
+}
+
+pub struct LintGroup {
+    pub config: LintGroupConfig,
+    inner: HashMap<String, Box<dyn Linter>>,
+}
+
+impl LintGroup {
+    pub fn empty() -> Self {
+        Self {
+            config: LintGroupConfig::default(),
+            inner: HashMap::new(),
+        }
+    }
+
+    /// Add a [`Linter`] to the group, returning whether the operation was successful.
+    /// If it returns `false`, it is because a linter with that key already existed in the group.
+    pub fn add(&mut self, name: impl AsRef<str>, linter: Box<dyn Linter>) -> bool {
+        if self.inner.contains_key(name.as_ref()) {
+            false
+        } else {
+            self.inner.insert(name.as_ref().to_string(), linter);
+            true
+        }
+    }
+
+    pub fn all_descriptions(&self) -> HashMap<&str, &str> {
+        self.inner
+            .iter()
+            .map(|(key, value)| (key.as_str(), value.description()))
+            .collect()
+    }
+
+    pub fn new(config: LintGroupConfig, dictionary: impl Dictionary + 'static) -> Self {
+        let mut out = Self::empty();
+
+        macro_rules! insert_struct_rule {
+            ($rule:ident) => {
+                out.add(stringify!($rule), Box::new($rule::default()));
+            };
+        }
+
+        insert_struct_rule!(WordPressDotcom);
+        insert_struct_rule!(DayOneNames);
+        insert_struct_rule!(PocketCastsNames);
+        insert_struct_rule!(TumblrNames);
+        insert_struct_rule!(JetpackNames);
+        insert_struct_rule!(OutOfDate);
+        insert_struct_rule!(Desktop);
+        insert_struct_rule!(Laptop);
+        insert_struct_rule!(ThenThan);
+        insert_struct_rule!(MutePoint);
+        insert_struct_rule!(PiqueInterest);
+        insert_struct_rule!(BareInMind);
+        insert_struct_rule!(BaitedBreath);
+        insert_struct_rule!(EludedTo);
+        insert_struct_rule!(WasAloud);
+        insert_struct_rule!(HyphenateNumberDay);
+        insert_struct_rule!(FaceFirst);
+        insert_struct_rule!(LeftRightHand);
+        insert_struct_rule!(FastPaste);
+        insert_struct_rule!(StateOfTheArt);
+        insert_struct_rule!(WantBe);
+        insert_struct_rule!(HopHope);
+        insert_struct_rule!(Furthermore);
+        insert_struct_rule!(Overnight);
+        insert_struct_rule!(Hereby);
+        insert_struct_rule!(Likewise);
+        insert_struct_rule!(CompoundNouns);
+        insert_struct_rule!(Regardless);
+        insert_struct_rule!(Henceforth);
+        insert_struct_rule!(Upward);
+        insert_struct_rule!(Whereupon);
+        insert_struct_rule!(Insofar);
+        insert_struct_rule!(Thereupon);
+        insert_struct_rule!(Nonetheless);
+        insert_struct_rule!(Anyhow);
+        insert_struct_rule!(Notwithstanding);
+        insert_struct_rule!(Widespread);
+        insert_struct_rule!(Multimedia);
+        insert_struct_rule!(Multicore);
+        insert_struct_rule!(Multithreading);
+        insert_struct_rule!(Devops);
+        insert_struct_rule!(Underclock);
+        insert_struct_rule!(Overload);
+        insert_struct_rule!(Backplane);
+        insert_struct_rule!(Overclocking);
+        insert_struct_rule!(Middleware);
+        insert_struct_rule!(Somewhere);
+        insert_struct_rule!(Instead);
+        insert_struct_rule!(Anywhere);
+        insert_struct_rule!(Nothing);
+        insert_struct_rule!(Anybody);
+        insert_struct_rule!(Somebody);
+        insert_struct_rule!(Nobody);
+        insert_struct_rule!(Into);
+        insert_struct_rule!(Proofread);
+        insert_struct_rule!(Somehow);
+        insert_struct_rule!(Intact);
+        insert_struct_rule!(Upset);
+        insert_struct_rule!(Misunderstood);
+        insert_struct_rule!(However);
+        insert_struct_rule!(Overall);
+        insert_struct_rule!(Worldwide);
+        insert_struct_rule!(Postpone);
+        insert_struct_rule!(Misused);
+        insert_struct_rule!(Misuse);
+        insert_struct_rule!(Misunderstand);
+        insert_struct_rule!(Therefore);
+        insert_struct_rule!(Myself);
+        insert_struct_rule!(Itself);
+        insert_struct_rule!(Whereas);
+        insert_struct_rule!(PossessiveYour);
+        insert_struct_rule!(SpelledNumbers);
+        insert_struct_rule!(AnA);
+        insert_struct_rule!(SentenceCapitalization);
+        insert_struct_rule!(UnclosedQuotes);
+        insert_struct_rule!(WrongQuotes);
+        insert_struct_rule!(LongSentences);
+        insert_struct_rule!(RepeatedWords);
+        insert_struct_rule!(Spaces);
+        insert_struct_rule!(Matcher);
+        insert_struct_rule!(CorrectNumberSuffix);
+        insert_struct_rule!(NumberSuffixCapitalization);
+        insert_struct_rule!(MultipleSequentialPronouns);
+        insert_struct_rule!(LinkingVerbs);
+        insert_struct_rule!(AvoidCurses);
+        insert_struct_rule!(TerminatingConjunctions);
+        insert_struct_rule!(EllipsisLength);
+        insert_struct_rule!(DotInitialisms);
+        insert_struct_rule!(BoringWords);
+        insert_struct_rule!(UseGenitive);
+        insert_struct_rule!(ThatWhich);
+        insert_struct_rule!(CapitalizePersonalPronouns);
+        insert_struct_rule!(Americas);
+        insert_struct_rule!(Australia);
+        insert_struct_rule!(Canada);
+        insert_struct_rule!(Koreas);
+        insert_struct_rule!(Malaysia);
+        insert_struct_rule!(ChineseCommunistParty);
+        insert_struct_rule!(UnitedOrganizations);
+        insert_struct_rule!(Holidays);
+        insert_struct_rule!(AmazonNames);
+        insert_struct_rule!(GoogleNames);
+        insert_struct_rule!(MetaNames);
+        insert_struct_rule!(MicrosoftNames);
+        insert_struct_rule!(AppleNames);
+        insert_struct_rule!(AzureNames);
+        insert_struct_rule!(MergeWords);
+        insert_struct_rule!(PluralConjugate);
+        insert_struct_rule!(OxfordComma);
+        insert_struct_rule!(NoOxfordComma);
+        insert_struct_rule!(PronounContraction);
+        insert_struct_rule!(CurrencyPlacement);
+        insert_struct_rule!(SomewhatSomething);
+        insert_struct_rule!(LetsConfusion);
+        insert_struct_rule!(DespiteOf);
+        insert_struct_rule!(ChockFull);
+        insert_struct_rule!(HumanLife);
+        insert_struct_rule!(NeedHelp);
+        insert_struct_rule!(NoLonger);
+        insert_struct_rule!(ThatChallenged);
+        insert_struct_rule!(TurnItOff);
+        insert_struct_rule!(OfCourse);
+        insert_struct_rule!(AndTheLike);
+        insert_struct_rule!(BadRap);
+        insert_struct_rule!(BatedBreath);
+        insert_struct_rule!(BeckAndCall);
+        insert_struct_rule!(ChangeTack);
+        insert_struct_rule!(HungerPang);
+        insert_struct_rule!(EnMasse);
+        insert_struct_rule!(LetAlone);
+        insert_struct_rule!(LoAndBehold);
+        insert_struct_rule!(SneakingSuspicion);
+        insert_struct_rule!(SpecialAttention);
+        insert_struct_rule!(Everywhere);
+        insert_struct_rule!(ThanOthers);
+        insert_struct_rule!(SupposedTo);
+
+        out.add("SpellCheck", Box::new(SpellCheck::new(dictionary)));
+
+        out.config = config;
+
+        out
+    }
+}
+
+impl Linter for LintGroup {
+    fn lint(&mut self, document: &Document) -> Vec<Lint> {
+        let mut results = Vec::new();
+
+        let mut config = self.config.clone();
+        config.fill_default_values();
+
+        for (key, linter) in &mut self.inner {
+            if config.is_rule_enabled(key) {
+                results.extend(linter.lint(document));
+            }
+        }
+
+        results
+    }
+
+    fn description(&self) -> &str {
+        "A collection of linters that can be run as one."
+    }
+}
+
+impl Default for LintGroup {
     fn default() -> Self {
-        Self::new(LintGroupConfig::default(), T::default())
+        Self::new(Default::default(), MutableDictionary::default())
     }
 }
 
@@ -350,7 +464,7 @@ mod tests {
 
     #[test]
     fn can_get_all_descriptions() {
-        let group = LintGroup::<MutableDictionary>::default();
+        let group = LintGroup::new(LintGroupConfig::default(), MutableDictionary::default());
         group.all_descriptions();
     }
 
@@ -359,7 +473,6 @@ mod tests {
         let mut group = LintGroup::new(LintGroupConfig::default(), FstDictionary::curated());
         let pairs: Vec<_> = group
             .all_descriptions()
-            .to_vec_pairs()
             .into_iter()
             .map(|(a, b)| (a.to_string(), b.to_string()))
             .collect();

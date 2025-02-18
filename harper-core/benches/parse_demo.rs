@@ -32,9 +32,9 @@ fn lint_demo_uncached(c: &mut Criterion) {
 }
 
 pub fn criterion_benchmark(c: &mut Criterion) {
-    parse_demo(c);
+    //parse_demo(c);
     lint_demo(c);
-    lint_demo_uncached(c);
+    //lint_demo_uncached(c);
 }
 
 criterion_group!(benches, criterion_benchmark);

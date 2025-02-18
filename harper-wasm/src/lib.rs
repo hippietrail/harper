@@ -64,7 +64,7 @@ impl Language {
 
 #[wasm_bindgen]
 pub struct Linter {
-    lint_group: LintGroup<Arc<MergedDictionary>>,
+    lint_group: LintGroup,
     /// The user-supplied dictionary.
     ///
     /// To make changes affect linting, run [`Self::synchronize_lint_dict`].
@@ -92,7 +92,7 @@ impl Linter {
     /// Update the dictionary inside [`Self::lint_group`] to include [`Self::user_dictionary`].
     /// This clears any linter caches, so use it sparingly.
     fn synchronize_lint_dict(&mut self) {
-        let lint_config = self.lint_group.config;
+        let lint_config = self.lint_group.config.clone();
         self.dictionary = Self::construct_merged_dict(self.user_dictionary.clone());
         self.lint_group = LintGroup::new(lint_config, self.dictionary.clone());
     }

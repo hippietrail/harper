@@ -207,7 +207,7 @@ fn main() -> anyhow::Result<()> {
 
             // Use `BTreeMap` so output is sorted by keys.
             let mut configs = BTreeMap::new();
-            for (key, desc) in linter.all_descriptions().to_vec_pairs() {
+            for (key, desc) in linter.all_descriptions() {
                 configs.insert(
                     key.to_owned(),
                     Config {

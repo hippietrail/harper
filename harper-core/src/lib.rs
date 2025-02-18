@@ -83,11 +83,9 @@ mod tests {
     fn keeps_space_lint() {
         let doc = Document::new_plain_english_curated("Ths  tet");
 
-        let lint_config = LintGroupConfig {
-            spell_check: Some(true),
-            spaces: Some(true),
-            ..LintGroupConfig::none()
-        };
+        let mut lint_config = LintGroupConfig::default();
+        lint_config.fill_default_values();
+
         let mut linter = LintGroup::new(lint_config, FstDictionary::curated());
 
         let mut lints = linter.lint(&doc);

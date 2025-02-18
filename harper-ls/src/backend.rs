@@ -143,7 +143,7 @@ impl Backend {
         let (lint_config, markdown_options, isolate_english) = {
             let config = self.config.read().await;
             (
-                config.lint_config,
+                config.lint_config.clone(),
                 config.markdown_options,
                 config.isolate_english,
             )
@@ -158,7 +158,7 @@ impl Backend {
         let mut doc_lock = self.doc_state.lock().await;
 
         let doc_state = doc_lock.entry(url.clone()).or_insert(DocumentState {
-            linter: LintGroup::new(lint_config, dict.clone()),
+            linter: LintGroup::new(lint_config.clone(), dict.clone()),
             language_id: language_id.map(|v| v.to_string()),
             dict: dict.clone(),
             url: url.clone(),
@@ -167,7 +167,7 @@ impl Backend {
 
         if doc_state.dict != dict {
             doc_state.dict = dict.clone();
-            doc_state.linter = LintGroup::new(lint_config, dict.clone());
+            doc_state.linter = LintGroup::new(lint_config.clone(), dict.clone());
         }
 
         let Some(language_id) = &doc_state.language_id else {
@@ -181,7 +181,7 @@ impl Backend {
             parser: impl Parser + 'static,
             url: &'a Url,
             doc_state: &'a mut DocumentState,
-            lint_config: LintGroupConfig,
+            lint_config: &LintGroupConfig,
         ) -> Result<Box<dyn Parser>> {
             if doc_state.ident_dict != new_dict {
                 doc_state.ident_dict = new_dict.clone();
@@ -190,7 +190,7 @@ impl Backend {
                 merged.add_dictionary(new_dict);
                 let merged = Arc::new(merged);
 
-                doc_state.linter = LintGroup::new(lint_config, merged.clone());
+                doc_state.linter = LintGroup::new(lint_config.clone(), merged.clone());
                 doc_state.dict = merged.clone();
             }
 
@@ -214,7 +214,7 @@ impl Backend {
                             ts_parser,
                             url,
                             doc_state,
-                            lint_config,
+                            &lint_config,
                         )
                         .await?,
                     )
@@ -235,7 +235,7 @@ impl Backend {
                             parser,
                             url,
                             doc_state,
-                            lint_config,
+                            &lint_config,
                         )
                         .await?,
                     )
@@ -588,7 +588,7 @@ impl LanguageServer for Backend {
             let config_lock = self.config.read().await;
 
             for doc in doc_lock.values_mut() {
-                doc.linter = LintGroup::new(config_lock.lint_config, doc.dict.clone());
+                doc.linter = LintGroup::new(config_lock.lint_config.clone(), doc.dict.clone());
             }
 
             doc_lock.keys().cloned().collect()
