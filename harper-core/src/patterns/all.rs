@@ -12,6 +12,10 @@ pub struct All {
 }
 
 impl All {
+    pub fn new(children: Vec<Box<dyn Pattern>>) -> Self {
+        Self { children }
+    }
+
     pub fn add(&mut self, p: Box<dyn Pattern>) {
         self.children.push(p);
     }
