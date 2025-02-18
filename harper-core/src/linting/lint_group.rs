@@ -30,9 +30,10 @@ use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::phrase_corrections::{
-    AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
-    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
-    SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
+    AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, GetRidOf, GetsRidOf,
+    GettingRidOf, GotRidOf, GottenRidOf, HumanLife, HungerPang, LetAlone, LoAndBehold, NeedHelp,
+    NoLonger, OfCourse, SneakingSuspicion, SpecialAttention, SupposedTo, ThanOthers,
+    ThatChallenged, TurnItOff,
 };
 use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
@@ -286,7 +287,12 @@ create_lint_group_config!(
     SpecialAttention => true,
     Everywhere => true,
     ThanOthers => true,
-    SupposedTo => true
+    SupposedTo => true,
+    GetRidOf => true,
+    GetsRidOf => true,
+    GettingRidOf => true,
+    GotRidOf => true,
+    GottenRidOf => true
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

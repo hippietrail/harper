@@ -86,9 +86,10 @@ pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
 pub use phrase_corrections::{
-    AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
-    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
-    SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
+    AndAlike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, GetRidOf, GetsRidOf,
+    GettingRidOf, GotRidOf, GottenRidOf, HumanLife, HungerPang, LetAlone, LoAndBehold, NeedHelp,
+    NoLonger, OfCourse, SneakingSuspicion, SpecialAttention, SupposedTo, ThanOthers,
+    ThatChallenged, TurnItOff,
 };
 pub use plural_conjugate::PluralConjugate;
 pub use possessive_your::PossessiveYour;

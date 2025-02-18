@@ -88,6 +88,11 @@ create_linter_for_phrase!(SneakingSuspicion, "sneaking suspicion", 3);
 create_linter_for_phrase!(SpecialAttention, "special attention", 1);
 create_linter_for_phrase!(ThanOthers, "than others", 1);
 create_linter_for_phrase!(SupposedTo, "supposed to", 1);
+create_linter_for_phrase!(GetRidOf, "get rid of", 1);
+create_linter_for_phrase!(GetsRidOf, "gets rid of", 1);
+create_linter_for_phrase!(GettingRidOf, "getting rid of", 1);
+create_linter_for_phrase!(GotRidOf, "got rid of", 1);
+create_linter_for_phrase!(GottenRidOf, "gotten rid of", 1);
 
 create_linter_map_phrase!(LoAndBehold, ExactPhrase::from_phrase("long and behold"), "lo and behold", "Did you mean `lo and behold`?", "Detects the exact phrase `long and behold` and suggests replacing it with the idiomatically correct `lo and behold`");
 
@@ -190,6 +195,31 @@ mod tests {
     #[test]
     fn supposed_to() {
         assert_suggestion_result("suppose to", SupposedTo::default(), "supposed to");
+    }
+
+    #[test]
+    fn get_rid_of() {
+        assert_suggestion_result("Get rid off", GetRidOf::default(), "Get rid of");
+    }
+
+    #[test]
+    fn gets_rid_of() {
+        assert_suggestion_result("Gets rid off", GetRidOf::default(), "Gets rid of");
+    }
+
+    #[test]
+    fn getting_rid_of() {
+        assert_suggestion_result("Getting rid off", GetRidOf::default(), "Getting rid of");
+    }
+
+    #[test]
+    fn got_rid_of() {
+        assert_suggestion_result("Got rid off", GetRidOf::default(), "Got rid of");
+    }
+
+    #[test]
+    fn gotten_rid_of() {
+        assert_suggestion_result("Gotten rid off", GetRidOf::default(), "Gotten rid of");
     }
 
     #[test]
