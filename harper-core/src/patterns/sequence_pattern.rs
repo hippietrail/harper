@@ -2,7 +2,10 @@ use hashbrown::HashSet;
 use paste::paste;
 
 use super::whitespace_pattern::WhitespacePattern;
-use super::{AnyCapitalization, AnyPattern, NounPhrase, Pattern, RepeatingPattern, WordSet};
+use super::{
+    AnyCapitalization, AnyPattern, IndefiniteArticle, NounPhrase, Pattern, RepeatingPattern,
+    SingularSubject, WordSet,
+};
 use crate::Lrc;
 use crate::{CharStringExt, Token, TokenKind};
 
@@ -83,9 +86,14 @@ impl SequencePattern {
     gen_then_from_is!(apostrophe);
     gen_then_from_is!(hyphen);
     gen_then_from_is!(article);
+    gen_then_from_is!(proper_noun);
 
     pub fn then_word_set(self, set: WordSet) -> Self {
         self.then(Box::new(set))
+    }
+
+    pub fn then_indefinite_article(self) -> Self {
+        self.then(Box::new(IndefiniteArticle::default()))
     }
 
     /// Add a pattern that looks for more complex ideas, like nouns with adjectives attached.
@@ -114,6 +122,10 @@ impl SequencePattern {
                 w_char_count == tok_chars.len()
             }));
         self
+    }
+
+    pub fn then_singular_subject(self) -> Self {
+        self.then(Box::new(SingularSubject::default()))
     }
 
     /// Shorthand for [`Self::any_capitalization_of`].

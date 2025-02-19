@@ -2,7 +2,6 @@ use crate::Token;
 
 use super::Pattern;
 
-/// A pattern that returns the value of the first non-zero match in a list.
 #[derive(Default)]
 pub struct NounPhrase;
 

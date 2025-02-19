@@ -10,6 +10,7 @@ module.exports = {
 		'prettier/prettier': 'error',
 		// Just annoying
 		'@typescript-eslint/no-explicit-any': ['off'],
+		'@typescript-eslint/no-unused-vars': ['off'],
 		'@typescript-eslint/ban-ts-comment': ['off']
 	},
 	parser: '@typescript-eslint/parser',

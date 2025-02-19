@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper",
 	"description": "The grammar checker for developers",
-	"version": "0.20.0",
+	"version": "0.22.0",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -127,7 +127,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "When referring to the continents, make sure to treat them as a proper noun."
+					"description": "When referring to North, Central, and South America, make sure to treat them as a proper noun."
 				},
 				"harper-ls.linters.an_a": {
 					"scope": "resource",
@@ -135,11 +135,11 @@
 					"default": true,
 					"description": "A rule that looks for incorrect indefinite articles. For example, `this is an mule` would be flagged as incorrect."
 				},
-				"harper-ls.linters.and_alike": {
+				"harper-ls.linters.and_the_like": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `and alike`."
+					"description": "Looks for slight improper modifications to the phrase `and the like`."
 				},
 				"harper-ls.linters.anybody": {
 					"scope": "resource",
@@ -165,6 +165,12 @@
 					"default": true,
 					"description": "When referring to Apple products and services, make sure to treat them as proper nouns."
 				},
+				"harper-ls.linters.australia": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "When referring to the states of Australia, make sure to treat them as a proper noun."
+				},
 				"harper-ls.linters.avoid_curses": {
 					"scope": "resource",
 					"type": "boolean",
@@ -189,6 +195,18 @@
 					"default": true,
 					"description": "Looks for slight improper modifications to the phrase `bad rap`."
 				},
+				"harper-ls.linters.baited_breath": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `bated breath` is written correctly, as `baited breath` is incorrect."
+				},
+				"harper-ls.linters.bare_in_mind": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures the phrase `bear in mind` is used correctly instead of `bare in mind`."
+				},
 				"harper-ls.linters.bated_breath": {
 					"scope": "resource",
 					"type": "boolean",
@@ -207,6 +225,12 @@
 					"default": false,
 					"description": "This rule looks for particularly boring or overused words. Using varied language is an easy way to keep a reader's attention."
 				},
+				"harper-ls.linters.canada": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "When referring to the provinces of Canada, make sure to treat them as a proper noun."
+				},
 				"harper-ls.linters.capitalize_personal_pronouns": {
 					"scope": "resource",
 					"type": "boolean",
@@ -217,13 +241,19 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `change tack`."
+					"description": "Locates minor errors in the sailing idiom `change tack`."
 				},
 				"harper-ls.linters.chinese_communist_party": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "When referring to the political party, make sure to treat them as a proper noun."
+				},
+				"harper-ls.linters.chock_full": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Flags common soundalikes of \"chock-full\" and makes sure they're hyphenated."
 				},
 				"harper-ls.linters.compound_nouns": {
 					"scope": "resource",
@@ -242,6 +272,18 @@
 					"type": "boolean",
 					"default": true,
 					"description": "The location of currency symbols varies by country. The rule looks for and corrects improper positioning."
+				},
+				"harper-ls.linters.day_one_names": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of Day One and Day One Premium as brand names."
+				},
+				"harper-ls.linters.desktop": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Looks for incorrect spacing inside the closed compound `desktop`."
 				},
 				"harper-ls.linters.despite_of": {
 					"scope": "resource",
@@ -267,6 +309,12 @@
 					"default": true,
 					"description": "Make sure you have the correct number of dots in your ellipsis."
 				},
+				"harper-ls.linters.eluded_to": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `eluded to` to `alluded to` in contexts referring to indirect references."
+				},
 				"harper-ls.linters.en_masse": {
 					"scope": "resource",
 					"type": "boolean",
@@ -278,6 +326,24 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `everywhere`."
+				},
+				"harper-ls.linters.face_first": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `face first` is correctly hyphenated as `face-first` when used before `into`."
+				},
+				"harper-ls.linters.fast_paste": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Detects incorrect usage of `fast paste` or `fast-paste` and suggests `fast-paced` as the correct phrase."
+				},
+				"harper-ls.linters.furthermore": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Looks for incorrect spacing inside the closed compound `furthermore`."
 				},
 				"harper-ls.linters.google_names": {
 					"scope": "resource",
@@ -303,6 +369,12 @@
 					"default": true,
 					"description": "When referring to holidays, make sure to treat them as a proper noun."
 				},
+				"harper-ls.linters.hop_hope": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Handles common errors involving `hop` and `hope`. Ensures `hop` is used correctly in phrases like `hop on a bus` while correcting mistaken uses of `hope` in contexts where `hop` is expected."
+				},
 				"harper-ls.linters.however": {
 					"scope": "resource",
 					"type": "boolean",
@@ -320,6 +392,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for slight improper modifications to the phrase `hunger pang`."
+				},
+				"harper-ls.linters.hyphenate_number_day": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures a hyphen is used in `X-day` when it is part of a compound adjective, such as `4-day work week`."
 				},
 				"harper-ls.linters.insofar": {
 					"scope": "resource",
@@ -351,11 +429,29 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `itself`."
 				},
+				"harper-ls.linters.jetpack_names": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of Jetpack-related terms."
+				},
 				"harper-ls.linters.koreas": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "When referring to the nations, make sure to treat them as a proper noun."
+				},
+				"harper-ls.linters.laptop": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Looks for incorrect spacing inside the closed compound `laptop`."
+				},
+				"harper-ls.linters.left_right_hand": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `left hand` and `right hand` are hyphenated when used as adjectives before a noun, such as in `left-hand side` or `right-hand corner`."
 				},
 				"harper-ls.linters.let_alone": {
 					"scope": "resource",
@@ -392,6 +488,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "This rule looks for run-on sentences, which can make your work harder to grok."
+				},
+				"harper-ls.linters.malaysia": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "When referring to the states of Malaysia and their capitals, make sure to treat them as a proper noun."
 				},
 				"harper-ls.linters.matcher": {
 					"scope": "resource",
@@ -471,6 +573,12 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `multithreading`."
 				},
+				"harper-ls.linters.mute_point": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `moot point` is used instead of `mute point`, as `moot` means debatable or irrelevant."
+				},
 				"harper-ls.linters.myself": {
 					"scope": "resource",
 					"type": "boolean",
@@ -531,6 +639,12 @@
 					"default": true,
 					"description": "Looks for slight improper modifications to the phrase `of course`."
 				},
+				"harper-ls.linters.out_of_date": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures that the phrase `out of date` is written with a hyphen as `out-of-date` when used as a compound adjective."
+				},
 				"harper-ls.linters.overall": {
 					"scope": "resource",
 					"type": "boolean",
@@ -561,11 +675,23 @@
 					"default": true,
 					"description": "The Oxford comma is one of the more controversial rules in common use today. Enabling this lint checks that there is a comma before `and`, `or`, or `nor` when listing out more than two ideas."
 				},
+				"harper-ls.linters.pique_interest": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Detects incorrect usage of `peak` or `peek` when the intended word is `pique`, as in the phrase `you've peaked my interest`."
+				},
 				"harper-ls.linters.plural_conjugate": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": false,
 					"description": "Make sure you use the correct conjugation of the verb \"to be\" in plural contexts."
+				},
+				"harper-ls.linters.pocket_casts_names": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of Pocket Casts and Pocket Casts Plus as brand names."
 				},
 				"harper-ls.linters.possessive_your": {
 					"scope": "resource",
@@ -663,6 +789,12 @@
 					"default": false,
 					"description": "Most style guides recommend that you spell out numbers less than ten."
 				},
+				"harper-ls.linters.state_of_the_art": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Detects incorrect usage of `state of art` and suggests `state of the art` as the correct phrase."
+				},
 				"harper-ls.linters.supposed_to": {
 					"scope": "resource",
 					"type": "boolean",
@@ -693,6 +825,12 @@
 					"default": true,
 					"description": "Repeating the word \"that\" is often redundant. The phrase `that which` is easier to read."
 				},
+				"harper-ls.linters.then_than": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the misuse of `then` to `than`."
+				},
 				"harper-ls.linters.therefore": {
 					"scope": "resource",
 					"type": "boolean",
@@ -704,6 +842,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `thereupon`."
+				},
+				"harper-ls.linters.tumblr_names": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of Tumblr-related terms."
 				},
 				"harper-ls.linters.turn_it_off": {
 					"scope": "resource",
@@ -747,6 +891,18 @@
 					"default": false,
 					"description": "Looks for situations where the genitive case of \"there\" should be used."
 				},
+				"harper-ls.linters.want_be": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Detects incorrect usage of `want be` and suggests `won't be` or `want to be` based on context."
+				},
+				"harper-ls.linters.was_aloud": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `was aloud` and `were aloud` are corrected to `was allowed` or `were allowed` when referring to permission."
+				},
 				"harper-ls.linters.whereas": {
 					"scope": "resource",
 					"type": "boolean",
@@ -764,6 +920,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `widespread`."
+				},
+				"harper-ls.linters.word_press_dotcom": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures correct capitalization of WordPress.com. This rule verifies that the official stylization of WordPress.com is used when referring to the hosting provider."
 				},
 				"harper-ls.linters.worldwide": {
 					"scope": "resource",
@@ -790,7 +952,7 @@
 		"lint": "eslint src --ext ts"
 	},
 	"devDependencies": {
-		"@types/jasmine": "^5.1.4",
+		"@types/jasmine": "^5.1.6",
 		"@types/node": "22.x",
 		"@types/vscode": "^1.89.0",
 		"@typescript-eslint/eslint-plugin": "^7.7.1",
@@ -799,7 +961,7 @@
 		"@vscode/vsce": "^3.0.0",
 		"esbuild": "^0.25.0",
 		"eslint": "^8.57.0",
-		"jasmine": "^5.3.0",
+		"jasmine": "^5.6.0",
 		"typescript": "^5.7.3"
 	},
 	"dependencies": {
