@@ -139,13 +139,43 @@ create_linter_map_phrase!(MutePoint, ExactPhrase::from_phrase("mute point"),
     "Did you mean `moot point`?",
     "Ensures `moot point` is used instead of `mute point`, as `moot` means debatable or irrelevant.");
 
+create_linter_map_phrase!(
+    FarToMany,
+    ExactPhrase::from_phrase("far to many"),
+    "far too many",
+    "Did you mean `far too many`?",
+    "Ensures `too many` is used instead of `to many`."
+);
+create_linter_map_phrase!(
+    FarToMuch,
+    ExactPhrase::from_phrase("far to much"),
+    "far too much",
+    "Did you mean `far too much`?",
+    "Ensures `too much` is used instead of `to much`."
+);
+create_linter_map_phrase!(
+    WayToMany,
+    ExactPhrase::from_phrase("way to many"),
+    "way too many",
+    "Did you mean `way too many`?",
+    "Ensures `way too many` is used instead of `to many`."
+);
+create_linter_map_phrase!(
+    WayToMuch,
+    ExactPhrase::from_phrase("way to much"),
+    "way too much",
+    "Did you mean `way too much`?",
+    "Ensures `way too much` is used instead of `to much`."
+);
+
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::{
-        BadRap, BatedBreath, ChangeTack, EnMasse, HungerPang, LetAlone, LoAndBehold, OfCourse,
-        SneakingSuspicion, SpecialAttention, SupposedTo, ThanOthers, TurnItOff,
+        BadRap, BatedBreath, ChangeTack, EnMasse, FarToMany, FarToMuch, HungerPang, LetAlone,
+        LoAndBehold, OfCourse, SneakingSuspicion, SpecialAttention, SupposedTo, ThanOthers,
+        TurnItOff, WayToMany, WayToMuch,
     };
 
     #[test]
@@ -260,6 +290,36 @@ mod tests {
             "Those are now on hold for month.",
             LoAndBehold::default(),
             0,
+        );
+    }
+
+    #[test]
+    fn far_to_many() {
+        assert_suggestion_result(
+            "darknet detecting far to many objects and in random locations",
+            FarToMany::default(),
+            "darknet detecting far too many objects and in random locations",
+        );
+    }
+    fn far_to_much() {
+        assert_suggestion_result(
+            "requires far to much day today support and troubleshooting",
+            FarToMuch::default(),
+            "requires far too much day today support and troubleshooting",
+        );
+    }
+    fn way_to_many() {
+        assert_suggestion_result(
+            "Way to many TEMP files",
+            WayToMany::default(),
+            "way too many TEMP files",
+        );
+    }
+    fn way_to_much() {
+        assert_suggestion_result(
+            "proper java development has way to much overhead",
+            WayToMuch::default(),
+            "proper java development has way too much overhead",
         );
     }
 }
