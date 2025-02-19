@@ -173,8 +173,9 @@ mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::{
-        BadRap, BatedBreath, ChangeTack, EnMasse, HungerPang, LetAlone, LoAndBehold, OfCourse,
-        SneakingSuspicion, SpecialAttention, SupposedTo, ThanOthers, TurnItOff,
+        BadRap, BatedBreath, ChangeTack, EnMasse, GetRidOff, GetsRidOff, GettingRidOff, GotRidOff,
+        HungerPang, LetAlone, LoAndBehold, OfCourse, SneakingSuspicion, SpecialAttention,
+        SupposedTo, ThanOthers, TurnItOff,
     };
 
     // todo: 4 tests: get/gets/getting rid off
