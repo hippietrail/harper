@@ -103,37 +103,6 @@ impl Matcher {
         // defined like it is now.
         let mut triggers = Vec::new();
 
-        // stylistic improvements
-        triggers.extend(pt! {
-            "all", "of", "the" => "all the",
-            "and","also" => "and"
-        });
-
-        // phrase typos, each word passes spellcheck but one word is wrong
-        triggers.extend(pt! {
-            "an","in" => "and in",
-            "bee","there" => "been there",
-            "can","be","seem" => "can be seen",
-            "eight","grade" => "eighth grade",
-            "gong","to" => "going to",
-            "I","a","m" => "I am",
-            "It","cam" => "It can",
-            "kid","regards" => "kind regards",
-            "mu","house" => "my house",
-            "no","to" => "not to",
-            "No","to" => "not to",
-            "the", "this" => "that this",
-            "The","re" => "There",
-            "though", "process" => "thought process"
-        });
-
-        // phrase capitalization
-        triggers.extend(pt! {
-            "black","sea" => "Black Sea",
-            "geiger","counter" => "Geiger counter",
-            "my","french" => "my French"
-        });
-
         // hyphenated phrases
         triggers.extend(pt! {
             "case", "sensitive" => "case-sensitive",
@@ -160,16 +129,6 @@ impl Matcher {
             "stdout" => "standard output",
             "w/" => "with",
             "w/o" => "without"
-        });
-
-        // replace euphemisms
-        triggers.extend(pt! {
-            "fatal","outcome" => "death"
-        });
-
-        // spellos
-        triggers.extend(pt! {
-            "grammer" => "grammar"
         });
 
         // expand compound words
@@ -204,8 +163,6 @@ impl Matcher {
             "could", "of" => "could have",
             "could", "of" => "could've",
             "couldn't", "of" => "couldn't have",
-            "had", "of" => "had have",
-            "had", "of" => "had've",
             "hadn't", "of" => "hadn't have",
             "should", "of" => "should have",
             "should", "of" => "should've",
@@ -216,22 +173,7 @@ impl Matcher {
             "discuss", "about" => "discuss",
             "discussed", "about" => "discussed",
             "discusses", "about" => "discusses",
-            "discussing", "about" => "discussing",
-            "same", "than" => "same as",
-            "Same", "than" => "same as",
-            "sooner","than","later" => "sooner rather than later",
-            "sooner","than","later" => "sooner or later"
-        });
-
-        // belonging to multiple of the other categories
-        triggers.extend(pt! {
-            "same", "then" => "same as",
-            "Same", "then" => "same as"
-        });
-
-        // near homophones
-        triggers.extend(pt! {
-            "want","be" => "won't be"
+            "discussing", "about" => "discussing"
         });
 
         // normalization

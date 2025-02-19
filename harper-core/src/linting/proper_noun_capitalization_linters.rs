@@ -131,6 +131,52 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
     );
 
     group.add(
+    "OceansAndSeas",
+    Box::new(ProperNounCapitalizationLinter::new(
+        EitherPattern::new(vec![
+            Box::new(
+                SequencePattern::default()
+                    .then_word_set(WordSet::all(&[
+                        "Atlantic",
+                        "Pacific",
+                        "Indian",
+                        "Southern",
+                        "Arctic",
+                    ]))
+                    .then_whitespace()
+                    .t_aco("Ocean")
+            ),
+            Box::new(
+                SequencePattern::default()
+                    .then_word_set(WordSet::all(&[
+                        "Mediterranean",
+                        "Caribbean",
+                        "Baltic",
+                        "Red",
+                        "Black",
+                        "Caspian",
+                        "Coral",
+                        "Bering",
+                        "North",
+                    ]))
+                    .then_whitespace()
+                    .t_aco("Sea")
+            ),
+            Box::new(
+                SequencePattern::default()
+                    .t_aco("South")
+                    .then_whitespace()
+                    .t_aco("China")
+                    .then_whitespace()
+                    .t_aco("Sea")
+            ),
+        ]),
+        "When referring to the world's oceans and seas, ensure they are treated as proper nouns.",
+        dictionary.clone()
+    ))
+);
+
+    group.add(
         "Canada",
         Box::new(ProperNounCapitalizationLinter::new(
             EitherPattern::new(vec![
@@ -926,5 +972,100 @@ mod tests {
             lint_group(FstDictionary::curated()),
             "Microsoft Visual Studio",
         );
+    }
+
+    #[test]
+    fn test_atlantic_ocean_lowercase() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_suggestion_result("atlantic ocean", group, "Atlantic Ocean");
+    }
+
+    #[test]
+    fn test_pacific_ocean_lowercase() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_suggestion_result("pacific ocean", group, "Pacific Ocean");
+    }
+
+    #[test]
+    fn test_indian_ocean_lowercase() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_suggestion_result("indian ocean", group, "Indian Ocean");
+    }
+
+    #[test]
+    fn test_southern_ocean_lowercase() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_suggestion_result("southern ocean", group, "Southern Ocean");
+    }
+
+    #[test]
+    fn test_arctic_ocean_lowercase() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_suggestion_result("arctic ocean", group, "Arctic Ocean");
+    }
+
+    // Lowercase tests for seas
+
+    #[test]
+    fn test_mediterranean_sea_lowercase() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_suggestion_result("mediterranean sea", group, "Mediterranean Sea");
+    }
+
+    #[test]
+    fn test_caribbean_sea_lowercase() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_suggestion_result("caribbean sea", group, "Caribbean Sea");
+    }
+
+    #[test]
+    fn test_south_china_sea_lowercase() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_suggestion_result("south china sea", group, "South China Sea");
+    }
+
+    // Tests that allow correctly capitalized names
+
+    #[test]
+    fn test_atlantic_ocean_correct() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_lint_count("Atlantic Ocean", group, 0);
+    }
+
+    #[test]
+    fn test_pacific_ocean_correct() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_lint_count("Pacific Ocean", group, 0);
+    }
+
+    #[test]
+    fn test_indian_ocean_correct() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_lint_count("Indian Ocean", group, 0);
+    }
+
+    #[test]
+    fn test_mediterranean_sea_correct() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_lint_count("Mediterranean Sea", group, 0);
+    }
+
+    #[test]
+    fn test_south_china_sea_correct() {
+        let dictionary = FstDictionary::curated();
+        let group = lint_group(dictionary);
+        assert_lint_count("South China Sea", group, 0);
     }
 }

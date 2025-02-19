@@ -39,6 +39,8 @@ pub fn lint_group() -> LintGroup {
         "SneakingSuspicion"  => ("sneaking suspicion", 3),
         "SpecialAttention"   => ("special attention", 1),
         "SupposedTo"         => ("supposed to", 1),
+        "KindRegards"         => ("kind regards", 1),
+        "ThoughtProcess"         => ("thought process", 1),
     });
 
     macro_rules! add_exact_mappings {
@@ -118,6 +120,96 @@ pub fn lint_group() -> LintGroup {
             ["road map"],
             "Did you mean `road map`?",
             "Detects when `roadmap` is used instead of `road map`, prompting the correct spacing."
+        ),
+        "SameAs" => (
+            "same then",
+            ["same as"],
+            "Did you mean `same as`?",
+            "Corrects the incorrect phrase `same then` to the standard `same as`."
+        ),
+        "SoonerOrLater" => (
+            "sooner than later",
+            ["sooner rather than later", "sooner or later"],
+            "Did you mean `sooner rather than later` or `sooner or later`?",
+            "Fixes the improper phrase `sooner than later` by suggesting standard alternatives."
+        ),
+        "HadOf" => (
+            "had of",
+            ["had have", "had've"],
+            "Did you mean `had have` or `had've`?",
+            "Flags the unnecessary use of `of` after `had` and suggests the correct forms."
+        ),
+        "FatalOutcome" => (
+            "fatal outcome",
+            ["death"],
+            "Consider using `death` for clarity.",
+            "Replaces `fatal outcome` with the more direct term `death` for conciseness."
+        ),
+        "NotTo" => (
+            "no to",
+            ["not to"],
+            "Did you mean `not to`?",
+            "Corrects `no to` to `not to`, ensuring proper negation."
+        ),
+        "ThatThis" => (
+            "the this",
+            ["that this"],
+            "Did you mean `that this`?",
+            "Fixes `the this` to the correct phrase `that this`."
+        ),
+        "CondenseAllThe" => (
+            "all of the",
+            ["all the"],
+            "Consider simplifying to `all the`.",
+            "Suggests removing `of` in `all of the` for a more concise phrase."
+        ),
+        "AvoidAndAlso" => (
+            "and also",
+            ["and"],
+            "Consider using just `and`.",
+            "Reduces redundancy by replacing `and also` with `and`."
+        ),
+        "AndIn" => (
+            "an in",
+            ["and in"],
+            "Did you mean `and in`?",
+            "Fixes the incorrect phrase `an in` to `and in` for proper conjunction usage."
+        ),
+        "BeenThere" => (
+            "bee there",
+            ["been there"],
+            "Did you mean `been there`?",
+            "Corrects the misspelling `bee there` to the proper phrase `been there`."
+        ),
+        "CanBeSeen" => (
+            "can be seem",
+            ["can be seen"],
+            "Did you mean `can be seen`?",
+            "Corrects `can be seem` to the proper phrase `can be seen`."
+        ),
+        "GoingTo" => (
+            "gong to",
+            ["going to"],
+            "Did you mean `going to`?",
+            "Corrects `gong to` to the intended phrase `going to`."
+        ),
+        "IAm" => (
+            "I a m",
+            ["I am"],
+            "Did you mean `I am`?",
+            "Fixes the incorrect spacing in `I a m` to properly form `I am`."
+        ),
+        "ItCan" => (
+            "It cam",
+            ["It can"],
+            "Did you mean `It can`?",
+            "Corrects the misspelling `It cam` to the proper phrase `It can`."
+        ),
+        "MyHouse" => (
+            "mu house",
+            ["my house"],
+            "Did you mean `my house`?",
+            "Fixes the typo `mu house` to `my house`."
         )
     });
 
