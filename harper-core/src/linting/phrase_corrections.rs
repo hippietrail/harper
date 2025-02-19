@@ -1,71 +1,6 @@
-use super::{Lint, LintGroup, LintKind, PatternLinter};
-use crate::linting::Suggestion;
-use crate::patterns::{ExactPhrase, OwnedPatternExt, Pattern, SimilarToPhrase};
-use crate::{Token, TokenStringExt};
+use crate::patterns::{ExactPhrase, OwnedPatternExt};
 
-struct MapPhraseLinter {
-    description: String,
-    pattern: Box<dyn Pattern>,
-    correct_forms: Vec<String>,
-    message: String,
-}
-
-impl MapPhraseLinter {
-    pub fn new(
-        pattern: Box<dyn Pattern>,
-        correct_forms: impl IntoIterator<Item = impl ToString>,
-        message: impl ToString,
-        description: impl ToString,
-    ) -> Self {
-        Self {
-            description: description.to_string(),
-            pattern,
-            correct_forms: correct_forms.into_iter().map(|f| f.to_string()).collect(),
-            message: message.to_string(),
-        }
-    }
-
-    pub fn new_similar_to_phrase(phrase: &'static str, detectable_distance: u8) -> Self {
-        Self::new(
-            Box::new(SimilarToPhrase::from_phrase(phrase, detectable_distance)),
-            [phrase],
-            format!("Did you mean the phrase `{phrase}`?"),
-            format!("Looks for slight improper modifications to the phrase `{phrase}`."),
-        )
-    }
-}
-
-impl PatternLinter for MapPhraseLinter {
-    fn pattern(&self) -> &dyn Pattern {
-        self.pattern.as_ref()
-    }
-
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
-        let span = matched_tokens.span().unwrap();
-        let matched_text = span.get_content(source);
-
-        Lint {
-            span,
-            lint_kind: LintKind::Miscellaneous,
-            suggestions: self
-                .correct_forms
-                .iter()
-                .map(|correct_form| {
-                    Suggestion::replace_with_match_case(
-                        correct_form.chars().collect(),
-                        matched_text,
-                    )
-                })
-                .collect(),
-            message: self.message.to_string(),
-            priority: 31,
-        }
-    }
-
-    fn description(&self) -> &str {
-        self.description.as_str()
-    }
-}
+use super::{LintGroup, MapPhraseLinter};
 
 /// Produce a [`LintGroup`] that represents all the linters in this module.
 /// Comes pre-configured with the recommended default settings.
@@ -145,8 +80,8 @@ pub fn lint_group() -> LintGroup {
 
     group.add(
         "ChangeTack",
-        Box::new(MapPhraseLinter::new(
-            Box::new(ExactPhrase::from_phrase("change tact")),
+        Box::new(MapPhraseLinter::new_exact_phrase(
+            "change tact",
             ["change tack"],
             "Did you mean the sailing idiom?",
             "Locates minor errors in the sailing idiom `change tack`.",
@@ -154,8 +89,8 @@ pub fn lint_group() -> LintGroup {
     );
     group.add(
     "WantBe",
-    Box::new(MapPhraseLinter::new(
-        Box::new(ExactPhrase::from_phrase("want be")),
+    Box::new(MapPhraseLinter::new_exact_phrase(
+        "want be",
         ["won't be", "want to be"],
         "Did you mean `won't be` or `want to be`?",
         "Detects incorrect usage of `want be` and suggests `won't be` or `want to be` based on context."
@@ -164,8 +99,8 @@ pub fn lint_group() -> LintGroup {
 
     group.add(
     "StateOfTheArt",
-    Box::new(MapPhraseLinter::new(
-        Box::new(ExactPhrase::from_phrase("state of art")),
+    Box::new(MapPhraseLinter::new_exact_phrase(
+        "state of art",
         ["state of the art"],
         "Did you mean `state of the art`?",
         "Detects incorrect usage of `state of art` and suggests `state of the art` as the correct phrase."
@@ -184,8 +119,8 @@ pub fn lint_group() -> LintGroup {
 
     group.add(
         "FaceFirst",
-        Box::new(MapPhraseLinter::new(
-            Box::new(ExactPhrase::from_phrase("face first into")),
+        Box::new(MapPhraseLinter::new_exact_phrase(
+            "face first into",
             ["face-first into"],
             "Should this be `face-first`?",
             "Ensures `face first` is correctly hyphenated as `face-first` when used before `into`.",
@@ -194,8 +129,8 @@ pub fn lint_group() -> LintGroup {
 
     group.add(
         "EludedTo",
-        Box::new(MapPhraseLinter::new(
-            Box::new(ExactPhrase::from_phrase("eluded to")),
+        Box::new(MapPhraseLinter::new_exact_phrase(
+            "eluded to",
             ["alluded to"],
             "Did you mean `alluded to`?",
             "Corrects `eluded to` to `alluded to` in contexts referring to indirect references.",
@@ -204,8 +139,8 @@ pub fn lint_group() -> LintGroup {
 
     group.add(
         "BaitedBreath",
-        Box::new(MapPhraseLinter::new(
-            Box::new(ExactPhrase::from_phrase("baited breath")),
+        Box::new(MapPhraseLinter::new_exact_phrase(
+            "baited breath",
             ["bated breath"],
             "Did you mean `bated breath`?",
             "Ensures `bated breath` is written correctly, as `baited breath` is incorrect.",
@@ -214,8 +149,8 @@ pub fn lint_group() -> LintGroup {
 
     group.add(
         "BareInMind",
-        Box::new(MapPhraseLinter::new(
-            Box::new(ExactPhrase::from_phrase("bare in mind")),
+        Box::new(MapPhraseLinter::new_exact_phrase(
+            "bare in mind",
             ["bear in mind"],
             "Did you mean `bear in mind`?",
             "Ensures the phrase `bear in mind` is used correctly instead of `bare in mind`.",
@@ -224,8 +159,8 @@ pub fn lint_group() -> LintGroup {
 
     group.add(
     "MutePoint",
-    Box::new(MapPhraseLinter::new(
-        Box::new(ExactPhrase::from_phrase("mute point")),
+    Box::new(MapPhraseLinter::new_exact_phrase(
+        "mute point",
         ["moot point"],
         "Did you mean `moot point`?",
         "Ensures `moot point` is used instead of `mute point`, as `moot` means debatable or irrelevant."
