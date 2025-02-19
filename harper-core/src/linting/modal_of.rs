@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{Pattern, SequencePattern, WordSet},
-    Token, TokenStringExt,
+    patterns::{OwnedPatternExt, Pattern, SequencePattern, WordSet},
+    Lrc, Token, TokenStringExt,
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -11,23 +11,31 @@ pub struct ModalOf {
 
 impl Default for ModalOf {
     fn default() -> Self {
+        let modals = ["could", "had", "might", "must", "should", "would"];
+        let mut words = WordSet::all(&modals);
+        modals.iter().for_each(|word| {
+            words.add(&format!("{}n't", word));
+        });
+
+        let modal_of = Lrc::new(
+            SequencePattern::default()
+                .then(Box::new(words))
+                .then_whitespace()
+                .then_exact_word("of"),
+        );
+
+        let ws_course = Lrc::new(
+            SequencePattern::default()
+                .then_whitespace()
+                .then_exact_word("course"),
+        );
+
         Self {
             pattern: Box::new(
                 SequencePattern::default()
-                    .then(Box::new(WordSet::all(&[
-                        "could",
-                        "couldn't",
-                        "had",
-                        "hadn't",
-                        "must",
-                        "mustn't",
-                        "should",
-                        "shouldn't",
-                        "would",
-                        "wouldn't",
-                    ])))
-                    .then_whitespace()
-                    .then_exact_word("of"),
+                    .then(Box::new(modal_of.clone()))
+                    .then(Box::new(ws_course.clone()))
+                    .or(Box::new(modal_of.clone())),
             ),
         }
     }
@@ -38,29 +46,30 @@ impl PatternLinter for ModalOf {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_toks: &[Token], source: &[char]) -> Lint {
-        // let's get the span of the word "of" from the matched tokens
-        let modal_ws_of = matched_toks.span().unwrap();
-        // let span = matched_toks[2].span;
-
-        Lint {
-            span: modal_ws_of,
-            lint_kind: LintKind::WordChoice,
-            suggestions: vec![
-                Suggestion::replace_with_match_case(
-                    // value - a vector of chars
-                    "of".chars().collect(),
-                    // template - a slice of chars
-                    modal_ws_of.get_content(source),
-                )
-            ],
-            message: "After an auxiliary verb, the correct word is `have`.".to_owned(),
-            priority: 126,
+    fn match_to_lint(&self, matched_toks: &[Token], source_chars: &[char]) -> Option<Lint> {
+        if matched_toks.len() != 3 {
+            return None;
         }
+
+        let span_modal_of = matched_toks[0..3].span().unwrap();
+        let span_modal = matched_toks[0].span;
+
+        let modal_have = format!("{} have", span_modal.get_content_string(source_chars))
+            .chars()
+            .collect();
+        let modal_ws_of = span_modal_of.get_content(source_chars);
+
+        Some(Lint {
+            span: span_modal_of,
+            lint_kind: LintKind::WordChoice,
+            suggestions: vec![Suggestion::replace_with_match_case(modal_have, modal_ws_of)],
+            message: "Use `have` rather than `of` here.".to_string(),
+            priority: 126,
+        })
     }
 
     fn description(&self) -> &'static str {
-        "Detects incorrect use of the word `of` after modal verbs."
+        "Detects `would of`, `could of, `should of`, etc."
     }
 }
 
@@ -72,20 +81,12 @@ mod tests {
     // a lint_count test
     #[test]
     fn test_could_of() {
-        assert_lint_count(
-            "could of",
-            ModalOf::default(), 
-            1
-        );
+        assert_lint_count("could of", ModalOf::default(), 1);
     }
 
     // a suggestion result test
     #[test]
     fn test_could_of_suggestion() {
-        assert_suggestion_result(
-            "could of",
-            ModalOf::default(), 
-            "have"
-        );
+        assert_suggestion_result("could of", ModalOf::default(), "have");
     }
 }
