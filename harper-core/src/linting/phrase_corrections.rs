@@ -139,13 +139,29 @@ create_linter_map_phrase!(MutePoint, ExactPhrase::from_phrase("mute point"),
     "Did you mean `moot point`?",
     "Ensures `moot point` is used instead of `mute point`, as `moot` means debatable or irrelevant.");
 
+create_linter_map_phrase!(
+    OperativeSystem,
+    ExactPhrase::from_phrase("operative system"),
+    "operating system",
+    "Did you mean `operating system`?",
+    "Ensures `operating system` is used correctly instead of `operative system`."
+);
+create_linter_map_phrase!(
+    OperativeSystems,
+    ExactPhrase::from_phrase("operative systems"),
+    "operating systems",
+    "Did you mean `operating systems`?",
+    "Ensures `operating systems` is used correctly instead of `operative systems`."
+);
+
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::{
         BadRap, BatedBreath, ChangeTack, EnMasse, HungerPang, LetAlone, LoAndBehold, OfCourse,
-        SneakingSuspicion, SpecialAttention, SupposedTo, ThanOthers, TurnItOff,
+        OperativeSystem, OperativeSystems, SneakingSuspicion, SpecialAttention, SupposedTo,
+        ThanOthers, TurnItOff,
     };
 
     #[test]
@@ -260,6 +276,23 @@ mod tests {
             "Those are now on hold for month.",
             LoAndBehold::default(),
             0,
+        );
+    }
+
+    #[test]
+    fn operative_system() {
+        assert_suggestion_result(
+            "COS is a operative system made with the COSMOS Kernel and written in C#, COS its literally the same than MS-DOS but written in C# and open-source.",
+            OperativeSystem::default(),
+            "COS is a operating system made with the COSMOS Kernel and written in C#, COS its literally the same than MS-DOS but written in C# and open-source.",
+        );
+    }
+    #[test]
+    fn operative_systems() {
+        assert_suggestion_result(
+            "My dotfiles for my operative systems and other configurations.",
+            OperativeSystems::default(),
+            "My dotfiles for my operating systems and other configurations.",
         );
     }
 }
