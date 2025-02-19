@@ -244,34 +244,28 @@ impl Matcher {
         });
 
         // plural 'news'
-        triggers.extend(pt! {
-            "news","are" => "news is",
-            "news","were" => "news was",
-            "many","news" => "a lot of news",
-            "Many","news" => "A lot of news",
-            "many","news","are" => "a lot of news is",
-            "Many","news","are" => "A lot of news is",
-            "many","news","were" => "a lot of news was",
-            "Many","news","were" => "A lot of news was",
+        /*triggers.extend(pt! {
             "a","news" => "some news",
-            "A","news" => "Some news",
             "a","news" => "a piece of news",
-            "A","news" => "A piece of news",
             "each","news" => "each piece of news",
             "every","news" => "every piece of news",
+            "how","many","news" => "how much news",
+            "many","news" => "a lot of news",
+            "many","news","are" => "a lot of news is",
+            "many","news","were" => "a lot of news was",
+            "news","are" => "news is",
+            "news","were" => "news was",
             "several","news" => "several pieces of news",
+            "so","many","news" => "so much news",
             "these","news" => "this news",
             "these","news","are" => "this news is",
-            "These","news","are" => "This news is",
             "these","news","were" => "this news was",
-            "These","news","were" => "This news weas",
             "those","news" => "that news",
             "those","news","are" => "that news is",
-            "Those","news","are" => "That news is",
             "those","news","were" => "that news was",
-            "Those","news","were" => "That news was",
+            "too","many","news" => "too much news",
             "two","news" => "two pieces of news"
-        });
+        });*/
 
         triggers.push(Rule {
             pattern: vec![pt!("L"), pt!(Period), pt!("L"), pt!(Period), pt!("M")],

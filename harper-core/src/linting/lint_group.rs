@@ -46,9 +46,27 @@ use super::phrase_corrections::MutePoint;
 use super::phrase_corrections::StateOfTheArt;
 use super::phrase_corrections::WantBe;
 use super::phrase_corrections::{
-    AndTheLike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
-    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
-    SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
+    AndTheLike,
+    ANews,
+    AreTooManyNews,
+    BadRap, BatedBreath, BeckAndCall, ChangeTack,
+    EachNews,
+    EveryNews,
+    EnMasse,
+    HowManyNews,
+    HowManyNewsAre,
+    HowManyNewsWere,
+    HumanLife, HungerPang,
+    LetAlone, LoAndBehold,
+    ManyNews,
+    ManyNewsAre,
+    ManyNewsWere,
+    NeedHelp,
+    NewsAre, NewsWere,
+    NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
+    SupposedTo, ThanOthers, ThatChallenged,
+    // TooManyNews,
+    TurnItOff,
 };
 use super::pique_interest::PiqueInterest;
 use super::plural_conjugate::PluralConjugate;
@@ -335,7 +353,20 @@ create_lint_group_config!(
     SpecialAttention => true,
     Everywhere => true,
     ThanOthers => true,
-    SupposedTo => true
+    SupposedTo => true,
+    ANews => true,
+    AreTooManyNews => true,
+    EachNews => true,
+    EveryNews => true,
+    HowManyNews => true,
+    HowManyNewsAre => true,
+    HowManyNewsWere => true,
+    ManyNews => true,
+    ManyNewsAre => true,
+    ManyNewsWere => true,
+    NewsAre => true,
+    NewsWere => true,
+    // TooManyNews => true,
 );
 
 impl<T: Dictionary + Default> Default for LintGroup<T> {

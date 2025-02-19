@@ -139,14 +139,143 @@ create_linter_map_phrase!(MutePoint, ExactPhrase::from_phrase("mute point"),
     "Did you mean `moot point`?",
     "Ensures `moot point` is used instead of `mute point`, as `moot` means debatable or irrelevant.");
 
+
+// "a","news" => "some news", False positives:
+// a news <nominal phrase>
+create_linter_map_phrase!(ANews, ExactPhrase::from_phrase("a news"), "some news", "`News` is not plural.", "Addresses `news` used as a plural.");
+// "are","too","many","news" => "is too much news"
+create_linter_map_phrase!(AreTooManyNews, ExactPhrase::from_phrase("are too many news"), "is too much news", "`News` is not plural.", "Addresses `news` used as a plural.");
+// "each","news" => "each piece of news", False positives:
+// each news <nominal phrase>
+create_linter_map_phrase!(EachNews, ExactPhrase::from_phrase("each news"), "each piece of news", "`News` is not plural.", "Addresses `news` used as a plural.");
+
+// "every","news" => "every piece of news", False positives:
+// every news <nominal phrase>
+create_linter_map_phrase!(EveryNews, ExactPhrase::from_phrase("every news"), "every piece of news", "`News` is not plural.", "Addresses `news` used as a plural.");
+
+// "how","many","news" => "how much news", False positives:
+// I want to see how many news headlines are related to ...
+// How many news categories are there ...
+create_linter_map_phrase!(HowManyNews, ExactPhrase::from_phrase("how many news"), "how much news", "`News` is not plural.", "Addresses `news` used as a plural.");
+// "how","many","news","are" => "how much news is",
+create_linter_map_phrase!(HowManyNewsAre, ExactPhrase::from_phrase("how many news are"), "how much news is", "`News` is not plural.", "Addresses `news` used as a plural.");
+// "how","many","news","were" => "how much news was",
+create_linter_map_phrase!(HowManyNewsWere, ExactPhrase::from_phrase("how many news were"), "how much news was", "`News` is not plural.", "Addresses `news` used as a plural.");
+// "many","news" => "a lot of news"
+// because they may have no or many news listing blocks
+// Many news recommendation models
+// Since we have that many news sources at our disposal
+// features we may find in many news apps.
+create_linter_map_phrase!(ManyNews, ExactPhrase::from_phrase("many news"), "a lot of news", "`News` is not plural.",
+    "Addresses `news` used as a plural."
+);
+// "many","news","are" => "a lot of news is",
+create_linter_map_phrase!(ManyNewsAre, ExactPhrase::from_phrase("many news are"), "much news is", "`News` is not plural.", "Addresses `news` used as a plural.");
+// "many","news","were" => "a lot of news was",
+create_linter_map_phrase!(ManyNewsWere, ExactPhrase::from_phrase("many news were"), "a lot of news was", "`News` is not plural.", "Addresses `news` used as a plural.");
+// "news","are" => "news is", False positives:
+// the search and facet blocks for news are shown
+create_linter_map_phrase!(NewsAre, ExactPhrase::from_phrase("news are"), "news is", "`News` is not plural.",
+    "Addresses `news` used as a plural."
+);
+// "news","were" => "news was", False positives:
+// the characteristics of fake news and real news were very similar
+// The URLs of news were scraped with Scripts\Scrape_URL.pyy
+create_linter_map_phrase!(NewsWere, ExactPhrase::from_phrase("news were"), "news was", "`News` is not plural.",
+    "Addresses `news` used as a plural."
+);
+// "too","many","news" => "too much news",
+// Flooded with too many news articles
+// Generating too many news messages at once ...
+// create_linter_map_phrase!(TooManyNews, ExactPhrase::from_phrase("too many news"), "too much news", "`News` is not plural.", "Addresses `news` used as a plural.");
+
+
+
+
+
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::{
-        BadRap, BatedBreath, ChangeTack, EnMasse, HungerPang, LetAlone, LoAndBehold, OfCourse,
-        SneakingSuspicion, SpecialAttention, SupposedTo, ThanOthers, TurnItOff,
+        ANews,
+        AreTooManyNews,
+        BadRap, BatedBreath, ChangeTack,
+        EachNews, EveryNews,
+        EnMasse,
+        HowManyNews,
+        HowManyNewsAre, HowManyNewsWere,
+        HungerPang, LetAlone, LoAndBehold,
+        ManyNews,
+        ManyNewsAre, ManyNewsWere,
+        NewsAre, NewsWere,
+        OfCourse,
+        SneakingSuspicion, SpecialAttention, SupposedTo, ThanOthers,
+        // TooManyNews,
+        TurnItOff,
     };
+
+
+
+
+    // Mostly participants said that they need a trigger to read a news such as a notification or some trending update
+    #[test]
+    fn a_news() {
+        assert_suggestion_result("Mostly participants said that they need a trigger to read a news such as a notification or some trending update", ANews::default(), "Mostly participants said that they need a trigger to read some news such as a notification or some trending update");
+    }
+    #[test]
+    fn are_too_many_news() {
+        assert_suggestion_result("When there are too many news loaded (~10000) any changes of their visibility take too long", AreTooManyNews::default(), "When there is too much news loaded (~10000) any changes of their visibility take too long");
+    }
+
+    #[test]
+    fn each_news() {
+        assert_suggestion_result("each news is a separate document", EachNews::default(), "each piece of news is a separate document");        
+    }
+    // Because every news are bias in some way.
+    #[test]
+    fn every_news() {
+        assert_suggestion_result("Because every news are bias in some way.", EveryNews::default(), "Because every piece of news is bias in some way.");
+    }
+
+    #[test]
+    fn how_many_news() {
+        assert_suggestion_result("you can specify how many news you want to get one time", HowManyNews::default(), "you can specify how much news you want to get one time");
+    }
+    #[test]
+    fn how_many_news_are() {
+        assert_suggestion_result("I would like to a number field so that I may choose exactly how many news are shown.", HowManyNewsAre::default(), "I would like to a number field so that I may choose exactly how much news is shown.");
+    }    #[test]
+    fn how_many_news_were() {
+        assert_suggestion_result("How many news were published on the website?", HowManyNewsWere::default(), "How much news was published on the website?");
+    }
+    #[test]
+    fn many_news() {
+        assert_suggestion_result("An application has companies and news. Each company has many news.", ManyNews::default(), "An application has companies and news. Each company has a lot of news.");
+    }
+    #[test]
+    fn many_news_are() {
+        assert_suggestion_result("So many news are going on these days every time we turn on our TVs", ManyNewsAre::default(), "So much news is going on these days every time we turn on our TVs");
+    }
+    #[test]
+    fn many_news_were() {
+        assert_suggestion_result("During the last 3 years, many news were released in our official SAP Group", ManyNewsWere::default(), "During the last 3 years, a lot of news was released in our official SAP Group");
+    }
+    #[test]
+    fn news_are() {
+        assert_suggestion_result("The news are made via issues - one per announcement",
+            NewsAre::default(), "The news is made via issues - one per announcement");
+    }
+    #[test]
+    fn news_were() {
+        assert_suggestion_result("The news were collected from **January to July of 2018**",
+            NewsWere::default(), "The news was collected from **January to July of 2018**");
+    }
+
+
+
+
+
 
     #[test]
     fn issue_574() {
