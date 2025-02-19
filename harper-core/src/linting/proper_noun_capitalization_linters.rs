@@ -35,16 +35,16 @@ impl<D: Dictionary + 'static> PatternLinter for ProperNounCapitalizationLinter<D
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
         let proper = make_title_case(matched_tokens, source, &self.dictionary);
 
-        Lint {
-            span: matched_tokens.span().unwrap(),
+        Some(Lint {
+            span: matched_tokens.span()?,
             lint_kind: LintKind::Capitalization,
             suggestions: vec![Suggestion::ReplaceWith(proper)],
             message: self.description.to_string(),
             priority: 31,
-        }
+        })
     }
 
     fn description(&self) -> &str {

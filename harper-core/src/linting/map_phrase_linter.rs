@@ -68,11 +68,11 @@ impl PatternLinter for MapPhraseLinter {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
-        let span = matched_tokens.span().unwrap();
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
+        let span = matched_tokens.span()?;
         let matched_text = span.get_content(source);
 
-        Lint {
+        Some(Lint {
             span,
             lint_kind: LintKind::Miscellaneous,
             suggestions: self
@@ -87,7 +87,7 @@ impl PatternLinter for MapPhraseLinter {
                 .collect(),
             message: self.message.to_string(),
             priority: 31,
-        }
+        })
     }
 
     fn description(&self) -> &str {

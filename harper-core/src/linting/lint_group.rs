@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 
 use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
+use super::back_in_the_day::BackInTheDay;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::chock_full::ChockFull;
@@ -188,6 +189,7 @@ impl LintGroup {
         out.merge_from(&mut closed_compounds::lint_group());
 
         // Add all of the more complex rules to the group.
+        insert_struct_rule!(BackInTheDay, true);
         insert_struct_rule!(WordPressDotcom, true);
         insert_struct_rule!(OutOfDate, true);
         insert_struct_rule!(ThenThan, true);
