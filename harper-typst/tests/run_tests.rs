@@ -19,7 +19,7 @@ macro_rules! create_test {
                  let dict = FstDictionary::curated();
                  let document = Document::new(&source, &Typst, &dict);
 
-                 let mut linter = LintGroup::new(
+                 let mut linter = LintGroup::new_curated(
                      LintGroupConfig::default(),
                      dict
                  );

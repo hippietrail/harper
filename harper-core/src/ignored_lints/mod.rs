@@ -68,7 +68,8 @@ mod tests {
         let document = Document::new_markdown_default_curated(&text);
 
         let mut lints =
-            LintGroup::new(LintGroupConfig::default(), FstDictionary::curated()).lint(&document);
+            LintGroup::new_curated(LintGroupConfig::default(), FstDictionary::curated())
+                .lint(&document);
 
         let mut ignored = IgnoredLints::new();
 
@@ -85,7 +86,8 @@ mod tests {
         let document = Document::new_markdown_default_curated(&text);
 
         let mut lints =
-            LintGroup::new(LintGroupConfig::default(), FstDictionary::curated()).lint(&document);
+            LintGroup::new_curated(LintGroupConfig::default(), FstDictionary::curated())
+                .lint(&document);
 
         let Some(first) = lints.first().cloned() else {
             return TestResult::discard();
@@ -104,7 +106,8 @@ mod tests {
         let document = Document::new_markdown_default_curated(&source);
 
         let mut lints =
-            LintGroup::new(LintGroupConfig::default(), FstDictionary::curated()).lint(&document);
+            LintGroup::new_curated(LintGroupConfig::default(), FstDictionary::curated())
+                .lint(&document);
 
         let nth = lints.get(nth_lint).cloned().unwrap_or_else(|| {
             panic!("If ignoring the lint at {nth_lint}, make sure there are enough problems.")

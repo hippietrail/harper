@@ -12,7 +12,7 @@ fn parse_demo(c: &mut Criterion) {
 
 fn lint_demo(c: &mut Criterion) {
     let dictionary = FstDictionary::curated();
-    let mut lint_set = LintGroup::new(Default::default(), dictionary);
+    let mut lint_set = LintGroup::new_curated(Default::default(), dictionary);
     let document = Document::new_markdown_default_curated(black_box(DEMO));
 
     c.bench_function("lint_demo", |b| {
@@ -24,7 +24,8 @@ fn lint_demo_uncached(c: &mut Criterion) {
     c.bench_function("lint_demo_uncached", |b| {
         b.iter(|| {
             let dictionary = FstDictionary::curated();
-            let mut lint_set = LintGroup::new(LintGroupConfig::default(), dictionary.clone());
+            let mut lint_set =
+                LintGroup::new_curated(LintGroupConfig::default(), dictionary.clone());
             let document = Document::new_markdown_default(black_box(DEMO), &dictionary);
             lint_set.lint(&document)
         })

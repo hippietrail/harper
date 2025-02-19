@@ -82,7 +82,7 @@ impl Linter {
         let dictionary = Self::construct_merged_dict(MutableDictionary::default());
 
         Self {
-            lint_group: LintGroup::new(LintGroupConfig::default(), dictionary.clone()),
+            lint_group: LintGroup::new_curated(LintGroupConfig::default(), dictionary.clone()),
             user_dictionary: MutableDictionary::new(),
             dictionary,
             ignored_lints: IgnoredLints::default(),
@@ -94,7 +94,7 @@ impl Linter {
     fn synchronize_lint_dict(&mut self) {
         let lint_config = self.lint_group.config.clone();
         self.dictionary = Self::construct_merged_dict(self.user_dictionary.clone());
-        self.lint_group = LintGroup::new(lint_config, self.dictionary.clone());
+        self.lint_group = LintGroup::new_curated(lint_config, self.dictionary.clone());
     }
 
     /// Construct the actual dictionary to be used for linting and parsing from the curated dictionary
@@ -373,7 +373,7 @@ impl Lint {
 #[wasm_bindgen]
 pub fn get_default_lint_config_as_json() -> String {
     let mut config = LintGroupConfig::default();
-    config.fill_default_values();
+    config.fill_with_curated_config();
 
     serde_json::to_string(&config).unwrap()
 }
@@ -381,7 +381,7 @@ pub fn get_default_lint_config_as_json() -> String {
 #[wasm_bindgen]
 pub fn get_default_lint_config() -> JsValue {
     let mut config = LintGroupConfig::default();
-    config.fill_default_values();
+    config.fill_with_curated_config();
 
     // Important for downstream JSON serialization
     let serializer = serde_wasm_bindgen::Serializer::json_compatible();

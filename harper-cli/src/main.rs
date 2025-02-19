@@ -64,7 +64,7 @@ fn main() -> anyhow::Result<()> {
         Args::Lint { file, count } => {
             let (doc, source) = load_file(&file, markdown_options)?;
 
-            let mut linter = LintGroup::new(linting_options, dictionary);
+            let mut linter = LintGroup::new_curated(linting_options, dictionary);
             let mut lints = linter.lint(&doc);
 
             if count {
@@ -199,8 +199,8 @@ fn main() -> anyhow::Result<()> {
                 description: String,
             }
 
-            let mut linter = LintGroup::new(linting_options, dictionary);
-            linter.config.fill_default_values();
+            let mut linter = LintGroup::new_curated(linting_options, dictionary);
+            linter.config.fill_with_curated_config();
 
             let default_config: HashMap<String, bool> =
                 serde_json::from_str(&serde_json::to_string(&linter.config).unwrap()).unwrap();

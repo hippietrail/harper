@@ -158,7 +158,7 @@ impl Backend {
         let mut doc_lock = self.doc_state.lock().await;
 
         let doc_state = doc_lock.entry(url.clone()).or_insert(DocumentState {
-            linter: LintGroup::new(lint_config.clone(), dict.clone()),
+            linter: LintGroup::new_curated(lint_config.clone(), dict.clone()),
             language_id: language_id.map(|v| v.to_string()),
             dict: dict.clone(),
             url: url.clone(),
@@ -167,7 +167,7 @@ impl Backend {
 
         if doc_state.dict != dict {
             doc_state.dict = dict.clone();
-            doc_state.linter = LintGroup::new(lint_config.clone(), dict.clone());
+            doc_state.linter = LintGroup::new_curated(lint_config.clone(), dict.clone());
         }
 
         let Some(language_id) = &doc_state.language_id else {
@@ -190,7 +190,7 @@ impl Backend {
                 merged.add_dictionary(new_dict);
                 let merged = Arc::new(merged);
 
-                doc_state.linter = LintGroup::new(lint_config.clone(), merged.clone());
+                doc_state.linter = LintGroup::new_curated(lint_config.clone(), merged.clone());
                 doc_state.dict = merged.clone();
             }
 
@@ -588,7 +588,8 @@ impl LanguageServer for Backend {
             let config_lock = self.config.read().await;
 
             for doc in doc_lock.values_mut() {
-                doc.linter = LintGroup::new(config_lock.lint_config.clone(), doc.dict.clone());
+                doc.linter =
+                    LintGroup::new_curated(config_lock.lint_config.clone(), doc.dict.clone());
             }
 
             doc_lock.keys().cloned().collect()

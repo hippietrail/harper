@@ -36,19 +36,6 @@ use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::out_of_date::OutOfDate;
-use super::phrase_corrections::BaitedBreath;
-use super::phrase_corrections::BareInMind;
-use super::phrase_corrections::EludedTo;
-use super::phrase_corrections::FaceFirst;
-use super::phrase_corrections::FastPaste;
-use super::phrase_corrections::MutePoint;
-use super::phrase_corrections::StateOfTheArt;
-use super::phrase_corrections::WantBe;
-use super::phrase_corrections::{
-    AndTheLike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
-    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
-    SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
-};
 use super::pique_interest::PiqueInterest;
 use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
@@ -78,9 +65,9 @@ use super::wordpress_dotcom::WordPressDotcom;
 use super::wrong_quotes::WrongQuotes;
 use super::Lint;
 use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
+use crate::linting::phrase_corrections;
 use crate::Dictionary;
 use crate::Document;
-use crate::MutableDictionary;
 
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 #[serde(transparent)]
@@ -93,6 +80,12 @@ impl LintGroupConfig {
         self.inner.insert(key.to_string(), val);
     }
 
+    /// Remove any configuration attached to a rule.
+    /// This allows it to assume its default (curated) state.
+    pub fn unset_rule_enabled(&mut self, key: impl AsRef<str>) {
+        self.inner.remove_entry(key.as_ref());
+    }
+
     pub fn set_rule_enabled_if_unset(&mut self, key: impl AsRef<str>, val: bool) {
         if self.inner.get(key.as_ref()).is_none() {
             self.set_rule_enabled(key.as_ref().to_string(), val);
@@ -103,7 +96,15 @@ impl LintGroupConfig {
         self.inner.get(key).cloned().unwrap_or(false)
     }
 
-    pub fn fill_default_values(&mut self) {
+    /// Merge the contents of another [`LintGroupConfig`] into this one.
+    /// The other config will be left empty after this operation.
+    ///
+    /// Conflicting keys will be overridden by the value in the other group.
+    pub fn merge_from(&mut self, other: &mut LintGroupConfig) {
+        self.inner.extend(other.inner.drain());
+    }
+
+    pub fn fill_with_curated_config(&mut self) {
         self.set_rule_enabled_if_unset(stringify!(WordPressDotcom), true);
         self.set_rule_enabled_if_unset(stringify!(DayOneNames), true);
         self.set_rule_enabled_if_unset(stringify!(PocketCastsNames), true);
@@ -113,18 +114,10 @@ impl LintGroupConfig {
         self.set_rule_enabled_if_unset(stringify!(Desktop), true);
         self.set_rule_enabled_if_unset(stringify!(Laptop), true);
         self.set_rule_enabled_if_unset(stringify!(ThenThan), true);
-        self.set_rule_enabled_if_unset(stringify!(MutePoint), true);
         self.set_rule_enabled_if_unset(stringify!(PiqueInterest), true);
-        self.set_rule_enabled_if_unset(stringify!(BareInMind), true);
-        self.set_rule_enabled_if_unset(stringify!(BaitedBreath), true);
-        self.set_rule_enabled_if_unset(stringify!(EludedTo), true);
         self.set_rule_enabled_if_unset(stringify!(WasAloud), true);
         self.set_rule_enabled_if_unset(stringify!(HyphenateNumberDay), true);
-        self.set_rule_enabled_if_unset(stringify!(FaceFirst), true);
         self.set_rule_enabled_if_unset(stringify!(LeftRightHand), true);
-        self.set_rule_enabled_if_unset(stringify!(FastPaste), true);
-        self.set_rule_enabled_if_unset(stringify!(StateOfTheArt), true);
-        self.set_rule_enabled_if_unset(stringify!(WantBe), true);
         self.set_rule_enabled_if_unset(stringify!(HopHope), true);
         self.set_rule_enabled_if_unset(stringify!(Furthermore), true);
         self.set_rule_enabled_if_unset(stringify!(Overnight), true);
@@ -220,30 +213,13 @@ impl LintGroupConfig {
         self.set_rule_enabled_if_unset(stringify!(LetsConfusion), true);
         self.set_rule_enabled_if_unset(stringify!(DespiteOf), true);
         self.set_rule_enabled_if_unset(stringify!(ChockFull), true);
-        self.set_rule_enabled_if_unset(stringify!(HumanLife), true);
-        self.set_rule_enabled_if_unset(stringify!(NeedHelp), true);
-        self.set_rule_enabled_if_unset(stringify!(NoLonger), true);
-        self.set_rule_enabled_if_unset(stringify!(ThatChallenged), true);
-        self.set_rule_enabled_if_unset(stringify!(TurnItOff), true);
-        self.set_rule_enabled_if_unset(stringify!(OfCourse), true);
-        self.set_rule_enabled_if_unset(stringify!(AndTheLike), true);
-        self.set_rule_enabled_if_unset(stringify!(BadRap), true);
-        self.set_rule_enabled_if_unset(stringify!(BatedBreath), true);
-        self.set_rule_enabled_if_unset(stringify!(BeckAndCall), true);
-        self.set_rule_enabled_if_unset(stringify!(ChangeTack), true);
-        self.set_rule_enabled_if_unset(stringify!(HungerPang), true);
-        self.set_rule_enabled_if_unset(stringify!(EnMasse), true);
-        self.set_rule_enabled_if_unset(stringify!(LetAlone), true);
         self.set_rule_enabled_if_unset(stringify!(LoAndBehold), true);
-        self.set_rule_enabled_if_unset(stringify!(SneakingSuspicion), true);
-        self.set_rule_enabled_if_unset(stringify!(SpecialAttention), true);
         self.set_rule_enabled_if_unset(stringify!(Everywhere), true);
-        self.set_rule_enabled_if_unset(stringify!(ThanOthers), true);
-        self.set_rule_enabled_if_unset(stringify!(SupposedTo), true);
         self.set_rule_enabled("SpellCheck", true);
     }
 }
 
+#[derive(Default)]
 pub struct LintGroup {
     pub config: LintGroupConfig,
     inner: HashMap<String, Box<dyn Linter>>,
@@ -268,6 +244,24 @@ impl LintGroup {
         }
     }
 
+    /// Merge the contents of another [`LintGroup`] into this one.
+    /// The other lint group will be left empty after this operation.
+    pub fn merge_from(&mut self, other: &mut LintGroup) {
+        self.config.merge_from(&mut other.config);
+        self.inner.extend(other.inner.drain());
+    }
+
+    /// Set all contained rules to a specific value.
+    /// Passing `None` will unset that rule, allowing it to assume its default state.
+    pub fn set_all_rules_to(&mut self, enabled: Option<bool>) {
+        for key in self.inner.keys() {
+            match enabled {
+                Some(v) => self.config.set_rule_enabled(key, v),
+                None => self.config.unset_rule_enabled(key),
+            }
+        }
+    }
+
     pub fn all_descriptions(&self) -> HashMap<&str, &str> {
         self.inner
             .iter()
@@ -275,7 +269,7 @@ impl LintGroup {
             .collect()
     }
 
-    pub fn new(config: LintGroupConfig, dictionary: impl Dictionary + 'static) -> Self {
+    pub fn new_curated(config: LintGroupConfig, dictionary: impl Dictionary + 'static) -> Self {
         let mut out = Self::empty();
 
         macro_rules! insert_struct_rule {
@@ -283,6 +277,8 @@ impl LintGroup {
                 out.add(stringify!($rule), Box::new($rule::default()));
             };
         }
+
+        out.merge_from(&mut phrase_corrections::lint_group());
 
         insert_struct_rule!(WordPressDotcom);
         insert_struct_rule!(DayOneNames);
@@ -293,18 +289,10 @@ impl LintGroup {
         insert_struct_rule!(Desktop);
         insert_struct_rule!(Laptop);
         insert_struct_rule!(ThenThan);
-        insert_struct_rule!(MutePoint);
         insert_struct_rule!(PiqueInterest);
-        insert_struct_rule!(BareInMind);
-        insert_struct_rule!(BaitedBreath);
-        insert_struct_rule!(EludedTo);
         insert_struct_rule!(WasAloud);
         insert_struct_rule!(HyphenateNumberDay);
-        insert_struct_rule!(FaceFirst);
         insert_struct_rule!(LeftRightHand);
-        insert_struct_rule!(FastPaste);
-        insert_struct_rule!(StateOfTheArt);
-        insert_struct_rule!(WantBe);
         insert_struct_rule!(HopHope);
         insert_struct_rule!(Furthermore);
         insert_struct_rule!(Overnight);
@@ -400,26 +388,7 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion);
         insert_struct_rule!(DespiteOf);
         insert_struct_rule!(ChockFull);
-        insert_struct_rule!(HumanLife);
-        insert_struct_rule!(NeedHelp);
-        insert_struct_rule!(NoLonger);
-        insert_struct_rule!(ThatChallenged);
-        insert_struct_rule!(TurnItOff);
-        insert_struct_rule!(OfCourse);
-        insert_struct_rule!(AndTheLike);
-        insert_struct_rule!(BadRap);
-        insert_struct_rule!(BatedBreath);
-        insert_struct_rule!(BeckAndCall);
-        insert_struct_rule!(ChangeTack);
-        insert_struct_rule!(HungerPang);
-        insert_struct_rule!(EnMasse);
-        insert_struct_rule!(LetAlone);
-        insert_struct_rule!(LoAndBehold);
-        insert_struct_rule!(SneakingSuspicion);
-        insert_struct_rule!(SpecialAttention);
         insert_struct_rule!(Everywhere);
-        insert_struct_rule!(ThanOthers);
-        insert_struct_rule!(SupposedTo);
 
         out.add("SpellCheck", Box::new(SpellCheck::new(dictionary)));
 
@@ -434,7 +403,7 @@ impl Linter for LintGroup {
         let mut results = Vec::new();
 
         let mut config = self.config.clone();
-        config.fill_default_values();
+        config.fill_with_curated_config();
 
         for (key, linter) in &mut self.inner {
             if config.is_rule_enabled(key) {
@@ -450,12 +419,6 @@ impl Linter for LintGroup {
     }
 }
 
-impl Default for LintGroup {
-    fn default() -> Self {
-        Self::new(Default::default(), MutableDictionary::default())
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use crate::{linting::Linter, Document, FstDictionary, MutableDictionary};
@@ -464,13 +427,15 @@ mod tests {
 
     #[test]
     fn can_get_all_descriptions() {
-        let group = LintGroup::new(LintGroupConfig::default(), MutableDictionary::default());
+        let group =
+            LintGroup::new_curated(LintGroupConfig::default(), MutableDictionary::default());
         group.all_descriptions();
     }
 
     #[test]
     fn lint_descriptions_are_clean() {
-        let mut group = LintGroup::new(LintGroupConfig::default(), FstDictionary::curated());
+        let mut group =
+            LintGroup::new_curated(LintGroupConfig::default(), FstDictionary::curated());
         let pairs: Vec<_> = group
             .all_descriptions()
             .into_iter()
