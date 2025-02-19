@@ -73,7 +73,7 @@ impl PatternLinter for ModalOf {
     }
 
     fn description(&self) -> &'static str {
-        "Detects `would of`, `could of, `should of`, etc."
+        "Detects `of` mistakenly used with `would`, `could`, `should`, etc."
     }
 }
 
