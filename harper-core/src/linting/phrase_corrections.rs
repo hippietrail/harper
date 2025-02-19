@@ -61,7 +61,7 @@ pub fn lint_group() -> LintGroup {
 
     add_exact_mappings!(group, {
         // The name of the rule
-        "ChangeTack"    => (
+        "ChangeTack" => (
             // The exact phrase to look for.
             "change tact",
             // The corrections to provide.
@@ -71,7 +71,7 @@ pub fn lint_group() -> LintGroup {
             // A description of the rule.
             "Locates minor errors in the sailing idiom `change tack`."
         ),
-        "WantBe"        => (
+        "WantBe" => (
             "want be",
             ["won't be", "want to be"],
             "Did you mean `won't be` or `want to be`?",
@@ -83,35 +83,41 @@ pub fn lint_group() -> LintGroup {
             "Did you mean `state of the art`?",
             "Detects incorrect usage of `state of art` and suggests `state of the art` as the correct phrase."
         ),
-        "FaceFirst"     => (
+        "FaceFirst" => (
             "face first into",
             ["face-first into"],
             "Should this be `face-first`?",
             "Ensures `face first` is correctly hyphenated as `face-first` when used before `into`."
         ),
-        "EludedTo"      => (
+        "EludedTo" => (
             "eluded to",
             ["alluded to"],
             "Did you mean `alluded to`?",
             "Corrects `eluded to` to `alluded to` in contexts referring to indirect references."
         ),
-        "BaitedBreath"  => (
+        "BaitedBreath" => (
             "baited breath",
             ["bated breath"],
             "Did you mean `bated breath`?",
             "Ensures `bated breath` is written correctly, as `baited breath` is incorrect."
         ),
-        "BareInMind"    => (
+        "BareInMind" => (
             "bare in mind",
             ["bear in mind"],
             "Did you mean `bear in mind`?",
             "Ensures the phrase `bear in mind` is used correctly instead of `bare in mind`."
         ),
-        "MutePoint"     => (
+        "MutePoint" => (
             "mute point",
             ["moot point"],
             "Did you mean `moot point`?",
             "Ensures `moot point` is used instead of `mute point`, as `moot` means debatable or irrelevant."
+        ),
+        "RoadMap" => (
+            "roadmap",
+            ["road map"],
+            "Did you mean `road map`?",
+            "Detects when `roadmap` is used instead of `road map`, prompting the correct spacing."
         )
     });
 

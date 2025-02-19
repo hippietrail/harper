@@ -80,9 +80,10 @@ impl Linter {
     /// in Harper.
     pub fn new() -> Self {
         let dictionary = Self::construct_merged_dict(MutableDictionary::default());
+        let lint_group = LintGroup::new_curated_empty_config(dictionary.clone());
 
         Self {
-            lint_group: LintGroup::new_curated(dictionary.clone()),
+            lint_group,
             user_dictionary: MutableDictionary::new(),
             dictionary,
             ignored_lints: IgnoredLints::default(),
@@ -92,10 +93,10 @@ impl Linter {
     /// Update the dictionary inside [`Self::lint_group`] to include [`Self::user_dictionary`].
     /// This clears any linter caches, so use it sparingly.
     fn synchronize_lint_dict(&mut self) {
-        let lint_config = self.lint_group.config.clone();
+        let mut lint_config = self.lint_group.config.clone();
         self.dictionary = Self::construct_merged_dict(self.user_dictionary.clone());
-        self.lint_group =
-            LintGroup::new_curated(self.dictionary.clone()).with_lint_config(lint_config);
+        self.lint_group = LintGroup::new_curated_empty_config(self.dictionary.clone());
+        self.lint_group.config.merge_from(&mut lint_config);
     }
 
     /// Construct the actual dictionary to be used for linting and parsing from the curated dictionary
@@ -136,13 +137,19 @@ impl Linter {
     }
 
     pub fn set_lint_config_from_json(&mut self, json: String) -> Result<(), String> {
-        self.lint_group.config = serde_json::from_str(&json).map_err(|v| v.to_string())?;
+        self.lint_group
+            .config
+            .merge_from(&mut serde_json::from_str(&json).map_err(|v| v.to_string())?);
         Ok(())
     }
 
     /// Get a Record containing the descriptions of all the linting rules.
     pub fn get_lint_descriptions_as_object(&self) -> JsValue {
-        serde_wasm_bindgen::to_value(&self.lint_group.all_descriptions()).unwrap()
+        let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+        self.lint_group
+            .all_descriptions()
+            .serialize(&serializer)
+            .unwrap()
     }
 
     pub fn get_lint_config_as_object(&self) -> JsValue {
@@ -153,8 +160,9 @@ impl Linter {
     }
 
     pub fn set_lint_config_from_object(&mut self, object: JsValue) -> Result<(), String> {
-        self.lint_group.config =
-            serde_wasm_bindgen::from_value(object).map_err(|v| v.to_string())?;
+        self.lint_group
+            .config
+            .merge_from(&mut serde_wasm_bindgen::from_value(object).map_err(|v| v.to_string())?);
         Ok(())
     }
 
@@ -178,7 +186,12 @@ impl Linter {
         let document =
             Document::new_from_vec(source.clone(), &parser, &MutableDictionary::curated());
 
+        let temp = self.lint_group.config.clone();
+        self.lint_group.config.fill_with_curated();
+
         let mut lints = self.lint_group.lint(&document);
+
+        self.lint_group.config = temp;
 
         remove_overlaps(&mut lints);
 

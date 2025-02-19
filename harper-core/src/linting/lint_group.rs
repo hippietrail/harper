@@ -1,5 +1,6 @@
 use std::sync::Arc;
 
+use cached::proc_macro::cached;
 use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 
@@ -50,18 +51,25 @@ use super::wrong_quotes::WrongQuotes;
 use super::Lint;
 use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
 use crate::linting::{closed_compounds, phrase_corrections};
-use crate::Dictionary;
 use crate::Document;
+use crate::{Dictionary, MutableDictionary};
 
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 #[serde(transparent)]
 pub struct LintGroupConfig {
-    inner: HashMap<String, bool>,
+    inner: HashMap<String, Option<bool>>,
+}
+
+#[cached]
+fn curated_config() -> LintGroupConfig {
+    // Dictionary does not matter, we're just after the config.
+    let group = LintGroup::new_curated(MutableDictionary::new().into());
+    group.config
 }
 
 impl LintGroupConfig {
     pub fn set_rule_enabled(&mut self, key: impl ToString, val: bool) {
-        self.inner.insert(key.to_string(), val);
+        self.inner.insert(key.to_string(), Some(val));
     }
 
     /// Remove any configuration attached to a rule.
@@ -77,11 +85,15 @@ impl LintGroupConfig {
     }
 
     pub fn is_rule_enabled(&self, key: &str) -> bool {
-        self.inner.get(key).cloned().unwrap_or(false)
+        self.inner.get(key).cloned().flatten().unwrap_or(false)
     }
 
+    /// Clear all config options.
+    /// This will reset them all to disabled.
     pub fn clear(&mut self) {
-        self.inner.clear();
+        for val in self.inner.values_mut() {
+            *val = None
+        }
     }
 
     /// Merge the contents of another [`LintGroupConfig`] into this one.
@@ -90,6 +102,15 @@ impl LintGroupConfig {
     /// Conflicting keys will be overridden by the value in the other group.
     pub fn merge_from(&mut self, other: &mut LintGroupConfig) {
         self.inner.extend(other.inner.drain());
+    }
+
+    /// Fill the group with the values for the curated lint group.
+    pub fn fill_with_curated(&mut self) {
+        self.merge_from(&mut Self::new_curated());
+    }
+
+    pub fn new_curated() -> Self {
+        curated_config()
     }
 }
 
@@ -166,6 +187,7 @@ impl LintGroup {
         ));
         out.merge_from(&mut closed_compounds::lint_group());
 
+        // Add all of the more complex rules to the group.
         insert_struct_rule!(WordPressDotcom, true);
         insert_struct_rule!(OutOfDate, true);
         insert_struct_rule!(ThenThan, true);
@@ -217,6 +239,13 @@ impl LintGroup {
 
         out
     }
+
+    /// Create a new curated group with all config values cleared out.
+    pub fn new_curated_empty_config(dictionary: Arc<impl Dictionary + 'static>) -> Self {
+        let mut group = Self::new_curated(dictionary);
+        group.config.clear();
+        group
+    }
 }
 
 impl Linter for LintGroup {
@@ -239,13 +268,15 @@ impl Linter for LintGroup {
 
 #[cfg(test)]
 mod tests {
-    use crate::{linting::Linter, Document, FstDictionary, Lrc, MutableDictionary};
+    use std::sync::Arc;
+
+    use crate::{linting::Linter, Document, FstDictionary, MutableDictionary};
 
     use super::LintGroup;
 
     #[test]
     fn can_get_all_descriptions() {
-        let group = LintGroup::new_curated(Lrc::new(MutableDictionary::default()));
+        let group = LintGroup::new_curated(Arc::new(MutableDictionary::default()));
         group.all_descriptions();
     }
 

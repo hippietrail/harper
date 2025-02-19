@@ -6,17 +6,20 @@ pub fn lint_group() -> LintGroup {
     let mut group = LintGroup::empty();
 
     macro_rules! add_compound_mappings {
-    ($group:expr, { $($name:expr => ($bad:expr, $good:expr)),+ $(,)? }) => {
-        $(
-            $group.add(
-                $name,
-                Box::new(MapPhraseLinter::new_closed_compound($bad, $good)),
-            );
-        )+
-    };
-}
+        ($group:expr, { $($name:expr => ($bad:expr, $good:expr)),+ $(,)? }) => {
+            $(
+                $group.add(
+                    $name,
+                    Box::new(MapPhraseLinter::new_closed_compound($bad, $good)),
+                );
+            )+
+        };
+    }
 
-    // Use the macro with a grid of mappings:
+    // These are compound words that should be condensed.
+    // The first column is the name of the rule (which shows up in settings).
+    // The second column is the incorrect form of the word and the third column is the correct
+    // form.
     add_compound_mappings!(group, {
         "Itself"          => ("it self", "itself"),
         "Myself"          => ("my self", "myself"),
