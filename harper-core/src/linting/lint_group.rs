@@ -8,17 +8,6 @@ use super::avoid_curses::AvoidCurses;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::chock_full::ChockFull;
-use super::closed_compounds::Desktop;
-use super::closed_compounds::Furthermore;
-use super::closed_compounds::Laptop;
-use super::closed_compounds::Overnight;
-use super::closed_compounds::{
-    Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
-    Instead, Intact, Into, Itself, Middleware, Misunderstand, Misunderstood, Misuse, Misused,
-    Multicore, Multimedia, Multithreading, Myself, Nonetheless, Nothing, Notwithstanding, Overall,
-    Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
-    Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
-};
 use super::compound_nouns::CompoundNouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
@@ -60,7 +49,7 @@ use super::wordpress_dotcom::WordPressDotcom;
 use super::wrong_quotes::WrongQuotes;
 use super::Lint;
 use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
-use crate::linting::phrase_corrections;
+use crate::linting::{closed_compounds, phrase_corrections};
 use crate::Dictionary;
 use crate::Document;
 
@@ -175,64 +164,20 @@ impl LintGroup {
         out.merge_from(&mut proper_noun_capitalization_linters::lint_group(
             dictionary.clone(),
         ));
+        out.merge_from(&mut closed_compounds::lint_group());
 
         insert_struct_rule!(WordPressDotcom, true);
         insert_struct_rule!(OutOfDate, true);
-        insert_struct_rule!(Desktop, true);
-        insert_struct_rule!(Laptop, true);
         insert_struct_rule!(ThenThan, true);
         insert_struct_rule!(PiqueInterest, true);
         insert_struct_rule!(WasAloud, true);
         insert_struct_rule!(HyphenateNumberDay, true);
         insert_struct_rule!(LeftRightHand, true);
         insert_struct_rule!(HopHope, true);
-        insert_struct_rule!(Furthermore, true);
-        insert_struct_rule!(Overnight, true);
         insert_struct_rule!(Hereby, true);
         insert_struct_rule!(Likewise, true);
         insert_struct_rule!(CompoundNouns, true);
-        insert_struct_rule!(Regardless, true);
-        insert_struct_rule!(Henceforth, true);
-        insert_struct_rule!(Upward, true);
-        insert_struct_rule!(Whereupon, true);
-        insert_struct_rule!(Insofar, true);
-        insert_struct_rule!(Thereupon, true);
-        insert_struct_rule!(Nonetheless, true);
-        insert_struct_rule!(Anyhow, true);
-        insert_struct_rule!(Notwithstanding, true);
-        insert_struct_rule!(Widespread, true);
-        insert_struct_rule!(Multimedia, true);
-        insert_struct_rule!(Multicore, true);
-        insert_struct_rule!(Multithreading, true);
-        insert_struct_rule!(Devops, true);
-        insert_struct_rule!(Underclock, true);
-        insert_struct_rule!(Overload, true);
-        insert_struct_rule!(Backplane, true);
-        insert_struct_rule!(Overclocking, true);
-        insert_struct_rule!(Middleware, true);
-        insert_struct_rule!(Somewhere, true);
-        insert_struct_rule!(Instead, true);
-        insert_struct_rule!(Anywhere, true);
-        insert_struct_rule!(Nothing, true);
-        insert_struct_rule!(Anybody, true);
-        insert_struct_rule!(Somebody, true);
         insert_struct_rule!(Nobody, true);
-        insert_struct_rule!(Into, true);
-        insert_struct_rule!(Proofread, true);
-        insert_struct_rule!(Somehow, true);
-        insert_struct_rule!(Intact, true);
-        insert_struct_rule!(Upset, true);
-        insert_struct_rule!(Misunderstood, true);
-        insert_struct_rule!(However, true);
-        insert_struct_rule!(Overall, true);
-        insert_struct_rule!(Worldwide, true);
-        insert_struct_rule!(Postpone, true);
-        insert_struct_rule!(Misused, true);
-        insert_struct_rule!(Misuse, true);
-        insert_struct_rule!(Misunderstand, true);
-        insert_struct_rule!(Therefore, true);
-        insert_struct_rule!(Myself, true);
-        insert_struct_rule!(Itself, true);
         insert_struct_rule!(Whereas, true);
         insert_struct_rule!(PossessiveYour, true);
         insert_struct_rule!(SpelledNumbers, false);
@@ -266,7 +211,6 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion, true);
         insert_struct_rule!(DespiteOf, true);
         insert_struct_rule!(ChockFull, true);
-        insert_struct_rule!(Everywhere, true);
 
         out.add("SpellCheck", Box::new(SpellCheck::new(dictionary)));
         out.config.set_rule_enabled("SpellCheck", true);
@@ -297,7 +241,7 @@ impl Linter for LintGroup {
 mod tests {
     use crate::{linting::Linter, Document, FstDictionary, Lrc, MutableDictionary};
 
-    use super::{LintGroup, LintGroupConfig};
+    use super::LintGroup;
 
     #[test]
     fn can_get_all_descriptions() {

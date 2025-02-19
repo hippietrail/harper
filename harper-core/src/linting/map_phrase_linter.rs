@@ -47,6 +47,20 @@ impl MapPhraseLinter {
             description,
         )
     }
+
+    pub fn new_closed_compound(phrase: impl AsRef<str>, correct_form: impl ToString) -> Self {
+        let message = format!(
+            "Did you mean the closed compound `{}`?",
+            correct_form.to_string()
+        );
+
+        let description = format!(
+            "Looks for incorrect spacing inside the closed compound `{}`.",
+            correct_form.to_string()
+        );
+
+        Self::new_exact_phrase(phrase, [correct_form], message, description)
+    }
 }
 
 impl PatternLinter for MapPhraseLinter {
