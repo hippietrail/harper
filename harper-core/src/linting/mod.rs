@@ -98,6 +98,19 @@ pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use out_of_date::OutOfDate;
 pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
+pub use phrase_corrections::BaitedBreath;
+pub use phrase_corrections::BareInMind;
+pub use phrase_corrections::EludedTo;
+pub use phrase_corrections::FaceFirst;
+pub use phrase_corrections::FastPaste;
+pub use phrase_corrections::MutePoint;
+pub use phrase_corrections::StateOfTheArt;
+pub use phrase_corrections::WantBe;
+pub use phrase_corrections::{
+    AndTheLike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, FarToMany, FarToMuch,
+    HumanLife, HungerPang, LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion,
+    SpecialAttention, SupposedTo, ThanOthers, ThatChallenged, TurnItOff, WayToMany, WayToMuch,
+};
 pub use pique_interest::PiqueInterest;
 pub use plural_conjugate::PluralConjugate;
 pub use possessive_your::PossessiveYour;
