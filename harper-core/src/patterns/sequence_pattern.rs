@@ -4,7 +4,7 @@ use super::whitespace_pattern::WhitespacePattern;
 use super::{
     AnyCapitalization, AnyPattern, IndefiniteArticle, Pattern, RepeatingPattern, SingularSubject,
 };
-use crate::{CharStringExt, Token, TokenKind};
+use crate::{Token, TokenKind};
 
 /// A pattern that checks that a sequence of other patterns match.
 /// There are specific extension methods available, but you can also use [`Self::then`] to add
@@ -137,40 +137,14 @@ impl SequencePattern {
         self
     }
 
-    /// Shorthand for [`Self::then_exact_word_or_lowercase`].
-    pub fn t_eworl(self, word: &'static str) -> Self {
-        self.then_exact_word_or_lowercase(word)
-    }
-
-    pub fn then_exact_word_or_lowercase(mut self, word: &'static str) -> Self {
-        self.token_patterns
-            .push(Box::new(|tok: &Token, source: &[char]| {
-                if !tok.kind.is_word() {
-                    return false;
-                }
-
-                let tok_chars = tok.span.get_content(source).to_lower();
-
-                let mut w_char_count = 0;
-                for (i, w_char) in word.to_lowercase().chars().enumerate() {
-                    w_char_count += 1;
-
-                    if tok_chars.get(i).cloned() != Some(w_char) {
-                        return false;
-                    }
-                }
-
-                w_char_count == tok_chars.len()
-            }));
-        self
-    }
-
+    /// Matches any word.
     pub fn then_any_word(mut self) -> Self {
         self.token_patterns
             .push(Box::new(|tok: &Token, _source: &[char]| tok.kind.is_word()));
         self
     }
 
+    /// Matches any token whose `Kind` exactly matches.
     pub fn then_strict(mut self, kind: TokenKind) -> Self {
         self.token_patterns
             .push(Box::new(move |tok: &Token, _source: &[char]| {

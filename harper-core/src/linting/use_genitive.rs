@@ -40,8 +40,8 @@ impl UseGenitive {
         // Add a prelude to remove false-positives.
         let full_pattern = SequencePattern::default()
             .then(Invert::new(EitherPattern::new(vec![
-                Box::new(SequencePattern::default().then_exact_word_or_lowercase("Is")),
-                Box::new(SequencePattern::default().then_exact_word_or_lowercase("Were")),
+                Box::new(SequencePattern::default().t_aco("is")),
+                Box::new(SequencePattern::default().t_aco("were")),
                 Box::new(SequencePattern::default().then_adjective()),
             ])))
             .then_whitespace()
