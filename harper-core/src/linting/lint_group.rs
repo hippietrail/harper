@@ -15,6 +15,7 @@ use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
+use super::expand_time_shorthands::ExpandTimeShorthands;
 use super::hereby::Hereby;
 use super::hop_hope::HopHope;
 use super::hyphenate_number_day::HyphenateNumberDay;
@@ -235,6 +236,7 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion, true);
         insert_struct_rule!(DespiteOf, true);
         insert_struct_rule!(ChockFull, true);
+        insert_struct_rule!(ExpandTimeShorthands, true);
 
         out.add("SpellCheck", Box::new(SpellCheck::new(dictionary)));
         out.config.set_rule_enabled("SpellCheck", true);
