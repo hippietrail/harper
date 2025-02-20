@@ -1,10 +1,10 @@
 use crate::{
-    patterns::{Pattern, SequencePattern, WordSet},
     CharStringExt, Token,
+    patterns::{Pattern, SequencePattern, WordSet},
 };
 
-use crate::linting::{LintKind, PatternLinter, Suggestion};
 use crate::Lint;
+use crate::linting::{LintKind, PatternLinter, Suggestion};
 
 pub struct ShouldContract {
     pattern: Box<dyn Pattern>,
@@ -15,7 +15,7 @@ impl Default for ShouldContract {
         Self {
             pattern: Box::new(
                 SequencePattern::default()
-                    .then_word_set(WordSet::all(&["your", "were"]))
+                    .then(WordSet::new(&["your", "were"]))
                     .then_whitespace()
                     .t_aco("the")
                     .then_whitespace()
@@ -42,10 +42,10 @@ impl PatternLinter for ShouldContract {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
         let mistake = matched_tokens[0].span.get_content(source);
 
-        Lint {
+        Some(Lint {
             span: matched_tokens[0].span,
             lint_kind: LintKind::WordChoice,
             suggestions: Self::mistake_to_correct(&mistake.to_lower().to_string())
@@ -53,7 +53,7 @@ impl PatternLinter for ShouldContract {
                 .collect(),
             message: "Use the contraction or separate the words instead.".to_string(),
             priority: 31,
-        }
+        })
     }
 
     fn description(&self) -> &'static str {

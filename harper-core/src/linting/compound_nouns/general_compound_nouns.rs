@@ -1,14 +1,14 @@
 use crate::{
+    CharStringExt, TokenStringExt,
     linting::PatternLinter,
     patterns::{All, SplitCompoundWord},
-    CharStringExt, TokenStringExt,
 };
 
 use super::{Lint, LintKind, Suggestion};
 
 use crate::{
-    patterns::{Pattern, SequencePattern},
     Lrc, Token,
+    patterns::{Pattern, SequencePattern},
 };
 
 /// Covers the general cases of accidentally split compound nouns.
@@ -20,21 +20,21 @@ pub struct GeneralCompoundNouns {
 impl Default for GeneralCompoundNouns {
     fn default() -> Self {
         let exceptions_pattern = SequencePattern::default()
-            .then(Box::new(|tok: &Token, _: &[char]| {
-                let Some(meta) = tok.kind.as_word() else {
+            .then(|tok: &Token, _: &[char]| {
+                let Some(Some(meta)) = tok.kind.as_word() else {
                     return false;
                 };
 
                 tok.span.len() > 1 && !meta.article && !meta.preposition
-            }))
+            })
             .then_whitespace()
-            .then(Box::new(|tok: &Token, _: &[char]| {
-                let Some(meta) = tok.kind.as_word() else {
+            .then(|tok: &Token, _: &[char]| {
+                let Some(Some(meta)) = tok.kind.as_word() else {
                     return false;
                 };
 
                 tok.span.len() > 1 && !meta.article && !meta.is_adverb() && !meta.preposition
-            }));
+            });
 
         let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| {
             meta.is_noun() && !meta.is_adjective()
@@ -56,25 +56,24 @@ impl PatternLinter for GeneralCompoundNouns {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
-        let span = matched_tokens.span().unwrap();
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
+        let span = matched_tokens.span()?;
         let orig = span.get_content(source);
         // If the pattern matched, this will not return `None`.
-        let word = self
-            .split_pattern
-            .get_merged_word(matched_tokens[0], matched_tokens[2], source)
-            .unwrap();
+        let word =
+            self.split_pattern
+                .get_merged_word(matched_tokens[0], matched_tokens[2], source)?;
 
-        Lint {
+        Some(Lint {
             span,
-            lint_kind: LintKind::Spelling,
+            lint_kind: LintKind::WordChoice,
             suggestions: vec![Suggestion::replace_with_match_case(word.to_vec(), orig)],
             message: format!(
                 "Did you mean the closed compound noun “{}”?",
                 word.to_string()
             ),
             priority: 63,
-        }
+        })
     }
 
     fn description(&self) -> &str {

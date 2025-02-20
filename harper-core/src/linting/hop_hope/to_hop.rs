@@ -1,8 +1,8 @@
 use super::super::{Lint, LintKind, PatternLinter};
 use crate::linting::Suggestion;
 use crate::patterns::{Pattern, SequencePattern, WordSet};
-use crate::{char_string::char_string, Token};
 use crate::{CharString, CharStringExt};
+use crate::{Token, char_string::char_string};
 
 pub struct ToHop {
     pattern: Box<dyn Pattern>,
@@ -11,13 +11,13 @@ pub struct ToHop {
 impl Default for ToHop {
     fn default() -> Self {
         let pattern = SequencePattern::default()
-            .then_word_set(WordSet::all(&["hoping", "hoped", "hope"]))
+            .then(WordSet::new(&["hoping", "hoped", "hope"]))
             .then_whitespace()
             .t_aco("on")
             .then_whitespace()
             .then_article()
             .then_whitespace()
-            .then_word_set(WordSet::all(&["airplane", "plane", "bus", "call", "train"]));
+            .then(WordSet::new(&["airplane", "plane", "bus", "call", "train"]));
 
         Self {
             pattern: Box::new(pattern),
@@ -41,13 +41,13 @@ impl PatternLinter for ToHop {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
         let offending_word = matched_tokens[0];
         let word_chars = offending_word.span.get_content(source);
         let word = word_chars.to_string();
-        let correct = Self::to_correct(&word).unwrap();
+        let correct = Self::to_correct(&word)?;
 
-        Lint {
+        Some(Lint {
             span: offending_word.span,
             lint_kind: LintKind::WordChoice,
             suggestions: vec![Suggestion::replace_with_match_case(
@@ -59,7 +59,7 @@ impl PatternLinter for ToHop {
                 correct.to_string()
             ),
             ..Default::default()
-        }
+        })
     }
 
     fn description(&self) -> &'static str {

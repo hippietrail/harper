@@ -1,13 +1,10 @@
-use hashbrown::HashSet;
 use paste::paste;
 
 use super::whitespace_pattern::WhitespacePattern;
 use super::{
-    AnyCapitalization, AnyPattern, IndefiniteArticle, NounPhrase, Pattern, RepeatingPattern,
-    SingularSubject, WordSet,
+    AnyCapitalization, AnyPattern, IndefiniteArticle, Pattern, RepeatingPattern, SingularSubject,
 };
-use crate::Lrc;
-use crate::{CharStringExt, Token, TokenKind};
+use crate::{Token, TokenKind};
 
 /// A pattern that checks that a sequence of other patterns match.
 /// There are specific extension methods available, but you can also use [`Self::then`] to add
@@ -88,17 +85,8 @@ impl SequencePattern {
     gen_then_from_is!(article);
     gen_then_from_is!(proper_noun);
 
-    pub fn then_word_set(self, set: WordSet) -> Self {
-        self.then(Box::new(set))
-    }
-
     pub fn then_indefinite_article(self) -> Self {
-        self.then(Box::new(IndefiniteArticle::default()))
-    }
-
-    /// Add a pattern that looks for more complex ideas, like nouns with adjectives attached.
-    pub fn then_noun_phrase(self) -> Self {
-        self.then(Box::new(NounPhrase))
+        self.then(IndefiniteArticle::default())
     }
 
     pub fn then_exact_word(mut self, word: &'static str) -> Self {
@@ -125,7 +113,7 @@ impl SequencePattern {
     }
 
     pub fn then_singular_subject(self) -> Self {
-        self.then(Box::new(SingularSubject::default()))
+        self.then(SingularSubject::default())
     }
 
     /// Shorthand for [`Self::any_capitalization_of`].
@@ -145,53 +133,18 @@ impl SequencePattern {
     /// Match examples of `word` that have any capitalization.
     pub fn then_any_capitalization_of(mut self, word: &'static str) -> Self {
         self.token_patterns
-            .push(Box::new(AnyCapitalization::from_string(word)));
+            .push(Box::new(AnyCapitalization::of(word)));
         self
     }
 
-    /// Shorthand for [`Self::then_exact_word_or_lowercase`].
-    pub fn t_eworl(self, word: &'static str) -> Self {
-        self.then_exact_word_or_lowercase(word)
-    }
-
-    pub fn then_exact_word_or_lowercase(mut self, word: &'static str) -> Self {
-        self.token_patterns
-            .push(Box::new(|tok: &Token, source: &[char]| {
-                if !tok.kind.is_word() {
-                    return false;
-                }
-
-                let tok_chars = tok.span.get_content(source).to_lower();
-
-                let mut w_char_count = 0;
-                for (i, w_char) in word.to_lowercase().chars().enumerate() {
-                    w_char_count += 1;
-
-                    if tok_chars.get(i).cloned() != Some(w_char) {
-                        return false;
-                    }
-                }
-
-                w_char_count == tok_chars.len()
-            }));
-        self
-    }
-
-    pub fn then_loose(mut self, kind: TokenKind) -> Self {
-        self.token_patterns
-            .push(Box::new(move |tok: &Token, _source: &[char]| {
-                kind.with_default_data() == tok.kind.with_default_data()
-            }));
-
-        self
-    }
-
+    /// Matches any word.
     pub fn then_any_word(mut self) -> Self {
         self.token_patterns
             .push(Box::new(|tok: &Token, _source: &[char]| tok.kind.is_word()));
         self
     }
 
+    /// Matches any token whose `Kind` exactly matches.
     pub fn then_strict(mut self, kind: TokenKind) -> Self {
         self.token_patterns
             .push(Box::new(move |tok: &Token, _source: &[char]| {
@@ -200,18 +153,9 @@ impl SequencePattern {
         self
     }
 
+    /// Match against one or more whitespace tokens.
     pub fn then_whitespace(mut self) -> Self {
         self.token_patterns.push(Box::new(WhitespacePattern));
-        self
-    }
-
-    pub fn then_any_word_in(mut self, word_set: Lrc<HashSet<&'static str>>) -> Self {
-        self.token_patterns
-            .push(Box::new(move |tok: &Token, source: &[char]| {
-                let tok_chars = tok.span.get_content(source);
-                let word: String = tok_chars.iter().collect();
-                word_set.contains(word.as_str())
-            }));
         self
     }
 
@@ -221,13 +165,15 @@ impl SequencePattern {
         self
     }
 
+    /// Match against any single token.
+    /// More of a filler then anything else.
     pub fn then_anything(mut self) -> Self {
         self.token_patterns.push(Box::new(AnyPattern));
         self
     }
 
-    pub fn then(mut self, pat: Box<dyn Pattern>) -> Self {
-        self.token_patterns.push(pat);
+    pub fn then(mut self, pat: impl Pattern + 'static) -> Self {
+        self.token_patterns.push(Box::new(pat));
         self
     }
 }
@@ -252,11 +198,10 @@ impl Pattern for SequencePattern {
 
 #[cfg(test)]
 mod tests {
-    use hashbrown::HashSet;
 
     use super::SequencePattern;
+    use crate::Document;
     use crate::patterns::Pattern;
-    use crate::{Document, Lrc};
 
     #[test]
     fn matches_n_whitespace_tokens() {
@@ -279,27 +224,6 @@ mod tests {
             .then_whitespace()
             .then_exact_word("her");
         let doc = Document::new_plain_english_curated("she her");
-
-        assert_eq!(
-            pat.matches(doc.get_tokens(), doc.get_source()),
-            doc.get_tokens().len()
-        );
-    }
-
-    #[test]
-    fn matches_sets() {
-        let mut pronouns = HashSet::new();
-        pronouns.insert("his");
-        pronouns.insert("hers");
-        let pronouns = Lrc::new(pronouns);
-
-        let pat = SequencePattern::default()
-            .then_exact_word("it")
-            .then_whitespace()
-            .then_exact_word("was")
-            .then_whitespace()
-            .then_any_word_in(pronouns);
-        let doc = Document::new_plain_english_curated("it was hers");
 
         assert_eq!(
             pat.matches(doc.get_tokens(), doc.get_source()),

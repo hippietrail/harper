@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{Pattern, SequencePattern, WordSet},
     Document, Token, TokenStringExt,
+    patterns::{NounPhrase, Pattern, SequencePattern, WordSet},
 };
 
 use super::{Lint, LintKind, Linter, Suggestion};
@@ -12,32 +12,35 @@ pub struct OxfordComma {
 impl OxfordComma {
     pub fn new() -> Self {
         Self {
-            pattern: SequencePattern::default()
-                .then_one_or_more(Box::new(
-                    SequencePattern::default()
-                        .then_noun_phrase()
-                        .then_comma()
-                        .then_whitespace(),
-                ))
-                .then_noun_phrase()
+            pattern: {
+                let this = {
+                    let this = SequencePattern::default().then_one_or_more(Box::new(
+                        SequencePattern::default()
+                            .then(NounPhrase)
+                            .then_comma()
+                            .then_whitespace(),
+                    ));
+                    this.then(NounPhrase)
+                }
                 .then_whitespace()
-                .then(Box::new(WordSet::all(&["and", "or", "nor"])))
-                .then_whitespace()
-                .then_noun_phrase(),
+                .then(WordSet::new(&["and", "or", "nor"]))
+                .then_whitespace();
+                this.then(NounPhrase)
+            },
         }
     }
 
-    fn match_to_lint(&self, matched_toks: &[Token], _source: &[char]) -> Lint {
-        let conj_index = matched_toks.last_conjunction_index().unwrap();
+    fn match_to_lint(&self, matched_toks: &[Token], _source: &[char]) -> Option<Lint> {
+        let conj_index = matched_toks.last_conjunction_index()?;
         let offender = matched_toks[conj_index - 2];
 
-        Lint {
+        Some(Lint {
             span: offender.span,
             lint_kind: LintKind::Style,
             suggestions: vec![Suggestion::InsertAfter(vec![','])],
             message: "An Oxford comma is necessary here.".to_owned(),
             priority: 31,
-        }
+        })
     }
 }
 
@@ -69,7 +72,7 @@ impl Linter for OxfordComma {
                         document.get_source(),
                     );
 
-                    lints.push(lint);
+                    lints.extend(lint);
                     tok_cursor += match_len;
                 } else {
                     tok_cursor += 1;
@@ -134,12 +137,20 @@ mod tests {
 
     #[test]
     fn allows_clean_nations() {
-        assert_lint_count("The team consists of players from different countries: France, Germany, Italy, and Spain.", OxfordComma::default(), 0);
+        assert_lint_count(
+            "The team consists of players from different countries: France, Germany, Italy, and Spain.",
+            OxfordComma::default(),
+            0,
+        );
     }
 
     #[test]
     fn or_writing() {
-        assert_suggestion_result("Harper can be a lifesaver when writing technical documents, emails or other formal forms of communication.", OxfordComma::default(), "Harper can be a lifesaver when writing technical documents, emails, or other formal forms of communication.",);
+        assert_suggestion_result(
+            "Harper can be a lifesaver when writing technical documents, emails or other formal forms of communication.",
+            OxfordComma::default(),
+            "Harper can be a lifesaver when writing technical documents, emails, or other formal forms of communication.",
+        );
     }
 
     #[test]

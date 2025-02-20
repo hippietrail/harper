@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{Pattern, SequencePattern, WordSet},
     Token,
+    patterns::{Pattern, SequencePattern, WordSet},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -12,7 +12,7 @@ pub struct LeftRightHand {
 impl Default for LeftRightHand {
     fn default() -> Self {
         let pattern = SequencePattern::default()
-            .then_word_set(WordSet::all(&["left", "right"]))
+            .then(WordSet::new(&["left", "right"]))
             .then_whitespace()
             .t_aco("hand")
             .then_whitespace()
@@ -29,17 +29,17 @@ impl PatternLinter for LeftRightHand {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Option<Lint> {
         let space = matched_tokens[1];
 
-        Lint {
+        Some(Lint {
             span: space.span,
             lint_kind: LintKind::Miscellaneous,
             suggestions: vec![Suggestion::ReplaceWith(vec!['-'])],
             message: "Use a hyphen in `left-hand` or `right-hand` when modifying a noun."
                 .to_owned(),
             priority: 31,
-        }
+        })
     }
 
     fn description(&self) -> &'static str {

@@ -1,27 +1,23 @@
-use paste::paste;
+use std::collections::BTreeMap;
+use std::sync::Arc;
+
+use cached::proc_macro::cached;
+use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 
+use super::Lint;
 use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
+use super::back_in_the_day::BackInTheDay;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::chock_full::ChockFull;
-use super::closed_compounds::Desktop;
-use super::closed_compounds::Furthermore;
-use super::closed_compounds::Laptop;
-use super::closed_compounds::Overnight;
-use super::closed_compounds::{
-    Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
-    Instead, Intact, Into, Itself, Middleware, Misunderstand, Misunderstood, Misuse, Misused,
-    Multicore, Multimedia, Multithreading, Myself, Nonetheless, Nothing, Notwithstanding, Overall,
-    Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
-    Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
-};
 use super::compound_nouns::CompoundNouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
+use super::expand_time_shorthands::ExpandTimeShorthands;
 use super::hereby::Hereby;
 use super::hop_hope::HopHope;
 use super::hyphenate_number_day::HyphenateNumberDay;
@@ -36,32 +32,11 @@ use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::out_of_date::OutOfDate;
-use super::phrase_corrections::BaitedBreath;
-use super::phrase_corrections::BareInMind;
-use super::phrase_corrections::EludedTo;
-use super::phrase_corrections::FaceFirst;
-use super::phrase_corrections::FastPaste;
-use super::phrase_corrections::MutePoint;
-use super::phrase_corrections::StateOfTheArt;
-use super::phrase_corrections::WantBe;
-use super::phrase_corrections::{
-    AndTheLike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
-    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
-    SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
-};
 use super::pique_interest::PiqueInterest;
 use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
-use super::proper_noun_capitalization_linters::DayOneNames;
-use super::proper_noun_capitalization_linters::JetpackNames;
-use super::proper_noun_capitalization_linters::PocketCastsNames;
-use super::proper_noun_capitalization_linters::TumblrNames;
-use super::proper_noun_capitalization_linters::{
-    AmazonNames, Americas, AppleNames, Australia, AzureNames, Canada, ChineseCommunistParty,
-    Countries, GoogleNames, Holidays, Koreas, Malaysia, MetaNames, MicrosoftNames,
-    NationalCapitals, UnitedOrganizations,
-};
+use super::proper_noun_capitalization_linters;
 use super::repeated_words::RepeatedWords;
 use super::sentence_capitalization::SentenceCapitalization;
 use super::somewhat_something::SomewhatSomething;
@@ -77,292 +52,248 @@ use super::was_aloud::WasAloud;
 use super::whereas::Whereas;
 use super::wordpress_dotcom::WordPressDotcom;
 use super::wrong_quotes::WrongQuotes;
-use super::{CurrencyPlacement, Lint, Linter, NoOxfordComma, OxfordComma};
-use crate::{Dictionary, Document};
+use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
+use crate::Document;
+use crate::linting::{closed_compounds, phrase_corrections};
+use crate::{Dictionary, MutableDictionary};
 
-macro_rules! create_lint_group_config {
-    ($($linter:ident => $default:expr),* $(,)?) => {
-        paste! {
-            /// A collection of all the descriptions from the composing linters.
-            #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
-            pub struct LintGroupDescriptions<'a> {
-                $(
-                    #[doc = "The description for the [`" $linter "`] linter."]
-                    pub [<$linter:snake>]: &'a str,
-                )*
-                pub spell_check: &'a str
-            }
-
-
-            impl<'a>  LintGroupDescriptions<'a> {
-                /// Create a [`Vec`] containing the key-value pairs of this struct.
-                pub fn to_vec_pairs(self) -> Vec<(&'static str, &'a str)>{
-                    vec![$((stringify!([<$linter:snake>]), self.[<$linter:snake>],),)* ("spell_check", self.spell_check)]
-                }
-            }
-
-            /// A collection of all officially supported
-            #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default)]
-            pub struct LintGroupConfig {
-                $(
-                    #[doc = "Configures the use of the [`" $linter "`] linter.
-                    If set to [`None`], the default configuration will be used."]
-                    pub [<$linter:snake>]: Option<bool>,
-                )*
-                pub spell_check: Option<bool>
-            }
-
-            impl LintGroupConfig {
-                /// Creates a config with all lints disabled.
-                pub fn none() -> Self{
-                    Self {
-                        $(
-                            [<$linter:snake>]: Some(false),
-                        )*
-                        spell_check: Some(false)
-                    }
-                }
-
-                /// Fills the [`None`] values in the configuration with the default values.
-                pub fn fill_default_values(&mut self){
-                    $(
-                        if self.[<$linter:snake>].is_none() {
-                            self.[<$linter:snake>] = Some($default);
-                        }
-                    )*
-
-                    if self.spell_check.is_none() {
-                        self.spell_check = Some(true);
-                    }
-                }
-            }
-
-            /// A wrapper that combines all built-in Harper linters
-            /// into a single, configurable [`Linter`].
-            pub struct LintGroup<T: Dictionary> {
-                $(
-                    [<$linter:snake>]: $linter,
-                )*
-                spell_check: SpellCheck<T>,
-                pub config: LintGroupConfig
-            }
-
-
-            impl<T: Dictionary> LintGroup<T> {
-                pub fn new(config: LintGroupConfig, dictionary: T) -> Self {
-                    Self {
-                        $(
-                            [<$linter:snake>]: $linter::default(),
-                        )*
-                        spell_check: SpellCheck::new(dictionary),
-                        config,
-                    }
-                }
-
-                pub fn all_descriptions(&self) -> LintGroupDescriptions<'_> {
-                    LintGroupDescriptions {
-                        $(
-                            [<$linter:snake>]: self.[<$linter:snake>].description(),
-                        )*
-                        spell_check: self.spell_check.description(),
-                    }
-                }
-            }
-
-            impl<T: Dictionary> Linter for LintGroup<T> {
-                fn lint(&mut self, document: &Document) -> Vec<Lint> {
-                    let mut lints = Vec::new();
-
-                    let mut config = self.config.clone();
-                    config.fill_default_values();
-
-                    $(
-                        if config.[<$linter:snake>].unwrap() {
-                            lints.append(&mut self.[<$linter:snake>].lint(document));
-                        }
-                    )*
-
-                    if config.spell_check.unwrap() {
-                        lints.append(&mut self.spell_check.lint(document));
-                    }
-
-
-                    lints
-                }
-
-                fn description(&self) -> &'static str {
-                    "A collection of linters that can be run as one."
-                }
-            }
-        }
-    };
+#[derive(Debug, Serialize, Deserialize, Default, Clone)]
+#[serde(transparent)]
+pub struct LintGroupConfig {
+    inner: HashMap<String, Option<bool>>,
 }
 
-create_lint_group_config!(
-    WordPressDotcom => true,
-    DayOneNames => true,
-    PocketCastsNames => true,
-    TumblrNames => true,
-    JetpackNames => true,
-    OutOfDate => true,
-    Desktop => true,
-    Laptop => true,
-    ThenThan => true,
-    MutePoint => true,
-    PiqueInterest => true,
-    BareInMind => true,
-    BaitedBreath => true,
-    EludedTo => true,
-    WasAloud => true,
-    HyphenateNumberDay => true,
-    FaceFirst => true,
-    LeftRightHand => true,
-    FastPaste => true,
-    StateOfTheArt => true,
-    WantBe => true,
-    HopHope => true,
-    Furthermore => true,
-    Overnight => true,
-    Hereby => true,
-    Likewise => true,
-    CompoundNouns => true,
-    Regardless => true,
-    Henceforth => true,
-    Upward => true,
-    Whereupon => true,
-    Insofar => true,
-    Thereupon => true,
-    Nonetheless => true,
-    Anyhow => true,
-    Notwithstanding => true,
-    Widespread => true,
-    Multimedia => true,
-    Multicore => true,
-    Multithreading => true,
-    Devops => true,
-    Underclock => true,
-    Overload => true,
-    Backplane => true,
-    Overclocking => true,
-    Middleware => true,
-    Somewhere => true,
-    Instead => true,
-    Anywhere => true,
-    Nothing => true,
-    Anybody => true,
-    Somebody => true,
-    Nobody => true,
-    Into => true,
-    Proofread => true,
-    Somehow => true,
-    Intact => true,
-    Upset => true,
-    Misunderstood => true,
-    However => true,
-    Overall => true,
-    Worldwide => true,
-    Postpone => true,
-    Misused => true,
-    Misuse => true,
-    Misunderstand => true,
-    Therefore => true,
-    Myself => true,
-    Itself => true,
-    Whereas => true,
-    PossessiveYour => true,
-    SpelledNumbers => false,
-    AnA => true,
-    SentenceCapitalization => true,
-    UnclosedQuotes => true,
-    WrongQuotes => false,
-    LongSentences => true,
-    RepeatedWords => true,
-    Spaces => true,
-    Matcher => true,
-    CorrectNumberSuffix => true,
-    NumberSuffixCapitalization => true,
-    MultipleSequentialPronouns => true,
-    LinkingVerbs => false,
-    AvoidCurses => true,
-    TerminatingConjunctions => true,
-    EllipsisLength => true,
-    DotInitialisms => true,
-    BoringWords => false,
-    UseGenitive => false,
-    ThatWhich => true,
-    CapitalizePersonalPronouns => true,
-    Americas => true,
-    Australia => true,
-    Canada => true,
-    Koreas => true,
-    Malaysia => true,
-    ChineseCommunistParty => true,
-    UnitedOrganizations => true,
-    Holidays => true,
-    AmazonNames => true,
-    GoogleNames => true,
-    MetaNames => true,
-    MicrosoftNames => true,
-    AppleNames => true,
-    AzureNames => true,
-    MergeWords => true,
-    PluralConjugate => false,
-    OxfordComma => true,
-    NoOxfordComma => false,
-    PronounContraction => true,
-    CurrencyPlacement => true,
-    SomewhatSomething => true,
-    LetsConfusion => true,
-    DespiteOf => true,
-    ChockFull => true,
-    HumanLife => true,
-    NeedHelp => true,
-    NoLonger => true,
-    ThatChallenged => true,
-    TurnItOff => true,
-    OfCourse => true,
-    AndTheLike => true,
-    BadRap => true,
-    BatedBreath => true,
-    BeckAndCall => true,
-    ChangeTack => true,
-    HungerPang => true,
-    EnMasse => true,
-    LetAlone => true,
-    LoAndBehold => true,
-    SneakingSuspicion => true,
-    SpecialAttention => true,
-    Everywhere => true,
-    ThanOthers => true,
-    SupposedTo => true,
-    Countries => true,
-    NationalCapitals => true
-);
+#[cached]
+fn curated_config() -> LintGroupConfig {
+    // Dictionary does not matter, we're just after the config.
+    let group = LintGroup::new_curated(MutableDictionary::new().into());
+    group.config
+}
 
-impl<T: Dictionary + Default> Default for LintGroup<T> {
-    fn default() -> Self {
-        Self::new(LintGroupConfig::default(), T::default())
+impl LintGroupConfig {
+    pub fn set_rule_enabled(&mut self, key: impl ToString, val: bool) {
+        self.inner.insert(key.to_string(), Some(val));
+    }
+
+    /// Remove any configuration attached to a rule.
+    /// This allows it to assume its default (curated) state.
+    pub fn unset_rule_enabled(&mut self, key: impl AsRef<str>) {
+        self.inner.remove_entry(key.as_ref());
+    }
+
+    pub fn set_rule_enabled_if_unset(&mut self, key: impl AsRef<str>, val: bool) {
+        if self.inner.get(key.as_ref()).is_none() {
+            self.set_rule_enabled(key.as_ref().to_string(), val);
+        }
+    }
+
+    pub fn is_rule_enabled(&self, key: &str) -> bool {
+        self.inner.get(key).cloned().flatten().unwrap_or(false)
+    }
+
+    /// Clear all config options.
+    /// This will reset them all to disabled.
+    pub fn clear(&mut self) {
+        for val in self.inner.values_mut() {
+            *val = None
+        }
+    }
+
+    /// Merge the contents of another [`LintGroupConfig`] into this one.
+    /// The other config will be left empty after this operation.
+    ///
+    /// Conflicting keys will be overridden by the value in the other group.
+    pub fn merge_from(&mut self, other: &mut LintGroupConfig) {
+        self.inner.extend(other.inner.drain());
+    }
+
+    /// Fill the group with the values for the curated lint group.
+    pub fn fill_with_curated(&mut self) {
+        self.merge_from(&mut Self::new_curated());
+    }
+
+    pub fn new_curated() -> Self {
+        curated_config()
+    }
+}
+
+#[derive(Default)]
+pub struct LintGroup {
+    pub config: LintGroupConfig,
+    /// We use a binary map here so the ordering is stable.
+    inner: BTreeMap<String, Box<dyn Linter>>,
+}
+
+impl LintGroup {
+    pub fn empty() -> Self {
+        Self {
+            config: LintGroupConfig::default(),
+            inner: BTreeMap::new(),
+        }
+    }
+
+    /// Add a [`Linter`] to the group, returning whether the operation was successful.
+    /// If it returns `false`, it is because a linter with that key already existed in the group.
+    pub fn add(&mut self, name: impl AsRef<str>, linter: Box<dyn Linter>) -> bool {
+        if self.inner.contains_key(name.as_ref()) {
+            false
+        } else {
+            self.inner.insert(name.as_ref().to_string(), linter);
+            true
+        }
+    }
+
+    /// Merge the contents of another [`LintGroup`] into this one.
+    /// The other lint group will be left empty after this operation.
+    pub fn merge_from(&mut self, other: &mut LintGroup) {
+        self.config.merge_from(&mut other.config);
+
+        let other_map = std::mem::take(&mut other.inner);
+
+        self.inner.extend(other_map);
+    }
+
+    /// Set all contained rules to a specific value.
+    /// Passing `None` will unset that rule, allowing it to assume its default state.
+    pub fn set_all_rules_to(&mut self, enabled: Option<bool>) {
+        for key in self.inner.keys() {
+            match enabled {
+                Some(v) => self.config.set_rule_enabled(key, v),
+                None => self.config.unset_rule_enabled(key),
+            }
+        }
+    }
+
+    pub fn all_descriptions(&self) -> HashMap<&str, &str> {
+        self.inner
+            .iter()
+            .map(|(key, value)| (key.as_str(), value.description()))
+            .collect()
+    }
+
+    /// Swap out [`Self::config`] with another [`LintGroupConfig`].
+    pub fn with_lint_config(mut self, config: LintGroupConfig) -> Self {
+        self.config = config;
+        self
+    }
+
+    pub fn new_curated(dictionary: Arc<impl Dictionary + 'static>) -> Self {
+        let mut out = Self::empty();
+
+        macro_rules! insert_struct_rule {
+            ($rule:ident, $default_config:expr) => {
+                out.add(stringify!($rule), Box::new($rule::default()));
+                out.config
+                    .set_rule_enabled(stringify!($rule), $default_config);
+            };
+        }
+
+        out.merge_from(&mut phrase_corrections::lint_group());
+        out.merge_from(&mut proper_noun_capitalization_linters::lint_group(
+            dictionary.clone(),
+        ));
+        out.merge_from(&mut closed_compounds::lint_group());
+
+        // Add all the more complex rules to the group.
+        insert_struct_rule!(BackInTheDay, true);
+        insert_struct_rule!(WordPressDotcom, true);
+        insert_struct_rule!(OutOfDate, true);
+        insert_struct_rule!(ThenThan, true);
+        insert_struct_rule!(PiqueInterest, true);
+        insert_struct_rule!(WasAloud, true);
+        insert_struct_rule!(HyphenateNumberDay, true);
+        insert_struct_rule!(LeftRightHand, true);
+        insert_struct_rule!(HopHope, true);
+        insert_struct_rule!(Hereby, true);
+        insert_struct_rule!(Likewise, true);
+        insert_struct_rule!(CompoundNouns, true);
+        insert_struct_rule!(Nobody, true);
+        insert_struct_rule!(Whereas, true);
+        insert_struct_rule!(PossessiveYour, true);
+        insert_struct_rule!(SpelledNumbers, false);
+        insert_struct_rule!(AnA, true);
+        insert_struct_rule!(SentenceCapitalization, true);
+        insert_struct_rule!(UnclosedQuotes, true);
+        insert_struct_rule!(WrongQuotes, false);
+        insert_struct_rule!(LongSentences, true);
+        insert_struct_rule!(RepeatedWords, true);
+        insert_struct_rule!(Spaces, true);
+        insert_struct_rule!(Matcher, true);
+        insert_struct_rule!(CorrectNumberSuffix, true);
+        insert_struct_rule!(NumberSuffixCapitalization, true);
+        insert_struct_rule!(MultipleSequentialPronouns, true);
+        insert_struct_rule!(LinkingVerbs, false);
+        insert_struct_rule!(AvoidCurses, true);
+        insert_struct_rule!(TerminatingConjunctions, true);
+        insert_struct_rule!(EllipsisLength, true);
+        insert_struct_rule!(DotInitialisms, true);
+        insert_struct_rule!(BoringWords, false);
+        insert_struct_rule!(UseGenitive, false);
+        insert_struct_rule!(ThatWhich, true);
+        insert_struct_rule!(CapitalizePersonalPronouns, true);
+        insert_struct_rule!(MergeWords, true);
+        insert_struct_rule!(PluralConjugate, false);
+        insert_struct_rule!(OxfordComma, true);
+        insert_struct_rule!(NoOxfordComma, false);
+        insert_struct_rule!(PronounContraction, true);
+        insert_struct_rule!(CurrencyPlacement, true);
+        insert_struct_rule!(SomewhatSomething, true);
+        insert_struct_rule!(LetsConfusion, true);
+        insert_struct_rule!(DespiteOf, true);
+        insert_struct_rule!(ChockFull, true);
+        insert_struct_rule!(ExpandTimeShorthands, true);
+
+        out.add("SpellCheck", Box::new(SpellCheck::new(dictionary)));
+        out.config.set_rule_enabled("SpellCheck", true);
+
+        out
+    }
+
+    /// Create a new curated group with all config values cleared out.
+    pub fn new_curated_empty_config(dictionary: Arc<impl Dictionary + 'static>) -> Self {
+        let mut group = Self::new_curated(dictionary);
+        group.config.clear();
+        group
+    }
+}
+
+impl Linter for LintGroup {
+    fn lint(&mut self, document: &Document) -> Vec<Lint> {
+        let mut results = Vec::new();
+
+        for (key, linter) in &mut self.inner {
+            if self.config.is_rule_enabled(key) {
+                results.extend(linter.lint(document));
+            }
+        }
+
+        results
+    }
+
+    fn description(&self) -> &str {
+        "A collection of linters that can be run as one."
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::{linting::Linter, Document, FstDictionary, MutableDictionary};
+    use std::sync::Arc;
 
-    use super::{LintGroup, LintGroupConfig};
+    use crate::{Document, FstDictionary, MutableDictionary, linting::Linter};
+
+    use super::LintGroup;
 
     #[test]
     fn can_get_all_descriptions() {
-        let group = LintGroup::<MutableDictionary>::default();
+        let group = LintGroup::new_curated(Arc::new(MutableDictionary::default()));
         group.all_descriptions();
     }
 
     #[test]
     fn lint_descriptions_are_clean() {
-        let mut group = LintGroup::new(LintGroupConfig::default(), FstDictionary::curated());
+        let mut group = LintGroup::new_curated(FstDictionary::curated());
         let pairs: Vec<_> = group
             .all_descriptions()
-            .to_vec_pairs()
             .into_iter()
             .map(|(a, b)| (a.to_string(), b.to_string()))
             .collect();

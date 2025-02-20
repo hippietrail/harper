@@ -1,9 +1,7 @@
-use hashbrown::HashSet;
-
-use super::pattern_linter::PatternLinter;
 use super::Suggestion;
+use super::pattern_linter::PatternLinter;
 use crate::linting::LintKind;
-use crate::patterns::{Pattern, SequencePattern};
+use crate::patterns::{Pattern, SequencePattern, WordSet};
 use crate::{Lint, Lrc, Token, TokenStringExt};
 
 /// Linter that checks if multiple pronouns are being used right after each
@@ -14,22 +12,18 @@ pub struct MultipleSequentialPronouns {
 
 impl MultipleSequentialPronouns {
     fn new() -> Self {
-        let pronouns: HashSet<_> = [
+        let pronouns = Lrc::new(WordSet::new(&[
             "me", "my", "I", "we", "you", "he", "him", "her", "she", "it", "they",
-        ]
-        .into_iter()
-        .collect();
-
-        let pronouns = Lrc::new(pronouns);
+        ]));
 
         Self {
             pattern: Box::new(
                 SequencePattern::default()
-                    .then_any_word_in(pronouns.clone())
+                    .then(pronouns.clone())
                     .then_one_or_more(Box::new(
                         SequencePattern::default()
                             .then_whitespace()
-                            .then_any_word_in(pronouns.clone()),
+                            .then(pronouns.clone()),
                     )),
             ),
         }
@@ -41,7 +35,7 @@ impl PatternLinter for MultipleSequentialPronouns {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
         let mut suggestions = Vec::new();
 
         if matched_tokens.len() == 3 {
@@ -53,13 +47,13 @@ impl PatternLinter for MultipleSequentialPronouns {
             ));
         }
 
-        Lint {
-            span: matched_tokens.span().unwrap(),
+        Some(Lint {
+            span: matched_tokens.span()?,
             lint_kind: LintKind::Repetition,
             message: "There are too many personal pronouns in sequence here.".to_owned(),
             priority: 63,
             suggestions,
-        }
+        })
     }
 
     fn description(&self) -> &'static str {

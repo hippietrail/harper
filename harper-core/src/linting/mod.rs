@@ -4,6 +4,7 @@
 
 mod an_a;
 mod avoid_curses;
+mod back_in_the_day;
 mod boring_words;
 mod capitalize_personal_pronouns;
 mod chock_full;
@@ -15,6 +16,7 @@ mod dashes;
 mod despite_of;
 mod dot_initialisms;
 mod ellipsis_length;
+mod expand_time_shorthands;
 mod hereby;
 mod hop_hope;
 mod hyphenate_number_day;
@@ -26,6 +28,7 @@ mod lint;
 mod lint_group;
 mod lint_kind;
 mod long_sentences;
+mod map_phrase_linter;
 mod matcher;
 mod merge_linters;
 mod merge_words;
@@ -61,26 +64,17 @@ mod wrong_quotes;
 
 pub use an_a::AnA;
 pub use avoid_curses::AvoidCurses;
+pub use back_in_the_day::BackInTheDay;
 pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
 pub use chock_full::ChockFull;
-pub use closed_compounds::Desktop;
-pub use closed_compounds::Furthermore;
-pub use closed_compounds::Laptop;
-pub use closed_compounds::Overnight;
-pub use closed_compounds::{
-    Anybody, Anyhow, Anywhere, Backplane, Devops, Everywhere, Henceforth, However, Insofar,
-    Instead, Intact, Into, Itself, Middleware, Misunderstand, Misunderstood, Misuse, Misused,
-    Multicore, Multimedia, Multithreading, Myself, Nonetheless, Nothing, Notwithstanding, Overall,
-    Overclocking, Overload, Postpone, Proofread, Regardless, Somebody, Somehow, Somewhere,
-    Therefore, Thereupon, Underclock, Upset, Upward, Whereupon, Widespread, Worldwide,
-};
 pub use compound_nouns::CompoundNouns;
 pub use correct_number_suffix::CorrectNumberSuffix;
 pub use currency_placement::CurrencyPlacement;
 pub use despite_of::DespiteOf;
 pub use dot_initialisms::DotInitialisms;
 pub use ellipsis_length::EllipsisLength;
+pub use expand_time_shorthands::ExpandTimeShorthands;
 pub use hereby::Hereby;
 pub use hop_hope::HopHope;
 pub use hyphenate_number_day::HyphenateNumberDay;
@@ -92,6 +86,7 @@ pub use lint::Lint;
 pub use lint_group::{LintGroup, LintGroupConfig};
 pub use lint_kind::LintKind;
 pub use long_sentences::LongSentences;
+pub use map_phrase_linter::MapPhraseLinter;
 pub use matcher::Matcher;
 pub use merge_words::MergeWords;
 pub use multiple_sequential_pronouns::MultipleSequentialPronouns;
@@ -101,32 +96,10 @@ pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use out_of_date::OutOfDate;
 pub use oxford_comma::OxfordComma;
 pub use pattern_linter::PatternLinter;
-pub use phrase_corrections::BaitedBreath;
-pub use phrase_corrections::BareInMind;
-pub use phrase_corrections::EludedTo;
-pub use phrase_corrections::FaceFirst;
-pub use phrase_corrections::FastPaste;
-pub use phrase_corrections::MutePoint;
-pub use phrase_corrections::StateOfTheArt;
-pub use phrase_corrections::WantBe;
-pub use phrase_corrections::{
-    AndTheLike, BadRap, BatedBreath, BeckAndCall, ChangeTack, EnMasse, HumanLife, HungerPang,
-    LetAlone, LoAndBehold, NeedHelp, NoLonger, OfCourse, SneakingSuspicion, SpecialAttention,
-    SupposedTo, ThanOthers, ThatChallenged, TurnItOff,
-};
 pub use pique_interest::PiqueInterest;
 pub use plural_conjugate::PluralConjugate;
 pub use possessive_your::PossessiveYour;
 pub use pronoun_contraction::PronounContraction;
-pub use proper_noun_capitalization_linters::DayOneNames;
-pub use proper_noun_capitalization_linters::JetpackNames;
-pub use proper_noun_capitalization_linters::PocketCastsNames;
-pub use proper_noun_capitalization_linters::TumblrNames;
-pub use proper_noun_capitalization_linters::{
-    AmazonNames, Americas, AppleNames, Australia, AzureNames, Canada, ChineseCommunistParty,
-    Countries, GoogleNames, Holidays, Koreas, Malaysia, MetaNames, MicrosoftNames,
-    NationalCapitals, UnitedOrganizations,
-};
 pub use repeated_words::RepeatedWords;
 pub use sentence_capitalization::SentenceCapitalization;
 pub use somewhat_something::SomewhatSomething;

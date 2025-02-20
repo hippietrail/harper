@@ -1,6 +1,6 @@
 /// This module implements parsing of URIs.
 /// See RFC 1738 for more information.
-use super::{hostname::lex_hostname, FoundToken};
+use super::{FoundToken, hostname::lex_hostname};
 use crate::TokenKind;
 
 pub fn lex_url(source: &[char]) -> Option<FoundToken> {
