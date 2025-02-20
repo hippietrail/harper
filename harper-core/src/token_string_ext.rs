@@ -129,11 +129,7 @@ impl TokenStringExt for [Token] {
             return Some(*word);
         };
 
-        if w_idx < u_idx {
-            Some(*word)
-        } else {
-            None
-        }
+        if w_idx < u_idx { Some(*word) } else { None }
     }
 
     fn span(&self) -> Option<Span> {

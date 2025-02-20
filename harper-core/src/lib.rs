@@ -75,8 +75,9 @@ pub fn remove_overlaps(lints: &mut Vec<Lint>) {
 #[cfg(test)]
 mod tests {
     use crate::{
+        Document, FstDictionary,
         linting::{LintGroup, Linter},
-        remove_overlaps, Document, FstDictionary,
+        remove_overlaps,
     };
 
     #[test]

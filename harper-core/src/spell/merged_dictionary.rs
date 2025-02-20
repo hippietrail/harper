@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use itertools::Itertools;
 
-use super::{dictionary::Dictionary, FuzzyMatchResult};
+use super::{FuzzyMatchResult, dictionary::Dictionary};
 use crate::{CharString, WordMetadata};
 
 /// A simple wrapper over [`Dictionary`] that allows

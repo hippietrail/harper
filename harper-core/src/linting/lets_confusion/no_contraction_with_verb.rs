@@ -1,7 +1,7 @@
 use crate::{
+    Token,
     linting::{Lint, LintKind, Suggestion},
     patterns::{Pattern, SequencePattern, WordSet},
-    Token,
 };
 
 use crate::linting::PatternLinter;

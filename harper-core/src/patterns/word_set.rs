@@ -66,7 +66,7 @@ impl Pattern for WordSet {
 
 #[cfg(test)]
 mod tests {
-    use crate::{patterns::DocPattern, Document, Span};
+    use crate::{Document, Span, patterns::DocPattern};
 
     use super::WordSet;
 

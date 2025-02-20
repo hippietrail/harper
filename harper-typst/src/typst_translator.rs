@@ -1,15 +1,15 @@
 use crate::OffsetCursor;
 use harper_core::{
-    parsers::{PlainEnglish, StrParser},
     Punctuation, Token, TokenKind,
+    parsers::{PlainEnglish, StrParser},
 };
 use itertools::Itertools;
 use typst_syntax::{
+    Source,
     ast::{
         Arg, ArrayItem, AstNode, DestructuringItem, DictItem, Expr, Ident, LetBindingKind, Param,
         Pattern, Spread,
     },
-    Source,
 };
 
 /// Directly translate a span ($a) in a Typst source ($doc) to a token.

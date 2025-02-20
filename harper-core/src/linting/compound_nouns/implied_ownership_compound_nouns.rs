@@ -1,12 +1,12 @@
 use crate::{
-    linting::PatternLinter, patterns::SplitCompoundWord, CharStringExt, Lrc, TokenStringExt,
+    CharStringExt, Lrc, TokenStringExt, linting::PatternLinter, patterns::SplitCompoundWord,
 };
 
 use super::{Lint, LintKind, Suggestion};
 
 use crate::{
-    patterns::{Pattern, SequencePattern},
     Token,
+    patterns::{Pattern, SequencePattern},
 };
 
 /// Looks for closed compound nouns which can be condensed due to their position after a

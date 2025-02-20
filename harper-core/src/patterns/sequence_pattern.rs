@@ -200,8 +200,8 @@ impl Pattern for SequencePattern {
 mod tests {
 
     use super::SequencePattern;
-    use crate::patterns::Pattern;
     use crate::Document;
+    use crate::patterns::Pattern;
 
     #[test]
     fn matches_n_whitespace_tokens() {

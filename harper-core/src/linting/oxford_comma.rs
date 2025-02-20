@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{NounPhrase, Pattern, SequencePattern, WordSet},
     Document, Token, TokenStringExt,
+    patterns::{NounPhrase, Pattern, SequencePattern, WordSet},
 };
 
 use super::{Lint, LintKind, Linter, Suggestion};
@@ -137,12 +137,20 @@ mod tests {
 
     #[test]
     fn allows_clean_nations() {
-        assert_lint_count("The team consists of players from different countries: France, Germany, Italy, and Spain.", OxfordComma::default(), 0);
+        assert_lint_count(
+            "The team consists of players from different countries: France, Germany, Italy, and Spain.",
+            OxfordComma::default(),
+            0,
+        );
     }
 
     #[test]
     fn or_writing() {
-        assert_suggestion_result("Harper can be a lifesaver when writing technical documents, emails or other formal forms of communication.", OxfordComma::default(), "Harper can be a lifesaver when writing technical documents, emails, or other formal forms of communication.",);
+        assert_suggestion_result(
+            "Harper can be a lifesaver when writing technical documents, emails or other formal forms of communication.",
+            OxfordComma::default(),
+            "Harper can be a lifesaver when writing technical documents, emails, or other formal forms of communication.",
+        );
     }
 
     #[test]

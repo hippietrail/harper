@@ -4,7 +4,7 @@ use crate::TokenKind;
 use hashbrown::HashSet;
 use lazy_static::lazy_static;
 
-use crate::{parsers::Parser, CharStringExt, Dictionary, Document, TokenStringExt};
+use crate::{CharStringExt, Dictionary, Document, TokenStringExt, parsers::Parser};
 
 /// A helper function for [`make_title_case`] that uses Strings instead of char buffers.
 pub fn make_title_case_str(source: &str, parser: &impl Parser, dict: &impl Dictionary) -> String {
@@ -111,8 +111,8 @@ mod tests {
 
     use super::make_title_case_str;
     use crate::{
-        parsers::{Markdown, PlainEnglish},
         FstDictionary,
+        parsers::{Markdown, PlainEnglish},
     };
 
     #[test]

@@ -7,12 +7,12 @@ use harper_core::language_detection::is_doc_likely_english;
 use harper_core::linting::{LintGroup, Linter as _};
 use harper_core::parsers::{IsolateEnglish, Markdown, Parser, PlainEnglish};
 use harper_core::{
-    remove_overlaps, CharString, Dictionary, Document, FstDictionary, IgnoredLints, Lrc,
-    MergedDictionary, MutableDictionary, WordMetadata,
+    CharString, Dictionary, Document, FstDictionary, IgnoredLints, Lrc, MergedDictionary,
+    MutableDictionary, WordMetadata, remove_overlaps,
 };
 use serde::{Deserialize, Serialize};
-use wasm_bindgen::prelude::wasm_bindgen;
 use wasm_bindgen::JsValue;
+use wasm_bindgen::prelude::wasm_bindgen;
 
 /// Setup the WebAssembly module's logging.
 ///

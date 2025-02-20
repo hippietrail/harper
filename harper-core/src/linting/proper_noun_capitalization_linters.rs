@@ -1,7 +1,7 @@
 use super::{Lint, LintKind, Suggestion};
 use super::{LintGroup, PatternLinter};
 use crate::patterns::{EitherPattern, IsNotTitleCase, Pattern, SequencePattern, WordSet};
-use crate::{make_title_case, Dictionary};
+use crate::{Dictionary, make_title_case};
 use crate::{Token, TokenStringExt};
 use std::sync::Arc;
 
@@ -888,8 +888,8 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
 #[cfg(test)]
 mod tests {
     use crate::{
-        linting::tests::{assert_lint_count, assert_suggestion_result},
         FstDictionary,
+        linting::tests::{assert_lint_count, assert_suggestion_result},
     };
 
     use super::lint_group;

@@ -1,10 +1,10 @@
 use crate::{
-    patterns::{Pattern, SequencePattern, WordSet},
     CharStringExt, Token,
+    patterns::{Pattern, SequencePattern, WordSet},
 };
 
-use crate::linting::{LintKind, PatternLinter, Suggestion};
 use crate::Lint;
+use crate::linting::{LintKind, PatternLinter, Suggestion};
 
 pub struct ShouldContract {
     pattern: Box<dyn Pattern>,

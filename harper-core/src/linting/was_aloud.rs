@@ -1,8 +1,8 @@
 use super::{Lint, LintKind, PatternLinter};
-use crate::linting::Suggestion;
-use crate::patterns::{Pattern, SequencePattern, WordSet};
 use crate::Token;
 use crate::TokenStringExt;
+use crate::linting::Suggestion;
+use crate::patterns::{Pattern, SequencePattern, WordSet};
 
 pub struct WasAloud {
     pattern: Box<dyn Pattern>,

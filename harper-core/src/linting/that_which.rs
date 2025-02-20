@@ -1,8 +1,8 @@
 use itertools::Itertools;
 
 use crate::{
-    patterns::{Pattern, SequencePattern, WordPatternGroup},
     Lrc, Token, TokenStringExt,
+    patterns::{Pattern, SequencePattern, WordPatternGroup},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};

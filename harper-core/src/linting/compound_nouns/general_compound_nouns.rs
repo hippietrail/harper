@@ -1,14 +1,14 @@
 use crate::{
+    CharStringExt, TokenStringExt,
     linting::PatternLinter,
     patterns::{All, SplitCompoundWord},
-    CharStringExt, TokenStringExt,
 };
 
 use super::{Lint, LintKind, Suggestion};
 
 use crate::{
-    patterns::{Pattern, SequencePattern},
     Lrc, Token,
+    patterns::{Pattern, SequencePattern},
 };
 
 /// Covers the general cases of accidentally split compound nouns.

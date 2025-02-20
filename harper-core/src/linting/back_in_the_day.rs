@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{ExactPhrase, OwnedPatternExt, Pattern, SequencePattern, WordSet},
     Lrc, Token, TokenStringExt,
+    patterns::{ExactPhrase, OwnedPatternExt, Pattern, SequencePattern, WordSet},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};

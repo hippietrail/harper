@@ -1,7 +1,7 @@
 use super::super::{Lint, LintKind, PatternLinter};
 use crate::linting::Suggestion;
 use crate::patterns::{Pattern, SequencePattern, WordSet};
-use crate::{char_string::char_string, Token};
+use crate::{Token, char_string::char_string};
 
 pub struct ToHope {
     pattern: Box<dyn Pattern>,

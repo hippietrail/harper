@@ -1,6 +1,6 @@
 use std::path::PathBuf;
 
-use anyhow::{bail, Result};
+use anyhow::{Result, bail};
 use dirs::{config_dir, data_local_dir};
 use harper_core::{linting::LintGroupConfig, parsers::MarkdownOptions};
 use resolve_path::PathResolveExt;

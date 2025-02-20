@@ -6,7 +6,7 @@ use hashbrown::HashSet;
 use lint_context::LintContext;
 use serde::{Deserialize, Serialize};
 
-use crate::{linting::Lint, Document};
+use crate::{Document, linting::Lint};
 
 /// A structure that keeps track of lints that have been ignored by users.
 #[derive(Debug, Default, Serialize, Deserialize)]
@@ -59,8 +59,8 @@ mod tests {
 
     use super::IgnoredLints;
     use crate::{
-        linting::{LintGroup, Linter},
         Document, FstDictionary,
+        linting::{LintGroup, Linter},
     };
 
     #[quickcheck]

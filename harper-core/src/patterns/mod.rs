@@ -134,11 +134,7 @@ where
 
         let tok = &tokens[0];
 
-        if self(tok, source) {
-            1
-        } else {
-            0
-        }
+        if self(tok, source) { 1 } else { 0 }
     }
 }
 
@@ -154,11 +150,7 @@ where
 
         let tok = &tokens[0];
 
-        if self(tok, source) {
-            1
-        } else {
-            0
-        }
+        if self(tok, source) { 1 } else { 0 }
     }
 }
 

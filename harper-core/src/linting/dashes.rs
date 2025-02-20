@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{EitherPattern, Pattern, SequencePattern},
     Token, TokenStringExt,
+    patterns::{EitherPattern, Pattern, SequencePattern},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};

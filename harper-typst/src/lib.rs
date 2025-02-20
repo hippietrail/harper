@@ -4,11 +4,11 @@ mod typst_translator;
 use offset_cursor::OffsetCursor;
 use typst_translator::TypstTranslator;
 
-use harper_core::{parsers::Parser, Token};
+use harper_core::{Token, parsers::Parser};
 use itertools::Itertools;
 use typst_syntax::{
-    ast::{AstNode, Markup},
     Source,
+    ast::{AstNode, Markup},
 };
 
 /// A parser that wraps Harper's `PlainEnglish` parser allowing one to ingest Typst files.

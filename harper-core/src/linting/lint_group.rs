@@ -5,6 +5,7 @@ use cached::proc_macro::cached;
 use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 
+use super::Lint;
 use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::back_in_the_day::BackInTheDay;
@@ -51,10 +52,9 @@ use super::was_aloud::WasAloud;
 use super::whereas::Whereas;
 use super::wordpress_dotcom::WordPressDotcom;
 use super::wrong_quotes::WrongQuotes;
-use super::Lint;
 use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
-use crate::linting::{closed_compounds, phrase_corrections};
 use crate::Document;
+use crate::linting::{closed_compounds, phrase_corrections};
 use crate::{Dictionary, MutableDictionary};
 
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -279,7 +279,7 @@ impl Linter for LintGroup {
 mod tests {
     use std::sync::Arc;
 
-    use crate::{linting::Linter, Document, FstDictionary, MutableDictionary};
+    use crate::{Document, FstDictionary, MutableDictionary, linting::Linter};
 
     use super::LintGroup;
 

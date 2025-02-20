@@ -48,8 +48,8 @@ impl Pattern for ImpliesQuantity {
 #[cfg(test)]
 mod tests {
     use crate::{
-        patterns::{DocPattern, ImpliesQuantity},
         Document, Span,
+        patterns::{DocPattern, ImpliesQuantity},
     };
 
     #[test]

@@ -602,7 +602,7 @@ mod tests {
     use itertools::Itertools;
 
     use super::Document;
-    use crate::{parsers::MarkdownOptions, Span};
+    use crate::{Span, parsers::MarkdownOptions};
 
     fn assert_condensed_contractions(text: &str, final_tok_count: usize) {
         let document = Document::new_plain_english_curated(text);

@@ -1,7 +1,7 @@
 use crate::{Document, Token, TokenKind};
 
 use super::{
-    within_edit_distance::WithinEditDistance, AnyCapitalization, Pattern, SequencePattern,
+    AnyCapitalization, Pattern, SequencePattern, within_edit_distance::WithinEditDistance,
 };
 
 pub struct SimilarToPhrase {

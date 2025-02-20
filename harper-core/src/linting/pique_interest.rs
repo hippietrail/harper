@@ -1,7 +1,7 @@
 use crate::{
+    CharString, CharStringExt, Token,
     char_string::char_string,
     patterns::{Pattern, SequencePattern, WordSet},
-    CharString, CharStringExt, Token,
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};

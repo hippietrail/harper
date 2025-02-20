@@ -11,8 +11,8 @@ use std::sync::Arc;
 
 use crate::{CharString, CharStringExt, WordMetadata};
 
-use super::dictionary::Dictionary;
 use super::FuzzyMatchResult;
+use super::dictionary::Dictionary;
 
 /// A basic dictionary that allows words to be added after instantiating.
 /// This is useful for user and file dictionaries that may change at runtime.
@@ -344,14 +344,16 @@ mod tests {
     #[test]
     fn herself_is_pronoun() {
         let dict = MutableDictionary::curated();
-        assert!(dict
-            .get_word_metadata_str("herself")
-            .unwrap()
-            .is_pronoun_noun());
-        assert!(dict
-            .get_word_metadata_str("Herself")
-            .unwrap()
-            .is_pronoun_noun());
+        assert!(
+            dict.get_word_metadata_str("herself")
+                .unwrap()
+                .is_pronoun_noun()
+        );
+        assert!(
+            dict.get_word_metadata_str("Herself")
+                .unwrap()
+                .is_pronoun_noun()
+        );
     }
 
     #[test]
@@ -385,9 +387,11 @@ mod tests {
         let dict = MutableDictionary::curated();
 
         assert!(!dict.get_word_metadata_str("there").unwrap().is_noun());
-        assert!(!dict
-            .get_word_metadata_str("there")
-            .unwrap()
-            .is_pronoun_noun());
+        assert!(
+            !dict
+                .get_word_metadata_str("there")
+                .unwrap()
+                .is_pronoun_noun()
+        );
     }
 }

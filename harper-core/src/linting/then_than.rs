@@ -1,7 +1,7 @@
 use super::{Lint, LintKind, PatternLinter};
+use crate::Token;
 use crate::linting::Suggestion;
 use crate::patterns::{All, Invert, OwnedPatternExt, Pattern, SequencePattern, WordSet};
-use crate::Token;
 
 #[doc = "Corrects the misuse of `then` to `than`."]
 pub struct ThenThan {

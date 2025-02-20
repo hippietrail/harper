@@ -1,5 +1,5 @@
-use super::pattern_linter::PatternLinter;
 use super::Suggestion;
+use super::pattern_linter::PatternLinter;
 use crate::linting::LintKind;
 use crate::patterns::{Pattern, SequencePattern, WordSet};
 use crate::{Lint, Lrc, Token, TokenStringExt};

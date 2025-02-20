@@ -1,9 +1,9 @@
 use std::sync::Arc;
 
 use super::{Lint, LintKind, PatternLinter};
+use crate::Token;
 use crate::linting::Suggestion;
 use crate::patterns::{EitherPattern, ImpliesQuantity, Pattern, SequencePattern, WordSet};
-use crate::Token;
 
 pub struct ExpandTimeShorthands {
     pattern: Box<dyn Pattern>,

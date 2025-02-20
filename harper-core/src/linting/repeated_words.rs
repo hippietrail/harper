@@ -102,7 +102,11 @@ mod tests {
 
     #[test]
     fn issue_253() {
-        assert_lint_count("this paper shows that, while the method may be more accurate accurate, the turnout overestimate suggests that self-selection bias is not sufficiently reduced", RepeatedWords::default(), 1);
+        assert_lint_count(
+            "this paper shows that, while the method may be more accurate accurate, the turnout overestimate suggests that self-selection bias is not sufficiently reduced",
+            RepeatedWords::default(),
+            1,
+        );
     }
 
     #[test]

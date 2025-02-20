@@ -130,8 +130,8 @@ mod tests {
     use crate::spell::FuzzyMatchResult;
 
     use super::{
-        order_suggestions, seq_to_normalized, suggest_correct_spelling_str, Dictionary,
-        FstDictionary, MutableDictionary,
+        Dictionary, FstDictionary, MutableDictionary, order_suggestions, seq_to_normalized,
+        suggest_correct_spelling_str,
     };
 
     const RESULT_LIMIT: usize = 100;
