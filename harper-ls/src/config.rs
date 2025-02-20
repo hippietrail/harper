@@ -50,7 +50,7 @@ impl CodeActionConfig {
             bail!("The code action configuration must be an object.");
         };
 
-        if let Some(force_stable_val) = value.get("forceStable") {
+        if let Some(force_stable_val) = value.get("ForceStable") {
             let Value::Bool(force_stable) = force_stable_val else {
                 bail!("forceStable must be a boolean value.");
             };
@@ -127,7 +127,9 @@ impl Config {
         }
 
         if let Some(v) = value.get("markdown") {
-            base.markdown_options = serde_json::from_value(v.clone())?;
+            if let Some(v) = v.get("IgnoreLinkTitle") {
+                base.markdown_options.ignore_link_title = serde_json::from_value(v.clone())?;
+            }
         }
 
         Ok(base)
