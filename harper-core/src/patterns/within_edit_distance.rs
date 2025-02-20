@@ -3,7 +3,7 @@ use std::cell::RefCell;
 use super::Pattern;
 use crate::{CharString, CharStringExt, Token, TokenKind};
 
-use crate::edit_distance::{edit_distance, edit_distance_min_alloc};
+use crate::edit_distance::edit_distance_min_alloc;
 
 /// A [`Pattern`] that matches single words within a certain edit distance of a given word.
 pub struct WithinEditDistance {
