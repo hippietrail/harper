@@ -1,3 +1,4 @@
+use std::collections::BTreeMap;
 use std::sync::Arc;
 
 use cached::proc_macro::cached;
@@ -119,14 +120,15 @@ impl LintGroupConfig {
 #[derive(Default)]
 pub struct LintGroup {
     pub config: LintGroupConfig,
-    inner: HashMap<String, Box<dyn Linter>>,
+    /// We use a binary map here so the ordering is stable.
+    inner: BTreeMap<String, Box<dyn Linter>>,
 }
 
 impl LintGroup {
     pub fn empty() -> Self {
         Self {
             config: LintGroupConfig::default(),
-            inner: HashMap::new(),
+            inner: BTreeMap::new(),
         }
     }
 
@@ -145,7 +147,10 @@ impl LintGroup {
     /// The other lint group will be left empty after this operation.
     pub fn merge_from(&mut self, other: &mut LintGroup) {
         self.config.merge_from(&mut other.config);
-        self.inner.extend(other.inner.drain());
+
+        let other_map = std::mem::take(&mut other.inner);
+
+        self.inner.extend(other_map);
     }
 
     /// Set all contained rules to a specific value.
@@ -189,7 +194,7 @@ impl LintGroup {
         ));
         out.merge_from(&mut closed_compounds::lint_group());
 
-        // Add all of the more complex rules to the group.
+        // Add all the more complex rules to the group.
         insert_struct_rule!(BackInTheDay, true);
         insert_struct_rule!(WordPressDotcom, true);
         insert_struct_rule!(OutOfDate, true);

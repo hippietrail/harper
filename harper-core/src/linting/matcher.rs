@@ -133,7 +133,6 @@ impl Matcher {
 
         // mixing up than/then in context
         triggers.extend(pt! {
-            "more","then" => "more than",
             "then","her" => "than her",
             "then","hers" => "than hers",
             "then","him" => "than him",

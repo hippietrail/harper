@@ -37,8 +37,6 @@ impl ExpandTimeShorthands {
     }
 
     fn get_replacement(abbreviation: &str, plural: Option<bool>) -> Option<&'static str> {
-        dbg!(abbreviation, plural);
-
         let is_plural = plural.unwrap_or(matches!(abbreviation, "hrs" | "mins" | "secs" | "msecs"));
         match abbreviation {
             "hr" | "hrs" => Some(if is_plural { "hours" } else { "hour" }),
