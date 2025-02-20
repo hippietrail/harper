@@ -13,7 +13,7 @@ pub struct PiqueInterest {
 impl Default for PiqueInterest {
     fn default() -> Self {
         let pattern = SequencePattern::default()
-            .then_word_set(WordSet::all(&[
+            .then(WordSet::new(&[
                 "peak", "peaked", "peek", "peeked", "peeking", "peaking",
             ]))
             .then_whitespace()

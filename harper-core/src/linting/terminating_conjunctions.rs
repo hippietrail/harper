@@ -11,7 +11,7 @@ impl Default for TerminatingConjunctions {
             pattern: Box::new(ConsumesRemainingPattern::new(Box::new(
                 SequencePattern::default()
                     .then_anything_but_hyphen()
-                    .then_word_set(WordSet::all(&[
+                    .then(WordSet::new(&[
                         "although",
                         "as",
                         "because",

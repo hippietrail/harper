@@ -10,7 +10,7 @@ pub struct UseGenitive {
 impl UseGenitive {
     fn new() -> Self {
         // Define the environment in which the genitive case __should__ be used.
-        let environment = Lrc::new(SequencePattern::default().then_whitespace().then(Box::new(
+        let environment = Lrc::new(SequencePattern::default().then_whitespace().then(
             EitherPattern::new(vec![
                     Box::new(
                         SequencePattern::default()
@@ -20,7 +20,7 @@ impl UseGenitive {
                     ),
                     Box::new(SequencePattern::default().then_noun()),
                 ]),
-        )));
+        ));
 
         let trigger_words = ["there", "they're"];
 
@@ -32,20 +32,20 @@ impl UseGenitive {
                 Box::new(
                     SequencePattern::default()
                         .then_exact_word(word)
-                        .then(Box::new(environment.clone())),
+                        .then(environment.clone()),
                 ),
             )
         }
 
         // Add a prelude to remove false-positives.
         let full_pattern = SequencePattern::default()
-            .then(Box::new(Invert::new(Box::new(EitherPattern::new(vec![
+            .then(Invert::new(EitherPattern::new(vec![
                 Box::new(SequencePattern::default().then_exact_word_or_lowercase("Is")),
                 Box::new(SequencePattern::default().then_exact_word_or_lowercase("Were")),
                 Box::new(SequencePattern::default().then_adjective()),
-            ])))))
+            ])))
             .then_whitespace()
-            .then(Box::new(primary_pattern));
+            .then(primary_pattern);
 
         Self {
             pattern: Box::new(full_pattern),

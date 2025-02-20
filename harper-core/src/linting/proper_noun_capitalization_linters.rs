@@ -59,7 +59,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
     "Americas",
     Box::new(ProperNounCapitalizationLinter::new(
     SequencePattern::default()
-        .then(Box::new(WordSet::all(&["South", "North", "Central"])))
+        .then(WordSet::new(&["South", "North", "Central"]))
         .then_whitespace()
         .t_aco("America"),
     "When referring to North, Central, and South America, make sure to treat them as a proper noun.",
@@ -136,7 +136,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
         EitherPattern::new(vec![
             Box::new(
                 SequencePattern::default()
-                    .then_word_set(WordSet::all(&[
+                    .then(WordSet::new(&[
                         "Atlantic",
                         "Pacific",
                         "Indian",
@@ -148,7 +148,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
             ),
             Box::new(
                 SequencePattern::default()
-                    .then_word_set(WordSet::all(&[
+                    .then(WordSet::new(&[
                         "Mediterranean",
                         "Caribbean",
                         "Baltic",
@@ -230,7 +230,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
         "Koreas",
         Box::new(ProperNounCapitalizationLinter::new(
             SequencePattern::default()
-                .then(Box::new(WordSet::all(&["South", "North"])))
+                .then(WordSet::new(&["South", "North"]))
                 .then_whitespace()
                 .t_aco("Korea"),
             "When referring to the nations, make sure to treat them as a proper noun.",
@@ -260,12 +260,12 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
             .t_aco("Town")
         ),
         Box::new(SequencePattern::default()
-            .then(Box::new(EitherPattern::new(vec![
-                Box::new(WordSet::all(&[
+            .then(EitherPattern::new(vec![
+                Box::new(WordSet::new(&[
                     "Johor",
                     "Kota"
                 ])),
-            ])))
+            ]))
             .then_whitespace()
             .t_aco("Bahru")
         ),
@@ -277,12 +277,12 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
         Box::new(SequencePattern::default()
             .t_aco("Kuala")
             .then_whitespace()
-            .then(Box::new(EitherPattern::new(vec![
-                Box::new(WordSet::all(&[
+            .then(EitherPattern::new(vec![
+                Box::new(WordSet::new(&[
                     "Lumpur",
                     "Terengganu"
                 ])),
-            ])))
+            ]))
         ),
         Box::new(SequencePattern::default()
             .t_aco("Shah")
@@ -313,7 +313,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
     SequencePattern::default()
         .t_aco("United")
         .then_whitespace()
-        .then(Box::new(EitherPattern::new(vec![
+        .then(EitherPattern::new(vec![
             Box::new(SequencePattern::aco("Nations")),
             Box::new(SequencePattern::aco("States")),
             Box::new(SequencePattern::aco("Kingdom")),
@@ -324,7 +324,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
                     .then_whitespace()
                     .t_aco("Emirates")
             )
-        ]))),
+        ])),
     "When referring to national or international organizations, make sure to treat them as a proper noun.",
     dictionary.clone()))
 );
@@ -335,8 +335,8 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
             EitherPattern::new(vec![
                 Box::new(
                     SequencePattern::default()
-                        .then(Box::new(EitherPattern::new(vec![
-                            Box::new(WordSet::all(&[
+                        .then(EitherPattern::new(vec![
+                            Box::new(WordSet::new(&[
                                 "Absolution",
                                 "Admission",
                                 "Alaska",
@@ -457,7 +457,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
                                     .then_whitespace()
                                     .t_aco("Souls"),
                             ),
-                        ])))
+                        ]))
                         .then_whitespace()
                         .t_aco("Day"),
                 ),
@@ -485,7 +485,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
     SequencePattern::default()
     .t_aco("Amazon")
     .then_whitespace()
-    .then(Box::new(EitherPattern::new(vec![
+    .then(EitherPattern::new(vec![
         Box::new(
             SequencePattern::default()
                 .t_aco("Shopping")
@@ -544,7 +544,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
             SequencePattern::default()
                 .t_aco("Kindle")
         )
-    ]))),
+    ])),
     "When referring to the various products of Amazon.com, make sure to treat them as a proper noun.",
     dictionary.clone()))
 );
@@ -555,7 +555,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
         SequencePattern::default()
             .t_aco("Google")
             .then_whitespace()
-            .then(Box::new(WordSet::all(&[
+            .then(WordSet::new(&[
                 "Search",
                 "Cloud",
                 "Maps",
@@ -579,7 +579,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
                 "Pixel",
                 "Nest",
                 "Workspace",
-            ]))),
+            ])),
         "When referring to Google products and services, make sure to treat them as proper nouns."
             ,dictionary.clone()))
     );
@@ -590,7 +590,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
             SequencePattern::default()
                 .t_aco("Azure")
                 .then_whitespace()
-                .then(Box::new(EitherPattern::new(vec![
+                .then(EitherPattern::new(vec![
                     Box::new(SequencePattern::aco("DevOps")),
                     Box::new(SequencePattern::aco("Functions")),
                     Box::new(
@@ -655,7 +655,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
                             .then_whitespace()
                             .t_aco("Hub"),
                     ),
-                ]))),
+                ])),
             "When referring to Azure cloud services, make sure to treat them as proper nouns.",
             dictionary.clone(),
         )),
@@ -667,8 +667,8 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
     SequencePattern::default()
         .t_aco("Microsoft")
         .then_whitespace()
-        .then(Box::new(EitherPattern::new(vec![
-            Box::new(WordSet::all(&[
+        .then(EitherPattern::new(vec![
+            Box::new(WordSet::new(&[
                 "Windows",
                 "Office",
                 "Teams",
@@ -690,7 +690,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
                     .then_whitespace()
                     .t_aco("Studio")
             )
-        ]))),
+        ])),
     "When referring to Microsoft products and services, make sure to treat them as proper nouns.",
     dictionary.clone()))
 );
@@ -701,8 +701,8 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
         SequencePattern::default()
             .t_aco("Apple")
             .then_whitespace()
-            .then(Box::new(EitherPattern::new(vec![
-                Box::new(WordSet::all(&[
+            .then(EitherPattern::new(vec![
+                Box::new(WordSet::new(&[
                     "iPhone", "iPad", "iMac", "MacBook", "Watch", "TV", "Music", "Arcade",
                     "iCloud", "Safari", "HomeKit", "CarPlay",
                 ])),
@@ -735,7 +735,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
                         .then_whitespace()
                         .t_aco("Pro")
                 )
-            ]))),
+            ])),
         "When referring to Apple products and services, make sure to treat them as proper nouns.",
         dictionary.clone()))
 
@@ -745,8 +745,8 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
         "MetaNames",
         Box::new(ProperNounCapitalizationLinter::new(SequencePattern::aco("Meta")
             .then_whitespace()
-            .then(Box::new(EitherPattern::new(vec![
-                Box::new(WordSet::all(&[
+            .then(EitherPattern::new(vec![
+                Box::new(WordSet::new(&[
                     "Oculus", "Portals", "Quest", "Gaming", "Horizon",
                 ])),
                 Box::new(
@@ -755,7 +755,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
                         .then_whitespace()
                         .t_aco("Labs")
                 ),
-            ]))),
+            ])),
         "When referring to Meta products and services, make sure to treat them as proper nouns."
         , dictionary.clone()
         ))
@@ -767,7 +767,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
             SequencePattern::default()
                 .t_aco("Jetpack")
                 .then_whitespace()
-                .then(Box::new(EitherPattern::new(vec![
+                .then(EitherPattern::new(vec![
                     Box::new(
                         SequencePattern::default()
                             .t_aco("VaultPress")
@@ -806,7 +806,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
                             .t_aco("Agencies"),
                     ),
                     Box::new(SequencePattern::default().t_aco("CRM")),
-                ]))),
+                ])),
             "Ensure proper capitalization of Jetpack-related terms.",
             dictionary.clone(),
         )),
@@ -818,7 +818,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
             SequencePattern::default()
                 .t_aco("Tumblr")
                 .then_whitespace()
-                .then(Box::new(EitherPattern::new(vec![
+                .then(EitherPattern::new(vec![
                     Box::new(SequencePattern::default().t_aco("Blaze")),
                     Box::new(SequencePattern::default().t_aco("Pro")),
                     Box::new(SequencePattern::default().t_aco("Live")),
@@ -826,7 +826,7 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
                     Box::new(SequencePattern::default().t_aco("Communities")),
                     Box::new(SequencePattern::default().t_aco("Shop")),
                     Box::new(SequencePattern::default().t_aco("Dashboard")),
-                ]))),
+                ])),
             "Ensure proper capitalization of Tumblr-related terms.",
             dictionary.clone(),
         )),

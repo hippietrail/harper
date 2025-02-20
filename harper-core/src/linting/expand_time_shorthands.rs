@@ -11,28 +11,26 @@ pub struct ExpandTimeShorthands {
 
 impl ExpandTimeShorthands {
     pub fn new() -> Self {
-        let hotwords = Arc::new(WordSet::all(&[
+        let hotwords = Arc::new(WordSet::new(&[
             "hr", "hrs", "min", "mins", "sec", "secs", "ms", "msec", "msecs",
         ]));
 
         Self {
-            pattern: Box::new(
-                SequencePattern::default()
-                    .then(Box::new(ImpliesQuantity))
-                    .then(Box::new(EitherPattern::new(vec![
-                        Box::new(SequencePattern::default().then(Box::new(hotwords.clone()))),
+            pattern: Box::new(SequencePattern::default().then(ImpliesQuantity).then(
+                EitherPattern::new(vec![
+                        Box::new(SequencePattern::default().then(hotwords.clone())),
                         Box::new(
                             SequencePattern::default()
                                 .then_whitespace()
-                                .then(Box::new(hotwords.clone())),
+                                .then(hotwords.clone()),
                         ),
                         Box::new(
                             SequencePattern::default()
                                 .then_hyphen()
-                                .then(Box::new(hotwords.clone())),
+                                .then(hotwords.clone()),
                         ),
-                    ]))),
-            ),
+                    ]),
+            )),
         }
     }
 

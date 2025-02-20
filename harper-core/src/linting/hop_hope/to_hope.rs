@@ -12,7 +12,7 @@ impl Default for ToHope {
         let pattern = SequencePattern::default()
             .then_singular_subject()
             .then_whitespace()
-            .then_word_set(WordSet::all(&["hop", "hopped"]))
+            .then(WordSet::new(&["hop", "hopped"]))
             .then_whitespace()
             .then_singular_subject();
 

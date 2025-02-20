@@ -20,21 +20,21 @@ pub struct GeneralCompoundNouns {
 impl Default for GeneralCompoundNouns {
     fn default() -> Self {
         let exceptions_pattern = SequencePattern::default()
-            .then(Box::new(|tok: &Token, _: &[char]| {
+            .then(|tok: &Token, _: &[char]| {
                 let Some(Some(meta)) = tok.kind.as_word() else {
                     return false;
                 };
 
                 tok.span.len() > 1 && !meta.article && !meta.preposition
-            }))
+            })
             .then_whitespace()
-            .then(Box::new(|tok: &Token, _: &[char]| {
+            .then(|tok: &Token, _: &[char]| {
                 let Some(Some(meta)) = tok.kind.as_word() else {
                     return false;
                 };
 
                 tok.span.len() > 1 && !meta.article && !meta.is_adverb() && !meta.preposition
-            }));
+            });
 
         let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| {
             meta.is_noun() && !meta.is_adjective()

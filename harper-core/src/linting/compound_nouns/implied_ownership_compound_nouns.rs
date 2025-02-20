@@ -22,7 +22,7 @@ impl Default for ImpliedOwnershipCompoundNouns {
         let pattern = SequencePattern::default()
             .then_possessive_noun()
             .then_whitespace()
-            .then(Box::new(split_pattern.clone()));
+            .then(split_pattern.clone());
 
         Self {
             pattern: Box::new(pattern),

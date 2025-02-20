@@ -12,7 +12,7 @@ impl AnyCapitalization {
         Self { word }
     }
 
-    pub fn from_string(word: &str) -> Self {
+    pub fn of(word: &str) -> Self {
         let chars = word.chars().collect();
 
         Self::new(chars)

@@ -17,9 +17,9 @@ impl Default for PluralConjugate {
             .then_exact_word("is");
 
         let non_plural_case = SequencePattern::default()
-            .then(Box::new(|tok: &Token, _source: &[char]| {
+            .then(|tok: &Token, _source: &[char]| {
                 tok.kind.is_not_plural_noun() && tok.kind.is_noun()
-            }))
+            })
             .then_whitespace()
             .then_exact_word("are");
 

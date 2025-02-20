@@ -13,7 +13,7 @@ pub struct NoContractionWithVerb {
 impl Default for NoContractionWithVerb {
     fn default() -> Self {
         let pattern = SequencePattern::default()
-            .then_word_set(WordSet::all(&["lets", "let"]))
+            .then(WordSet::new(&["lets", "let"]))
             .then_whitespace()
             .then_verb();
 

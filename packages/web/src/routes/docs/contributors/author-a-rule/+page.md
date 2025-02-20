@@ -62,7 +62,7 @@ group.add(
         SequencePattern::default()
             .t_aco("Tumblr")
             .then_whitespace()
-            .then(Box::new(EitherPattern::new(vec![
+            .then((EitherPattern::new(vec![
                 Box::new(SequencePattern::default().t_aco("Blaze")),
                 Box::new(SequencePattern::default().t_aco("Pro")),
                 Box::new(SequencePattern::default().t_aco("Live")),

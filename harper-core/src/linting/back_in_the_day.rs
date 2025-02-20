@@ -13,13 +13,13 @@ pub struct BackInTheDay {
 
 impl Default for BackInTheDay {
     fn default() -> Self {
-        let exceptions = Lrc::new(WordSet::all(&["before", "of", "when"]));
+        let exceptions = Lrc::new(WordSet::new(&["before", "of", "when"]));
         let phrase = Lrc::new(ExactPhrase::from_phrase("back in the days"));
 
         let pattern = SequencePattern::default()
-            .then(Box::new(phrase.clone()))
+            .then(phrase.clone())
             .then_whitespace()
-            .then(Box::new(exceptions.clone()))
+            .then(exceptions.clone())
             .or(Box::new(phrase));
 
         Self {

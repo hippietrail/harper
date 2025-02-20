@@ -15,7 +15,7 @@ impl Default for ShouldContract {
         Self {
             pattern: Box::new(
                 SequencePattern::default()
-                    .then_word_set(WordSet::all(&["your", "were"]))
+                    .then(WordSet::new(&["your", "were"]))
                     .then_whitespace()
                     .t_aco("the")
                     .then_whitespace()

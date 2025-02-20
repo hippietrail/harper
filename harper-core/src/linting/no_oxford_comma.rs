@@ -1,5 +1,5 @@
 use crate::{
-    patterns::{Pattern, SequencePattern, WordSet},
+    patterns::{NounPhrase, Pattern, SequencePattern, WordSet},
     Document, Token, TokenStringExt,
 };
 
@@ -12,14 +12,18 @@ pub struct NoOxfordComma {
 impl NoOxfordComma {
     pub fn new() -> Self {
         Self {
-            pattern: SequencePattern::default()
-                .then_noun_phrase()
+            pattern: {
+                let this = {
+                    let this = SequencePattern::default();
+                    this.then(NounPhrase)
+                }
                 .then_comma()
-                .then_whitespace()
-                .then_noun_phrase()
-                .then_comma()
-                .then_whitespace()
-                .then(Box::new(WordSet::all(&["and", "or", "nor"]))),
+                .then_whitespace();
+                this.then(NounPhrase)
+            }
+            .then_comma()
+            .then_whitespace()
+            .then(WordSet::new(&["and", "or", "nor"])),
         }
     }
 

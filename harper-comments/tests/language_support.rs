@@ -1,7 +1,7 @@
 use std::path::Path;
 
 use harper_comments::CommentParser;
-use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
+use harper_core::linting::{LintGroup, Linter};
 use harper_core::parsers::MarkdownOptions;
 use harper_core::{Document, FstDictionary};
 

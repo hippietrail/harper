@@ -16,14 +16,14 @@ impl Default for Likewise {
             SequencePattern::aco("like").then_whitespace().t_aco("wise"),
         ));
 
-        pattern.add(Box::new(Invert::new(Box::new(
+        pattern.add(Box::new(Invert::new(
             SequencePattern::default()
                 .then_anything()
                 .then_whitespace()
                 .then_anything()
                 .then_whitespace()
                 .then_noun(),
-        ))));
+        )));
 
         Self {
             pattern: Box::new(pattern),

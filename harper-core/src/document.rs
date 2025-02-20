@@ -347,7 +347,7 @@ impl Document {
         Lrc::new(EitherPattern::new(vec![
             Box::new(
                 SequencePattern::default()
-                    .then_word_set(WordSet::all(&["etc", "vs"]))
+                    .then(WordSet::new(&["etc", "vs"]))
                     .then_period(),
             ),
             Box::new(
