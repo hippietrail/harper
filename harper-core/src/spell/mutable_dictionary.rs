@@ -64,7 +64,7 @@ fn uncached_inner_new() -> Arc<MutableDictionary> {
 
     let mut word_map_lowercase = HashMap::with_capacity(word_map.len());
     for key in word_map.keys() {
-        word_map_lowercase.insert(key.to_lower(), key.clone());
+        word_map_lowercase.insert(key.to_lower().to_smallvec(), key.clone());
     }
 
     Arc::new(MutableDictionary {
@@ -113,8 +113,11 @@ impl MutableDictionary {
         self.words.extend(pairs.iter().map(|(v, _)| v.clone()));
         self.words.sort_by_key(|w| w.len());
         self.word_len_starts = Self::create_len_starts(&self.words);
-        self.word_map_lowercase
-            .extend(pairs.iter().map(|(key, _)| (key.to_lower(), key.clone())));
+        self.word_map_lowercase.extend(
+            pairs
+                .iter()
+                .map(|(key, _)| (key.to_lower().to_smallvec(), key.clone())),
+        );
         self.word_map.extend(pairs);
     }
 
@@ -169,9 +172,9 @@ impl Dictionary for MutableDictionary {
 
     fn contains_word(&self, word: &[char]) -> bool {
         let normalized = seq_to_normalized(word);
-        let lowercase: CharString = normalized.to_lower();
+        let lowercase = normalized.to_lower();
 
-        self.word_map_lowercase.contains_key(&lowercase)
+        self.word_map_lowercase.contains_key(lowercase.as_ref())
     }
 
     fn contains_word_str(&self, word: &str) -> bool {
@@ -186,10 +189,10 @@ impl Dictionary for MutableDictionary {
 
     fn get_correct_capitalization_of(&self, word: &[char]) -> Option<&'_ [char]> {
         let normalized = seq_to_normalized(word);
-        let lowercase: CharString = normalized.to_lower();
+        let lowercase = normalized.to_lower();
 
         self.word_map_lowercase
-            .get(&lowercase)
+            .get(lowercase.as_ref())
             .map(|v| v.as_slice())
     }
 

@@ -27,7 +27,7 @@ impl RepeatedWords {
 
         self.special_cases
             .iter()
-            .any(|v| v.as_slice() == lower.as_slice())
+            .any(|v| v.as_slice() == lower.as_ref())
     }
 }
 

@@ -97,7 +97,7 @@ fn should_capitalize_token(tok: &Token, source: &[char], dict: &impl Dictionary)
 
             !is_short_preposition
                 && !metadata.article
-                && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_slice())
+                && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_ref())
         }
         _ => true,
     }
