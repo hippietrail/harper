@@ -1,7 +1,7 @@
 use harper_comments::CommentParser;
 use harper_core::{
-    parsers::{Markdown, MarkdownOptions, Mask, Parser},
     Lrc, Masker, MutableDictionary, Token,
+    parsers::{Markdown, MarkdownOptions, Mask, Parser},
 };
 
 mod masker;

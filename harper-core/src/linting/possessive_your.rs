@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{Pattern, SequencePattern},
     Token,
+    patterns::{Pattern, SequencePattern},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -11,11 +11,12 @@ pub struct PossessiveYour {
 
 impl Default for PossessiveYour {
     fn default() -> Self {
-        let pattern = SequencePattern::aco("you").then_whitespace().then(Box::new(
-            |tok: &Token, _source: &[char]| {
-                tok.kind.is_noun() && !tok.kind.is_verb() && !tok.kind.is_adverb()
-            },
-        ));
+        let pattern =
+            SequencePattern::aco("you")
+                .then_whitespace()
+                .then(|tok: &Token, _source: &[char]| {
+                    tok.kind.is_noun() && !tok.kind.is_verb() && !tok.kind.is_adverb()
+                });
 
         Self {
             pattern: Box::new(pattern),

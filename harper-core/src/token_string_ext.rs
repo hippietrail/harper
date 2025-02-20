@@ -1,4 +1,4 @@
-use crate::{Span, Token, TokenKind};
+use crate::{Span, Token};
 use itertools::Itertools;
 use paste::paste;
 
@@ -129,11 +129,7 @@ impl TokenStringExt for [Token] {
             return Some(*word);
         };
 
-        if w_idx < u_idx {
-            Some(*word)
-        } else {
-            None
-        }
+        if w_idx < u_idx { Some(*word) } else { None }
     }
 
     fn span(&self) -> Option<Span> {
@@ -152,11 +148,11 @@ impl TokenStringExt for [Token] {
     fn iter_linking_verb_indices(&self) -> impl Iterator<Item = usize> + '_ {
         self.iter_word_indices().filter(|idx| {
             let word = self[*idx];
-            let TokenKind::Word(word) = word.kind else {
-                panic!("Should be unreachable.");
+            let Some(Some(meta)) = word.kind.as_word() else {
+                return false;
             };
 
-            word.is_linking_verb()
+            meta.is_linking_verb()
         })
     }
 

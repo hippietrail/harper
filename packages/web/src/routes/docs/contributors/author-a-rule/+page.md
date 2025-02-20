@@ -8,7 +8,7 @@ Before we get into how to write a rule, it is important that we get some of the 
 When we refer to a Harper rule, we are talking about [an implementation of the Linter trait](https://docs.rs/harper-core/latest/harper_core/linting/trait.Linter.html).
 As you can see, there is an enormous amount of flexibility in this trait and a wide variety of potential strategies for querying the provided document to locate errors.
 
-This guide will go through one easy way to add a rule to Harper.
+This guide will go through one easy way to add a complex rule to Harper.
 The lofty goal is for this to be doable by someone with little to no Rust experience.
 You should, however, be able to figure out how to use Git.
 
@@ -32,7 +32,56 @@ It also makes it much easier to ask questions about how Harper works while you'r
 
 GitHub has some [good documentation on how to create a draft PR](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) if this is your first time.
 
+## Determine Your Rule's Needed Complexity
+
+A vast plurality of potential grammatical rules are pretty simple.
+If you're trying to extend Harper to identify a given phrase (like "mute point") and replace it with something else (like "moot point"), you can do this without any complex programming at all.
+All you have to do is add a line to `harper-core/src/linting/phrase_corrections.rs`:
+
+```rust
+"MutePoint" => (
+    // The offending phrase
+    "mute point",
+    // The correct phrase
+    ["moot point"],
+    // The message to notify the user of the error
+    "Did you mean `moot point`?",
+    // A description of the rule.
+    "Ensures `moot point` is used instead of `mute point`, as `moot` means debatable or irrelevant."
+),
+```
+
+This method also covers more complex cases, like if one of the words contains capitalization or the phrase is split by a line break.
+
+Similarly, if you just want Harper to enforce proper capitalization of a multi-token proper noun (like "Tumblr Blaze") you just need to add an entry to `harper-core/src/linting/proper_noun_capitalization_linters.rs`.
+
+```rust
+group.add(
+    "TumblrNames",
+    Box::new(ProperNounCapitalizationLinter::new(
+        SequencePattern::default()
+            .t_aco("Tumblr")
+            .then_whitespace()
+            .then((EitherPattern::new(vec![
+                Box::new(SequencePattern::default().t_aco("Blaze")),
+                Box::new(SequencePattern::default().t_aco("Pro")),
+                Box::new(SequencePattern::default().t_aco("Live")),
+                Box::new(SequencePattern::default().t_aco("Ads")),
+                Box::new(SequencePattern::default().t_aco("Communities")),
+                Box::new(SequencePattern::default().t_aco("Shop")),
+                Box::new(SequencePattern::default().t_aco("Dashboard")),
+            ]))),
+        "Ensure proper capitalization of Tumblr-related terms.",
+        dictionary.clone(),
+    )),
+);
+```
+
+If neither of those match the rule you have in mind, continue on to the next section.
+
 ## Create Your Rule's Module
+
+Now that we've established that your rule is of a non-trivial level of complexity, here is what you need to do.
 
 We separate each rule into its own file inside the `harper-core/src/linting` [directory.](https://github.com/Automattic/harper/tree/master/harper-core/src/linting)
 Create a new file under that directory with the name of your rule in `snake_case`.

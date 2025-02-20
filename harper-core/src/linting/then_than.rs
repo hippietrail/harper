@@ -1,7 +1,7 @@
 use super::{Lint, LintKind, PatternLinter};
+use crate::Token;
 use crate::linting::Suggestion;
 use crate::patterns::{All, Invert, OwnedPatternExt, Pattern, SequencePattern, WordSet};
-use crate::Token;
 
 #[doc = "Corrects the misuse of `then` to `than`."]
 pub struct ThenThan {
@@ -14,14 +14,14 @@ impl ThenThan {
             pattern: Box::new(All::new(vec![
                 Box::new(
                     SequencePattern::default()
-                        .then(Box::new(WordSet::all(&["better", "other"]).or(Box::new(
+                        .then(WordSet::new(&["better", "other"]).or(Box::new(
                             |tok: &Token, _source: &[char]| tok.kind.is_adjective(),
-                        ))))
+                        )))
                         .then_whitespace()
                         .then_any_capitalization_of("then"),
                 ),
                 // Denotes exceptions to the rule.
-                Box::new(Invert::new(Box::new(WordSet::all(&["back"])))),
+                Box::new(Invert::new(WordSet::new(&["back"]))),
             ])),
         }
     }
