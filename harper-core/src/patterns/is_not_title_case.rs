@@ -1,4 +1,4 @@
-use crate::{make_title_case, Dictionary, Token, TokenStringExt};
+use crate::{Dictionary, Token, TokenStringExt, make_title_case};
 
 use super::Pattern;
 

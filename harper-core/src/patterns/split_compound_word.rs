@@ -43,8 +43,7 @@ impl SplitCompoundWord {
         buffer.extend_from_slice(&a_chars);
         buffer.extend_from_slice(&b_chars);
 
-        if self.dict.contains_word(&buffer) {
-            let metadata = self.dict.get_word_metadata(&buffer);
+        if let Some(metadata) = self.dict.get_word_metadata(&buffer) {
             if (self.predicate)(metadata) {
                 let correct = self.dict.get_correct_capitalization_of(&buffer).unwrap();
                 buffer.clear();

@@ -114,8 +114,8 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
 #[cfg(test)]
 mod tests {
     use crate::{
-        linting::tests::{assert_lint_count, assert_suggestion_result},
         FstDictionary,
+        linting::tests::{assert_lint_count, assert_suggestion_result},
     };
 
     use super::SpellCheck;
