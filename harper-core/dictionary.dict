@@ -900,6 +900,7 @@ Banjul/2M
 Banks/2M
 Banneker/M
 Bannister/2M
+Bannon/2MS
 Banting/2M
 Bantu/1MS
 Baotou/2M
@@ -2591,6 +2592,7 @@ Dawson/2M
 Day/2M
 Dayan/2
 Dayton/2M
+Daytona/2M
 DeGeneres/2M
 DeKalb/2M
 Deadhead/1M
@@ -8528,6 +8530,7 @@ Rubicon/21MS
 Rubik/2M
 Rubin/2M
 Rubinstein/2M
+Rubio/2SM
 Ruby/21M
 Ruchbah/2M
 Rudolf/2M
@@ -9883,7 +9886,8 @@ Truffaut/M
 Trujillo/2M
 Truman/2M
 Trumbull/2M
-Trump/2M
+Trump/2MS
+Trumpism/2M
 Truth/M
 Tsimshian/12M
 Tsiolkovsky/2M
@@ -11535,6 +11539,7 @@ airfare/1SM
 airfield/1SM
 airflow/1M
 airfoil/1SM
+airframe/1SM
 airfreight/14M
 airguns/1
 airhead/1SM
@@ -11559,7 +11564,7 @@ airshow/1S
 airsick/5P
 airsickness/1M
 airspace/1M
-airspeed/1
+airspeed/1MS
 airstrike/14MS
 airstrip/1SM
 airtight/5
@@ -21832,7 +21837,7 @@ empathy/1M
 emperor/1MS
 emphases/1
 emphasis/1M
-emphasize/4AGDS
+emphasize/4AGDSC
 emphatic/51U
 emphatically/
 emphysema/1M
@@ -28207,7 +28212,7 @@ industrial/51Y
 industrialism/1M
 industrialist/1SM
 industrialization/1M
-industrialize/4DSG
+industrialize/4DSGA
 industrious/5YP
 industriousness/1M
 industry/1SM
@@ -29185,6 +29190,7 @@ jiggle/14DSMG
 jiggly/5
 jigsaw/14SMDG
 jihad/14SM
+jihadi/1MS
 jihadist/15SM
 jilt/14MDSG
 jimmy/14DSMG
@@ -30590,7 +30596,7 @@ local/51SMY
 locale/1MS
 locality/1SM
 localization/1M
-localize/4DSG
+localize/4DSGR
 locate/4EAGNDS
 location's/A
 location/1ESM
@@ -39396,7 +39402,8 @@ rendition/14MS
 renegade/145DSMG
 renege/4DRSZG
 reneger/1M
-renew/41DSBG
+renew/41DSG
+renewable/51MS
 renewal/1MS
 rennet/1M
 rennin/1M
@@ -41437,7 +41444,7 @@ several/51MY
 severance/1SM
 severe/5YPR
 severeness/1M
-severity/1M
+severity/1MS
 sew/41ASGD
 sewage/1M
 sewer/14MS
@@ -45533,6 +45540,7 @@ therapeutics/1M
 therapist/1SM
 therapy/14SM
 there/~
+there'll/
 there's/
 thereabout/S
 thereafter/1
@@ -48995,7 +49003,7 @@ wineglass/1MS
 winegrower/1MS
 winemaker/1MS
 winery/1SM
-wing/14MDRZG
+wing/14MDRZGS
 wingding/1MS
 wingless/5
 winglike/5
