@@ -18,3 +18,7 @@ If there are any resources online we can reference that described grammatical ru
 ## Examples
 
 Please provide at least three examples of the grammatical error in real text.
+
+## Potential false positives
+
+If a combination of words is wrong on its own but not when before or after certain words, let us know.
