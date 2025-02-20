@@ -2,7 +2,7 @@
 name = "harper-wasm"
 version = "0.1.0"
 edition = "2021"
-#private = true
+private = true
 publish = false
 repository = "https://github.com/automattic/harper"
 
