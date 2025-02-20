@@ -1,5 +1,5 @@
 use criterion::{black_box, criterion_group, criterion_main, Criterion};
-use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
+use harper_core::linting::{LintGroup, Linter};
 use harper_core::{Document, FstDictionary};
 
 static DEMO: &str = include_str!("../../demo.md");

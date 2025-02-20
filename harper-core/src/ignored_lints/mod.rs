@@ -59,7 +59,7 @@ mod tests {
 
     use super::IgnoredLints;
     use crate::{
-        linting::{LintGroup, LintGroupConfig, Linter},
+        linting::{LintGroup, Linter},
         Document, FstDictionary,
     };
 
