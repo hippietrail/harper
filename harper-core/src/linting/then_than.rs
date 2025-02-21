@@ -21,7 +21,7 @@ impl ThenThan {
                         .then_any_capitalization_of("then"),
                 ),
                 // Denotes exceptions to the rule.
-                Box::new(Invert::new(WordSet::new(&["back"]))),
+                Box::new(Invert::new(WordSet::new(&["back", "this"]))),
             ])),
         }
     }
