@@ -264,4 +264,13 @@ mod tests {
             0,
         );
     }
+
+    #[test]
+    fn allows_issue_721() {
+        assert_lint_count(
+            "So if you adjust any one of these adjusters that can have a negative or a positive effect.",
+            CompoundNouns::default(),
+            0,
+        );
+    }
 }

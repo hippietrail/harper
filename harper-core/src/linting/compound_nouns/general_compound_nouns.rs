@@ -25,7 +25,7 @@ impl Default for GeneralCompoundNouns {
                     return false;
                 };
 
-                tok.span.len() > 1 && !meta.article && !meta.preposition
+                tok.span.len() > 1 && !meta.article && !meta.preposition && !meta.is_adverb()
             })
             .then_whitespace()
             .then(|tok: &Token, _: &[char]| {
