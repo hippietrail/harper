@@ -210,6 +210,12 @@ pub fn lint_group() -> LintGroup {
             ["my house"],
             "Did you mean `my house`?",
             "Fixes the typo `mu house` to `my house`."
+        ),
+        "BanTogether" => (
+            "ban together",
+            ["band together"],
+            "Did you mean 'band together'?",
+            "Detects and corrects the common error of using 'ban together' instead of the idiom 'band together', which means to unite or join forces."
         )
     });
 
