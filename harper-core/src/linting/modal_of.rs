@@ -139,12 +139,16 @@ mod tests {
     }
 
     #[test]
-    fn test_missed_part() {
-        assert_lint_count("Ah I must of missed that part.", ModalOf::default(), 1);
+    fn catches_must_of() {
+        assert_suggestion_result(
+            "Ah I must of missed that part.",
+            ModalOf::default(),
+            "Ah I must have missed that part.",
+        );
     }
 
     #[test]
-    fn test_for_of() {
+    fn catches_should_of() {
         assert_lint_count(
             "Yeah I should of just mentioned it should of been a for of.",
             ModalOf::default(),
@@ -153,16 +157,16 @@ mod tests {
     }
 
     #[test]
-    fn test_extra_lines() {
-        assert_lint_count(
+    fn catches_would_of() {
+        assert_suggestion_result(
             "now this issue would of caused hundreds of thousands of extra lines",
             ModalOf::default(),
-            1,
+            "now this issue would have caused hundreds of thousands of extra lines",
         );
     }
 
     #[test]
-    fn test_with_each_possibility() {
+    fn doesnt_catch_you_could_of_course() {
         assert_lint_count(
             "You could of course explicit the else with each possibility",
             ModalOf::default(),
@@ -171,7 +175,7 @@ mod tests {
     }
 
     #[test]
-    fn test_compiler_can_detect() {
+    fn doesnt_catch_compiler_could_of_course() {
         assert_lint_count(
             "The compiler could of course detect this too",
             ModalOf::default(),
@@ -180,12 +184,12 @@ mod tests {
     }
 
     #[test]
-    fn test_other_places() {
+    fn doesnt_catch_might_of_course_be() {
         assert_lint_count("There might of course be other places where not implementing the IMemberSource might break ...", ModalOf::default(), 0);
     }
 
     #[test]
-    fn test_the_convention() {
+    fn doesnt_catch_not_a_must_of_course() {
         assert_lint_count(
             "Not a must of course if the convention should be .ts",
             ModalOf::default(),
@@ -194,7 +198,7 @@ mod tests {
     }
 
     #[test]
-    fn test_schedular() {
+    fn doesnt_catch_must_of_course_also() {
         assert_lint_count(
             "the schedular must of course also have run through",
             ModalOf::default(),
@@ -203,7 +207,7 @@ mod tests {
     }
 
     #[test]
-    fn test_not_local() {
+    fn doesnt_catch_should_of_course_not() {
         assert_lint_count(
             "not being local should of course not be supported",
             ModalOf::default(),
@@ -212,7 +216,7 @@ mod tests {
     }
 
     #[test]
-    fn test_by_compiling() {
+    fn doesnt_catch_would_of_course_just() {
         assert_lint_count(
             "I would of course just test this by compiling with MATX_MULTI_GPU=ON",
             ModalOf::default(),
