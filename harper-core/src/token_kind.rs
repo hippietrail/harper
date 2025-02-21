@@ -1,7 +1,7 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 
-use crate::{ConjunctionData, NominalData, Number, Punctuation, Quote, WordMetadata};
+use crate::{ConjunctionData, NominalData, Number, PronounData, Punctuation, Quote, WordMetadata};
 
 #[derive(
     Debug, Is, Clone, Copy, Serialize, Deserialize, Default, PartialOrd, Hash, Eq, PartialEq,
@@ -64,12 +64,12 @@ impl TokenKind {
         )
     }
 
-    pub fn is_pronoun(&self) -> bool {
+    pub fn is_possessive_pronoun(&self) -> bool {
         matches!(
             self,
             TokenKind::Word(Some(WordMetadata {
-                nominal: Some(NominalData {
-                    is_pronoun: Some(true),
+                pronoun: Some(PronounData {
+                    is_possessive: Some(true),
                     ..
                 }),
                 ..
@@ -255,20 +255,20 @@ impl TokenKind {
         metadata.is_linking_verb()
     }
 
-    pub fn is_not_pronoun_nominal(&self) -> bool {
-        let TokenKind::Word(Some(metadata)) = self else {
-            return true;
-        };
-
-        metadata.is_not_pronoun_nominal()
-    }
-
     pub fn is_not_plural_nominal(&self) -> bool {
         let TokenKind::Word(Some(metadata)) = self else {
             return true;
         };
 
         metadata.is_not_plural_nominal()
+    }
+
+    pub fn is_not_plural_pronoun(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return true;
+        };
+
+        metadata.is_not_plural_pronoun()
     }
 
     pub fn is_common_word(&self) -> bool {
@@ -287,12 +287,28 @@ impl TokenKind {
         metadata.is_plural_nominal()
     }
 
+    pub fn is_plural_pronoun(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return false;
+        };
+
+        metadata.is_plural_pronoun()
+    }
+
     pub fn is_nominal(&self) -> bool {
         let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 
         metadata.is_nominal()
+    }
+
+    pub fn is_pronoun(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return false;
+        };
+
+        metadata.is_pronoun()
     }
 
     pub fn is_likely_homograph(&self) -> bool {

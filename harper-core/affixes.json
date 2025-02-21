@@ -589,9 +589,7 @@
       "replacements": [],
       "adds_metadata": {},
       "gifts_metadata": {
-        "nominal": {
-          "is_pronoun": true
-        }
+        "pronoun": {}
       }
     },
     "9": {

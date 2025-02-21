@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Hash)]
 pub struct WordMetadata {
     pub nominal: Option<NominalData>,
+    pub pronoun: Option<PronounData>,
     pub verb: Option<VerbData>,
     pub adjective: Option<AdjectiveData>,
     pub adverb: Option<AdverbData>,
@@ -90,6 +91,7 @@ impl WordMetadata {
 
         Self {
             nominal: merge!(self.nominal, other.nominal),
+            pronoun: merge!(self.pronoun, other.pronoun),
             verb: merge!(self.verb, other.verb),
             adjective: merge!(self.adjective, other.adjective),
             adverb: merge!(self.adverb, other.adverb),
@@ -102,7 +104,8 @@ impl WordMetadata {
     }
 
     generate_metadata_queries!(
-        nominal has proper, plural, possessive, pronoun.
+        nominal has proper, plural, possessive.
+        pronoun has plural, possessive.
         verb has linking.
         conjunction has.
         adjective has.
@@ -149,7 +152,6 @@ pub struct NominalData {
     pub is_proper: Option<bool>,
     pub is_plural: Option<bool>,
     pub is_possessive: Option<bool>,
-    pub is_pronoun: Option<bool>,
 }
 
 impl NominalData {
@@ -159,7 +161,22 @@ impl NominalData {
             is_proper: self.is_proper.or(other.is_proper),
             is_plural: self.is_plural.or(other.is_plural),
             is_possessive: self.is_possessive.or(other.is_possessive),
-            is_pronoun: self.is_pronoun.or(other.is_pronoun),
+        }
+    }
+}
+
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
+pub struct PronounData {
+    pub is_plural: Option<bool>,
+    pub is_possessive: Option<bool>,
+}
+
+impl PronounData {
+    /// Produce a copy of `self` with the known properties of `other` set.
+    pub fn or(&self, other: &Self) -> Self {
+        Self {
+            is_plural: self.is_plural.or(other.is_plural),
+            is_possessive: self.is_possessive.or(other.is_possessive),
         }
     }
 }
