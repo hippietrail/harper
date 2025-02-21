@@ -129,11 +129,8 @@ impl Document {
         for token in self.tokens.iter_mut() {
             if let TokenKind::Word(meta) = &mut token.kind {
                 let word_source = token.span.get_content(&self.source);
-                let found_meta = dictionary
-                    .get_correct_capitalization_of(word_source)
-                    .map(|canonical_caps| dictionary.get_word_metadata(canonical_caps))
-                    .unwrap_or_default();
-                *meta = meta.or(&found_meta);
+                let found_meta = dictionary.get_word_metadata(word_source);
+                *meta = found_meta
             }
         }
     }
@@ -350,7 +347,7 @@ impl Document {
         Lrc::new(EitherPattern::new(vec![
             Box::new(
                 SequencePattern::default()
-                    .then_word_set(WordSet::all(&["etc", "vs"]))
+                    .then(WordSet::new(&["etc", "vs"]))
                     .then_period(),
             ),
             Box::new(
@@ -605,7 +602,7 @@ mod tests {
     use itertools::Itertools;
 
     use super::Document;
-    use crate::{parsers::MarkdownOptions, Span};
+    use crate::{Span, parsers::MarkdownOptions};
 
     fn assert_condensed_contractions(text: &str, final_tok_count: usize) {
         let document = Document::new_plain_english_curated(text);

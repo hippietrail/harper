@@ -27,8 +27,8 @@ impl Token {
 #[cfg(test)]
 mod tests {
     use crate::{
-        parsers::{Parser, PlainEnglish},
         TokenStringExt,
+        parsers::{Parser, PlainEnglish},
     };
 
     #[test]

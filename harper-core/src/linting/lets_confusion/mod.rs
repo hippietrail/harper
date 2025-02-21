@@ -34,7 +34,11 @@ mod tests {
 
     #[test]
     fn from_harper_docs() {
-        assert_suggestion_result("Often the longest and the shortest words are the most helpful, so lets push them first.", LetsConfusion::default(), "Often the longest and the shortest words are the most helpful, so let's push them first.");
+        assert_suggestion_result(
+            "Often the longest and the shortest words are the most helpful, so lets push them first.",
+            LetsConfusion::default(),
+            "Often the longest and the shortest words are the most helpful, so let's push them first.",
+        );
     }
 
     #[test]

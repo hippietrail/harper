@@ -9,8 +9,8 @@ pub use attribute_list::AttributeList;
 use attribute_list::HumanReadableAttributeList;
 pub use error::Error;
 
-use self::word_list::parse_word_list;
 pub use self::word_list::MarkedWord;
+use self::word_list::parse_word_list;
 
 pub fn parse_default_word_list() -> Result<Vec<MarkedWord>, Error> {
     parse_word_list(include_str!("../../../dictionary.dict"))
@@ -95,10 +95,12 @@ mod tests {
 
         assert_eq!(
             expanded,
-            vec!["hello", "tried", "reworked", "rework", "worked", "work", "try"]
-                .into_iter()
-                .map(|v| v.into())
-                .collect()
+            vec![
+                "hello", "tried", "reworked", "rework", "worked", "work", "try"
+            ]
+            .into_iter()
+            .map(|v| v.into())
+            .collect()
         )
     }
 
@@ -203,10 +205,12 @@ mod tests {
 
     #[test]
     fn expanded_contains_possessive_abandonment() {
-        assert!(build_expanded()
-            .get(&split("abandonment's"))
-            .unwrap()
-            .is_possessive_noun())
+        assert!(
+            build_expanded()
+                .get(&split("abandonment's"))
+                .unwrap()
+                .is_possessive_noun()
+        )
     }
 
     #[test]

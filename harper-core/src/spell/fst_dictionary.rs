@@ -1,11 +1,12 @@
 use super::{
+    MutableDictionary,
     hunspell::{parse_default_attribute_list, parse_default_word_list},
-    seq_to_normalized, MutableDictionary,
+    seq_to_normalized,
 };
-use fst::{map::StreamWithState, IntoStreamer, Map as FstMap, Streamer};
+use fst::{IntoStreamer, Map as FstMap, Streamer, map::StreamWithState};
 use hashbrown::HashMap;
 use lazy_static::lazy_static;
-use levenshtein_automata::{LevenshteinAutomatonBuilder, DFA};
+use levenshtein_automata::{DFA, LevenshteinAutomatonBuilder};
 use std::{cell::RefCell, sync::Arc};
 
 use crate::{CharString, CharStringExt, WordMetadata};
@@ -136,11 +137,11 @@ impl Dictionary for FstDictionary {
         self.full_dict.contains_word_str(word)
     }
 
-    fn get_word_metadata(&self, word: &[char]) -> WordMetadata {
+    fn get_word_metadata(&self, word: &[char]) -> Option<WordMetadata> {
         self.full_dict.get_word_metadata(word)
     }
 
-    fn get_word_metadata_str(&self, word: &str) -> WordMetadata {
+    fn get_word_metadata_str(&self, word: &str) -> Option<WordMetadata> {
         self.full_dict.get_word_metadata_str(word)
     }
 
@@ -235,7 +236,7 @@ mod tests {
     use itertools::Itertools;
 
     use crate::CharStringExt;
-    use crate::{spell::seq_to_normalized, Dictionary};
+    use crate::{Dictionary, spell::seq_to_normalized};
 
     use super::FstDictionary;
 

@@ -52,7 +52,7 @@ impl Linter for MergeWords {
             {
                 lints.push(Lint {
                     span: Span::new(a.span.start, b.span.end),
-                    lint_kind: LintKind::Spelling,
+                    lint_kind: LintKind::WordChoice,
                     suggestions: vec![Suggestion::ReplaceWith(merged_word.to_vec())],
                     message: "It seems these words would go better together.".to_owned(),
                     priority: 63,
@@ -69,7 +69,7 @@ impl Linter for MergeWords {
             {
                 lints.push(Lint {
                     span: Span::new(a.span.start, b.span.end),
-                    lint_kind: LintKind::Spelling,
+                    lint_kind: LintKind::WordChoice,
                     suggestions: vec![Suggestion::ReplaceWith(merged_word.to_vec())],
                     message: "It seems you intended to make this a contraction.".to_owned(),
                     priority: 63,

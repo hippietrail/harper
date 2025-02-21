@@ -1,10 +1,10 @@
 use crate::{
-    patterns::{Pattern, SequencePattern, WordSet},
     CharStringExt, Token,
+    patterns::{Pattern, SequencePattern, WordSet},
 };
 
-use crate::linting::{LintKind, PatternLinter, Suggestion};
 use crate::Lint;
+use crate::linting::{LintKind, PatternLinter, Suggestion};
 
 pub struct ShouldContract {
     pattern: Box<dyn Pattern>,
@@ -15,7 +15,7 @@ impl Default for ShouldContract {
         Self {
             pattern: Box::new(
                 SequencePattern::default()
-                    .then_word_set(WordSet::all(&["your", "were"]))
+                    .then(WordSet::new(&["your", "were"]))
                     .then_whitespace()
                     .t_aco("the")
                     .then_whitespace()

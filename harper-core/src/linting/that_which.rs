@@ -1,8 +1,8 @@
 use itertools::Itertools;
 
 use crate::{
-    patterns::{Pattern, SequencePattern, WordPatternGroup},
     Lrc, Token, TokenStringExt,
+    patterns::{Pattern, SequencePattern, WordPatternGroup},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -17,9 +17,9 @@ impl Default for ThatWhich {
 
         let matching_pattern = Lrc::new(
             SequencePattern::default()
-                .then_exact_word_or_lowercase("That")
+                .then_any_capitalization_of("that")
                 .then_whitespace()
-                .then_exact_word("that"),
+                .then_any_capitalization_of("that"),
         );
 
         pattern.add("that", Box::new(matching_pattern.clone()));

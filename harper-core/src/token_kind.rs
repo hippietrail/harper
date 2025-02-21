@@ -8,7 +8,8 @@ use crate::{ConjunctionData, NounData, Number, Punctuation, Quote, WordMetadata}
 )]
 #[serde(tag = "kind", content = "value")]
 pub enum TokenKind {
-    Word(WordMetadata),
+    /// `None` if the word does not exist in the dictionary.
+    Word(Option<WordMetadata>),
     Punctuation(Punctuation),
     Number(Number),
     /// A sequence of " " spaces.
@@ -53,49 +54,49 @@ impl TokenKind {
     pub fn is_possessive_noun(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 noun: Some(NounData {
                     is_possessive: Some(true),
                     ..
                 }),
                 ..
-            })
+            }))
         )
     }
 
     pub fn is_pronoun(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 noun: Some(NounData {
                     is_pronoun: Some(true),
                     ..
                 }),
                 ..
-            })
+            }))
         )
     }
 
     pub fn is_proper_noun(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 noun: Some(NounData {
                     is_proper: Some(true),
                     ..
                 }),
                 ..
-            })
+            }))
         )
     }
 
     pub fn is_conjunction(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 conjunction: Some(ConjunctionData {}),
                 ..
-            })
+            }))
         )
     }
 
@@ -133,7 +134,10 @@ impl TokenKind {
     }
 
     pub fn is_article(&self) -> bool {
-        matches!(self, TokenKind::Word(WordMetadata { article: true, .. }))
+        matches!(
+            self,
+            TokenKind::Word(Some(WordMetadata { article: true, .. }))
+        )
     }
 
     pub fn is_ellipsis(&self) -> bool {
@@ -147,30 +151,30 @@ impl TokenKind {
     pub fn is_adjective(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 adjective: Some(_),
                 ..
-            })
+            }))
         )
     }
 
     pub fn is_adverb(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 adverb: Some(_),
                 ..
-            })
+            }))
         )
     }
 
     pub fn is_swear(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 swear: Some(true),
                 ..
-            })
+            }))
         )
     }
 
@@ -196,9 +200,9 @@ impl TokenKind {
 }
 
 impl TokenKind {
-    /// Construct a [`TokenKind::Word`] with no (default) metadata.
+    /// Construct a [`TokenKind::Word`] with no metadata.
     pub fn blank_word() -> Self {
-        Self::Word(WordMetadata::default())
+        Self::Word(None)
     }
 }
 
@@ -236,7 +240,7 @@ impl TokenKind {
     }
 
     pub fn is_verb(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 
@@ -244,7 +248,7 @@ impl TokenKind {
     }
 
     pub fn is_linking_verb(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 
@@ -252,7 +256,7 @@ impl TokenKind {
     }
 
     pub fn is_not_pronoun_noun(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return true;
         };
 
@@ -260,7 +264,7 @@ impl TokenKind {
     }
 
     pub fn is_not_plural_noun(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return true;
         };
 
@@ -268,7 +272,7 @@ impl TokenKind {
     }
 
     pub fn is_common_word(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return true;
         };
 
@@ -276,7 +280,7 @@ impl TokenKind {
     }
 
     pub fn is_plural_noun(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 
@@ -284,7 +288,7 @@ impl TokenKind {
     }
 
     pub fn is_noun(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 
@@ -292,7 +296,7 @@ impl TokenKind {
     }
 
     pub fn is_likely_homograph(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 

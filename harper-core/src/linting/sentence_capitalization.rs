@@ -71,7 +71,7 @@ fn is_full_sentence(toks: &[Token]) -> bool {
     let mut has_verb = false;
 
     for tok in toks {
-        if let TokenKind::Word(metadata) = tok.kind {
+        if let TokenKind::Word(Some(metadata)) = tok.kind {
             if metadata.is_noun() {
                 has_noun = true;
             }

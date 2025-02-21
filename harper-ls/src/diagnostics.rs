@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
-use harper_core::linting::{Lint, Suggestion};
 use harper_core::CharStringExt;
+use harper_core::linting::{Lint, Suggestion};
 use tower_lsp::lsp_types::{
     CodeAction, CodeActionKind, CodeActionOrCommand, Command, Diagnostic, TextEdit, Url,
     WorkspaceEdit,

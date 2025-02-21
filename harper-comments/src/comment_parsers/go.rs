@@ -1,6 +1,6 @@
-use harper_core::parsers::{Markdown, MarkdownOptions, Parser};
 use harper_core::Lrc;
 use harper_core::Token;
+use harper_core::parsers::{Markdown, MarkdownOptions, Parser};
 
 use super::without_initiators;
 

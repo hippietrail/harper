@@ -1,7 +1,7 @@
 mod general_compound_nouns;
 mod implied_ownership_compound_nouns;
 
-use super::{merge_linters::merge_linters, Lint, LintKind, Suggestion};
+use super::{Lint, LintKind, Suggestion, merge_linters::merge_linters};
 
 use general_compound_nouns::GeneralCompoundNouns;
 use implied_ownership_compound_nouns::ImpliedOwnershipCompoundNouns;

@@ -10,7 +10,7 @@ pub struct DocumentState {
     pub document: Document,
     pub ident_dict: Lrc<MutableDictionary>,
     pub dict: Lrc<MergedDictionary>,
-    pub linter: LintGroup<Lrc<MergedDictionary>>,
+    pub linter: LintGroup,
     pub language_id: Option<String>,
     pub ignored_lints: IgnoredLints,
     pub url: Url,

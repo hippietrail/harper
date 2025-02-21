@@ -1,6 +1,6 @@
 use itertools::Itertools;
 
-use crate::{remove_overlaps, Document, Token, TokenStringExt};
+use crate::{Document, Token, TokenStringExt, remove_overlaps};
 
 use super::{Lint, LintKind, Linter, Suggestion};
 

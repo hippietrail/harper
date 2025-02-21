@@ -7,7 +7,7 @@ use anyhow::format_err;
 use ariadne::{Color, Label, Report, ReportKind, Source};
 use clap::Parser;
 use harper_comments::CommentParser;
-use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
+use harper_core::linting::{LintGroup, Linter};
 use harper_core::parsers::{Markdown, MarkdownOptions};
 use harper_core::spell::hunspell::parse_default_attribute_list;
 use harper_core::spell::hunspell::word_list::parse_word_list;
@@ -57,14 +57,13 @@ enum Args {
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();
     let markdown_options = MarkdownOptions::default();
-    let linting_options = LintGroupConfig::default();
     let dictionary = FstDictionary::curated();
 
     match args {
         Args::Lint { file, count } => {
             let (doc, source) = load_file(&file, markdown_options)?;
 
-            let mut linter = LintGroup::new(linting_options, dictionary);
+            let mut linter = LintGroup::new_curated(dictionary);
             let mut lints = linter.lint(&doc);
 
             if count {
@@ -199,15 +198,14 @@ fn main() -> anyhow::Result<()> {
                 description: String,
             }
 
-            let mut linter = LintGroup::new(linting_options, dictionary);
-            linter.config.fill_default_values();
+            let linter = LintGroup::new_curated(dictionary);
 
             let default_config: HashMap<String, bool> =
                 serde_json::from_str(&serde_json::to_string(&linter.config).unwrap()).unwrap();
 
             // Use `BTreeMap` so output is sorted by keys.
             let mut configs = BTreeMap::new();
-            for (key, desc) in linter.all_descriptions().to_vec_pairs() {
+            for (key, desc) in linter.all_descriptions() {
                 configs.insert(
                     key.to_owned(),
                     Config {

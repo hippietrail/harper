@@ -21,7 +21,8 @@ impl WordSet {
         }
     }
 
-    pub fn all(words: &[&'static str]) -> Self {
+    /// Create a new word set that matches against any word in the provided list.
+    pub fn new(words: &[&'static str]) -> Self {
         let mut set = Self::default();
 
         for str in words {
@@ -65,13 +66,13 @@ impl Pattern for WordSet {
 
 #[cfg(test)]
 mod tests {
-    use crate::{patterns::DocPattern, Document, Span};
+    use crate::{Document, Span, patterns::DocPattern};
 
     use super::WordSet;
 
     #[test]
     fn fruit() {
-        let set = WordSet::all(&["banana", "apple", "orange"]);
+        let set = WordSet::new(&["banana", "apple", "orange"]);
 
         let doc = Document::new_markdown_default_curated("I ate a banana and an apple today.");
 
@@ -82,7 +83,7 @@ mod tests {
 
     #[test]
     fn fruit_whack_capitalization() {
-        let set = WordSet::all(&["banana", "apple", "orange"]);
+        let set = WordSet::new(&["banana", "apple", "orange"]);
 
         let doc = Document::new_markdown_default_curated("I Ate A bAnaNa And aN apPlE today.");
 

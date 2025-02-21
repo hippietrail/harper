@@ -40,7 +40,7 @@ impl Pattern for NounPhrase {
 mod tests {
     use super::super::DocPattern;
     use super::NounPhrase;
-    use crate::{patterns::Pattern, Document, Span};
+    use crate::{Document, Span, patterns::Pattern};
 
     #[test]
     fn simple_apple() {

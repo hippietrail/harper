@@ -11,8 +11,8 @@ use std::sync::Arc;
 
 use crate::{CharString, CharStringExt, WordMetadata};
 
-use super::dictionary::Dictionary;
 use super::FuzzyMatchResult;
+use super::dictionary::Dictionary;
 
 /// A basic dictionary that allows words to be added after instantiating.
 /// This is useful for user and file dictionaries that may change at runtime.
@@ -64,7 +64,7 @@ fn uncached_inner_new() -> Arc<MutableDictionary> {
 
     let mut word_map_lowercase = HashMap::with_capacity(word_map.len());
     for key in word_map.keys() {
-        word_map_lowercase.insert(key.to_lower(), key.clone());
+        word_map_lowercase.insert(key.to_lower().to_smallvec(), key.clone());
     }
 
     Arc::new(MutableDictionary {
@@ -113,8 +113,11 @@ impl MutableDictionary {
         self.words.extend(pairs.iter().map(|(v, _)| v.clone()));
         self.words.sort_by_key(|w| w.len());
         self.word_len_starts = Self::create_len_starts(&self.words);
-        self.word_map_lowercase
-            .extend(pairs.iter().map(|(key, _)| (key.to_lower(), key.clone())));
+        self.word_map_lowercase.extend(
+            pairs
+                .iter()
+                .map(|(key, _)| (key.to_lower().to_smallvec(), key.clone())),
+        );
         self.word_map.extend(pairs);
     }
 
@@ -160,23 +163,18 @@ impl Default for MutableDictionary {
 }
 
 impl Dictionary for MutableDictionary {
-    fn get_word_metadata(&self, word: &[char]) -> WordMetadata {
+    fn get_word_metadata(&self, word: &[char]) -> Option<WordMetadata> {
         let normalized = seq_to_normalized(word);
-        let Some(correct_caps) = self.get_correct_capitalization_of(&normalized) else {
-            return WordMetadata::default();
-        };
+        let correct_caps = self.get_correct_capitalization_of(&normalized)?;
 
-        self.word_map
-            .get(correct_caps)
-            .cloned()
-            .unwrap_or(WordMetadata::default())
+        self.word_map.get(correct_caps).cloned()
     }
 
     fn contains_word(&self, word: &[char]) -> bool {
         let normalized = seq_to_normalized(word);
-        let lowercase: CharString = normalized.to_lower();
+        let lowercase = normalized.to_lower();
 
-        self.word_map_lowercase.contains_key(&lowercase)
+        self.word_map_lowercase.contains_key(lowercase.as_ref())
     }
 
     fn contains_word_str(&self, word: &str) -> bool {
@@ -184,17 +182,17 @@ impl Dictionary for MutableDictionary {
         self.contains_word(&chars)
     }
 
-    fn get_word_metadata_str(&self, word: &str) -> WordMetadata {
+    fn get_word_metadata_str(&self, word: &str) -> Option<WordMetadata> {
         let chars: CharString = word.chars().collect();
         self.get_word_metadata(&chars)
     }
 
     fn get_correct_capitalization_of(&self, word: &[char]) -> Option<&'_ [char]> {
         let normalized = seq_to_normalized(word);
-        let lowercase: CharString = normalized.to_lower();
+        let lowercase = normalized.to_lower();
 
         self.word_map_lowercase
-            .get(&lowercase)
+            .get(lowercase.as_ref())
             .map(|v| v.as_slice())
     }
 
@@ -252,7 +250,7 @@ impl Dictionary for MutableDictionary {
             .map(|(word, edit_distance)| FuzzyMatchResult {
                 word,
                 edit_distance,
-                metadata: self.get_word_metadata(word),
+                metadata: self.get_word_metadata(word).unwrap(),
             })
             .collect()
     }
@@ -332,22 +330,30 @@ mod tests {
     #[test]
     fn this_is_noun() {
         let dict = MutableDictionary::curated();
-        assert!(dict.get_word_metadata_str("this").is_noun());
-        assert!(dict.get_word_metadata_str("This").is_noun());
+        assert!(dict.get_word_metadata_str("this").unwrap().is_noun());
+        assert!(dict.get_word_metadata_str("This").unwrap().is_noun());
     }
 
     #[test]
     fn than_is_conjunction() {
         let dict = MutableDictionary::curated();
-        assert!(dict.get_word_metadata_str("than").is_conjunction());
-        assert!(dict.get_word_metadata_str("Than").is_conjunction());
+        assert!(dict.get_word_metadata_str("than").unwrap().is_conjunction());
+        assert!(dict.get_word_metadata_str("Than").unwrap().is_conjunction());
     }
 
     #[test]
     fn herself_is_pronoun() {
         let dict = MutableDictionary::curated();
-        assert!(dict.get_word_metadata_str("herself").is_pronoun_noun());
-        assert!(dict.get_word_metadata_str("Herself").is_pronoun_noun());
+        assert!(
+            dict.get_word_metadata_str("herself")
+                .unwrap()
+                .is_pronoun_noun()
+        );
+        assert!(
+            dict.get_word_metadata_str("Herself")
+                .unwrap()
+                .is_pronoun_noun()
+        );
     }
 
     #[test]
@@ -359,7 +365,7 @@ mod tests {
     #[test]
     fn im_is_common() {
         let dict = MutableDictionary::curated();
-        assert!(dict.get_word_metadata_str("I'm").common);
+        assert!(dict.get_word_metadata_str("I'm").unwrap().common);
     }
 
     #[test]
@@ -380,7 +386,12 @@ mod tests {
     fn there_is_not_a_pronoun() {
         let dict = MutableDictionary::curated();
 
-        assert!(!dict.get_word_metadata_str("there").is_noun());
-        assert!(!dict.get_word_metadata_str("there").is_pronoun_noun());
+        assert!(!dict.get_word_metadata_str("there").unwrap().is_noun());
+        assert!(
+            !dict
+                .get_word_metadata_str("there")
+                .unwrap()
+                .is_pronoun_noun()
+        );
     }
 }

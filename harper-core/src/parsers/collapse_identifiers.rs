@@ -60,8 +60,8 @@ impl Parser for CollapseIdentifiers {
 #[cfg(test)]
 mod tests {
     use crate::{
-        parsers::{PlainEnglish, StrParser},
         FstDictionary, MergedDictionary, MutableDictionary, WordMetadata,
+        parsers::{PlainEnglish, StrParser},
     };
 
     use super::*;

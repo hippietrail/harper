@@ -130,8 +130,8 @@ mod tests {
     use crate::spell::FuzzyMatchResult;
 
     use super::{
-        order_suggestions, seq_to_normalized, suggest_correct_spelling_str, Dictionary,
-        FstDictionary, MutableDictionary,
+        Dictionary, FstDictionary, MutableDictionary, order_suggestions, seq_to_normalized,
+        suggest_correct_spelling_str,
     };
 
     const RESULT_LIMIT: usize = 100;
@@ -165,7 +165,7 @@ mod tests {
         let common_words = dict
             .words_iter()
             .filter_map(|word| {
-                let metadata = dict.get_word_metadata(word);
+                let metadata = dict.get_word_metadata(word).unwrap();
                 if metadata.common {
                     Some(FuzzyMatchResult {
                         word,
@@ -181,7 +181,7 @@ mod tests {
         let uncommon_words = dict
             .words_iter()
             .filter_map(|word| {
-                let metadata = dict.get_word_metadata(word);
+                let metadata = dict.get_word_metadata(word).unwrap();
                 if metadata.common {
                     None
                 } else {
@@ -202,7 +202,7 @@ mod tests {
         let common_first = suggestions
             .into_iter()
             .take(3)
-            .all(|word| dict.get_word_metadata(word).common);
+            .all(|word| dict.get_word_metadata(word).unwrap().common);
 
         assert!(common_first);
     }

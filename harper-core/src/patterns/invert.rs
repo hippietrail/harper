@@ -8,8 +8,10 @@ pub struct Invert {
 }
 
 impl Invert {
-    pub fn new(inner: Box<dyn Pattern>) -> Self {
-        Self { inner }
+    pub fn new(inner: impl Pattern + 'static) -> Self {
+        Self {
+            inner: Box::new(inner),
+        }
     }
 }
 

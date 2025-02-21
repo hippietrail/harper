@@ -4,7 +4,7 @@ use crate::TokenKind;
 use hashbrown::HashSet;
 use lazy_static::lazy_static;
 
-use crate::{parsers::Parser, CharStringExt, Dictionary, Document, TokenStringExt};
+use crate::{CharStringExt, Dictionary, Document, TokenStringExt, parsers::Parser};
 
 /// A helper function for [`make_title_case`] that uses Strings instead of char buffers.
 pub fn make_title_case_str(source: &str, parser: &impl Parser, dict: &impl Dictionary) -> String {
@@ -35,7 +35,7 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
     let mut output = toks.span().unwrap().get_content(source).to_vec();
 
     while let Some((index, word)) = word_likes.next() {
-        if let Some(metadata) = word.kind.as_word() {
+        if let Some(Some(metadata)) = word.kind.as_word() {
             if metadata.is_proper_noun() {
                 // Replace it with the dictionary entry verbatim.
                 let orig_text = word.span.get_content(source);
@@ -78,7 +78,7 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
 /// Is not responsible for capitalization requirements that are dependent on token position.
 fn should_capitalize_token(tok: &Token, source: &[char], dict: &impl Dictionary) -> bool {
     match tok.kind {
-        TokenKind::Word(mut metadata) => {
+        TokenKind::Word(Some(mut metadata)) => {
             // Only specific conjunctions are not capitalized.
             lazy_static! {
                 static ref SPECIAL_CONJUNCTIONS: HashSet<Vec<char>> =
@@ -91,13 +91,13 @@ fn should_capitalize_token(tok: &Token, source: &[char], dict: &impl Dictionary)
             let chars = tok.span.get_content(source);
             let chars_lower = chars.to_lower();
 
-            metadata = metadata.or(&dict.get_word_metadata(&chars_lower));
+            metadata = metadata.or(&dict.get_word_metadata(&chars_lower).unwrap_or_default());
 
             let is_short_preposition = metadata.preposition && tok.span.len() <= 4;
 
             !is_short_preposition
                 && !metadata.article
-                && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_slice())
+                && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_ref())
         }
         _ => true,
     }
@@ -111,8 +111,8 @@ mod tests {
 
     use super::make_title_case_str;
     use crate::{
-        parsers::{Markdown, PlainEnglish},
         FstDictionary,
+        parsers::{Markdown, PlainEnglish},
     };
 
     #[test]

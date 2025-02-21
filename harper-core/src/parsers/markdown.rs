@@ -295,7 +295,7 @@ impl Parser for Markdown {
 mod tests {
     use super::super::StrParser;
     use super::Markdown;
-    use crate::{parsers::markdown::MarkdownOptions, Punctuation, TokenKind, TokenStringExt};
+    use crate::{Punctuation, TokenKind, TokenStringExt, parsers::markdown::MarkdownOptions};
 
     #[test]
     fn survives_emojis() {

@@ -1,8 +1,8 @@
 use super::super::{Lint, LintKind, PatternLinter};
 use crate::linting::Suggestion;
 use crate::patterns::{Pattern, SequencePattern, WordSet};
-use crate::{char_string::char_string, Token};
 use crate::{CharString, CharStringExt};
+use crate::{Token, char_string::char_string};
 
 pub struct ToHop {
     pattern: Box<dyn Pattern>,
@@ -11,13 +11,13 @@ pub struct ToHop {
 impl Default for ToHop {
     fn default() -> Self {
         let pattern = SequencePattern::default()
-            .then_word_set(WordSet::all(&["hoping", "hoped", "hope"]))
+            .then(WordSet::new(&["hoping", "hoped", "hope"]))
             .then_whitespace()
             .t_aco("on")
             .then_whitespace()
             .then_article()
             .then_whitespace()
-            .then_word_set(WordSet::all(&["airplane", "plane", "bus", "call", "train"]));
+            .then(WordSet::new(&["airplane", "plane", "bus", "call", "train"]));
 
         Self {
             pattern: Box::new(pattern),

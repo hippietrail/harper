@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{Pattern, SequencePattern},
     Token,
+    patterns::{Pattern, SequencePattern},
 };
 
 use super::super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -13,9 +13,7 @@ impl Default for AvoidContraction {
     fn default() -> Self {
         let pattern = SequencePattern::aco("you're")
             .then_whitespace()
-            .then(Box::new(|tok: &Token, _source: &[char]| {
-                tok.kind.is_noun() && !tok.kind.is_adjective()
-            }));
+            .then(|tok: &Token, _source: &[char]| tok.kind.is_noun() && !tok.kind.is_adjective());
 
         Self {
             pattern: Box::new(pattern),

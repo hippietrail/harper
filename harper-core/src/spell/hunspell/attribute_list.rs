@@ -2,10 +2,10 @@ use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 use smallvec::ToSmallVec;
 
+use super::Error;
 use super::affix_replacement::AffixReplacement;
 use super::expansion::{Expansion, HumanReadableExpansion};
 use super::word_list::MarkedWord;
-use super::Error;
 use crate::{CharString, Span, WordMetadata};
 
 #[derive(Debug, Clone)]

@@ -1,8 +1,8 @@
 use super::{Lint, LintKind, PatternLinter};
-use crate::linting::Suggestion;
-use crate::patterns::{Pattern, SequencePattern, WordSet};
 use crate::Token;
 use crate::TokenStringExt;
+use crate::linting::Suggestion;
+use crate::patterns::{Pattern, SequencePattern, WordSet};
 
 pub struct WasAloud {
     pattern: Box<dyn Pattern>,
@@ -11,7 +11,7 @@ pub struct WasAloud {
 impl Default for WasAloud {
     fn default() -> Self {
         let pattern = SequencePattern::default()
-            .then_word_set(WordSet::all(&["was", "were", "be", "been"]))
+            .then(WordSet::new(&["was", "were", "be", "been"]))
             .then_whitespace()
             .then_exact_word("aloud");
 

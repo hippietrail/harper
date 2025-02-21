@@ -1,7 +1,7 @@
 use itertools::Itertools;
 
-use super::hostname::lex_hostname;
 use super::FoundToken;
+use super::hostname::lex_hostname;
 use crate::TokenKind;
 
 pub fn lex_email_address(source: &[char]) -> Option<FoundToken> {

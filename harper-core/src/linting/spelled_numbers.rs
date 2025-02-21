@@ -103,7 +103,7 @@ fn spell_out_number(num: u64) -> Option<String> {
 mod tests {
     use crate::linting::tests::assert_suggestion_result;
 
-    use super::{spell_out_number, SpelledNumbers};
+    use super::{SpelledNumbers, spell_out_number};
 
     #[test]
     fn produces_zero() {

@@ -75,7 +75,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		const linter = new Linter();
 
 		const lintConfig = await linter.getLintConfig();
-		expect(lintConfig).toHaveProperty('repeated_words');
+		expect(lintConfig).toHaveProperty('RepeatedWords');
 	});
 
 	test(`${linterName} can both get and set its configuration`, async () => {
