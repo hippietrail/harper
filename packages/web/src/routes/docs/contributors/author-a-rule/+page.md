@@ -53,7 +53,7 @@ All you have to do is add a line to `harper-core/src/linting/phrase_corrections.
 
 This method also covers more complex cases, like if one of the words contains capitalization or the phrase is split by a line break.
 
-Similarly, if you just want Harper to enforce proper capitalization of a multi-token proper noun (like "Tumblr Blaze") you just need to add an entry to `harper-core/src/linting/proper_noun_capitalization_linters.rs`.
+Similarly, if you just want Harper to enforce proper capitalization of a multi-token proper noun (like "Tumblr Blaze") you just need to add an entry to `harper-core/src/linting/proper_nominal_capitalization_linters.rs`.
 
 ```rust
 group.add(

@@ -328,10 +328,10 @@ mod tests {
     }
 
     #[test]
-    fn this_is_noun() {
+    fn this_is_nominal() {
         let dict = MutableDictionary::curated();
-        assert!(dict.get_word_metadata_str("this").unwrap().is_noun());
-        assert!(dict.get_word_metadata_str("This").unwrap().is_noun());
+        assert!(dict.get_word_metadata_str("this").unwrap().is_nominal());
+        assert!(dict.get_word_metadata_str("This").unwrap().is_nominal());
     }
 
     #[test]
@@ -347,12 +347,12 @@ mod tests {
         assert!(
             dict.get_word_metadata_str("herself")
                 .unwrap()
-                .is_pronoun_noun()
+                .is_pronoun_nominal()
         );
         assert!(
             dict.get_word_metadata_str("Herself")
                 .unwrap()
-                .is_pronoun_noun()
+                .is_pronoun_nominal()
         );
     }
 
@@ -386,12 +386,12 @@ mod tests {
     fn there_is_not_a_pronoun() {
         let dict = MutableDictionary::curated();
 
-        assert!(!dict.get_word_metadata_str("there").unwrap().is_noun());
+        assert!(!dict.get_word_metadata_str("there").unwrap().is_nominal());
         assert!(
             !dict
                 .get_word_metadata_str("there")
                 .unwrap()
-                .is_pronoun_noun()
+                .is_pronoun_nominal()
         );
     }
 }

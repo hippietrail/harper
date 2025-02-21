@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Hash)]
 pub struct WordMetadata {
-    pub noun: Option<NounData>,
+    pub nominal: Option<NominalData>,
     pub verb: Option<VerbData>,
     pub adjective: Option<AdjectiveData>,
     pub adverb: Option<AdverbData>,
@@ -89,7 +89,7 @@ impl WordMetadata {
         }
 
         Self {
-            noun: merge!(self.noun, other.noun),
+            nominal: merge!(self.nominal, other.nominal),
             verb: merge!(self.verb, other.verb),
             adjective: merge!(self.adjective, other.adjective),
             adverb: merge!(self.adverb, other.adverb),
@@ -102,7 +102,7 @@ impl WordMetadata {
     }
 
     generate_metadata_queries!(
-        noun has proper, plural, possessive, pronoun.
+        nominal has proper, plural, possessive, pronoun.
         verb has linking.
         conjunction has.
         adjective has.
@@ -145,14 +145,14 @@ impl VerbData {
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
-pub struct NounData {
+pub struct NominalData {
     pub is_proper: Option<bool>,
     pub is_plural: Option<bool>,
     pub is_possessive: Option<bool>,
     pub is_pronoun: Option<bool>,
 }
 
-impl NounData {
+impl NominalData {
     /// Produce a copy of `self` with the known properties of `other` set.
     pub fn or(&self, other: &Self) -> Self {
         Self {

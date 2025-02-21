@@ -285,12 +285,12 @@
         }
       ],
       "adds_metadata": {
-        "noun": {
+        "nominal": {
           "is_possessive": true
         }
       },
       "gifts_metadata": {
-        "noun": {}
+        "nominal": {}
       }
     },
     "F": {
@@ -358,7 +358,7 @@
         }
       ],
       "adds_metadata": {
-        "noun": {
+        "nominal": {
           "is_plural": true
         }
       },
@@ -415,7 +415,7 @@
       ],
       "adds_metadata": {
         "verb": {},
-        "noun": null
+        "nominal": null
       },
       "gifts_metadata": {}
     },
@@ -511,7 +511,7 @@
       "replacements": [],
       "adds_metadata": {},
       "gifts_metadata": {
-        "noun": {
+        "nominal": {
           "is_plural": false
         }
       }
@@ -523,7 +523,7 @@
       "replacements": [],
       "adds_metadata": {},
       "gifts_metadata": {
-        "noun": {
+        "nominal": {
           "is_proper": true
         }
       }
@@ -589,7 +589,7 @@
       "replacements": [],
       "adds_metadata": {},
       "gifts_metadata": {
-        "noun": {
+        "nominal": {
           "is_pronoun": true
         }
       }
@@ -601,7 +601,7 @@
       "replacements": [],
       "adds_metadata": {},
       "gifts_metadata": {
-        "noun": {
+        "nominal": {
           "is_plural": true
         }
       }
