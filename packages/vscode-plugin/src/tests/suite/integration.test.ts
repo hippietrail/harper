@@ -46,7 +46,7 @@ describe('Integration >', () => {
 
 	it('updates diagnostics on configuration change', async () => {
 		const config = workspace.getConfiguration('harper-ls.linters');
-		await config.update('repeated_words', false, ConfigurationTarget.Workspace);
+		await config.update('RepeatedWords', false, ConfigurationTarget.Workspace);
 		// Wait for `harper-ls` to update diagnostics
 		await sleep(300);
 
@@ -59,7 +59,7 @@ describe('Integration >', () => {
 		);
 
 		// Set config back to default value
-		await config.update('repeated_words', true, ConfigurationTarget.Workspace);
+		await config.update('RepeatedWords', true, ConfigurationTarget.Workspace);
 	});
 
 	it('updates diagnostics when files are deleted', async () => {

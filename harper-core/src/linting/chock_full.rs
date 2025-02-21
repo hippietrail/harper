@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{EitherPattern, Pattern, SequencePattern, WhitespacePattern, WordSet},
     Token, TokenStringExt,
+    patterns::{EitherPattern, Pattern, SequencePattern, WhitespacePattern, WordSet},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -14,11 +14,11 @@ impl Default for ChockFull {
         Self {
             pattern: Box::new(
                 SequencePattern::default()
-                    .then(Box::new(WordSet::all(&["chalk", "choke"])))
-                    .then(Box::new(EitherPattern::new(vec![
+                    .then(WordSet::new(&["chalk", "choke"]))
+                    .then(EitherPattern::new(vec![
                         Box::new(WhitespacePattern),
                         Box::new(|tok: &Token, _source: &[char]| tok.kind.is_hyphen()),
-                    ])))
+                    ]))
                     .then_exact_word("full"),
             ),
         }

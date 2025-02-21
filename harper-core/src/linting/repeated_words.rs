@@ -27,7 +27,7 @@ impl RepeatedWords {
 
         self.special_cases
             .iter()
-            .any(|v| v.as_slice() == lower.as_slice())
+            .any(|v| v.as_slice() == lower.as_ref())
     }
 }
 
@@ -102,7 +102,11 @@ mod tests {
 
     #[test]
     fn issue_253() {
-        assert_lint_count("this paper shows that, while the method may be more accurate accurate, the turnout overestimate suggests that self-selection bias is not sufficiently reduced", RepeatedWords::default(), 1);
+        assert_lint_count(
+            "this paper shows that, while the method may be more accurate accurate, the turnout overestimate suggests that self-selection bias is not sufficiently reduced",
+            RepeatedWords::default(),
+            1,
+        );
     }
 
     #[test]

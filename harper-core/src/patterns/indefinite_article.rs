@@ -9,7 +9,7 @@ pub struct IndefiniteArticle {
 impl Default for IndefiniteArticle {
     fn default() -> Self {
         Self {
-            inner: SequencePattern::default().then_word_set(WordSet::all(&["a", "an"])),
+            inner: SequencePattern::default().then(WordSet::new(&["a", "an"])),
         }
     }
 }

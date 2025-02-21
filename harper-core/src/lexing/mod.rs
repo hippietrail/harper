@@ -9,7 +9,7 @@ use url::lex_url;
 use self::email_address::lex_email_address;
 use crate::char_ext::CharExt;
 use crate::punctuation::{Punctuation, Quote};
-use crate::{Number, TokenKind, WordMetadata};
+use crate::{Number, TokenKind};
 
 #[derive(Debug)]
 pub struct FoundToken {
@@ -54,7 +54,7 @@ fn lex_word(source: &[char]) -> Option<FoundToken> {
     } else {
         Some(FoundToken {
             next_index: end,
-            token: TokenKind::Word(WordMetadata::default()),
+            token: TokenKind::Word(None),
         })
     }
 }
