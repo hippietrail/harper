@@ -165,10 +165,25 @@ impl NominalData {
     }
 }
 
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Is, Hash)]
+pub enum Person {
+    First,
+    Second,
+    Third,
+}
+
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Is, Hash)]
+pub enum Case {
+    Subject,
+    Object,
+}
+
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
 pub struct PronounData {
     pub is_plural: Option<bool>,
     pub is_possessive: Option<bool>,
+    pub person: Option<Person>,
+    pub case: Option<Case>,
 }
 
 impl PronounData {
@@ -177,17 +192,30 @@ impl PronounData {
         Self {
             is_plural: self.is_plural.or(other.is_plural),
             is_possessive: self.is_possessive.or(other.is_possessive),
+            person: self.person.or(other.person),
+            case: self.case.or(other.case),
         }
     }
 }
 
+#[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Is, Hash)]
+pub enum Degree {
+    Positive,
+    Comparative,
+    Superlative,
+}
+
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
-pub struct AdjectiveData {}
+pub struct AdjectiveData {
+    pub degree: Option<Degree>,
+}
 
 impl AdjectiveData {
     /// Produce a copy of `self` with the known properties of `other` set.
-    pub fn or(&self, _other: &Self) -> Self {
-        Self {}
+    pub fn or(&self, other: &Self) -> Self {
+        Self {
+            degree: self.degree.or(other.degree),
+        }
     }
 }
 

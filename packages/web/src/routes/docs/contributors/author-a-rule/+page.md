@@ -58,7 +58,7 @@ Similarly, if you just want Harper to enforce proper capitalization of a multi-t
 ```rust
 group.add(
     "TumblrNames",
-    Box::new(ProperNounCapitalizationLinter::new(
+    Box::new(ProperNominalCapitalizationLinter::new(
         SequencePattern::default()
             .t_aco("Tumblr")
             .then_whitespace()
