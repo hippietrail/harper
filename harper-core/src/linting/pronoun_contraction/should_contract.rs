@@ -103,4 +103,13 @@ mod tests {
     fn no_match_with_punctuation() {
         assert_lint_count("your, the best", ShouldContract::default(), 0);
     }
+
+    #[test]
+    fn allow_norm() {
+        assert_lint_count(
+            "Let's start this story by going back to the dark ages before internet applications were the norm.",
+            ShouldContract::default(),
+            0,
+        );
+    }
 }
