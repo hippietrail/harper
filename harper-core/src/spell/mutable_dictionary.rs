@@ -327,12 +327,17 @@ mod tests {
         assert!(dict.contains_word_str("This"));
     }
 
-    #[test]
-    fn this_is_nominal() {
-        let dict = MutableDictionary::curated();
-        assert!(dict.get_word_metadata_str("this").unwrap().is_nominal());
-        assert!(dict.get_word_metadata_str("This").unwrap().is_nominal());
-    }
+    // TODO "this" is nominal but for now "nominal" is a synonym for "noun"
+    // TODO but actually nouns are one type of nominal and "this" is a
+    // TODO "determiner". for now we'll treat "determiner" under "article"
+    // TODO though articles are a subclass of determiners.
+    // TODO there is currently no is_determiner or is_article in WordMetadata
+    // #[test]
+    // fn this_is_nominal() {
+    //     let dict = MutableDictionary::curated();
+    //     assert!(dict.get_word_metadata_str("this").unwrap().is_determiner());
+    //     assert!(dict.get_word_metadata_str("This").unwrap().is_determiner());
+    // }
 
     #[test]
     fn than_is_conjunction() {

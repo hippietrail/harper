@@ -274,7 +274,7 @@
       "gifts_metadata": {}
     },
     "M": {
-      "#": "-'s possessive suffix",
+      "#": "-'s possessive suffix; contraction of 'has' and 'is",
       "suffix": true,
       "cross_product": true,
       "replacements": [
@@ -625,7 +625,7 @@
       }
     },
     "-": {
-      "#": "article property",
+      "#": "determiner property",
       "suffix": true,
       "cross_product": true,
       "replacements": [],
