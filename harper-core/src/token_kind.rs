@@ -11,6 +11,7 @@ pub enum TokenKind {
     /// `None` if the word does not exist in the dictionary.
     Word(Option<WordMetadata>),
     Punctuation(Punctuation),
+    Decade,
     Number(Number),
     /// A sequence of " " spaces.
     Space(usize),
@@ -47,6 +48,7 @@ impl TokenKind {
             TokenKind::Word(..)
                 | TokenKind::EmailAddress
                 | TokenKind::Hostname
+                | TokenKind::Decade
                 | TokenKind::Number(..)
         )
     }

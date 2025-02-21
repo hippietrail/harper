@@ -234,6 +234,12 @@ pub fn lint_group() -> LintGroup {
             ["way too much"],
             "Did you mean `way too much`?",
             "Ensures `way too much` is used instead of `to much`."
+        ),
+        "BanTogether" => (
+            "ban together",
+            ["band together"],
+            "Did you mean 'band together'?",
+            "Detects and corrects the common error of using `ban together` instead of the idiom `band together`, which means to unite or join forces."
         )
     });
 

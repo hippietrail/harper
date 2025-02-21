@@ -1,7 +1,10 @@
 use super::{Lint, LintKind, PatternLinter};
 use crate::Token;
+use crate::char_string::char_string;
 use crate::linting::Suggestion;
-use crate::patterns::{All, Invert, OwnedPatternExt, Pattern, SequencePattern, WordSet};
+use crate::patterns::{
+    All, AnyCapitalization, Invert, OwnedPatternExt, Pattern, SequencePattern, WordSet,
+};
 
 #[doc = "Corrects the misuse of `then` to `than`."]
 pub struct ThenThan {
@@ -18,7 +21,9 @@ impl ThenThan {
                             |tok: &Token, _source: &[char]| tok.kind.is_adjective(),
                         )))
                         .then_whitespace()
-                        .then_any_capitalization_of("then"),
+                        .then_any_capitalization_of("then")
+                        .then_whitespace()
+                        .then(Invert::new(AnyCapitalization::new(char_string!("that")))),
                 ),
                 // Denotes exceptions to the rule.
                 Box::new(Invert::new(WordSet::new(&["back"]))),
@@ -38,7 +43,7 @@ impl PatternLinter for ThenThan {
         self.pattern.as_ref()
     }
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        let span = matched_tokens.last()?.span;
+        let span = matched_tokens[2].span;
         let offending_text = span.get_content(source);
 
         Some(Lint {
@@ -170,5 +175,20 @@ mod tests {
     #[test]
     fn allows_this_then() {
         assert_lint_count("Do this then that.", ThenThan::default(), 0);
+    }
+
+    #[test]
+    fn allows_issue_720() {
+        assert_lint_count(
+            "And if just one of those is set incorrectly or it has the tiniest bit of dirt inside then that will wreak havoc with the engine's running ability.",
+            ThenThan::default(),
+            0,
+        );
+        assert_lint_count("So let's check it out then.", ThenThan::default(), 0);
+        assert_lint_count(
+            "And if just the tiniest bit of dirt gets inside then that will wreak havoc.",
+            ThenThan::default(),
+            0,
+        );
     }
 }
