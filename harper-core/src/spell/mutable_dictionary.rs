@@ -344,16 +344,8 @@ mod tests {
     #[test]
     fn herself_is_pronoun() {
         let dict = MutableDictionary::curated();
-        assert!(
-            dict.get_word_metadata_str("herself")
-                .unwrap()
-                .is_pronoun_nominal()
-        );
-        assert!(
-            dict.get_word_metadata_str("Herself")
-                .unwrap()
-                .is_pronoun_nominal()
-        );
+        assert!(dict.get_word_metadata_str("herself").unwrap().is_pronoun());
+        assert!(dict.get_word_metadata_str("Herself").unwrap().is_pronoun());
     }
 
     #[test]
@@ -387,11 +379,6 @@ mod tests {
         let dict = MutableDictionary::curated();
 
         assert!(!dict.get_word_metadata_str("there").unwrap().is_nominal());
-        assert!(
-            !dict
-                .get_word_metadata_str("there")
-                .unwrap()
-                .is_pronoun_nominal()
-        );
+        assert!(!dict.get_word_metadata_str("there").unwrap().is_pronoun());
     }
 }
