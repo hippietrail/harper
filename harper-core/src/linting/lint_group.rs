@@ -1,4 +1,5 @@
 use std::collections::BTreeMap;
+use std::mem;
 use std::sync::Arc;
 
 use cached::proc_macro::cached;
@@ -109,7 +110,9 @@ impl LintGroupConfig {
 
     /// Fill the group with the values for the curated lint group.
     pub fn fill_with_curated(&mut self) {
-        self.merge_from(&mut Self::new_curated());
+        let mut temp = Self::new_curated();
+        mem::swap(self, &mut temp);
+        self.merge_from(&mut temp);
     }
 
     pub fn new_curated() -> Self {
