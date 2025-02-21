@@ -643,6 +643,76 @@
       "gifts_metadata": {
         "adverb": {}
       }
+    },
+    "s": {
+      "#": "subject case property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "pronoun": {}
+      }
+    },
+    "o": {
+      "#": "object case property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "pronoun": {}
+      }
+    },
+    "f": {
+      "#": "first-person property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "pronoun": {}
+      }
+    },
+    "n": {
+      "#": "second-person property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "pronoun": {}
+      }
+    },
+    "t": {
+      "#": "third-person property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "pronoun": {}
+      }
+    },
+    "c": {
+      "#": "comparative property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "adjective": {}
+      }
+    },
+    "u": {
+      "#": "superlative property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "adjective": {}
+      }
     }
   }
 }
