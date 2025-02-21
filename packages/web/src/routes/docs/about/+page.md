@@ -10,7 +10,7 @@ Most Harper users are catching their mistakes in Neovim, [Obsidian](./integratio
 </script>
 
 <div class="h-96">
-    <Editor content={`You can try out a editor that uses\nHarper under-the-hood here.\n\nIt is rnning in your browser right now. \n\nNo server required!`}/>
+    <Editor content={`You can try out a editor that uses\nHarper under the hood here.\n\nIt is rnning in your browser right now. \n\nNo server required!`}/>
 </div>
 
 ## How Does It Work?
