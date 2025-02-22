@@ -8239,6 +8239,7 @@ Reaganomics/1M
 Realtor/M
 Reasoner/2M
 Reba/2M
+Rebecca/2M
 Rebekah/2M
 Recife/2M
 Reconstruction/2M
@@ -16389,6 +16390,7 @@ chastiser/1M
 chastity/1M
 chasuble/1SM
 chat/41SM
+chatbot/1SM
 chateau/1SM
 chateaux/1
 chatelaine/1SM
@@ -18554,7 +18556,9 @@ countersign/14GSMD
 countersignature/1MS
 countersink/14GSM
 counterspy/14SM
+counterstrike/14GSM
 counterstroke/1SM
+counterstruck/4
 countersunk/45
 countertenor/1MS
 countervail/4GSD
@@ -25049,7 +25053,7 @@ geometry/1SM
 geophysical/5
 geophysicist/1SM
 geophysics/1M
-geopolitical/5
+geopolitical/4Y
 geopolitics/1M
 geostationary/5
 geosynchronous/5
@@ -49950,3 +49954,6 @@ Polldaddy/2M
 P2/M
 VideoPress/2M
 stylization/SM
+DM/1MS
+SNL/2M
+TSMC/2M
