@@ -14,7 +14,7 @@ impl Pattern for NominalPhrase {
                 return 0;
             };
 
-            if tok.kind.is_adjective() || tok.kind.is_article() {
+            if tok.kind.is_adjective() || tok.kind.is_determiner() {
                 let Some(next) = tokens.get(cursor + 1) else {
                     return 0;
                 };

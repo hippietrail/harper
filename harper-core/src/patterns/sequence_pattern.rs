@@ -21,7 +21,7 @@ use crate::{Token, TokenKind};
 ///
 /// let document = Document::new_markdown_default_curated("This is a test.");
 ///
-/// let pattern = SequencePattern::default().then_article().then_whitespace().then_nominal();
+/// let pattern = SequencePattern::default().then_determiner().then_whitespace().then_nominal();
 /// let matches = pattern.find_all_matches_in_doc(&document);
 ///
 /// // The pattern found that the tokens at indexes 4, 5, and 6 fit the criteria.
@@ -82,7 +82,7 @@ impl SequencePattern {
     gen_then_from_is!(adjective);
     gen_then_from_is!(apostrophe);
     gen_then_from_is!(hyphen);
-    gen_then_from_is!(article);
+    gen_then_from_is!(determiner);
     gen_then_from_is!(proper_nominal);
 
     pub fn then_indefinite_article(self) -> Self {

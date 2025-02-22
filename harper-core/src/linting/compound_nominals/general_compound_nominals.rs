@@ -25,7 +25,7 @@ impl Default for GeneralCompoundNominals {
                     return false;
                 };
 
-                meta.article || meta.is_adjective()
+                meta.determiner || meta.is_adjective()
             })
             .then_whitespace()
             .then(|tok: &Token, _: &[char]| {
@@ -33,7 +33,7 @@ impl Default for GeneralCompoundNominals {
                     return false;
                 };
 
-                tok.span.len() > 1 && !meta.article && !meta.preposition && !meta.is_adverb()
+                tok.span.len() > 1 && !meta.determiner && !meta.preposition && !meta.is_adverb()
             })
             .then_whitespace()
             .then(|tok: &Token, _: &[char]| {
@@ -41,7 +41,7 @@ impl Default for GeneralCompoundNominals {
                     return false;
                 };
 
-                tok.span.len() > 1 && !meta.article && !meta.is_adverb() && !meta.preposition
+                tok.span.len() > 1 && !meta.determiner && !meta.is_adverb() && !meta.preposition
             });
 
         let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| {

@@ -11,9 +11,9 @@ pub struct WordMetadata {
     pub adverb: Option<AdverbData>,
     pub conjunction: Option<ConjunctionData>,
     pub swear: Option<bool>,
-    /// Whether the word is an [article](https://dictionary.cambridge.org/dictionary/english/article).
+    /// Whether the word is a [determiner](https://en.wikipedia.org/wiki/English_determiners).
     #[serde(default = "default_false")]
-    pub article: bool,
+    pub determiner: bool,
     /// Whether the word is a [preposition](https://www.merriam-webster.com/dictionary/preposition).
     #[serde(default = "default_false")]
     pub preposition: bool,
@@ -35,7 +35,7 @@ macro_rules! generate_metadata_queries {
                     return true;
                 }
 
-                [self.article, self.preposition, $(
+                [self.determiner, self.preposition, $(
                     self.[< is_ $category >](),
                 )*].iter().map(|b| *b as u8).sum::<u8>() > 1
             }
@@ -97,7 +97,7 @@ impl WordMetadata {
             adverb: merge!(self.adverb, other.adverb),
             conjunction: merge!(self.conjunction, other.conjunction),
             swear: self.swear.or(other.swear),
-            article: self.article || other.article,
+            determiner: self.determiner || other.determiner,
             preposition: self.preposition || other.preposition,
             common: self.common || other.common,
         }
@@ -124,16 +124,23 @@ impl WordMetadata {
     }
 }
 
+// TODO currently unused and probably should be changed to the forms of an inflected verb
+// TODO - (present, infinitive); -ed (past tense, past participle), -ing (present participle, continuous, progressive)
+// TODO irregular verbs can have different forms for past tense and past participle
+// TODO -ed forms can act as verbs and adjectives, -ing forms can act as verbs and nouns
+// TODO future shares a form with present/infinitive
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Is, Hash)]
 pub enum Tense {
-    Past,
-    Present,
-    Future,
+    // Past,
+    // Present,
+    // Future,
 }
 
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
 pub struct VerbData {
     pub is_linking: Option<bool>,
+    // can, could, may, might, must, shall, should, will, would
+    pub is_modal: Option<bool>,
     pub tense: Option<Tense>,
 }
 
@@ -142,11 +149,15 @@ impl VerbData {
     pub fn or(&self, other: &Self) -> Self {
         Self {
             is_linking: self.is_linking.or(other.is_linking),
+            is_modal: self.is_modal.or(other.is_modal),
             tense: self.tense.or(other.tense),
         }
     }
 }
 
+// TODO renamed from "noun" until refactoring is complete
+// TODO other noun properties may be worth adding:
+// TODO  count vs mass; abstract
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
 pub struct NominalData {
     pub is_proper: Option<bool>,
@@ -165,6 +176,7 @@ impl NominalData {
     }
 }
 
+// person is a property of pronouns; the verb 'be', plus all verbs reflect 3rd person singular with -s
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Is, Hash)]
 pub enum Person {
     First,
@@ -172,12 +184,14 @@ pub enum Person {
     Third,
 }
 
+// case is a property of pronouns
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Is, Hash)]
 pub enum Case {
     Subject,
     Object,
 }
 
+// TODO for now focused on personal pronouns?
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
 pub struct PronounData {
     pub is_plural: Option<bool>,
@@ -198,6 +212,9 @@ impl PronounData {
     }
 }
 
+// degree is a property of adjectives: positive is not inflected
+// comparative is inflected with -er or comes after the word "more"
+// superlative is inflected with -est or comes after the word "most"
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Is, Hash)]
 pub enum Degree {
     Positive,
@@ -205,6 +222,9 @@ pub enum Degree {
     Superlative,
 }
 
+// some adjectives are not comparable so don't have -er or -est forms and can't be used with "more" or "most"
+// some adjectives can only be used "attributively" (before a noun); some only predicatively (after "is" etc.)
+// in old grammars words like the articles and determiners are classified as adjectives but behave differently
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
 pub struct AdjectiveData {
     pub degree: Option<Degree>,
@@ -219,6 +239,9 @@ impl AdjectiveData {
     }
 }
 
+// adverb can be a "junk drawer" category for words which don't fit the other major categories
+// the typical adverbs are "adverbs of mannder", those derived from adjectives in -ly
+// other adverbs (time, place, etc) should probably not be considered adverbs for Harper's purposes
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
 pub struct AdverbData {}
 

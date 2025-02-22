@@ -145,10 +145,13 @@ impl TokenKind {
         )
     }
 
-    pub fn is_article(&self) -> bool {
+    pub fn is_determiner(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(Some(WordMetadata { article: true, .. }))
+            TokenKind::Word(Some(WordMetadata {
+                determiner: true,
+                ..
+            }))
         )
     }
 
