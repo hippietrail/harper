@@ -2475,6 +2475,7 @@ DEC/12SD
 DH/12
 DHS/2
 DI/1
+DIY/5
 DJ/142
 DMCA/24
 DMD/1M
@@ -2484,6 +2485,7 @@ DOA/5
 DOB/12
 DOD/1
 DOE/142
+DOJ/1M
 DOS/12M
 DOT/21
 DP/142SM
@@ -5473,7 +5475,9 @@ LCM
 LDC/1
 LED/1M
 LG/12M
+LGB/51
 LGBT/51
+LGBTQ/51
 LIFO/5
 LL/15
 LLB/1M
@@ -9985,6 +9989,7 @@ URL/1S
 US/215M
 USA/21M
 USAF/2
+USAID/2M
 USB/21MS
 USCG/2
 USDA/2M
@@ -47101,6 +47106,7 @@ uncontroversial/5
 uncool/5
 uncooperative/5
 uncouth/5Y
+uncrewed/5
 uncrushable/5
 unction/1SM
 unctuous/5YP
@@ -49958,3 +49964,4 @@ stylization/SM
 DM/1MS
 SNL/2M
 TSMC/2M
+AOC/2M
