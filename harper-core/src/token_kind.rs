@@ -11,6 +11,7 @@ pub enum TokenKind {
     /// `None` if the word does not exist in the dictionary.
     Word(Option<WordMetadata>),
     Punctuation(Punctuation),
+    Decade,
     Number(Number),
     /// A sequence of " " spaces.
     Space(usize),
@@ -47,6 +48,7 @@ impl TokenKind {
             TokenKind::Word(..)
                 | TokenKind::EmailAddress
                 | TokenKind::Hostname
+                | TokenKind::Decade
                 | TokenKind::Number(..)
         )
     }
@@ -131,6 +133,16 @@ impl TokenKind {
 
     pub fn is_currency(&self) -> bool {
         matches!(self, TokenKind::Punctuation(Punctuation::Currency(..)))
+    }
+
+    pub fn is_preposition(&self) -> bool {
+        matches!(
+            self,
+            TokenKind::Word(Some(WordMetadata {
+                preposition: true,
+                ..
+            }))
+        )
     }
 
     pub fn is_article(&self) -> bool {
