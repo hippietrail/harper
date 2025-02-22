@@ -105,7 +105,13 @@ impl LintGroupConfig {
     ///
     /// Conflicting keys will be overridden by the value in the other group.
     pub fn merge_from(&mut self, other: &mut LintGroupConfig) {
-        self.inner.extend(other.inner.drain());
+        for (key, val) in other.inner.drain() {
+            if val.is_none() {
+                continue;
+            }
+
+            self.inner.insert(key, val);
+        }
     }
 
     /// Fill the group with the values for the curated lint group.
