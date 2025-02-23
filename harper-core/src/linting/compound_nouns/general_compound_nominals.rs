@@ -12,12 +12,12 @@ use crate::{
 };
 
 /// Covers the general cases of accidentally split compound nouns.
-pub struct GeneralCompoundNominals {
+pub struct GeneralCompoundNouns {
     pattern: Box<dyn Pattern>,
     split_pattern: Lrc<SplitCompoundWord>,
 }
 
-impl Default for GeneralCompoundNominals {
+impl Default for GeneralCompoundNouns {
     fn default() -> Self {
         let exceptions_pattern = SequencePattern::default()
             .then(|tok: &Token, _: &[char]| {
@@ -64,7 +64,7 @@ impl Default for GeneralCompoundNominals {
     }
 }
 
-impl PatternLinter for GeneralCompoundNominals {
+impl PatternLinter for GeneralCompoundNouns {
     fn pattern(&self) -> &dyn Pattern {
         self.pattern.as_ref()
     }

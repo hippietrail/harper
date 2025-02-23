@@ -39,9 +39,7 @@ mod tests {
     use ordered_float::OrderedFloat;
 
     use super::Typst;
-    // use harper_core::{Document, NominalData, Number, Punctuation, TokenKind, WordMetadata};
     use harper_core::{Document, NounData, Number, Punctuation, TokenKind, WordMetadata};
-    // use harper_core::{Document, Number, Punctuation, TokenKind, WordMetadata};
 
     #[test]
     fn number() {

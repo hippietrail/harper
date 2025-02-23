@@ -11,12 +11,12 @@ use crate::{
 
 /// Looks for closed compound nominals which can be condensed due to their position after a
 /// possessive nominal (which implies ownership).
-pub struct ImpliedActionCompoundNominals {
+pub struct ImpliedActionCompoundNouns {
     pattern: Box<dyn Pattern>,
     split_pattern: Lrc<SplitCompoundWord>,
 }
 
-impl Default for ImpliedActionCompoundNominals {
+impl Default for ImpliedActionCompoundNouns {
     fn default() -> Self {
         let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| meta.is_nominal()));
         let pattern = SequencePattern::default()
@@ -33,7 +33,7 @@ impl Default for ImpliedActionCompoundNominals {
     }
 }
 
-impl PatternLinter for ImpliedActionCompoundNominals {
+impl PatternLinter for ImpliedActionCompoundNouns {
     fn pattern(&self) -> &dyn Pattern {
         self.pattern.as_ref()
     }

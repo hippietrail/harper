@@ -13,7 +13,7 @@ use super::back_in_the_day::BackInTheDay;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::chock_full::ChockFull;
-use super::compound_nominals::CompoundNominals;
+use super::compound_nouns::CompoundNouns;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
@@ -215,7 +215,7 @@ impl LintGroup {
         insert_struct_rule!(HopHope, true);
         insert_struct_rule!(Hereby, true);
         insert_struct_rule!(Likewise, true);
-        insert_struct_rule!(CompoundNominals, true);
+        insert_struct_rule!(CompoundNouns, true);
         insert_struct_rule!(Nobody, true);
         insert_struct_rule!(Whereas, true);
         insert_struct_rule!(PossessiveYour, true);
