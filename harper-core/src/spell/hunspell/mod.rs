@@ -131,12 +131,12 @@ mod tests {
                       }
                     ],
                     "adds_metadata": {
-                        "nominal": {
+                        "noun": {
                             "is_plural": true
                         }
                     },
                     "gifts_metadata": {
-                        "nominal": {}
+                        "noun": {}
                     }
                 },
                 "M": {

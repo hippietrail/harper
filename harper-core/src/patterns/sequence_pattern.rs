@@ -83,7 +83,7 @@ impl SequencePattern {
     gen_then_from_is!(apostrophe);
     gen_then_from_is!(hyphen);
     gen_then_from_is!(determiner);
-    gen_then_from_is!(proper_nominal);
+    gen_then_from_is!(proper_noun);
 
     pub fn then_indefinite_article(self) -> Self {
         self.then(IndefiniteArticle::default())

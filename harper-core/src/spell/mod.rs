@@ -62,7 +62,7 @@ fn order_suggestions(matches: Vec<FuzzyMatchResult>) -> Vec<&[char]> {
     if let Some(nominal_index) = found
         .iter()
         .skip(3)
-        .position(|i| i.metadata.is_proper_nominal())
+        .position(|i| i.metadata.is_proper_noun())
     {
         found.swap(2, nominal_index + 3);
     }

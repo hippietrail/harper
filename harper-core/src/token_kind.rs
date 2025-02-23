@@ -1,7 +1,7 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 
-use crate::{ConjunctionData, NominalData, Number, PronounData, Punctuation, Quote, WordMetadata};
+use crate::{ConjunctionData, NounData, Number, PronounData, Punctuation, Quote, WordMetadata};
 
 #[derive(
     Debug, Is, Clone, Copy, Serialize, Deserialize, Default, PartialOrd, Hash, Eq, PartialEq,
@@ -57,7 +57,26 @@ impl TokenKind {
         matches!(
             self,
             TokenKind::Word(Some(WordMetadata {
-                nominal: Some(NominalData {
+                noun: Some(NounData {
+                    is_possessive: Some(true),
+                    ..
+                }),
+                ..
+            })) | TokenKind::Word(Some(WordMetadata {
+                pronoun: Some(PronounData {
+                    is_possessive: Some(true),
+                    ..
+                }),
+                ..
+            }))
+        )
+    }
+
+    pub fn is_possessive_noun(&self) -> bool {
+        matches!(
+            self,
+            TokenKind::Word(Some(WordMetadata {
+                noun: Some(NounData {
                     is_possessive: Some(true),
                     ..
                 }),
@@ -79,11 +98,11 @@ impl TokenKind {
         )
     }
 
-    pub fn is_proper_nominal(&self) -> bool {
+    pub fn is_proper_noun(&self) -> bool {
         matches!(
             self,
             TokenKind::Word(Some(WordMetadata {
-                nominal: Some(NominalData {
+                noun: Some(NounData {
                     is_proper: Some(true),
                     ..
                 }),
@@ -275,7 +294,15 @@ impl TokenKind {
             return true;
         };
 
-        metadata.is_not_plural_nominal()
+        metadata.is_not_plural_noun() || metadata.is_not_plural_pronoun()
+    }
+
+    pub fn is_not_plural_noun(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return true;
+        };
+
+        metadata.is_not_plural_noun()
     }
 
     pub fn is_not_plural_pronoun(&self) -> bool {
@@ -299,7 +326,7 @@ impl TokenKind {
             return false;
         };
 
-        metadata.is_plural_nominal()
+        metadata.is_plural_noun() || metadata.is_plural_pronoun()
     }
 
     pub fn is_plural_pronoun(&self) -> bool {
@@ -310,12 +337,28 @@ impl TokenKind {
         metadata.is_plural_pronoun()
     }
 
+    pub fn is_plural_noun(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return false;
+        };
+
+        metadata.is_plural_noun()
+    }
+
     pub fn is_nominal(&self) -> bool {
         let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 
-        metadata.is_nominal()
+        metadata.is_noun() || metadata.is_pronoun()
+    }
+
+    pub fn is_noun(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return false;
+        };
+
+        metadata.is_noun()
     }
 
     pub fn is_pronoun(&self) -> bool {

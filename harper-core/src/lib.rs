@@ -46,7 +46,7 @@ pub use token_kind::TokenKind;
 pub use token_string_ext::TokenStringExt;
 pub use vec_ext::VecExt;
 pub use word_metadata::{
-    AdverbData, ConjunctionData, NominalData, PronounData, Tense, VerbData, WordMetadata,
+    AdverbData, ConjunctionData, NounData, PronounData, Tense, VerbData, WordMetadata,
 };
 
 /// A utility function that removes overlapping lints in a vector,

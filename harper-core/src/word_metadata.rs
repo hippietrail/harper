@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Hash)]
 pub struct WordMetadata {
-    pub nominal: Option<NominalData>,
+    pub noun: Option<NounData>,
     pub pronoun: Option<PronounData>,
     pub verb: Option<VerbData>,
     pub adjective: Option<AdjectiveData>,
@@ -90,7 +90,7 @@ impl WordMetadata {
         }
 
         Self {
-            nominal: merge!(self.nominal, other.nominal),
+            noun: merge!(self.noun, other.noun),
             pronoun: merge!(self.pronoun, other.pronoun),
             verb: merge!(self.verb, other.verb),
             adjective: merge!(self.adjective, other.adjective),
@@ -104,13 +104,86 @@ impl WordMetadata {
     }
 
     generate_metadata_queries!(
-        nominal has proper, plural, possessive.
+        noun has proper, plural, possessive.
         pronoun has plural, possessive.
         verb has linking.
         conjunction has.
         adjective has.
         adverb has
     );
+
+    /// Checks if the word is definitely a nominal.
+    pub fn is_nominal(&self) -> bool {
+        self.noun.is_some() || self.pronoun.is_some()
+    }
+
+    /// Checks if the word is definitely a nominal and more specifically is labeled as (a) plural.
+    pub fn is_plural_nominal(&self) -> bool {
+        matches!(
+            self.noun,
+            Some(NounData {
+                is_plural: Some(true),
+                ..
+            })
+        ) || matches!(
+            self.pronoun,
+            Some(PronounData {
+                is_plural: Some(true),
+                ..
+            })
+        )
+    }
+
+    /// Checks if the word is definitely a nominal and more specifically is labeled as (a) possessive.
+    pub fn is_possessive_nominal(&self) -> bool {
+        matches!(
+            self.noun,
+            Some(NounData {
+                is_possessive: Some(true),
+                ..
+            })
+        ) || matches!(
+            self.pronoun,
+            Some(PronounData {
+                is_possessive: Some(true),
+                ..
+            })
+        )
+    }
+
+    /// Checks if the word is definitely a nominal and more specifically is labeled as __not__ (a) plural.
+    pub fn is_not_plural_nominal(&self) -> bool {
+        matches!(
+            self.noun,
+            Some(NounData {
+                is_plural: Some(false),
+                ..
+            })
+        ) && matches!(
+            self.pronoun,
+            Some(PronounData {
+                is_plural: Some(false),
+                ..
+            })
+        )
+    }
+
+    /// Checks if the word is definitely a nominal and more specifically is labeled as __not__ (a) possessive.
+    pub fn is_not_possessive_nominal(&self) -> bool {
+        matches!(
+            self.noun,
+            Some(NounData {
+                is_possessive: Some(false),
+                ..
+            })
+        ) && matches!(
+            self.pronoun,
+            Some(PronounData {
+                is_possessive: Some(false),
+                ..
+            })
+        )
+    }
 
     /// Checks whether a word is _definitely_ a swear.
     pub fn is_swear(&self) -> bool {
@@ -159,13 +232,13 @@ impl VerbData {
 // TODO other noun properties may be worth adding:
 // TODO  count vs mass; abstract
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
-pub struct NominalData {
+pub struct NounData {
     pub is_proper: Option<bool>,
     pub is_plural: Option<bool>,
     pub is_possessive: Option<bool>,
 }
 
-impl NominalData {
+impl NounData {
     /// Produce a copy of `self` with the known properties of `other` set.
     pub fn or(&self, other: &Self) -> Self {
         Self {
