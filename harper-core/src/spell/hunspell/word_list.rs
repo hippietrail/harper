@@ -22,17 +22,36 @@ pub fn parse_word_list(source: &str) -> Result<Vec<MarkedWord>, Error> {
     let mut words = Vec::with_capacity(approx_item_count);
 
     for line in lines {
-        if let Some((word, attributes)) = line.split_once('/') {
-            words.push(MarkedWord {
-                letters: word.chars().collect(),
-                attributes: attributes.chars().collect(),
-            })
-        } else {
-            words.push(MarkedWord {
-                letters: line.chars().collect(),
-                attributes: Vec::new(),
-            })
+        // blank lines are allowed in the word list
+        if line.is_empty() {
+            continue;
         }
+
+        let word: &str;
+        let attr: Option<&str>; // = Option::None;
+
+        // check for attributes
+        if let Some((word_part, attr_part)) = line.split_once('/') {
+            word = word_part;
+
+            // word with attributes, throw away any trailing whitespace and comments
+            attr = match attr_part.find(|c: char| char::is_ascii_whitespace(&c)) {
+                Some(i) => Some(&attr_part[..i]),
+                None => Some(&attr_part),
+            };
+        } else {
+            // word without attributes, throw away any trailing whitespace and comments
+            word = match line.find(|c: char| char::is_ascii_whitespace(&c)) {
+                Some(i) => &line[..i],
+                None => line,
+            };
+            attr = None;
+        }
+
+        words.push(MarkedWord {
+            letters: word.chars().collect(),
+            attributes: attr.unwrap_or_default().chars().collect(),
+        })
     }
 
     Ok(words)
