@@ -18,7 +18,7 @@ pub struct ImpliedOwnershipCompoundNouns {
 
 impl Default for ImpliedOwnershipCompoundNouns {
     fn default() -> Self {
-        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| meta.is_nominal()));
+        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| meta.is_noun()));
         let pattern = SequencePattern::default()
             .then_possessive_nominal()
             .then_whitespace()

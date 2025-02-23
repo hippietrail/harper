@@ -9,8 +9,8 @@ use crate::{
     patterns::{Pattern, SequencePattern},
 };
 
-/// Looks for closed compound nominals which can be condensed due to their position after a
-/// possessive nominal (which implies ownership).
+/// Looks for closed compound nouns which can be condensed due to their position after a
+/// possessive noun (which implies ownership).
 pub struct ImpliedActionCompoundNouns {
     pattern: Box<dyn Pattern>,
     split_pattern: Lrc<SplitCompoundWord>,
@@ -18,7 +18,7 @@ pub struct ImpliedActionCompoundNouns {
 
 impl Default for ImpliedActionCompoundNouns {
     fn default() -> Self {
-        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| meta.is_nominal()));
+        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| meta.is_noun()));
         let pattern = SequencePattern::default()
             .then(split_pattern.clone())
             .then_whitespace()
@@ -51,7 +51,7 @@ impl PatternLinter for ImpliedActionCompoundNouns {
             lint_kind: LintKind::WordChoice,
             suggestions: vec![Suggestion::replace_with_match_case(word.to_vec(), orig)],
             message: format!(
-                "The verb here implies the existence of the closed compound nominal “{}”.",
+                "The verb here implies the existence of the closed compound noun “{}”.",
                 word.to_string()
             ),
             priority: 63,
@@ -59,6 +59,6 @@ impl PatternLinter for ImpliedActionCompoundNouns {
     }
 
     fn description(&self) -> &str {
-        "Detects split compound nominals preceding an action and suggests merging them."
+        "Detects split compound nouns preceding an action and suggests merging them."
     }
 }

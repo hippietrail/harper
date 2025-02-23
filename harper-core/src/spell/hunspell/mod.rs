@@ -162,10 +162,10 @@ mod tests {
         attributes.expand_marked_words(words, &mut expanded);
 
         let giant_data = expanded.get(&split("giant")).unwrap();
-        assert!(giant_data.is_nominal());
+        assert!(giant_data.is_noun());
 
         let giants_data = expanded.get(&split("giants")).unwrap();
-        assert!(giants_data.is_plural_nominal());
+        assert!(giants_data.is_plural_noun());
     }
 
     fn build_expanded() -> HashMap<CharString, WordMetadata> {
@@ -209,7 +209,7 @@ mod tests {
             build_expanded()
                 .get(&split("abandonment's"))
                 .unwrap()
-                .is_possessive_nominal()
+                .is_possessive_noun()
         )
     }
 

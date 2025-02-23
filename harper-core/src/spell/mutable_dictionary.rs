@@ -327,13 +327,11 @@ mod tests {
         assert!(dict.contains_word_str("This"));
     }
 
-    // TODO "this" is nominal but for now "nominal" is a synonym for "noun"
-    // TODO but actually nouns are one type of nominal and "this" is a
-    // TODO "determiner". for now we'll treat "determiner" under "article"
-    // TODO though articles are a subclass of determiners.
-    // TODO there is currently no is_determiner or is_article in WordMetadata
+    // TODO "this" is a determiner when used similarly to "the"
+    // TODO but when used alone it's a "demonstrative pronoun"
+    // TODO Harper previously wrongly classified it as a noun
     // #[test]
-    // fn this_is_nominal() {
+    // fn this_is_determiner() {
     //     let dict = MutableDictionary::curated();
     //     assert!(dict.get_word_metadata_str("this").unwrap().is_determiner());
     //     assert!(dict.get_word_metadata_str("This").unwrap().is_determiner());

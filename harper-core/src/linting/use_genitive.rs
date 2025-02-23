@@ -16,9 +16,9 @@ impl UseGenitive {
                         SequencePattern::default()
                             .then_one_or_more_adjectives()
                             .then_whitespace()
-                            .then_nominal(),
+                            .then_noun(),
                     ),
-                    Box::new(SequencePattern::default().then_nominal()),
+                    Box::new(SequencePattern::default().then_noun()),
                 ]),
         ));
 
