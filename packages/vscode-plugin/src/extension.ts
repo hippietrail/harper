@@ -2,7 +2,7 @@ import type { ExtensionContext } from 'vscode';
 import type { Executable, LanguageClientOptions } from 'vscode-languageclient/node';
 
 import { commands, Uri, window, workspace } from 'vscode';
-import { LanguageClient, TransportKind } from 'vscode-languageclient/node';
+import { LanguageClient, ResponseError, TransportKind } from 'vscode-languageclient/node';
 
 // There's no publicly available extension manifest type except for the internal one from VSCode's
 // codebase. So, we declare our own with only the fields we need and have. See:
@@ -90,6 +90,19 @@ async function startLanguageServer(): Promise<void> {
 
 	try {
 		client = new LanguageClient('harper', 'Harper', serverOptions, clientOptions);
+
+		client.middleware.workspace = {
+			async configuration(params, token, next) {
+				const response = await next(params, token);
+
+				if (response instanceof ResponseError) {
+					return response;
+				}
+
+				return [{ 'harper-ls': response[0]['harper-ls'] }];
+			}
+		};
+
 		await client.start();
 	} catch (error) {
 		showError('Failed to start harper-ls', error);
