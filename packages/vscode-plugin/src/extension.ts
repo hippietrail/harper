@@ -39,7 +39,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 	const configs = Object.keys(manifest.contributes.configuration.properties);
 	context.subscriptions.push(
 		workspace.onDidChangeConfiguration(async (event) => {
-			if (event.affectsConfiguration('harper-ls.path')) {
+			if (event.affectsConfiguration('harper.path')) {
 				serverOptions.command = getExecutablePath(context);
 				await startLanguageServer();
 				return;
@@ -47,7 +47,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
 			if (configs.find((c) => event.affectsConfiguration(c))) {
 				await client?.sendNotification('workspace/didChangeConfiguration', {
-					settings: { 'harper-ls': workspace.getConfiguration('harper-ls') }
+					settings: { 'harper-ls': workspace.getConfiguration('harper') }
 				});
 			}
 		})
@@ -61,7 +61,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 }
 
 function getExecutablePath(context: ExtensionContext): string {
-	const path = workspace.getConfiguration('harper-ls').get<string>('path', '');
+	const path = workspace.getConfiguration('harper').get<string>('path', '');
 
 	if (path !== '') {
 		return path;
@@ -99,7 +99,7 @@ async function startLanguageServer(): Promise<void> {
 					return response;
 				}
 
-				return [{ 'harper-ls': response[0]['harper-ls'] }];
+				return [{ 'harper-ls': response[0].harper }];
 			}
 		};
 
