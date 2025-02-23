@@ -1,12 +1,12 @@
-mod general_compound_nominals;
-mod implied_action_compound_nominals;
-mod implied_ownership_compound_nominals;
+mod general_compound_nouns;
+mod implied_action_compound_nouns;
+mod implied_ownership_compound_nouns;
 
 use super::{Lint, LintKind, Suggestion, merge_linters::merge_linters};
 
-use general_compound_nominals::GeneralCompoundNouns;
-use implied_action_compound_nominals::ImpliedActionCompoundNouns;
-use implied_ownership_compound_nominals::ImpliedOwnershipCompoundNouns;
+use general_compound_nouns::GeneralCompoundNouns;
+use implied_action_compound_nouns::ImpliedActionCompoundNouns;
+use implied_ownership_compound_nouns::ImpliedOwnershipCompoundNouns;
 
 merge_linters!(CompoundNouns => GeneralCompoundNouns, ImpliedOwnershipCompoundNouns, ImpliedActionCompoundNouns => "Detects compound nouns split by a space and suggests merging them when both parts form a valid noun." );
 
