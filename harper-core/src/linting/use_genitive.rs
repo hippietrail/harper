@@ -86,7 +86,7 @@ mod tests {
     use super::UseGenitive;
 
     #[test]
-    fn catches_adjective_nominal() {
+    fn catches_adjective_noun() {
         assert_suggestion_result(
             "What are there big problems?",
             UseGenitive::default(),
@@ -95,7 +95,7 @@ mod tests {
     }
 
     #[test]
-    fn catches_just_nominal() {
+    fn catches_just_noun() {
         assert_suggestion_result(
             "What are there problems?",
             UseGenitive::default(),

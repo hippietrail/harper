@@ -37,7 +37,7 @@ use super::pique_interest::PiqueInterest;
 use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
-use super::proper_nominal_capitalization_linters;
+use super::proper_noun_capitalization_linters;
 use super::repeated_words::RepeatedWords;
 use super::sentence_capitalization::SentenceCapitalization;
 use super::somewhat_something::SomewhatSomething;
@@ -198,7 +198,7 @@ impl LintGroup {
         }
 
         out.merge_from(&mut phrase_corrections::lint_group());
-        out.merge_from(&mut proper_nominal_capitalization_linters::lint_group(
+        out.merge_from(&mut proper_noun_capitalization_linters::lint_group(
             dictionary.clone(),
         ));
         out.merge_from(&mut closed_compounds::lint_group());

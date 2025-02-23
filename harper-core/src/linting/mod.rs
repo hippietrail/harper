@@ -44,7 +44,7 @@ mod pique_interest;
 mod plural_conjugate;
 mod possessive_your;
 mod pronoun_contraction;
-mod proper_nominal_capitalization_linters;
+mod proper_noun_capitalization_linters;
 mod repeated_words;
 mod sentence_capitalization;
 mod somewhat_something;
