@@ -1,4 +1,4 @@
-50000
+50100
 AA/1254M
 AAA/12
 AB/215M
@@ -1491,6 +1491,8 @@ Bruno/2M
 Brunswick/2M
 Brussels/21M
 Brut/M
+Brutalism/1M
+Brutalist/15MS
 Brutus/21M
 Bryan/2M
 Bryant/2M
@@ -4628,7 +4630,7 @@ IOU/1M
 IP/512
 IPA/21
 IPO/14
-IQ/15M
+IQ/1MS
 IRA/21SM
 IRC/214
 IRS/21M
@@ -6009,7 +6011,7 @@ MIA/512
 MIDI/21M
 MIPS/12
 MIRV/1
-MIT/21M
+MIT/2M
 MM/12
 MMA/1M
 MN/21
@@ -6984,6 +6986,7 @@ NM/2514
 NORAD/2M
 NOW/21
 NP/21
+NPC/1SM
 NPR/21M
 NR/512
 NRA/2
@@ -9295,6 +9298,7 @@ Staples/2M
 Starbucks/21M
 Stark/21M
 Starkey/2M
+Starmer/2M
 Starr/2M
 Staten/2M
 States/21
@@ -10103,6 +10107,7 @@ VOA/21
 VP/12
 VT/2154
 VTOL/1
+VW/2MS
 Va/2M
 Vacaville/2M
 Vader/M
@@ -10370,6 +10375,7 @@ Watusi/1M
 Waugh/2M
 Wausau/2M
 Wave
+Wayland/2M
 Wayne/2M
 Waynesboro/2M
 Weaver/2M
@@ -15139,6 +15145,8 @@ brushwork/1M
 brusque/54RPYT
 brusqueness/1M
 brutal/5Y
+brutalism/1M
+brutalist/15MS
 brutality/1SM
 brutalization/1M
 brutalize/4GDS
@@ -17339,6 +17347,7 @@ colicky/5
 coliseum/1MS
 colitis/1M
 coll/4
+collab/1MS
 collaborate/4DSXGNV
 collaboration/1M
 collaborationist/1
@@ -19752,7 +19761,7 @@ delta/14MS
 delude/4GDS
 deluge/14MGDS
 delusion/1MS
-delusional/51
+delusional/51Y
 delusive/5Y
 deluxe/51
 delve/41ZGDRS
@@ -28400,6 +28409,7 @@ inimical/5Y
 inimitably/
 iniquitous/5Y
 iniquity/1SM
+init/4S
 initial/514SGMDY
 initialism/1MS
 initialization/1
@@ -34229,6 +34239,7 @@ objectionable/5U
 objectionably/
 objective/51SMYP
 objectiveness/1M
+objectivism/1M
 objectivity/1M
 objector/1MS
 objurgate/4XGNDS
@@ -47651,6 +47662,7 @@ utilization/1M
 utilize/4GBDS
 utmost/51M
 utopia/1SM
+utopian/5
 utter/54SDYG
 utterance/1SM
 uttermost/51M
@@ -49611,7 +49623,7 @@ zincking/4
 zine/1S
 zinfandel/1M
 zing/14MDRZG
-zinger/1M
+zinger/1MS
 zingy/5RT
 zinnia/1MS
 zip's
@@ -49990,3 +50002,4 @@ N4/2M
 N5/2M
 Lenovo/2M
 ThinkPad/2SM
+GLFW/2M
