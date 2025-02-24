@@ -5037,7 +5037,7 @@ gzip-size@^6.0.0:
     duplexer "^0.1.2"
 
 "harper.js@link:harper.js":
-  version "0.21.1"
+  version "0.22.0"
 
 has-bigints@^1.0.2:
   version "1.1.0"
