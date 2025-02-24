@@ -3403,6 +3403,7 @@ Fiat/1M
 Fiberglas/M
 Fibonacci/2M
 Fichte/M
+Fichtinger/2M
 Fidel/2M
 Fido/2M
 Fielding/2M
@@ -10783,7 +10784,7 @@ Zworykin/M
 Zyrtec/M
 Zyuganov/M
 Zzz
-a/-+457~
+a/-+57~
 as/j
 aah/14
 aardvark/1SM
@@ -12263,7 +12264,7 @@ anvil/14MS
 anxiety/1SM
 anxious/5YP
 anxiousness/1M
-any/8~
+any/8~j5
 anybody/8SM
 anyhow/5
 anymore/
@@ -28596,7 +28597,7 @@ intaglio/14MS
 integer/1MS
 integral/51SMY
 integrate/4AEVNGSD
-integration/1EAM
+integration/1EAMS
 integrator/1SM
 integrity/1M
 integument/1SM
@@ -33099,7 +33100,7 @@ muzak/14
 muzzily/
 muzzle/14DSMG
 muzzy/51P
-my/~
+my/~5
 mycologist/1SM
 mycology/1M
 myelitis/1M
@@ -41783,8 +41784,8 @@ shot/514MS
 shotgun/14SM
 shotgunned/4
 shotgunning/4
-should/41
-should've/
+should/4
+should've/4
 shoulder/14MDGS
 shouldn't/41
 shout/14ZGMDRS
@@ -45642,7 +45643,7 @@ thirteenths/1
 thirtieth/51M
 thirtieths/1
 thirty/1HSM
-this/81~
+this/81~5
 thistle/1MS
 thistledown/1M
 thither/5
@@ -49961,3 +49962,16 @@ Polldaddy/2M
 P2/M
 VideoPress/2M
 stylization/SM
+cybersecurity/M
+authenticator/SM
+WebRTC/2M
+Sudbury/2M
+EMR/12SM
+TUI/12SM
+N1/2M
+N2/2M
+N3/2M
+N4/2M
+N5/2M
+Lenovo/2M
+ThinkPad/2SM
