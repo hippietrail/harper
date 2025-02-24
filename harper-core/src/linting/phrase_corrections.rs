@@ -7,41 +7,6 @@ use super::{LintGroup, MapPhraseLinter};
 pub fn lint_group() -> LintGroup {
     let mut group = LintGroup::default();
 
-    macro_rules! add_similar_mappings {
-        ($group:expr, { $($name:expr => ($phrase:expr, $threshold:expr)),+ $(,)? }) => {
-            $(
-                $group.add(
-                    $name,
-                    Box::new(MapPhraseLinter::new_similar_to_phrase($phrase, $threshold)),
-                );
-            )+
-        };
-    }
-
-    // These are rules that look for phrases that are _almost_ but not exactly
-    // equal to the correct form (shown on the right).
-    //
-    // The number is the allowed edit distance per word to search for.
-    add_similar_mappings!(group, {
-        "TurnItOff"          => ("turn it off", 1),
-        "HumanLife"          => ("human life", 1),
-        "ThatChallenged"     => ("that challenged", 1),
-        "NoLonger"           => ("no longer", 1),
-        "NeedHelp"           => ("need help", 1),
-        "AndTheLike"         => ("and the like", 1),
-        "BadRap"             => ("bad rap", 1),
-        "BatedBreath"        => ("bated breath", 1),
-        "BeckAndCall"        => ("beck and call", 1),
-        "HungerPang"         => ("hunger pang", 2),
-        "EnMasse"            => ("en masse", 1),
-        "LetAlone"           => ("let alone", 1),
-        "SneakingSuspicion"  => ("sneaking suspicion", 3),
-        "SpecialAttention"   => ("special attention", 1),
-        "SupposedTo"         => ("supposed to", 1),
-        "KindRegards"         => ("kind regards", 1),
-        "ThoughtProcess"         => ("thought process", 1),
-    });
-
     macro_rules! add_exact_mappings {
         ($group:expr, {
             $($name:expr => ($input:expr, $corrections:expr, $hint:expr, $description:expr)),+ $(,)?
@@ -269,6 +234,96 @@ pub fn lint_group() -> LintGroup {
             ["of course"],
             "Did you mean 'of course'?",
             "Detects the non‐idiomatic phrase 'off course' and suggests the correct form 'of course'."
+        ),
+        "ThatChallenged" => (
+            "the challenged",
+            ["that challenged"],
+            "Did you mean `that challenged`?",
+            "Intelligently detects the common error where `the challenged` is mistakenly used instead of the correct `that challenged`, thereby rectifying the misspelling of `challenged`."
+        ),
+        "TurnItOff" => (
+            "turn it of",
+            ["turn it off"],
+            "Did you mean `turn it off`?",
+            "Recognizes a subtle deviation from the idiomatic expression `turn it off` and prompts a correction to the proper base form."
+        ),
+        "HumanLife" => (
+            "human live",
+            ["human life"],
+            "Did you mean `human life`?",
+            "Ensures that the existential term `human life` is accurately rendered, correcting the inadvertent error `human live`."
+        ),
+        "NeedHelp" => (
+            "ned help",
+            ["need help"],
+            "Did you mean `need help`?",
+            "Identifies the omission in `ned help` and recommends the grammatically complete `need help`."
+        ),
+        "AndTheLike" => (
+            "an the like",
+            ["and the like"],
+            "Did you mean `and the like`?",
+            "Detects a minor error in the common phrase `and the like`, where `an` is erroneously used in place of `and`."
+        ),
+        "BadRap" => (
+            "bed rap",
+            ["bad rap"],
+            "Did you mean `bad rap`?",
+            "Corrects the frequent misrendering `bed rap` by reinstating the idiomatically correct `bad rap`."
+        ),
+        "BatedBreath" => (
+            "baited breath",
+            ["bated breath"],
+            "Did you mean `bated breath`?",
+            "Discerns the erroneous spelling `baited breath` and suggests the proper form `bated breath`, respecting its etymological origin."
+        ),
+        "BeckAndCall" => (
+            "back and call",
+            ["beck and call"],
+            "Did you mean `beck and call`?",
+            "Identifies the inversion error in `back and call` and promotes the established phrase `beck and call`."
+        ),
+        "EnMasse" => (
+            "on masse",
+            ["en masse"],
+            "Did you mean `en masse`?",
+            "Detects an inadvertent misplacement in `on masse` and corrects it to the precise expression `en masse`."
+        ),
+        "LetAlone" => (
+            "let along",
+            ["let alone"],
+            "Did you mean `let alone`?",
+            "Pinpoints the error where `let along` is erroneously used in place of the conventional phrase `let alone`."
+        ),
+        "SneakingSuspicion" => (
+            "sneaky suspicion",
+            ["sneaking suspicion"],
+            "Did you mean `sneaking suspicion`?",
+            "Discerns the colloquial misstep `sneaky suspicion` and advises the refined, idiomatic `sneaking suspicion`."
+        ),
+        "SpecialAttention" => (
+            "spacial attention",
+            ["special attention"],
+            "Did you mean `special attention`?",
+            "Detects the orthographic error `spacial attention` and recommends the standard form `special attention` for precise usage."
+        ),
+        "SupposedTo" => (
+            "suppose to",
+            ["supposed to"],
+            "Did you mean `supposed to`?",
+            "Corrects the erroneous `suppose to` by suggesting the grammatically accurate `supposed to`, thereby restoring proper modal construction."
+        ),
+        "KindRegards" => (
+            "kid regards",
+            ["kind regards"],
+            "Did you mean `kind regards`?",
+            "Recognizes the common misspelling `kid regards` and rectifies it to the courteous closing `kind regards`."
+        ),
+        "ThoughtProcess" => (
+            "though process",
+            ["thought process"],
+            "Did you mean `thought process`?",
+            "Detects the inadvertent omission in `though process` and recommends the well-established term `thought process`, ensuring clarity and precision."
         ),
     });
 
