@@ -66,7 +66,7 @@ mod tests {
     fn can_parse_test_file() {
         let list = parse_word_list(TEST_WORD_LIST).unwrap();
 
-        assert_eq!(list.last().unwrap().attributes.len(), 2);
-        assert_eq!(list.len(), 3);
+        assert_eq!(list.last().unwrap().attributes.len(), 0);
+        assert_eq!(list.len(), 4);
     }
 }
