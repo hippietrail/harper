@@ -28,7 +28,6 @@ pub fn lint_group() -> LintGroup {
         "ThatChallenged"     => ("that challenged", 1),
         "NoLonger"           => ("no longer", 1),
         "NeedHelp"           => ("need help", 1),
-        "OfCourse"           => ("of course", 1),
         "AndTheLike"         => ("and the like", 1),
         "BadRap"             => ("bad rap", 1),
         "BatedBreath"        => ("bated breath", 1),
@@ -264,6 +263,12 @@ pub fn lint_group() -> LintGroup {
             ["by accident"],
             "Did you mean 'by accident'?",
             "Incorrect preposition: 'by accident' is the idiomatic expression."
+        ),
+        "OfCourse" => (
+            "off course",
+            ["of course"],
+            "Did you mean 'of course'?",
+            "Detects the non‐idiomatic phrase 'off course' and suggests the correct form 'of course'."
         ),
     });
 
