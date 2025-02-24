@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{OwnedPatternExt, Pattern, SequencePattern, WordSet},
     Lrc, Token, TokenStringExt,
+    patterns::{OwnedPatternExt, Pattern, SequencePattern, WordSet},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -16,14 +16,14 @@ impl Default for ModalOf {
         // "The only other report we've had of this kind of problem ..."
         // "The code I had of this used to work fine ..."
         let modals = ["could", "might", "must", "should", "would"];
-        let mut words = WordSet::all(&modals);
+        let mut words = WordSet::new(&modals);
         modals.iter().for_each(|word| {
             words.add(&format!("{}n't", word));
         });
 
         let modal_of = Lrc::new(
             SequencePattern::default()
-                .then(Box::new(words))
+                .then(words)
                 .then_whitespace()
                 .then_exact_word("of"),
         );
@@ -37,8 +37,8 @@ impl Default for ModalOf {
         Self {
             pattern: Box::new(
                 SequencePattern::default()
-                    .then(Box::new(modal_of.clone()))
-                    .then(Box::new(ws_course.clone()))
+                    .then(modal_of.clone())
+                    .then(ws_course.clone())
                     .or(Box::new(modal_of.clone())),
             ),
         }
@@ -185,7 +185,11 @@ mod tests {
 
     #[test]
     fn doesnt_catch_might_of_course_be() {
-        assert_lint_count("There might of course be other places where not implementing the IMemberSource might break ...", ModalOf::default(), 0);
+        assert_lint_count(
+            "There might of course be other places where not implementing the IMemberSource might break ...",
+            ModalOf::default(),
+            0,
+        );
     }
 
     #[test]

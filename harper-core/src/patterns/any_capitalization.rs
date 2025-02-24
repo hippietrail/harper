@@ -12,7 +12,7 @@ impl AnyCapitalization {
         Self { word }
     }
 
-    pub fn from_string(word: &str) -> Self {
+    pub fn of(word: &str) -> Self {
         let chars = word.chars().collect();
 
         Self::new(chars)
@@ -40,10 +40,6 @@ impl Pattern for AnyCapitalization {
             .zip(&self.word)
             .all(|(a, b)| a.eq_ignore_ascii_case(b));
 
-        if partial_match {
-            1
-        } else {
-            0
-        }
+        if partial_match { 1 } else { 0 }
     }
 }

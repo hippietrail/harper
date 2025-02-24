@@ -1,7 +1,7 @@
 use crate::{Document, Token, TokenKind};
 
 use super::{
-    within_edit_distance::WithinEditDistance, AnyCapitalization, Pattern, SequencePattern,
+    AnyCapitalization, Pattern, SequencePattern, within_edit_distance::WithinEditDistance,
 };
 
 pub struct SimilarToPhrase {
@@ -35,13 +35,9 @@ impl SimilarToPhrase {
         for token in document.fat_tokens() {
             match token.kind {
                 TokenKind::Word(_word_metadata) => {
-                    phrase = phrase.then(Box::new(AnyCapitalization::new(
-                        token.content.as_slice().into(),
-                    )));
-                    fuzzy_phrase = fuzzy_phrase.then(Box::new(WithinEditDistance::new(
-                        token.content.into(),
-                        max_edit_dist,
-                    )));
+                    phrase = phrase.then(AnyCapitalization::new(token.content.as_slice().into()));
+                    fuzzy_phrase = fuzzy_phrase
+                        .then(WithinEditDistance::new(token.content.into(), max_edit_dist));
                 }
                 TokenKind::Space(_) => {
                     fuzzy_phrase = fuzzy_phrase.then_whitespace();

@@ -1,9 +1,7 @@
-use hashbrown::HashSet;
-
-use super::pattern_linter::PatternLinter;
 use super::Suggestion;
+use super::pattern_linter::PatternLinter;
 use crate::linting::LintKind;
-use crate::patterns::{Pattern, SequencePattern};
+use crate::patterns::{Pattern, SequencePattern, WordSet};
 use crate::{Lint, Lrc, Token, TokenStringExt};
 
 /// Linter that checks if multiple pronouns are being used right after each
@@ -14,22 +12,18 @@ pub struct MultipleSequentialPronouns {
 
 impl MultipleSequentialPronouns {
     fn new() -> Self {
-        let pronouns: HashSet<_> = [
+        let pronouns = Lrc::new(WordSet::new(&[
             "me", "my", "I", "we", "you", "he", "him", "her", "she", "it", "they",
-        ]
-        .into_iter()
-        .collect();
-
-        let pronouns = Lrc::new(pronouns);
+        ]));
 
         Self {
             pattern: Box::new(
                 SequencePattern::default()
-                    .then_any_word_in(pronouns.clone())
+                    .then(pronouns.clone())
                     .then_one_or_more(Box::new(
                         SequencePattern::default()
                             .then_whitespace()
-                            .then_any_word_in(pronouns.clone()),
+                            .then(pronouns.clone()),
                     )),
             ),
         }
