@@ -2659,6 +2659,7 @@ Delmar/2M
 Delmarva/2M
 Delmer/M
 Delmonico/1M
+DeLorean/2MS
 Delores/2M
 Deloris/M
 Delphi/2M
@@ -2937,7 +2938,8 @@ Dzerzhinsky/2M
 Dzungaria/2M
 E/12SM
 EC/12
-ECG/12M
+ECG/1M
+ECM/1MS
 ECMAScript/2M
 EDP/12M
 EDT/21
@@ -7556,6 +7558,7 @@ PRC/21M
 PRO/1
 PS/215M
 PST/21M
+PSU/MS
 PT/125
 PTA/14M
 PTO/21
@@ -10759,6 +10762,7 @@ Ziegfeld/M
 Ziegler/2M
 Ziggy/2M
 Zika/21
+Zilog/2M
 Zimbabwe/2M
 Zimbabwean/15SM
 Zimmerman/2M
@@ -13042,6 +13046,7 @@ automatism/1M
 automatize/4GDS
 automaton/1SM
 automobile/145DSMG
+automobilia/1M
 automotive/51
 autonomic/5
 autonomous/5Y
@@ -25598,6 +25603,7 @@ grandiloquent/5
 grandiose/5Y
 grandiosity/1M
 grandma/14MS
+grandmaster/1SM
 grandmother/1MYS
 grandnephew/1MS
 grandness/1M
@@ -27482,6 +27488,7 @@ hydrogen/1M
 hydrogenate/4CGDS
 hydrogenation/1M
 hydrogenous/5
+hydrolock/1MS
 hydrologist/1MS
 hydrology/1M
 hydrolyses/14
@@ -35064,6 +35071,7 @@ overhear/4SG
 overheard/4
 overheat/41DSG
 overhung/45
+overhype/4SGD
 overindulge/4GDS
 overindulgence/1M
 overindulgent/5
@@ -41214,7 +41222,7 @@ seismologic/5
 seismological/5
 seismologist/1MS
 seismology/1M
-seize/4GDS
+seize/4GDSU
 seizure/14MS
 seldom/5
 select/54CSGVD
@@ -43928,6 +43936,7 @@ strategic/5S
 strategical/5Y
 strategics/1M
 strategist/1SM
+strategize/4DSG
 strategy/1SM
 strati/1
 stratification/1M
@@ -46346,6 +46355,7 @@ transaction/1SM
 transactional/5
 transactor/1MS
 transatlantic/5
+transaxle/1SM
 transceiver/1SM
 transcend/4GSD
 transcendence/1M
@@ -50003,3 +50013,4 @@ N5/2M
 Lenovo/2M
 ThinkPad/2SM
 GLFW/2M
+ChatGPT/2M
