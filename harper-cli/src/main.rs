@@ -2,6 +2,7 @@
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
+use std::process;
 
 use anyhow::format_err;
 use ariadne::{Color, Label, Report, ReportKind, Source};
@@ -98,7 +99,7 @@ fn main() -> anyhow::Result<()> {
             let report = report_builder.finish();
             report.print((&filename, Source::from(source)))?;
 
-            Ok(())
+            process::exit(1)
         }
         Args::Parse { file } => {
             let (doc, _) = load_file(&file, markdown_options)?;

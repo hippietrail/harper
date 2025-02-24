@@ -25,7 +25,7 @@ pub fn lint_group() -> LintGroup {
     add_similar_mappings!(group, {
         "TurnItOff"          => ("turn it off", 1),
         "HumanLife"          => ("human life", 1),
-        "ThatChallenged"     => ("that challenged", 2),
+        "ThatChallenged"     => ("that challenged", 1),
         "NoLonger"           => ("no longer", 1),
         "NeedHelp"           => ("need help", 1),
         "OfCourse"           => ("of course", 1),
@@ -228,6 +228,18 @@ pub fn lint_group() -> LintGroup {
             ["band together"],
             "Did you mean 'band together'?",
             "Detects and corrects the common error of using `ban together` instead of the idiom `band together`, which means to unite or join forces."
+        ),
+        "WaveFunction" => (
+            "wavefunction",
+            ["wave function"],
+            "Did you mean 'wave function'?",
+            "Identifies the mistake of merging 'wave' and 'function' into one word. In quantum mechanics, a 'wave function' (written as two words) describes the mathematical function that represents the quantum state of a particle or system. Correct usage is crucial for clear and accurate scientific communication."
+        ),
+        "InThe" => (
+            "int he",
+            ["in the"],
+            "Did you mean 'in the'?",
+            "Detects and corrects a spacing error where 'in the' is mistakenly written as 'int he'. Proper spacing is essential for readability and grammatical correctness in common phrases."
         )
     });
 
