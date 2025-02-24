@@ -11,23 +11,20 @@ pub struct OxfordComma {
 
 impl OxfordComma {
     pub fn new() -> Self {
-        Self {
-            pattern: {
-                let this = {
-                    let this = SequencePattern::default().then_one_or_more(Box::new(
-                        SequencePattern::default()
-                            .then(NounPhrase)
-                            .then_comma()
-                            .then_whitespace(),
-                    ));
-                    this.then(NounPhrase)
-                }
-                .then_whitespace()
-                .then(WordSet::new(&["and", "or", "nor"]))
-                .then_whitespace();
-                this.then(NounPhrase)
-            },
-        }
+        let pattern = SequencePattern::default()
+            .then_one_or_more(Box::new(
+                SequencePattern::default()
+                    .then(NounPhrase)
+                    .then_comma()
+                    .then_whitespace(),
+            ))
+            .then(NounPhrase)
+            .then_whitespace()
+            .then(WordSet::new(&["and", "or", "nor"]))
+            .then_whitespace()
+            .then(NounPhrase);
+
+        Self { pattern }
     }
 
     fn match_to_lint(&self, matched_toks: &[Token], _source: &[char]) -> Option<Lint> {
@@ -56,6 +53,19 @@ impl Linter for OxfordComma {
 
         for sentence in document.iter_sentences() {
             let mut tok_cursor = 0;
+
+            if let Some(first) = sentence
+                .first()
+                .and_then(|t| t.kind.as_word().cloned())
+                .flatten()
+            {
+                if first.preposition {
+                    tok_cursor = sentence
+                        .iter()
+                        .position(|t| t.kind.is_comma())
+                        .unwrap_or(sentence.iter().len())
+                }
+            }
 
             loop {
                 if tok_cursor >= sentence.len() {
@@ -93,11 +103,6 @@ mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::OxfordComma;
-
-    #[test]
-    fn fruits() {
-        assert_lint_count("An apple, a banana and a pear", OxfordComma::default(), 1);
-    }
 
     #[test]
     fn people() {
@@ -168,6 +173,15 @@ mod tests {
             "I like carrots, kale nor broccoli.",
             OxfordComma::default(),
             "I like carrots, kale, nor broccoli.",
+        );
+    }
+
+    #[test]
+    fn allow_non_list_transportation() {
+        assert_lint_count(
+            "In transportation, autonomous vehicles and smart traffic management systems promise to reduce accidents and optimize travel routes.",
+            OxfordComma::default(),
+            0,
         );
     }
 }

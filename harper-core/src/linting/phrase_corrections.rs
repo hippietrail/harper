@@ -239,7 +239,7 @@ pub fn lint_group() -> LintGroup {
             "int he",
             ["in the"],
             "Did you mean 'in the'?",
-            "Detects and corrects a spacing error where 'in the' is mistakenly written as 'int he'. Proper spacing is essential for readability and grammatical correctness in common phrases."
+            "Detects and corrects a spacing error where 'in the' is mistakenly written as `int he`. Proper spacing is essential for readability and grammatical correctness in common phrases."
         )
     });
 

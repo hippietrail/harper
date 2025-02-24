@@ -84,6 +84,7 @@ impl SequencePattern {
     gen_then_from_is!(hyphen);
     gen_then_from_is!(article);
     gen_then_from_is!(proper_noun);
+    gen_then_from_is!(preposition);
 
     pub fn then_indefinite_article(self) -> Self {
         self.then(IndefiniteArticle::default())
