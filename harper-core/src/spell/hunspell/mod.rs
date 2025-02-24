@@ -29,6 +29,7 @@ pub fn parse_default_attribute_list() -> AttributeList {
 #[cfg(test)]
 mod tests {
     use hashbrown::{HashMap, HashSet};
+    use once_cell::sync::Lazy;
     use serde_json::json;
 
     use super::word_list::parse_word_list;
@@ -42,10 +43,8 @@ mod tests {
 
     pub const TEST_WORD_LIST_WITH_COMMENTS: &str = "4\nhello       a word without attributes\ntry/B   \t  a word with empty attributes\nwork/AB\t   a word with one attribute\nblank/      a word with two attributes";
 
-    #[test]
-    fn correctly_expands_test_files() {
-        let words = parse_word_list(TEST_WORD_LIST).unwrap();
-        let attributes: HumanReadableAttributeList = serde_json::from_value(json!({
+    pub const TEST_AFFIX_JSON: Lazy<serde_json::Value> = Lazy::new(|| {
+        json!({
             "affixes": {
                 "A": {
                     "suffix": false,
@@ -85,8 +84,14 @@ mod tests {
                     "gifts_metadata": {}
                 }
             }
-        }))
-        .unwrap();
+        })
+    });
+
+    #[test]
+    fn correctly_expands_test_files() {
+        let words = parse_word_list(TEST_WORD_LIST).unwrap();
+        
+        let attributes: HumanReadableAttributeList = serde_json::from_value(TEST_AFFIX_JSON.clone()).unwrap();
         let attributes = attributes.into_normal().unwrap();
 
         let mut expanded = HashMap::new();
@@ -111,48 +116,8 @@ mod tests {
     #[test]
     fn correctly_expands_test_files_with_blank_lines() {
         let words = parse_word_list(TEST_WORD_LIST_WITH_BLANK_LINES).unwrap();
-        let attributes: HumanReadableAttributeList = serde_json::from_value(json!({
-            "affixes": {
-                "A": {
-                    "suffix": false,
-                    "cross_product": true,
-                    "replacements": [
-                      {
-                        "remove": "",
-                        "add": "re",
-                        "condition": "."
-                      }
-                    ],
-                    "adds_metadata": {
-                      "kind": null,
-                      "tense": null
-                    },
-                    "gifts_metadata": {}
-                },
-                "B": {
-                    "suffix": true,
-                    "cross_product": true,
-                    "replacements": [
-                      {
-                        "remove": "",
-                        "add": "ed",
-                        "condition": "[^y]"
-                      },
-                      {
-                        "remove": "y",
-                        "add": "ied",
-                        "condition": "y"
-                      }
-                    ],
-                    "adds_metadata": {
-                      "kind": null,
-                      "tense": null
-                    },
-                    "gifts_metadata": {}
-                }
-            }
-        }))
-        .unwrap();
+        
+        let attributes: HumanReadableAttributeList = serde_json::from_value(TEST_AFFIX_JSON.clone()).unwrap();
         let attributes = attributes.into_normal().unwrap();
 
         let mut expanded = HashMap::new();
@@ -177,48 +142,8 @@ mod tests {
     #[test]
     fn correctly_expands_test_files_with_comments() {
         let words = parse_word_list(TEST_WORD_LIST_WITH_COMMENTS).unwrap();
-        let attributes: HumanReadableAttributeList = serde_json::from_value(json!({
-            "affixes": {
-                "A": {
-                    "suffix": false,
-                    "cross_product": true,
-                    "replacements": [
-                      {
-                        "remove": "",
-                        "add": "re",
-                        "condition": "."
-                      }
-                    ],
-                    "adds_metadata": {
-                      "kind": null,
-                      "tense": null
-                    },
-                    "gifts_metadata": {}
-                },
-                "B": {
-                    "suffix": true,
-                    "cross_product": true,
-                    "replacements": [
-                      {
-                        "remove": "",
-                        "add": "ed",
-                        "condition": "[^y]"
-                      },
-                      {
-                        "remove": "y",
-                        "add": "ied",
-                        "condition": "y"
-                      }
-                    ],
-                    "adds_metadata": {
-                      "kind": null,
-                      "tense": null
-                    },
-                    "gifts_metadata": {}
-                }
-            }
-        }))
-        .unwrap();
+        
+        let attributes: HumanReadableAttributeList = serde_json::from_value(TEST_AFFIX_JSON.clone()).unwrap();
         let attributes = attributes.into_normal().unwrap();
 
         let mut expanded = HashMap::new();
