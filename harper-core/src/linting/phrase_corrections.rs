@@ -240,7 +240,31 @@ pub fn lint_group() -> LintGroup {
             ["in the"],
             "Did you mean 'in the'?",
             "Detects and corrects a spacing error where 'in the' is mistakenly written as `int he`. Proper spacing is essential for readability and grammatical correctness in common phrases."
-        )
+        ),
+        "WillContain" => (
+            "will contains",
+            ["will contain"],
+            "Did you mean 'will contain'?",
+            "Incorrect verb form: 'will' should be followed by the base form 'contain'."
+        ),
+        "IsKnownFor" => (
+            "is know for",
+            ["is known for"],
+            "Did you mean 'is known for'?",
+            "Typo: 'known' is the correct past participle."
+        ),
+        "PointIsMoot" => (
+            "your point is mute",
+            ["your point is moot"],
+            "Did you mean 'your point is moot'?",
+            "Typo: 'moot' (meaning debatable) is correct rather than 'mute'."
+        ),
+        "ByAccident" => (
+            "on accident",
+            ["by accident"],
+            "Did you mean 'by accident'?",
+            "Incorrect preposition: 'by accident' is the idiomatic expression."
+        ),
     });
 
     group.add("FastPaste", Box::new(MapPhraseLinter::new(
@@ -370,5 +394,10 @@ mod tests {
             lint_group(),
             "My dotfiles for my operating systems and other configurations.",
         );
+    }
+
+    #[test]
+    fn point_is_moot() {
+        assert_suggestion_result("Your point is mute.", lint_group(), "Your point is moot.");
     }
 }
