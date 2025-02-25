@@ -31,6 +31,10 @@ enum Args {
         /// without further details.
         #[arg(short, long)]
         count: bool,
+        /// Restrict linting to only a specific set of rules.
+        /// If omitted, `harper-cli` will run every rule.
+        #[arg(short, long)]
+        only_lint_with: Option<Vec<String>>,
     },
     /// Parse a provided document and print the detected symbols.
     Parse {
@@ -61,10 +65,23 @@ fn main() -> anyhow::Result<()> {
     let dictionary = FstDictionary::curated();
 
     match args {
-        Args::Lint { file, count } => {
+        Args::Lint {
+            file,
+            count,
+            only_lint_with,
+        } => {
             let (doc, source) = load_file(&file, markdown_options)?;
 
             let mut linter = LintGroup::new_curated(dictionary);
+
+            if let Some(rules) = only_lint_with {
+                linter.set_all_rules_to(Some(false));
+
+                for rule in rules {
+                    linter.config.set_rule_enabled(rule, true);
+                }
+            }
+
             let mut lints = linter.lint(&doc);
 
             if count {

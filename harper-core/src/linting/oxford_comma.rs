@@ -59,6 +59,17 @@ impl Linter for OxfordComma {
         for sentence in document.iter_sentences() {
             let mut tok_cursor = 0;
 
+            let mut words = sentence.iter_words().filter_map(|v| v.kind.expect_word());
+
+            if let (Some(first), Some(second)) = (words.next(), words.next()) {
+                if first.preposition && second.is_likely_homograph() {
+                    tok_cursor = sentence
+                        .iter()
+                        .position(|t| t.kind.is_comma())
+                        .unwrap_or(sentence.iter().len())
+                }
+            }
+
             loop {
                 if tok_cursor >= sentence.len() {
                     break;
@@ -190,6 +201,24 @@ mod tests {
     fn allow_pill() {
         assert_lint_count(
             "Develop a pill that causes partial amnesia, affecting relationships and identity.",
+            OxfordComma::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allow_at_first() {
+        assert_lint_count(
+            "In the heart of a bustling city, Sarah finds herself trapped in an endless cycle of the same day. Each morning, she awakens to find the date unchanged, her life on repeat. At first, confusion and frustration cloud her thoughts, but soon she notices something peculiar—each day has tiny differences, subtle changes that hint at a larger pattern.",
+            OxfordComma::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allow_standoff() {
+        assert_lint_count(
+            "In a tense standoff, Alex and his reflection engage in a battle of wills.",
             OxfordComma::default(),
             0,
         );
