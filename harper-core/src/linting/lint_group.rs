@@ -1,4 +1,5 @@
 use std::collections::BTreeMap;
+use std::mem;
 use std::sync::Arc;
 
 use cached::proc_macro::cached;
@@ -28,6 +29,7 @@ use super::linking_verbs::LinkingVerbs;
 use super::long_sentences::LongSentences;
 use super::matcher::Matcher;
 use super::merge_words::MergeWords;
+use super::modal_of::ModalOf;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
@@ -104,12 +106,20 @@ impl LintGroupConfig {
     ///
     /// Conflicting keys will be overridden by the value in the other group.
     pub fn merge_from(&mut self, other: &mut LintGroupConfig) {
-        self.inner.extend(other.inner.drain());
+        for (key, val) in other.inner.drain() {
+            if val.is_none() {
+                continue;
+            }
+
+            self.inner.insert(key, val);
+        }
     }
 
     /// Fill the group with the values for the curated lint group.
     pub fn fill_with_curated(&mut self) {
-        self.merge_from(&mut Self::new_curated());
+        let mut temp = Self::new_curated();
+        mem::swap(self, &mut temp);
+        self.merge_from(&mut temp);
     }
 
     pub fn new_curated() -> Self {
@@ -242,6 +252,7 @@ impl LintGroup {
         insert_struct_rule!(DespiteOf, true);
         insert_struct_rule!(ChockFull, true);
         insert_struct_rule!(ExpandTimeShorthands, true);
+        insert_struct_rule!(ModalOf, true);
 
         out.add("SpellCheck", Box::new(SpellCheck::new(dictionary)));
         out.config.set_rule_enabled("SpellCheck", true);

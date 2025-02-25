@@ -2,6 +2,7 @@
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
+use std::process;
 
 use anyhow::format_err;
 use ariadne::{Color, Label, Report, ReportKind, Source};
@@ -30,6 +31,10 @@ enum Args {
         /// without further details.
         #[arg(short, long)]
         count: bool,
+        /// Restrict linting to only a specific set of rules.
+        /// If omitted, `harper-cli` will run every rule.
+        #[arg(short, long)]
+        only_lint_with: Option<Vec<String>>,
     },
     /// Parse a provided document and print the detected symbols.
     Parse {
@@ -47,7 +52,7 @@ enum Args {
     /// Get the metadata associated with a particular word.
     Metadata { word: String },
     /// Get all the forms of a word using the affixes.
-    Forms { word: String },
+    Forms { words: Vec<String> },
     /// Emit a decompressed, line-separated list of the words in Harper's dictionary.
     Words,
     /// Print the default config with descriptions.
@@ -60,10 +65,23 @@ fn main() -> anyhow::Result<()> {
     let dictionary = FstDictionary::curated();
 
     match args {
-        Args::Lint { file, count } => {
+        Args::Lint {
+            file,
+            count,
+            only_lint_with,
+        } => {
             let (doc, source) = load_file(&file, markdown_options)?;
 
             let mut linter = LintGroup::new_curated(dictionary);
+
+            if let Some(rules) = only_lint_with {
+                linter.set_all_rules_to(Some(false));
+
+                for rule in rules {
+                    linter.config.set_rule_enabled(rule, true);
+                }
+            }
+
             let mut lints = linter.lint(&doc);
 
             if count {
@@ -98,7 +116,7 @@ fn main() -> anyhow::Result<()> {
             let report = report_builder.finish();
             report.print((&filename, Source::from(source)))?;
 
-            Ok(())
+            process::exit(1)
         }
         Args::Parse { file } => {
             let (doc, _) = load_file(&file, markdown_options)?;
@@ -175,20 +193,34 @@ fn main() -> anyhow::Result<()> {
 
             Ok(())
         }
-        Args::Forms { word } => {
-            let hunspell_word_list = format!("1\n{word}");
-            let words = parse_word_list(&hunspell_word_list.to_string()).unwrap();
-
-            let attributes = parse_default_attribute_list();
-
+        Args::Forms { words } => {
             let mut expanded: HashMap<CharString, WordMetadata> = HashMap::new();
+            let attributes = parse_default_attribute_list();
+            let total = words.len();
 
-            attributes.expand_marked_words(words, &mut expanded);
+            for (index, word) in words.iter().enumerate() {
+                expanded.clear();
 
-            expanded.keys().for_each(|form| {
-                let string_form: String = form.iter().collect();
-                println!("{}", string_form);
-            });
+                let hunspell_word_list = format!("1\n{word}");
+                let words = parse_word_list(&hunspell_word_list.to_string()).unwrap();
+                attributes.expand_marked_words(words, &mut expanded);
+
+                println!(
+                    "{}{}{}",
+                    if index > 0 { "\n" } else { "" },
+                    if total != 1 {
+                        format!("{}/{}: ", index + 1, total)
+                    } else {
+                        "".to_string()
+                    },
+                    word
+                );
+                expanded.keys().for_each(|form| {
+                    let string_form: String = form.iter().collect();
+                    println!("  - {}", string_form);
+                });
+            }
+
             Ok(())
         }
         Args::Config => {

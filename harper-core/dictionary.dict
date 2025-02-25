@@ -1,4 +1,4 @@
-50000
+50100
 AA/1254M
 AAA/12
 AB/215M
@@ -684,7 +684,8 @@ Astoria/2M
 Astrakhan/21M
 AstroTurf/1M
 Asturias/2M
-Asuncion/M
+Asuncion/2M
+Asunción/2M
 Aswan/2M
 Atacama/2M
 Atahualpa/M
@@ -1273,6 +1274,7 @@ Boer/12SM
 Boethius/2M
 Bogart/2M
 Bogota/2M
+Bogotá/2M
 Bohemia/21M
 Bohemian/152SM
 Bohr/2M
@@ -1491,6 +1493,8 @@ Bruno/2M
 Brunswick/2M
 Brussels/21M
 Brut/M
+Brutalism/1M
+Brutalist/15MS
 Brutus/21M
 Bryan/2M
 Bryant/2M
@@ -1516,6 +1520,7 @@ Buddhist/51SM
 Buddy/2M
 Budweiser/21M
 Buffalo/2M
+Buffet/2MS
 Buffy/2M
 Buford/2M
 Bugatti/21M
@@ -2042,6 +2047,7 @@ Chiquita/M
 Chirico/2M
 Chisholm/2M
 Chisinau/2M
+Chișinău/2M
 Chittagong/2M
 Chivas/M
 Chloe/2M
@@ -2429,6 +2435,7 @@ Cunard/2M
 Cunningham/2M
 Cupid/2M
 Curacao/2M
+Curaçao/2M
 Curie/2M
 Curitiba/2M
 Currier/2M
@@ -2475,7 +2482,9 @@ DEC/12SD
 DH/12
 DHS/2
 DI/1
+DIY/5
 DJ/142
+DMA/1M
 DMCA/24
 DMD/1M
 DMZ/1
@@ -2484,6 +2493,7 @@ DOA/5
 DOB/12
 DOD/1
 DOE/142
+DOJ/1M
 DOS/12M
 DOT/21
 DP/142SM
@@ -2653,6 +2663,7 @@ Delmar/2M
 Delmarva/2M
 Delmer/M
 Delmonico/1M
+DeLorean/2MS
 Delores/2M
 Deloris/M
 Delphi/2M
@@ -2931,7 +2942,8 @@ Dzerzhinsky/2M
 Dzungaria/2M
 E/12SM
 EC/12
-ECG/12M
+ECG/1M
+ECM/1MS
 ECMAScript/2M
 EDP/12M
 EDT/21
@@ -3399,6 +3411,7 @@ Fiat/1M
 Fiberglas/M
 Fibonacci/2M
 Fichte/M
+Fichtinger/2M
 Fidel/2M
 Fido/2M
 Fielding/2M
@@ -4132,6 +4145,7 @@ Hals/2M
 Halsey/2M
 Ham/2M
 Haman/2M
+Hamas/2M
 Hamburg/21MS
 Hamhung/2M
 Hamilcar/2M
@@ -4244,6 +4258,8 @@ Hazleton/2M
 Hazlitt/M
 He/82M
 Head/2M
+Healey/2M
+Healy/2M
 Hearst/2M
 Heath/2MR
 Heather/2M
@@ -4620,7 +4636,7 @@ IOU/1M
 IP/512
 IPA/21
 IPO/14
-IQ/15M
+IQ/1MS
 IRA/21SM
 IRC/214
 IRS/21M
@@ -4985,6 +5001,7 @@ Jimmy/21M
 Jinan/2M
 Jinnah/2M
 Jinny/2M
+Jinping/2M
 Jivaro/1M
 Jo/2M
 Joan/21M
@@ -5473,7 +5490,9 @@ LCM
 LDC/1
 LED/1M
 LG/12M
+LGB/51
 LGBT/51
+LGBTQ/51
 LIFO/5
 LL/15
 LLB/1M
@@ -5834,7 +5853,8 @@ Lollobrigida/2M
 Lombard/125M
 Lombardi/2M
 Lombardy/2M
-Lome/M
+Lome/2M
+Lomé/2M
 Lompoc/2M
 Lon/2M
 London/2MRZ
@@ -5998,7 +6018,7 @@ MIA/512
 MIDI/21M
 MIPS/12
 MIRV/1
-MIT/21M
+MIT/2M
 MM/12
 MMA/1M
 MN/21
@@ -6129,6 +6149,7 @@ Maldives/29M
 Maldivian/15MS
 Maldonado/2M
 Male/2M
+Malé/2M
 Mali/21M
 Malian/15SM
 Malibu/2M
@@ -6973,6 +6994,7 @@ NM/2514
 NORAD/2M
 NOW/21
 NP/21
+NPC/1SM
 NPR/21M
 NR/512
 NRA/2
@@ -7253,7 +7275,8 @@ Nosferatu/1M
 Nostradamus/21M
 Nottingham/2M
 Nouakchott/2M
-Noumea/M
+Noumea/2M
+Nouméa/2M
 Nov/2M
 Nova/21M
 Novartis/M
@@ -7542,6 +7565,7 @@ PRC/21M
 PRO/1
 PS/215M
 PST/21M
+PSU/MS
 PT/125
 PTA/14M
 PTO/21
@@ -8239,6 +8263,7 @@ Reaganomics/1M
 Realtor/M
 Reasoner/2M
 Reba/2M
+Rebecca/2M
 Rebekah/2M
 Recife/2M
 Reconstruction/2M
@@ -8303,6 +8328,7 @@ Revlon/2M
 Rex/2M
 Reyes/2M
 Reykjavik/2M
+Reykjavík/2M
 Reyna/M
 Reynaldo/M
 Reynolds/2M
@@ -8805,7 +8831,7 @@ Schneider/2M
 Schoenberg/2M
 Schopenhauer/2M
 Schrieffer/M
-Schrodinger/2M
+Schrödinger/2M
 Schroeder/2M
 Schubert/2M
 Schultz/2M
@@ -9283,6 +9309,7 @@ Staples/2M
 Starbucks/21M
 Stark/21M
 Starkey/2M
+Starmer/2M
 Starr/2M
 Staten/2M
 States/21
@@ -9532,6 +9559,7 @@ Tallinn/2M
 Talmud/2MS
 Talmudic/5
 Talmudist/1
+Tamagotchi/2MS
 Tamara/2M
 Tameka/2M
 Tamera/2M
@@ -9640,7 +9668,7 @@ Terri/2M
 Terrie/2M
 Terry/2M
 Tertiary/52M
-Tesla/21M
+Tesla/21MS
 Tess/2M
 Tessa/2M
 Tessie/2M
@@ -9816,6 +9844,7 @@ Torrance/2M
 Torrens/2M
 Torres/2M
 Torricelli/2M
+Tórshavn/2M
 Tortola/2M
 Tortuga/2M
 Torvalds/2M
@@ -9927,6 +9956,7 @@ Turkestan/2M
 Turkey/215M
 Turkic/52MS
 Turkish/25M
+Türkiye/2M
 Turkmenistan/2M
 Turlock/2M
 Turner/21M
@@ -9984,6 +10014,7 @@ URL/1S
 US/215M
 USA/21M
 USAF/2
+USAID/2M
 USB/21MS
 USCG/2
 USDA/2M
@@ -10089,6 +10120,7 @@ VOA/21
 VP/12
 VT/2154
 VTOL/1
+VW/2MS
 Va/2M
 Vacaville/2M
 Vader/M
@@ -10356,6 +10388,7 @@ Watusi/1M
 Waugh/2M
 Wausau/2M
 Wave
+Wayland/2M
 Wayne/2M
 Waynesboro/2M
 Weaver/2M
@@ -10616,6 +10649,7 @@ Yank/1SM
 Yankee/14SM
 Yaobang/M
 Yaounde/2M
+Yaoundé/2M
 Yaqui/12M
 Yaren/2
 Yaroslavl/2M
@@ -10705,6 +10739,7 @@ Zedekiah/2M
 Zedong/M
 Zeffirelli/M
 Zeke/2M
+Zelenskyy/2M
 Zelig/1M
 Zelma/2M
 Zen/215M
@@ -10723,7 +10758,7 @@ Cloudflare/M
 TLS/12
 Everdeen/M
 pseudorandom/5P
-counterintuitively/
+counterintuitive/Y
 Leto/2M
 Ouranos/M
 Hecatoncheires/1M
@@ -10738,6 +10773,7 @@ Ziegfeld/M
 Ziegler/2M
 Ziggy/2M
 Zika/21
+Zilog/2M
 Zimbabwe/2M
 Zimbabwean/15SM
 Zimmerman/2M
@@ -10772,7 +10808,7 @@ Zworykin/M
 Zyrtec/M
 Zyuganov/M
 Zzz
-a/-+457~
+a/-+57~
 as/j
 aah/14
 aardvark/1SM
@@ -12252,7 +12288,7 @@ anvil/14MS
 anxiety/1SM
 anxious/5YP
 anxiousness/1M
-any/8~
+any/8~j5
 anybody/8SM
 anyhow/5
 anymore/
@@ -12353,7 +12389,7 @@ appetizing/514Y
 applaud/14ZGDRS
 applauder/1M
 applause/1M
-apple/14MS
+apple/1MS
 applejack/1M
 applesauce/1M
 applet/1MS
@@ -13021,6 +13057,7 @@ automatism/1M
 automatize/4GDS
 automaton/1SM
 automobile/145DSMG
+automobilia/1M
 automotive/51
 autonomic/5
 autonomous/5Y
@@ -13610,7 +13647,7 @@ bazillion/1S
 bazooka/14SM
 bbl/1
 bdrm/1
-be/41~
+be/m1~
 beach/14MDSG
 beachcomber/1SM
 beachfront/51
@@ -13920,7 +13957,7 @@ bespeak/41SG
 bespectacled/5
 bespoke/54
 bespoken/45
-best/514SGMD
+best/51mSGMD
 bestial/51Y
 bestiality/1M
 bestiary/1SM
@@ -13955,7 +13992,7 @@ betroth/4DG
 betrothal/1SM
 betrothed/451M
 betroths/4
-better/514MDGLS
+better/51mMDGLS
 betterment/1M
 betting/541
 bettor/1MS
@@ -14167,6 +14204,7 @@ birdieing/4
 birdlike/5
 birdlime/14M
 birdseed/1M
+birdshit/16
 birdsong/1
 birdwatcher/1SM
 birdying/4
@@ -15123,6 +15161,8 @@ brushwork/1M
 brusque/54RPYT
 brusqueness/1M
 brutal/5Y
+brutalism/1M
+brutalist/15MS
 brutality/1SM
 brutalization/1M
 brutalize/4GDS
@@ -15616,8 +15656,8 @@ campsite/1SM
 campus/14MS
 campy/5TR
 camshaft/1SM
-can't/4
-can/41SMDRZG
+can't/m
+can/m1SMDRZG
 canal/14MS
 canalization/1M
 canalize/4GDS
@@ -16389,6 +16429,7 @@ chastiser/1M
 chastity/1M
 chasuble/1SM
 chat/41SM
+chatbot/1SM
 chateau/1SM
 chateaux/1
 chatelaine/1SM
@@ -17246,7 +17287,7 @@ coerce/4DRSZGNV
 coercer/1M
 coercion/1M
 coeval/51SMY
-coexist/4DSG
+coexist/4DG
 coexistence/1M
 coexistent/51
 coextensive/5
@@ -17322,6 +17363,7 @@ colicky/5
 coliseum/1MS
 colitis/1M
 coll/4
+collab/1MS
 collaborate/4DSXGNV
 collaboration/1M
 collaborationist/1
@@ -18492,7 +18534,7 @@ couchette/1S
 cougar/1SM
 cough/41MDG
 coughs/14
-could/41~
+could/m1~
 could've/4
 couldn't/4
 coulee/1SM
@@ -18554,7 +18596,9 @@ countersign/14GSMD
 countersignature/1MS
 countersink/14GSM
 counterspy/14SM
+counterstrike/14GSM
 counterstroke/1SM
+counterstruck/4
 countersunk/45
 countertenor/1MS
 countervail/4GSD
@@ -19204,7 +19248,7 @@ cwt/1
 cyan/15M
 cyanide/14M
 cyanobacteria/1
-cyberbully/14SM
+cyberbully/14SMG
 cybercafe/1S
 cybernetic/5S
 cyber/5
@@ -19344,7 +19388,7 @@ dankness/1M
 danseuse/1MS
 dapper/5TR
 dapple/154MGDS
-dare/41DRSMZG
+dare/m1DRSMZG
 daredevil/154MS
 daredevilry/1M
 darer/1M
@@ -19733,7 +19777,7 @@ delta/14MS
 delude/4GDS
 deluge/14MGDS
 delusion/1MS
-delusional/51
+delusional/51Y
 delusive/5Y
 deluxe/51
 delve/41ZGDRS
@@ -20674,7 +20718,7 @@ dizzily/
 dizziness/1M
 dizzy/541DRSPTG
 djellaba/1MS
-do/41SJMRHZG~
+do/m1SJMRHZG~
 doable/51
 dob/41S
 dobbed/4
@@ -20843,7 +20887,7 @@ dopier/5
 dopiest/5
 dopiness/1M
 doping/41M
-doppelganger/1S
+doppelgänger/1S
 dork/14MS
 dorky/5RT
 dorm/14MRZS
@@ -25049,7 +25093,7 @@ geometry/1SM
 geophysical/5
 geophysicist/1SM
 geophysics/1M
-geopolitical/5
+geopolitical/4Y
 geopolitics/1M
 geostationary/5
 geosynchronous/5
@@ -25570,6 +25614,7 @@ grandiloquent/5
 grandiose/5Y
 grandiosity/1M
 grandma/14MS
+grandmaster/1SM
 grandmother/1MYS
 grandnephew/1MS
 grandness/1M
@@ -26365,7 +26410,7 @@ haunt/41SMDRZG
 haunter/1M
 haunting/451Y
 hauteur/1M
-have/41MGS~
+have/m1MGS~
 haven't/4
 haven/14SM
 haversack/1SM
@@ -27454,6 +27499,7 @@ hydrogen/1M
 hydrogenate/4CGDS
 hydrogenation/1M
 hydrogenous/5
+hydrolock/1MS
 hydrologist/1MS
 hydrology/1M
 hydrolyses/14
@@ -28381,6 +28427,7 @@ inimical/5Y
 inimitably/
 iniquitous/5Y
 iniquity/1SM
+init/4S
 initial/514SGMDY
 initialism/1MS
 initialization/1
@@ -28585,7 +28632,7 @@ intaglio/14MS
 integer/1MS
 integral/51SMY
 integrate/4AEVNGSD
-integration/1EAM
+integration/1EAMS
 integrator/1SM
 integrity/1M
 integument/1SM
@@ -28847,10 +28894,11 @@ inverse/514SMY
 invert/415SMDRZG
 inverter/1M
 invest/41ASDGL
-investigate/4GNVDSX
+investigate/4NVDSX
 investigation/1M
 investigator/1SM
 investigatory/5
+investing/M
 investiture/1MS
 investment/1AEM
 investor/1SM
@@ -30787,6 +30835,7 @@ lovesick/5
 lovey/1S
 loving/154Y
 low/514SZTGMDRYP
+lowball/514SGDM
 lowborn/5
 lowboy/1MS
 lowbrow/51SM
@@ -31538,7 +31587,7 @@ maximal/51Y
 maximization/1M
 maximize/4GDS
 maximum/15SM
-may/41M
+may/m1M
 maybe/5j1SM
 mayday/1MS
 mayflower/1MS
@@ -32033,10 +32082,10 @@ midyear/1MS
 mien/1M
 miff/14DSG
 might've/4
-might/154M
+might/15mM
 mightily/
 mightiness/1M
-mightn't/4
+mightn't/m
 mighty/15TRP
 mignonette/15SM
 migraine/1MS
@@ -32388,7 +32437,7 @@ mite/14MZRS
 miter/41MDG
 mitigate/4DSGN
 mitigated/54U
-mitigation/1M
+mitigation/1MS
 mitochondria/1
 mitochondrial/5
 mitochondrion/1
@@ -33088,7 +33137,7 @@ muzak/14
 muzzily/
 muzzle/14DSMG
 muzzy/51P
-my/~
+my/~5
 mycologist/1SM
 mycology/1M
 myelitis/1M
@@ -33309,7 +33358,7 @@ necrotic/5
 nectar/14M
 nectarine/15MS
 nee/5
-need/14MDSG~
+need/1mMDSG~
 needed/54U
 needful/51Y
 neediness/1M
@@ -33320,7 +33369,7 @@ needlessness/1M
 needlewoman/1M
 needlewomen/9
 needlework/1M
-needn't/4
+needn't/m
 needy/5PTR
 nefarious/5YP
 nefariousness/1M
@@ -34208,6 +34257,7 @@ objectionable/5U
 objectionably/
 objective/51SMYP
 objectiveness/1M
+objectivism/1M
 objectivity/1M
 objector/1MS
 objurgate/4XGNDS
@@ -34754,8 +34804,8 @@ otter/1MS
 ottoman/1MS
 oubliette/1MS
 ouch/14
-ought/481
-oughtn't/4
+ought/m81
+oughtn't/m
 ounce/1MS
 our/4S~
 ourselves/8
@@ -35032,6 +35082,7 @@ overhear/4SG
 overheard/4
 overheat/41DSG
 overhung/45
+overhype/4SGD
 overindulge/4GDS
 overindulgence/1M
 overindulgent/5
@@ -35129,7 +35180,7 @@ overstay/41DSG
 overstep/41S
 overstepped/4
 overstepping/4
-overstimulate/4DSG
+overstimulate/4DSGX
 overstock/41GSD
 overstretch/41GDS
 overstrict/5
@@ -39100,7 +39151,7 @@ recursion/1S
 recuse/4DSG
 recyclable/51SM
 recycling/14M
-red/514PSM
+red/51PSM
 redact/4SDG
 redaction/1M
 redactor/1SM
@@ -39186,6 +39237,7 @@ reflector/1MS
 reflexive/51SMY
 reflexivity/1
 reflexology/1
+refloat/4DGS
 reforge/4DSG
 reform/14MZ
 reformat/4V
@@ -41181,7 +41233,7 @@ seismologic/5
 seismological/5
 seismologist/1MS
 seismology/1M
-seize/4GDS
+seize/4GDSU
 seizure/14MS
 seldom/5
 select/54CSGVD
@@ -41504,7 +41556,7 @@ shakily/
 shakiness/1M
 shaky/5RPT
 shale/14M
-shall/4
+shall/m
 shallot/1MS
 shallow/514TPMRYS
 shallowness/1M
@@ -41772,8 +41824,8 @@ shot/514MS
 shotgun/14SM
 shotgunned/4
 shotgunning/4
-should/41
-should've/
+should/m
+should've/4
 shoulder/14MDGS
 shouldn't/41
 shout/14ZGMDRS
@@ -43713,8 +43765,8 @@ stifling/541Y
 stigma/1SM
 stigmata/1
 stigmatic/51
-stigmatization/1M
-stigmatize/4GDS
+stigmatization/1CM
+stigmatize/4GDSC
 stile/14SM
 stiletto/14SM
 still's
@@ -43895,6 +43947,7 @@ strategic/5S
 strategical/5Y
 strategics/1M
 strategist/1SM
+strategize/4DSG
 strategy/1SM
 strati/1
 stratification/1M
@@ -44601,7 +44654,7 @@ survive/4DSGB
 survivor/1SM
 susceptibility/1SM
 susceptible/51I
-sushi/14M
+sushi/1M
 suspect/415SMDG
 suspected/54U
 suspend/4SDRZG
@@ -45631,7 +45684,7 @@ thirteenths/1
 thirtieth/51M
 thirtieths/1
 thirty/1HSM
-this/81~
+this/81~5
 thistle/1MS
 thistledown/1M
 thither/5
@@ -46313,6 +46366,7 @@ transaction/1SM
 transactional/5
 transactor/1MS
 transatlantic/5
+transaxle/1SM
 transceiver/1SM
 transcend/4GSD
 transcendence/1M
@@ -47096,6 +47150,7 @@ uncontroversial/5
 uncool/5
 uncooperative/5
 uncouth/5Y
+uncrewed/5
 uncrushable/5
 unction/1SM
 unctuous/5YP
@@ -47628,6 +47683,7 @@ utilization/1M
 utilize/4GBDS
 utmost/51M
 utopia/1SM
+utopian/5
 utter/54SDYG
 utterance/1SM
 uttermost/51M
@@ -48940,7 +48996,7 @@ wildness/1M
 wilds/14M
 wile/14MGDS
 wiliness/1M
-will/41MDS~
+will/m1MDS~
 willful/5PY
 willfulness/1M
 willies/1M
@@ -49286,8 +49342,8 @@ worthy/514UPRT
 wot/48
 wotcha/
 would've/
-would/41S~
-wouldn't/4
+would/m1S~
+wouldn't/m
 wouldst/4
 wound/14SGMDR
 wove/45A
@@ -49588,7 +49644,7 @@ zincking/4
 zine/1S
 zinfandel/1M
 zing/14MDRZG
-zinger/1M
+zinger/1MS
 zingy/5RT
 zinnia/1MS
 zip's
@@ -49665,7 +49721,6 @@ pseudocode/1MG
 Zettelkasten/1M
 OAuth/M
 MacBook/2SM
-MacOS/2M
 SVG/21s
 URI/1s
 suprachiasmatic/5
@@ -49947,6 +50002,51 @@ Crowdsignal/2M
 Mullenweg/M
 journaling/SM3
 Polldaddy/2M
-P2/M
+P2/MS
 VideoPress/2M
 stylization/SM
+DM/1MS
+SNL/2M
+TSMC/2M
+AOC/2M
+cybersecurity/M
+authenticator/SM
+WebRTC/2M
+Sudbury/2M
+EMR/12SM
+TUI/12SM
+N1/2M
+N2/2M
+N3/2M
+N4/2M
+N5/2M
+Lenovo/2M
+ThinkPad/2SM
+interconnectedness/1
+transformative/5
+Spotify/2M
+Waymo/2M
+gameplay/1
+chatbot/SM
+Siri/2M
+Alexa/2M
+gamify/4D
+perceptron/SM
+telemedicine/SM
+rainforest/SM
+reskilling/4
+overhyped/45
+preloaded/54
+NLP/M
+overstimulation/1
+VR/2M
+NPC/SM
+hydropower/1
+IPCC/2M
+AlphaFold/2M
+DeepMind/2M
+GLFW/2M
+ChatGPT/2M
+amidst/+
+reimagined/4
+coexists/4
