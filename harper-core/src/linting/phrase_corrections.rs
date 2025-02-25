@@ -302,6 +302,8 @@ mod tests {
             "darknet detecting far too many objects and in random locations",
         );
     }
+
+    #[test]
     fn far_to_much() {
         assert_suggestion_result(
             "requires far to much day today support and troubleshooting",
@@ -309,18 +311,40 @@ mod tests {
             "requires far too much day today support and troubleshooting",
         );
     }
+
+    #[test]
     fn way_to_many() {
         assert_suggestion_result(
             "Way to many TEMP files",
-            WayToMany::default(),
-            "way too many TEMP files",
+            lint_group(),
+            "Way too many TEMP files",
         );
     }
+
+    #[test]
     fn way_to_much() {
         assert_suggestion_result(
             "proper java development has way to much overhead",
             WayToMuch::default(),
             "proper java development has way too much overhead",
+        );
+    }
+
+    #[test]
+    fn operative_system() {
+        assert_suggestion_result(
+            "COS is a operative system made with the COSMOS Kernel and written in C#, COS its literally the same than MS-DOS but written in C# and open-source.",
+            lint_group(),
+            "COS is a operating system made with the COSMOS Kernel and written in C#, COS its literally the same than MS-DOS but written in C# and open-source.",
+        );
+    }
+
+    #[test]
+    fn operative_systems() {
+        assert_suggestion_result(
+            "My dotfiles for my operative systems and other configurations.",
+            lint_group(),
+            "My dotfiles for my operating systems and other configurations.",
         );
     }
 }
