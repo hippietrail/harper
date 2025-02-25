@@ -13636,7 +13636,7 @@ bazillion/1S
 bazooka/14SM
 bbl/1
 bdrm/1
-be/41~
+be/m1~
 beach/14MDSG
 beachcomber/1SM
 beachfront/51
@@ -13946,7 +13946,7 @@ bespeak/41SG
 bespectacled/5
 bespoke/54
 bespoken/45
-best/514SGMD
+best/51mSGMD
 bestial/51Y
 bestiality/1M
 bestiary/1SM
@@ -13981,7 +13981,7 @@ betroth/4DG
 betrothal/1SM
 betrothed/451M
 betroths/4
-better/514MDGLS
+better/51mMDGLS
 betterment/1M
 betting/541
 bettor/1MS
@@ -15645,8 +15645,8 @@ campsite/1SM
 campus/14MS
 campy/5TR
 camshaft/1SM
-can't/4
-can/41SMDRZG
+can't/m
+can/m1SMDRZG
 canal/14MS
 canalization/1M
 canalize/4GDS
@@ -17276,7 +17276,7 @@ coerce/4DRSZGNV
 coercer/1M
 coercion/1M
 coeval/51SMY
-coexist/4DSG
+coexist/4DG
 coexistence/1M
 coexistent/51
 coextensive/5
@@ -18523,7 +18523,7 @@ couchette/1S
 cougar/1SM
 cough/41MDG
 coughs/14
-could/41~
+could/m1~
 could've/4
 couldn't/4
 coulee/1SM
@@ -19377,7 +19377,7 @@ dankness/1M
 danseuse/1MS
 dapper/5TR
 dapple/154MGDS
-dare/41DRSMZG
+dare/m1DRSMZG
 daredevil/154MS
 daredevilry/1M
 darer/1M
@@ -20707,7 +20707,7 @@ dizzily/
 dizziness/1M
 dizzy/541DRSPTG
 djellaba/1MS
-do/41SJMRHZG~
+do/m1SJMRHZG~
 doable/51
 dob/41S
 dobbed/4
@@ -26399,7 +26399,7 @@ haunt/41SMDRZG
 haunter/1M
 haunting/451Y
 hauteur/1M
-have/41MGS~
+have/m1MGS~
 haven't/4
 haven/14SM
 haversack/1SM
@@ -31576,7 +31576,7 @@ maximal/51Y
 maximization/1M
 maximize/4GDS
 maximum/15SM
-may/41M
+may/m1M
 maybe/5j1SM
 mayday/1MS
 mayflower/1MS
@@ -32071,10 +32071,10 @@ midyear/1MS
 mien/1M
 miff/14DSG
 might've/4
-might/154M
+might/15mM
 mightily/
 mightiness/1M
-mightn't/4
+mightn't/m
 mighty/15TRP
 mignonette/15SM
 migraine/1MS
@@ -33347,7 +33347,7 @@ necrotic/5
 nectar/14M
 nectarine/15MS
 nee/5
-need/14MDSG~
+need/1mMDSG~
 needed/54U
 needful/51Y
 neediness/1M
@@ -33358,7 +33358,7 @@ needlessness/1M
 needlewoman/1M
 needlewomen/9
 needlework/1M
-needn't/4
+needn't/m
 needy/5PTR
 nefarious/5YP
 nefariousness/1M
@@ -34793,8 +34793,8 @@ otter/1MS
 ottoman/1MS
 oubliette/1MS
 ouch/14
-ought/481
-oughtn't/4
+ought/m81
+oughtn't/m
 ounce/1MS
 our/4S~
 ourselves/8
@@ -41545,7 +41545,7 @@ shakily/
 shakiness/1M
 shaky/5RPT
 shale/14M
-shall/4
+shall/m
 shallot/1MS
 shallow/514TPMRYS
 shallowness/1M
@@ -41813,7 +41813,7 @@ shot/514MS
 shotgun/14SM
 shotgunned/4
 shotgunning/4
-should/4
+should/m
 should've/4
 shoulder/14MDGS
 shouldn't/41
@@ -48985,7 +48985,7 @@ wildness/1M
 wilds/14M
 wile/14MGDS
 wiliness/1M
-will/41MDS~
+will/m1MDS~
 willful/5PY
 willfulness/1M
 willies/1M
@@ -49331,8 +49331,8 @@ worthy/514UPRT
 wot/48
 wotcha/
 would've/
-would/41S~
-wouldn't/4
+would/m1S~
+wouldn't/m
 wouldst/4
 wound/14SGMDR
 wove/45A
@@ -50038,3 +50038,4 @@ GLFW/2M
 ChatGPT/2M
 amidst/+
 reimagined/4
+coexists/4
