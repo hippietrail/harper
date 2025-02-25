@@ -18,17 +18,15 @@ impl ExactPhrase {
         for token in doc.fat_tokens() {
             match token.kind {
                 TokenKind::Word(_word_metadata) => {
-                    phrase = phrase.then(Box::new(AnyCapitalization::new(
-                        token.content.as_slice().into(),
-                    )));
+                    phrase = phrase.then(AnyCapitalization::new(token.content.as_slice().into()));
                 }
                 TokenKind::Space(_) => {
                     phrase = phrase.then_whitespace();
                 }
                 TokenKind::Punctuation(p) => {
-                    phrase = phrase.then(Box::new(move |t: &Token, _source: &[char]| {
+                    phrase = phrase.then(move |t: &Token, _source: &[char]| {
                         t.kind.as_punctuation().cloned() == Some(p)
-                    }))
+                    })
                 }
                 TokenKind::ParagraphBreak => {
                     phrase = phrase.then_whitespace();

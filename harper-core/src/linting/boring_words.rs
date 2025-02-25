@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{Pattern, WordPatternGroup},
     Token, TokenStringExt,
+    patterns::{Pattern, WordPatternGroup},
 };
 
 use super::{Lint, LintKind, PatternLinter};

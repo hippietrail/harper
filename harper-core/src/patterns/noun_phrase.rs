@@ -40,7 +40,7 @@ impl Pattern for NounPhrase {
 mod tests {
     use super::super::DocPattern;
     use super::NounPhrase;
-    use crate::{patterns::Pattern, Document, Span};
+    use crate::{Document, Span, patterns::Pattern};
 
     #[test]
     fn simple_apple() {
@@ -87,7 +87,7 @@ mod tests {
         assert_eq!(
             matches,
             vec![
-                Span::new(2, 5),
+                Span::new(0, 5),
                 Span::new(8, 9),
                 Span::new(11, 12),
                 Span::new(14, 15),

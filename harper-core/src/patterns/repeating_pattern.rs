@@ -43,8 +43,8 @@ impl Pattern for RepeatingPattern {
 #[cfg(test)]
 mod tests {
     use super::RepeatingPattern;
-    use crate::patterns::{AnyPattern, Pattern};
     use crate::Document;
+    use crate::patterns::{AnyPattern, Pattern};
 
     #[test]
     fn matches_anything() {

@@ -1,5 +1,5 @@
-use harper_core::parsers::{Markdown, MarkdownOptions, Parser};
 use harper_core::Lrc;
+use harper_core::parsers::{Markdown, MarkdownOptions, Parser};
 use harper_core::{Punctuation, Span, Token, TokenKind};
 use itertools::Itertools;
 
@@ -162,7 +162,7 @@ fn parse_inline_tag(tokens: &[Token]) -> Option<usize> {
 
 #[cfg(test)]
 mod tests {
-    use harper_core::{parsers::MarkdownOptions, Document, Punctuation, TokenKind};
+    use harper_core::{Document, Punctuation, TokenKind, parsers::MarkdownOptions};
 
     use crate::CommentParser;
 
@@ -226,8 +226,10 @@ mod tests {
             CommentParser::new_from_language_id("javascript", MarkdownOptions::default()).unwrap();
         let document = Document::new_curated(source, &parser);
 
-        assert!(document
-            .tokens()
-            .all(|t| t.kind.is_unlintable() || t.kind.is_newline() || t.kind.is_paragraph_break()));
+        assert!(
+            document.tokens().all(|t| t.kind.is_unlintable()
+                || t.kind.is_newline()
+                || t.kind.is_paragraph_break())
+        );
     }
 }

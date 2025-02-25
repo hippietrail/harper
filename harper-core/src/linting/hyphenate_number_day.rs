@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{EitherPattern, Pattern, SequencePattern},
     Token,
+    patterns::{EitherPattern, NounPhrase, Pattern, SequencePattern},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -15,20 +15,20 @@ impl Default for HyphenateNumberDay {
             .then_number()
             .then_whitespace()
             .t_aco("day")
-            .then(Box::new(EitherPattern::new(vec![
+            .then(EitherPattern::new(vec![
                 Box::new(
                     SequencePattern::default()
                         .then_whitespace()
-                        .then_noun_phrase(),
+                        .then(NounPhrase),
                 ),
                 Box::new(
                     SequencePattern::default()
                         .then_hyphen()
                         .then_adjective()
                         .then_whitespace()
-                        .then_noun_phrase(),
+                        .then(NounPhrase),
                 ),
-            ])));
+            ]));
 
         Self {
             pattern: Box::new(pattern),

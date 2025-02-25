@@ -1,7 +1,7 @@
 use serde::{Deserialize, Serialize};
 
-use super::matcher::Matcher;
 use super::Error;
+use super::matcher::Matcher;
 
 #[derive(Debug, Clone)]
 pub struct AffixReplacement {

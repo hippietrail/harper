@@ -1,12 +1,12 @@
 use crate::{
-    linting::PatternLinter, patterns::SplitCompoundWord, CharStringExt, Lrc, TokenStringExt,
+    CharStringExt, Lrc, TokenStringExt, linting::PatternLinter, patterns::SplitCompoundWord,
 };
 
 use super::{Lint, LintKind, Suggestion};
 
 use crate::{
-    patterns::{Pattern, SequencePattern},
     Token,
+    patterns::{Pattern, SequencePattern},
 };
 
 /// Looks for closed compound nouns which can be condensed due to their position after a
@@ -22,7 +22,7 @@ impl Default for ImpliedOwnershipCompoundNouns {
         let pattern = SequencePattern::default()
             .then_possessive_noun()
             .then_whitespace()
-            .then(Box::new(split_pattern.clone()));
+            .then(split_pattern.clone());
 
         Self {
             pattern: Box::new(pattern),
