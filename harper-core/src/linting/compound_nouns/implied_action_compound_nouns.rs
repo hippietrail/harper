@@ -18,7 +18,9 @@ pub struct ImpliedActionCompoundNouns {
 
 impl Default for ImpliedActionCompoundNouns {
     fn default() -> Self {
-        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| meta.is_noun()));
+        let split_pattern = Lrc::new(SplitCompoundWord::new(|meta| {
+            meta.is_noun() && !meta.is_proper_noun()
+        }));
         let pattern = SequencePattern::default()
             .then(split_pattern.clone())
             .then_whitespace()

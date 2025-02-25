@@ -284,4 +284,13 @@ mod tests {
             0,
         );
     }
+
+    #[test]
+    fn ina_not_suggested() {
+        assert_lint_count(
+            "past mistakes or a character in a looping reality facing personal challenges.",
+            CompoundNouns::default(),
+            0,
+        );
+    }
 }
