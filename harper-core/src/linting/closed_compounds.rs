@@ -58,7 +58,6 @@ pub fn lint_group() -> LintGroup {
         "Anyhow"          => ("any how", "anyhow"),
         "Nonetheless"     => ("none the less", "nonetheless"),
         "Thereupon"       => ("there upon", "thereupon"),
-        "Forthwith"       => ("forth with", "forthwith"),
         "Insofar"         => ("in so far", "insofar"),
         "Whereupon"       => ("where upon", "whereupon"),
         "Upward"          => ("up ward", "upward"),
