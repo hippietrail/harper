@@ -158,7 +158,7 @@ lspconfig.harper_ls.setup {
   settings = {
     ["harper-ls"] = {
       codeActions = {
-        forceStable = true
+        ForceStable = true
       }
     }
   },
