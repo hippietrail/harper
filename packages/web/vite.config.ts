@@ -154,7 +154,8 @@ export default defineConfig({
 						'scss',
 						'toml',
 						'rust',
-						'lua'
+						'lua',
+						'json'
 					]
 				}
 			})

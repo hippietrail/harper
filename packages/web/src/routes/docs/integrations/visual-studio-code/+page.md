@@ -16,9 +16,7 @@ Open the Extensions view in your editor by selecting the Extensions icon in the 
 
 ## Settings
 
-<!-- TODO: Link to the `harper-ls` configuration section here when it's done. -->
-
-The settings below are VS Code specific. You can head over to the `harper-ls` documentation to view other available settings.
+The settings below are VS Code specific. You can head over to the `harper-ls` documentation to view [other available settings](./language-server#Configuration).
 
 | Setting       | Type     | Default Value | Description                                                                                                                                                 |
 | ------------- | -------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |

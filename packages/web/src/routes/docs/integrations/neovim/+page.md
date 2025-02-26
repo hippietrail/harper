@@ -10,66 +10,14 @@ How you choose to install `harper-ls` depends on your use-case. For Neovim, we o
 
 ## Configuration
 
-Neovim is also one of the two primarily supported editors for `harper-ls`.
-As such, you can view this page as canonical documentation for the available configuration options.
-[Helix](./helix) and [Zed](./zed) users may also find it helpful.
-
-### Markdown-Specific Config
-
-The Markdown parser has its own configuration option, used to modify its behavior in specific ways.
-For example, the title of a link is linted by default, but this behavior can be changed through the `ignore_link_title` key:
+Below is an example config where everything is set to their default values:
 
 ```lua
 lspconfig.harper_ls.setup {
   settings = {
     ["harper-ls"] = {
-      markdown = {
-        IgnoreLinkTitle = true,
-      }
-    }
-  },
-}
-```
-
-### Dictionaries
-
-You do not have to stick with the default dictionary locations ([listed on this page](./language-server)).
-If you use Neovim, you can set the location of the user dictionary with the `userDictPath` key, and the file dictionary with the `fileDictPath` key:
-
-```lua
-lspconfig.harper_ls.setup {
-  settings = {
-    ["harper-ls"] = {
-      userDictPath = "~/dict.txt",
-      fileDictPath = "~/.harper/",
-    }
-  },
-}
-```
-
-For example, if you want to use Vim's dictionary, you can do something like this:
-
-```lua
-lspconfig.harper_ls.setup {
-  settings = {
-    ["harper-ls"] = {
-      userDictPath = vim.fn.stdpath("config") .. "/spell/en.utf-8.add",
-    }
-  },
-}
-```
-
-See the [relevant issue for details](https://github.com/Automattic/harper/issues/143).
-
-### Linters
-
-Linters are grammatical rules Harper looks for to correct your work.
-You can toggle them on or off to your liking.
-
-```lua
-lspconfig.harper_ls.setup {
-  settings = {
-    ["harper-ls"] = {
+      userDictPath = "",
+      fileDictPath = "",
       linters = {
         SpellCheck = true,
         SpelledNumbers = false,
@@ -82,61 +30,22 @@ lspconfig.harper_ls.setup {
         Spaces = true,
         Matcher = true,
         CorrectNumberSuffix = true,
-      }
-    }
-  },
-}
-```
-
-<script>
-import DefaultNeovimConfig from "$lib/DefaultNeovimConfig.svelte"
-</script>
-
-<DefaultNeovimConfig/>
-
-By default, `harper-ls` will mark all diagnostics with HINT.
-If you want to configure this, refer below:
-
-```lua
-lspconfig.harper_ls.setup {
-  settings = {
-    ["harper-ls"] = {
-        diagnosticSeverity = "hint" -- Can also be "information", "warning", or "error"
-    }
-  },
-}
-```
-
-You can also configure how `harper-ls` displays code actions.
-For example, to make code actions appear in "stable" positions, use the following configuration:
-
-```lua
-lspconfig.harper_ls.setup {
-  settings = {
-    ["harper-ls"] = {
+      },
       codeActions = {
-        ForceStable = true
-      }
+        ForceStable = false
+      },
+      markdown = {
+        IgnoreLinkTitle = false,
+      },
+      diagnosticSeverity = "hint",
+      isolateEnglish = false
     }
-  },
+  }
 }
 ```
-
-If you work with a lot of documents that are a mixture of English and another language, Harper can attempt to automatically detect which is which and only lint the English text.
-To enable it, just set the `isolateEnglish` key.
 
 :::note
-This feature is incredibly new and unstable.
-Do not expect it to work perfectly.
-If improvements are important to you, feel free to [open an issue](https://github.com/Automattic/harper/issues/new?template=Blank+issue) to let us know.
+This example only containes some of the available linters, head over to our [rules page](../rules) to view the full list.
 :::
 
-```lua
-lspconfig.harper_ls.setup {
-  settings = {
-    ["harper-ls"] = {
-        isolateEnglish = false
-    }
-  },
-}
-```
+For more information on what each of these configs do, you can head over to the [configuration section](./language-server#Configuration) of our `harper-ls` documentation.
