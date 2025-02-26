@@ -173,7 +173,7 @@ pub fn lex_plural_digit(src: &[char]) -> Option<FoundToken> {
     let l = src.len();
     let mut i = 0;
 
-    if src.len() == 0 || !src[i].is_ascii_alphanumeric() {
+    if src.is_empty() || !src[i].is_ascii_alphanumeric() {
         return None;
     }
     i += 1;
