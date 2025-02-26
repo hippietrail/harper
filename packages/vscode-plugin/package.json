@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper",
 	"description": "The grammar checker for developers",
-	"version": "0.22.0",
+	"version": "0.23.0",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -145,7 +145,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `and the like`."
+					"description": "Fixes the typo in `and the like`."
 				},
 				"harper.linters.Anybody": {
 					"scope": "resource",
@@ -211,7 +211,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `bad rap`."
+					"description": "Changes `bed rap` to the proper idiom `bad rap`."
 				},
 				"harper.linters.BaitedBreath": {
 					"scope": "resource",
@@ -235,13 +235,13 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `bated breath`."
+					"description": "Changes `baited breath` to the correct `bated breath`."
 				},
 				"harper.linters.BeckAndCall": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `beck and call`."
+					"description": "Fixes `back and call` to `beck and call`."
 				},
 				"harper.linters.BeenThere": {
 					"scope": "resource",
@@ -254,6 +254,12 @@
 					"type": "boolean",
 					"default": false,
 					"description": "This rule looks for particularly boring or overused words. Using varied language is an easy way to keep a reader's attention."
+				},
+				"harper.linters.ByAccident": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Incorrect preposition: `by accident` is the idiomatic expression."
 				},
 				"harper.linters.CanBeSeen": {
 					"scope": "resource",
@@ -309,6 +315,12 @@
 					"default": true,
 					"description": "When making quick edits, it is common for authors to change the value of a number without changing its suffix. This rule looks for these cases, for example: `2st`."
 				},
+				"harper.linters.Countries": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "When referring to Countries, make sure to treat it as a proper noun."
+				},
 				"harper.linters.CurrencyPlacement": {
 					"scope": "resource",
 					"type": "boolean",
@@ -361,7 +373,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `en masse`."
+					"description": "Detects variants like `on mass` or `in mass` and suggests `en masse`."
 				},
 				"harper.linters.Everywhere": {
 					"scope": "resource",
@@ -457,13 +469,13 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `human life`."
+					"description": "Changes `human live` to `human life`."
 				},
 				"harper.linters.HungerPang": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `hunger pang`."
+					"description": "Corrects `hunger pain` to `hunger pang`."
 				},
 				"harper.linters.HyphenateNumberDay": {
 					"scope": "resource",
@@ -476,6 +488,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Fixes the incorrect spacing in `I a m` to properly form `I am`."
+				},
+				"harper.linters.InThe": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Detects and corrects a spacing error where `in the` is mistakenly written as `int he`. Proper spacing is essential for readability and grammatical correctness in common phrases."
 				},
 				"harper.linters.Insofar": {
 					"scope": "resource",
@@ -501,6 +519,12 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `into`."
 				},
+				"harper.linters.IsKnownFor": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Typo: `known` is the correct past participle."
+				},
 				"harper.linters.ItCan": {
 					"scope": "resource",
 					"type": "boolean",
@@ -523,7 +547,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `kind regards`."
+					"description": "Changes `kid regards` to `kind regards`."
 				},
 				"harper.linters.Koreas": {
 					"scope": "resource",
@@ -547,7 +571,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `let alone`."
+					"description": "Changes `let along` to `let alone`."
 				},
 				"harper.linters.LetsConfusion": {
 					"scope": "resource",
@@ -633,6 +657,12 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `misused`."
 				},
+				"harper.linters.ModalOf": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Detects `of` mistakenly used with `would`, `could`, `should`, etc."
+				},
 				"harper.linters.Multicore": {
 					"scope": "resource",
 					"type": "boolean",
@@ -675,17 +705,17 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `myself`."
 				},
+				"harper.linters.NationalCapitals": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "When referring to national capitals, make sure to treat it as a proper noun."
+				},
 				"harper.linters.NeedHelp": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `need help`."
-				},
-				"harper.linters.NoLonger": {
-					"scope": "resource",
-					"type": "boolean",
-					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `no longer`."
+					"description": "Changes `ned help` to the correct `need help`."
 				},
 				"harper.linters.NoOxfordComma": {
 					"scope": "resource",
@@ -739,7 +769,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `of course`."
+					"description": "Detects the non‐idiomatic phrase `off course` and suggests the correct form `of course`."
 				},
 				"harper.linters.OperativeSystem": {
 					"scope": "resource",
@@ -807,6 +837,12 @@
 					"default": true,
 					"description": "Ensure proper capitalization of Pocket Casts and Pocket Casts Plus as brand names."
 				},
+				"harper.linters.PointIsMoot": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Typo: `moot` (meaning debatable) is correct rather than `mute`."
+				},
 				"harper.linters.PossessiveYour": {
 					"scope": "resource",
 					"type": "boolean",
@@ -865,7 +901,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `sneaking suspicion`."
+					"description": "Changes `sneaky suspicion` to `sneaking suspicion`."
 				},
 				"harper.linters.Somebody": {
 					"scope": "resource",
@@ -907,7 +943,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `special attention`."
+					"description": "Changes `spacial attention` to `special attention`."
 				},
 				"harper.linters.SpellCheck": {
 					"scope": "resource",
@@ -931,7 +967,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `supposed to`."
+					"description": "Fixes `suppose to` to the correct `supposed to`."
 				},
 				"harper.linters.TerminatingConjunctions": {
 					"scope": "resource",
@@ -943,7 +979,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `that challenged`."
+					"description": "Changes `the challenged` to `that challenged` to fix the misspelling."
 				},
 				"harper.linters.ThatThis": {
 					"scope": "resource",
@@ -979,7 +1015,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `thought process`."
+					"description": "Changes `though process` to `thought process`."
 				},
 				"harper.linters.TumblrNames": {
 					"scope": "resource",
@@ -991,7 +1027,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for slight improper modifications to the phrase `turn it off`."
+					"description": "Fixes the mistake in the phrase `turn it off`."
 				},
 				"harper.linters.UnclosedQuotes": {
 					"scope": "resource",
@@ -1041,6 +1077,12 @@
 					"default": true,
 					"description": "Ensures `was aloud` and `were aloud` are corrected to `was allowed` or `were allowed` when referring to permission."
 				},
+				"harper.linters.WaveFunction": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Identifies the mistake of merging `wave` and `function` into one word. In quantum mechanics, a `wave function` (written as two words) describes the mathematical function that represents the quantum state of a particle or system. Correct usage is crucial for clear and accurate scientific communication."
+				},
 				"harper.linters.Whereas": {
 					"scope": "resource",
 					"type": "boolean",
@@ -1058,6 +1100,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `widespread`."
+				},
+				"harper.linters.WillContain": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Incorrect verb form: `will` should be followed by the base form `contain`."
 				},
 				"harper.linters.WordPressDotcom": {
 					"scope": "resource",
