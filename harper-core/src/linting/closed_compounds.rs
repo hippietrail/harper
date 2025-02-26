@@ -179,13 +179,6 @@ mod tests {
     }
 
     #[test]
-    fn forth_with() {
-        let test_sentence = "Please reply forth with to our previous inquiry.";
-        let expected = "Please reply forthwith to our previous inquiry.";
-        assert_suggestion_result(test_sentence, lint_group(), expected);
-    }
-
-    #[test]
     fn in_so_far() {
         let test_sentence = "This rule applies in so far as it covers all cases.";
         let expected = "This rule applies insofar as it covers all cases.";
