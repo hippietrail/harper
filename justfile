@@ -327,10 +327,7 @@ newest-dict-changes *numCommits:
 
   const argv = [...process.argv];
 
-  const showHashes = argv.includes('--show-hashes');
-  if (showHashes) argv.splice(argv.indexOf('--show-hashes'), 1);
-  const showDiff = argv.includes('--show-diff');
-  if (showDiff) argv.splice(argv.indexOf('--show-diff'), 1);
+  const [showHashes, showDiff] = ["--show-hashes", "--show-diff"].map(flag => argv.includes(flag) && argv.splice(argv.indexOf(flag), 1));
 
   // uncomment first line to use in justfile, comment out second line to use standalone
   const numCommits = "{{numCommits}}" || 1;
