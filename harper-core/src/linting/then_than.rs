@@ -26,7 +26,7 @@ impl ThenThan {
                         .then(Invert::new(AnyCapitalization::new(char_string!("that")))),
                 ),
                 // Denotes exceptions to the rule.
-                Box::new(Invert::new(WordSet::new(&["back", "this"]))),
+                Box::new(Invert::new(WordSet::new(&["back", "this", "so"]))),
             ])),
         }
     }
@@ -187,6 +187,15 @@ mod tests {
         assert_lint_count("So let's check it out then.", ThenThan::default(), 0);
         assert_lint_count(
             "And if just the tiniest bit of dirt gets inside then that will wreak havoc.",
+            ThenThan::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allows_issue_744() {
+        assert_lint_count(
+            "So then after talking about how he would, he didn't.",
             ThenThan::default(),
             0,
         );
