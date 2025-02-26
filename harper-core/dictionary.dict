@@ -36,7 +36,7 @@ AOL/2M
 AP/125M
 APB/1
 APC/125
-API/12SM
+API/1SM
 APO/1
 APR/1
 AR/512
@@ -641,6 +641,7 @@ Arturo/M
 Aruba/2M
 Aryan/152MS
 As/1M
+Asahi/2M
 Asama/M
 Ascella/2M
 Ascension/2M
@@ -883,6 +884,7 @@ Ball/2M
 Ballard/2M
 Balthazar/21M
 Baltic/52M
+Baltics/29
 Baltimore/21M
 Baluchistan/2M
 Balzac/2M
@@ -1686,6 +1688,7 @@ Calvinist/15MS
 Calvinistic/5
 Camacho/2M
 Camarillo/2M
+Camaro/12MS
 Cambodia/2M
 Cambodian/51SM
 Cambrian/512SM
@@ -6433,6 +6436,7 @@ McClain/2M
 McClellan/2M
 McClure/2M
 McConnell/2M
+McCormack/2M
 McCormick/2M
 McCoy/21M
 McCray/2M
@@ -6835,6 +6839,7 @@ Mooney/2M
 Moor/12SM
 Moore/2M
 Moorish/5M
+Mopar/2M
 Morales/2M
 Moran/2M
 Moravia/2M
@@ -8091,6 +8096,7 @@ Pusey/2M
 Pushkin/2M
 Pushtu/2M
 Putin/2M
+Putinism/1MS
 Putnam/2M
 Puzo/M
 Pvt
@@ -9918,6 +9924,7 @@ Trujillo/2M
 Truman/2M
 Trumbull/2M
 Trump/2MS
+Trumpian/5
 Trumpism/2M
 Truth/M
 Tsimshian/12M
@@ -15189,7 +15196,7 @@ bugging/41C
 buggy/15RSMT
 bugle/145DRSMZG
 bugler/1M
-build/41SMRZGJ
+build/41SMRZGJAB
 builder/1M
 building/14M
 buildup/1SM
@@ -15535,8 +15542,8 @@ calendar/14MDGS
 calf/1M
 calfskin/1M
 caliber/1SM
-calibrate/4GNDSX
-calibration/1M
+calibrate/4GNDSXA
+calibration/1MA
 calibrator/1SM
 calico/15M
 calicoes/1
@@ -17715,8 +17722,8 @@ concept/14SM
 conception/1SM
 conceptional/5
 conceptual/5Y
-conceptualization/1MS
-conceptualize/4DSG
+conceptualization/1MSA
+conceptualize/4DSGA
 concern/14UMD
 concerned/54UY
 concerning/5+41
@@ -18913,6 +18920,7 @@ crossfire/1MS
 crosshatch/14GDS
 crossing/154SM
 crossly/j
+crossmember/1MS
 crossness/1M
 crossover/15MS
 crosspatch/1MS
@@ -19535,6 +19543,7 @@ declamation/1MS
 declamatory/5
 declaration/1MS
 declarative/51
+declarator/1MS
 declaratory/5
 declare/4DRSZGB
 declared/45U
@@ -20786,7 +20795,7 @@ donning/4
 donnish/5
 donnybrook/15MS
 donor/1SM
-donuts/1
+donut/1SM
 doodad/1SM
 doodah/1
 doodahs/1
@@ -21276,6 +21285,7 @@ dynamiter/1M
 dynamo/1SM
 dynastic/5
 dynasty/1SM
+dyno/1SM
 dysentery/1M
 dysfunction/14MS
 dysfunctional/5
@@ -22164,7 +22174,7 @@ episcopal/5
 episcopate/14M
 episode/1SM
 episodic/5Q
-epistemic/5
+epistemic/5Q
 epistemological/5
 epistemology/1
 epistle/14SM
@@ -23178,6 +23188,7 @@ featherless/5
 featherweight/1MS
 feathery/51TR
 feature/14DSMG
+featureful/5
 featureless/5
 febrile/5
 fecal/5
@@ -23671,6 +23682,7 @@ flatcar/1SM
 flatfeet/9
 flatfish/19MS
 flatfoot/14SMD
+flathead/1SM
 flatiron/15SM
 flatland/1M
 flatlet/1S
@@ -25002,6 +25014,7 @@ geophysics/1M
 geopolitical/4Y
 geopolitics/1M
 geostationary/5
+geostrategic/5
 geosynchronous/5
 geosyncline/1MS
 geothermal/5
@@ -28161,7 +28174,7 @@ indulgent/5Y
 industrial/51Y
 industrialism/1M
 industrialist/1SM
-industrialization/1M
+industrialization/1MC
 industrialize/4DSGA
 industrious/5YP
 industriousness/1M
@@ -28954,6 +28967,7 @@ isolate/415DSMGN
 isolation/1M
 isolationism/1M
 isolationist/51SM
+isolator/1MS
 isomer/1MS
 isomeric/5
 isomerism/1M
@@ -29475,6 +29489,7 @@ killing/514M
 killjoy/1SM
 kiln/14MDSG
 kilo/1MS
+kilobit/1SM
 kilobyte/1SM
 kilocoulomb/S
 kilocycle/1SM
@@ -29652,6 +29667,7 @@ krone/1RM
 kronor/1
 kronur/1
 krypton/1M
+kryptonite/1M
 kt/1
 kuchen/1SM
 kudos/14M
@@ -31641,6 +31657,7 @@ melancholy/15M
 melange/1MS
 melanin/1M
 melanoma/1SM
+melatonin/1M
 meld/41MDSG
 melee/145SM
 meliorate/4GNVDS
@@ -32881,12 +32898,14 @@ multifarious/5PY
 multifariousness/1M
 multiform/51
 multigrain/5
+multilanguage/5
 multilateral/51Y
 multilayered/5
 multilevel/5
 multilingual/51
 multilingualism/1M
 multimedia/15M
+multimeter/1SM
 multimillionaire/1SM
 multinational/51SM
 multipart/5
@@ -33312,7 +33331,9 @@ neoclassicism/1M
 neocolonialism/1M
 neocolonialist/51MS
 neocon/15SM
+neoconservatism/1M
 neoconservative/15SM
+neoconsolativism/1M
 neocortex/1
 neodymium/1M
 neolithic/5
@@ -39128,6 +39149,7 @@ refract/4SGVD
 refraction/1M
 refractory/51SM
 refrain/41SGMD
+reframe/1SDG
 refresh/41ZGLDRS
 refresher/1M
 refreshing/514Y
@@ -41552,6 +41574,7 @@ shibboleth/1M
 shibboleths/1
 shield/14MDGS
 shift/14GMDS
+shifter/1MS
 shiftily/j
 shiftiness/1M
 shiftless/5PY
@@ -41614,6 +41637,7 @@ shirty/5
 shit/154SM!6
 shitfaced/5!6
 shithead/1S!6
+shitless/5!6
 shitload/1!6
 shitted/4!6
 shitting/145!6
@@ -42991,6 +43015,7 @@ speeder/1M
 speedily/j
 speediness/1M
 speeding/451M
+speedo/1MS
 speedometer/1MS
 speedster/1SM
 speedup/1MS
@@ -44028,6 +44053,7 @@ subcontract/41MDSG
 subcontractor/1MS
 subculture/14MS
 subcutaneous/5Y
+subdirectory/1MS
 subdivide/4GDS
 subdivision/14SM
 subdomain/1MS
@@ -47272,6 +47298,7 @@ unmarried/51
 unmeaning/51
 unmentionable/51MS
 unmentionables/1M
+unmerged/5
 unmet/5
 unmindful/5
 unmissable/5
@@ -49896,3 +49923,4 @@ ChatGPT/2M
 amidst/+
 reimagined/4
 coexists/4
+IntelliSense
