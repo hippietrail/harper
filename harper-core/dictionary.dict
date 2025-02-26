@@ -1,4 +1,4 @@
-50100
+50000
 AA/1254M
 AAA/12
 AB/215M
@@ -7904,7 +7904,7 @@ Pliny/2M
 Pliocene/52SM
 Plutarch/21M
 Pluto/2M
-Plymouth/21M
+Plymouth/21MS
 Pm/M
 Po/2M
 Pocahontas/21M
@@ -10105,6 +10105,7 @@ Uzbek/152M
 Uzbekistan/2M
 Uzi/1SM
 V/1+M
+V8/12MS
 VA/215
 VAT/1M
 VAX
@@ -10121,6 +10122,7 @@ VGA/21
 VHF/51M
 VHS/1
 VI/12M
+VIN/1MS
 VIP/1SM
 VISTA
 VJ/142
@@ -11912,6 +11914,7 @@ amoebae/1
 amoebic/5
 amok/14
 among/+
+amongst/+
 amontillado/1SM
 amoral/5Y
 amorality/1M
@@ -13167,6 +13170,7 @@ bacchanalia/1M
 bacchanalian/51MS
 baccy/1
 bachelor/1SM
+bachelorette/1SM
 bachelorhood/1M
 bacillary/5
 bacilli/1
@@ -13627,6 +13631,7 @@ be/m1~
 beach/14MDSG
 beachcomber/1SM
 beachfront/51
+beachgoer/1MS
 beachhead/1MS
 beachwear/1M
 beacon/14SM
@@ -14765,6 +14770,7 @@ boulder/14SM
 boules/1
 boulevard/1SM
 bounce/41DRSMZG
+bounceback/2MS
 bouncer/1M
 bouncily/j
 bounciness/1M
@@ -18626,6 +18632,7 @@ covet/4SDG
 covetous/5YP
 covetousness/1M
 covey/14SM
+covid/1MS
 cow/14ZGSMDR
 coward/154SMY
 cowardice/1M
@@ -18920,6 +18927,7 @@ crossfire/1MS
 crosshatch/14GDS
 crossing/154SM
 crossly/j
+crossmember/1MS
 crossmember/1MS
 crossness/1M
 crossover/15MS
@@ -21184,6 +21192,7 @@ dullness/1M
 dully/j
 duly/U
 dumb/54RYPT
+dumbass/1SM6
 dumbbell/1SM
 dumbfound/4SDG
 dumbness/1M
@@ -25087,6 +25096,7 @@ gift/14MDGS
 gig/14SM
 gigabit/1SM
 gigabyte/1MS
+gigaflop/1MS
 gigagram/1S
 gigahertz/1M
 gigajoule/1S
@@ -26149,6 +26159,7 @@ handmaiden/1M
 handout/15SM
 handover/1S
 handpick/4GDS
+handprint/1SM
 handrail/1MS
 handsaw/1SM
 handset/14SM
@@ -29311,6 +29322,7 @@ junker/1M
 junket/14MDSG
 junketeer/14MS
 junkie/1MTRS
+junky/5
 junkyard/1MS
 junta/1SM
 juridic/5
@@ -29720,6 +29732,7 @@ lager/14M
 laggard/51MYS
 lagged/4
 lagging/514M
+laggy/5
 lagniappe/1SM
 lagoon/1SM
 laid/45IA
@@ -30146,6 +30159,7 @@ lessen/47GD
 lesson/41MS
 lessor/1MS
 let/41ISM
+let's
 letdown/1SM
 lethal/51Y
 lethargic/5Q
@@ -30356,6 +30370,7 @@ lineament/1SM
 linear/51Y
 superlinear/5Y
 linearity/1M
+linearize/4DSGR
 linebacker/1MS
 lined/54U
 linefeed/1
@@ -32426,6 +32441,7 @@ moistness/1M
 moisture/1M
 moisturize/4ZGDRS
 moisturizer/1M
+mojo/1M
 molar/15SM
 molasses/14M
 mold/14MDRJSZG
@@ -33539,6 +33555,7 @@ nitrocellulose/1M
 nitrogen/1M
 nitrogenous/5
 nitroglycerin/1M
+nitrous/1M
 nitwit/1MS
 nix/14GMDS
 no/+1SM
@@ -33848,11 +33865,12 @@ nonstop/51
 nonstrategic/5
 nonstriking/5
 nonstructural/5
+nonsubscriber/1MS
 nonsuccessive/5
 nonsupport/1GM
 nonsurgical/5
 nonsustaining/5
-nonsympathizer/1M
+nonsympathizer/1MS
 nontarnishable/5
 nontaxable/51
 nontechnical/5
@@ -33884,6 +33902,7 @@ nonwhite/51MS
 nonworking/5
 nonyielding/5
 nonzero/51
+noob/1MS
 noodle/14MGDS
 nook/14MS
 nookie/1
@@ -33897,7 +33916,7 @@ nope/14
 nor/71
 nor'easter/1
 norm/14MS
-normal/51MY
+normal/51MYS
 normalcy/1M
 normality/1M
 normalization/12M
@@ -34532,6 +34551,7 @@ optimize/4DRSG
 optimum/15SM
 option/14SMDG
 optional/51Y
+optionality/1M
 optometrist/1MS
 optometry/1M
 opulence/1M
@@ -35021,6 +35041,7 @@ overreach/41GDS
 overreact/4SDG
 overreaction/1SM
 overrefined/45
+overreliance/1M
 overridden/4
 override/41MGS
 overripe/5M
@@ -35403,7 +35424,7 @@ parallel/514SGMD
 paralleled/4U
 parallelism/1MS
 parallelization/1
-parallelized/4
+parallelize/4DSG
 parallelogram/1SM
 paralyses/14
 paralysis/1M
@@ -35869,6 +35890,7 @@ pendulous/5
 pendulum/1MS
 penetrability/1M
 penetrable/5
+penetrant/1SM
 penetrate/4DSGNVX
 penetrating/54Y
 penetration/1M
@@ -37337,6 +37359,7 @@ preamble/14MGDS
 prearrange/4LGDS
 prearrangement/1M
 preassigned/5
+prebuild/4GS
 precancel/41SMDG
 precancerous/5
 precarious/5PY
@@ -38399,7 +38422,7 @@ quantitation/1
 quantitative/5Y
 quantity/1SM
 quantization/1
-quantize/4
+quantize/4SDG
 quantum/15M
 quarantine/142MGDS
 quark/1MS
@@ -39626,6 +39649,7 @@ returnable/51SM
 returnee/1SM
 rev/41ZVM
 revamping/14M
+revanchist/51SM
 reveal/14GJSD
 revealed/54U
 revealing/541Y
@@ -41388,7 +41412,8 @@ shack/145MDSG
 shackle's
 shackle/14UGDS
 shad/1GMDSJ
-shade/14MSR
+shade/14MS
+shader/1MS
 shadily/j
 shadiness/1M
 shading/41M
@@ -44030,6 +44055,7 @@ subdominant/1
 subdue/4DSG
 subeditor/1S
 subfamily/1SM
+subfield/1MS
 subframe/1MS
 subfreezing/5
 subgroup/14MS
@@ -45280,6 +45306,7 @@ tepidness/1M
 tequila/1SM
 terabit/1SM
 terabyte/1MS
+teraflop/1MS
 terahertz/1M
 terajoule/1S
 terapixel/1MS
@@ -46935,6 +46962,7 @@ unaccommodating/5
 unaccountably/j
 unadventurous/5
 unaesthetic/5
+unaffordable/5
 unalterably/j
 unambitious/5
 unanimity/1M
@@ -47675,6 +47703,7 @@ vaunt/41SMDG
 vb/1
 veal/14M
 vector/14SGMD
+vectorize/4DSGR
 veejay/14SM
 veep/1MS
 veer/41MDGS
@@ -49006,7 +49035,7 @@ woefullest/5
 woefulness/1M
 wog/14S
 wok/14SMN
-woke/514
+woke/514P
 wold/15MS
 wolf/14MDSG
 wolfhound/1SM
@@ -49548,7 +49577,7 @@ WebAssembly/M
 Neovim/M
 quartile/1S
 autocomplete/41MS
-GPU/12S
+GPU/1S
 codebase/1S
 LIDAR/1
 LiDAR/1
@@ -49648,7 +49677,7 @@ WAL/21SM
 DSL/1SM
 LTS/1SM
 LVM/SM
-LLVM/1SM
+LLVM/2SM
 PII/1SM
 FIDO/12SM
 PKCS/SM
@@ -49892,4 +49921,6 @@ ChatGPT/2M
 amidst/+
 reimagined/4
 coexists/4
-IntelliSense
+IntelliSense/2M
+Erdogan/2M
+Zig/2M
