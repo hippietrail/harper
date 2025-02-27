@@ -35,6 +35,7 @@ use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::out_of_date::OutOfDate;
+use super::oxymorons::Oxymorons;
 use super::pique_interest::PiqueInterest;
 use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
@@ -252,6 +253,7 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion, true);
         insert_struct_rule!(DespiteOf, true);
         insert_struct_rule!(ChockFull, true);
+        insert_struct_rule!(Oxymorons, true);
         insert_struct_rule!(Hedging, true);
         insert_struct_rule!(ExpandTimeShorthands, true);
         insert_struct_rule!(ModalOf, true);

@@ -1,4 +1,4 @@
-use crate::linting::{Lint, LintKind, PatternLinter, Suggestion};
+use crate::linting::{Lint, LintKind, PatternLinter};
 use crate::patterns::{EitherPattern, ExactPhrase, Pattern};
 use crate::{Token, TokenStringExt};
 
