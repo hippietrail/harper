@@ -56,14 +56,12 @@ impl Default for ModalOf {
         );
 
         Self {
-            pattern: Box::new(
-                EitherPattern::new(vec![
-                    Box::new(anyword_might_of_course),
-                    Box::new(modal_of_course),
-                    Box::new(anyword_might_of),
-                    Box::new(modal_of),
-                ])
-            ),
+            pattern: Box::new(EitherPattern::new(vec![
+                Box::new(anyword_might_of_course),
+                Box::new(modal_of_course),
+                Box::new(anyword_might_of),
+                Box::new(modal_of),
+            ])),
         }
     }
 }
@@ -79,7 +77,13 @@ impl PatternLinter for ModalOf {
             3 => 0,
             5 => {
                 // False positives: modal _ of _ course / adj. _ might _ of / art. _ might _ of
-                let w3_text = matched_toks.last().unwrap().span.get_content(source_chars).iter().collect::<String>();
+                let w3_text = matched_toks
+                    .last()
+                    .unwrap()
+                    .span
+                    .get_content(source_chars)
+                    .iter()
+                    .collect::<String>();
                 if w3_text.as_str() != "of" {
                     return None;
                 }
@@ -98,9 +102,14 @@ impl PatternLinter for ModalOf {
 
         let span_modal_of = matched_toks[modal_index..modal_index + 3].span().unwrap();
 
-        let modal_have = format!("{} have", matched_toks[modal_index].span.get_content_string(source_chars))
-            .chars()
-            .collect();
+        let modal_have = format!(
+            "{} have",
+            matched_toks[modal_index]
+                .span
+                .get_content_string(source_chars)
+        )
+        .chars()
+        .collect();
 
         return Some(Lint {
             span: span_modal_of,
@@ -112,7 +121,6 @@ impl PatternLinter for ModalOf {
             message: "Use `have` rather than `of` here.".to_string(),
             priority: 126,
         });
-
     }
 
     fn description(&self) -> &'static str {
@@ -283,10 +291,6 @@ mod tests {
 
     #[test]
     fn doesnt_catch_to_take_on_the_full_might_of_nato() {
-        assert_lint_count(
-            "To take on the full might of NATO.",
-            ModalOf::default(),
-            0,
-        );
+        assert_lint_count("To take on the full might of NATO.", ModalOf::default(), 0);
     }
 }
