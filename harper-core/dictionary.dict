@@ -3171,6 +3171,7 @@ Er/M
 Erasmus/21M
 Erato/2M
 Eratosthenes/2M
+Erdogan/2M
 Erebus/2M
 Erector/M
 Erewhon/M
@@ -8430,7 +8431,7 @@ Roche/2M
 Rochelle/2M
 Rochester/2M
 Rock/2M
-Rockefeller/21M
+Rockefeller/2MS
 Rockford/2M
 Rockies/21M
 Rockne/M
@@ -9029,6 +9030,7 @@ Shelly/2M
 Shelton/2M
 Shenandoah/2M
 Shenyang/2M
+Shenzhen/2M
 Sheol/2M
 Shepard/2M
 Shepherd/2M
@@ -11907,6 +11909,7 @@ amoebae/1
 amoebic/5
 amok/14
 among/+
+amongst/+
 amontillado/1SM
 amoral/5Y
 amorality/1M
@@ -14285,6 +14288,7 @@ blank/514TGPMDRYS
 blanket/154GMDS
 blankness/1M
 blare/41MGDS
+blaringly/j
 blarney/14SMDG
 blase/5
 blaspheme/41ZGDRS
@@ -14760,6 +14764,7 @@ boulder/14SM
 boules/1
 boulevard/1SM
 bounce/41DRSMZG
+bounceback/1SM
 bouncer/1M
 bouncily/j
 bounciness/1M
@@ -15923,6 +15928,7 @@ cartographic/5
 cartography/1M
 carton/14MS
 cartoon/14SMDG
+cartoonish/5
 cartoonist/1MS
 cartridge/1MS
 cartwheel/14GMDS
@@ -19835,6 +19841,7 @@ deodorant/15SM
 deodorization/1M
 deodorize/4DRSZG
 deodorizer/1M
+deorbit/4GDS
 departed/451M
 department/1MS
 departmental/5Y
@@ -20270,7 +20277,7 @@ diluted/45U
 dilution/1M
 dim/514PSRY
 dime/14MS
-dimension/14SM
+dimension/14SMDG
 dimensional/5
 dimensionless/5
 diminish/4GDS
@@ -23153,6 +23160,7 @@ fauvist/51SM
 faux/5
 fave/514S
 favor/14ESMDG
+favorability/1M
 favorable/5U
 favorably/Uj
 favorite/514SM
@@ -25010,6 +25018,7 @@ geophysics/1M
 geopolitical/4Y
 geopolitics/1M
 geostationary/5
+geostrategic/5
 geosynchronous/5
 geosyncline/1MS
 geothermal/5
@@ -27668,7 +27677,7 @@ imaginal/5
 imaginary/51
 imagination/1MS
 imaginative/5UY
-imagine/41DSBJG
+imagine/41DSBJGA
 imago/1M
 imagoes/1
 imam/1MS
@@ -30554,6 +30563,9 @@ lobe/1MS
 lobotomize/4DSG
 lobotomy/1SM
 lobster/514MS
+lobstering/14M
+lobsterman/1M
+lobstermen/9M
 local/51SMY
 locale/1MS
 locality/1SM
@@ -33906,6 +33918,7 @@ nonwhite/51MS
 nonworking/5
 nonyielding/5
 nonzero/51
+noob/1MS
 noodle/14MGDS
 nook/14MS
 nookie/1
@@ -35078,6 +35091,7 @@ overspecialization/1M
 overspecialize/4GDS
 overspend/41SG
 overspent/45
+overspray/14SMDG
 overspread/4GS
 overstaffed/4
 overstate/4DSLG
@@ -35664,7 +35678,7 @@ pathogen/1SM
 pathogenic/5
 pathological/5Y
 pathologist/1SM
-pathology/1M
+pathology/1MS
 pathos/1M
 paths/14
 pathway/1MS
@@ -36550,6 +36564,7 @@ pinkie/1SM
 pinkish/5
 pinkness/1M
 pinko/1MS
+pinky/1MS
 pinnacle/14SM
 pinnate/5
 pinned/45U
@@ -36723,6 +36738,7 @@ plasterer/1M
 plastic/15SM
 plasticity/1M
 plasticize/4DSG
+plasticky/5
 plastique/1
 plat/145XGMDNS
 plate/14MS
@@ -37182,6 +37198,7 @@ positive/51MYPS
 positiveness/1M
 positivism/1
 positivist/15S
+positivity/1M
 positron/1MS
 poss/54
 posse/1MS
@@ -38911,6 +38928,7 @@ reaper/1M
 rear/451GMDS
 rearguard/1MS
 rearmost/5
+rearview/1SM
 rearward/15S
 reason/14SMDRZGB
 reasonable/5UP
@@ -46226,6 +46244,8 @@ trans/514I
 transact/4DGS
 transaction/1SM
 transactional/5
+transactionalism/1M
+transactionalist/1SM
 transactor/1MS
 transatlantic/5
 transaxle/1SM
@@ -46485,6 +46505,7 @@ trilateral/5S
 trilby/1SM
 trill/145GSMD
 trillion/1SMH
+trillionaire/1SM
 trillionth/51M
 trillionths/1
 trillium/1M
@@ -47247,6 +47268,7 @@ unionism/1M
 unionist/51MS
 unique/51YTRP
 uniqueness/1M
+unironic/5Q
 unisex/51M
 unison/1M
 unitary/51
@@ -47980,6 +48002,7 @@ viola/1SM
 violable/5I
 violate/4GNDSX
 violation/1M
+violative/5
 violator/1SM
 violence/14M
 violent/541Y
@@ -48085,6 +48108,10 @@ vixenish/5Y
 viz/541
 vizier/1SM
 vlf
+vlog/14SMN
+vlogged/4
+vlogger/1MS
+vlogging/4
 vocab/1
 vocable/15MS
 vocabulary/1SM
@@ -49535,6 +49562,7 @@ zoological/5Y
 zoologist/1SM
 zoology/1M
 zoom/14MDSG
+zoomer/1MS
 zoophyte/1SM
 zoophytic/5
 zooplankton/1
