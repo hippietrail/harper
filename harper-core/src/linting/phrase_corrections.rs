@@ -359,6 +359,12 @@ pub fn lint_group() -> LintGroup {
             "Did you mean `got rid of`?",
             "Ensures `got rid of` is used instead of `got rid off`."
         ),
+        "LastButNotLeast" => (
+            ["last but not the least", "last, but not the least", "last but, not least"],
+            ["last but not least"],
+            "Use the more idiomatic phrasing.",
+            "Corrects common errors in the phrase `last but not least`."
+        )
     });
 
     group.set_all_rules_to(Some(true));
@@ -517,5 +523,14 @@ mod tests {
     #[test]
     fn point_is_moot() {
         assert_suggestion_result("Your point is mute.", lint_group(), "Your point is moot.");
+    }
+
+    #[test]
+    fn issue_777() {
+        assert_suggestion_result(
+            "Last but not the least, with VS2013 you can use Web Essentials 2013",
+            lint_group(),
+            "Last but not least, with VS2013 you can use Web Essentials 2013",
+        );
     }
 }
