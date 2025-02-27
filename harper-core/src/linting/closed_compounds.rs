@@ -58,7 +58,6 @@ pub fn lint_group() -> LintGroup {
         "Anyhow"          => ("any how", "anyhow"),
         "Nonetheless"     => ("none the less", "nonetheless"),
         "Thereupon"       => ("there upon", "thereupon"),
-        "Forthwith"       => ("forth with", "forthwith"),
         "Insofar"         => ("in so far", "insofar"),
         "Whereupon"       => ("where upon", "whereupon"),
         "Upward"          => ("up ward", "upward"),
@@ -176,13 +175,6 @@ mod tests {
     fn there_upon() {
         let test_sentence = "A decision was made there upon reviewing the data.";
         let expected = "A decision was made thereupon reviewing the data.";
-        assert_suggestion_result(test_sentence, lint_group(), expected);
-    }
-
-    #[test]
-    fn forth_with() {
-        let test_sentence = "Please reply forth with to our previous inquiry.";
-        let expected = "Please reply forthwith to our previous inquiry.";
         assert_suggestion_result(test_sentence, lint_group(), expected);
     }
 
