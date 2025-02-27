@@ -66,7 +66,7 @@ impl PatternLinter for Oxymorons {
     }
 
     fn description(&self) -> &str {
-        "Flags oxymoronic phrases (e.g. 'amateur expert', 'increasingly less', etc.)."
+        "Flags oxymoronic phrases (e.g. `amateur expert`, `increasingly less`, etc.)."
     }
 }
 

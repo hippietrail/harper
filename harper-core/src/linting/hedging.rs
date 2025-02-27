@@ -38,7 +38,7 @@ impl PatternLinter for Hedging {
     }
 
     fn description(&self) -> &str {
-        "Flags hedging language (e.g. “I would argue that”, “, so to speak”, “to a certain degree”)."
+        "Flags hedging language (e.g. `I would argue that`, `..., so to speak`, `to a certain degree`)."
     }
 }
 
