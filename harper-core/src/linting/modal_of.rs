@@ -111,7 +111,7 @@ impl PatternLinter for ModalOf {
         .chars()
         .collect();
 
-        return Some(Lint {
+        Some(Lint {
             span: span_modal_of,
             lint_kind: LintKind::WordChoice,
             suggestions: vec![Suggestion::replace_with_match_case(
@@ -120,7 +120,7 @@ impl PatternLinter for ModalOf {
             )],
             message: "Use `have` rather than `of` here.".to_string(),
             priority: 126,
-        });
+        })
     }
 
     fn description(&self) -> &'static str {
