@@ -364,6 +364,12 @@ pub fn lint_group() -> LintGroup {
             ["last but not least"],
             "Use the more idiomatic phrasing.",
             "Corrects common errors in the phrase `last but not least`."
+        ),
+        "BlanketStatement" => (
+            ["blanketed statement"],
+            ["blanket statement"],
+            "Use the more idiomatic phrasing.",
+            "Corrects common errors in the phrase `blanket statement`."
         )
     });
 
@@ -531,6 +537,15 @@ mod tests {
             "Last but not the least, with VS2013 you can use Web Essentials 2013",
             lint_group(),
             "Last but not least, with VS2013 you can use Web Essentials 2013",
+        );
+    }
+
+    #[test]
+    fn issue_790() {
+        assert_suggestion_result(
+            "This seems like a blanketed statement and I have not found any info to back up whether PyJWT is affected.",
+            lint_group(),
+            "This seems like a blanket statement and I have not found any info to back up whether PyJWT is affected.",
         );
     }
 }
