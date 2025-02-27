@@ -36,7 +36,7 @@ AOL/2M
 AP/125M
 APB/1
 APC/125
-API/12SM
+API/1SM
 APO/1
 APR/1
 AR/512
@@ -2105,7 +2105,7 @@ Cipro/M
 Circe/2M
 Cisco/2M
 Citibank/2M
-Citigroup/M
+Citigroup/2M
 Citroen/2M
 Cl/1MV
 Claiborne/2M
@@ -2123,6 +2123,7 @@ Clarice/2M
 Clarissa/21M
 Clark/2M
 Clarke/2M
+Clarkson/2MS
 Clarksville/2M
 Claude/2M
 Claudette/M
@@ -3495,6 +3496,7 @@ Formosan/51M
 Forrest/2M
 Forster/2M
 Fortaleza/2M
+Fortran/2M
 Fosse/2M
 Foster/2M
 Fotomat/M
@@ -4108,6 +4110,7 @@ HT/12
 HTML/2M
 HTTP/2
 HUD/12M
+HVAC/1M
 Ha/12M
 Haas/2M
 Habakkuk/2M
@@ -5476,6 +5479,7 @@ Kwan/2M
 Kwangju/2M
 Kwanzaa/2MS
 Ky/12MH
+Kyiv/2M
 Kyle/2M
 Kyoto/2M
 Kyrgyzstan/2M
@@ -7791,6 +7795,7 @@ Petersen/2M
 Peterson/2M
 Petra/2M
 Petrarch/2M
+Petrograd/2M
 Petty/2M
 Peugeot/21M
 Pfc
@@ -8585,6 +8590,7 @@ Russel/2M
 Russell/2M
 Russia/21M
 Russian/514SM
+Russification/1M
 Russo/2M
 Rustbelt/2M
 Rusty/2M
@@ -11487,6 +11493,7 @@ agency/1SM
 agenda/1SM
 agenesis/1
 agent/1AMS
+agentic/5Q
 ageratum/1M
 agglomerate/514DSMGNX
 agglomeration/1M
@@ -11530,6 +11537,7 @@ agoraphobic/15MS
 agrarian/51MS
 agrarianism/1M
 agree/4EBLDS
+agreeance/1M
 agreeableness/1EM
 agreeably/Ej
 agreeing/41E
@@ -13219,6 +13227,7 @@ backslide/41RSZG
 backslider/1M
 backspace/14DSMG
 backspin/14M
+backsplash/14MSDG
 backstabber/1MS
 backstabbing/41
 backstage/51M
@@ -14383,6 +14392,7 @@ blog/14SM
 blogged/4
 blogger/1MS
 blogging/14
+blogosphere/1MS
 bloke/1MS
 blokish/5
 blond/514PTMRS
@@ -18285,6 +18295,7 @@ copilot/14SM
 coping/14M
 copious/5PY
 copiousness/1M
+copium/1M
 copped/45
 copper/154SM
 copperhead/1SM
@@ -18547,6 +18558,7 @@ counteroffensive/15SM
 counteroffer/14SM
 counterpane/1SM
 counterpart/14SM
+counterparty/1SM
 counterpetition/14
 counterpoint/14MDGS
 counterpoise/14MGDS
@@ -18562,6 +18574,7 @@ counterstroke/1SM
 counterstruck/4
 countersunk/45
 countertenor/1MS
+countertop/1MS
 countervail/4GSD
 counterweight/14MS
 countess/1MS
@@ -18689,7 +18702,7 @@ crackling/154M
 crackpot/15MS
 crackup/1SM
 cradle/14DSMG
-craft/14SMDG
+craft/14SMDGR
 craftily/j
 craftiness/1M
 craftsman/1M
@@ -19444,6 +19457,7 @@ deal/145SJZGMR
 dealer/1M
 dealership/1SM
 dealing/14M
+dealmaker/1MS
 dealt/4
 dean/14M
 deanery/1SM
@@ -19823,6 +19837,7 @@ denounce/4LDSG
 denouncement/1SM
 dense/51PYTR
 denseness/1M
+densification/1M
 density/1SM
 dent/14ISGMD
 dental/51Y
@@ -24180,6 +24195,7 @@ formulate/4ADSGNX
 formulated/4U
 formulation/1AM
 formulator/1SM
+formwork/1M
 fornicate/54GNDS
 fornication/1M
 fornicator/1MS
@@ -24995,6 +25011,7 @@ geode/1SM
 geodesic/15SM
 geodesy/1M
 geodetic/5
+geoeconomics/1M
 geoengineering/1
 geog/1
 geographer/1SM
@@ -27495,6 +27512,7 @@ hypnotism/1M
 hypnotist/1MS
 hypnotize/4GDS
 hypo/14MS
+hypomanic/5
 hypoallergenic/5
 hypochondria/1M
 hypochondriac/51SM
@@ -30952,6 +30970,7 @@ mackinaw/1SM
 mackintosh/1MS
 macrame/14M
 macro/51SM
+macroaggregate/1M
 macrobiotic/5S
 macrobiotics/1M
 macrocosm/1SM
@@ -31833,6 +31852,7 @@ metabolize/4DSG
 metacarpal/51SM
 metacarpi/1
 metacarpus/1M
+metacognition/1M
 metadata/1
 metal/154SMD
 metalanguage/1MS
@@ -32701,6 +32721,7 @@ mortarboard/1SM
 mortgage's
 mortgage/14AGDS
 mortgagee/1MS
+mortgager/1MS
 mortgagor/1MS
 mortician/1MS
 mortification/1M
@@ -32903,6 +32924,7 @@ multifamily/51
 multifarious/5PY
 multifariousness/1M
 multiform/51
+multigenerational/5
 multigrain/5
 multilateral/51Y
 multilayered/5
@@ -34115,6 +34137,7 @@ nutritionist/1SM
 nutritious/5YP
 nutritiousness/1M
 nutritive/51
+nutsack/1MS
 nutshell/14MS
 nutted/4
 nutter/1S
@@ -35083,7 +35106,7 @@ oversight/14SM
 oversimple/5
 oversimplification/1M
 oversimplify/4DSNGX
-oversize/541
+oversize/541DSG
 oversleep/4GS
 overslept/4
 oversold/5
@@ -37541,7 +37564,7 @@ prepend/41
 preponderance/1SM
 preponderant/5Y
 preponderate/4GDS
-preposition/14SM
+preposition/14SMD
 prepositional/51Y
 prepossess/4GDS
 prepossessing/5U
@@ -37916,6 +37939,7 @@ proofreader/1M
 prop/14MS
 propaganda/1M
 propagandist/15MS
+propagandistic/5Q
 propagandize/4GDS
 propagate/4DSGN
 propagation/1M
@@ -38965,6 +38989,7 @@ receivables/1M
 receive/41DRSZGB
 receiver/1M
 receivership/1M
+recency/1M
 recent/51RYTP
 recentness/1M
 receptacle/1SM
@@ -40130,6 +40155,7 @@ rubbing/14S
 rubbish/154MDSG
 rubbishy/5
 rubble/1M
+rubblestone/1M
 rubdown/1SM
 rube/1MS
 rubella/1M
@@ -43194,6 +43220,8 @@ spool/14SMDG
 spoon/14SMDG
 spoonbill/1MS
 spoonerism/1MS
+spoonfed/45
+spoonfeed/4SG
 spoonful/1SM
 spoor/14SMDG
 sporadic/5Q
@@ -44293,6 +44321,7 @@ sultry/5RPT
 sum/14SM
 sumac/14M
 summarily/j
+summarization/1MS
 summarize/4GDS
 summary/51SM
 summat/8
@@ -46382,6 +46411,7 @@ traveling/415M
 travelogue/1MS
 traversal/1SM
 traverse/145DSMG
+travertine/1SM
 travesty/14GDSM
 trawl/14ZGSMDR
 trawler/1M
@@ -47219,6 +47249,7 @@ unflinching/5Y
 unforgettably/j
 unforgivably/j
 unfortunate/51MS
+unfree/5
 unfriendly/51T
 unfrock/4DG
 unfruitful/5
