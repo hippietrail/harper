@@ -450,7 +450,7 @@ Anglican/51SM
 Anglicanism/1MS
 Anglicism/1MS
 Anglicization/1
-Anglicize
+Anglicize/4GDS
 Anglo/1M
 Anglophile/15M
 Anglophobe/1
@@ -853,7 +853,7 @@ Baguio/2M
 Baha'i/15M
 Baha'ullah/2M
 Bahama/51SM
-Bahamanian
+Bahamanian/51MS
 Bahamas/2M
 Bahamian/51MS
 Bahia/2M
@@ -1625,7 +1625,7 @@ CPA/1M
 CPI/12M
 CPO/1
 CPR/12M
-CPU/1M
+CPU/1MS
 CRT/1SM
 CSS/12M
 CST/21M
@@ -2015,9 +2015,10 @@ Chesterfield/21M
 Chesterton/2M
 Chevalier/M
 Cheviot/1M
-Chevrolet/2M
+Chevrolet/12MS
 Chevron/2M
 Chevy/21M
+Chevys/9
 Cheyenne/12SM
 Chi/21M
 Chianti/1MS
@@ -7899,7 +7900,7 @@ Pliny/2M
 Pliocene/52SM
 Plutarch/21M
 Pluto/2M
-Plymouth/21M
+Plymouth/21MS
 Pm/M
 Po/2M
 Pocahontas/21M
@@ -11563,6 +11564,7 @@ airbag/1MS
 airbase/1SM
 airbed/1S
 airborne/51
+airbox/1SM
 airbrush/14MDSG
 airbus/1MS
 aircraft/1M
@@ -13853,7 +13855,7 @@ bemuse/4LGDS
 bemused/45Y
 bemusement/1M
 bench/14GMDS
-benchmark/14MS
+benchmark/14MSGD
 bend/41BSZGMR
 bender/1M
 bendy/51TR
@@ -15794,6 +15796,7 @@ carboy/14MS
 carbuncle/1SM
 carbuncular/5
 carburetor/1SM
+carby/1MS
 carcass/1MS
 carcinogen/1SM
 carcinogenic/51MS
@@ -16783,7 +16786,7 @@ circular/514SMY
 circularity/1M
 circularize/4DSG
 circulate/4ADSG
-circulation/1SM
+circulation/1SMA
 circulatory/51
 circumcise/4XDSGN
 circumcised/541U
@@ -17586,7 +17589,7 @@ compartmentalize/4DSG
 compass/14GMDS
 compassion/14M
 compassionate/54Y
-compatibility/1IM
+compatibility/1IMS
 compatible/51IMS
 compatibly/Ij
 compatriot/15MS
@@ -21048,7 +21051,8 @@ drip/41MS
 dripped/4
 dripping/14SM
 drippy/5TR
-drive/41RSMZGJ
+drivability/1M
+drive/41RSMZGB
 drivel/14SZGMDR
 driveler/1M
 driven/45
@@ -22433,6 +22437,7 @@ evangelistic/5
 evangelize/4GDS
 evaporate/4GNDS
 evaporation/1M
+evaporative/5
 evaporator/1SM
 evasion/1SM
 evasive/5YP
@@ -23304,6 +23309,8 @@ fetish/1MS
 fetishism/1M
 fetishist/1SM
 fetishistic/5
+fetishization/1M
+fetishize/4DSG
 fetlock/1MS
 fetter's
 fetter/14USGD
@@ -24726,6 +24733,7 @@ gambler/1M
 gambling/41M
 gambol/41SMDG
 game/154MYTGDRSP
+gamechanger/1MS
 gamecock/1MS
 gamekeeper/1MS
 gameness/1M
@@ -25518,6 +25526,7 @@ grandiloquence/1M
 grandiloquent/5
 grandiose/5Y
 grandiosity/1M
+grandkid/1MS
 grandma/14MS
 grandmaster/1SM
 grandmother/1MYS
@@ -28589,6 +28598,7 @@ intercommunication/1M
 interconnect/41GDS
 interconnection/1SM
 intercontinental/5
+intercooler/1MS
 intercourse/14M
 intercultural/5
 interdenominational/5
@@ -28798,7 +28808,7 @@ inverse/514SMY
 invert/415SMDRZG
 inverter/1M
 invest/41ASDGL
-investigate/4NVDSX
+investigate/4NVDSXG
 investigation/1M
 investigator/1SM
 investigatory/5
@@ -31943,7 +31953,8 @@ microsurgery/51M
 microwave/14DSMGB
 microwaveable/5
 mid/5+1
-midair/51M
+midair/5
+midcentury/5
 midday/1M
 midden/1MS
 middle/154MGS
@@ -33838,6 +33849,7 @@ nonsegregated/5
 nonsense/145M
 nonsensical/5Y
 nonsensitive/5
+nonsequential/5Y
 nonsexist/51
 nonsexual/5
 nonskid/5
@@ -37960,7 +37972,7 @@ prosperous/5Y
 prostate/15MS
 prostheses/9
 prosthesis/1M
-prosthetic/51
+prosthetic/51MSQ
 prostitute/451MGNDS
 prostitution/1M
 prostrate/54GNXDS
@@ -39080,6 +39092,7 @@ reefer/1M
 reek/14GMDS
 reel's
 reel/14UGDS
+reentrant/5
 reeve/14G
 reexport/41SDG
 ref/14SZM
@@ -41295,8 +41308,8 @@ serif/15MS
 serigraph/1M
 serigraphs/1
 serine/1
-serious/5PY
-seriousness/1M
+serious/5PYU
+seriousness/1MU
 sermon/14SM
 sermonize/4GDS
 serology/1M
@@ -43459,6 +43472,7 @@ stat/514MS
 state/145DRSMYGNLX
 statecraft/1M
 stated/45U
+stateful/5Y
 statehood/1M
 statehouse/1MS
 stateless/5P
@@ -48362,6 +48376,7 @@ waste/154DRSMZG
 wastebasket/14MS
 wasteful/5PY
 wastefulness/1M
+wastegate/1MS
 wasteland/1SM
 wastepaper/1M
 waster/1M
@@ -49265,6 +49280,8 @@ wurst/1SM
 wuss/14MS
 wussy/51RSMT
 x/57
+x64/1M
+x86/1M
 xci
 xcii
 xciv
@@ -49652,7 +49669,7 @@ WAL/21SM
 DSL/1SM
 LTS/1SM
 LVM/SM
-LLVM/1SM
+LLVM/1M
 PII/1SM
 FIDO/12SM
 PKCS/SM
@@ -49896,3 +49913,4 @@ ChatGPT/2M
 amidst/+
 reimagined/4
 coexists/4
+Minecraft/2M
