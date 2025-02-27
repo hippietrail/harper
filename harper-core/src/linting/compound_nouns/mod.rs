@@ -270,6 +270,7 @@ mod tests {
     #[test]
     fn allows_issue_722() {
         assert_lint_count("Leaving S and K alone.", CompoundNouns::default(), 0);
+        assert_lint_count("Similarly an S with a line.", CompoundNouns::default(), 0);
     }
 
     #[test]
