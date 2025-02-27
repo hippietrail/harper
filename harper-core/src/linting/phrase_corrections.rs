@@ -334,7 +334,31 @@ pub fn lint_group() -> LintGroup {
             ["hunger pang"],
             "Did you mean `hunger pang`?",
             "Corrects `hunger pain` to `hunger pang`."
-        )
+        ),
+        "GetRidOff" => (
+            ["get rid off"],
+            ["get rid of"],
+            "Did you mean `get rid of`?",
+            "Ensures `get rid of` is used instead of `get rid off`."
+        ),
+        "GetsRidOff" => (
+            ["gets rid off"],
+            ["gets rid of"],
+            "Did you mean `gets rid of`?",
+            "Ensures `gets rid of` is used instead of `gets rid off`."
+            ),
+        "GettingRidOff" => (
+            ["getting rid off"],
+            ["getting rid of"],
+            "Did you mean `getting rid of`?",
+            "Ensures `getting rid of` is used instead of `getting rid off`."
+        ),
+        "GotRidOff" => (
+            ["got rid off"],
+            ["got rid of"],
+            "Did you mean `got rid of`?",
+            "Ensures `got rid of` is used instead of `got rid off`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -347,6 +371,37 @@ mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::lint_group;
+
+    // todo: 4 tests: get/gets/getting rid off
+    #[test]
+    fn get_rid_off() {
+        assert_suggestion_result(
+            "Please bump axios version to get rid off npm warning #624",
+            lint_group(),
+            "Please bump axios version to get rid of npm warning #624",
+        );
+    }
+    fn gets_rid_off() {
+        assert_suggestion_result(
+            "Adding at as a runtime dependency gets rid off that error",
+            lint_group(),
+            "Adding at as a runtime dependency gets rid of that error",
+        );
+    }
+    fn getting_rid_off() {
+        assert_suggestion_result(
+            "getting rid off of all the complexity of the different accesses method of API service providers",
+            lint_group(),
+            "getting rid of of all the complexity of the different accesses method of API service providers",
+        );
+    }
+    fn got_rid_off() {
+        assert_suggestion_result(
+            "For now we got rid off circular deps in model tree structure and it's API.",
+            lint_group(),
+            "For now we got rid of circular deps in model tree structure and it's API.",
+        );
+    }
 
     #[test]
     fn issue_574() {
