@@ -245,4 +245,12 @@ mod tests {
             TestResult::discard()
         }
     }
+
+    #[test]
+    fn united_states() {
+        assert_eq!(
+            make_title_case_str("united states", &PlainEnglish, &FstDictionary::curated()),
+            "United States"
+        )
+    }
 }
