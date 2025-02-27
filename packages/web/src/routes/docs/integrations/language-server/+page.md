@@ -192,7 +192,7 @@ These configs are under the `markdown` key:
 {
 	"harper-ls": {
 		"markdown": {
-			// Your markdown go here...
+			// Your Markdown configs go here...
 		}
 	}
 }
