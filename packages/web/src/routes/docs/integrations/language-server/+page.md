@@ -180,9 +180,9 @@ These configs are under the `codeActions` key:
 }
 ```
 
-| Config        | Type      | Default Value | Description                                                                                                                                                                                                                                      |
-| ------------- | --------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `ForceStable` | `boolean` | `false`       | Make code actions appear in "stable" positions by placing code actions that should always be available, like adding misspelled words in the dictionary, first. See [issue #89](https://github.com/automattic/harper/issues/89) for more details. |
+| Config        | Type      | Default Value | Description                                                                                                                                                    |
+| ------------- | --------- | ------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `ForceStable` | `boolean` | `false`       | Make code actions appear in "stable" positions by placing code actions that should always be available, like adding misspelled words in the dictionary, first. |
 
 ### Markdown
 
@@ -198,9 +198,9 @@ These configs are under the `markdown` key:
 }
 ```
 
-| Config            | Type      | Default Value | Description                                                                                                   |
-| ----------------- | --------- | ------------- | ------------------------------------------------------------------------------------------------------------- |
-| `IgnoreLinkTitle` | `boolean` | `false`       | Skip linting link titles. See [issue #104](https://github.com/automattic/harper/issues/104) for more details. |
+| Config            | Type      | Default Value | Description               |
+| ----------------- | --------- | ------------- | ------------------------- |
+| `IgnoreLinkTitle` | `boolean` | `false`       | Skip linting link titles. |
 
 ### Other Configs
 

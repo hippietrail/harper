@@ -155,7 +155,8 @@ export default defineConfig({
 						'toml',
 						'rust',
 						'lua',
-						'json'
+						'json',
+						'elisp'
 					]
 				}
 			})
