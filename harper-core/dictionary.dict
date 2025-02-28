@@ -1183,7 +1183,7 @@ Bib
 Bible/21MS
 Bic/21M
 Biddle/2M
-Biden/2M
+Biden/2MS
 Bierce/2M
 BigQuery/M
 Bigfoot/214M
@@ -6038,6 +6038,7 @@ MN/21
 MO/215
 MOOC/1
 MP/125M
+MP3/1SM
 MPEG/21
 MRI/14M
 MS/12M
@@ -10314,6 +10315,7 @@ Volvo/21M
 Vonda/2M
 Vonnegut/2M
 Voronezh/2M
+Voronoi/2M
 Vorster/2M
 Voyager/M
 Vuitton/2M
@@ -17017,6 +17019,7 @@ clicker/1M
 clicky/5RT
 client/1MS
 clientele/1MS
+clientelism/1M
 cliff/1MS
 cliffhanger/1SM
 cliffhanging/45
@@ -17534,6 +17537,7 @@ comment/14GSMD
 commentary/1SM
 commentate/4DSG
 commentator/1SM
+commenter/1SM
 commerce/14M
 commercial/15SMY
 commercialism/1M
@@ -19722,6 +19726,7 @@ deg/14
 degeneracy/1M
 degenerate/514MV
 degrade/4B
+degrease/4GDSR
 degree/1MS
 dehydrator/1SM
 dehydrogenase/1
@@ -22586,7 +22591,7 @@ exceptionalism/1
 excerpt/14MDGS
 excess/154VMS
 excessive/5Y
-exchange/14DSMG
+exchange/14DSMGR
 exchangeable/51
 exchequer/14SM
 excise/14XDSMGN
@@ -25010,7 +25015,7 @@ genning/4
 genocidal/5
 genocide/14MS
 genome/1MS
-genomics/1
+genomic/1S
 genre/14SM
 gent/15AMS
 genteel/5YP
@@ -26056,6 +26061,7 @@ hackney/154SMDG
 hacksaw/14SM
 hacktivist/1MS
 hackwork/1M
+hacky/5RT
 had/4
 haddock/1SM
 hadith/1
@@ -26073,7 +26079,7 @@ haggler/1M
 hagiographer/1SM
 hagiography/1SM
 hahnium/1M
-haiku/1M
+haiku/1MS
 hail/145MDGS
 hailstone/1MS
 hailstorm/1MS
@@ -30757,6 +30763,7 @@ loser/1M
 losing/451M
 loss/14MS
 lossless/5
+lossy/5RT
 lost/45
 lot/14SM
 lotion/14SM
@@ -33238,6 +33245,8 @@ nationalize/4CDSG
 nationhood/1M
 nationwide/5
 native/51MSY
+nativism/1M
+nativist/51SM
 nativity/1SM
 natl/5
 natter/41GMDS
@@ -41004,6 +41013,7 @@ sculptural/5
 sculpture/14DSMG
 scum/14MS
 scumbag/1MS
+scumble/14SGD
 scummed/4
 scumming/1
 scummy/5TR
@@ -44881,6 +44891,7 @@ systematical/5Y
 systematization/1M
 systematize/4GDS
 systemic/5MSQ
+systemwide/5
 systole/1SM
 systolic/51
 t/1SDNXGBJ
@@ -46628,6 +46639,7 @@ tripos/1
 tripped/4
 tripper/1SM
 tripping/451
+trippy/5ST
 triptych/1M
 triptychs/1
 tripwire/14S
