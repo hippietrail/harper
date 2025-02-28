@@ -370,7 +370,13 @@ pub fn lint_group() -> LintGroup {
             ["blanket statement"],
             "Use the more idiomatic phrasing.",
             "Corrects common errors in the phrase `blanket statement`."
-        )
+        ),
+        "SpokeTooSoon" => (
+            ["spoke to soon"],
+            ["spoke too soon"],
+            "Use the adverb `too` instead.",
+            "Identifies common misuse of the preposition `to` in the phrase `spoke too soon`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));

@@ -14,6 +14,7 @@ use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::chock_full::ChockFull;
 use super::compound_nouns::CompoundNouns;
+use super::confident::Confident;
 use super::correct_number_suffix::CorrectNumberSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
@@ -253,6 +254,7 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion, true);
         insert_struct_rule!(DespiteOf, true);
         insert_struct_rule!(ChockFull, true);
+        insert_struct_rule!(Confident, true);
         insert_struct_rule!(Oxymorons, true);
         insert_struct_rule!(Hedging, true);
         insert_struct_rule!(ExpandTimeShorthands, true);
