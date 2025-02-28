@@ -1,4 +1,4 @@
-50000
+50100
 AA/1254M
 AAA/12
 AB/215M
@@ -1632,6 +1632,7 @@ CRT/1SM
 CSS/12M
 CST/21M
 CT/2145M
+CUDA/21M
 CV/125
 CVS/12M
 CZ/1
@@ -4629,6 +4630,7 @@ ICC/2
 ICU/12
 ID/1245SM
 IDE/1
+IDF/2M
 IE/215
 IED/1
 IEEE/2
@@ -11274,6 +11276,7 @@ admin/14S
 administer/4DGS
 administrate/4XDSGNV
 administration/1M
+administrational/5
 administrative/5Y
 administrator/1MS
 admirably/j
@@ -13207,6 +13210,9 @@ backdrop/14MS
 backer/15M
 backfield/1SM
 backfire/41MGDS
+backflip/41MS
+backflipped/4
+backflipping/41M5
 backgammon/14M
 background/514MRZS
 backgrounder/1M
@@ -14884,6 +14890,7 @@ brainteaser/1SM
 brainwash/14DSG
 brainwashing/14M
 brainwave/1S
+brainworm/1SM
 brainy/5PTR
 braise/14GDS
 brake/14MGDS
@@ -17005,6 +17012,7 @@ cliche/14MDS
 click/14BZGMDRS
 clickbait/14
 clicker/1M
+clicky/5RT
 client/1MS
 clientele/1MS
 cliff/1MS
@@ -22029,6 +22037,7 @@ enjambment/1SM
 enjoin/4SGD
 enjoy/4GBLSD
 enjoyably/j
+enjoyer/1SM
 enjoyment/1SM
 enlarge/4LZGDRS
 enlargeable/5
@@ -22983,6 +22992,7 @@ factorize/4GDS
 factory/15SM
 factotum/1SM
 factual/51Y
+factuality/1M
 faculty/1SM
 fad/1GSMD
 faddish/5P
@@ -24969,7 +24979,7 @@ generalize/4GDS
 generalship/1M
 generate/4CAVNGSD
 generation/1ACM
-generational/5
+generational/5Y
 generations/1
 generator/1SM
 generic/51SMQ
@@ -28299,8 +28309,9 @@ inflectional/5
 inflict/4SDGV
 infliction/1M
 inflow/14SM
-influence/14MGDSR
+influence/14MGDS
 influenced/45U
+influencer/1SM
 influential/51Y
 influenza/1M
 info/1M
@@ -29465,6 +29476,7 @@ keybinding/1S
 keyboard/14ZGSMDR
 keyboarder/1M
 keyboardist/1SM
+keycap/1SM
 keyhole/14MS
 keynote/14MZGDRS
 keynoter/1M
@@ -30598,6 +30610,7 @@ locator/1MS
 locavore/1SM
 loci/1
 lock/14MDRSBZG
+lockdown/1MS
 locker/1M
 locket/1MS
 lockjaw/1M
@@ -31079,6 +31092,7 @@ mailmen/9
 mailshot/14S
 maim/41DSG
 main/541MYS
+mainboard/1SM
 mainframe/1SM
 mainland/1MS
 mainline/541MGDS
@@ -32151,6 +32165,7 @@ minibus/1MS
 minicab/14S
 minicam/1MS
 minicomputer/1SM
+minify/4GDS
 minifloppies/1
 minim/1SM
 minima/1
@@ -35013,6 +35028,7 @@ overflown/4
 overfly/4GS
 overfond/5
 overfull/51
+overfund/4DGS
 overgeneralize/4DSG
 overgenerous/5
 overgraze/4DSG
@@ -35086,6 +35102,8 @@ overreact/4SDG
 overreaction/1SM
 overrefined/45
 overreliance/1M
+overrepresent/4GDS
+overrepresentation/1M
 overridden/4
 override/41MGS
 overripe/5M
@@ -36415,6 +36433,9 @@ photojournalist/1SM
 photometer/14MS
 photon/1MS
 photosensitive/5
+photoshop/4S
+photoshopped/4
+photoshopping/4
 photostat/14SM
 photostatic/5
 photostatted/4
@@ -39088,6 +39109,7 @@ recuperation/1M
 recur/4S
 recurred/4
 recurrence/1SM
+recurse/4DSG
 recurring/451
 recursion/1S
 recuse/4DSG
@@ -39291,6 +39313,7 @@ reinitialize/4
 reinstall/41DG
 reinstatement/1M
 reinsurance/1
+reinvade/4DGS
 reiterate/451V
 reject/41GSMD
 rejection/1SM
@@ -41455,6 +41478,7 @@ sexton/1MS
 sextuplet/1SM
 sexual/51Y
 sexuality/1M
+sexualize/4GDS
 sexy/5PTR
 sf/1
 sh/
@@ -44153,6 +44177,7 @@ submit/4AS
 submitted/4A
 submitter/1
 submitting/41A
+subnode/1SM
 subnormal/51
 suborbital/51
 suborder/14MS
@@ -44227,6 +44252,7 @@ subtotal/145SGMD
 subtract/4GSD
 subtraction/1SM
 subtrahend/1SM
+subtree/1SM
 subtropic/1S
 subtropical/51
 subtropics/1M
@@ -44444,6 +44470,7 @@ superhighway/1SM
 superhuman/51
 superimpose/4GDS
 superimposition/1M
+superintelligence/1SM
 superintend/4DSG
 superintendence/1M
 superintendency/1M
@@ -44589,6 +44616,7 @@ survival/1SM
 survivalist/1SM
 survive/4DSGB
 survivor/1SM
+survivorship/1SM
 susceptibility/1SM
 susceptible/51I
 sushi/1M
@@ -44930,6 +44958,7 @@ taint/14MDSG
 tainted/54U
 take/41AIMS~
 takeaway/51S
+takedown/1SM
 taken/54A
 takeoff/1MS
 takeout/51MS
@@ -47222,6 +47251,7 @@ underwriter/1M
 underwritten/4
 underwrote/4
 undesirable/51MS
+undiagnosed/5
 undies/14M
 undo/415
 undoubted/5Y
@@ -47312,6 +47342,7 @@ unintended/5
 uninteresting/5
 uninterrupted/5Y
 uninterruptible/5
+uninvested/5
 uninviting/5
 union/145ASM
 unionism/1M
@@ -47372,6 +47403,7 @@ unobservant/5
 unoffensive/5
 unofficial/5Y
 unoriginal/51
+unpause/4DSG
 unpeople/49
 unperceptive/5
 unpersuasive/5
@@ -48475,7 +48507,7 @@ watchmen/9
 watchstrap/1S
 watchtower/1SM
 watchword/1MS
-water/14GSMD
+water/14GSMDR
 waterbed/1MS
 waterbird/1SM
 waterboard/14MDJSG
@@ -49829,7 +49861,7 @@ Harper/SM
 a8c/SM
 a11n/1
 a12s/9
-intergenerational
+intergenerational/5
 etc.
 vs.
 et al.
@@ -49868,6 +49900,7 @@ BYD/2MS
 caddy/1SM
 CCP/2S
 CEO/1SM
+CERN/2M
 ciphertext/1MS
 clickjack/4SGD
 const/S
@@ -49894,6 +49927,7 @@ maximalist/1MS
 merchantability/1
 microarchitecture/1MS
 MSNBC/2M
+neoliberal/51SM
 neoliberalism/1M
 Nvidia/2M
 NYU/2M
