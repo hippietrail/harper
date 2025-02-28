@@ -7705,6 +7705,7 @@ Paul/2GM
 Paula/2M
 Paulette/2M
 Pauli/2M
+Paulina/2M
 Pauline/25M
 Pauling/21M
 Pavarotti/M
@@ -11080,7 +11081,7 @@ acculturation/1M
 accumulate/45XGNVDS
 accumulation/1M
 accumulator/1MS
-accuracy/1IM
+accuracy/1IMS
 accurate/5IY
 accurateness/1M
 accursed/54P
@@ -11894,6 +11895,7 @@ amendment/1SM
 amenity/1SM
 amerce/4GLDS
 amercement/1SM
+americano/1MS
 americium/1M
 amethyst/15SM
 amiability/1M
@@ -18044,6 +18046,7 @@ consortium/1M
 conspectus/1MS
 conspicuous/5IPY
 conspicuousness/1IM
+conspiracist/1MS
 conspiracy/14SM
 conspirator/1MS
 conspiratorial/5Y
@@ -27607,6 +27610,7 @@ idealist/1SM
 idealistic/5Q
 idealization/1MS
 idealize/4DSG
+ideation/1SM
 idem/8
 idempotent/51
 identical/51Y
@@ -27934,6 +27938,7 @@ impotence/1M
 impotency/1M
 impotent/51Y
 impound/41DGS
+impoundment/1SM
 impoverish/4DSLG
 impoverishment/1M
 impracticability/1
@@ -29717,7 +29722,7 @@ l/1SDXTGJ
 la/15M
 lab/1SM
 label's
-label/14ASDG
+label/14ASDGR
 labeled/54U
 labia/1
 labial/51SM
@@ -31468,6 +31473,7 @@ masturbatory/5
 mat/145SZGMDR
 matador/1SM
 match/14AMS
+matcha/1M
 matchbook/1SM
 matchbox/1MS
 matched/41U
@@ -31615,6 +31621,7 @@ mechanistic/5
 mechanistically/j
 mechanization/1M
 mechanize/4DSG
+med/1MS
 medal/14SM
 medalist/1MS
 medallion/14SM
@@ -34141,6 +34148,7 @@ nursling/1SM
 nurture/14DRSMZG
 nurturer/1M
 nut/14SM
+nutbag/1MS
 nutcase/1S
 nutcracker/1MS
 nuthatch/1MS
@@ -43854,6 +43862,7 @@ stormy/5RPT
 story/14DSM
 storyboard/14MS
 storybook/15SM
+storylines/1MS
 storyteller/1MS
 storytelling/1M
 stoup/14SM
@@ -46001,6 +46010,8 @@ toilsome/5
 toke/14MGDS
 token/154SM
 tokenism/1M
+tokenize/4DSG
+tokenizer/1MS
 told/4AU
 tole/14M
 tolerable/5I
@@ -46254,6 +46265,7 @@ tractor/14FCKMS
 trad/51
 trade/145JDRSMZG
 trademark/145SGMD
+tradeoff/1SM
 trader/1M
 tradesman/1M
 tradesmen/9
@@ -46360,6 +46372,7 @@ transgender/514S
 transgenic/51
 transgress/4GDS
 transgression/1SM
+transgressive/1SM
 transgressor/1SM
 transhumanism/1M
 transience/1M
@@ -49246,7 +49259,7 @@ workday/15SM
 worker/1MS
 workfare/1M
 workflow/1MS
-workforce/1M
+workforce/1MS
 workhorse/1SM
 workhouse/14SM
 working's
