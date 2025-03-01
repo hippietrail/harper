@@ -7164,6 +7164,7 @@ Neva/2M
 Nevada/2M
 Nevadan/15SM
 Nevadian/51
+Neville/2M
 Nevis/2M
 Nevsky/M
 Newark/2M
@@ -7529,6 +7530,7 @@ Otto/2M
 Ottoman/15M
 Ouagadougou/2M
 Ouija/1MS
+Overton/2M
 Ovid/2M
 Owen/2SM
 Owens/2M
@@ -7555,7 +7557,7 @@ PCB/1
 PCMCIA/2
 PCP/1M
 PD/12
-PDF/214
+PDF/1S
 PDQ/
 PDT/21
 PE/21
@@ -8275,7 +8277,6 @@ Re/2M
 Reading/2M
 Reagan/2M
 Reaganomics/1M
-Realtor/M
 Reasoner/2M
 Reba/2M
 Rebecca/2M
@@ -17364,6 +17365,7 @@ collard/1SM
 collarless/5
 collate/4DSXGN
 collateral/51MY
+collateralization/1M
 collateralize/4
 collation/14M
 collator/1MS
@@ -23972,7 +23974,7 @@ foil/14MDGS
 foist/415SDG
 fol
 fold's
-fold/41AUSGD
+fold/41AUSGDB
 foldaway/51
 folder/1SM
 foldout/15MS
@@ -30059,6 +30061,8 @@ leash/14UDSG
 least/15M
 leastwise/
 leather/154MS
+leatherman/1M
+Leatherman/2M
 leatherette/1M
 leatherneck/1MS
 leathery/5
@@ -31594,7 +31598,7 @@ meatpacking/1M
 meaty/5TPR
 mecca/1SM
 mechanic/51MS
-mechanical/51Y
+mechanical/51YS
 mechanics/1M
 mechanism/1SM
 mechanistic/5
@@ -34007,6 +34011,7 @@ notary/1SM
 notate/45GDS
 notation/1FCSM
 notch/14GMDS
+notchback/1MS
 note's
 note/14FCSDG
 notebook/1MS
@@ -36875,6 +36880,7 @@ plopped/4
 plopping/41
 plosive/15S
 plot/14MS
+plotline/1SM
 plotted/4
 plotter/14SM
 plotting/41
@@ -38953,6 +38959,7 @@ realized/4U
 realm/1MS
 realness/1M
 realpolitik/1M
+realtor/1MS
 realty/1M
 ream/14ZGMDRS
 reamer/1M
@@ -39362,6 +39369,7 @@ remedy/14GDSM
 remember/4DG
 remembered/4U
 remembrance/14MS
+remilitarize/4GDS
 reminder/1M
 reminisce/41GDS
 reminiscence/1MS
@@ -41592,6 +41600,7 @@ sheerness/1M
 sheet/14MSG
 sheeting/14M
 sheetlike/5
+sheetrock/1M
 sheikdom/1MS
 sheikh/1M
 sheikhs/1
@@ -42811,7 +42820,8 @@ sonority/1M
 sonorous/5YP
 sonorousness/1M
 sonsofbitches/1
-soon/5RT
+soon/5RTj
+soonish/j
 soot/14M
 sooth/154MDRSZG
 soothe/4
@@ -43920,7 +43930,7 @@ streptococcus/1M
 streptomycin/1M
 stress/14MDSG
 stressed/45U
-stressful/5
+stressful/5U
 stressors/1
 stretch/41BZGMDRS
 stretcher/14MDG
@@ -47062,6 +47072,7 @@ uncle/14SM
 unclean/5DRPT
 uncleanly/5Tj
 unclear/54DRT
+unclipped/5
 uncomfortable/5
 uncommon/5T
 uncompelling/5
@@ -47143,6 +47154,7 @@ underhand/541
 underhanded/541PY
 underhandedness/1M
 underinflated/4
+underinvest/4GDS
 underlain/4
 underlay/41SM
 underlie/4S
@@ -47189,6 +47201,7 @@ undersigned/51M
 undersized/5
 underskirt/1SM
 undersold/45
+underspent/4
 understaffed/5
 understand/4SGBJ
 understandably/j
@@ -48321,6 +48334,7 @@ wake/41MGJDS
 wakeful/5PY
 wakefulness/1M
 waken/4GSD
+wakeup/1MS
 waldo/1S
 waldoes/1
 wale/14MGDS
@@ -48461,6 +48475,7 @@ wastepaper/1M
 waster/1M
 wastewater/1
 wastrel/1SM
+wat/1SM
 watch/14BZGMDRS
 watchable/51U
 watchband/1MS
