@@ -14,6 +14,7 @@ ACTH/1M
 AD/152M
 ADC/1
 ADD/1
+ADHD/1
 ADM/12
 ADP/1M
 AF/15
@@ -2094,6 +2095,7 @@ Chumash/21M
 Chung/2M
 Church/2M
 Churchill/2M
+Churchillian/5
 Churriguera/M
 Chuvash/512M
 Ci/M
@@ -11588,6 +11590,7 @@ air/14SMDJG
 airbag/1MS
 airbase/1SM
 airbed/1S
+airboard/1SM
 airborne/51
 airbox/1SM
 airbrush/14MDSG
@@ -12003,6 +12006,7 @@ analyze/4ADSG
 analyzer/1SM
 anapest/1SM
 anapestic/51MS
+anaphylaxis/1M
 anarchic/5Q
 anarchism/1M
 anarchist/15MS
@@ -12743,6 +12747,7 @@ aspidistra/1MS
 aspirant/15MS
 aspirate/145MGNDSX
 aspiration/1M
+aspirational/5
 aspirator/1SM
 aspire/4GDS
 aspirin/1MS
@@ -17966,6 +17971,7 @@ conjure/41DRSZG
 conjurer/1M
 conk/14MDRZ
 conman/1
+conmen/9
 connect/41AEDVGS
 connectable/5
 connected/54U
@@ -19508,6 +19514,7 @@ deathwatch/1MS
 deaves
 deb/1SM
 debacle/1MS
+debank/4DGS
 debarkation/1M
 debarment/1M
 debate/14BMZR
@@ -21477,6 +21484,7 @@ ecotourist/1MS
 ecru/15M
 ecstasy/14SM
 ecstatic/51Q
+ectoplasm/1M
 ecu/1S
 ecumenical/5Y
 ecumenicism/1M
@@ -22342,6 +22350,7 @@ escalate/4CDSGN
 escalation/1CM
 escalations/1
 escalator/14MS
+escalatory/5
 escallop/14SGMD
 escalope/1S
 escapade/1MS
@@ -24836,6 +24845,7 @@ garage/14DSMG
 garb/14MDGS
 garbage/145M
 garbageman/1
+garbagemen/9
 garbanzo/1SM
 garble/41DSG
 garcon/1SM
@@ -27912,6 +27922,7 @@ implication/1M
 implicit/5PY
 implicitness/1M
 implode/4DSG
+imploration/1M
 implore/41DSG
 imploring/41Y
 implosion/1MS
@@ -28355,7 +28366,7 @@ ingenuity/1M
 ingenuous/5EY
 ingenuousness/1M
 ingest/41SDG
-ingestion/1M
+ingestion/1MS
 inglenook/1SM
 ingot/14SM
 ingrain/451G
@@ -30402,7 +30413,7 @@ limit's
 limit/154CSZGDR
 limitation/1CM
 limitations/1
-limited/451U
+limited/451UY
 limiter's
 limiting/14S
 limitless/5P
@@ -31796,6 +31807,7 @@ menu/14MS
 meow/14MDSG
 mercantile/5
 mercantilism/1M
+mercantilist/51SM
 mercenary/15SM
 mercer/1MS
 mercerize/4GDS
@@ -32000,6 +32012,7 @@ micrometer/1MS
 micron/1MS
 microorganism/1MS
 microphone/14SM
+microplastic/1SM
 microplastics/1
 microprocessor/1MS
 microscope/14SM
@@ -32007,7 +32020,8 @@ microscopic/5
 microscopical/5Y
 microscopy/1M
 microsecond/1MS
-microsurgery/51M
+microsurgery/1M
+microvascular/5
 microwave/14DSMGB
 microwaveable/5
 mid/5+1
@@ -37105,6 +37119,7 @@ polyhedron/1SM
 polymath/1M
 polymaths/1
 polymer/1SM
+polymerase/1SM
 polymeric/5
 polymerization/1M
 polymerize/4GDS
@@ -39764,7 +39779,7 @@ reverential/5Y
 reverie/14MS
 revers/1M
 reversal/15SM
-reverse/514Y
+reverse/514YR
 reversibility/1
 reversible/51
 reversibly/j
@@ -39788,6 +39803,7 @@ revoke/41DSG
 revolt/41GD
 revolting/415Y
 revolution/1SM
+revolutionarily/5
 revolutionary/51SM
 revolutionist/1SM
 revolutionize/4DSG
@@ -40245,6 +40261,7 @@ ruin/14MDGS
 ruination/1M
 ruinous/5Y
 rule/14MZGJDRS
+rulebook/1MS
 ruler/14M
 ruling/514M
 rum/15SM
@@ -42711,6 +42728,7 @@ sociologist/1SM
 sociology/1M
 sociopath/1M
 sociopaths/1
+sociopathy/1MS
 sociopolitical/5
 sock/145MDGS
 socket/14SMD
@@ -47186,6 +47204,7 @@ underfoot/514
 underfunded/54
 underfur/1M
 undergarment/1SM
+undergird/4SDG
 undergo/4G
 undergoes/4
 undergone/4
@@ -47219,6 +47238,7 @@ underpass/1MS
 underpay/4GSL
 underpayment/1SM
 underperform/4GDSR
+underperformance/1M
 underpin/4S
 underpinned/4
 underpinning/41MS
@@ -47442,6 +47462,7 @@ unprecedented/5Y
 unprofessional/51Y
 unpromising/54
 unpropitious/5
+unprovokedly/j
 unquestioning/5Y
 unquiet/54TR
 unread/541B
