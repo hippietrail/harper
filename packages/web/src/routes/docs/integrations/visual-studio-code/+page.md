@@ -8,6 +8,12 @@ For our Visual Studio Code integration, we provide an extension powered by [`har
 
 Open the Extensions view in your editor by selecting the Extensions icon in the Activity Bar or by using the `Ctrl+Shift+X` keyboard shortcut, then search for "Harper" and click "Install".
 
+If you prefer to use the command line, you can use the following command:
+
+```bash
+code --install-extension elijah-potter.harper
+```
+
 ## Commands
 
 | Command                         | ID                              | Description          |
@@ -16,7 +22,7 @@ Open the Extensions view in your editor by selecting the Extensions icon in the 
 
 ## Settings
 
-The settings below are VS Code specific. You can head over to the `harper-ls` documentation to view [other available settings](./language-server#Configuration).
+The settings below are VS Code specific. There are other settings that `harper-ls` supports such as which linters to use or how code actions should appear that you can configure. You can view them in your editor's Settings UI under "Harper" or peruse through them in the [configuration section](./language-server#Configuration) of our `harper-ls` documentation.
 
 | Setting       | Type     | Default Value | Description                                                                                                                                                 |
 | ------------- | -------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
