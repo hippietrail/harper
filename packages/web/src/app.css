@@ -23,6 +23,10 @@
 		@apply text-xl sm:text-xl lg:text-2xl py-4;
 	}
 
+	h4 {
+		@apply font-bold;
+	}
+
 	p {
 		@apply lg:text-base md:text-lg xl:text-lg py-4;
 	}

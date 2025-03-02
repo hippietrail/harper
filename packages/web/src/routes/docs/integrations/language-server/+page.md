@@ -7,39 +7,9 @@ Out of the box, it has built-in support for parsing the comments of most program
 
 ## Installation
 
-### Cargo
-
-If you have [Rust installed](https://www.rust-lang.org/tools/install), you're in luck!
-To install `harper-ls`, simply run:
-
-```bash
-cargo install harper-ls --locked
-```
-
-For this to work, make sure that `~/.cargo/bin` is in your system `$PATH`. If you are on a Debian-based Linux distribution, you may need to install `build-essential`.
-
-### Arch Linux
-
-**Stable Release**
-
-The latest stable release is available through the `extra` repo:
-
-```bash
-sudo pacman -S harper
-```
-
-**Bleeding-Edge**
-
-If you want the latest bleeding-edge, you can install `harper-git` from the [Arch User Repository](https://aur.archlinux.org/packages/harper-git) with your favorite AUR helper:
-
-```bash
-paru -S harper-git
-# or yay -S harper-git, etc.
-```
-
 ### Scoop
 
-You can install Harper on Windows through [Scoop](https://scoop.sh/).
+You can install Harper on Windows through [Scoop](https://scoop.sh/#/apps?q=harper).
 
 ```bash
 scoop install harper
@@ -47,10 +17,29 @@ scoop install harper
 
 ### Homebrew
 
-You may install Harper through [Homebrew](https://brew.sh).
+You can install Harper on macOS and Linux through [Homebrew](https://formulae.brew.sh/formula/harper).
 
 ```bash
 brew install harper
+```
+
+### Arch Linux
+
+#### Stable Release
+
+The latest stable release is available through the [`extra` repo](https://archlinux.org/packages/extra/x86_64/harper):
+
+```bash
+sudo pacman -S harper
+```
+
+#### Bleeding-Edge
+
+If you want the latest bleeding-edge, you can install `harper-git` from the [Arch User Repository](https://aur.archlinux.org/packages/harper-git) with your favorite AUR helper:
+
+```bash
+paru -S harper-git
+# or yay -S harper-git, etc.
 ```
 
 ### Nixpkgs/NixOS
@@ -70,6 +59,16 @@ or if you have the `nix-command` and `flakes` experimental features enabled:
 ```bash
 nix shell 'nixpkgs#harper'
 ```
+
+### Cargo
+
+If you have Rust installed, `harper-ls` is in [crates.io](https://crates.io/crates/harper-ls), so you can simply run:
+
+```bash
+cargo install harper-ls --locked
+```
+
+For this to work, make sure that `~/.cargo/bin` is in your system `$PATH`. If you are on a Debian-based Linux distribution, you may need to install `build-essential`.
 
 ### GitHub Releases
 
