@@ -1300,6 +1300,7 @@ Bombay/21M
 Bonaparte/2M
 Bonaventure/2M
 Bond/2M
+Bondi/2MS
 Bonhoeffer/M
 Boniface/2M
 Bonita/2M
@@ -1528,7 +1529,7 @@ Buffy/2M
 Buford/2M
 Bugatti/21M
 Bugzilla/M
-Buick/21M
+Buick/21MS
 Bujumbura/2M
 Bukhara/2M
 Bukharin/2M
@@ -1642,7 +1643,7 @@ Cabral/M
 Cabrera/2M
 Cabrini/M
 Cadette
-Cadillac/251M
+Cadillac/251MS
 Cadiz/2M
 Caedmon/2M
 Caerphilly/2M
@@ -2493,6 +2494,7 @@ DJ/142
 DMA/1M
 DMCA/24
 DMD/1M
+DMV/1M
 DMZ/1
 DNA/142M
 DOA/5
@@ -3572,6 +3574,7 @@ Frey/2M
 Freya/2M
 Fri/1M
 Friday/1SM
+Fridman/2M
 Frieda/2M
 Friedan/M
 Friedman/2M
@@ -3645,6 +3648,7 @@ GPO/21
 GPS/214
 GPU/1SM
 GSA/21
+GST/1M
 GTE/2M
 GTO/1SM
 GU/1
@@ -5499,7 +5503,7 @@ LC/15
 LCD/1M
 LCM
 LDC/1
-LED/1M
+LED/1MS
 LG/12M
 LGB/51
 LGBT/51
@@ -6030,6 +6034,7 @@ MIDI/21M
 MIPS/12
 MIRV/1
 MIT/2M
+MLK/2M
 MM/12
 MMA/1M
 MN/21
@@ -6457,6 +6462,7 @@ McFarland/2M
 McGee/2M
 McGovern/2M
 McGowan/2M
+McGregor/2M
 McGuffey/2M
 McGuire/2M
 McHenry/2M
@@ -6845,7 +6851,7 @@ Mooney/2M
 Moor/12SM
 Moore/2M
 Moorish/5M
-Mopar/2M
+Mopar/2MS
 Morales/2M
 Moran/2M
 Moravia/2M
@@ -7553,7 +7559,7 @@ PASCAL
 PBS/12M
 PBX/1
 PC/5124SM
-PCB/1
+PCB/1MS
 PCMCIA/2
 PCP/1M
 PD/12
@@ -7571,6 +7577,7 @@ PJ's
 PLO/21M
 PM/14SMDG
 PMS/1245M
+PNG/2M
 PO/15
 POW/1M
 PP/12
@@ -7913,7 +7920,8 @@ Pliny/2M
 Pliocene/52SM
 Plutarch/21M
 Pluto/2M
-Plymouth/21MS
+Plymouth/21M
+Plymouths/9
 Pm/M
 Po/2M
 Pocahontas/21M
@@ -7962,6 +7970,7 @@ Ponce/2M
 Pontchartrain/M
 Pontiac/21M
 Pontianak/2M
+Ponzi/2MS
 Pooh/2M
 Poole/2M
 Poona/2M
@@ -8188,6 +8197,7 @@ RFD/512
 RGB
 RI/21
 RIF/14
+RIFA/2M
 RIP/21
 RISC/1
 RN/12M
@@ -8649,6 +8659,7 @@ SPCA/2
 SPF/152
 SQL/1
 SQLite/M
+SRAM/1M
 SRO/1
 SS/125
 SSA/215
@@ -10115,7 +10126,9 @@ Uzbek/152M
 Uzbekistan/2M
 Uzi/1SM
 V/1+M
+V6/1MS
 V8/12MS
+V12/1MS
 VA/215
 VAT/1M
 VAX
@@ -10139,6 +10152,7 @@ VJ/142
 VLF/1M
 VOA/21
 VP/12
+VRAM/1M
 VT/2154
 VTOL/1
 VW/2MS
@@ -12737,6 +12751,7 @@ aspidistra/1MS
 aspirant/15MS
 aspirate/145MGNDSX
 aspiration/1M
+aspirational/5
 aspirator/1SM
 aspire/4GDS
 aspirin/1MS
@@ -14066,6 +14081,7 @@ bigger/54
 biggest/5
 biggie/1MS
 biggish/5
+biggy/1SM
 bighead/1SM
 bighearted/5P
 bigheartedness/1M
@@ -16710,6 +16726,7 @@ christen/4ASGD
 christening/14MS
 christian/15U
 christology
+chroma/1M
 chromatic/5Q
 chromatin/1M
 chromatography/1
@@ -17247,6 +17264,7 @@ codding/45
 coddle/41DSG
 code's
 code/14CZGDRS
+codefendant/1SM
 codeine/1M
 codependency/1M
 codependent/51SM
@@ -18946,6 +18964,7 @@ crosscut/14SM
 crosscutting/41
 crosser/15
 crossfire/1MS
+crosshair/1SM
 crosshatch/14GDS
 crossing/154SM
 crossly/j
@@ -20912,6 +20931,7 @@ doubtfulness/1M
 doubting/415Y
 doubtless/5Y
 douche/14DSMG
+douchebag/1SM
 dough/14M
 doughnut/14SM
 doughty/51RT
@@ -28029,7 +28049,7 @@ incarnation/1AM
 incendiary/51SM
 incense/14MGDS
 incentive/1MES
-incentivize/4GDS
+incentivize/4GDSE
 inception/1SM
 incessant/5Y
 incest/14M
@@ -28301,8 +28321,9 @@ inflectional/5
 inflict/4SDGV
 infliction/1M
 inflow/14SM
-influence/14MGDSR
+influence/14MGDS
 influenced/45U
+influencer/1SM
 influential/51Y
 influenza/1M
 info/1M
@@ -28815,7 +28836,7 @@ intuitiveness/1M
 inundate/4XDSGN
 inundation/1M
 inure/4DSG
-invade/4DRSZG
+invade/4DRSZGA
 invader/1M
 invalid/514GMDYS
 invalidism/1M
@@ -29475,6 +29496,7 @@ keypunch/14ZGMDRS
 keypuncher/1M
 keystone/14MS
 keystroke/14SM
+keyway/1SM
 keyword/14MS
 kg/
 khaki/15SM
@@ -31414,6 +31436,7 @@ masher/1M
 mashup/1MS
 mask's
 mask/14UDSG
+maskable/5
 masker/41MS
 masochism/1M
 masochist/1SM
@@ -31427,6 +31450,7 @@ masquerader/1M
 mass/145MDSGV
 massacre/14MGDS
 massage/14DSMG
+massager/1MS
 masseur/1SM
 masseuse/1MS
 massif/1MS
@@ -31954,6 +31978,7 @@ microchip/14MS
 microcircuit/1SM
 microcode/14
 microcomputer/1MS
+microcontroller/1MS
 microcosm/1MS
 microcosmic/5
 microdot/14SM
@@ -32086,6 +32111,7 @@ millennium/1MS
 miller/1M
 millet/1M
 milliard/MS
+milliamp/1MS
 millibar/1MS
 milligram/1MS
 milliliter/1MS
@@ -35164,6 +35190,7 @@ overuse/41DSMG
 overvaluation/1S
 overvalue/41DSG
 overview/14MS
+overvolt/4DSG
 overweening/514Y
 overweight/514M
 overwhelm/41SGD
@@ -36608,6 +36635,7 @@ pinning/41U
 pinny/1S
 pinochle/1M
 pinon/1MS
+pinout/1MS
 pinpoint/154SGMD
 pinprick/14MS
 pinsetter/1SM
@@ -36954,7 +36982,8 @@ pocketknife/1M
 pocketknives/9
 pockmark/1MDGS
 pod/14SM
-podcast/14SMGR
+podcast/14SMG
+podcaster/1SM
 podded/54
 podding/4
 podiatrist/1SM
@@ -37347,6 +37376,7 @@ pounce/14DSMG
 pound's
 pound/14KDSG
 poundage/14M
+pounder/1MS
 pounding/415SM
 pour/41GDSJ
 pout/41ZGMDRS
@@ -38762,6 +38792,7 @@ rambler/1M
 rambunctious/5PY
 rambunctiousness/1M
 ramekin/1SM
+ramen/1M
 ramie/1M
 ramification/1M
 ramify/4DSXNG
@@ -40759,6 +40790,7 @@ schlep/41SM
 schlepped/4
 schlepping/4
 schlock/1M
+schlong/1MS6
 schmaltz/1M
 schmaltzy/5TR
 schmo/1M
@@ -43396,7 +43428,7 @@ squid/14SM
 squidgy/51
 squiffy/5
 squiggle/14DSMG
-squiggly/51
+squiggly/51MS
 squint/415STGMDR
 squire/14DSMG
 squirm/41SGMD
@@ -43516,6 +43548,7 @@ stare/41SM
 starer/1M
 starfish/149MS
 starfruit/1
+stargate/1MS
 stargaze/4DRSZG
 stargazer/1M
 stark/54RYPZT
@@ -43836,6 +43869,7 @@ stork/1SM
 storm/14GSMD
 stormily/j
 storminess/1M
+stormtrooper/1SM
 stormy/5RPT
 story/14DSM
 storyboard/14MS
@@ -44446,6 +44480,7 @@ superfine/5
 superfluity/1M
 superfluous/5YP
 superfluousness/1M
+superfund/1MS
 superglue/14
 supergrass/1S
 superhero/1MS
@@ -44590,6 +44625,7 @@ surrounding/41M
 surroundings/1M
 surtax/14MDSG
 surtitle/14S
+surveil/4GDS
 surveillance/1M
 survey's
 survey/14ADGS
@@ -45513,6 +45549,7 @@ theocratic/5
 theodolite/1S
 theologian/1SM
 theological/5Y
+theologist/1SM
 theology/1SM
 theorem/14MS
 theoretic/5
@@ -47303,6 +47340,7 @@ unhealthy/5T
 unhistorical/5
 unholy/5T
 unhurt/5
+unibody/1SM
 unicameral/5
 unicellular/51
 unicorn/145SM
@@ -47382,6 +47420,7 @@ unmusical/5
 unnecessary/5
 unnerving/45Y
 unobservant/5
+unobtanium/1M
 unoffensive/5
 unofficial/5Y
 unoriginal/51
@@ -49193,6 +49232,7 @@ woody/51TPRSM
 wooer/1M
 woof/14MDRSZG
 woofer/1M
+woohoo
 wool/1MNX
 woolen/51M
 woolgathering/1M
