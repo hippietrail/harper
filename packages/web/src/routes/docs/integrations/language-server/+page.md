@@ -111,6 +111,17 @@ The static dictionary is built into the binary and is (as of now) immutable. It 
 
 We _do_ take pull requests or issues for adding words to the static dictionary. [Read the documentation on the matter before you do](../contributors/dictionary).
 
+## Code Actions
+
+The examples below assume that you have misspelled "error" as "errorz" and have selected it to apply a code action to it.
+
+| Code Action or Command | Description                                           | Example                                  |
+| ---------------------- | ----------------------------------------------------- | ---------------------------------------- |
+| Quick Fixes            | Suggests fixes for the selected lint                  | `Replace with: "error"`                  |
+| `HarperIgnoreLint`     | Ignores selected lint for the duration of the session | `Ignore Harper error.`                   |
+| `HarperAddToUserDict`  | Adds selected word to the user dictionary             | `Add "errorz" to the global dictionary.` |
+| `HarperAddToFileDict`  | Adds selected word to a file-local dictionary         | `Add "errorz" to the file dictionary.`   |
+
 ## Configuration
 
 `harper-ls` expects a JSON object with a `harper-ls` key that contains your configs:
@@ -198,9 +209,9 @@ These configs are under the `markdown` key:
 }
 ```
 
-| Config            | Type      | Default Value | Description               |
-| ----------------- | --------- | ------------- | ------------------------- |
-| `IgnoreLinkTitle` | `boolean` | `false`       | Skip linting link titles. |
+| Config            | Type      | Default Value | Description              |
+| ----------------- | --------- | ------------- | ------------------------ |
+| `IgnoreLinkTitle` | `boolean` | `false`       | Skip linting link titles |
 
 ### Other Configs
 
