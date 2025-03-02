@@ -6,11 +6,11 @@ Our Neovim integration is powered by [`harper-ls`](./language-server).
 
 ## Installation
 
-How you choose to install `harper-ls` depends on your use-case. For Neovim, we only directly support usage through [`nvim-lspconfig`](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#harper_ls) and installation via [`mason.nvim`](https://mason-registry.dev/registry/list?search=harper-ls). However, you can also [install it separately](./language-server#Installation) and set it up yourself if you wish.
+`harper-ls` can be installed with [`mason.nvim`](https://mason-registry.dev/registry/list?search=harper-ls) or via any of our other [supported installation methods](./language-server#Installation). [Neovim supports language servers out-of-the-box](https://neovim.io/doc/user/lsp.html), but for ease of use, we suggest using `harper-ls` through [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig/tree/master).
 
 ## Configuration
 
-Below is an example config where everything is set to their default values:
+Below is an example config using nvim-lspconfig where everything is set to their default values:
 
 ```lua
 lspconfig.harper_ls.setup {
@@ -49,3 +49,7 @@ This example only contains some of the available linters, check out our [rules p
 :::
 
 For more information on what each of these configs do, you can head over to the [configuration section](./language-server#Configuration) of our `harper-ls` documentation.
+
+## Additional Links
+
+- [nvim-lspconfig's documentation on `harper-ls`](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md#harper_ls)

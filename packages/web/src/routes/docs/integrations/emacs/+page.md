@@ -47,6 +47,6 @@ This example only contains some of the available linters, check out our [rules p
 
 For more information on what each of these configs do, you can head over to the [configuration section](./language-server#Configuration) of our `harper-ls` documentation.
 
-### Additional Links
+## Additional Links
 
 - [Community discussion on configuring `harper-ls` for Emacs](https://github.com/Automattic/harper/discussions/150)
