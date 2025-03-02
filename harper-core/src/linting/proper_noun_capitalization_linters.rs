@@ -1280,6 +1280,15 @@ mod tests {
     }
 
     #[test]
+    fn issue_798() {
+        assert_suggestion_result(
+            "United states",
+            lint_group(FstDictionary::curated()),
+            "United States",
+        );
+    }
+
+    #[test]
     fn united_nations_uppercase() {
         assert_suggestion_result(
             "UNITED NATIONS",
