@@ -12,7 +12,7 @@ Our Neovim integration is powered by [`harper-ls`](./language-server).
 
 Below is an example config using nvim-lspconfig where everything is set to their default values:
 
-```lua
+```lua title=inti.lua
 lspconfig.harper_ls.setup {
   settings = {
     ["harper-ls"] = {

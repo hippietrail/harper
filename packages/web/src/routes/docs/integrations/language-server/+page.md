@@ -62,7 +62,7 @@ nix shell 'nixpkgs#harper'
 
 ### Cargo
 
-If you have Rust installed, `harper-ls` is in [crates.io](https://crates.io/crates/harper-ls), so you can simply run:
+If you have Rust installed, `harper-ls` is on [crates.io](https://crates.io/crates/harper-ls), so you can simply run:
 
 ```bash
 cargo install harper-ls --locked
@@ -112,14 +112,14 @@ We _do_ take pull requests or issues for adding words to the static dictionary. 
 
 ## Code Actions
 
-The examples below assume that you have misspelled "error" as "errorz" and have selected it to apply a code action to it.
+`harper-ls` has code actions that help in quickly dealing with spelling or grammar errors you encounter. The examples below assume that you have misspelled "contained" as "containes" and have selected it to apply a code action to it.
 
-| Code Action or Command | Description                                           | Example                                  |
-| ---------------------- | ----------------------------------------------------- | ---------------------------------------- |
-| Quick Fixes            | Suggests fixes for the selected lint                  | `Replace with: "error"`                  |
-| `HarperIgnoreLint`     | Ignores selected lint for the duration of the session | `Ignore Harper error.`                   |
-| `HarperAddToUserDict`  | Adds selected word to the user dictionary             | `Add "errorz" to the global dictionary.` |
-| `HarperAddToFileDict`  | Adds selected word to a file-local dictionary         | `Add "errorz" to the file dictionary.`   |
+| Code Action or Command | Description                                                | Example                                     |
+| ---------------------- | ---------------------------------------------------------- | ------------------------------------------- |
+| Quick Fixes            | Suggests fixes for the selected error                      | `Replace with: "contained"`                 |
+| `HarperIgnoreLint`     | Ignores the selected error for the duration of the session | `Ignore Harper error.`                      |
+| `HarperAddToUserDict`  | Adds the selected word to the user dictionary              | `Add "containes" to the global dictionary.` |
+| `HarperAddToFileDict`  | Adds the selected word to a file-local dictionary          | `Add "containes" to the file dictionary.`   |
 
 ## Configuration
 
@@ -216,7 +216,7 @@ These configs are under the `markdown` key:
 
 | Config               | Type                                              | Default Value | Description                                                                                                                                                               |
 | -------------------- | ------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `diagnosticSeverity` | `"error"`, `"hint"`, `"information"`, `"warning"` | `"hint"`      | Configure how severe you want diagnostics to appear in your editor                                                                                                        |
+| `diagnosticSeverity` | `"error"`, `"hint"`, `"information"`, `"warning"` | `"hint"`      | Configures how severe diagnostics appear in your editor                                                                                                                   |
 | `isolateEnglish`     | `boolean`                                         | `false`       | In documents that are a mixture of English and another language, only lint English text. This feature is incredibly new and unstable. Do not expect it to work perfectly. |
 
 ## Supported Languages
