@@ -1,4 +1,4 @@
-50000
+50100
 AA/1254M
 AAA/12
 AB/215M
@@ -47,7 +47,7 @@ ASIO/2M
 ASL/2M
 ASPCA/2
 AST/1MS
-ATM/1M
+ATM/1MS
 ATP/21M
 ATV/21
 AV/512
@@ -2593,6 +2593,7 @@ Darwinism/1SM
 Darwinist/1
 Daryl/2M
 Datamation
+Datsun/2MS
 Daugherty/2M
 Daumier/M
 Davao/2M
@@ -7479,6 +7480,7 @@ Oracle/2M
 Oran/2M
 Orange/25M
 Oranjestad/2M
+Orban/2M
 Orbison/2M
 Ordovician/52M
 Ore/2N
@@ -7579,7 +7581,8 @@ PM/14SMDG
 PMS/1245M
 PNG/2M
 PO/15
-POW/1M
+POV/1SM
+POW/1MS
 PP/12
 PPS/1
 PR/21
@@ -9947,6 +9950,7 @@ Trumbull/2M
 Trump/2MS
 Trumpian/5
 Trumpism/2M
+Trumpy/15RTS
 Truth/M
 Tsimshian/12M
 Tsiolkovsky/2M
@@ -18056,6 +18060,7 @@ consortium/1M
 conspectus/1MS
 conspicuous/5IPY
 conspicuousness/1IM
+conspiracist/1SM
 conspiracy/14SM
 conspirator/1MS
 conspiratorial/5Y
@@ -21477,6 +21482,7 @@ economist/1SM
 economize/4DRSZG
 economizer/1M
 economy/15SM
+ecosphere/1MS
 ecosystem/1MS
 ecotourism/1M
 ecotourist/1MS
@@ -23005,6 +23011,7 @@ factorize/4GDS
 factory/15SM
 factotum/1SM
 factual/51Y
+factuality/1M
 faculty/1SM
 fad/1GSMD
 faddish/5P
@@ -25075,6 +25082,7 @@ geophysicist/1SM
 geophysics/1M
 geopolitical/4Y
 geopolitics/1M
+geoscientist/1SM
 geostationary/5
 geostrategic/5
 geosynchronous/5
@@ -25701,7 +25709,7 @@ greengrocer/1SM
 greenhorn/1SM
 greenhouse/14SM
 greenish/5
-greenmail/14M
+greenmail/14MSDG
 greenness/1M
 greenroom/1SM
 greenstone/1
@@ -33995,6 +34003,7 @@ normality/1M
 normalization/12M
 normalize/4DSG
 normative/51
+normie/1SM
 north/154ZMR
 northbound/5
 northeast/15MRZ
@@ -34157,6 +34166,7 @@ nursling/1SM
 nurture/14DRSMZG
 nurturer/1M
 nut/14SM
+nutbag/1SM
 nutcase/1S
 nutcracker/1MS
 nuthatch/1MS
@@ -41859,6 +41869,7 @@ shrimp/14MDRSZG
 shrine/14MS
 shrink/41MSBG
 shrinkage/1M
+shrinkflation/1M
 shrive/4GDS
 shrivel/4SGD
 shriven/4
@@ -43874,6 +43885,7 @@ stormy/5RPT
 story/14DSM
 storyboard/14MS
 storybook/15SM
+storyline/1MS
 storyteller/1MS
 storytelling/1M
 stoup/14SM
@@ -45826,7 +45838,7 @@ tidy/541DRSMTGP
 tie's
 tie/14AUSD
 tieback/1MS
-tiebreak/14RSZ
+tiebreak/14RSZG
 tiebreaker/1M
 tiepin/1S
 tier/14MD
@@ -46378,6 +46390,7 @@ transgender/514S
 transgenic/51
 transgress/4GDS
 transgression/1SM
+transgressive/5
 transgressor/1SM
 transhumanism/1M
 transience/1M
@@ -46873,7 +46886,7 @@ turpitude/1M
 turps/1
 turquoise/15SM
 turret/1SMD
-turtle/14SM
+turtle/14SMDG
 turtledove/1SM
 turtleneck/1SMD
 tush/14MS
@@ -47225,6 +47238,7 @@ underrate/41GDS
 underrepresented/45
 underscore/14DSMG
 undersea/5S
+underseal/1SMDG
 undersecretary/1SM
 undersell/4GS
 undersexed/5
@@ -47350,6 +47364,7 @@ unification/1AM
 uniform/154SMDYG
 uniformity/1M
 unify/4AGDSN
+unignorable/5
 unilateral/5Y
 unilateralism/1
 unimportant/5
@@ -50057,3 +50072,4 @@ Minecraft/2M
 IntelliSense/2M
 Erdogan/2M
 Zig/2M
+Evo/2MS
