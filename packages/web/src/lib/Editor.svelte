@@ -128,7 +128,7 @@
 			class={`max-w-full w-full ${superSmall ? 'justify-center' : 'justify-between'} flex-row ${small ? '' : 'hidden'}`}
 		>
 			<div class={superSmall ? 'hidden' : ''}>
-				<h1 class={`font-bold p-0 text-base`}>{lints[focused].lint_kind()}</h1>
+				<h1 class={`font-bold p-0 text-base`}>{lints[focused].lint_kind_pretty()}</h1>
 				<p class={`p-0 text-sm`}>{lints[focused].message()}</p>
 			</div>
 			<div class="flex flex-row">
