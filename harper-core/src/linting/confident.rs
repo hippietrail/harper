@@ -44,7 +44,7 @@ impl PatternLinter for Confident {
     }
 
     fn description(&self) -> &'static str {
-        unimplemented!()
+        "This linter detects instances where the noun `confidant` is incorrectly used in place of the adjective `confident`. `Confidant` refers to a trusted person, whereas `confident` describes certainty or self-assurance. The rule suggests replacing `confidant` with `confident` when used in an adjectival context."
     }
 }
 
