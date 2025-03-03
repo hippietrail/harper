@@ -61,7 +61,7 @@ fn convert_parbreaks<'a>(buf: &'a mut Vec<SyntaxNode>, exprs: &'a [Expr]) -> Vec
     let mut res: Vec<Expr> = Vec::new();
     let mut last_element: Option<Expr> = None;
     for ((i, expr), (_, next_expr)) in exprs.iter().enumerate().tuple_windows() {
-        let mut current_expr = expr.clone();
+        let mut current_expr = *expr;
         if let Some(last_element) = last_element {
             if should_parbreak(last_element, *expr, *next_expr) {
                 let pbreak = typst_syntax::ast::Parbreak::from_untyped(&buf[i])
@@ -70,11 +70,11 @@ fn convert_parbreaks<'a>(buf: &'a mut Vec<SyntaxNode>, exprs: &'a [Expr]) -> Vec
             }
         }
         res.push(current_expr);
-        last_element = Some(expr.clone())
+        last_element = Some(*expr)
     }
     // Push last element because it will be excluded by tuple_windows() above
     if let Some(last) = exprs.iter().last() {
-        res.push(last.clone());
+        res.push(*last);
     }
 
     res
