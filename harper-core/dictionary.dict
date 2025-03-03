@@ -7569,6 +7569,7 @@ PDF/1S
 PDQ/
 PDT/21
 PE/21
+PED/1MS
 PET/12M
 PFC/1
 PG/512
@@ -9730,6 +9731,7 @@ Thant/M
 Thar/2M
 Tharp/2M
 Thatcher/2M
+Thatcherism/1M
 Thea/2M
 Thebes/2M
 Theiler/2M
@@ -9950,6 +9952,7 @@ Trumbull/2M
 Trump/2MS
 Trumpian/5
 Trumpism/2M
+Trumpist/15SM
 Trumpy/15RTS
 Truth/M
 Tsimshian/12M
@@ -17486,6 +17489,7 @@ combativeness/1M
 combed/54U
 comber/1M
 combination/1SM
+combinatoric/5
 combine's
 combine/41ADSG
 combined/541U
@@ -21078,6 +21082,7 @@ dreaminess/1M
 dreamland/1M
 dreamless/5
 dreamlike/5
+dreamt/4
 dreamworld/1SM
 dreamy/5RPT
 drear/51
@@ -24804,11 +24809,12 @@ gamble/14DRSMZG
 gambler/1M
 gambling/41M
 gambol/41SMDG
-game/154MYTGDRSP
+game/154MYTGDSP
 gamechanger/1MS
 gamecock/1MS
 gamekeeper/1MS
 gameness/1M
+gamer/1SM
 gamesmanship/1M
 gamester/1MS
 gamete/1SM
@@ -26066,6 +26072,7 @@ habitue/1SM
 hacienda/1SM
 hack/41MDRZGSB
 hacker/14M
+hackery/1M
 hacking/541M
 hackish/5
 hackle/14MS
@@ -26073,6 +26080,7 @@ hackney/154SMDG
 hacksaw/14SM
 hacktivist/1MS
 hackwork/1M
+hacky/5TR
 had/4
 haddock/1SM
 hadith/1
@@ -28424,6 +28432,7 @@ injurious/5
 ink/14MD
 inkblot/1SM
 inkiness/1M
+inkjet/1M
 inkling/14SM
 inkstand/1SM
 inkwell/1MS
@@ -30678,6 +30687,7 @@ login/14SM
 logistic/51S
 logistical/5Y
 logistics/1M
+logit/1MS
 logjam/14SM
 logo/1MS
 logoff/1SM
@@ -33401,6 +33411,7 @@ neoconservative/15SM
 neoconsolativism/1M
 neocortex/1
 neodymium/1M
+neoliberal/51SM
 neolithic/5
 neologism/1SM
 neon/15M
@@ -33455,6 +33466,8 @@ neurasthenia/1M
 neurasthenic/51MS
 neuritic/51MS
 neuritis/1M
+neurobiologist/1SM
+neurobiology/1M
 neurological/5Y
 neurologist/1SM
 neurology/1M
@@ -37064,7 +37077,7 @@ politesse/1M
 politic/514S
 political/51Y
 politician/1SM
-politicization/1M
+politicization/1MC
 politicize/4CDSG
 politicking/14M
 politico/1SM
@@ -39137,6 +39150,7 @@ recur/4S
 recurred/4
 recurrence/1SM
 recurring/451
+recurse/4SDG
 recursion/1S
 recuse/4DSG
 recyclable/51SM
@@ -39196,6 +39210,8 @@ reentrant/5
 reeve/14G
 reexport/41SDG
 ref/14SZM
+refactor/14DS
+refactoring/14MS
 refashion/4DGS
 refection/1M
 refectory/1SM
@@ -40247,6 +40263,8 @@ ruffled/45U
 rug/145SM
 rugby/14M
 rugged/54PTRY
+ruggedization/1M
+ruggedize/4DSG
 ruggedness/1M
 rugger/1
 rugrat/1SM
@@ -40517,7 +40535,7 @@ sandbank/1MS
 sandbar/1SM
 sandblast/41ZGMDRS
 sandblaster/1M
-sandbox/14MS
+sandbox/14MSDG
 sandcastle/1MS
 sander/1M
 sandhog/14SM
@@ -40767,6 +40785,7 @@ scenarist/1MS
 scene/14MS
 scenery/1M
 scenic/51Q
+scenography/1M
 scent/14CMS
 scented/54U
 scenting/41
@@ -41734,6 +41753,7 @@ shirtwaist/1MS
 shirty/5
 shit/154SM!6
 shitfaced/5!6
+shitfest/1MS!6
 shithead/1S!6
 shitless/5!6
 shitload/1!6
@@ -42598,6 +42618,7 @@ snick/41SDRZG
 snicker/14MDG
 snide/51RYT
 sniff/41SMDRZG
+sniffable/15
 sniffer/1M
 sniffle/41DSMG
 sniffy/5RT
@@ -44122,6 +44143,7 @@ stutterer/1M
 sty/14SM
 style's
 style/14ADSG
+stylesheet/1SM
 styli/1
 stylish/5PY
 stylishness/1M
@@ -48910,6 +48932,7 @@ who/81M~
 whoa/4
 whodunit/1MS
 whoever/8
+whoever's
 whole/51SMP
 wholefood/1S
 wholegrain/1
@@ -49726,7 +49749,7 @@ LiDAR/1
 LinkedIn/2M
 LADAR
 TODO
-struct/1
+struct/1MS
 WASM/M
 hackathon/1SM
 pseudocode/1MG
@@ -49748,7 +49771,7 @@ URI/1SM
 LSP/1MS
 N.S.A./2SM
 linter/1SM
-TOML/2M
+TOML/1M
 Ambien/1SM
 config/14SM
 royale/15SM
@@ -49835,7 +49858,6 @@ Rivian/SM
 LEGO/1SM
 Kagi/SM
 macOS/2SM
-VSCode/SM
 TrueNAS/SM
 NYTimes/SM
 Gateron/SM
@@ -50071,5 +50093,19 @@ coexists/4
 Minecraft/2M
 IntelliSense/2M
 Erdogan/2M
+Erdoğan/2M
 Zig/2M
 Evo/2MS
+async/5
+dedup/1M
+dedupe/14SMDG
+dev/1MS
+Dreamcast/2MS
+eval/14SGM
+evalled/4
+evalling/4
+GPL/2M
+gzip/4S
+gzipped/4
+gzipping/4
+Xbox/12MS
