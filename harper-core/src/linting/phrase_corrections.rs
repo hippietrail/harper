@@ -382,6 +382,24 @@ pub fn lint_group() -> LintGroup {
             ["take it seriously"],
             "Did you mean `take it seriously`?",
             "Ensures the correct use of the adverb `seriously` instead of the adjective `serious` in phrases like `take it seriously`."
+        ),
+        "PiggyBag" => (
+            ["piggy bag"],
+            ["piggyback"],
+            "Did you mean `piggyback`?",
+            "Corrects the eggcorn `piggy bag` to `piggyback`, which is the proper term for riding on someone’s back or using an existing system."
+        ),
+        "PiggyBagging" => (
+            ["piggy bagging"],
+            ["piggybacking"],
+            "Did you mean `piggybacking`?",
+            "Corrects the eggcorn `piggy bagging` to `piggybacking`, the proper verb form for riding on someone’s back or leveraging an existing system."
+        ),
+        "PiggyBagged" => (
+            ["piggy bagged"],
+            ["piggybacked"],
+            "Did you mean `piggybacked`?",
+            "Corrects the eggcorn `piggy bagged` to `piggybacked`, the proper past tense form for riding on someone’s back or making use of an existing system."
         )
     });
 
