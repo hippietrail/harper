@@ -1,7 +1,9 @@
 use super::{Lint, LintKind, Suggestion};
 use super::{LintGroup, PatternLinter};
-use crate::patterns::{EitherPattern, IsNotTitleCase, Pattern, SequencePattern, WordSet};
-use crate::{Dictionary, make_title_case};
+// use crate::patterns::{EitherPattern, IsNotTitleCase, Pattern, SequencePattern, WordSet};
+use crate::patterns::{EitherPattern, IsNotCanonicalCase, Pattern, SequencePattern, WordSet};
+// use crate::{Dictionary/*, make_title_case*/};
+use crate::{Dictionary, make_canonical_case};
 use crate::{Token, TokenStringExt};
 use std::sync::Arc;
 
@@ -20,7 +22,8 @@ impl<D: Dictionary + 'static> ProperNounCapitalizationLinter<D> {
         let dictionary = Arc::new(dictionary);
 
         Self {
-            pattern: Box::new(IsNotTitleCase::new(
+            // pattern: Box::new(IsNotTitleCase::new(
+            pattern: Box::new(IsNotCanonicalCase::new(
                 Box::new(search_for),
                 dictionary.clone(),
             )),
@@ -36,12 +39,14 @@ impl<D: Dictionary + 'static> PatternLinter for ProperNounCapitalizationLinter<D
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        let proper = make_title_case(matched_tokens, source, &self.dictionary);
+        // let proper = make_title_case(matched_tokens, source, &self.dictionary);
+        let canonical = make_canonical_case(matched_tokens, source, &self.dictionary);
 
         Some(Lint {
             span: matched_tokens.span()?,
             lint_kind: LintKind::Capitalization,
-            suggestions: vec![Suggestion::ReplaceWith(proper)],
+            // suggestions: vec![Suggestion::ReplaceWith(proper)],
+            suggestions: vec![Suggestion::ReplaceWith(canonical)],
             message: self.description.to_string(),
             priority: 31,
         })
@@ -1015,33 +1020,41 @@ pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
     group.add(
     "MicrosoftNames",
     Box::new(ProperNounCapitalizationLinter::new(
-    SequencePattern::default()
-        .t_aco("Microsoft")
-        .then_whitespace()
-        .then(EitherPattern::new(vec![
-            Box::new(WordSet::new(&[
-                "Windows",
-                "Office",
-                "Teams",
-                "Excel",
-                "PowerPoint",
-                "Word",
-                "Outlook",
-                "OneDrive",
-                "SharePoint",
-                "Xbox",
-                "Surface",
-                "Edge",
-                "Bing",
-                "Dynamics",
-            ])),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Visual")
-                    .then_whitespace()
-                    .t_aco("Studio")
+        EitherPattern::new(vec![
+            Box::new(SequencePattern::default()
+                .t_aco("Microsoft")
+                .then_whitespace()
+                .then(EitherPattern::new(vec![
+                    Box::new(WordSet::new(&[
+                        "Windows",
+                        "Office",
+                        "Teams",
+                        "Excel",
+                        "PowerPoint",
+                        "Word",
+                        "Outlook",
+                        "OneDrive",
+                        "SharePoint",
+                        "Xbox",
+                        "Surface",
+                        "Edge",
+                        "Bing",
+                        "Dynamics",
+                    ])),
+                    Box::new(
+                        SequencePattern::default()
+                            .t_aco("Visual")
+                            .then_whitespace()
+                            .t_aco("Studio")
+                    )
+                ]))
+            ),
+            Box::new(SequencePattern::default()
+                .t_aco("VS")
+                .then_whitespace()
+                .t_aco("Code")
             )
-        ])),
+        ]),
     "When referring to Microsoft products and services, make sure to treat them as proper nouns.",
     dictionary.clone()))
 );
