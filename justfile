@@ -38,7 +38,7 @@ test-harperjs: build-harperjs
   yarn start
 
 # Build the WordPress plugin
-build-wp: build-wasm
+build-wp: build-harperjs
   #! /bin/bash
   set -eo pipefail
 

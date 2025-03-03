@@ -7,7 +7,7 @@
 	"scripts": {
 		"build": "wp-scripts build --webpack-copy-php",
 		"packages-update": "wp-scripts packages-update",
-		"plugin-zip": "wp-scripts plugin-zip",
+		"plugin-zip": "wp-scripts plugin-zip && mv wordpress-plugin.zip harper.zip && echo Renamed to harper.zip",
 		"start": "wp-scripts start --webpack-copy-php"
 	},
 	"devDependencies": {
