@@ -813,7 +813,7 @@ BIOS/1
 BITNET/2
 BLT/1SM
 BM/124M
-BMW/214M
+BMW/214MS
 BO/124
 BP/215M
 BPOE/2
@@ -2094,6 +2094,7 @@ Chumash/21M
 Chung/2M
 Church/2M
 Churchill/2M
+Churchillian/5
 Churriguera/M
 Chuvash/512M
 Ci/M
@@ -3411,7 +3412,7 @@ Fermi/2M
 Fern/2M
 Fernandez/2M
 Fernando/2M
-Ferrari/21M
+Ferrari/21MS
 Ferraro/M
 Ferrell/2M
 Ferris/2M
@@ -3492,7 +3493,7 @@ Fomalhaut/2M
 Fonda/2M
 Foosball/M
 Forbes/2M
-Ford/21M
+Ford/21MS
 Foreman/2M
 Forest/2MR
 Forester/2M
@@ -4485,7 +4486,7 @@ Hokkaido/21M
 Hokusai/M
 Holbein/M
 Holcomb/2M
-Holden/21M
+Holden/21MS
 Holder/2M
 Holiday/2M
 Holiness/1
@@ -4508,7 +4509,7 @@ Holt/2M
 Homer/2M
 Homeric/5M
 Hon/5
-Honda/2M
+Honda/2MS
 Honduran/15MS
 Honduras/2M
 Honecker/M
@@ -5237,7 +5238,7 @@ Kaufman/2M
 Kaunas/2M
 Kaunda/M
 Kawabata/M
-Kawasaki/2M
+Kawasaki/2MS
 Kay/21M
 Kaye/2M
 Kayla/2M
@@ -5554,7 +5555,8 @@ Lamarck/2M
 Lamaze/1M
 Lamb/21M
 Lambert/2M
-Lamborghini/21M
+Lambo/21MS
+Lamborghini/21MS
 Lambrusco/1M
 Lamentations/2
 Lamont/2M
@@ -5750,7 +5752,7 @@ Lewis/2M
 Lewiston/2M
 Lewisville/2M
 Lexington/2M
-Lexus/21M
+Lexus/21MS
 Lhasa/2MS
 Lhotse/2M
 Li/2MY
@@ -6743,7 +6745,7 @@ Mitchell/2M
 Mitford/2M
 Mithra/2M
 Mithridates/2M
-Mitsubishi/1M
+Mitsubishi/1MS
 Mitterrand/M
 Mitty/M
 Mitzi/2M
@@ -7241,7 +7243,7 @@ Nirenberg/M
 Nirvana/M
 Nisan/2M
 Nisei/1M
-Nissan/12M
+Nissan/12MS
 Nita/M
 Nivea/M
 Nixon/21M
@@ -7423,7 +7425,7 @@ Olajuwon/M
 Olav/M
 Oldenburg/21M
 Oldfield/2M
-Oldsmobile/21M
+Oldsmobile/21MS
 Olduvai/2M
 Olen/M
 Olenek/2M
@@ -7972,7 +7974,7 @@ Pompeii/2M
 Pompey/2M
 Ponce/2M
 Pontchartrain/M
-Pontiac/21M
+Pontiac/21MS
 Pontianak/2M
 Ponzi/2MS
 Pooh/2M
@@ -7986,7 +7988,7 @@ Poppins/M
 Popsicle/1M
 Porfirio/M
 Porrima/2M
-Porsche/21M
+Porsche/21MS
 Port/2MR
 Porter/2M
 Porterville/2M
@@ -8675,7 +8677,7 @@ ST/124
 STD/51
 STOL/1
 SUSE/M
-SUV/1
+SUV/1MS
 SVN/2M
 SW/2154M
 SWAK/
@@ -9419,7 +9421,7 @@ Styrofoam/SM
 Styron/2M
 Styx/2M
 Suarez/2M
-Subaru/2M
+Subaru/2MS
 Sucre/2M
 Sucrets/M
 Sudan/2M
@@ -9485,7 +9487,7 @@ Suwanee/M
 Suzanne/2M
 Suzette/M
 Suzhou/2M
-Suzuki/2M
+Suzuki/2MS
 Suzy/2M
 Svalbard/2M
 Sven/M
@@ -9892,7 +9894,7 @@ Townes/2M
 Townsend/2M
 Toynbee/M
 Toyoda/2M
-Toyota/21M
+Toyota/21MS
 Tracey/2M
 Traci/2M
 Tracie/2M
@@ -14265,6 +14267,7 @@ bittersweet/51MS
 bitty/51TR
 bitumen/14M
 bituminous/51
+bitwise/5
 bivalent/51
 bivalve/1SM
 bivouac/14MS
@@ -14609,6 +14612,7 @@ boil/14SJZGMDR
 boiler/1M
 boilermaker/1SM
 boilerplate/154M
+boing/14MSDG
 boink/41GDS
 boisterous/5YP
 boisterousness/1M
@@ -30551,7 +30555,7 @@ lithographs/14
 lithography/1M
 lithosphere/1SM
 litigant/15SM
-litigate/4DSGN
+litigate/4DSGNRA
 litigation/1M
 litigator/1MS
 litigious/5P
@@ -38814,6 +38818,7 @@ ramble/14DRSMZGJ
 rambler/1M
 rambunctious/5PY
 rambunctiousness/1M
+rambutan/1MS
 ramekin/1SM
 ramen/1M
 ramie/1M
@@ -39342,6 +39347,7 @@ rehears/4GD
 rehearsal/1MS
 rehearsed/45U
 rehi/
+rehome/4DSG
 rehung/4
 reify/4NDSG
 reign/14MDSG
@@ -40316,6 +40322,7 @@ rupiah/1M
 rupiahs/1
 rupture/14MGDS
 rural/51
+ruralist/1M
 ruse/14MS
 rush/145MDRSZG
 rusher/1M
@@ -46236,6 +46243,7 @@ toupee/1MS
 tour/14CFSGDM
 tourism/1M
 tourist/14MS
+touristed/5
 touristic/5
 touristy/5
 tourmaline/1M
@@ -47139,6 +47147,7 @@ unchangeable/51
 uncharacteristic/5
 uncharitable/5
 unchaste/5RT
+unchurched/5
 uncial/51M
 uncle/14SM
 unclean/5DRPT
