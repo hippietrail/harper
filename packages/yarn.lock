@@ -5069,7 +5069,7 @@ gzip-size@^6.0.0:
     duplexer "^0.1.2"
 
 "harper.js@link:harper.js":
-  version "0.22.0"
+  version "0.23.0"
 
 has-bigints@^1.0.2:
   version "1.1.0"
@@ -8616,6 +8616,11 @@ typed-rest-client@^1.8.4:
     tunnel "0.0.6"
     underscore "^1.12.1"
 
+typed.js@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/typed.js/-/typed.js-2.1.0.tgz#b97a06111a5f57d6a59acfdd36d4f9b891ee13b4"
+  integrity sha512-bDuXEf7YcaKN4g08NMTUM6G90XU25CK3bh6U0THC/Mod/QPKlEt9g/EjvbYB8x2Qwr2p6J6I3NrsoYaVnY6wsQ==
+
 typescript@5.7.3, typescript@^5.7.3, typescript@~5.7.3:
   version "5.7.3"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-5.7.3.tgz#919b44a7dbb8583a9b856d162be24a54bf80073e"
@@ -9016,6 +9021,7 @@ vscode-uri@^3.0.8:
 
 "wasm@link:../harper-wasm/pkg":
   version "0.0.0"
+  uid ""
 
 webidl-conversions@^4.0.2:
   version "4.0.2"
