@@ -377,6 +377,12 @@ pub fn lint_group() -> LintGroup {
             "Use the adverb `too` instead.",
             "Identifies common misuse of the preposition `to` in the phrase `spoke too soon`."
         ),
+        "TakeItSeriously" => (
+            ["take it serious"],
+            ["take it seriously"],
+            "Did you mean `take it seriously`?",
+            "Ensures the correct use of the adverb `seriously` instead of the adjective `serious` in phrases like `take it seriously`."
+        )
     });
 
     group.set_all_rules_to(Some(true));
