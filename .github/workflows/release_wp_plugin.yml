@@ -29,3 +29,8 @@ jobs:
         with:
           name: harper.zip
           path: "packages/wordpress-plugin/harper.zip"
+      - uses: ncipollo/release-action@v1
+        with:
+          artifacts: "packages/wordpress-plugin/harper.zip"
+          allowUpdates: true
+          draft: true
