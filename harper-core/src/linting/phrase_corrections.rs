@@ -502,7 +502,91 @@ pub fn lint_group() -> LintGroup {
             ["whet your appetite"],
             "Use the correct phrase for stimulating desire.",
             "Ensures `whet your appetite` is used correctly, distinguishing it from the incorrect `wet` variation."
-        )
+        ),
+        "CaseSensitive" => (
+            ["case sensitive"],
+            ["case-sensitive"],
+            "Use the hyphenated form for `case-sensitive`.",
+            "Ensures `case-sensitive` is correctly hyphenated."
+        ),
+        "ChockFull" => (
+            ["chock full"],
+            ["chock-full"],
+            "Use the hyphenated form for `chock-full`.",
+            "Ensures `chock-full` is correctly hyphenated."
+        ),
+        "OffTheCuff" => (
+            ["off the cuff"],
+            ["off-the-cuff"],
+            "Use the hyphenated form for `off-the-cuff`.",
+            "Ensures `off-the-cuff` is correctly hyphenated."
+        ),
+        "WellBeing" => (
+            ["wellbeing"],
+            ["well-being"],
+            "Use the hyphenated form for `well-being`.",
+            "Ensures `well-being` is correctly hyphenated."
+        ),
+        "PerformThis" => (
+            ["performing this"],
+            ["perform this"],
+            "Use `perform this` for correct verb usage.",
+            "Corrects `performing this` to `perform this` for proper verb usage."
+        ),
+        "SimpleGrammatical" => (
+            ["simply grammatical"],
+            ["simple grammatical"],
+            "Use `simple grammatical` for correct adjective usage.",
+            "Corrects `simply grammatical` to `simple grammatical` for proper adjective usage."
+        ),
+        "ThatChallenged" => (
+            ["the challenged"],
+            ["that challenged"],
+            "Use `that challenged` for correct relative clause.",
+            "Corrects `the challenged` to `that challenged` for proper relative clause usage."
+        ),
+        "ToDoHyphen" => (
+            ["todo"],
+            ["to-do"],
+            "Hyphenate `to-do`.",
+            "Ensures `to-do` is correctly hyphenated."
+        ),
+        "Discuss" => (
+            ["discuss about"],
+            ["discuss"],
+            "`About` is redundant",
+            "Removes unnecessary `about` after `discuss`."
+        ),
+        "Discussed" => (
+            ["discussed about"],
+            ["discussed"],
+            "Use `discussed` without `about`.",
+            "Removes unnecessary `about` after `discussed`."
+        ),
+        "Discusses" => (
+            ["discusses about"],
+            ["discusses"],
+            "`About` is redundant",
+            "Removes unnecessary `about` after `discusses`."
+        ),
+        "Discussing" => (
+            ["discussing about"],
+            ["discussing"],
+            "`About` is redundant",
+            "Removes unnecessary `about` after `discussing`."
+        ),
+        "WorldWarII" => (
+            ["world war 2", "world war ii", "world war ii", "world war ii", "world war ii"],
+            ["World War II"],
+            "Use the correct capitalization for `World War II`.",
+            "Ensures `World War II` is correctly capitalized."
+        ),
+        "Towards" => (
+            ["to towards"],
+            ["towards"],
+            "Use `towards` without preceding `to`.",
+            "Removes redundant `to` before `towards`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
