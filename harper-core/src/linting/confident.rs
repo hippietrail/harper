@@ -31,7 +31,7 @@ impl PatternLinter for Confident {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
+    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Option<Lint> {
         let span = matched_tokens.last()?.span;
 
         Some(Lint {
