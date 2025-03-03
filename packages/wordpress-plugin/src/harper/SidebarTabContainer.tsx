@@ -6,7 +6,7 @@ import { IgnorableLintBox } from './Box';
 
 export default function SidebarTabContainer({
 	lintBoxes,
-	loading,
+	loading
 }: {
 	lintBoxes: IgnorableLintBox[];
 	loading: boolean;
@@ -15,15 +15,13 @@ export default function SidebarTabContainer({
 		<TabPanel
 			tabs={[
 				{ name: 'errors', title: 'Errors' },
-				{ name: 'settings', title: 'Settings' },
+				{ name: 'settings', title: 'Settings' }
 			]}
 		>
 			{(tab) => {
 				switch (tab.name) {
 					case 'errors':
-						return (
-							<LintList lintBoxes={lintBoxes} loading={loading} />
-						);
+						return <LintList lintBoxes={lintBoxes} loading={loading} />;
 					case 'settings':
 						return (
 							<Panel>

@@ -6,15 +6,9 @@ import { useCallback, useEffect, useMemo, useState } from 'react';
 
 const KEY = 'lintConfig';
 
-export default function useLintConfig(): [
-	LintConfig,
-	(newState: LintConfig) => void,
-] {
+export default function useLintConfig(): [LintConfig, (newState: LintConfig) => void] {
 	const defaultConfig = useDefaultLintConfig();
-	const lintConfig = useSelect(
-		(select) => select('core/preferences').get('harper-wp', KEY),
-		[]
-	);
+	const lintConfig = useSelect((select) => select('core/preferences').get('harper-wp', KEY), []);
 
 	const { set } = useDispatch('core/preferences');
 
@@ -25,8 +19,7 @@ export default function useLintConfig(): [
 	useEffect(() => {
 		if (
 			lintConfig == null ||
-			Object.entries(lintConfig).length <
-				Object.entries(defaultConfig).length
+			Object.entries(lintConfig).length < Object.entries(defaultConfig).length
 		) {
 			merge(lintConfig, defaultConfig);
 			setConfig({ ...lintConfig });

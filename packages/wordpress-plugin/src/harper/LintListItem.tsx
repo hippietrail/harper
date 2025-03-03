@@ -16,26 +16,13 @@ export default function LintListItem({ box }: { box: IgnorableLintBox }) {
 				<p>{box.lint.message()}</p>
 
 				{box.lint.suggestions().map((sug, index) => (
-					<Button
-						variant="primary"
-						key={index}
-						onClick={() => box.applySuggestion(sug)}
-					>
-						{suggestionText(
-							sug.kind(),
-							box.lint.get_problem_text(),
-							sug.get_replacement_text()
-						)}
+					<Button variant="primary" key={index} onClick={() => box.applySuggestion(sug)}>
+						{suggestionText(sug.kind(), box.lint.get_problem_text(), sug.get_replacement_text())}
 					</Button>
 				))}
 
 				{box.lint.lint_kind() === 'Spelling' ? (
-					<Button
-						onClick={() =>
-							addToDictionary(box.lint.get_problem_text())
-						}
-						variant="primary"
-					>
+					<Button onClick={() => addToDictionary(box.lint.get_problem_text())} variant="primary">
 						Add “{box.lint.get_problem_text()}” to the dictionary
 					</Button>
 				) : (

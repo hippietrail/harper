@@ -5,10 +5,7 @@ import { useCallback } from 'react';
 
 const KEY = 'ignoredLints';
 
-export default function useIgnoredLintState(): [
-	string | undefined,
-	(newState: string) => void,
-] {
+export default function useIgnoredLintState(): [string | undefined, (newState: string) => void] {
 	const ignoredLintState = useSelect(
 		(select) => select('core/preferences').get('harper-wp', KEY),
 		[]
@@ -16,10 +13,7 @@ export default function useIgnoredLintState(): [
 
 	const { set } = useDispatch('core/preferences');
 
-	const updateState = useCallback(
-		(newValue: string) => set('harper-wp', KEY, newValue),
-		[set]
-	);
+	const updateState = useCallback((newValue: string) => set('harper-wp', KEY, newValue), [set]);
 
 	return [ignoredLintState, updateState];
 }

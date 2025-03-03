@@ -7,7 +7,7 @@ export default function LintSettingRow({
 	value,
 	defaultValue,
 	setValue,
-	description,
+	description
 }: {
 	name: string;
 	description: string;

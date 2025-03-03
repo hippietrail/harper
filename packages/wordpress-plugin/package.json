@@ -1,12 +1,11 @@
 {
-	"name": "harper",
+	"name": "wordpress-plugin",
+	"private": true,
 	"version": "0.0.1",
 	"description": "The grammar checker that respects your privacy.",
 	"main": "build/index.js",
 	"scripts": {
 		"build": "wp-scripts build --webpack-copy-php",
-		"format": "wp-scripts format",
-		"lint": "wp-scripts lint-js && wp-scripts lint-style",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
 		"start": "wp-scripts start --webpack-copy-php"

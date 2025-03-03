@@ -10,11 +10,7 @@ import { suggestionText } from './lintUtils';
  * @param root0
  * @param root0.lintBox
  */
-export default function SuggestionControl({
-	lintBox,
-}: {
-	lintBox: IgnorableLintBox;
-}) {
+export default function SuggestionControl({ lintBox }: { lintBox: IgnorableLintBox }) {
 	const { x, y, width, height, lint, applySuggestion, ignoreLint } = lintBox;
 	const addToDictionary = useAddToDictionary();
 
@@ -38,8 +34,7 @@ export default function SuggestionControl({
 
 			if (
 				isPointInBox([e.clientX, e.clientY], underlineRect) ||
-				(popoverRect &&
-					isPointInBox([e.clientX, e.clientY], popoverRect))
+				(popoverRect && isPointInBox([e.clientX, e.clientY], popoverRect))
 			) {
 				setShowPopover(() => true);
 			} else {
@@ -50,14 +45,8 @@ export default function SuggestionControl({
 		effectTarget?.parentElement?.addEventListener('mouseup', mouseUp);
 
 		return () => {
-			effectTarget?.parentElement?.removeEventListener(
-				'mouseup',
-				mouseUp
-			);
+			effectTarget?.parentElement?.removeEventListener('mouseup', mouseUp);
 		};
-
-		// The lint is just plain _wrong_ here.
-		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [underlineRef.current, popoverRef.current]);
 
 	return (
@@ -72,40 +61,21 @@ export default function SuggestionControl({
 					width: `${width}px`,
 					height: `${height}px`,
 					pointerEvents: 'none',
-					zIndex: 1,
+					zIndex: 1
 				}}
 			></div>
 			{showPopover ? (
-				<Popover
-					ref={popoverRef}
-					anchor={underlineRef.current}
-					className="harper-popover"
-				>
-					<h2 className={`harper-underline-${lint.lint_kind()}`}>
-						{lint.lint_kind_pretty()}
-					</h2>
+				<Popover ref={popoverRef} anchor={underlineRef.current} className="harper-popover">
+					<h2 className={`harper-underline-${lint.lint_kind()}`}>{lint.lint_kind_pretty()}</h2>
 					<p>{lint.message()}</p>
 					{suggestions.map((sug, index) => (
-						<Button
-							key={index}
-							onClick={() => applySuggestion(sug)}
-							variant="primary"
-						>
-							{suggestionText(
-								sug.kind(),
-								lint.get_problem_text(),
-								sug.get_replacement_text()
-							)}
+						<Button key={index} onClick={() => applySuggestion(sug)} variant="primary">
+							{suggestionText(sug.kind(), lint.get_problem_text(), sug.get_replacement_text())}
 						</Button>
 					))}
 
 					{lint.lint_kind() === 'Spelling' ? (
-						<Button
-							onClick={() =>
-								addToDictionary(lint.get_problem_text())
-							}
-							variant="primary"
-						>
+						<Button onClick={() => addToDictionary(lint.get_problem_text())} variant="primary">
 							Add “{lint.get_problem_text()}” to the dictionary
 						</Button>
 					) : (

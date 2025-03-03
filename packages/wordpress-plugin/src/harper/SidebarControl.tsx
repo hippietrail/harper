@@ -6,19 +6,11 @@ import SidebarTabContainer from './SidebarTabContainer';
 import useLintBoxes from './useLintBoxes';
 
 export default function SidebarControl() {
-	const documentContainer = useMemo<Element>(
-		() => DataBlock.getContainer(),
-		[]
-	);
+	const documentContainer = useMemo<Element>(() => DataBlock.getContainer(), []);
 
-	const [blocks, setBlocks] = useState<DataBlock[]>(
-		DataBlock.getTerminalDataBlocks()
-	);
+	const [blocks, setBlocks] = useState<DataBlock[]>(DataBlock.getTerminalDataBlocks());
 
-	const updateBlocks = useCallback(
-		() => setBlocks(DataBlock.getTerminalDataBlocks()),
-		[]
-	);
+	const updateBlocks = useCallback(() => setBlocks(DataBlock.getTerminalDataBlocks()), []);
 
 	useEffect(updateBlocks, [updateBlocks]);
 
@@ -27,16 +19,13 @@ export default function SidebarControl() {
 
 		observer.observe(documentContainer, {
 			subtree: true,
-			childList: true,
+			childList: true
 		});
 
 		return () => observer.disconnect();
 	}, [documentContainer, updateBlocks]);
 
-	const richTexts = useMemo(
-		() => blocks.flatMap((block) => block.getAllRichText()),
-		[blocks]
-	);
+	const richTexts = useMemo(() => blocks.flatMap((block) => block.getAllRichText()), [blocks]);
 
 	const [lintBoxes, loadingLints] = useLintBoxes(richTexts);
 
@@ -45,11 +34,7 @@ export default function SidebarControl() {
 		richTexts.map((richText, index) => {
 			const boxes = lintBoxes[index] ?? [];
 			return createPortal(
-				<Highlighter
-					richText={richText}
-					key={richText.getTextContent()}
-					lintBoxes={boxes}
-				/>,
+				<Highlighter richText={richText} key={richText.getTextContent()} lintBoxes={boxes} />,
 				documentContainer
 			);
 		});
@@ -57,10 +42,7 @@ export default function SidebarControl() {
 	return (
 		<>
 			{highlights}
-			<SidebarTabContainer
-				lintBoxes={lintBoxes.flat()}
-				loading={loadingLints}
-			/>
+			<SidebarTabContainer lintBoxes={lintBoxes.flat()} loading={loadingLints} />
 		</>
 	);
 }

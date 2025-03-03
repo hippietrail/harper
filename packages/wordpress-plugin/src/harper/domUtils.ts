@@ -4,9 +4,7 @@ import { Span } from 'harper.js';
  * Turn a `NodeList` into a normal JavaScript array.
  * @param collection
  */
-export function extractFromHTMLCollection(
-	collection: HTMLCollection
-): Element[] {
+export function extractFromHTMLCollection(collection: HTMLCollection): Element[] {
 	const elements: Element[] = [];
 
 	for (const el of collection) {
@@ -101,9 +99,7 @@ export function getRichTextContainers(target: Element): Element[] {
 		elms.push(target);
 	}
 
-	elms.push(
-		...extractFromHTMLCollection(target.getElementsByClassName('rich-text'))
-	);
+	elms.push(...extractFromHTMLCollection(target.getElementsByClassName('rich-text')));
 
 	return elms;
 }

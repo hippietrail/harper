@@ -5,7 +5,7 @@ import { Animate, Spinner } from '@wordpress/components';
 
 export default function LintList({
 	lintBoxes,
-	loading,
+	loading
 }: {
 	lintBoxes: IgnorableLintBox[];
 	loading: boolean;
@@ -20,16 +20,13 @@ export default function LintList({
 								<Spinner
 									style={{
 										height: 'calc(4px * 20)',
-										width: 'calc(4px * 20)',
+										width: 'calc(4px * 20)'
 									}}
 								/>
 							) : (
 								<>
 									<h2>LGTM 👍</h2>
-									<p>
-										Harper could not find any problems with
-										your work.
-									</p>
+									<p>Harper could not find any problems with your work.</p>
 								</>
 							)}
 						</div>

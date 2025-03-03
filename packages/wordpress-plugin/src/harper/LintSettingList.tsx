@@ -12,18 +12,10 @@ export default function LintSettingList() {
 
 	return (
 		<div className="harper-lint-config-cont">
-			<SearchControl
-				value={query}
-				onChange={setQuery}
-				placeholder="Search for a rule..."
-			/>
+			<SearchControl value={query} onChange={setQuery} placeholder="Search for a rule..." />
 
 			{Object.entries(lintConfig)
-				.filter(
-					([key]) =>
-						key.includes(query) ||
-						descriptions[key]?.includes(query)
-				)
+				.filter(([key]) => key.includes(query) || descriptions[key]?.includes(query))
 				.map(([key, value]) => (
 					<LintSettingRow
 						key={key}
@@ -31,9 +23,7 @@ export default function LintSettingList() {
 						description={descriptions[key]}
 						value={value}
 						defaultValue={defaultConfig[key]!}
-						setValue={(newValue) =>
-							setLintConfig({ ...lintConfig, [key]: newValue })
-						}
+						setValue={(newValue) => setLintConfig({ ...lintConfig, [key]: newValue })}
 					/>
 				))}
 		</div>

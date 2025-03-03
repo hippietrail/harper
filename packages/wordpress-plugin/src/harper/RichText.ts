@@ -14,11 +14,7 @@ export default class RichText {
 	private parent: DataBlock;
 	private editContent: EditContentCallback;
 
-	constructor(
-		targetElement: Element,
-		parent: DataBlock,
-		editContent: EditContentCallback
-	) {
+	constructor(targetElement: Element, parent: DataBlock, editContent: EditContentCallback) {
 		this.targetElement = targetElement;
 		this.parent = parent;
 		this.editContent = editContent;
@@ -60,7 +56,7 @@ export default class RichText {
 					const fixed = await linter.applySuggestion(text, sug, span);
 
 					this.editContent(fixed);
-				},
+				}
 			});
 		}
 

@@ -11,7 +11,7 @@ import { LintBox } from './Box';
  */
 export default function Highlighter({
 	lintBoxes,
-	richText,
+	richText
 }: {
 	lintBoxes: LintBox[];
 	richText: RichText;
@@ -28,11 +28,6 @@ export default function Highlighter({
 	const visible = richText.getTargetElement().checkVisibility();
 
 	return (
-		<>
-			{visible &&
-				lintBoxes.map((b, index) => (
-					<SuggestionControl lintBox={b} key={index} />
-				))}
-		</>
+		<>{visible && lintBoxes.map((b, index) => <SuggestionControl lintBox={b} key={index} />)}</>
 	);
 }

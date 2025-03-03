@@ -12,9 +12,7 @@ import useIgnoredLintState, { useIgnoreLint } from './useIgnoredLintState';
  * Provides a loading state as well.
  * @param richTexts
  */
-export default function useLintBoxes(
-	richTexts: RichText[]
-): [IgnorableLintBox[][], boolean] {
+export default function useLintBoxes(richTexts: RichText[]): [IgnorableLintBox[][], boolean] {
 	const linter = useLinter();
 	const [config] = useLintConfig();
 	const [ignoreState] = useIgnoredLintState();
@@ -34,10 +32,7 @@ export default function useLintBoxes(
 			await linter.importWords(personalDictionary);
 		}
 
-		if (
-			JSON.stringify(await linter.getLintConfig()) !==
-			JSON.stringify(config)
-		) {
+		if (JSON.stringify(await linter.getLintConfig()) !== JSON.stringify(config)) {
 			await linter.setLintConfig(config);
 		}
 
@@ -66,7 +61,7 @@ export default function useLintBoxes(
 			observer.observe(richText.getTargetElement(), {
 				childList: true,
 				characterData: true,
-				subtree: true,
+				subtree: true
 			});
 			return observer;
 		});
@@ -92,7 +87,7 @@ export default function useLintBoxes(
 					.map((box) => {
 						return {
 							...box,
-							ignoreLint: () => ignoreLint(box.lint),
+							ignoreLint: () => ignoreLint(box.lint)
 						};
 					});
 			});
