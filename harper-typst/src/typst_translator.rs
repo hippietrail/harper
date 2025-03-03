@@ -1,15 +1,15 @@
 use crate::OffsetCursor;
 use harper_core::{
+    Punctuation, Token, TokenKind,
     parsers::{PlainEnglish, StrParser},
-    Punctuation, Token, TokenKind, WordMetadata,
 };
 use itertools::Itertools;
 use typst_syntax::{
+    Source,
     ast::{
         Arg, ArrayItem, AstNode, DestructuringItem, DictItem, Expr, Ident, LetBindingKind, Param,
         Pattern, Spread,
     },
-    Source,
 };
 
 /// Directly translate a span ($a) in a Typst source ($doc) to a token.
@@ -89,7 +89,7 @@ impl<'a> TypstTranslator<'a> {
                     .filter_map(|item| match item {
                         DestructuringItem::Pattern(pattern) => self.parse_pattern(pattern, offset),
                         DestructuringItem::Named(named) => merge![
-                            token!(named.name(), TokenKind::Word(WordMetadata::default())),
+                            token!(named.name(), TokenKind::Word(None)),
                             self.parse_pattern(named.pattern(), offset)
                         ],
                         DestructuringItem::Spread(spread) => merge![
@@ -290,10 +290,7 @@ impl<'a> TypstTranslator<'a> {
             ),
             Expr::FieldAccess(field_access) => merge![
                 recurse!(field_access.target()),
-                token!(
-                    field_access.field(),
-                    TokenKind::Word(WordMetadata::default())
-                )
+                token!(field_access.field(), TokenKind::Word(None))
             ],
             Expr::Let(let_binding) => merge![
                 match let_binding.kind() {

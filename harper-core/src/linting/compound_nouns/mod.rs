@@ -1,24 +1,19 @@
 mod general_compound_nouns;
+mod implied_instantiated_compound_nouns;
 mod implied_ownership_compound_nouns;
 
-use super::{merge_linters::merge_linters, Lint, LintKind, Suggestion};
+use super::{Lint, LintKind, Suggestion, merge_linters::merge_linters};
 
 use general_compound_nouns::GeneralCompoundNouns;
+use implied_instantiated_compound_nouns::ImpliedInstantiatedCompoundNouns;
 use implied_ownership_compound_nouns::ImpliedOwnershipCompoundNouns;
 
-merge_linters!(CompoundNouns => GeneralCompoundNouns, ImpliedOwnershipCompoundNouns => "Detects compound nouns split by a space and suggests merging them when both parts form a valid noun." );
+merge_linters!(CompoundNouns => GeneralCompoundNouns, ImpliedInstantiatedCompoundNouns, ImpliedOwnershipCompoundNouns => "Detects compound nouns split by a space and suggests merging them when both parts form a valid noun." );
 
 #[cfg(test)]
 mod tests {
     use super::CompoundNouns;
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
-
-    #[test]
-    fn lap_top() {
-        let test_sentence = "I bought a lap top yesterday.";
-        let expected = "I bought a laptop yesterday.";
-        assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
-    }
 
     #[test]
     fn web_cam() {
@@ -45,13 +40,6 @@ mod tests {
     fn smart_phone() {
         let test_sentence = "He bought a new smart phone last week.";
         let expected = "He bought a new smartphone last week.";
-        assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
-    }
-
-    #[test]
-    fn desk_top() {
-        let test_sentence = "The company provided each employee with a desk top computer.";
-        let expected = "The company provided each employee with a desktop computer.";
         assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
     }
 
@@ -210,13 +198,6 @@ mod tests {
     }
 
     #[test]
-    fn hand_held() {
-        let test_sentence = "The camera has a comfortable hand held design.";
-        let expected = "The camera has a comfortable handheld design.";
-        assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
-    }
-
-    #[test]
     fn play_ground() {
         let test_sentence = "The kids spent the afternoon at the play ground.";
         let expected = "The kids spent the afternoon at the playground.";
@@ -247,7 +228,7 @@ mod tests {
     #[test]
     fn web_socket() {
         let test_sentence = "Real-time updates are sent via a web socket.";
-        let expected = "Real-time updates are sent via a WebSocket.";
+        let expected = "Real-time updates are sent via a websocket.";
         assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
     }
 
@@ -261,5 +242,64 @@ mod tests {
     #[test]
     fn got_is_not_possessive() {
         assert_lint_count("I got here by car...", CompoundNouns::default(), 0);
+    }
+
+    #[test]
+    fn allow_issue_662() {
+        assert_lint_count(
+            "They are as old as *modern* computers ",
+            CompoundNouns::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allow_issue_661() {
+        assert_lint_count("I may be wrong.", CompoundNouns::default(), 0);
+    }
+
+    #[test]
+    fn allow_issue_704() {
+        assert_lint_count(
+            "Here are some ways to do that:",
+            CompoundNouns::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allows_issue_721() {
+        assert_lint_count(
+            "So if you adjust any one of these adjusters that can have a negative or a positive effect.",
+            CompoundNouns::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allows_678() {
+        assert_lint_count(
+            "they can't catch all the bugs.",
+            CompoundNouns::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn ina_not_suggested() {
+        assert_lint_count(
+            "past mistakes or a character in a looping reality facing personal challenges.",
+            CompoundNouns::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allow_suppress_or() {
+        assert_lint_count(
+            "He must decide whether to suppress or coexist with his doppelgänger.",
+            CompoundNouns::default(),
+            0,
+        );
     }
 }

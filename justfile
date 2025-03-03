@@ -129,7 +129,7 @@ update-vscode-linters:
 
   linters=$(
     cargo run --bin harper-cli -- config |
-      jq 'with_entries(.key |= "harper-ls.linters." + . |
+      jq 'with_entries(.key |= "harper.linters." + . |
         .value |= {
           "scope": "resource",
           "type": "boolean",
@@ -144,7 +144,7 @@ update-vscode-linters:
   manifest_without_linters=$(
     jq 'walk(
       if type == "object" then
-        with_entries(select(.key | startswith("harper-ls.linters") | not))
+        with_entries(select(.key | startswith("harper.linters") | not))
       end
     )' package.json
   )
@@ -192,8 +192,8 @@ precommit: check test build-harperjs build-obsidian build-web
 
 # Install `harper-cli` and `harper-ls` to your machine via `cargo`
 install:
-  cargo install --path harper-ls --locked
-  cargo install --path harper-cli --locked
+  cargo install --path harper-ls --locked 
+  cargo install --path harper-cli --locked 
 
 # Run `harper-cli` on the Harper repository
 dogfood:
@@ -235,7 +235,7 @@ addnoun noun:
   fi
 
   if [[ "{{noun}}" =~ ^[A-Z] ]]; then
-    echo "{{noun}}/M" >> $DICT_FILE
+    echo "{{noun}}/2M" >> $DICT_FILE
   else
     echo "{{noun}}/SM" >> $DICT_FILE
   fi
@@ -259,6 +259,32 @@ getmetadata word:
 # Get all the forms of a word using the affixes.
 getforms word:
   cargo run --bin harper-cli -- forms {{word}}
+# Get a random sample of words from Harper's dictionary and list all forms of each.
+sampleforms count:
+  #!/bin/bash
+  set -eo pipefail
+  DICT_FILE=./harper-core/dictionary.dict 
+  # USER_DICT_FILE="$HOME/.config/harper-ls/dictionary.txt"
+
+  if [ "{{count}}" -eq 0 ]; then
+    exit 0
+  fi
+
+  total_lines=$(wc -l < $DICT_FILE)
+  
+  # Cross-platform random line selection
+  if command -v shuf >/dev/null 2>&1; then
+    words=$(shuf -n "{{count}}" "$DICT_FILE")
+  elif command -v jot >/dev/null 2>&1; then
+    words=$(jot -r "{{count}}" 1 "$total_lines" | while read -r line_num; do \
+      sed -n "$line_num"p "$DICT_FILE"; \
+    done)
+  else
+    echo "Error: Neither 'shuf' nor 'jot' found. Cannot generate random words." >&2
+    exit 1
+  fi
+  
+  cargo run --bin harper-cli -- forms $words
 
 bump-versions: update-vscode-linters
   #! /bin/bash
@@ -301,7 +327,7 @@ registerlinter module name:
 
   sed -i "/pub use an_a::AnA;/a pub use {{module}}::{{name}};" "$D/mod.rs"
   sed -i "/use super::an_a::AnA;/a use super::{{module}}::{{name}};" "$D/lint_group.rs"
-  sed -i "/create_lint_group_config\!/a \ \ \ \ {{name}} => true," "$D/lint_group.rs"
+  sed -i "/insert_struct_rule!(ChockFull, true);/a \ \ \ \ insert_struct_rule!({{name}}, true);" "$D/lint_group.rs"
   just format
 
 # Print affixes and their descriptions from affixes.json

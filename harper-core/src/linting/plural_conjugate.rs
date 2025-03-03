@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{EitherPattern, Pattern, SequencePattern},
     Token,
+    patterns::{EitherPattern, Pattern, SequencePattern},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -17,9 +17,9 @@ impl Default for PluralConjugate {
             .then_exact_word("is");
 
         let non_plural_case = SequencePattern::default()
-            .then(Box::new(|tok: &Token, _source: &[char]| {
+            .then(|tok: &Token, _source: &[char]| {
                 tok.kind.is_not_plural_noun() && tok.kind.is_noun()
-            }))
+            })
             .then_whitespace()
             .then_exact_word("are");
 
@@ -36,8 +36,8 @@ impl PatternLinter for PluralConjugate {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Lint {
-        let should_be_plural = matched_tokens.first().unwrap().kind.is_plural_noun();
+    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Option<Lint> {
+        let should_be_plural = matched_tokens.first()?.kind.is_plural_noun();
 
         let sug = if should_be_plural {
             vec!['a', 'r', 'e']
@@ -45,13 +45,13 @@ impl PatternLinter for PluralConjugate {
             vec!['i', 's']
         };
 
-        Lint {
-            span: matched_tokens.last().unwrap().span,
+        Some(Lint {
+            span: matched_tokens.last()?.span,
             lint_kind: LintKind::WordChoice,
             suggestions: vec![Suggestion::ReplaceWith(sug)],
             message: "Use the alternative conjugation of this verb to be consistent with the noun's plural nature.".to_owned(),
             priority: 63,
-        }
+        })
     }
 
     fn description(&self) -> &'static str {

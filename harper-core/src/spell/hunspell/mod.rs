@@ -9,8 +9,8 @@ pub use attribute_list::AttributeList;
 use attribute_list::HumanReadableAttributeList;
 pub use error::Error;
 
-use self::word_list::parse_word_list;
 pub use self::word_list::MarkedWord;
+use self::word_list::parse_word_list;
 
 pub fn parse_default_word_list() -> Result<Vec<MarkedWord>, Error> {
     parse_word_list(include_str!("../../../dictionary.dict"))
@@ -95,10 +95,12 @@ mod tests {
 
         assert_eq!(
             expanded,
-            vec!["hello", "tried", "reworked", "rework", "worked", "work", "try"]
-                .into_iter()
-                .map(|v| v.into())
-                .collect()
+            vec![
+                "hello", "tried", "reworked", "rework", "worked", "work", "try"
+            ]
+            .into_iter()
+            .map(|v| v.into())
+            .collect()
         )
     }
 
@@ -203,10 +205,12 @@ mod tests {
 
     #[test]
     fn expanded_contains_possessive_abandonment() {
-        assert!(build_expanded()
-            .get(&split("abandonment's"))
-            .unwrap()
-            .is_possessive_noun())
+        assert!(
+            build_expanded()
+                .get(&split("abandonment's"))
+                .unwrap()
+                .is_possessive_noun()
+        )
     }
 
     #[test]
@@ -228,6 +232,35 @@ mod tests {
         dbg!(&is);
         assert!(is.is_some());
         assert!(is.unwrap().is_linking_verb());
+    }
+
+    #[test]
+    fn are_merged_attrs_same_as_spread_attrs() {
+        let merged_word = parse_word_list("1\nblork/DGS").unwrap();
+        let spread_word = parse_word_list("2\nblork/DG\nblork/S").unwrap();
+
+        let merged_attrs = parse_default_attribute_list();
+        let spread_attrs = parse_default_attribute_list();
+
+        let mut expanded1 = HashMap::new();
+        let mut expanded2 = HashMap::new();
+
+        merged_attrs.expand_marked_words(merged_word, &mut expanded1);
+        let expanded_merged: HashSet<String> = expanded1
+            .into_iter()
+            .map(|v| v.0.into_iter().collect())
+            .collect();
+
+        spread_attrs.expand_marked_words(spread_word, &mut expanded2);
+        let expanded_spread: HashSet<String> = expanded2
+            .into_iter()
+            .map(|v| v.0.into_iter().collect())
+            .collect();
+
+        assert_eq!(
+            expanded_merged.into_iter().collect::<HashSet<_>>(),
+            expanded_spread.into_iter().collect::<HashSet<_>>()
+        );
     }
 
     fn split(text: &str) -> CharString {

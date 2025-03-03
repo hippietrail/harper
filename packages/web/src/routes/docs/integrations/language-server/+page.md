@@ -14,14 +14,25 @@ To install `harper-ls`, simply run:
 cargo install harper-ls --locked
 ```
 
-If you are on a Debian-based Linux distribution, you may need to install `build-essential`.
+For this to work, make sure that `~/.cargo/bin` is in your system `$PATH`. If you are on a Debian-based Linux distribution, you may need to install `build-essential`.
 
 ### Arch Linux
 
-Harper is available through the `extra` repo:
+**Stable Release**
+
+The latest stable release is available through the `extra` repo:
 
 ```bash
 sudo pacman -S harper
+```
+
+**Bleeding-Edge**
+
+If you want the latest bleeding-edge, you can install `harper-git` from the [Arch User Repository](https://aur.archlinux.org/packages/harper-git) with your favorite AUR helper:
+
+```bash
+paru -S harper-git
+# or yay -S harper-git, etc.
 ```
 
 ### Scoop
@@ -38,6 +49,24 @@ You may install Harper through [Homebrew](https://brew.sh).
 
 ```bash
 brew install harper
+```
+
+### Nixpkgs/NixOS
+
+You may install Harper via
+[Nixpkgs](https://search.nixos.org/packages?channel=unstable&show=harper&from=0&size=50&sort=relevance&type=packages&query=harper).
+You can install the `harper` package via any of the normal methods such as
+adding it to `environment.systemPackages`. You can try Harper within an
+ephemeral shell using:
+
+```bash
+nix-shell -p harper
+```
+
+or if you have the `nix-command` and `flakes` experimental features enabled:
+
+```bash
+nix shell 'nixpkgs#harper'
 ```
 
 ## Dictionaries

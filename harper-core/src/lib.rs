@@ -38,7 +38,7 @@ pub use mask::{Mask, Masker};
 pub use number::{Number, NumberSuffix};
 pub use punctuation::{Punctuation, Quote};
 pub use span::Span;
-pub use spell::{Dictionary, FstDictionary, FullDictionary, MergedDictionary};
+pub use spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary};
 pub use sync::Lrc;
 pub use title_case::{make_title_case, make_title_case_str};
 pub use token::Token;
@@ -75,20 +75,16 @@ pub fn remove_overlaps(lints: &mut Vec<Lint>) {
 #[cfg(test)]
 mod tests {
     use crate::{
-        linting::{LintGroup, LintGroupConfig, Linter},
-        remove_overlaps, Document, FstDictionary,
+        Document, FstDictionary,
+        linting::{LintGroup, Linter},
+        remove_overlaps,
     };
 
     #[test]
     fn keeps_space_lint() {
         let doc = Document::new_plain_english_curated("Ths  tet");
 
-        let lint_config = LintGroupConfig {
-            spell_check: Some(true),
-            spaces: Some(true),
-            ..LintGroupConfig::none()
-        };
-        let mut linter = LintGroup::new(lint_config, FstDictionary::curated());
+        let mut linter = LintGroup::new_curated(FstDictionary::curated());
 
         let mut lints = linter.lint(&doc);
 

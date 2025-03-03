@@ -1,11 +1,12 @@
 use super::{
+    MutableDictionary,
     hunspell::{parse_default_attribute_list, parse_default_word_list},
-    seq_to_normalized, FullDictionary,
+    seq_to_normalized,
 };
-use fst::{map::StreamWithState, IntoStreamer, Map as FstMap, Streamer};
+use fst::{IntoStreamer, Map as FstMap, Streamer, map::StreamWithState};
 use hashbrown::HashMap;
 use lazy_static::lazy_static;
-use levenshtein_automata::{LevenshteinAutomatonBuilder, DFA};
+use levenshtein_automata::{DFA, LevenshteinAutomatonBuilder};
 use std::{cell::RefCell, sync::Arc};
 
 use crate::{CharString, CharStringExt, WordMetadata};
@@ -13,9 +14,13 @@ use crate::{CharString, CharStringExt, WordMetadata};
 use super::Dictionary;
 use super::FuzzyMatchResult;
 
+/// An immutable dictionary allowing for very fast spellchecking.
+///
+/// For dictionaries with changing contents, such as user and file dictionaries, prefer
+/// [`super::MutableDictionary`].
 pub struct FstDictionary {
-    /// Underlying FullDictionary used for everything except fuzzy finding
-    full_dict: Arc<FullDictionary>,
+    /// Underlying [`super::MutableDictionary`] used for everything except fuzzy finding
+    full_dict: Arc<MutableDictionary>,
     /// Used for fuzzy-finding the index of words or metadata
     word_map: FstMap<Vec<u8>>,
     /// Used for fuzzy-finding the index of words or metadata
@@ -79,7 +84,7 @@ impl FstDictionary {
                 .expect("Insertion not in lexicographical order!");
         }
 
-        let mut full_dict = FullDictionary::new();
+        let mut full_dict = MutableDictionary::new();
         full_dict.extend_words(words.iter().cloned());
 
         let fst_bytes = builder.into_inner().unwrap();
@@ -94,7 +99,7 @@ impl FstDictionary {
 }
 
 fn build_dfa(max_distance: u8, query: &str) -> DFA {
-    // Insert if does not exist
+    // Insert if it does not exist
     AUTOMATON_BUILDERS.with_borrow_mut(|v| {
         if !v.iter().any(|t| t.0 == max_distance) {
             v.push((
@@ -132,11 +137,11 @@ impl Dictionary for FstDictionary {
         self.full_dict.contains_word_str(word)
     }
 
-    fn get_word_metadata(&self, word: &[char]) -> WordMetadata {
+    fn get_word_metadata(&self, word: &[char]) -> Option<WordMetadata> {
         self.full_dict.get_word_metadata(word)
     }
 
-    fn get_word_metadata_str(&self, word: &str) -> WordMetadata {
+    fn get_word_metadata_str(&self, word: &str) -> Option<WordMetadata> {
         self.full_dict.get_word_metadata_str(word)
     }
 
@@ -181,6 +186,7 @@ impl Dictionary for FstDictionary {
         }
 
         merged.sort_unstable_by_key(|v| v.word);
+        merged.dedup_by_key(|v| v.word);
         merged.sort_unstable_by_key(|v| v.edit_distance);
         merged.truncate(max_results);
 
@@ -207,6 +213,22 @@ impl Dictionary for FstDictionary {
     fn words_with_len_iter(&self, len: usize) -> Box<dyn Iterator<Item = &'_ [char]> + Send + '_> {
         self.full_dict.words_with_len_iter(len)
     }
+
+    fn word_count(&self) -> usize {
+        self.full_dict.word_count()
+    }
+
+    fn contains_exact_word(&self, word: &[char]) -> bool {
+        self.full_dict.contains_exact_word(word)
+    }
+
+    fn contains_exact_word_str(&self, word: &str) -> bool {
+        self.full_dict.contains_exact_word_str(word)
+    }
+
+    fn get_correct_capitalization_of(&self, word: &[char]) -> Option<&'_ [char]> {
+        self.full_dict.get_correct_capitalization_of(word)
+    }
 }
 
 #[cfg(test)]
@@ -214,7 +236,7 @@ mod tests {
     use itertools::Itertools;
 
     use crate::CharStringExt;
-    use crate::{spell::seq_to_normalized, Dictionary};
+    use crate::{Dictionary, spell::seq_to_normalized};
 
     use super::FstDictionary;
 
@@ -265,5 +287,12 @@ mod tests {
             .all(|(a, b)| a <= b);
 
         assert!(is_sorted_by_dist)
+    }
+
+    #[test]
+    fn curated_contains_no_duplicates() {
+        let dict = FstDictionary::curated();
+
+        assert!(dict.words.iter().map(|(word, _)| word).all_unique());
     }
 }

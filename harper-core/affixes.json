@@ -144,7 +144,9 @@
           "condition": "[^ey]"
         }
       ],
-      "adds_metadata": {},
+      "adds_metadata": {
+        "adjective": {}
+      },
       "gifts_metadata": {}
     },
     "C": {
@@ -181,7 +183,7 @@
       "gifts_metadata": {}
     },
     "N": {
-      "#": "nominalization suffixes",
+      "#": "nominalization suffixes: -ion, -ication, -en",
       "suffix": true,
       "cross_product": true,
       "replacements": [
@@ -642,6 +644,18 @@
       "adds_metadata": {},
       "gifts_metadata": {
         "adverb": {}
+      }
+    },
+    "m": {
+      "#": "auxiliary verb property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "verb": {
+          "is_auxiliary": true
+        }
       }
     }
   }

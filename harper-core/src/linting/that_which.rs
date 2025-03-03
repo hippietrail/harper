@@ -1,8 +1,8 @@
 use itertools::Itertools;
 
 use crate::{
-    patterns::{Pattern, SequencePattern, WordPatternGroup},
     Lrc, Token, TokenStringExt,
+    patterns::{Pattern, SequencePattern, WordPatternGroup},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -17,9 +17,9 @@ impl Default for ThatWhich {
 
         let matching_pattern = Lrc::new(
             SequencePattern::default()
-                .then_exact_word_or_lowercase("That")
+                .then_any_capitalization_of("that")
                 .then_whitespace()
-                .then_exact_word("that"),
+                .then_any_capitalization_of("that"),
         );
 
         pattern.add("that", Box::new(matching_pattern.clone()));
@@ -36,7 +36,7 @@ impl PatternLinter for ThatWhich {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
         let suggestion = format!(
             "{} which",
             matched_tokens[0]
@@ -48,13 +48,13 @@ impl PatternLinter for ThatWhich {
         .chars()
         .collect_vec();
 
-        Lint {
-            span: matched_tokens.span().unwrap(),
+        Some(Lint {
+            span: matched_tokens.span()?,
             lint_kind: LintKind::Repetition,
             suggestions: vec![Suggestion::ReplaceWith(suggestion)],
             message: "“that that” sometimes means “that which”, which is clearer.".to_string(),
             priority: 126,
-        }
+        })
     }
 
     fn description(&self) -> &'static str {

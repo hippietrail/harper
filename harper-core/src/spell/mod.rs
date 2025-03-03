@@ -6,20 +6,20 @@ use crate::{CharString, CharStringExt, WordMetadata};
 
 pub use self::dictionary::Dictionary;
 pub use self::fst_dictionary::FstDictionary;
-pub use self::full_dictionary::FullDictionary;
 pub use self::merged_dictionary::MergedDictionary;
+pub use self::mutable_dictionary::MutableDictionary;
 
 mod dictionary;
 mod fst_dictionary;
-mod full_dictionary;
 pub mod hunspell;
 mod merged_dictionary;
+mod mutable_dictionary;
 
-#[derive(PartialEq, Debug)]
+#[derive(PartialEq, Debug, Hash, Eq)]
 pub struct FuzzyMatchResult<'a> {
-    word: &'a [char],
-    edit_distance: u8,
-    metadata: WordMetadata,
+    pub word: &'a [char],
+    pub edit_distance: u8,
+    pub metadata: WordMetadata,
 }
 
 impl PartialOrd for FuzzyMatchResult<'_> {
@@ -85,6 +85,7 @@ pub fn suggest_correct_spelling<'a>(
         .fuzzy_match(misspelled_word, max_edit_dist, result_limit)
         .into_iter()
         .collect();
+
     order_suggestions(matches)
 }
 
@@ -129,12 +130,12 @@ mod tests {
     use crate::spell::FuzzyMatchResult;
 
     use super::{
-        order_suggestions, seq_to_normalized, suggest_correct_spelling_str, Dictionary,
-        FstDictionary, FullDictionary,
+        Dictionary, FstDictionary, MutableDictionary, order_suggestions, seq_to_normalized,
+        suggest_correct_spelling_str,
     };
 
-    const RESULT_LIMIT: usize = 60;
-    const MAX_EDIT_DIST: u8 = 3;
+    const RESULT_LIMIT: usize = 100;
+    const MAX_EDIT_DIST: u8 = 2;
 
     #[test]
     fn normalizes_weve() {
@@ -145,7 +146,7 @@ mod tests {
     }
 
     #[test]
-    fn produces_no_duplicates() {
+    fn punctation_no_duplicates() {
         let results = suggest_correct_spelling_str(
             "punctation",
             RESULT_LIMIT,
@@ -153,9 +154,7 @@ mod tests {
             &FstDictionary::curated(),
         );
 
-        dbg!(&results, results.iter().unique().collect_vec());
-
-        assert_eq!(results.iter().unique().count(), results.len())
+        assert!(results.iter().all_unique())
     }
 
     /// Ensures that the suggestions are ordered taking into account commonality
@@ -166,7 +165,7 @@ mod tests {
         let common_words = dict
             .words_iter()
             .filter_map(|word| {
-                let metadata = dict.get_word_metadata(word);
+                let metadata = dict.get_word_metadata(word).unwrap();
                 if metadata.common {
                     Some(FuzzyMatchResult {
                         word,
@@ -182,7 +181,7 @@ mod tests {
         let uncommon_words = dict
             .words_iter()
             .filter_map(|word| {
-                let metadata = dict.get_word_metadata(word);
+                let metadata = dict.get_word_metadata(word).unwrap();
                 if metadata.common {
                     None
                 } else {
@@ -203,7 +202,7 @@ mod tests {
         let common_first = suggestions
             .into_iter()
             .take(3)
-            .all(|word| dict.get_word_metadata(word).common);
+            .all(|word| dict.get_word_metadata(word).unwrap().common);
 
         assert!(common_first);
     }
@@ -228,7 +227,7 @@ mod tests {
             "ned",
             RESULT_LIMIT,
             MAX_EDIT_DIST,
-            &FullDictionary::curated(),
+            &MutableDictionary::curated(),
         );
 
         dbg!(&results);
@@ -251,6 +250,20 @@ mod tests {
     }
 
     #[test]
+    fn issue_624_no_duplicates() {
+        let results = suggest_correct_spelling_str(
+            "Semantical",
+            RESULT_LIMIT,
+            MAX_EDIT_DIST,
+            &FstDictionary::curated(),
+        );
+
+        dbg!(&results);
+
+        assert!(results.iter().all_unique())
+    }
+
+    #[test]
     fn issue_182_fst() {
         let results = suggest_correct_spelling_str(
             "Im",
@@ -270,7 +283,7 @@ mod tests {
             "Im",
             RESULT_LIMIT,
             MAX_EDIT_DIST,
-            &FullDictionary::curated(),
+            &MutableDictionary::curated(),
         );
 
         dbg!(&results);
@@ -298,7 +311,7 @@ mod tests {
             "hvllo",
             RESULT_LIMIT,
             MAX_EDIT_DIST,
-            &FullDictionary::curated(),
+            &MutableDictionary::curated(),
         );
 
         dbg!(&results);
@@ -326,7 +339,7 @@ mod tests {
             "aboot",
             RESULT_LIMIT,
             MAX_EDIT_DIST,
-            &FullDictionary::curated(),
+            &MutableDictionary::curated(),
         );
 
         dbg!(&results);

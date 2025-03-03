@@ -3,8 +3,7 @@
 	import demo from '../../../../demo.md?raw';
 	import Underlines from '$lib/Underlines.svelte';
 	import { Button } from 'flowbite-svelte';
-	import { WorkerLinter, SuggestionKind } from 'harper.js';
-	import type { Lint } from 'harper.js';
+	import { type Lint, type WorkerLinter, SuggestionKind } from 'harper.js';
 	import CheckMark from '$lib/CheckMark.svelte';
 	import { fly } from 'svelte/transition';
 	import lintKindColor from './lintKindColor';
@@ -15,13 +14,18 @@
 	let lintCards: HTMLButtonElement[] = [];
 	let focused: number | undefined;
 	let editor: HTMLTextAreaElement | null;
-	let linter = new WorkerLinter();
+	let linter: WorkerLinter;
 
-	linter.setup();
+	(async () => {
+		let { WorkerLinter } = await import('harper.js');
+		linter = new WorkerLinter();
+
+		await linter.setup();
+	})();
 
 	let w: number | undefined;
 
-	$: linter.lint(content).then((newLints) => (lints = newLints));
+	$: linter?.lint(content).then((newLints) => (lints = newLints));
 	$: boxHeight = calcHeight(content);
 	$: if (focused != null && lintCards[focused])
 		lintCards[focused].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
@@ -124,7 +128,7 @@
 			class={`max-w-full w-full ${superSmall ? 'justify-center' : 'justify-between'} flex-row ${small ? '' : 'hidden'}`}
 		>
 			<div class={superSmall ? 'hidden' : ''}>
-				<h1 class={`font-bold p-0 text-base`}>{lints[focused].lint_kind()}</h1>
+				<h1 class={`font-bold p-0 text-base`}>{lints[focused].lint_kind_pretty()}</h1>
 				<p class={`p-0 text-sm`}>{lints[focused].message()}</p>
 			</div>
 			<div class="flex flex-row">
