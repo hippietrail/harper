@@ -400,6 +400,108 @@ pub fn lint_group() -> LintGroup {
             ["piggybacked"],
             "Did you mean `piggybacked`?",
             "Corrects the eggcorn `piggy bagged` to `piggybacked`, the proper past tense form for riding on someone’s back or making use of an existing system."
+        ),
+        "DampSquib" => (
+            ["damp squid"],
+            ["damp squib"],
+            "Use the correct phrase for a disappointing outcome.",
+            "Corrects the eggcorn `damp squid` to `damp squib`, ensuring the intended meaning of a failed or underwhelming outcome."
+        ),
+        "Expatriate" => (
+            ["ex-patriot"],
+            ["expatriate"],
+            "Use the correct term for someone living abroad.",
+            "Fixes the misinterpretation of `expatriate`, ensuring the correct term is used for individuals residing abroad."
+        ),
+        "FetalPosition" => (
+            ["the feeble position"],
+            ["the fetal position"],
+            "Use the correct term for a curled-up posture.",
+            "Ensures the correct use of `fetal position`, avoiding confusion with `feeble position`, which is not a standard phrase."
+        ),
+        "ForAllIntentsAndPurposes" => (
+            ["for all intensive purposes"],
+            ["for all intents and purposes"],
+            "Use the correct phrase meaning 'in every practical sense'.",
+            "Corrects `for all intensive purposes` to `for all intents and purposes`, ensuring the phrase conveys its intended meaning."
+        ),
+        "FreeRein" => (
+            ["free reign"],
+            ["free rein"],
+            "Use the correct phrase for unrestricted control.",
+            "Ensures the correct use of `free rein`, avoiding confusion with `free reign`, which incorrectly suggests authority rather than freedom of action."
+        ),
+        "InOneFellSwoop" => (
+            ["in one foul swoop"],
+            ["in one fell swoop"],
+            "Use the correct phrase for something happening suddenly.",
+            "Corrects `in one foul swoop` to `in one fell swoop`, preserving the phrase’s original meaning of sudden and complete action."
+        ),
+        "JawDropping" => (
+            ["jar-dropping"],
+            ["jaw-dropping"],
+            "Use the correct phrase for something astonishing.",
+            "Corrects `jar-dropping` to `jaw-dropping`, ensuring the intended meaning of something that causes amazement."
+        ),
+        "JustDeserts" => (
+            ["just desserts"],
+            ["just deserts"],
+            "Use the correct phrase for receiving what one deserves.",
+            "Ensures `just deserts` is used correctly, preserving its meaning of receiving an appropriate outcome for one's actions."
+        ),
+        "AlzheimersDisease" => (
+            ["old-timers' disease"],
+            ["Alzheimer’s disease"],
+            "Use the correct medical term.",
+            "Fixes the common misnomer `old-timers' disease`, ensuring the correct medical term `Alzheimer’s disease` is used."
+        ),
+        "OldWivesTale" => (
+            ["old wise tale"],
+            ["old wives' tale"],
+            "Use the correct phrase for a superstition or myth.",
+            "Corrects `old wise tale` to `old wives' tale`, preserving the phrase’s meaning as an unfounded traditional belief."
+        ),
+        "OnTheSpurOfTheMoment" => (
+            ["on the spurt of the moment"],
+            ["on the spur of the moment"],
+            "Use the correct phrase for acting spontaneously.",
+            "Ensures the correct use of `on the spur of the moment`, avoiding confusion with the incorrect `spurt` variation."
+        ),
+        "PrayingMantis" => (
+            ["preying mantis"],
+            ["praying mantis"],
+            "Use the insect's correct name.",
+            "Corrects `preying mantis` to `praying mantis`, ensuring accurate reference to the insect’s characteristic pose."
+        ),
+        "RealTrouper" => (
+            ["real trooper"],
+            ["real trouper"],
+            "Use the correct phrase for someone who perseveres.",
+            "Ensures the correct use of `real trouper`, distinguishing it from `trooper`, which refers to a soldier or police officer."
+        ),
+        "RifeWith" => (
+            ["ripe with"],
+            ["rife with"],
+            "Use the correct phrase for something abundant.",
+            "Corrects `ripe with` to `rife with`, preserving the phrase’s meaning of being filled with something, often undesirable."
+        ),
+        "ScantilyClad" => (
+            ["scandally clad"],
+            ["scantily clad"],
+            "Use the correct phrase for minimal attire.",
+            "Fixes `scandally clad` to `scantily clad`, ensuring clarity in describing minimal attire."
+        ),
+        "ToTheMannerBorn" => (
+            ["to the manor born"],
+            ["to the manner born"],
+            "Use the correct phrase for being naturally suited to something.",
+            "Corrects `to the manor born` to `to the manner born`, ensuring the intended meaning of being naturally suited to a way of life."
+        ),
+        "WhetYourAppetite" => (
+            ["wet your appetite"],
+            ["whet your appetite"],
+            "Use the correct phrase for stimulating desire.",
+            "Ensures `whet your appetite` is used correctly, distinguishing it from the incorrect `wet` variation."
         )
     });
 
