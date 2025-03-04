@@ -85,6 +85,7 @@ impl SequencePattern {
     gen_then_from_is!(hyphen);
     gen_then_from_is!(determiner);
     gen_then_from_is!(proper_noun);
+    gen_then_from_is!(preposition);
 
     pub fn then_indefinite_article(self) -> Self {
         self.then(IndefiniteArticle::default())
@@ -160,9 +161,9 @@ impl SequencePattern {
         self
     }
 
-    pub fn then_one_or_more(mut self, pat: Box<dyn Pattern>) -> Self {
+    pub fn then_one_or_more(mut self, pat: impl Pattern + 'static) -> Self {
         self.token_patterns
-            .push(Box::new(RepeatingPattern::new(pat, 0)));
+            .push(Box::new(RepeatingPattern::new(Box::new(pat), 0)));
         self
     }
 

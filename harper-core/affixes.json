@@ -739,6 +739,18 @@
           "is_plural": true
         }
       }
+    },
+    "m": {
+      "#": "auxiliary verb property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "verb": {
+          "is_auxiliary": true
+        }
+      }
     }
   }
 }

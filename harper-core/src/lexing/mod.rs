@@ -25,8 +25,8 @@ pub fn lex_token(source: &[char]) -> Option<FoundToken> {
         lex_tabs,
         lex_spaces,
         lex_newlines,
-        lex_hex_number,  // before lex_number, which would match the initial 0
-        lex_long_decade, // before lex_number, which would match the digits up to the -s
+        lex_hex_number,  // Before lex_number, which would match the initial 0
+        lex_long_decade, // Before lex_number, which would match the digits up to the -s
         lex_number,
         lex_url,
         lex_email_address,
@@ -47,7 +47,7 @@ pub fn lex_token(source: &[char]) -> Option<FoundToken> {
 fn lex_word(source: &[char]) -> Option<FoundToken> {
     let end = source
         .iter()
-        .position(|c| !c.is_english_lingual() && !c.is_numeric())
+        .position(|c| !c.is_english_lingual() && !c.is_ascii_digit())
         .unwrap_or(source.len());
 
     if end == 0 {
@@ -73,7 +73,7 @@ pub fn lex_number(source: &[char]) -> Option<FoundToken> {
         .iter()
         .enumerate()
         .rev()
-        .find_map(|(i, v)| v.is_numeric().then_some(i))?;
+        .find_map(|(i, v)| v.is_ascii_digit().then_some(i))?;
 
     let mut s: String = source[0..end + 1].iter().collect();
 
@@ -245,9 +245,107 @@ fn lex_catch(_source: &[char]) -> Option<FoundToken> {
 mod tests {
     use super::lex_hex_number;
     use super::lex_long_decade;
+    use super::lex_number;
     use super::lex_token;
     use super::lex_word;
     use super::{FoundToken, TokenKind};
+
+    // test various kinds of number
+    #[test]
+    fn lexes_0() {
+        let source: Vec<_> = "0".chars().collect();
+        assert!(matches!(
+            lex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn lexes_0_point_0() {
+        let source: Vec<_> = "0.0".chars().collect();
+        assert!(matches!(
+            lex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn lexes_00() {
+        let source: Vec<_> = "00".chars().collect();
+        assert!(matches!(
+            lex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_),
+                ..
+            })
+        ));
+    }
+
+    // #[test]
+    // fn lexes_negative_1() {
+    //     let source: Vec<_> = "-1".chars().collect();
+    //     assert!(matches!(
+    //         lex_number(&source),
+    //         Some(FoundToken {
+    //             token: TokenKind::Number(_),
+    //             ..
+    //         })
+    //     ));
+    // }
+
+    // #[test]
+    // fn lexes_positive_1() {
+    //     let source: Vec<_> = "+1".chars().collect();
+    //     assert!(matches!(
+    //         lex_number(&source),
+    //         Some(FoundToken {
+    //             token: TokenKind::Number(_),
+    //             ..
+    //         })
+    //     ));
+    // }
+
+    #[test]
+    fn lexes_pi() {
+        let source: Vec<_> = "3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679".chars().collect();
+        assert!(matches!(
+            lex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn lexes_speed_of_light() {
+        let source: Vec<_> = "3.00e8".chars().collect();
+        assert!(matches!(
+            lex_number(&source),
+            Some(FoundToken {
+                token: TokenKind::Number(_),
+                ..
+            })
+        ));
+    }
+
+    #[test]
+    fn doesnt_lex_cjk_numeral() {
+        let source: Vec<_> = "二".chars().collect();
+        assert!(lex_number(&source).is_none());
+    }
+
+    #[test]
+    fn doesnt_lex_thai_digit() {
+        let source: Vec<_> = "๑".chars().collect();
+        assert!(lex_number(&source).is_none());
+    }
 
     #[test]
     fn lexes_cjk_as_unlintable() {
@@ -469,5 +567,63 @@ mod tests {
     fn doesnt_lex_good_apostrophe_short_decade() {
         let source: Vec<_> = "'90s".chars().collect();
         assert!(lex_long_decade(&source).is_none());
+    }
+
+    #[test]
+    fn accepts_sentence_with_decade() {
+        let sentence: Vec<_> = "To the early 1990s there were a lot of Movies where the bad guys were former Russian intelligence agents.".chars().collect();
+        let expected_tokens = [
+            TokenKind::Word(None),
+            TokenKind::Space(1),
+            TokenKind::Word(None),
+            TokenKind::Space(1),
+            TokenKind::Word(None),
+            TokenKind::Space(1),
+            TokenKind::Decade,
+        ];
+
+        let mut next_index = 0;
+
+        for expected_token in expected_tokens.iter() {
+            if next_index >= sentence.len() {
+                break; // Exit if we've processed the entire source
+            }
+
+            let token = lex_token(&sentence[next_index..]).expect("Failed to lex token");
+            assert_eq!(token.token, *expected_token);
+            next_index += token.next_index;
+        }
+    }
+
+    #[test]
+    fn rejects_sentence_with_number() {
+        let sentence: Vec<_> = "To the early 1990s there were a lot of Movies where the bad guys were former Russian intelligence agents.".chars().collect();
+        let expected_tokens = [
+            TokenKind::Word(None),
+            TokenKind::Space(1),
+            TokenKind::Word(None),
+            TokenKind::Space(1),
+            TokenKind::Word(None),
+            TokenKind::Space(1),
+            TokenKind::Number(Default::default()),
+        ];
+
+        let mut next_index = 0;
+
+        for (i, expected_token) in expected_tokens.iter().enumerate() {
+            if next_index >= sentence.len() {
+                break; // Exit if we've processed the entire source
+            }
+
+            let token = lex_token(&sentence[next_index..]).expect("Failed to lex token");
+
+            if i < 6 {
+                assert_eq!(token.token, *expected_token);
+            } else {
+                assert_ne!(token.token, *expected_token);
+            }
+
+            next_index += token.next_index;
+        }
     }
 }

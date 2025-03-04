@@ -106,13 +106,13 @@ impl WordMetadata {
     generate_metadata_queries!(
         noun has proper, plural, possessive.
         pronoun has plural, possessive.
-        verb has linking.
+        verb has linking, auxiliary.
         conjunction has.
         adjective has.
         adverb has
     );
 
-    /// Checks if the word is definitely a nominalpro.
+    /// Checks if the word is definitely nominal.
     pub fn is_nominal(&self) -> bool {
         self.noun.is_some() || self.pronoun.is_some()
     }
@@ -212,8 +212,7 @@ pub enum Tense {
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
 pub struct VerbData {
     pub is_linking: Option<bool>,
-    // can, could, may, might, must, shall, should, will, would
-    pub is_modal: Option<bool>,
+    pub is_auxiliary: Option<bool>,
     pub tense: Option<Tense>,
 }
 
@@ -222,7 +221,7 @@ impl VerbData {
     pub fn or(&self, other: &Self) -> Self {
         Self {
             is_linking: self.is_linking.or(other.is_linking),
-            is_modal: self.is_modal.or(other.is_modal),
+            is_auxiliary: self.is_auxiliary.or(other.is_auxiliary),
             tense: self.tense.or(other.tense),
         }
     }

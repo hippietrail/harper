@@ -7,6 +7,7 @@ format:
 build-wasm:
   cd "{{justfile_directory()}}/harper-wasm" && wasm-pack build --target web
 
+
 # Build `harper.js` with all size optimizations available.
 build-harperjs: build-wasm 
   #! /bin/bash
@@ -36,12 +37,20 @@ test-harperjs: build-harperjs
   yarn install
   yarn start
 
-# Compile the website's dependencies and start a development server. Note that if you make changes to `harper-wasm`, you will have to re-run this command.
-dev-web:
+# Build the WordPress plugin
+build-wp: build-harperjs
   #! /bin/bash
   set -eo pipefail
 
-  just build-harperjs
+  cd "{{justfile_directory()}}/packages/wordpress-plugin"
+  yarn install -f
+  yarn build
+  yarn plugin-zip
+
+# Compile the website's dependencies and start a development server. Note that if you make changes to `harper-wasm`, you will have to re-run this command.
+dev-web: build-harperjs
+  #! /bin/bash
+  set -eo pipefail
 
   cd "{{justfile_directory()}}/packages/web"
   yarn install -f
@@ -129,7 +138,7 @@ update-vscode-linters:
 
   linters=$(
     cargo run --bin harper-cli -- config |
-      jq 'with_entries(.key |= "harper-ls.linters." + . |
+      jq 'with_entries(.key |= "harper.linters." + . |
         .value |= {
           "scope": "resource",
           "type": "boolean",
@@ -144,7 +153,7 @@ update-vscode-linters:
   manifest_without_linters=$(
     jq 'walk(
       if type == "object" then
-        with_entries(select(.key | startswith("harper-ls.linters") | not))
+        with_entries(select(.key | startswith("harper.linters") | not))
       end
     )' package.json
   )
@@ -178,10 +187,10 @@ check: check-rust build-web
   yarn run check
 
 # Populate build caches and install necessary local tooling (tools callable via `yarn run <tool>`).
-setup: build-harperjs build-obsidian test-vscode test-harperjs build-web
+setup: build-harperjs build-obsidian test-vscode test-harperjs build-web build-wp
 
 # Perform full format and type checking, build all projects and run all tests. Run this before pushing your code.
-precommit: check test build-harperjs build-obsidian build-web
+precommit: check test build-harperjs build-obsidian build-web build-wp
   #! /bin/bash
   set -eo pipefail
 
@@ -192,8 +201,8 @@ precommit: check test build-harperjs build-obsidian build-web
 
 # Install `harper-cli` and `harper-ls` to your machine via `cargo`
 install:
-  cargo install --path harper-ls --locked
-  cargo install --path harper-cli --locked
+  cargo install --path harper-ls --locked 
+  cargo install --path harper-cli --locked 
 
 # Run `harper-cli` on the Harper repository
 dogfood:
@@ -259,6 +268,32 @@ getmetadata word:
 # Get all the forms of a word using the affixes.
 getforms word:
   cargo run --bin harper-cli -- forms {{word}}
+# Get a random sample of words from Harper's dictionary and list all forms of each.
+sampleforms count:
+  #!/bin/bash
+  set -eo pipefail
+  DICT_FILE=./harper-core/dictionary.dict 
+  # USER_DICT_FILE="$HOME/.config/harper-ls/dictionary.txt"
+
+  if [ "{{count}}" -eq 0 ]; then
+    exit 0
+  fi
+
+  total_lines=$(wc -l < $DICT_FILE)
+  
+  # Cross-platform random line selection
+  if command -v shuf >/dev/null 2>&1; then
+    words=$(shuf -n "{{count}}" "$DICT_FILE")
+  elif command -v jot >/dev/null 2>&1; then
+    words=$(jot -r "{{count}}" 1 "$total_lines" | while read -r line_num; do \
+      sed -n "$line_num"p "$DICT_FILE"; \
+    done)
+  else
+    echo "Error: Neither 'shuf' nor 'jot' found. Cannot generate random words." >&2
+    exit 1
+  fi
+  
+  cargo run --bin harper-cli -- forms $words
 
 bump-versions: update-vscode-linters
   #! /bin/bash

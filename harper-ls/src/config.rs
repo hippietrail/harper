@@ -52,7 +52,7 @@ impl CodeActionConfig {
 
         if let Some(force_stable_val) = value.get("ForceStable") {
             let Value::Bool(force_stable) = force_stable_val else {
-                bail!("forceStable must be a boolean value.");
+                bail!("ForceStable must be a boolean value.");
             };
             base.force_stable = *force_stable;
         };
