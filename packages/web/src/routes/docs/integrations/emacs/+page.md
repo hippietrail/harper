@@ -6,7 +6,7 @@ Our Emacs integration is powered by [`harper-ls`](./language-server).
 
 ## Required Setup
 
-Make sure you have [`harper-ls` installed](./language-server#Installation) in your system and available in your `PATH`.
+Make sure you have [`harper-ls` installed](./language-server#Installation) on your system and available in your `PATH`.
 
 Since version 29, Emacs has had native support for the Language Server Protocol through [Eglot](https://www.gnu.org/software/emacs/manual/html_mono/eglot.html), so all you have to do is configure it to use `harper-ls` in your `init.el`:
 

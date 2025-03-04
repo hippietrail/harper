@@ -6,7 +6,7 @@ Our Helix integration is powered by [`harper-ls`](./language-server).
 
 ## Required Setup
 
-Make sure you have [`harper-ls` installed](./language-server#Installation) in your system and available in your `PATH`.
+Make sure you have [`harper-ls` installed](./language-server#Installation) on your system and available in your `PATH`.
 
 Helix supports language servers [out-of-the-box](https://docs.helix-editor.com/languages.html), but you'll still need to configure it to use `harper-ls`. First, you need to tell Helix how it should run `harper-ls`:
 

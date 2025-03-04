@@ -6,7 +6,7 @@ Our Neovim integration is powered by [`harper-ls`](./language-server).
 
 ## Required Setup
 
-Make sure you have `harper-ls` installed and available in your global or Neovim's `PATH`. You can do this using [`mason.nvim`](https://mason-registry.dev/registry/list?search=harper-ls) or via any of our other [supported installation methods](./language-server#Installation).
+Make sure you have `harper-ls` installed and available on your global or Neovim's `PATH`. You can do this using [`mason.nvim`](https://mason-registry.dev/registry/list?search=harper-ls) or via any of our other [supported installation methods](./language-server#Installation).
 
 Though Neovim supports language servers [out-of-the-box](https://neovim.io/doc/user/lsp.html), for ease of use, we suggest using `harper-ls` through [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
 
