@@ -1,6 +1,6 @@
 use crate::{
     Token,
-    patterns::{EitherPattern, Pattern, SequencePattern},
+    patterns::{OwnedPatternExt, Pattern, SequencePattern},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -23,7 +23,7 @@ impl Default for PluralConjugate {
             .then_whitespace()
             .then_exact_word("are");
 
-        let pat = EitherPattern::new(vec![Box::new(plural_case), Box::new(non_plural_case)]);
+        let pat = plural_case.or(Box::new(non_plural_case));
 
         Self {
             pattern: Box::new(pat),
@@ -101,14 +101,75 @@ mod tests {
         );
     }
 
-    // TODO disabled since it relied on the /1 affix flag which meant noun as well as singular
-    // TODO currently there is no way to mark number on pronouns without making them also nouns
-    // #[test]
-    // fn pronoun_singular() {
-    //     assert_suggestion_result(
-    //         "If he are testing it.",
-    //         PluralConjugate::default(),
-    //         "If he is testing it.",
-    //     );
-    // }
+    #[test]
+    fn pronoun_singular_he_test() {
+        assert_suggestion_result(
+            "If he are testing it.",
+            PluralConjugate::default(),
+            "If he is testing it.",
+        );
+    }
+
+    #[test]
+    fn pronoun_singular_he_going() {
+        assert_suggestion_result(
+            "He are going to the store.",
+            PluralConjugate::default(),
+            "He is going to the store.",
+        );
+    }
+
+    #[test]
+    fn pronoun_singular_she() {
+        assert_suggestion_result(
+            "She are playing soccer.",
+            PluralConjugate::default(),
+            "She is playing soccer.",
+        );
+    }
+
+    #[test]
+    fn pronoun_singular_it() {
+        assert_suggestion_result(
+            "It are on the table.",
+            PluralConjugate::default(),
+            "It is on the table.",
+        );
+    }
+
+    #[test]
+    fn pronoun_plural_they() {
+        assert_suggestion_result(
+            "They is arriving soon.",
+            PluralConjugate::default(),
+            "They are arriving soon.",
+        );
+    }
+
+    #[test]
+    fn pronoun_plural_we() {
+        assert_suggestion_result(
+            "We is having lunch now.",
+            PluralConjugate::default(),
+            "We are having lunch now.",
+        );
+    }
+
+    #[test]
+    fn pronoun_plural_you() {
+        assert_suggestion_result(
+            "You is responsible for this task.",
+            PluralConjugate::default(),
+            "You are responsible for this task.",
+        );
+    }
+
+    #[test]
+    fn collective_noun_singular() {
+        assert_suggestion_result(
+            "The committee are meeting today.",
+            PluralConjugate::default(),
+            "The committee is meeting today.",
+        );
+    }
 }

@@ -112,7 +112,7 @@ impl WordMetadata {
         adverb has
     );
 
-    /// Checks if the word is definitely a nominal.
+    /// Checks if the word is definitely a nominalpro.
     pub fn is_nominal(&self) -> bool {
         self.noun.is_some() || self.pronoun.is_some()
     }
@@ -230,7 +230,7 @@ impl VerbData {
 
 // TODO renamed from "noun" until refactoring is complete
 // TODO other noun properties may be worth adding:
-// TODO  count vs mass; abstract
+// TODO count vs mass; abstract
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
 pub struct NounData {
     pub is_proper: Option<bool>,
@@ -249,7 +249,7 @@ impl NounData {
     }
 }
 
-// person is a property of pronouns; the verb 'be', plus all verbs reflect 3rd person singular with -s
+// Person is a property of pronouns; the verb 'be', plus all verbs reflect 3rd person singular with -s
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Is, Hash)]
 pub enum Person {
     First,
@@ -285,9 +285,9 @@ impl PronounData {
     }
 }
 
-// degree is a property of adjectives: positive is not inflected
-// comparative is inflected with -er or comes after the word "more"
-// superlative is inflected with -est or comes after the word "most"
+// Degree is a property of adjectives: positive is not inflected
+// Comparative is inflected with -er or comes after the word "more"
+// Superlative is inflected with -est or comes after the word "most"
 #[derive(Debug, Copy, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Is, Hash)]
 pub enum Degree {
     Positive,

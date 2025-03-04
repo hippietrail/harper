@@ -26401,7 +26401,7 @@ hazing/14M
 hazmat/1
 hazy/51RTP
 hdqrs/1
-he/8~st
+he/*~st
 he'd/
 he'll/
 he's/
@@ -29024,7 +29024,7 @@ issue/14ADSMG
 issuer/1MS
 isthmian/51
 isthmus/1MS
-it/8~sot
+it/*~sot
 it'd/
 it'll/
 it's/
@@ -41583,7 +41583,7 @@ shaver/1M
 shaving/14M
 shawl/14MS
 shay/1MS
-she/8~st
+she/*~st
 she'd/
 she'll/
 she's/
@@ -45590,7 +45590,7 @@ thesis/1M
 thespian/51SM
 theta/1SM
 thew/14MS
-they/8~st
+they/:~st
 they'd/
 they'll/
 they're/
@@ -48556,7 +48556,7 @@ wayside/15SM
 wayward/5PY
 waywardness/1M
 wazoo/1S
-we/8~sf
+we/~sf:
 we'd/
 we'll/
 we're/
@@ -49523,7 +49523,7 @@ yon/8
 yonder/51
 yonks/1
 yore/1M
-you/8~son
+you/:~son
 you'd/
 you'll/
 you're/

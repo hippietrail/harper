@@ -714,6 +714,31 @@
       "gifts_metadata": {
         "adjective": {}
       }
+    },
+    "*": {
+      "#": "singular third-person pronoun property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "pronoun": {
+          "is_plural": false,
+          "person": "Third"
+        }
+      }
+    },
+    ":": {
+      "#": "plural pronoun property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "pronoun": {
+          "is_plural": true
+        }
+      }
     }
   }
 }
