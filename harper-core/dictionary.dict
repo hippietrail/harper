@@ -4109,6 +4109,7 @@ HDTV/1
 HF/15M
 HHS/21
 HI/21
+HIMARS/1
 HIV/1M
 HM/12
 HMO/1M
@@ -4972,6 +4973,7 @@ Jeffry/2M
 Jehoshaphat/2M
 Jehovah/21M
 Jekyll/2M
+Jenga/2M
 Jenifer/2M
 Jenkins/21M
 Jenna/2M
@@ -8223,6 +8225,7 @@ ROFL/4
 ROM/21M
 ROTC/2M
 RP/124
+RPM/1MS
 RR/124
 RSFSR/2
 RSI/1
@@ -8853,6 +8856,7 @@ Scala/2M
 Scan
 Scandinavia/2M
 Scandinavian/15MS
+Scania/21MS
 Scaramouch/21M
 Scarborough/2M
 Scarlatti/M
@@ -10253,7 +10257,7 @@ Verizon/M
 Verlaine/M
 Vermeer/2M
 Vermont/2ZMR
-Vermonter/1M
+Vermonter/1MS
 Vern/2M
 Verna/2M
 Verne/2M
@@ -10365,6 +10369,7 @@ WMD/1
 WNW/15M
 WP/21
 WSW/15M
+WTF/1S
 WTO/2
 WV/2
 WW/12
@@ -13304,6 +13309,7 @@ backward/51PSY
 backwardness/1M
 backwash/14M
 backwater/14SM
+backway/1MS
 backwoods/15M
 backwoodsman/1M
 backwoodsmen/19
@@ -16659,6 +16665,7 @@ chintzy/5RT
 chinwag/14S
 chip/14SM
 chipboard/1
+chipmaker/1MS
 chipmunk/14SM
 chipolata/1S
 chipped/45
@@ -17055,7 +17062,9 @@ clever/5PTRY
 cleverness/1M
 clevis/1MS
 clew/14SGMD
-cliche/14MDS
+cliche/14MDSG
+cliché/14MSG
+clichéd/45
 click/14BZGMDRS
 clickbait/14
 clicker/1M
@@ -17095,6 +17104,7 @@ cliometrician/1MS
 cliometrics/1M
 clip/41SM
 clipboard/14MS
+clippable/5
 clipped/45
 clipper/14SM
 clipping/415SM
@@ -19718,6 +19728,7 @@ defectiveness/1M
 defector/1MS
 defendant/51SM
 defended/54U
+defenestrate/4DGS
 defenestration/1S
 defense/14DSMGV
 defenseless/5YP
@@ -20786,7 +20797,7 @@ doctor/14SMDG
 doctoral/5
 doctorate/14MS
 doctrinaire/15MS
-doctrinal/51
+doctrinal/51Y
 doctrine/1MS
 docudrama/1SM
 document/14GMDS
@@ -33461,6 +33472,7 @@ nemesis/1M
 neoclassic/5
 neoclassical/51
 neoclassicism/1M
+neoclassicist/51MS
 neocolonialism/1M
 neocolonialist/51MS
 neocon/15SM
@@ -33795,6 +33807,7 @@ nonce/15M
 nonchalance/1M
 nonchalant/5Y
 nonchargeable/5
+noncitizen/1MS
 nonclerical/5MS
 nonclinical/5
 noncollectable/5
@@ -34665,6 +34678,7 @@ operatic/5
 operatically/j
 operation/1M
 operational/5Y
+operationalize/4GDS
 operative/51SM
 operator/1SM
 operetta/1SM
@@ -36036,6 +36050,7 @@ pellagra/1M
 pellet/14GMDS
 pellucid/51
 pelmet/1S
+peloton/1SM
 pelt/14MDSG
 pelvic/51
 pelvis/1MS
@@ -37847,7 +37862,7 @@ prim/541ZGDRYP
 primacy/1M
 primal/514
 primarily/j
-primary/514SM
+primary/514SMDG
 primate/1MS
 prime/514MS
 primer/15M
@@ -42151,6 +42166,7 @@ similitude/1EM
 simmer/41GMDS
 simonize/4DSG
 simony/1M
+simp/14SMDG
 simpatico/5
 simper/41GMDS
 simpering/541Y
@@ -44981,6 +44997,7 @@ synchrony/1
 syncopate/4DSGN
 syncopation/1M
 syncope/1M
+syncretic/5
 syndicalism/1
 syndicalist/1S
 syndicate/14DSMGN
@@ -46241,6 +46258,7 @@ topical/51Y
 topicality/1M
 topknot/1SM
 topless/51
+topline/1SM4DG
 topmast/1SM
 topmost/5
 topnotch/5
@@ -47224,6 +47242,9 @@ unassimilable/5
 unassuming/5Y
 unavailing/5Y
 unaware/5S
+unban/4S
+unbanned/4
+unbanning/4
 unbeknownst/
 unbend/4SG
 unbent/45
@@ -47318,7 +47339,7 @@ underfeed/4GS
 underfloor/51
 underflow/14
 underfoot/514
-underfunded/54
+underfund/4SDG
 underfur/1M
 undergarment/1SM
 undergird/4SDG
@@ -48068,7 +48089,8 @@ verdure/14M
 verge's
 verge/14FDSG
 verger/1MS
-verifiable/51U
+verifiable/5U
+verifiably/jU
 verification/1M
 verified/451U
 verify/4DSNG
@@ -49003,11 +49025,12 @@ whisk/14SMDRZG
 whisker/1MD
 whiskery/51
 whiskey/1MS
-whiskys
+whiskys/1M
 whisper/14MDRSZG
 whisperer/1M
 whist/145M
 whistle/14MZGDRS
+whistleblower/1MS
 whistler/1M
 whit/1+MDNRSXTGJ
 white/514SPM
@@ -50225,4 +50248,5 @@ GPL/2M
 gzip/4S
 gzipped/4
 gzipping/4
+Reddit/2M
 Xbox/12MS
