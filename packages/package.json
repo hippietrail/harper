@@ -4,7 +4,8 @@
 		"obsidian-plugin",
 		"web",
 		"vscode-plugin",
-		"harper.js"
+		"harper.js",
+		"wordpress-plugin"
 	],
 	"devDependencies": {
 		"eslint": "^8.28.0",

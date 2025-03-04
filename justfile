@@ -7,6 +7,7 @@ format:
 build-wasm:
   cd "{{justfile_directory()}}/harper-wasm" && wasm-pack build --target web
 
+
 # Build `harper.js` with all size optimizations available.
 build-harperjs: build-wasm 
   #! /bin/bash
@@ -36,12 +37,20 @@ test-harperjs: build-harperjs
   yarn install
   yarn start
 
-# Compile the website's dependencies and start a development server. Note that if you make changes to `harper-wasm`, you will have to re-run this command.
-dev-web:
+# Build the WordPress plugin
+build-wp: build-harperjs
   #! /bin/bash
   set -eo pipefail
 
-  just build-harperjs
+  cd "{{justfile_directory()}}/packages/wordpress-plugin"
+  yarn install -f
+  yarn build
+  yarn plugin-zip
+
+# Compile the website's dependencies and start a development server. Note that if you make changes to `harper-wasm`, you will have to re-run this command.
+dev-web: build-harperjs
+  #! /bin/bash
+  set -eo pipefail
 
   cd "{{justfile_directory()}}/packages/web"
   yarn install -f
@@ -178,10 +187,10 @@ check: check-rust build-web
   yarn run check
 
 # Populate build caches and install necessary local tooling (tools callable via `yarn run <tool>`).
-setup: build-harperjs build-obsidian test-vscode test-harperjs build-web
+setup: build-harperjs build-obsidian test-vscode test-harperjs build-web build-wp
 
 # Perform full format and type checking, build all projects and run all tests. Run this before pushing your code.
-precommit: check test build-harperjs build-obsidian build-web
+precommit: check test build-harperjs build-obsidian build-web build-wp
   #! /bin/bash
   set -eo pipefail
 
