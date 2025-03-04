@@ -67,7 +67,7 @@ lspconfig.harper_ls.setup {
   settings = {
     ["harper-ls"] = {
       markdown = {
-        ignore_link_title = true,
+        IgnoreLinkTitle = true,
       }
     }
   },
@@ -158,7 +158,7 @@ lspconfig.harper_ls.setup {
   settings = {
     ["harper-ls"] = {
       codeActions = {
-        forceStable = true
+        ForceStable = true
       }
     }
   },
