@@ -4,16 +4,24 @@ title: Neovim
 
 Our Neovim integration is powered by [`harper-ls`](./language-server).
 
-## Installation
+## Required Setup
 
-`harper-ls` can be installed with [`mason.nvim`](https://mason-registry.dev/registry/list?search=harper-ls) or via any of our other [supported installation methods](./language-server#Installation). [Neovim supports language servers out-of-the-box](https://neovim.io/doc/user/lsp.html), but for ease of use, we suggest using `harper-ls` through [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig/tree/master).
+Make sure you have `harper-ls` installed and available in your global or Neovim's `PATH`. You can do this using [`mason.nvim`](https://mason-registry.dev/registry/list?search=harper-ls) or via any of our other [supported installation methods](./language-server#Installation).
 
-## Configuration
+Though Neovim supports language servers [out-of-the-box](https://neovim.io/doc/user/lsp.html), for ease of use, we suggest using `harper-ls` through [nvim-lspconfig](https://github.com/neovim/nvim-lspconfig).
 
-Below is an example config using nvim-lspconfig where everything is set to their default values:
+Once you have `harper-ls` and nvim-lspconfig installed, you need to add this to your `init.lua`:
 
 ```lua title=inti.lua
-lspconfig.harper_ls.setup {
+require('lspconfig').harper_ls.setup {}
+```
+
+## Optional Configuration
+
+Additionally, you can also configure things like which linters to use or how you want code actions to appear. Below is an example config where everything is set to their default values:
+
+```lua title=inti.lua
+require('lspconfig').harper_ls.setup {
   settings = {
     ["harper-ls"] = {
       userDictPath = "",
