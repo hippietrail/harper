@@ -4,19 +4,37 @@ title: Helix
 
 Our Helix integration is powered by [`harper-ls`](./language-server).
 
-## Installation
+## Required Setup
 
-[Helix supports language servers out-of-the-box](https://docs.helix-editor.com/languages.html#language-server-configuration), so all you have to do is [install `harper-ls` in your system](./language-server#Installation).
+Make sure you have [`harper-ls` installed](./language-server#Installation) in your system and available in your `PATH`.
 
-## Configuration
-
-This the minimum you need to add to your `languages.toml` to get up and running:
+Helix supports language servers [out-of-the-box](https://docs.helix-editor.com/languages.html), but you'll still need to configure it to use `harper-ls`. First, you need to tell Helix how it should run `harper-ls`:
 
 ```toml title=languages.toml
 [language-server.harper-ls]
 command = "harper-ls"
 args = ["--stdio"]
 ```
+
+Then, for all the [languages `harper-ls` supports](./language-server#Supported-Languages) that you want it to be enabled for, you need to declare the following in your `languages.toml`:
+
+```toml title=languages.toml
+[[language]]
+name = "language-id"
+language-servers = ["default-servers", "harper-ls"]
+```
+
+where `language-id` is the language ID of the language you want `harper-ls` to be used for and `default-servers` are any of the [default language servers](https://docs.helix-editor.com/lang-support.html) supported by Helix that you use for that language. For example, if you want to configure it for Markdown and you use both Marksman and Markdown-Oxide, you'd end up with this:
+
+```toml title=languages.toml
+[[language]]
+name = "markdown"
+language-servers = ["marksman", "markdown-oxide", "harper-ls"]
+```
+
+You need to include the default language servers since there currently isn't a way to append a language server to the default `language-servers` list. Of course, you can also add other language servers you use before or after `harper-ls`.
+
+## Optional Configuration
 
 Additionally, you can also configure things like which linters to use or how you want code actions to appear. Below is an example config where everything is set to their default values:
 
