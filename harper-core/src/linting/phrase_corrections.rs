@@ -584,9 +584,21 @@ pub fn lint_group() -> LintGroup {
         "Towards" => (
             ["to towards"],
             ["towards"],
-            "Use `towards` without preceding `to`.",
+            "Use `towards` without the preceding `to`.",
             "Removes redundant `to` before `towards`."
         ),
+        "Haphazard" => (
+            ["half hazard", "half-hazard", "halfhazard"],
+            ["haphazard"],
+            "Use `haphazard` for randomness or lack of organization.",
+            "Corrects the eggcorn `half hazard` to `haphazard`, which properly means lacking organization or being random."
+        ),
+         "DayAndAge" => (
+            ["day in age"],
+            ["day and age"],
+            "Use `day and age` for referring to the present time.",
+            "Corrects the eggcorn `day in age` to `day and age`, which properly means the current era or time period."
+        )
     });
 
     group.set_all_rules_to(Some(true));
