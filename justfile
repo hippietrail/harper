@@ -314,7 +314,7 @@ printaffixes:
     description && console.log(affix + ': ' + description);
   });
 
-# Get the most recent changes to the curated dictionary.
+# Get the most recent changes to the curated dictionary. Includes an optional argument to specify the number of commits to look back. Defaults to 1.
 newest-dict-changes *numCommits:
   #! /usr/bin/env node
 
