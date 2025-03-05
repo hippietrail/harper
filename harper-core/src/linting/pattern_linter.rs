@@ -2,7 +2,7 @@ use std::num::NonZeroUsize;
 
 use lru::LruCache;
 
-use crate::{CharString, Document, LSend, Token, TokenStringExt, patterns::Pattern};
+use crate::{CharString, Document, LSend, Lrc, Token, TokenStringExt, patterns::Pattern};
 
 use super::{Lint, Linter};
 
@@ -43,7 +43,7 @@ where
     }
 }
 
-type ChunkCache = LruCache<CharString, Vec<Lint>>;
+type ChunkCache = LruCache<CharString, Lrc<Vec<Lint>>>;
 
 /// A cache that wraps around a [`PatternLinter`], caching
 /// results by chunk.
@@ -69,12 +69,9 @@ impl<P: PatternLinter> Linter for PatternLinterCache<P> {
         let source = document.get_source();
 
         for chunk in document.iter_chunks() {
-            lints.extend(run_on_chunk_cached(
-                &self.inner,
-                chunk,
-                source,
-                &mut self.cache,
-            ));
+            let chunk_lints = run_on_chunk_cached(&self.inner, chunk, source, &mut self.cache);
+
+            lints.extend(chunk_lints.as_ref().iter().cloned());
         }
 
         lints
@@ -114,9 +111,9 @@ fn run_on_chunk_cached(
     chunk: &[Token],
     source: &[char],
     cache: &mut ChunkCache,
-) -> Vec<Lint> {
+) -> Lrc<Vec<Lint>> {
     let Some(chunk_span) = chunk.span() else {
-        return Vec::new();
+        return Vec::new().into();
     };
 
     let key = chunk_span.get_content(source);
@@ -124,7 +121,7 @@ fn run_on_chunk_cached(
     if let Some(hit) = cache.get(key) {
         hit.clone()
     } else {
-        let lints = run_on_chunk(linter, chunk, source);
+        let lints = Lrc::new(run_on_chunk(linter, chunk, source));
         cache.put(key.into(), lints.clone());
         lints
     }
