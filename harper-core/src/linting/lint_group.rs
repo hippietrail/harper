@@ -7,6 +7,7 @@ use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 
 use super::Lint;
+use super::PatternLinterCache;
 use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::back_in_the_day::BackInTheDay;
@@ -61,6 +62,7 @@ use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
 use crate::Document;
 use crate::linting::{closed_compounds, phrase_corrections};
 use crate::{Dictionary, MutableDictionary};
+use std::num::NonZero;
 
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 #[serde(transparent)]
@@ -201,6 +203,20 @@ impl LintGroup {
             };
         }
 
+        macro_rules! insert_pattern_rule {
+            ($rule:ident, $default_config:expr) => {
+                out.add(
+                    stringify!($rule),
+                    Box::new(PatternLinterCache::new(
+                        $rule::default(),
+                        NonZero::new(1000).unwrap(),
+                    )),
+                );
+                out.config
+                    .set_rule_enabled(stringify!($rule), $default_config);
+            };
+        }
+
         out.merge_from(&mut phrase_corrections::lint_group());
         out.merge_from(&mut proper_noun_capitalization_linters::lint_group(
             dictionary.clone(),
@@ -208,21 +224,21 @@ impl LintGroup {
         out.merge_from(&mut closed_compounds::lint_group());
 
         // Add all the more complex rules to the group.
-        insert_struct_rule!(BackInTheDay, true);
+        insert_pattern_rule!(BackInTheDay, true);
         insert_struct_rule!(WordPressDotcom, true);
         insert_struct_rule!(OutOfDate, true);
         insert_struct_rule!(ThenThan, true);
         insert_struct_rule!(PiqueInterest, true);
-        insert_struct_rule!(WasAloud, true);
-        insert_struct_rule!(HyphenateNumberDay, true);
-        insert_struct_rule!(LeftRightHand, true);
+        insert_pattern_rule!(WasAloud, true);
+        insert_pattern_rule!(HyphenateNumberDay, true);
+        insert_pattern_rule!(LeftRightHand, true);
         insert_struct_rule!(HopHope, true);
-        insert_struct_rule!(Hereby, true);
-        insert_struct_rule!(Likewise, true);
+        insert_pattern_rule!(Hereby, true);
+        insert_pattern_rule!(Likewise, true);
         insert_struct_rule!(CompoundNouns, true);
-        insert_struct_rule!(Nobody, true);
-        insert_struct_rule!(Whereas, true);
-        insert_struct_rule!(PossessiveYour, true);
+        insert_pattern_rule!(Nobody, true);
+        insert_pattern_rule!(Whereas, true);
+        insert_pattern_rule!(PossessiveYour, true);
         insert_struct_rule!(SpelledNumbers, false);
         insert_struct_rule!(AnA, true);
         insert_struct_rule!(SentenceCapitalization, true);
@@ -240,25 +256,25 @@ impl LintGroup {
         insert_struct_rule!(TerminatingConjunctions, true);
         insert_struct_rule!(EllipsisLength, true);
         insert_struct_rule!(DotInitialisms, true);
-        insert_struct_rule!(BoringWords, false);
-        insert_struct_rule!(UseGenitive, false);
-        insert_struct_rule!(ThatWhich, true);
+        insert_pattern_rule!(BoringWords, false);
+        insert_pattern_rule!(UseGenitive, false);
+        insert_pattern_rule!(ThatWhich, true);
         insert_struct_rule!(CapitalizePersonalPronouns, true);
         insert_struct_rule!(MergeWords, true);
-        insert_struct_rule!(PluralConjugate, false);
+        insert_pattern_rule!(PluralConjugate, false);
         insert_struct_rule!(OxfordComma, true);
         insert_struct_rule!(NoOxfordComma, false);
         insert_struct_rule!(PronounContraction, true);
         insert_struct_rule!(CurrencyPlacement, true);
-        insert_struct_rule!(SomewhatSomething, true);
+        insert_pattern_rule!(SomewhatSomething, true);
         insert_struct_rule!(LetsConfusion, true);
-        insert_struct_rule!(DespiteOf, true);
-        insert_struct_rule!(ChockFull, true);
-        insert_struct_rule!(Confident, true);
-        insert_struct_rule!(Oxymorons, true);
-        insert_struct_rule!(Hedging, true);
-        insert_struct_rule!(ExpandTimeShorthands, true);
-        insert_struct_rule!(ModalOf, true);
+        insert_pattern_rule!(DespiteOf, true);
+        insert_pattern_rule!(ChockFull, true);
+        insert_pattern_rule!(Confident, true);
+        insert_pattern_rule!(Oxymorons, true);
+        insert_pattern_rule!(Hedging, true);
+        insert_pattern_rule!(ExpandTimeShorthands, true);
+        insert_pattern_rule!(ModalOf, true);
 
         out.add("SpellCheck", Box::new(SpellCheck::new(dictionary)));
         out.config.set_rule_enabled("SpellCheck", true);

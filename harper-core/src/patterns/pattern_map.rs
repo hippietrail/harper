@@ -1,3 +1,4 @@
+use crate::LSend;
 use crate::Token;
 
 use super::Pattern;
@@ -13,14 +14,14 @@ use super::Pattern;
 /// the corresponding key.
 pub struct PatternMap<T>
 where
-    T: Send + Sync,
+    T: LSend,
 {
     rows: Vec<Row<T>>,
 }
 
 struct Row<T>
 where
-    T: Send + Sync,
+    T: LSend,
 {
     pub key: Box<dyn Pattern>,
     pub element: T,
@@ -28,7 +29,7 @@ where
 
 impl<T> Default for PatternMap<T>
 where
-    T: Send + Sync,
+    T: LSend,
 {
     fn default() -> Self {
         Self {
@@ -39,7 +40,7 @@ where
 
 impl<T> PatternMap<T>
 where
-    T: Send + Sync,
+    T: LSend,
 {
     pub fn insert(&mut self, pattern: impl Pattern + 'static, value: T) {
         self.rows.push(Row {
@@ -64,7 +65,7 @@ where
 
 impl<T> Pattern for PatternMap<T>
 where
-    T: Send + Sync,
+    T: LSend,
 {
     fn matches(&self, tokens: &[Token], source: &[char]) -> usize {
         for row in &self.rows {

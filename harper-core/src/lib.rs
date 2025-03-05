@@ -39,7 +39,7 @@ pub use number::{Number, NumberSuffix};
 pub use punctuation::{Punctuation, Quote};
 pub use span::Span;
 pub use spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary};
-pub use sync::Lrc;
+pub use sync::{LSend, Lrc};
 pub use title_case::{make_title_case, make_title_case_str};
 pub use token::Token;
 pub use token_kind::TokenKind;
