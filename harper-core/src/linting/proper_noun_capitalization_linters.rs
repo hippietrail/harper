@@ -4,8 +4,8 @@ use serde::{Deserialize, Serialize};
 use super::{Lint, LintKind, Suggestion};
 use super::{LintGroup, PatternLinter};
 use crate::parsers::PlainEnglish;
-use crate::patterns::{AnyCapitalization, Pattern, PatternMap, SequencePattern};
-use crate::{Dictionary, Document, TokenKind};
+use crate::patterns::{ExactPhrase, Pattern, PatternMap};
+use crate::{Dictionary, Document};
 use crate::{Token, TokenStringExt};
 use std::sync::Arc;
 
@@ -46,8 +46,14 @@ impl<D: Dictionary + 'static> ProperNounCapitalizationLinter<D> {
         let mut pattern_map = PatternMap::default();
 
         for can_vers in canonical_versions {
-            let (pattern, document) = Self::create_pattern(can_vers.as_ref().to_vec(), &dictionary);
-            pattern_map.insert(pattern, document);
+            let doc = Document::new_from_vec(
+                can_vers.as_ref().to_vec().into(),
+                &PlainEnglish,
+                &dictionary,
+            );
+            let pattern = ExactPhrase::from_document(&doc);
+
+            pattern_map.insert(pattern, doc);
         }
 
         Self {
@@ -55,32 +61,6 @@ impl<D: Dictionary + 'static> ProperNounCapitalizationLinter<D> {
             dictionary: dictionary.clone(),
             description: description.to_string(),
         }
-    }
-
-    /// Given the canonical casing of a phrase, create a [`Pattern`] that matches
-    /// _incorrect_ casing of that phrase.
-    fn create_pattern(
-        canonical_case: Vec<char>,
-        dictionary: &impl Dictionary,
-    ) -> (SequencePattern, Document) {
-        // Split into tokens.
-        let doc = Document::new_from_vec(canonical_case.into(), &PlainEnglish, dictionary);
-
-        let mut pattern = SequencePattern::default();
-
-        for token in doc.tokens() {
-            match token.kind {
-                TokenKind::Word(_) => {
-                    let word_canon_chars = doc.get_span_content(token.span);
-
-                    pattern = pattern.then(AnyCapitalization::new(word_canon_chars.into()));
-                }
-                TokenKind::Space(_) | TokenKind::Newline(_) => pattern = pattern.then_whitespace(),
-                _ => (),
-            }
-        }
-
-        (pattern, doc)
     }
 }
 
