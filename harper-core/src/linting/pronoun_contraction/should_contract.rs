@@ -17,7 +17,7 @@ impl Default for ShouldContract {
                 SequencePattern::default()
                     .then(WordSet::new(&["your", "were"]))
                     .then_whitespace()
-                    .then_article()
+                    .then_determiner()
                     .then_whitespace()
                     .then_adjective(),
             ),
