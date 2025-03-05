@@ -11,19 +11,19 @@ pub struct PluralConjugate {
 
 impl Default for PluralConjugate {
     fn default() -> Self {
-        let plural_case = SequencePattern::default()
+        let plural_number = SequencePattern::default()
             .then_plural_nominal()
             .then_whitespace()
             .then_exact_word("is");
 
-        let non_plural_case = SequencePattern::default()
+        let singular_number = SequencePattern::default()
             .then(|tok: &Token, _source: &[char]| {
                 tok.kind.is_not_plural_nominal() && tok.kind.is_nominal()
             })
             .then_whitespace()
             .then_exact_word("are");
 
-        let pat = plural_case.or(Box::new(non_plural_case));
+        let pat = plural_number.or(Box::new(singular_number));
 
         Self {
             pattern: Box::new(pat),

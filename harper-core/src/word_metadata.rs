@@ -112,7 +112,7 @@ impl WordMetadata {
         adverb has
     );
 
-    /// Checks if the word is definitely nominal.
+    /// Checks if the word is definitely nominalpro.
     pub fn is_nominal(&self) -> bool {
         self.noun.is_some() || self.pronoun.is_some()
     }
