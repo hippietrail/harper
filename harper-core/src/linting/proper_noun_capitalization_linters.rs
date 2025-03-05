@@ -1280,6 +1280,15 @@ mod tests {
     }
 
     #[test]
+    fn issue_798() {
+        assert_suggestion_result(
+            "The United states is a big country.",
+            lint_group(FstDictionary::curated()),
+            "The United States is a big country.",
+        );
+    }
+
+    #[test]
     fn united_nations_uppercase() {
         assert_suggestion_result(
             "UNITED NATIONS",
@@ -1328,36 +1337,31 @@ mod tests {
     #[test]
     fn test_atlantic_ocean_lowercase() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_suggestion_result("atlantic ocean", group, "Atlantic Ocean");
+        assert_suggestion_result("atlantic ocean", lint_group(dictionary), "Atlantic Ocean");
     }
 
     #[test]
     fn test_pacific_ocean_lowercase() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_suggestion_result("pacific ocean", group, "Pacific Ocean");
+        assert_suggestion_result("pacific ocean", lint_group(dictionary), "Pacific Ocean");
     }
 
     #[test]
     fn test_indian_ocean_lowercase() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_suggestion_result("indian ocean", group, "Indian Ocean");
+        assert_suggestion_result("indian ocean", lint_group(dictionary), "Indian Ocean");
     }
 
     #[test]
     fn test_southern_ocean_lowercase() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_suggestion_result("southern ocean", group, "Southern Ocean");
+        assert_suggestion_result("southern ocean", lint_group(dictionary), "Southern Ocean");
     }
 
     #[test]
     fn test_arctic_ocean_lowercase() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_suggestion_result("arctic ocean", group, "Arctic Ocean");
+        assert_suggestion_result("arctic ocean", lint_group(dictionary), "Arctic Ocean");
     }
 
     // Lowercase tests for seas
@@ -1365,58 +1369,61 @@ mod tests {
     #[test]
     fn test_mediterranean_sea_lowercase() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_suggestion_result("mediterranean sea", group, "Mediterranean Sea");
+        assert_suggestion_result(
+            "mediterranean sea",
+            lint_group(dictionary),
+            "Mediterranean Sea",
+        );
     }
 
     #[test]
     fn test_caribbean_sea_lowercase() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_suggestion_result("caribbean sea", group, "Caribbean Sea");
+        assert_suggestion_result("caribbean sea", lint_group(dictionary), "Caribbean Sea");
     }
 
     #[test]
     fn test_south_china_sea_lowercase() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_suggestion_result("south china sea", group, "South China Sea");
+        assert_suggestion_result("south china sea", lint_group(dictionary), "South China Sea");
     }
-
-    // Tests that allow correctly capitalized names
 
     #[test]
     fn test_atlantic_ocean_correct() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_lint_count("Atlantic Ocean", group, 0);
+        assert_lint_count("Atlantic Ocean", lint_group(dictionary), 0);
     }
 
     #[test]
     fn test_pacific_ocean_correct() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_lint_count("Pacific Ocean", group, 0);
+        assert_lint_count("Pacific Ocean", lint_group(dictionary), 0);
     }
 
     #[test]
     fn test_indian_ocean_correct() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_lint_count("Indian Ocean", group, 0);
+        assert_lint_count("Indian Ocean", lint_group(dictionary), 0);
     }
 
     #[test]
     fn test_mediterranean_sea_correct() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_lint_count("Mediterranean Sea", group, 0);
+        assert_lint_count("Mediterranean Sea", lint_group(dictionary), 0);
     }
 
     #[test]
     fn test_south_china_sea_correct() {
         let dictionary = FstDictionary::curated();
-        let group = lint_group(dictionary);
-        assert_lint_count("South China Sea", group, 0);
+        assert_lint_count("South China Sea", lint_group(dictionary), 0);
+    }
+
+    #[test]
+    fn day_one_in_sentence() {
+        assert_suggestion_result(
+            "I love day one. It is the best journaling app.",
+            lint_group(FstDictionary::curated()),
+            "I love Day One. It is the best journaling app.",
+        );
     }
 }

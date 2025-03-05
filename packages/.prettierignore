@@ -20,3 +20,4 @@ dist
 markdown
 temp
 web/static/docs/harperjs/ref
+manifest.json
