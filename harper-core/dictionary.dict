@@ -1,4 +1,4 @@
-50300
+50350
 AA/1254M
 AAA/12
 AB/215M
@@ -6008,6 +6008,7 @@ Luxembourger/1M
 Luxembourgian/15
 Luz/2M
 Luzon/2M
+Lviv/2M
 Lvov/2M
 LyX/M
 Lyallpur/2
@@ -6066,6 +6067,7 @@ MPEG/21
 MRI/14M
 MS/12M
 MSG/12M
+MSRP/1SM
 MST/214M
 MSW/1
 MT/512M
@@ -6599,6 +6601,7 @@ Mercurochrome/M
 Mercury/21SM
 Meredith/2M
 Merino/12M
+Merkel/2M
 Merle/2M
 Merlin/2M
 Merlot/1M
@@ -8795,6 +8798,7 @@ Sanders/2M
 Sandinista/1M
 Sandoval/2M
 Sandra/2M
+Sandringham/2M
 Sandy/21M
 Sanford/2M
 Sanforized/M
@@ -9007,6 +9011,7 @@ Serbian/51MS
 Serena/2M
 Serengeti/2M
 Sergei/2M
+Sergey/2M
 Sergio/M
 Serpens/2M
 Serra/2M
@@ -10396,6 +10401,7 @@ Wagnerian/51M
 Wahhabi/15M
 Waikiki/2M
 Waite/2M
+Wakayama/2M
 Wake/2M
 Waksman/M
 Wald/MN
@@ -12051,6 +12057,7 @@ analyze/4ADSG
 analyzer/1SM
 anapest/1SM
 anapestic/51MS
+anaphylactic/5
 anaphylaxis/1M
 anarchic/5Q
 anarchism/1M
@@ -15438,6 +15445,7 @@ busby/1SM
 bused/4
 busgirl/1MS
 bush/145MDSGJ
+bushcraft/1M
 bushel/14SGMD
 bushiness/1M
 bushing/14M
@@ -17951,7 +17959,7 @@ confidentiality/1M
 confider/1M
 confiding/451Y
 configuration/1S
-configure/4B
+configure/4BA
 confined/45U
 confinement/1MS
 confirm/4ASDG
@@ -18209,7 +18217,7 @@ content/514ESLMDG
 contented/45EY
 contentedness/1M
 contention/1SM
-contentious/5YP
+contentious/5YPU
 contentiousness/1M
 contently/j
 contentment/1EM
@@ -19016,6 +19024,7 @@ cross's
 cross/15+4AUGTSD
 crossbar/14SM
 crossbeam/1MS
+crossbencher/1M
 crossbones/1M
 crossbow/1SM
 crossbowman/1M
@@ -19273,6 +19282,7 @@ curvaceous/5P
 curvaceousness/1M
 curvature/1SM
 curve/514DSMG
+curveball/1SM
 curvy/5RT
 cushion/14MDSG
 cushy/5RT
@@ -19986,6 +19996,7 @@ deployments/1
 deponent/51MS
 deportation/1MS
 deportee/1MS
+deporter/1MS
 deportment/1M
 deposit/14AGMDS
 depositor/1MS
@@ -24181,7 +24192,7 @@ forearm/14GSMD
 forebear/14MS
 forebode/41GJDS
 foreboding/154M
-forecast/41MRZGS
+forecast/41MRZGSD
 forecaster/1M
 forecastle/1MS
 foreclose/4DSG
@@ -29198,6 +29209,7 @@ jangle/41DRSMZG
 jangler/1M
 janitor/1SM
 janitorial/5
+janky/5TR
 japan/14SM
 japanned/4
 japanning/1
@@ -29415,6 +29427,7 @@ joyrode/4
 joystick/14SM
 jr/5
 jubilant/5Y
+jubilate/4GDS
 jubilation/1M
 jubilee/1SM
 judder/14GDS
@@ -29942,6 +29955,7 @@ landless/5M
 landline/1MS
 landlocked/5
 landlord/1MS
+landlordism/1MS
 landlubber/1MS
 landmark/14MS
 landmass/1MS
@@ -30456,6 +30470,7 @@ lightly/j
 lightness/1M
 lightning/154MDS
 lightproof/5
+lightsaber/1MS
 lightship/1MS
 lightweight/154SM
 ligneous/5
@@ -32255,6 +32270,7 @@ mind's
 mind/14ADRSZG
 mindbogglingly/j
 minded/54P
+mindfuck/1SM6!
 mindful/51YP
 mindfulness/1M
 mindless/5YP
@@ -32298,6 +32314,7 @@ miniseries/1M
 miniskirt/1MS
 minister/14SGMD
 ministerial/51
+ministership/1MS
 ministrant/15MS
 ministration/1MS
 ministry/1SM
@@ -34938,6 +34955,8 @@ outdoes/4
 outdone/4
 outdoor/54S
 outdoors/14M
+outdoorsman/1MS
+outdoorsmen/9
 outdoorsy/5
 outdraw/4GS
 outdrawn/5
@@ -39600,6 +39619,7 @@ renown/14MD
 rent/145ZGMDRS
 rental/15SM
 renter/14M
+rentier/1MS
 renunciation/1SM
 reopen/4SDG
 reorg/14MDSG
@@ -42182,6 +42202,7 @@ silt/14GMDS
 silty/5TR
 silver/154GMDS
 silverfish/19MS
+silverish/5
 silversmith/1M
 silversmiths/1
 silverware/1M
@@ -44263,6 +44284,7 @@ stunning/541Y
 stunt/14GSMD
 stuntman/1
 stuntmen/9
+stupa/1MS
 stupefaction/1M
 stupefy/4DSG
 stupendous/5Y
@@ -47546,6 +47568,7 @@ unicorn/145SM
 unicycle/14SM
 unidirectional/51
 unification/1AM
+unifier/1MS
 uniform/154SMDYG
 uniformity/1M
 unify/4AGDSN
@@ -47782,6 +47805,7 @@ upsetting/415
 upshot/1SM
 upside/1+SM
 upsilon/1MS
+upskill/4DSG
 upstage/154GDS
 upstairs/51
 upstanding/54
@@ -47805,6 +47829,7 @@ uracil/1M
 uranium/1M
 urban/5
 urbane/5RYT
+urbanism/1M
 urbanity/1M
 urbanization/1M
 urbanize/4DSG
@@ -48286,6 +48311,7 @@ villa/1SM
 village/1RSMZ
 villager/1M
 villain/14SM
+villainize/4GDS
 villainous/5
 villainy/15SM
 villein/1SM
@@ -49562,7 +49588,7 @@ wraiths/1
 wrangle/41DRSMZGJ
 wrangler/1M
 wrap's
-wrap/41US
+wrap/41USA
 wraparound/51SM
 wrapped/45U
 wrapper/1SM
