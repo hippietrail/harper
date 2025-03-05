@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper",
 	"description": "The grammar checker for developers",
-	"version": "0.23.0",
+	"version": "0.24.0",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -116,6 +116,12 @@
 					"scope": "resource",
 					"type": "string",
 					"description": "Optional path to a global dictionary file to use."
+				},
+				"harper.linters.AlzheimersDisease": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Fixes the common misnomer `old-timers' disease`, ensuring the correct medical term `Alzheimer’s disease` is used."
 				},
 				"harper.linters.AmazonNames": {
 					"scope": "resource",
@@ -249,6 +255,12 @@
 					"default": true,
 					"description": "Corrects the misspelling `bee there` to the proper phrase `been there`."
 				},
+				"harper.linters.BlanketStatement": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects common errors in the phrase `blanket statement`."
+				},
 				"harper.linters.BoringWords": {
 					"scope": "resource",
 					"type": "boolean",
@@ -279,6 +291,12 @@
 					"default": true,
 					"description": "Forgetting to capitalize personal pronouns, like \"I\" or \"I'm\" is one of the most common errors. This rule helps with that."
 				},
+				"harper.linters.CaseSensitive": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `case-sensitive` is correctly hyphenated."
+				},
 				"harper.linters.ChangeTack": {
 					"scope": "resource",
 					"type": "boolean",
@@ -295,7 +313,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Flags common soundalikes of \"chock-full\" and makes sure they're hyphenated."
+					"description": "Ensures `chock-full` is correctly hyphenated."
 				},
 				"harper.linters.CompoundNouns": {
 					"scope": "resource",
@@ -308,6 +326,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Suggests removing `of` in `all of the` for a more concise phrase."
+				},
+				"harper.linters.Confident": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "This linter detects instances where the noun `confidant` is incorrectly used in place of the adjective `confident`. `Confidant` refers to a trusted person, whereas `confident` describes certainty or self-assurance. The rule suggests replacing `confidant` with `confident` when used in an adjectival context."
 				},
 				"harper.linters.CorrectNumberSuffix": {
 					"scope": "resource",
@@ -326,6 +350,18 @@
 					"type": "boolean",
 					"default": true,
 					"description": "The location of currency symbols varies by country. The rule looks for and corrects improper positioning."
+				},
+				"harper.linters.DampSquib": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the eggcorn `damp squid` to `damp squib`, ensuring the intended meaning of a failed or underwhelming outcome."
+				},
+				"harper.linters.DayAndAge": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the eggcorn `day in age` to `day and age`, which properly means the current era or time period."
 				},
 				"harper.linters.DayOneNames": {
 					"scope": "resource",
@@ -350,6 +386,30 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `devops`."
+				},
+				"harper.linters.Discuss": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Removes unnecessary `about` after `discuss`."
+				},
+				"harper.linters.Discussed": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Removes unnecessary `about` after `discussed`."
+				},
+				"harper.linters.Discusses": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Removes unnecessary `about` after `discusses`."
+				},
+				"harper.linters.Discussing": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Removes unnecessary `about` after `discussing`."
 				},
 				"harper.linters.DotInitialisms": {
 					"scope": "resource",
@@ -387,6 +447,12 @@
 					"default": true,
 					"description": "Expands time-related abbreviations (`hr`, `hrs`, `min`, `mins`, `sec`, `secs`, `ms`, `msec`, `msecs`) to their full forms (`hour`, `hours`, `minute`, `minutes`, `second`, `seconds`, `millisecond`, `milliseconds`)."
 				},
+				"harper.linters.Expatriate": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Fixes the misinterpretation of `expatriate`, ensuring the correct term is used for individuals residing abroad."
+				},
 				"harper.linters.FaceFirst": {
 					"scope": "resource",
 					"type": "boolean",
@@ -405,17 +471,47 @@
 					"default": true,
 					"description": "Replaces `fatal outcome` with the more direct term `death` for conciseness."
 				},
-				"harper.linters.Forthwith": {
+				"harper.linters.FetalPosition": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for incorrect spacing inside the closed compound `forthwith`."
+					"description": "Ensures the correct use of `fetal position`, avoiding confusion with `feeble position`, which is not a standard phrase."
+				},
+				"harper.linters.ForAllIntentsAndPurposes": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `for all intensive purposes` to `for all intents and purposes`, ensuring the phrase conveys its intended meaning."
+				},
+				"harper.linters.FreeRein": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures the correct use of `free rein`, avoiding confusion with `free reign`, which incorrectly suggests authority rather than freedom of action."
 				},
 				"harper.linters.Furthermore": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `furthermore`."
+				},
+				"harper.linters.GetRidOff": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `get rid of` is used instead of `get rid off`."
+				},
+				"harper.linters.GetsRidOff": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `gets rid of` is used instead of `gets rid off`."
+				},
+				"harper.linters.GettingRidOff": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `getting rid of` is used instead of `getting rid off`."
 				},
 				"harper.linters.GoingTo": {
 					"scope": "resource",
@@ -429,11 +525,29 @@
 					"default": true,
 					"description": "When referring to Google products and services, make sure to treat them as proper nouns."
 				},
+				"harper.linters.GotRidOff": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `got rid of` is used instead of `got rid off`."
+				},
 				"harper.linters.HadOf": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "Flags the unnecessary use of `of` after `had` and suggests the correct forms."
+				},
+				"harper.linters.Haphazard": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the eggcorn `half hazard` to `haphazard`, which properly means lacking organization or being random."
+				},
+				"harper.linters.Hedging": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Flags hedging language (e.g. `I would argue that`, `..., so to speak`, `to a certain degree`)."
 				},
 				"harper.linters.Henceforth": {
 					"scope": "resource",
@@ -489,6 +603,12 @@
 					"default": true,
 					"description": "Fixes the incorrect spacing in `I a m` to properly form `I am`."
 				},
+				"harper.linters.InOneFellSwoop": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `in one foul swoop` to `in one fell swoop`, preserving the phrase’s original meaning of sudden and complete action."
+				},
 				"harper.linters.InThe": {
 					"scope": "resource",
 					"type": "boolean",
@@ -537,11 +657,23 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `itself`."
 				},
+				"harper.linters.JawDropping": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `jar-dropping` to `jaw-dropping`, ensuring the intended meaning of something that causes amazement."
+				},
 				"harper.linters.JetpackNames": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "Ensure proper capitalization of Jetpack-related terms."
+				},
+				"harper.linters.JustDeserts": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `just deserts` is used correctly, preserving its meaning of receiving an appropriate outcome for one's actions."
 				},
 				"harper.linters.KindRegards": {
 					"scope": "resource",
@@ -560,6 +692,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `laptop`."
+				},
+				"harper.linters.LastButNotLeast": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects common errors in the phrase `last but not least`."
 				},
 				"harper.linters.LeftRightHand": {
 					"scope": "resource",
@@ -771,6 +909,24 @@
 					"default": true,
 					"description": "Detects the non‐idiomatic phrase `off course` and suggests the correct form `of course`."
 				},
+				"harper.linters.OffTheCuff": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `off-the-cuff` is correctly hyphenated."
+				},
+				"harper.linters.OldWivesTale": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `old wise tale` to `old wives' tale`, preserving the phrase’s meaning as an unfounded traditional belief."
+				},
+				"harper.linters.OnTheSpurOfTheMoment": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures the correct use of `on the spur of the moment`, avoiding confusion with the incorrect `spurt` variation."
+				},
 				"harper.linters.OperativeSystem": {
 					"scope": "resource",
 					"type": "boolean",
@@ -819,6 +975,36 @@
 					"default": true,
 					"description": "The Oxford comma is one of the more controversial rules in common use today. Enabling this lint checks that there is a comma before `and`, `or`, or `nor` when listing out more than two ideas."
 				},
+				"harper.linters.Oxymorons": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Flags oxymoronic phrases (e.g. `amateur expert`, `increasingly less`, etc.)."
+				},
+				"harper.linters.PerformThis": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `performing this` to `perform this` for proper verb usage."
+				},
+				"harper.linters.PiggyBag": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the eggcorn `piggy bag` to `piggyback`, which is the proper term for riding on someone’s back or using an existing system."
+				},
+				"harper.linters.PiggyBagged": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the eggcorn `piggy bagged` to `piggybacked`, the proper past tense form for riding on someone’s back or making use of an existing system."
+				},
+				"harper.linters.PiggyBagging": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the eggcorn `piggy bagging` to `piggybacking`, the proper verb form for riding on someone’s back or leveraging an existing system."
+				},
 				"harper.linters.PiqueInterest": {
 					"scope": "resource",
 					"type": "boolean",
@@ -855,6 +1041,12 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `postpone`."
 				},
+				"harper.linters.PrayingMantis": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `preying mantis` to `praying mantis`, ensuring accurate reference to the insect’s characteristic pose."
+				},
 				"harper.linters.PronounContraction": {
 					"scope": "resource",
 					"type": "boolean",
@@ -866,6 +1058,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `proofread`."
+				},
+				"harper.linters.RealTrouper": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures the correct use of `real trouper`, distinguishing it from `trooper`, which refers to a soldier or police officer."
 				},
 				"harper.linters.Regardless": {
 					"scope": "resource",
@@ -879,6 +1077,12 @@
 					"default": true,
 					"description": "This rule looks for repetitions of words that are not homographs."
 				},
+				"harper.linters.RifeWith": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `ripe with` to `rife with`, preserving the phrase’s meaning of being filled with something, often undesirable."
+				},
 				"harper.linters.RoadMap": {
 					"scope": "resource",
 					"type": "boolean",
@@ -891,11 +1095,23 @@
 					"default": true,
 					"description": "Corrects the incorrect phrase `same then` to the standard `same as`."
 				},
+				"harper.linters.ScantilyClad": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Fixes `scandally clad` to `scantily clad`, ensuring clarity in describing minimal attire."
+				},
 				"harper.linters.SentenceCapitalization": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "The opening word of a sentence should almost always be capitalized."
+				},
+				"harper.linters.SimpleGrammatical": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `simply grammatical` to `simple grammatical` for proper adjective usage."
 				},
 				"harper.linters.SneakingSuspicion": {
 					"scope": "resource",
@@ -957,6 +1173,12 @@
 					"default": false,
 					"description": "Most style guides recommend that you spell out numbers less than ten."
 				},
+				"harper.linters.SpokeTooSoon": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Identifies common misuse of the preposition `to` in the phrase `spoke too soon`."
+				},
 				"harper.linters.StateOfTheArt": {
 					"scope": "resource",
 					"type": "boolean",
@@ -968,6 +1190,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Fixes `suppose to` to the correct `supposed to`."
+				},
+				"harper.linters.TakeItSeriously": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures the correct use of the adverb `seriously` instead of the adjective `serious` in phrases like `take it seriously`."
 				},
 				"harper.linters.TerminatingConjunctions": {
 					"scope": "resource",
@@ -1017,6 +1245,24 @@
 					"default": true,
 					"description": "Changes `though process` to `thought process`."
 				},
+				"harper.linters.ToDoHyphen": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `to-do` is correctly hyphenated."
+				},
+				"harper.linters.ToTheMannerBorn": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `to the manor born` to `to the manner born`, ensuring the intended meaning of being naturally suited to a way of life."
+				},
+				"harper.linters.Towards": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Removes redundant `to` before `towards`."
+				},
 				"harper.linters.TumblrNames": {
 					"scope": "resource",
 					"type": "boolean",
@@ -1028,6 +1274,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Fixes the mistake in the phrase `turn it off`."
+				},
+				"harper.linters.USUniversities": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of major universities in the United States."
 				},
 				"harper.linters.UnclosedQuotes": {
 					"scope": "resource",
@@ -1083,6 +1335,12 @@
 					"default": true,
 					"description": "Identifies the mistake of merging `wave` and `function` into one word. In quantum mechanics, a `wave function` (written as two words) describes the mathematical function that represents the quantum state of a particle or system. Correct usage is crucial for clear and accurate scientific communication."
 				},
+				"harper.linters.WellBeing": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `well-being` is correctly hyphenated."
+				},
 				"harper.linters.Whereas": {
 					"scope": "resource",
 					"type": "boolean",
@@ -1094,6 +1352,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `whereupon`."
+				},
+				"harper.linters.WhetYourAppetite": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `whet your appetite` is used correctly, distinguishing it from the incorrect `wet` variation."
 				},
 				"harper.linters.Widespread": {
 					"scope": "resource",
@@ -1112,6 +1376,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Ensures correct capitalization of WordPress.com. This rule verifies that the official stylization of WordPress.com is used when referring to the hosting provider."
+				},
+				"harper.linters.WorldWarII": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `World War II` is correctly capitalized."
 				},
 				"harper.linters.Worldwide": {
 					"scope": "resource",
