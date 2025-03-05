@@ -91,7 +91,7 @@ impl Document {
     }
 
     /// Parse text to produce a document using the built-in [`Markdown`] parser
-    /// and curated dictionary with the default markdown configuration.
+    /// and curated dictionary with the default Markdown configuration.
     pub fn new_markdown_default_curated(text: &str) -> Self {
         Self::new_markdown_curated(text, MarkdownOptions::default())
     }
@@ -107,7 +107,7 @@ impl Document {
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
-    /// parser and the curated dictionary with the default markdown configuration.
+    /// parser and the curated dictionary with the default Markdown configuration.
     pub fn new_markdown_default(text: &str, dictionary: &impl Dictionary) -> Self {
         Self::new_markdown(text, MarkdownOptions::default(), dictionary)
     }
@@ -139,7 +139,7 @@ impl Document {
     fn uncached_article_pattern() -> Lrc<SequencePattern> {
         Lrc::new(
             SequencePattern::default()
-                .then_article()
+                .then_determiner()
                 .then_whitespace()
                 .then(|t: &Token, _source: &[char]| t.kind.is_adjective() && t.kind.is_noun())
                 .then_whitespace()

@@ -103,7 +103,7 @@ pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use out_of_date::OutOfDate;
 pub use oxford_comma::OxfordComma;
 pub use oxymorons::Oxymorons;
-pub use pattern_linter::PatternLinter;
+pub use pattern_linter::{PatternLinter, PatternLinterCache};
 pub use pique_interest::PiqueInterest;
 pub use plural_conjugate::PluralConjugate;
 pub use possessive_your::PossessiveYour;
@@ -125,30 +125,14 @@ pub use whereas::Whereas;
 pub use wordpress_dotcom::WordPressDotcom;
 pub use wrong_quotes::WrongQuotes;
 
-use crate::Document;
+use crate::{Document, LSend};
 
 /// A __stateless__ rule that searches documents for grammatical errors.
 ///
 /// Commonly implemented via [`PatternLinter`].
 ///
 /// See also: [`LintGroup`].
-#[cfg(not(feature = "concurrent"))]
-pub trait Linter {
-    /// Analyzes a document and produces zero or more [`Lint`]s.
-    /// We pass `self` mutably for caching purposes.
-    fn lint(&mut self, document: &Document) -> Vec<Lint>;
-    /// A user-facing description of what kinds of grammatical errors this rule looks for.
-    /// It is usually shown in settings menus.
-    fn description(&self) -> &str;
-}
-
-/// A __stateless__ rule that searches documents for grammatical errors.
-///
-/// Commonly implemented via [`PatternLinter`].
-///
-/// See also: [`LintGroup`].
-#[cfg(feature = "concurrent")]
-pub trait Linter: Send + Sync {
+pub trait Linter: LSend {
     /// Analyzes a document and produces zero or more [`Lint`]s.
     /// We pass `self` mutably for caching purposes.
     fn lint(&mut self, document: &Document) -> Vec<Lint>;

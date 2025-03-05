@@ -14,7 +14,7 @@ impl Default for Confident {
     fn default() -> Self {
         let pattern = SequencePattern::default()
             .then(
-                (|tok: &Token, _source: &[char]| tok.kind.is_verb() || tok.kind.is_article())
+                (|tok: &Token, _source: &[char]| tok.kind.is_verb() || tok.kind.is_determiner())
                     .or(Box::new(AnyCapitalization::new(char_string!("very")))),
             )
             .then_whitespace()

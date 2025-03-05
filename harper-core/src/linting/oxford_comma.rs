@@ -14,11 +14,12 @@ impl Default for OxfordComma {
     fn default() -> Self {
         let item = Lrc::new(
             SequencePattern::default()
-                .then_article()
+                .then_determiner()
                 .then_whitespace()
-                .then_noun()
-                .or(Box::new(SequencePattern::default().then_noun())),
+                .then_nominal()
+                .or(Box::new(SequencePattern::default().then_nominal())),
         );
+
         let item_chunk = SequencePattern::default()
             .then(item.clone())
             .then_comma()

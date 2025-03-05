@@ -700,7 +700,7 @@ dependencies = [
 
 [[package]]
 name = "harper-comments"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "harper-core",
  "harper-html",
@@ -731,7 +731,7 @@ dependencies = [
 
 [[package]]
 name = "harper-core"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "blanket",
  "cached",
@@ -742,6 +742,7 @@ dependencies = [
  "itertools 0.14.0",
  "lazy_static",
  "levenshtein_automata",
+ "lru",
  "ordered-float",
  "paste",
  "pulldown-cmark",
@@ -759,7 +760,7 @@ dependencies = [
 
 [[package]]
 name = "harper-html"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -770,7 +771,7 @@ dependencies = [
 
 [[package]]
 name = "harper-literate-haskell"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "harper-comments",
  "harper-core",
@@ -781,7 +782,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ls"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -806,7 +807,7 @@ dependencies = [
 
 [[package]]
 name = "harper-tree-sitter"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "harper-core",
  "tree-sitter",
@@ -814,7 +815,7 @@ dependencies = [
 
 [[package]]
 name = "harper-typst"
-version = "0.23.0"
+version = "0.24.0"
 dependencies = [
  "harper-core",
  "itertools 0.14.0",
@@ -1169,6 +1170,15 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "04cbf5b083de1c7e0222a7a51dbfdba1cbe1c6ab0b15e29fff3f6c077fd9cd9f"
 
 [[package]]
+name = "lru"
+version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "227748d55f2f0ab4735d87fd623798cb6b664512fe979705f829c9f81c934465"
+dependencies = [
+ "hashbrown 0.15.2",
+]
+
+[[package]]
 name = "lsp-types"
 version = "0.94.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -1380,9 +1390,9 @@ dependencies = [
 
 [[package]]
 name = "pulldown-cmark"
-version = "0.12.2"
+version = "0.13.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "f86ba2052aebccc42cbbb3ed234b8b13ce76f75c3551a303cb2bcffcff12bb14"
+checksum = "1e8bbe1a966bd2f362681a44f6edce3c2310ac21e4d5067a6e7ec396297a6ea0"
 dependencies = [
  "bitflags 2.8.0",
  "getopts",

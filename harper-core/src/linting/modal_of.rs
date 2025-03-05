@@ -89,7 +89,7 @@ impl PatternLinter for ModalOf {
                 }
                 let w1_kind = matched_toks.first().unwrap().kind;
                 // the might of something, great might of something
-                if w1_kind.is_adjective() || w1_kind.is_article() {
+                if w1_kind.is_adjective() || w1_kind.is_determiner() {
                     return None;
                 }
                 // not a false positive, skip context before
