@@ -317,7 +317,7 @@ bump-versions: update-vscode-linters
 
   lazygit
 
-# Enter an infinite loop of testing until a bug is found.
+# Enter an infinite loop of property testing until a bug is found.
 fuzz:
   #!/usr/bin/bash
   

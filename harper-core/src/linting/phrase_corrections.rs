@@ -1,4 +1,5 @@
-use super::{LintGroup, MapPhraseLinter};
+use super::{LintGroup, MapPhraseLinter, PatternLinterCache};
+use std::num::NonZero;
 
 /// Produce a [`LintGroup`] that looks for errors in common phrases.
 /// Comes pre-configured with the recommended default settings.
@@ -12,11 +13,14 @@ pub fn lint_group() -> LintGroup {
             $(
                 $group.add(
                     $name,
-                    Box::new(MapPhraseLinter::new_exact_phrases(
-                        $input,
-                        $corrections,
-                        $hint,
-                        $description,
+                    Box::new(PatternLinterCache::new(
+                        MapPhraseLinter::new_exact_phrases(
+                            $input,
+                            $corrections,
+                            $hint,
+                            $description
+                        ),
+                        NonZero::new(1000).unwrap()
                     )),
                 );
             )+
