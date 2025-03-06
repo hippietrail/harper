@@ -135,6 +135,10 @@ export default defineConfig({
 									to: '/docs/contributors/visual-studio-code'
 								},
 								{
+									title: 'WordPress',
+									to: '/docs/contributors/wordpress'
+								},
+								{
 									title: 'Reviewing Pull Requests',
 									to: '/docs/contributors/review'
 								}
