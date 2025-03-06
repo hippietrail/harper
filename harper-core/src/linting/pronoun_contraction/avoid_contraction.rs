@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{Pattern, SequencePattern},
     Token,
+    patterns::{Pattern, SequencePattern},
 };
 
 use super::super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -11,7 +11,9 @@ pub struct AvoidContraction {
 
 impl Default for AvoidContraction {
     fn default() -> Self {
-        let pattern = SequencePattern::aco("you're").then_whitespace().then_noun();
+        let pattern = SequencePattern::aco("you're")
+            .then_whitespace()
+            .then(|tok: &Token, _source: &[char]| tok.kind.is_noun() && !tok.kind.is_adjective());
 
         Self {
             pattern: Box::new(pattern),
@@ -24,10 +26,10 @@ impl PatternLinter for AvoidContraction {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
         let word = matched_tokens[0].span.get_content(source);
 
-        Lint {
+        Some(Lint {
             span: matched_tokens[0].span,
             lint_kind: LintKind::WordChoice,
             suggestions: vec![Suggestion::replace_with_match_case(
@@ -37,7 +39,7 @@ impl PatternLinter for AvoidContraction {
             message: "It appears you intended to use the possessive version of this word"
                 .to_owned(),
             priority: 63,
-        }
+        })
     }
 
     fn description(&self) -> &'static str {

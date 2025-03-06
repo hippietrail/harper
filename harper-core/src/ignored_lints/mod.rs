@@ -6,7 +6,7 @@ use hashbrown::HashSet;
 use lint_context::LintContext;
 use serde::{Deserialize, Serialize};
 
-use crate::{linting::Lint, Document};
+use crate::{Document, linting::Lint};
 
 /// A structure that keeps track of lints that have been ignored by users.
 #[derive(Debug, Default, Serialize, Deserialize)]
@@ -59,16 +59,15 @@ mod tests {
 
     use super::IgnoredLints;
     use crate::{
-        linting::{LintGroup, LintGroupConfig, Linter},
         Document, FstDictionary,
+        linting::{LintGroup, Linter},
     };
 
     #[quickcheck]
     fn can_ignore_all(text: String) -> bool {
         let document = Document::new_markdown_default_curated(&text);
 
-        let mut lints =
-            LintGroup::new(LintGroupConfig::default(), FstDictionary::curated()).lint(&document);
+        let mut lints = LintGroup::new_curated(FstDictionary::curated()).lint(&document);
 
         let mut ignored = IgnoredLints::new();
 
@@ -84,8 +83,7 @@ mod tests {
     fn can_ignore_first(text: String) -> TestResult {
         let document = Document::new_markdown_default_curated(&text);
 
-        let mut lints =
-            LintGroup::new(LintGroupConfig::default(), FstDictionary::curated()).lint(&document);
+        let mut lints = LintGroup::new_curated(FstDictionary::curated()).lint(&document);
 
         let Some(first) = lints.first().cloned() else {
             return TestResult::discard();
@@ -101,10 +99,9 @@ mod tests {
 
     // Check that ignoring the nth lint found in source text actually removes it (and no others).
     fn assert_ignore_lint_reduction(source: &str, nth_lint: usize) {
-        let document = Document::new_markdown_default_curated(&source);
+        let document = Document::new_markdown_default_curated(source);
 
-        let mut lints =
-            LintGroup::new(LintGroupConfig::default(), FstDictionary::curated()).lint(&document);
+        let mut lints = LintGroup::new_curated(FstDictionary::curated()).lint(&document);
 
         let nth = lints.get(nth_lint).cloned().unwrap_or_else(|| {
             panic!("If ignoring the lint at {nth_lint}, make sure there are enough problems.")

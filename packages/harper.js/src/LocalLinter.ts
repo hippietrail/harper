@@ -20,6 +20,9 @@ export default class LocalLinter implements Linter {
 	async setup(): Promise<void> {
 		await this.initialize();
 		this.inner!.lint('', Language.Plain);
+
+		const exported = await this.exportIgnoredLints();
+		await this.importIgnoredLints(exported);
 	}
 
 	async lint(text: string, options?: LintOptions): Promise<Lint[]> {
@@ -120,5 +123,17 @@ export default class LocalLinter implements Linter {
 		await this.initialize();
 
 		return this.inner!.clear_ignored_lints();
+	}
+
+	async importWords(words: string[]): Promise<void> {
+		await this.initialize();
+
+		return this.inner!.import_words(words);
+	}
+
+	async exportWords(): Promise<string[]> {
+		await this.initialize();
+
+		return this.inner!.export_words();
 	}
 }

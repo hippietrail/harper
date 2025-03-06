@@ -91,7 +91,7 @@ impl Document {
     }
 
     /// Parse text to produce a document using the built-in [`Markdown`] parser
-    /// and curated dictionary with the default markdown configuration.
+    /// and curated dictionary with the default Markdown configuration.
     pub fn new_markdown_default_curated(text: &str) -> Self {
         Self::new_markdown_curated(text, MarkdownOptions::default())
     }
@@ -107,7 +107,7 @@ impl Document {
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
-    /// parser and the curated dictionary with the default markdown configuration.
+    /// parser and the curated dictionary with the default Markdown configuration.
     pub fn new_markdown_default(text: &str, dictionary: &impl Dictionary) -> Self {
         Self::new_markdown(text, MarkdownOptions::default(), dictionary)
     }
@@ -125,12 +125,39 @@ impl Document {
         self.condense_ellipsis();
         self.condense_latin();
         self.match_quotes();
+        self.articles_imply_nouns();
 
         for token in self.tokens.iter_mut() {
             if let TokenKind::Word(meta) = &mut token.kind {
                 let word_source = token.span.get_content(&self.source);
                 let found_meta = dictionary.get_word_metadata(word_source);
-                *meta = meta.or(&found_meta);
+                *meta = found_meta
+            }
+        }
+    }
+
+    fn uncached_article_pattern() -> Lrc<SequencePattern> {
+        Lrc::new(
+            SequencePattern::default()
+                .then_determiner()
+                .then_whitespace()
+                .then(|t: &Token, _source: &[char]| t.kind.is_adjective() && t.kind.is_noun())
+                .then_whitespace()
+                .then_noun(),
+        )
+    }
+
+    thread_local! {static ARTICLE_PATTERN: Lrc<SequencePattern> = Document::uncached_article_pattern()}
+
+    /// When a word that is either an adjective or a noun is sandwiched between an article and a noun,
+    /// it definitely is not a noun.
+    fn articles_imply_nouns(&mut self) {
+        let pattern = Self::ELLIPSIS_PATTERN.with(|v| v.clone());
+
+        for m in pattern.find_all_matches_in_doc(self) {
+            if let TokenKind::Word(Some(metadata)) = &mut self.tokens[m.start + 2].kind {
+                metadata.noun = None;
+                metadata.verb = None;
             }
         }
     }
@@ -286,7 +313,7 @@ impl Document {
             if let (TokenKind::Number(..), TokenKind::Word(..)) = (a.kind, b.kind) {
                 if let Some(found_suffix) = NumberSuffix::from_chars(self.get_span_content(b.span))
                 {
-                    *self.tokens[idx].kind.as_mut_number().unwrap().1 = Some(found_suffix);
+                    self.tokens[idx].kind.as_mut_number().unwrap().suffix = Some(found_suffix);
                     replace_starts.push(idx);
                 }
             }
@@ -347,7 +374,7 @@ impl Document {
         Lrc::new(EitherPattern::new(vec![
             Box::new(
                 SequencePattern::default()
-                    .then_word_set(WordSet::all(&["etc", "vs"]))
+                    .then(WordSet::new(&["etc", "vs"]))
                     .then_period(),
             ),
             Box::new(
@@ -535,6 +562,7 @@ macro_rules! create_fns_on_doc {
 
 impl TokenStringExt for Document {
     create_fns_on_doc!(word);
+    create_fns_on_doc!(hostname);
     create_fns_on_doc!(word_like);
     create_fns_on_doc!(conjunction);
     create_fns_on_doc!(space);
@@ -601,7 +629,7 @@ mod tests {
     use itertools::Itertools;
 
     use super::Document;
-    use crate::{parsers::MarkdownOptions, Span};
+    use crate::{Span, parsers::MarkdownOptions};
 
     fn assert_condensed_contractions(text: &str, final_tok_count: usize) {
         let document = Document::new_plain_english_curated(text);

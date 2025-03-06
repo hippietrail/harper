@@ -75,7 +75,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		const linter = new Linter();
 
 		const lintConfig = await linter.getLintConfig();
-		expect(lintConfig).toHaveProperty('repeated_words');
+		expect(lintConfig).toHaveProperty('RepeatedWords');
 	});
 
 	test(`${linterName} can both get and set its configuration`, async () => {
@@ -168,6 +168,27 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 
 		expect(firstLints.length).toBeGreaterThan(secondLints.length);
 		expect(secondLints.length).toBe(0);
+	});
+
+	test(`${linterName} can add words to the dictionary`, async () => {
+		const source = 'asdf is not a word';
+
+		const linter = new Linter();
+		let lints = await linter.lint(source);
+
+		expect(lints).toHaveLength(1);
+
+		await linter.importWords(['asdf']);
+		lints = await linter.lint(source);
+
+		expect(lints).toHaveLength(0);
+	});
+
+	test(`${linterName} allows correct capitalization of "United States"`, async () => {
+		const linter = new Linter();
+		const lints = await linter.lint('The United States is a big country.');
+
+		expect(lints).toHaveLength(0);
 	});
 }
 

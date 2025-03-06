@@ -82,7 +82,7 @@ interface LintConfig {
 	tooltipFilter?: null | DiagnosticFilter;
 	/// Can be used to control what kind of transactions cause lint
 	/// hover tooltips associated with the given document range to be
-	/// hidden. By default any transactions that changes the line
+	/// hidden. By default any transaction that changes the line
 	/// around the range will hide it. Returning null falls back to this
 	/// behavior.
 	hideOn?: (tr: Transaction, from: number, to: number) => boolean | null;
@@ -517,7 +517,6 @@ const baseTheme = EditorView.baseTheme({
 	},
 
 	'.cm-diagnosticIgnore': {
-		color: 'black',
 		padding: 'var(--size-4-1) 0px',
 		fontSize: 'var(--font-ui-small)'
 	},

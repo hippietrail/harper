@@ -1,4 +1,4 @@
-use crate::{NounData, TokenKind, TokenStringExt, WordMetadata};
+use crate::{TokenKind, TokenStringExt, WordMetadata};
 
 use super::{Lint, LintKind, Linter, Suggestion};
 
@@ -11,21 +11,17 @@ impl Linter for CapitalizePersonalPronouns {
         let mut lints = Vec::new();
 
         for tok in document.iter_words() {
-            if let TokenKind::Word(WordMetadata {
-                noun:
-                    Some(NounData {
-                        is_pronoun: Some(true),
-                        ..
-                    }),
-                ..
-            }) = tok.kind
+            if let TokenKind::Word(Some(WordMetadata {
+                pronoun: Some(_), ..
+            })) = tok.kind
             {
                 if document.get_span_content(tok.span) == ['i'] {
                     lints.push(Lint {
                         span: tok.span,
                         lint_kind: LintKind::Capitalization,
                         suggestions: vec![Suggestion::ReplaceWith(vec!['I'])],
-                        message: "First-person singular pronouns must be capitalized.".to_string(),
+                        message: "The first-person singular subject pronoun must be capitalized."
+                            .to_string(),
                         priority: 31,
                     });
                 }

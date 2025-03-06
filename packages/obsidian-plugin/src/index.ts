@@ -1,3 +1,4 @@
+import { toArray } from 'lodash-es';
 import logoSvg from '../logo.svg';
 import { Plugin, Menu, PluginManifest, App, Notice } from 'obsidian';
 import { LintConfig, Linter, Suggestion } from 'harper.js';
@@ -10,9 +11,9 @@ function suggestionToLabel(sug: Suggestion) {
 	if (sug.kind() == SuggestionKind.Remove) {
 		return 'Remove';
 	} else if (sug.kind() == SuggestionKind.Replace) {
-		return `Replace with "${sug.get_replacement_text()}"`;
+		return `Replace with “${sug.get_replacement_text()}”`;
 	} else if (sug.kind() == SuggestionKind.InsertAfter) {
-		return `Insert "${sug.get_replacement_text()}" after this.`;
+		return `Insert “${sug.get_replacement_text()}” after this.`;
 	}
 }
 
@@ -20,6 +21,7 @@ export type Settings = {
 	ignoredLints?: string;
 	useWebWorker: boolean;
 	lintSettings: LintConfig;
+	userDictionary?: string[];
 };
 
 export default class HarperPlugin extends Plugin {
@@ -53,6 +55,10 @@ export default class HarperPlugin extends Plugin {
 			await this.harper.importIgnoredLints(settings.ignoredLints);
 		}
 
+		if (settings.userDictionary != null && settings.userDictionary.length > 0) {
+			await this.harper.importWords(settings.userDictionary);
+		}
+
 		await this.harper.setLintConfig(settings.lintSettings);
 		this.harper.setup();
 
@@ -76,7 +82,8 @@ export default class HarperPlugin extends Plugin {
 		return {
 			ignoredLints: await this.harper.exportIgnoredLints(),
 			useWebWorker: usingWebWorker,
-			lintSettings: await this.harper.getLintConfig()
+			lintSettings: await this.harper.getLintConfig(),
+			userDictionary: await this.harper.exportWords()
 		};
 	}
 
@@ -167,11 +174,60 @@ export default class HarperPlugin extends Plugin {
 		return linter(
 			async (view) => {
 				const text = view.state.doc.sliceString(-1);
+				const chars = toArray(text);
 
 				const lints = await this.harper.lint(text);
 
 				return lints.map((lint) => {
 					const span = lint.span();
+
+					span.start = charIndexToCodePointIndex(span.start, chars);
+					span.end = charIndexToCodePointIndex(span.end, chars);
+
+					const actions = lint.suggestions().map((sug) => {
+						return {
+							name: suggestionToLabel(sug),
+							apply: (view) => {
+								if (sug.kind() === SuggestionKind.Remove) {
+									view.dispatch({
+										changes: {
+											from: span.start,
+											to: span.end,
+											insert: ''
+										}
+									});
+								} else if (sug.kind() === SuggestionKind.Replace) {
+									view.dispatch({
+										changes: {
+											from: span.start,
+											to: span.end,
+											insert: sug.get_replacement_text()
+										}
+									});
+								} else if (sug.kind() === SuggestionKind.InsertAfter) {
+									view.dispatch({
+										changes: {
+											from: span.end,
+											to: span.end,
+											insert: sug.get_replacement_text()
+										}
+									});
+								}
+							}
+						};
+					});
+
+					if (lint.lint_kind() == 'Spelling') {
+						const word = lint.get_problem_text();
+
+						actions.push({
+							name: `Add “${word}” to your dictionary`,
+							apply: (view) => {
+								this.harper.importWords([word]);
+								this.reinitialize();
+							}
+						});
+					}
 
 					return {
 						from: span.start,
@@ -183,38 +239,7 @@ export default class HarperPlugin extends Plugin {
 							await this.harper.ignoreLint(lint);
 							await this.reinitialize();
 						},
-						actions: lint.suggestions().map((sug) => {
-							return {
-								name: suggestionToLabel(sug),
-								apply: (view) => {
-									if (sug.kind() === SuggestionKind.Remove) {
-										view.dispatch({
-											changes: {
-												from: span.start,
-												to: span.end,
-												insert: ''
-											}
-										});
-									} else if (sug.kind() === SuggestionKind.Replace) {
-										view.dispatch({
-											changes: {
-												from: span.start,
-												to: span.end,
-												insert: sug.get_replacement_text()
-											}
-										});
-									} else if (sug.kind() === SuggestionKind.InsertAfter) {
-										view.dispatch({
-											changes: {
-												from: span.end,
-												to: span.end,
-												insert: sug.get_replacement_text()
-											}
-										});
-									}
-								}
-							};
-						})
+						actions
 					};
 				});
 			},
@@ -223,4 +248,19 @@ export default class HarperPlugin extends Plugin {
 			}
 		);
 	}
+}
+
+/** Harper returns positions based on char indexes,
+ * but Obsidian identifies locations in documents based on Unicode code points.
+ * This converts between from the former to the latter.*/
+function charIndexToCodePointIndex(index: number, sourceChars: string[]): number {
+	let traversed = 0;
+
+	for (let i = 0; i < index; i++) {
+		const delta = sourceChars[i].length;
+
+		traversed += delta;
+	}
+
+	return traversed;
 }

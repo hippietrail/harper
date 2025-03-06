@@ -4,11 +4,11 @@ mod typst_translator;
 use offset_cursor::OffsetCursor;
 use typst_translator::TypstTranslator;
 
-use harper_core::{parsers::Parser, Token};
+use harper_core::{Token, parsers::Parser};
 use itertools::Itertools;
 use typst_syntax::{
-    ast::{AstNode, Markup},
     Source,
+    ast::{AstNode, Markup},
 };
 
 /// A parser that wraps Harper's `PlainEnglish` parser allowing one to ingest Typst files.
@@ -39,7 +39,7 @@ mod tests {
     use ordered_float::OrderedFloat;
 
     use super::Typst;
-    use harper_core::{Document, NounData, Punctuation, TokenKind, WordMetadata};
+    use harper_core::{Document, NounData, Number, Punctuation, TokenKind, WordMetadata};
 
     #[test]
     fn number() {
@@ -52,7 +52,11 @@ mod tests {
         assert!(matches!(
             token_kinds.as_slice(),
             &[
-                TokenKind::Number(OrderedFloat(12.0), None),
+                TokenKind::Number(Number {
+                    value: OrderedFloat(12.0),
+                    suffix: None,
+                    ..
+                }),
                 TokenKind::Space(1),
                 TokenKind::Word(_),
                 TokenKind::Space(1),
@@ -60,7 +64,11 @@ mod tests {
                 TokenKind::Space(1),
                 TokenKind::Word(_),
                 TokenKind::Space(1),
-                TokenKind::Number(OrderedFloat(11.0), None),
+                TokenKind::Number(Number {
+                    value: OrderedFloat(11.0),
+                    suffix: None,
+                    ..
+                }),
                 TokenKind::Punctuation(Punctuation::Comma),
                 TokenKind::Space(1),
                 TokenKind::Word(_),
@@ -71,7 +79,11 @@ mod tests {
                 TokenKind::Space(1),
                 TokenKind::Word(_),
                 TokenKind::Space(1),
-                TokenKind::Number(OrderedFloat(11.0), None),
+                TokenKind::Number(Number {
+                    value: OrderedFloat(11.0),
+                    suffix: None,
+                    ..
+                }),
                 TokenKind::Punctuation(Punctuation::Bang),
             ]
         ))
@@ -285,13 +297,13 @@ mod tests {
         assert!(matches!(
             token_kinds.as_slice(),
             &[
-                TokenKind::Word(WordMetadata {
+                TokenKind::Word(Some(WordMetadata {
                     noun: Some(NounData {
                         is_possessive: Some(true),
                         ..
                     }),
                     ..
-                }),
+                })),
                 TokenKind::Newline(1),
                 TokenKind::Word(_),
             ]
