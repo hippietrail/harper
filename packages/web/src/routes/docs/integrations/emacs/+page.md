@@ -13,10 +13,10 @@ Since version 29, Emacs has had native support for the Language Server Protocol 
 ```elisp title=init.el
 (with-eval-after-load 'eglot
   (add-to-list 'eglot-server-programs
-               '(major-mode . ("harper-ls" "--stdio"))))
+               '(text-mode . ("harper-ls" "--stdio"))))
 ```
 
-where `major-mode` can be set to any, some, or all major modes that correspond to the [languages `harper-ls` supports](./language-server#Supported-Languages). For example, if you want to use `harper-ls` to edit Markdown files and you have [`markdown-mode`](https://jblevins.org/projects/markdown-mode) installed, you can configure it like this:
+where `text-mode` can be set to any, some, or all major modes that correspond to the [languages `harper-ls` supports](./language-server#Supported-Languages). Typically, if you may want to use `harper-ls` to edit Markdown files and you have [`markdown-mode`](https://jblevins.org/projects/markdown-mode) installed, you can configure it like this:
 
 ```elisp title=init.el
 (with-eval-after-load 'eglot
