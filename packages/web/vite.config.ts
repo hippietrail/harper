@@ -45,6 +45,10 @@ export default defineConfig({
 									to: '/docs/integrations/obsidian'
 								},
 								{
+									title: 'WordPress',
+									to: '/docs/integrations/wordpress'
+								},
+								{
 									title: 'Visual Studio Code',
 									to: '/docs/integrations/visual-studio-code'
 								},
