@@ -243,11 +243,20 @@ addnoun noun:
     exit 0
   fi
 
+  # 'M': possessive -'s suffix for both common and proper nouns
+  flags='M'
+
+  # If the first letter is uppercase, treat it as a proper noun
   if [[ "{{noun}}" =~ ^[A-Z] ]]; then
-    echo "{{noun}}/2M" >> $DICT_FILE
+    # '2': proper noun, usually no plural
+    flags+='2'
   else
-    echo "{{noun}}/SM" >> $DICT_FILE
+    # '1': (common) singular noun, 'S': plural -(e)s
+    flags+='1S'
   fi
+
+  # Echo the noun with its flags to the dictionary file
+  echo "{{noun}}/$flags" >> $DICT_FILE
 
 # Search Harper's curated dictionary for a specific word
 searchdictfor word:
