@@ -5,12 +5,6 @@
 This repository contains the WordPress plugin for [Harper](https://writewithharper.com).
 It is a work-in-progress. Here be dragons!
 
-## Compiling from Source
+## Contributing
 
-The Harper plugin uses the standard build tooling available for WordPress plugins.
-
-```bash
-yarn install # Install dependencies
-yarn build  # Build the plugin
-yarn plugin-zip # Package the plugin into an installable ZIP file
-```
+Refer to [the online documentation](https://writewithharper.com/docs/contributors/wordpress) for instruction to contribute to the plugin.

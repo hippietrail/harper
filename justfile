@@ -37,6 +37,16 @@ test-harperjs: build-harperjs
   yarn install
   yarn start
 
+dev-wp: build-harperjs
+  #! /bin/bash
+
+  set -eo pipefail
+
+  cd "{{justfile_directory()}}/packages/wordpress-plugin"
+  yarn install -f
+  yarn run wp-now start &
+  yarn start 
+
 # Build the WordPress plugin
 build-wp: build-harperjs
   #! /bin/bash
