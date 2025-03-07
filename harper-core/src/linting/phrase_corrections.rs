@@ -363,6 +363,12 @@ pub fn lint_group() -> LintGroup {
             "Did you mean `got rid of`?",
             "Ensures `got rid of` is used instead of `got rid off`."
         ),
+        "GottenRidOff" => (
+            ["gotten rid off"],
+            ["gotten rid of"],
+            "Did you mean `gotten rid of`?",
+            "Ensures `gotten rid of` is used instead of `gotten rid off`."
+        ),
         "LastButNotLeast" => (
             ["last but not the least", "last, but not the least", "last but, not least"],
             ["last but not least"],
@@ -622,7 +628,6 @@ mod tests {
 
     use super::lint_group;
 
-    // todo: 4 tests: get/gets/getting rid off
     #[test]
     fn get_rid_off() {
         assert_suggestion_result(
@@ -631,6 +636,8 @@ mod tests {
             "Please bump axios version to get rid of npm warning #624",
         );
     }
+
+    #[test]
     fn gets_rid_off() {
         assert_suggestion_result(
             "Adding at as a runtime dependency gets rid off that error",
@@ -638,6 +645,8 @@ mod tests {
             "Adding at as a runtime dependency gets rid of that error",
         );
     }
+
+    #[test]
     fn getting_rid_off() {
         assert_suggestion_result(
             "getting rid off of all the complexity of the different accesses method of API service providers",
@@ -645,11 +654,22 @@ mod tests {
             "getting rid of of all the complexity of the different accesses method of API service providers",
         );
     }
+
+    #[test]
     fn got_rid_off() {
         assert_suggestion_result(
             "For now we got rid off circular deps in model tree structure and it's API.",
             lint_group(),
             "For now we got rid of circular deps in model tree structure and it's API.",
+        );
+    }
+
+    #[test]
+    fn gotten_rid_off() {
+        assert_suggestion_result(
+            "The baX variable thingy I have gotten rid off, that was due to a bad character in the encryption key.",
+            lint_group(),
+            "The baX variable thingy I have gotten rid of, that was due to a bad character in the encryption key.",
         );
     }
 
