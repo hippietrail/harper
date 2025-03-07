@@ -49,10 +49,6 @@ export default defineConfig({
 									to: '/docs/integrations/wordpress'
 								},
 								{
-									title: 'Visual Studio Code',
-									to: '/docs/integrations/visual-studio-code'
-								},
-								{
 									title: 'Language Server',
 									to: '/docs/integrations/language-server'
 								},
