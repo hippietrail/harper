@@ -21,7 +21,7 @@ use crate::{Token, TokenKind};
 ///
 /// let document = Document::new_markdown_default_curated("This is a test.");
 ///
-/// let pattern = SequencePattern::default().then_article().then_whitespace().then_noun();
+/// let pattern = SequencePattern::default().then_determiner().then_whitespace().then_nominal();
 /// let matches = pattern.find_all_matches_in_doc(&document);
 ///
 /// // The pattern found that the tokens at indexes 4, 5, and 6 fit the criteria.
@@ -66,9 +66,10 @@ macro_rules! gen_then_from_is {
 }
 
 impl SequencePattern {
+    gen_then_from_is!(nominal);
     gen_then_from_is!(noun);
-    gen_then_from_is!(possessive_noun);
-    gen_then_from_is!(plural_noun);
+    gen_then_from_is!(possessive_nominal);
+    gen_then_from_is!(plural_nominal);
     gen_then_from_is!(verb);
     gen_then_from_is!(linking_verb);
     gen_then_from_is!(pronoun);
@@ -82,8 +83,9 @@ impl SequencePattern {
     gen_then_from_is!(adjective);
     gen_then_from_is!(apostrophe);
     gen_then_from_is!(hyphen);
-    gen_then_from_is!(article);
+    gen_then_from_is!(determiner);
     gen_then_from_is!(proper_noun);
+    gen_then_from_is!(preposition);
 
     pub fn then_indefinite_article(self) -> Self {
         self.then(IndefiniteArticle::default())
@@ -159,9 +161,9 @@ impl SequencePattern {
         self
     }
 
-    pub fn then_one_or_more(mut self, pat: Box<dyn Pattern>) -> Self {
+    pub fn then_one_or_more(mut self, pat: impl Pattern + 'static) -> Self {
         self.token_patterns
-            .push(Box::new(RepeatingPattern::new(pat, 0)));
+            .push(Box::new(RepeatingPattern::new(Box::new(pat), 0)));
         self
     }
 

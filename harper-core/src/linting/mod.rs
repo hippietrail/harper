@@ -10,6 +10,7 @@ mod capitalize_personal_pronouns;
 mod chock_full;
 mod closed_compounds;
 mod compound_nouns;
+mod confident;
 mod correct_number_suffix;
 mod currency_placement;
 mod dashes;
@@ -17,6 +18,7 @@ mod despite_of;
 mod dot_initialisms;
 mod ellipsis_length;
 mod expand_time_shorthands;
+mod hedging;
 mod hereby;
 mod hop_hope;
 mod hyphenate_number_day;
@@ -32,12 +34,14 @@ mod map_phrase_linter;
 mod matcher;
 mod merge_linters;
 mod merge_words;
+mod modal_of;
 mod multiple_sequential_pronouns;
 mod no_oxford_comma;
 mod nobody;
 mod number_suffix_capitalization;
 mod out_of_date;
 mod oxford_comma;
+mod oxymorons;
 mod pattern_linter;
 mod phrase_corrections;
 mod pique_interest;
@@ -69,12 +73,14 @@ pub use boring_words::BoringWords;
 pub use capitalize_personal_pronouns::CapitalizePersonalPronouns;
 pub use chock_full::ChockFull;
 pub use compound_nouns::CompoundNouns;
+pub use confident::Confident;
 pub use correct_number_suffix::CorrectNumberSuffix;
 pub use currency_placement::CurrencyPlacement;
 pub use despite_of::DespiteOf;
 pub use dot_initialisms::DotInitialisms;
 pub use ellipsis_length::EllipsisLength;
 pub use expand_time_shorthands::ExpandTimeShorthands;
+pub use hedging::Hedging;
 pub use hereby::Hereby;
 pub use hop_hope::HopHope;
 pub use hyphenate_number_day::HyphenateNumberDay;
@@ -89,13 +95,15 @@ pub use long_sentences::LongSentences;
 pub use map_phrase_linter::MapPhraseLinter;
 pub use matcher::Matcher;
 pub use merge_words::MergeWords;
+pub use modal_of::ModalOf;
 pub use multiple_sequential_pronouns::MultipleSequentialPronouns;
 pub use no_oxford_comma::NoOxfordComma;
 pub use nobody::Nobody;
 pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use out_of_date::OutOfDate;
 pub use oxford_comma::OxfordComma;
-pub use pattern_linter::PatternLinter;
+pub use oxymorons::Oxymorons;
+pub use pattern_linter::{PatternLinter, PatternLinterCache};
 pub use pique_interest::PiqueInterest;
 pub use plural_conjugate::PluralConjugate;
 pub use possessive_your::PossessiveYour;
@@ -117,30 +125,14 @@ pub use whereas::Whereas;
 pub use wordpress_dotcom::WordPressDotcom;
 pub use wrong_quotes::WrongQuotes;
 
-use crate::Document;
+use crate::{Document, LSend};
 
 /// A __stateless__ rule that searches documents for grammatical errors.
 ///
 /// Commonly implemented via [`PatternLinter`].
 ///
 /// See also: [`LintGroup`].
-#[cfg(not(feature = "concurrent"))]
-pub trait Linter {
-    /// Analyzes a document and produces zero or more [`Lint`]s.
-    /// We pass `self` mutably for caching purposes.
-    fn lint(&mut self, document: &Document) -> Vec<Lint>;
-    /// A user-facing description of what kinds of grammatical errors this rule looks for.
-    /// It is usually shown in settings menus.
-    fn description(&self) -> &str;
-}
-
-/// A __stateless__ rule that searches documents for grammatical errors.
-///
-/// Commonly implemented via [`PatternLinter`].
-///
-/// See also: [`LintGroup`].
-#[cfg(feature = "concurrent")]
-pub trait Linter: Send + Sync {
+pub trait Linter: LSend {
     /// Analyzes a document and produces zero or more [`Lint`]s.
     /// We pass `self` mutably for caching purposes.
     fn lint(&mut self, document: &Document) -> Vec<Lint>;

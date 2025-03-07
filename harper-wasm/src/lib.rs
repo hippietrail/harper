@@ -183,8 +183,7 @@ impl Linter {
 
         let parser = language.create_parser();
 
-        let document =
-            Document::new_from_vec(source.clone(), &parser, &MutableDictionary::curated());
+        let document = Document::new_from_vec(source.clone(), &parser, &self.dictionary);
 
         let temp = self.lint_group.config.clone();
         self.lint_group.config.fill_with_curated();

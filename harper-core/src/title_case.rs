@@ -96,7 +96,7 @@ fn should_capitalize_token(tok: &Token, source: &[char], dict: &impl Dictionary)
             let is_short_preposition = metadata.preposition && tok.span.len() <= 4;
 
             !is_short_preposition
-                && !metadata.article
+                && !metadata.determiner
                 && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_ref())
         }
         _ => true,
@@ -244,5 +244,13 @@ mod tests {
         } else {
             TestResult::discard()
         }
+    }
+
+    #[test]
+    fn united_states() {
+        assert_eq!(
+            make_title_case_str("united states", &PlainEnglish, &FstDictionary::curated()),
+            "United States"
+        )
     }
 }

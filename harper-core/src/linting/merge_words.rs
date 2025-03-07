@@ -38,6 +38,12 @@ impl Linter for MergeWords {
             let a_chars = document.get_span_content(a.span);
             let b_chars = document.get_span_content(b.span);
 
+            if (a_chars.len() == 1 && a_chars[0].is_uppercase())
+                || (b_chars.len() == 1 && b_chars[0].is_uppercase())
+            {
+                continue;
+            }
+
             // Not super helpful in this case, so we skip it
             if matches!(a_chars, ['a']) || matches!(b_chars, ['a']) {
                 continue;
@@ -117,5 +123,11 @@ mod tests {
     #[test]
     fn that_is_contraction() {
         assert_suggestion_result("That s", MergeWords::default(), "That's");
+    }
+
+    #[test]
+    fn allows_issue_722() {
+        assert_lint_count("Leaving S and K alone.", MergeWords::default(), 0);
+        assert_lint_count("Similarly an S with a line.", MergeWords::default(), 0);
     }
 }

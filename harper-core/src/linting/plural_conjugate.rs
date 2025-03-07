@@ -1,6 +1,6 @@
 use crate::{
     Token,
-    patterns::{EitherPattern, Pattern, SequencePattern},
+    patterns::{OwnedPatternExt, Pattern, SequencePattern},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -11,19 +11,19 @@ pub struct PluralConjugate {
 
 impl Default for PluralConjugate {
     fn default() -> Self {
-        let plural_case = SequencePattern::default()
-            .then_plural_noun()
+        let plural_number = SequencePattern::default()
+            .then_plural_nominal()
             .then_whitespace()
             .then_exact_word("is");
 
-        let non_plural_case = SequencePattern::default()
+        let singular_number = SequencePattern::default()
             .then(|tok: &Token, _source: &[char]| {
-                tok.kind.is_not_plural_noun() && tok.kind.is_noun()
+                tok.kind.is_not_plural_nominal() && tok.kind.is_nominal()
             })
             .then_whitespace()
             .then_exact_word("are");
 
-        let pat = EitherPattern::new(vec![Box::new(plural_case), Box::new(non_plural_case)]);
+        let pat = plural_number.or(Box::new(singular_number));
 
         Self {
             pattern: Box::new(pat),
@@ -37,7 +37,7 @@ impl PatternLinter for PluralConjugate {
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Option<Lint> {
-        let should_be_plural = matched_tokens.first()?.kind.is_plural_noun();
+        let should_be_plural = matched_tokens.first()?.kind.is_plural_nominal();
 
         let sug = if should_be_plural {
             vec!['a', 'r', 'e']
@@ -102,11 +102,74 @@ mod tests {
     }
 
     #[test]
-    fn pronoun_singular() {
+    fn pronoun_singular_he_test() {
         assert_suggestion_result(
             "If he are testing it.",
             PluralConjugate::default(),
             "If he is testing it.",
+        );
+    }
+
+    #[test]
+    fn pronoun_singular_he_going() {
+        assert_suggestion_result(
+            "He are going to the store.",
+            PluralConjugate::default(),
+            "He is going to the store.",
+        );
+    }
+
+    #[test]
+    fn pronoun_singular_she() {
+        assert_suggestion_result(
+            "She are playing soccer.",
+            PluralConjugate::default(),
+            "She is playing soccer.",
+        );
+    }
+
+    #[test]
+    fn pronoun_singular_it() {
+        assert_suggestion_result(
+            "It are on the table.",
+            PluralConjugate::default(),
+            "It is on the table.",
+        );
+    }
+
+    #[test]
+    fn pronoun_plural_they() {
+        assert_suggestion_result(
+            "They is arriving soon.",
+            PluralConjugate::default(),
+            "They are arriving soon.",
+        );
+    }
+
+    #[test]
+    fn pronoun_plural_we() {
+        assert_suggestion_result(
+            "We is having lunch now.",
+            PluralConjugate::default(),
+            "We are having lunch now.",
+        );
+    }
+
+    #[test]
+    fn pronoun_plural_you() {
+        assert_suggestion_result(
+            "You is responsible for this task.",
+            PluralConjugate::default(),
+            "You are responsible for this task.",
+        );
+    }
+
+    #[test]
+    fn collective_noun_singular() {
+        assert_suggestion_result(
+            "The committee are meeting today.",
+            PluralConjugate::default(),
+            "The committee is meeting today.",
         );
     }
 }
