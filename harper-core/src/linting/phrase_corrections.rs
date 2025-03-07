@@ -602,7 +602,13 @@ pub fn lint_group() -> LintGroup {
             ["day and age"],
             "Use `day and age` for referring to the present time.",
             "Corrects the eggcorn `day in age` to `day and age`, which properly means the current era or time period."
-        )
+        ),
+        "NerveRacking" => (
+            ["nerve racking", "nerve wracking", "nerve wrecking", "nerve-wracking", "nerve-wrecking"],
+            ["nerve-racking"],
+            "Use `nerve-racking` for something that causes anxiety or tension.",
+            "Corrects common misspellings and missing hyphen in `nerve-racking`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -778,6 +784,51 @@ mod tests {
             "This seems like a blanketed statement and I have not found any info to back up whether PyJWT is affected.",
             lint_group(),
             "This seems like a blanket statement and I have not found any info to back up whether PyJWT is affected.",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wracking_hyphen() {
+        assert_suggestion_result(
+            "We've gone through several major changes / upgrades to atlantis, and it's always a little bit nerve-wracking because if we mess something up we ...",
+            lint_group(),
+            "We've gone through several major changes / upgrades to atlantis, and it's always a little bit nerve-racking because if we mess something up we ...",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wrecking_hyphen() {
+        assert_suggestion_result(
+            "The issue happens to me on a daily basis, and it is nerve-wrecking because I become unsure if I have actually saved the diagram, but every time ...",
+            lint_group(),
+            "The issue happens to me on a daily basis, and it is nerve-racking because I become unsure if I have actually saved the diagram, but every time ...",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wracking_no_hyphen() {
+        assert_suggestion_result(
+            "Very nerve wracking landing in an unfamiliar mountainous airport in dead of night with no radar to show surrounding terrain.",
+            lint_group(),
+            "Very nerve-racking landing in an unfamiliar mountainous airport in dead of night with no radar to show surrounding terrain.",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wrecking_no_hyphen() {
+        assert_suggestion_result(
+            "I appreciate any kind of help since this is kind of nerve wrecking.",
+            lint_group(),
+            "I appreciate any kind of help since this is kind of nerve-racking.",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_racking_no_hyphen() {
+        assert_suggestion_result(
+            "It's nerve racking to think about it because I have code inside the callback that resolves the member and somehow I feel like it's so ..",
+            lint_group(),
+            "It's nerve-racking to think about it because I have code inside the callback that resolves the member and somehow I feel like it's so ..",
         );
     }
 }

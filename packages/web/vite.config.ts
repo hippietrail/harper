@@ -45,6 +45,10 @@ export default defineConfig({
 									to: '/docs/integrations/obsidian'
 								},
 								{
+									title: 'WordPress',
+									to: '/docs/integrations/wordpress'
+								},
+								{
 									title: 'Language Server',
 									to: '/docs/integrations/language-server'
 								},
@@ -125,6 +129,10 @@ export default defineConfig({
 								{
 									title: 'Visual Studio Code',
 									to: '/docs/contributors/visual-studio-code'
+								},
+								{
+									title: 'WordPress',
+									to: '/docs/contributors/wordpress'
 								},
 								{
 									title: 'Reviewing Pull Requests',
