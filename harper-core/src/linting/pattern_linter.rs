@@ -1,4 +1,4 @@
-use std::num::NonZeroUsize;
+use std::num::{NonZero, NonZeroUsize};
 
 use lru::LruCache;
 
@@ -54,10 +54,17 @@ pub struct PatternLinterCache<P: PatternLinter> {
 
 impl<P: PatternLinter> PatternLinterCache<P> {
     /// Add a cache to a given [`PatternLinter`] with a given cache size.
-    /// About a 1000 rows is recommended.
     pub fn new(inner: P, cache_size: NonZeroUsize) -> Self {
         Self {
             cache: ChunkCache::new(cache_size),
+            inner,
+        }
+    }
+
+    /// Add a cache to a given [`PatternLinter`] with a given cache size.
+    pub fn new_default_size(inner: P) -> Self {
+        Self {
+            cache: ChunkCache::new(NonZero::new(100000).unwrap()),
             inner,
         }
     }
@@ -115,14 +122,14 @@ fn run_on_chunk_cached(
     let Some(chunk_span) = chunk.span() else {
         return Vec::new().into();
     };
+    let chars = chunk_span.get_content(source);
 
-    let key = chunk_span.get_content(source);
-
-    if let Some(hit) = cache.get(key) {
-        hit.clone()
-    } else {
-        let lints = Lrc::new(run_on_chunk(linter, chunk, source));
-        cache.put(key.into(), lints.clone());
-        lints
+    if let Some(hit) = cache.get(chars) {
+        return hit.clone();
     }
+
+    let lints = Lrc::new(run_on_chunk(linter, chunk, source));
+    cache.put(chars.into(), lints.clone());
+
+    lints
 }

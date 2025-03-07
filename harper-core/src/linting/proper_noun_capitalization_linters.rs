@@ -8,7 +8,6 @@ use crate::parsers::PlainEnglish;
 use crate::patterns::{ExactPhrase, Pattern, PatternMap};
 use crate::{Dictionary, Document};
 use crate::{Token, TokenStringExt};
-use std::num::NonZero;
 use std::sync::Arc;
 
 /// A linter that corrects the capitalization of multi-word proper nouns.
@@ -120,13 +119,12 @@ fn lint_group_from_json(json: &str, dictionary: Arc<impl Dictionary + 'static>) 
     for (key, rule) in rules.into_iter() {
         group.add(
             key,
-            Box::new(PatternLinterCache::new(
+            Box::new(PatternLinterCache::new_default_size(
                 ProperNounCapitalizationLinter::new_strs(
                     rule.canonical,
                     rule.description,
                     dictionary.clone(),
                 ),
-                NonZero::new(1000).unwrap(),
             )),
         );
     }

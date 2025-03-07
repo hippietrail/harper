@@ -63,7 +63,6 @@ use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
 use crate::Document;
 use crate::linting::{closed_compounds, phrase_corrections};
 use crate::{Dictionary, MutableDictionary};
-use std::num::NonZero;
 
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 #[serde(transparent)]
@@ -208,10 +207,7 @@ impl LintGroup {
             ($rule:ident, $default_config:expr) => {
                 out.add(
                     stringify!($rule),
-                    Box::new(PatternLinterCache::new(
-                        $rule::default(),
-                        NonZero::new(1000).unwrap(),
-                    )),
+                    Box::new(PatternLinterCache::new_default_size($rule::default())),
                 );
                 out.config
                     .set_rule_enabled(stringify!($rule), $default_config);
