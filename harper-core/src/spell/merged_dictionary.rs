@@ -1,5 +1,7 @@
+use std::hash::{BuildHasher, Hasher};
 use std::sync::Arc;
 
+use foldhash::fast::FixedState;
 use itertools::Itertools;
 
 use super::{FuzzyMatchResult, dictionary::Dictionary};
@@ -10,23 +12,32 @@ use crate::{CharString, WordMetadata};
 #[derive(Clone)]
 pub struct MergedDictionary {
     children: Vec<Arc<dyn Dictionary>>,
+    child_hashes: Vec<u64>,
 }
 
 impl MergedDictionary {
     pub fn new() -> Self {
         Self {
             children: Vec::new(),
+            child_hashes: Vec::new(),
         }
     }
 
     pub fn add_dictionary(&mut self, dictionary: Arc<dyn Dictionary>) {
+        let mut hasher = FixedState::default().build_hasher();
+
+        dictionary
+            .words_iter()
+            .for_each(|w| w.iter().for_each(|c| hasher.write_u32(*c as u32)));
+
+        self.child_hashes.push(hasher.finish());
         self.children.push(dictionary);
     }
 }
 
 impl PartialEq for MergedDictionary {
-    fn eq(&self, _other: &Self) -> bool {
-        false
+    fn eq(&self, other: &Self) -> bool {
+        self.child_hashes == other.child_hashes
     }
 }
 

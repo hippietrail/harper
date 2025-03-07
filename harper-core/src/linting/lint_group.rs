@@ -4,6 +4,7 @@ use std::sync::Arc;
 
 use cached::proc_macro::cached;
 use hashbrown::HashMap;
+use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
 use super::Lint;
@@ -67,7 +68,7 @@ use std::num::NonZero;
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 #[serde(transparent)]
 pub struct LintGroupConfig {
-    inner: HashMap<String, Option<bool>>,
+    inner: IndexMap<String, Option<bool>>,
 }
 
 #[cached]
@@ -85,7 +86,7 @@ impl LintGroupConfig {
     /// Remove any configuration attached to a rule.
     /// This allows it to assume its default (curated) state.
     pub fn unset_rule_enabled(&mut self, key: impl AsRef<str>) {
-        self.inner.remove_entry(key.as_ref());
+        self.inner.swap_remove_entry(key.as_ref());
     }
 
     pub fn set_rule_enabled_if_unset(&mut self, key: impl AsRef<str>, val: bool) {
@@ -111,7 +112,7 @@ impl LintGroupConfig {
     ///
     /// Conflicting keys will be overridden by the value in the other group.
     pub fn merge_from(&mut self, other: &mut LintGroupConfig) {
-        for (key, val) in other.inner.drain() {
+        for (key, val) in other.inner.drain(..) {
             if val.is_none() {
                 continue;
             }
