@@ -39,7 +39,7 @@
 			<TableBodyRow>
 				<TableBodyCell>{name}</TableBodyCell>
 				<TableBodyCell>{default_config[name] ? 'Enabled' : 'Disabled'}</TableBodyCell>
-				<TableBodyCell>{description}</TableBodyCell>
+				<TableBodyCell tdClass="px-6 py-4 font-medium">{description}</TableBodyCell>
 			</TableBodyRow>
 		{/each}
 	</TableBody>
