@@ -30,7 +30,7 @@ impl PartialOrd for FuzzyMatchResult<'_> {
 ///
 /// Lower = better.
 fn score_suggestion(misspelled_word: &[char], sug: &FuzzyMatchResult) -> i32 {
-    if misspelled_word.is_empty() {
+    if misspelled_word.is_empty() || sug.word.is_empty() {
         return i32::MAX;
     }
 
@@ -118,9 +118,7 @@ fn char_to_normalized(c: char) -> char {
 mod tests {
     use itertools::Itertools;
 
-    use super::{
-        FstDictionary, order_suggestions, seq_to_normalized, suggest_correct_spelling_str,
-    };
+    use super::{FstDictionary, seq_to_normalized, suggest_correct_spelling_str};
 
     const RESULT_LIMIT: usize = 100;
     const MAX_EDIT_DIST: u8 = 2;
