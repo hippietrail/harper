@@ -30,7 +30,7 @@ pub fn lint_group() -> LintGroup {
     add_exact_mappings!(group, {
         // The name of the rule
         "ChangeTack" => (
-            // The exact phrase to look for.
+            // The exact phrase(s) to look for.
             ["change tact"],
             // The corrections to provide.
             ["change tack"],
@@ -602,7 +602,25 @@ pub fn lint_group() -> LintGroup {
             ["day and age"],
             "Use `day and age` for referring to the present time.",
             "Corrects the eggcorn `day in age` to `day and age`, which properly means the current era or time period."
-        )
+        ),
+        // "GuineaBissau" => (
+        //     ["Guinea Bissau"],
+        //     ["Guinea-Bissau"],
+        //     "The official spelling is hyphenated.",
+        //     "Checks for the correct official name of the African country."
+        // ),
+        // "PortAuPrince" => (
+        //     ["Port au Prince"],
+        //     ["Port-au-Prince"],
+        //     "The official spelling is hyphenated.",
+        //     "Checks for the correct official name of the capital of Haiti."
+        // ),
+        // "PortoNovo" => (
+        //     ["Porto Novo"],
+        //     ["Porto-Novo"],
+        //     "The official spelling is hyphenated.",
+        //     "Checks for the correct official name of the capital of Benin."
+        // ),
     });
 
     group.set_all_rules_to(Some(true));

@@ -141,28 +141,28 @@ impl Matcher {
         triggers.extend(pt! {
            "guinea","bissau" => "Guinea-Bissau",
            "Guinea","bissau" => "Guinea-Bissau",
-           "Guinea","Bissau" => "Guinea-Bissau",
+        //    "Guinea","Bissau" => "Guinea-Bissau",
            "ndjamena" => "N'Djamena",
            "Ndjamena" => "N'Djamena",
            "n'djamena" => "N'Djamena",
            "N'djamena" => "N'Djamena",
            "port","au","prince" => "Port-au-Prince",
            "Port","au","prince" => "Port-au-Prince",
-           "Port","Au","Prince" => "Port-au-Prince",
+        //    "Port","Au","Prince" => "Port-au-Prince",
            "porto","novo" => "Porto-Novo",
-           "Porto","novo" => "Porto-Novo",
-           "Porto","Novo" => "Porto-Novo",
-           "st","georges" => "St. George's",
-           // "st.","georges" => "St. George's",
-           "st","george's" => "St. George's",
-           // "st.","george's" => "St. George's",
-           "St","georges" => "St. George's",
-           // "St.","georges" => "St. George's",
-           "St","george's" => "St. George's",
-           // "St.","george's" => "St. George's",
-           "St","Georges" => "St. George's",
-           // "St.","Georges" => "St. George's",
-           "St","George's" => "St. George's"
+           "Porto","novo" => "Porto-Novo"
+        //    "Porto","Novo" => "Porto-Novo",
+        //    "st","georges" => "St. George's",
+        //    // "st.","georges" => "St. George's",
+        //    "st","george's" => "St. George's",
+        //    // "st.","george's" => "St. George's",
+        //    "St","georges" => "St. George's",
+        //    // "St.","georges" => "St. George's",
+        //    "St","george's" => "St. George's",
+        //    // "St.","george's" => "St. George's",
+        //    "St","Georges" => "St. George's",
+        //    // "St.","Georges" => "St. George's",
+        //    "St","George's" => "St. George's"
         });
 
         // countries and capitals with accents and diacritics
@@ -264,7 +264,8 @@ impl Linter for Matcher {
                         lint_kind: LintKind::Miscellaneous,
                         suggestions: vec![Suggestion::ReplaceWith(trigger.replace_with.to_owned())],
                         message: format!(
-                            "Did you mean “{}”?",
+                            // "Did you mean “{}”?",
+                            "Did you mean “{}”? (matcher.rs)",
                             trigger.replace_with.iter().collect::<String>()
                         ),
                         priority: 15,
