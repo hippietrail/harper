@@ -13,7 +13,8 @@ use harper_core::parsers::{Markdown, MarkdownOptions};
 use harper_core::spell::hunspell::parse_default_attribute_list;
 use harper_core::spell::hunspell::word_list::parse_word_list;
 use harper_core::{
-    remove_overlaps, CharString, Dictionary, Document, FstDictionary, TokenKind, WordMetadata,
+    remove_overlaps, CharString, CharStringExt, Dictionary, Document, FstDictionary, TokenKind,
+    TokenStringExt, WordMetadata,
 };
 use harper_literate_haskell::LiterateHaskellParser;
 use hashbrown::HashMap;
@@ -57,6 +58,11 @@ enum Args {
     Words,
     /// Print the default config with descriptions.
     Config,
+    /// Print a list of all the words in a document, sorted by frequency.
+    MineWords {
+        /// The document to mine words from.
+        file: PathBuf,
+    },
 }
 
 fn main() -> anyhow::Result<()> {
@@ -248,6 +254,33 @@ fn main() -> anyhow::Result<()> {
             }
 
             println!("{}", serde_json::to_string_pretty(&configs).unwrap());
+
+            Ok(())
+        }
+        Args::MineWords { file } => {
+            let (doc, _source) = load_file(&file, MarkdownOptions::default())?;
+
+            let mut words = HashMap::new();
+
+            for word in doc.iter_words() {
+                let chars = doc.get_span_content(word.span);
+
+                words
+                    .entry(chars.to_lower())
+                    .and_modify(|v| *v += 1)
+                    .or_insert(1);
+            }
+
+            let mut words_ordered: Vec<(String, usize)> = words
+                .into_iter()
+                .map(|(key, value)| (key.to_string(), value))
+                .collect();
+
+            words_ordered.sort_by_key(|v| v.1);
+
+            for (word, _) in words_ordered {
+                println!("{word}");
+            }
 
             Ok(())
         }
