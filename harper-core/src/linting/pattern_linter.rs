@@ -1,8 +1,12 @@
-use std::num::{NonZero, NonZeroUsize};
+use std::{
+    hash::{BuildHasher, Hasher},
+    num::{NonZero, NonZeroUsize},
+};
 
+use foldhash::quality::FixedState;
 use lru::LruCache;
 
-use crate::{CharString, Document, LSend, Lrc, Token, TokenStringExt, patterns::Pattern};
+use crate::{Document, LSend, Lrc, Token, TokenStringExt, patterns::Pattern};
 
 use super::{Lint, Linter};
 
@@ -43,7 +47,7 @@ where
     }
 }
 
-type ChunkCache = LruCache<CharString, Lrc<Vec<Lint>>>;
+type ChunkCache = LruCache<u64, Lrc<Vec<Lint>>>;
 
 /// A cache that wraps around a [`PatternLinter`], caching
 /// results by chunk.
@@ -122,14 +126,23 @@ fn run_on_chunk_cached(
     let Some(chunk_span) = chunk.span() else {
         return Vec::new().into();
     };
+
     let chars = chunk_span.get_content(source);
 
-    if let Some(hit) = cache.get(chars) {
+    let mut hasher = FixedState::default().build_hasher();
+
+    for c in chars {
+        hasher.write_u32(*c as u32);
+    }
+
+    let key = hasher.finish();
+
+    if let Some(hit) = cache.get(&key) {
         return hit.clone();
     }
 
     let lints = Lrc::new(run_on_chunk(linter, chunk, source));
-    cache.put(chars.into(), lints.clone());
+    cache.put(key, lints.clone());
 
     lints
 }
