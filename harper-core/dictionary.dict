@@ -1097,7 +1097,7 @@ Bennie/2M
 Benny/21M
 Benson/2M
 Bentham/2M
-Bentley/21M
+Bentley/21MS
 Benton/2M
 Benz/21M
 Benzedrine/M
@@ -4202,6 +4202,7 @@ Hank/2M
 Hanna/2M
 Hannah/21M
 Hannibal/2M
+Hannity/2M
 Hanoi/2M
 Hanover/2M
 Hanoverian/51M
@@ -6108,6 +6109,7 @@ Madagascan/15SM
 Madagascar/21M
 Madam/1
 Madden/2M
+Maddie/2M
 Maddox/2M
 Madeira/21SM
 Madeleine/2M
@@ -8232,6 +8234,7 @@ RIP/21
 RISC/1
 RN/12M
 RNA/1M
+RNG/1MS
 ROFL/4
 ROM/21M
 ROTC/2M
@@ -10188,6 +10191,7 @@ VIP/1SM
 VISTA
 VJ/142
 VLF/1M
+VMS/M
 VOA/21
 VP/12
 VRAM/1M
@@ -20802,6 +20806,7 @@ dizziness/~1M
 dizzy/~541DRSPTG
 djellaba/1MS
 do/~m1SJMRHZG
+doability/1M
 doable/51
 dob/41S
 dobbed/4
@@ -25619,6 +25624,7 @@ gout/14M
 gouty/5TR
 gov/~1
 govern/~41DGSBL
+governability/1MU
 governable/5U
 governance/~1M
 governed/~4U
@@ -25986,6 +25992,7 @@ guardroom/1SM
 guardsman/~1M
 guardsmen/9
 guava/1SM
+gubbins/9
 gubernatorial/~5
 guerrilla/~15SM
 guess/~41ZGBMDRS
@@ -26274,6 +26281,7 @@ hamster/~14MS
 hamstring/~14GSM
 hamstrung/54
 hand's
+handbuilt/5
 hand/~14UDGS
 handbag/14SM
 handball/~14MS
@@ -26281,6 +26289,7 @@ handbarrow/1SM
 handbill/1MS
 handbook/~1MS
 handbrake/~14S
+handbuilt/5
 handcar/1SM
 handcart/14MS
 handclasp/1MS
@@ -27572,7 +27581,7 @@ hydrogen/~1M
 hydrogenate/4CGDS
 hydrogenation/1M
 hydrogenous/5
-hydrolock/1MS
+hydrolock/14MSGD
 hydrologist/1MS
 hydrology/~1M
 hydrolyses/14
@@ -32395,7 +32404,7 @@ mischievousness/1M
 miscibility/1M
 miscible/5
 misclassified/4
-miscommunication/1S
+miscommunicate/4GDSNX
 misconceive/4GDS
 misconception/~1SM
 misconduct/~14MDGS
@@ -33285,6 +33294,7 @@ nacelle/1SM
 nacho/1SM
 nacre/1M
 nacreous/5
+nada
 nadir/14SM
 nae
 naff/5RT
@@ -34133,7 +34143,7 @@ normalcy/1M
 normality/1M
 normalization/~12M
 normalize/4DSG
-normative/~51
+normative/~51Y
 normie/1SM
 north/~154ZMR
 northbound/~5
@@ -34558,6 +34568,7 @@ officialese/1
 officialism/1M
 officiant/1SM
 officiate/41DSG
+officiation/1M
 officiator/1MS
 officious/5PY
 officiousness/1M
@@ -34691,6 +34702,7 @@ ooh/14GD
 oohs/41
 oomph/14
 oops/~14
+oopsy/1MS
 ooze/14MGDS
 oozy/5TR
 op/~145SMDG
@@ -37985,7 +37997,7 @@ probable/~51SM
 probably/~j
 probate/~14MN
 probation/~1ZMR
-probational/5
+probational/5Y
 probationary/51
 probationer/1M
 probe/~14MGDSBJ
@@ -37996,7 +38008,7 @@ problematical/5Y
 probosces/1
 proboscis/1MS
 procaine/1M
-procedural/~51
+procedural/~51Y
 procedure/~1SM
 proceed/~4GJDS
 proceeding/~41M
@@ -39353,6 +39365,7 @@ reel's
 reel/~14UGDS
 reentrant/5
 reeve/~14G
+reexecute/4SDG
 reexport/41SDG
 ref/~14SZM
 refactor/14DS
@@ -39817,6 +39830,7 @@ responsibly/j
 responsive/~5UYP
 responsiveness/1UM
 rest/~14GVMDS
+restamp/4GDS
 restate/4GDS
 restaurant/~1SM
 restaurateur/~1MS
@@ -41004,6 +41018,7 @@ schoolfellow/1SM
 schoolgirl/~14SM
 schoolhouse/~1SM
 schooling/~14M
+schoolish/5Y
 schoolkid/1S
 schoolmarm/14SM
 schoolmarmish/5
@@ -47374,6 +47389,7 @@ underarm/154SM
 underbelly/~1SM
 underbid/41S
 underbidding/4
+underbody/1MS
 underbrush/14M
 undercarriage/1MS
 undercharge/41MGDS
@@ -48760,7 +48776,7 @@ waster/1M
 wastewater/~1
 wastrel/1SM
 wat/~1SM
-watch/~14BZGMDRS
+watch/~14BZGMDRSA
 watchable/51U
 watchband/1MS
 watchdog/~14SM
@@ -49002,6 +49018,7 @@ whammy/1SM
 wharf/~14M
 wharves/~1
 what/~81MS
+whataboutism/1M
 whatchamacallit/1MS
 whatever/~851
 whatnot/1M
@@ -49327,6 +49344,7 @@ wintertime/1M
 wintry/5TR
 winy/5RT
 wipe/~41MZGDRS
+wipeout/1MS
 wiper/1M
 wire's
 wire/~14AGDS
@@ -49395,7 +49413,7 @@ wizardry/~1M
 wizened/45
 wk/1Y
 woad/14M
-wobble/14MGDS
+wobble/14MGDSR
 wobbliness/1M
 wobbly/51RTP
 wodge/1S
