@@ -14,8 +14,13 @@ impl Linter for AnA {
 
         for chunk in document.iter_chunks() {
             for (first_idx, second_idx) in chunk.iter_word_indices().tuple_windows() {
-                // [`TokenKind::Unlintable`] might be semantic words.
-                if chunk[first_idx..second_idx].iter_unlintables().count() > 0 {
+                // [`TokenKind::Unlintable`] might have semantic meaning.
+                if chunk[first_idx..second_idx].iter_unlintables().count() > 0
+                    || chunk[first_idx + 1..second_idx]
+                        .iter_word_like_indices()
+                        .count()
+                        > 0
+                {
                     continue;
                 }
 
@@ -264,5 +269,10 @@ mod tests {
             AnA,
             1,
         );
+    }
+
+    #[test]
+    fn allow_issue_751() {
+        assert_lint_count("He got a 52% approval rating.", AnA, 0);
     }
 }

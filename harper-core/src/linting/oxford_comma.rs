@@ -1,58 +1,75 @@
 use crate::{
-    patterns::{Pattern, SequencePattern, WordSet},
-    Document, Token, TokenStringExt,
+    Lrc, Token, TokenStringExt,
+    linting::Linter,
+    patterns::{OwnedPatternExt, Pattern, SequencePattern, WordSet},
 };
 
-use super::{Lint, LintKind, Linter, Suggestion};
+use super::{super::Lint, LintKind, Suggestion};
 
 pub struct OxfordComma {
-    pattern: SequencePattern,
+    pattern: Box<dyn Pattern>,
+}
+
+impl Default for OxfordComma {
+    fn default() -> Self {
+        let item = Lrc::new(
+            SequencePattern::default()
+                .then_determiner()
+                .then_whitespace()
+                .then_nominal()
+                .or(Box::new(SequencePattern::default().then_nominal())),
+        );
+
+        let item_chunk = SequencePattern::default()
+            .then(item.clone())
+            .then_comma()
+            .then_whitespace();
+
+        let pattern = SequencePattern::default()
+            .then_one_or_more(item_chunk)
+            .then(item.clone())
+            .then_whitespace()
+            .then(WordSet::new(&["and", "or", "nor"]))
+            .then_whitespace()
+            .then(item.clone());
+
+        Self {
+            pattern: Box::new(pattern),
+        }
+    }
 }
 
 impl OxfordComma {
-    pub fn new() -> Self {
-        Self {
-            pattern: SequencePattern::default()
-                .then_one_or_more(Box::new(
-                    SequencePattern::default()
-                        .then_noun_phrase()
-                        .then_comma()
-                        .then_whitespace(),
-                ))
-                .then_noun_phrase()
-                .then_whitespace()
-                .then(Box::new(WordSet::all(&["and", "or", "nor"])))
-                .then_whitespace()
-                .then_noun_phrase(),
-        }
-    }
-
-    fn match_to_lint(&self, matched_toks: &[Token], _source: &[char]) -> Lint {
-        let conj_index = matched_toks.last_conjunction_index().unwrap();
+    fn match_to_lint(&self, matched_toks: &[Token], _source: &[char]) -> Option<Lint> {
+        let conj_index = matched_toks.last_conjunction_index()?;
         let offender = matched_toks[conj_index - 2];
 
-        Lint {
+        Some(Lint {
             span: offender.span,
             lint_kind: LintKind::Style,
             suggestions: vec![Suggestion::InsertAfter(vec![','])],
             message: "An Oxford comma is necessary here.".to_owned(),
             priority: 31,
-        }
-    }
-}
-
-impl Default for OxfordComma {
-    fn default() -> Self {
-        Self::new()
+        })
     }
 }
 
 impl Linter for OxfordComma {
-    fn lint(&mut self, document: &Document) -> Vec<Lint> {
+    fn lint(&mut self, document: &crate::Document) -> Vec<crate::linting::Lint> {
         let mut lints = Vec::new();
-
         for sentence in document.iter_sentences() {
             let mut tok_cursor = 0;
+
+            let mut words = sentence.iter_words().filter_map(|v| v.kind.expect_word());
+
+            if let (Some(first), Some(second)) = (words.next(), words.next()) {
+                if first.preposition && second.is_likely_homograph() {
+                    tok_cursor = sentence
+                        .iter()
+                        .position(|t| t.kind.is_comma())
+                        .unwrap_or(sentence.iter().len())
+                }
+            }
 
             loop {
                 if tok_cursor >= sentence.len() {
@@ -69,7 +86,7 @@ impl Linter for OxfordComma {
                         document.get_source(),
                     );
 
-                    lints.push(lint);
+                    lints.extend(lint);
                     tok_cursor += match_len;
                 } else {
                     tok_cursor += 1;
@@ -93,7 +110,11 @@ mod tests {
 
     #[test]
     fn fruits() {
-        assert_lint_count("An apple, a banana and a pear", OxfordComma::default(), 1);
+        assert_lint_count(
+            "An apple, a banana and a pear walk into a bar.",
+            OxfordComma::default(),
+            1,
+        );
     }
 
     #[test]
@@ -134,12 +155,20 @@ mod tests {
 
     #[test]
     fn allows_clean_nations() {
-        assert_lint_count("The team consists of players from different countries: France, Germany, Italy, and Spain.", OxfordComma::default(), 0);
+        assert_lint_count(
+            "The team consists of players from different countries: France, Germany, Italy, and Spain.",
+            OxfordComma::default(),
+            0,
+        );
     }
 
     #[test]
     fn or_writing() {
-        assert_suggestion_result("Harper can be a lifesaver when writing technical documents, emails or other formal forms of communication.", OxfordComma::default(), "Harper can be a lifesaver when writing technical documents, emails, or other formal forms of communication.",);
+        assert_suggestion_result(
+            "Harper can be a lifesaver when writing technical documents, emails or other formal forms of communication.",
+            OxfordComma::default(),
+            "Harper can be a lifesaver when writing technical documents, emails, or other formal forms of communication.",
+        );
     }
 
     #[test]
@@ -157,6 +186,42 @@ mod tests {
             "I like carrots, kale nor broccoli.",
             OxfordComma::default(),
             "I like carrots, kale, nor broccoli.",
+        );
+    }
+
+    #[test]
+    fn allow_non_list_transportation() {
+        assert_lint_count(
+            "In transportation, autonomous vehicles and smart traffic management systems promise to reduce accidents and optimize travel routes.",
+            OxfordComma::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allow_pill() {
+        assert_lint_count(
+            "Develop a pill that causes partial amnesia, affecting relationships and identity.",
+            OxfordComma::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allow_at_first() {
+        assert_lint_count(
+            "In the heart of a bustling city, Sarah finds herself trapped in an endless cycle of the same day. Each morning, she awakens to find the date unchanged, her life on repeat. At first, confusion and frustration cloud her thoughts, but soon she notices something peculiar—each day has tiny differences, subtle changes that hint at a larger pattern.",
+            OxfordComma::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allow_standoff() {
+        assert_lint_count(
+            "In a tense standoff, Alex and his reflection engage in a battle of wills.",
+            OxfordComma::default(),
+            0,
         );
     }
 }

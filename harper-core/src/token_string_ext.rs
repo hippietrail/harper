@@ -1,4 +1,4 @@
-use crate::{Span, Token, TokenKind};
+use crate::{Span, Token};
 use itertools::Itertools;
 use paste::paste;
 
@@ -65,6 +65,7 @@ pub trait TokenStringExt {
     create_decl_for!(number);
     create_decl_for!(at);
     create_decl_for!(ellipsis);
+    create_decl_for!(hostname);
     create_decl_for!(unlintable);
     create_decl_for!(sentence_terminator);
     create_decl_for!(paragraph_break);
@@ -99,6 +100,7 @@ pub trait TokenStringExt {
 impl TokenStringExt for [Token] {
     create_fns_for!(word);
     create_fns_for!(word_like);
+    create_fns_for!(hostname);
     create_fns_for!(conjunction);
     create_fns_for!(space);
     create_fns_for!(apostrophe);
@@ -127,11 +129,7 @@ impl TokenStringExt for [Token] {
             return Some(*word);
         };
 
-        if w_idx < u_idx {
-            Some(*word)
-        } else {
-            None
-        }
+        if w_idx < u_idx { Some(*word) } else { None }
     }
 
     fn span(&self) -> Option<Span> {
@@ -150,11 +148,11 @@ impl TokenStringExt for [Token] {
     fn iter_linking_verb_indices(&self) -> impl Iterator<Item = usize> + '_ {
         self.iter_word_indices().filter(|idx| {
             let word = self[*idx];
-            let TokenKind::Word(word) = word.kind else {
-                panic!("Should be unreachable.");
+            let Some(Some(meta)) = word.kind.as_word() else {
+                return false;
             };
 
-            word.is_linking_verb()
+            meta.is_linking_verb()
         })
     }
 

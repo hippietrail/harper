@@ -1,4 +1,4 @@
-use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
+use harper_core::linting::{LintGroup, Linter};
 use harper_core::{Document, FstDictionary};
 use harper_typst::Typst;
 
@@ -19,10 +19,7 @@ macro_rules! create_test {
                  let dict = FstDictionary::curated();
                  let document = Document::new(&source, &Typst, &dict);
 
-                 let mut linter = LintGroup::new(
-                     LintGroupConfig::default(),
-                     dict
-                 );
+                 let mut linter = LintGroup::new_curated(dict);
                  let lints = linter.lint(&document);
 
                  dbg!(&lints);
@@ -40,3 +37,4 @@ macro_rules! create_test {
 create_test!(complex_document.typ, 0);
 create_test!(simplified_document.typ, 0);
 create_test!(complex_document_with_spelling_mistakes.typ, 4);
+// create_test!(issue_399.typ, 3);

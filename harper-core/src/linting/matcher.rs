@@ -1,5 +1,5 @@
 use crate::linting::{Lint, LintKind, Linter, Suggestion};
-use crate::{CharString, Document, Punctuation, Span, Token, TokenKind, WordMetadata};
+use crate::{CharString, Document, Punctuation, Span, Token, TokenKind};
 
 #[derive(Debug, PartialEq, PartialOrd, Clone)]
 struct PatternToken {
@@ -35,7 +35,7 @@ macro_rules! vecword {
 macro_rules! pt {
     ($str:literal) => {
         PatternToken {
-            kind: TokenKind::Word(WordMetadata::default()),
+            kind: TokenKind::Word(None),
             content: Some($str.chars().collect()),
         }
     };
@@ -103,73 +103,15 @@ impl Matcher {
         // defined like it is now.
         let mut triggers = Vec::new();
 
-        // stylistic improvements
-        triggers.extend(pt! {
-            "all", "of", "the" => "all the",
-            "and","also" => "and"
-        });
-
-        // phrase typos, each word passes spellcheck but one word is wrong
-        triggers.extend(pt! {
-            "an","in" => "and in",
-            "bee","there" => "been there",
-            "can","be","seem" => "can be seen",
-            "eight","grade" => "eighth grade",
-            "gong","to" => "going to",
-            "I","a","m" => "I am",
-            "It","cam" => "It can",
-            "kid","regards" => "kind regards",
-            "mu","house" => "my house",
-            "no","to" => "not to",
-            "No","to" => "not to",
-            "the", "this" => "that this",
-            "The","re" => "There",
-            "though", "process" => "thought process"
-        });
-
-        // phrase capitalization
-        triggers.extend(pt! {
-            "black","sea" => "Black Sea",
-            "geiger","counter" => "Geiger counter",
-            "my","french" => "my French"
-        });
-
-        // hyphenated phrases
-        triggers.extend(pt! {
-            "case", "sensitive" => "case-sensitive",
-            "chock","full" => "chock-full",
-            "ngram" => "n-gram",
-            "off","the","cuff" => "off-the-cuff",
-            "Tree", "sitter" => "Tree-sitter",
-            "wellbeing" => "well-being"
-        });
-
         // expand abbreviations
         triggers.extend(pt! {
             "dep" => "dependency",
             "deps" => "dependencies",
-            "hr" => "hour",
-            "hrs" => "hours",
             "min" => "minimum",
-            "min" => "minute",
-            "mins" => "minutes",
-            "ms" => "milliseconds",
-            "sec" => "second",
-            "secs" => "seconds",
             "stdin" => "standard input",
             "stdout" => "standard output",
             "w/" => "with",
             "w/o" => "without"
-        });
-
-        // replace euphemisms
-        triggers.extend(pt! {
-            "fatal","outcome" => "death"
-        });
-
-        // spellos
-        triggers.extend(pt! {
-            "grammer" => "grammar"
         });
 
         // expand compound words
@@ -181,7 +123,6 @@ impl Matcher {
 
         // mixing up than/then in context
         triggers.extend(pt! {
-            "more","then" => "more than",
             "then","her" => "than her",
             "then","hers" => "than hers",
             "then","him" => "than him",
@@ -193,54 +134,78 @@ impl Matcher {
         triggers.extend(pt! {
             "performing","this" => "perform this",
             "simply","grammatical" => "simple grammatical",
-            "the","challenged" => "that challenged",
-            "to", "towards" => "towards",
-            "To-Do" => "To-do",
-            "todo" => "to-do"
+            "the","challenged" => "that challenged"
         });
 
-        // wrong set phrases and collocations
+        // countries and capitals with special casing or punctuation
         triggers.extend(pt! {
-            "could", "of" => "could have",
-            "could", "of" => "could've",
-            "couldn't", "of" => "couldn't have",
-            "had", "of" => "had have",
-            "had", "of" => "had've",
-            "hadn't", "of" => "hadn't have",
-            "should", "of" => "should have",
-            "should", "of" => "should've",
-            "shouldn't", "of" => "shouldn't have",
-            "would", "of" => "would have",
-            "would", "of" => "would've",
-            "wouldn't", "of" => "wouldn't have",
-            "discuss", "about" => "discuss",
-            "discussed", "about" => "discussed",
-            "discusses", "about" => "discusses",
-            "discussing", "about" => "discussing",
-            "same", "than" => "same as",
-            "Same", "than" => "same as",
-            "sooner","than","later" => "sooner rather than later",
-            "sooner","than","later" => "sooner or later"
+           "andorra","la","vella" => "Andorra la Vella",
+           "Andorra","la","vella" => "Andorra la Vella",
+           "Andorra","La","Vella" => "Andorra la Vella",
+           "guinea","bissau" => "Guinea-Bissau",
+           "Guinea","bissau" => "Guinea-Bissau",
+           "Guinea","Bissau" => "Guinea-Bissau",
+           "ndjamena" => "N'Djamena",
+           "Ndjamena" => "N'Djamena",
+           "n'djamena" => "N'Djamena",
+           "N'djamena" => "N'Djamena",
+           "port","au","prince" => "Port-au-Prince",
+           "Port","au","prince" => "Port-au-Prince",
+           "Port","Au","Prince" => "Port-au-Prince",
+           // port-au-prince won't work here because the left side has hyphens
+           // Port-au-prince ditto
+           // Port-Au-Prince ditto
+           "porto","novo" => "Porto-Novo",
+           "Porto","novo" => "Porto-Novo",
+           "Porto","Novo" => "Porto-Novo",
+           "st","georges" => "St. George's",
+           // "st.","georges" => "St. George's",
+           "st","george's" => "St. George's",
+           // "st.","george's" => "St. George's",
+           "St","georges" => "St. George's",
+           // "St.","georges" => "St. George's",
+           "St","george's" => "St. George's",
+           // "St.","george's" => "St. George's",
+           "St","Georges" => "St. George's",
+           // "St.","Georges" => "St. George's",
+           "St","George's" => "St. George's"
         });
 
-        // belonging to multiple of the other categories
+        // countries and capitals with accents and diacritics
         triggers.extend(pt! {
-            "same", "then" => "same as",
-            "Same", "then" => "same as"
-        });
-
-        // near homophones
-        triggers.extend(pt! {
-            "want","be" => "won't be"
-        });
-
-        // normalization
-        triggers.extend(pt! {
-            "world","war","2" => "World War II",
-            "world","War","ii" => "World War II",
-            "World","war","ii" => "World War II",
-            "World","War","iI" => "World War II",
-            "World","War","Ii" => "World War II"
+            "asuncion" => "Asunción",
+            "Asuncion" => "Asunción",
+            "chisinau" => "Chișinău",
+            "Chisinau" => "Chișinău",
+            "bogota" => "Bogotá",
+            "Bogota" => "Bogotá",
+            "curacao" => "Curaçao",
+            "curacao" => "Curaçao",
+            "lome" => "Lomé",
+            "Lome" => "Lomé",
+            "male" => "Malé",
+            "Male" => "Malé",
+            "noumea" => "Nouméa",
+            "Noumea" => "Nouméa",
+            "nukualofa" => "Nukuʻalofa",
+            "Nukualofa" => "Nukuʻalofa",
+            "nuku'alofa" => "Nukuʻalofa",
+            "Nuku'alofa" => "Nukuʻalofa",
+            "reykjavik" => "Reykjavík",
+            "Reykjavik" => "Reykjavík",
+            "san","jose" => "San José",
+            "San","jose" => "San José",
+            "sao","tome" => "São Tomé",
+            "Sao","Tome" => "São Tomé",
+            "sao","tome","and","principe" => "São Tomé and Príncipe",
+            "Sao","Tome","and","Principe" => "São Tomé and Príncipe",
+            "Sao","Tome","And","Principe" => "São Tomé and Príncipe",
+            "torshavn" => "Tórshavn",
+            "Torshavn" => "Tórshavn",
+            "turkiye" => "Türkiye",
+            "Turkiye" => "Türkiye",
+            "yaounde" => "Yaoundé",
+            "Yaounde" => "Yaoundé"
         });
 
         triggers.push(Rule {

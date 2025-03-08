@@ -39,13 +39,15 @@ pub use number::{Number, NumberSuffix};
 pub use punctuation::{Punctuation, Quote};
 pub use span::Span;
 pub use spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary};
-pub use sync::Lrc;
+pub use sync::{LSend, Lrc};
 pub use title_case::{make_title_case, make_title_case_str};
 pub use token::Token;
 pub use token_kind::TokenKind;
 pub use token_string_ext::TokenStringExt;
 pub use vec_ext::VecExt;
-pub use word_metadata::{AdverbData, ConjunctionData, NounData, Tense, VerbData, WordMetadata};
+pub use word_metadata::{
+    AdverbData, ConjunctionData, NounData, PronounData, Tense, VerbData, WordMetadata,
+};
 
 /// A utility function that removes overlapping lints in a vector,
 /// keeping the more important ones.
@@ -75,20 +77,16 @@ pub fn remove_overlaps(lints: &mut Vec<Lint>) {
 #[cfg(test)]
 mod tests {
     use crate::{
-        linting::{LintGroup, LintGroupConfig, Linter},
-        remove_overlaps, Document, FstDictionary,
+        Document, FstDictionary,
+        linting::{LintGroup, Linter},
+        remove_overlaps,
     };
 
     #[test]
     fn keeps_space_lint() {
         let doc = Document::new_plain_english_curated("Ths  tet");
 
-        let lint_config = LintGroupConfig {
-            spell_check: Some(true),
-            spaces: Some(true),
-            ..LintGroupConfig::none()
-        };
-        let mut linter = LintGroup::new(lint_config, FstDictionary::curated());
+        let mut linter = LintGroup::new_curated(FstDictionary::curated());
 
         let mut lints = linter.lint(&doc);
 

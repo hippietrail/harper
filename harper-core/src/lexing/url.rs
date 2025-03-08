@@ -1,6 +1,6 @@
 /// This module implements parsing of URIs.
 /// See RFC 1738 for more information.
-use super::{hostname::lex_hostname, FoundToken};
+use super::{FoundToken, hostname::lex_hostname};
 use crate::TokenKind;
 
 pub fn lex_url(source: &[char]) -> Option<FoundToken> {
@@ -120,7 +120,7 @@ fn is_unreserved(c: char) -> bool {
 }
 
 fn is_hex(c: char) -> bool {
-    c.is_ascii_digit() || matches!(c, 'A'..='F' | 'a'..='f')
+    c.is_ascii_hexdigit()
 }
 
 /// Lex an escaped hex code, returning the subsequent index

@@ -2,17 +2,19 @@
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
+use std::process;
 
 use anyhow::format_err;
 use ariadne::{Color, Label, Report, ReportKind, Source};
 use clap::Parser;
 use harper_comments::CommentParser;
-use harper_core::linting::{LintGroup, LintGroupConfig, Linter};
+use harper_core::linting::{LintGroup, Linter};
 use harper_core::parsers::{Markdown, MarkdownOptions};
 use harper_core::spell::hunspell::parse_default_attribute_list;
 use harper_core::spell::hunspell::word_list::parse_word_list;
 use harper_core::{
-    remove_overlaps, CharString, Dictionary, Document, FstDictionary, TokenKind, WordMetadata,
+    remove_overlaps, CharString, CharStringExt, Dictionary, Document, FstDictionary, TokenKind,
+    TokenStringExt, WordMetadata,
 };
 use harper_literate_haskell::LiterateHaskellParser;
 use hashbrown::HashMap;
@@ -30,6 +32,10 @@ enum Args {
         /// without further details.
         #[arg(short, long)]
         count: bool,
+        /// Restrict linting to only a specific set of rules.
+        /// If omitted, `harper-cli` will run every rule.
+        #[arg(short, long)]
+        only_lint_with: Option<Vec<String>>,
     },
     /// Parse a provided document and print the detected symbols.
     Parse {
@@ -47,24 +53,41 @@ enum Args {
     /// Get the metadata associated with a particular word.
     Metadata { word: String },
     /// Get all the forms of a word using the affixes.
-    Forms { word: String },
+    Forms { words: Vec<String> },
     /// Emit a decompressed, line-separated list of the words in Harper's dictionary.
     Words,
     /// Print the default config with descriptions.
     Config,
+    /// Print a list of all the words in a document, sorted by frequency.
+    MineWords {
+        /// The document to mine words from.
+        file: PathBuf,
+    },
 }
 
 fn main() -> anyhow::Result<()> {
     let args = Args::parse();
     let markdown_options = MarkdownOptions::default();
-    let linting_options = LintGroupConfig::default();
     let dictionary = FstDictionary::curated();
 
     match args {
-        Args::Lint { file, count } => {
+        Args::Lint {
+            file,
+            count,
+            only_lint_with,
+        } => {
             let (doc, source) = load_file(&file, markdown_options)?;
 
-            let mut linter = LintGroup::new(linting_options, dictionary);
+            let mut linter = LintGroup::new_curated(dictionary);
+
+            if let Some(rules) = only_lint_with {
+                linter.set_all_rules_to(Some(false));
+
+                for rule in rules {
+                    linter.config.set_rule_enabled(rule, true);
+                }
+            }
+
             let mut lints = linter.lint(&doc);
 
             if count {
@@ -99,7 +122,7 @@ fn main() -> anyhow::Result<()> {
             let report = report_builder.finish();
             report.print((&filename, Source::from(source)))?;
 
-            Ok(())
+            process::exit(1)
         }
         Args::Parse { file } => {
             let (doc, _) = load_file(&file, markdown_options)?;
@@ -176,20 +199,34 @@ fn main() -> anyhow::Result<()> {
 
             Ok(())
         }
-        Args::Forms { word } => {
-            let hunspell_word_list = format!("1\n{word}");
-            let words = parse_word_list(&hunspell_word_list.to_string()).unwrap();
-
-            let attributes = parse_default_attribute_list();
-
+        Args::Forms { words } => {
             let mut expanded: HashMap<CharString, WordMetadata> = HashMap::new();
+            let attributes = parse_default_attribute_list();
+            let total = words.len();
 
-            attributes.expand_marked_words(words, &mut expanded);
+            for (index, word) in words.iter().enumerate() {
+                expanded.clear();
 
-            expanded.keys().for_each(|form| {
-                let string_form: String = form.iter().collect();
-                println!("{}", string_form);
-            });
+                let hunspell_word_list = format!("1\n{word}");
+                let words = parse_word_list(&hunspell_word_list.to_string()).unwrap();
+                attributes.expand_marked_words(words, &mut expanded);
+
+                println!(
+                    "{}{}{}",
+                    if index > 0 { "\n" } else { "" },
+                    if total != 1 {
+                        format!("{}/{}: ", index + 1, total)
+                    } else {
+                        "".to_string()
+                    },
+                    word
+                );
+                expanded.keys().for_each(|form| {
+                    let string_form: String = form.iter().collect();
+                    println!("  - {}", string_form);
+                });
+            }
+
             Ok(())
         }
         Args::Config => {
@@ -199,15 +236,14 @@ fn main() -> anyhow::Result<()> {
                 description: String,
             }
 
-            let mut linter = LintGroup::new(linting_options, dictionary);
-            linter.config.fill_default_values();
+            let linter = LintGroup::new_curated(dictionary);
 
             let default_config: HashMap<String, bool> =
                 serde_json::from_str(&serde_json::to_string(&linter.config).unwrap()).unwrap();
 
             // Use `BTreeMap` so output is sorted by keys.
             let mut configs = BTreeMap::new();
-            for (key, desc) in linter.all_descriptions().to_vec_pairs() {
+            for (key, desc) in linter.all_descriptions() {
                 configs.insert(
                     key.to_owned(),
                     Config {
@@ -218,6 +254,33 @@ fn main() -> anyhow::Result<()> {
             }
 
             println!("{}", serde_json::to_string_pretty(&configs).unwrap());
+
+            Ok(())
+        }
+        Args::MineWords { file } => {
+            let (doc, _source) = load_file(&file, MarkdownOptions::default())?;
+
+            let mut words = HashMap::new();
+
+            for word in doc.iter_words() {
+                let chars = doc.get_span_content(word.span);
+
+                words
+                    .entry(chars.to_lower())
+                    .and_modify(|v| *v += 1)
+                    .or_insert(1);
+            }
+
+            let mut words_ordered: Vec<(String, usize)> = words
+                .into_iter()
+                .map(|(key, value)| (key.to_string(), value))
+                .collect();
+
+            words_ordered.sort_by_key(|v| v.1);
+
+            for (word, _) in words_ordered {
+                println!("{word}");
+            }
 
             Ok(())
         }

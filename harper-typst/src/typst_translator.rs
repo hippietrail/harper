@@ -1,15 +1,15 @@
 use crate::OffsetCursor;
 use harper_core::{
+    Punctuation, Token, TokenKind,
     parsers::{PlainEnglish, StrParser},
-    Punctuation, Token, TokenKind, WordMetadata,
 };
 use itertools::Itertools;
 use typst_syntax::{
+    Source,
     ast::{
         Arg, ArrayItem, AstNode, DestructuringItem, DictItem, Expr, Ident, LetBindingKind, Param,
         Pattern, Spread,
     },
-    Source,
 };
 
 /// Directly translate a span ($a) in a Typst source ($doc) to a token.
@@ -89,7 +89,7 @@ impl<'a> TypstTranslator<'a> {
                     .filter_map(|item| match item {
                         DestructuringItem::Pattern(pattern) => self.parse_pattern(pattern, offset),
                         DestructuringItem::Named(named) => merge![
-                            token!(named.name(), TokenKind::Word(WordMetadata::default())),
+                            token!(named.name(), TokenKind::Word(None)),
                             self.parse_pattern(named.pattern(), offset)
                         ],
                         DestructuringItem::Spread(spread) => merge![
@@ -149,7 +149,16 @@ impl<'a> TypstTranslator<'a> {
 
         // Recurse on each element of an iterator
         let iter_recurse = |exprs: &mut dyn Iterator<Item = Expr>| {
-            Some(exprs.filter_map(|e| recurse!(e)).flatten().collect_vec())
+            let mut buf = Vec::new();
+            let exprs = exprs.collect_vec();
+            let exprs = super::convert_parbreaks(&mut buf, &exprs);
+            Some(
+                exprs
+                    .into_iter()
+                    .filter_map(|e| recurse!(e))
+                    .flatten()
+                    .collect_vec(),
+            )
         };
 
         // Parse the parameters of a function or closure
@@ -225,9 +234,6 @@ impl<'a> TypstTranslator<'a> {
             Expr::Strong(strong) => iter_recurse(&mut strong.body().exprs()),
             Expr::Emph(emph) => iter_recurse(&mut emph.body().exprs()),
             Expr::Link(a) => token!(a, TokenKind::Url),
-            Expr::Ref(a) => {
-                token!(a, TokenKind::Word(WordMetadata::default()))
-            }
             Expr::Heading(heading) => iter_recurse(&mut heading.body().exprs()),
             Expr::List(list_item) => iter_recurse(&mut list_item.body().exprs()),
             Expr::Enum(enum_item) => iter_recurse(&mut enum_item.body().exprs()),
@@ -284,10 +290,7 @@ impl<'a> TypstTranslator<'a> {
             ),
             Expr::FieldAccess(field_access) => merge![
                 recurse!(field_access.target()),
-                token!(
-                    field_access.field(),
-                    TokenKind::Word(WordMetadata::default())
-                )
+                token!(field_access.field(), TokenKind::Word(None))
             ],
             Expr::Let(let_binding) => merge![
                 match let_binding.kind() {

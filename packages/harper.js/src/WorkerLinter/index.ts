@@ -130,6 +130,14 @@ export default class WorkerLinter implements Linter {
 		return this.rpc('clearIgnoredLints', []);
 	}
 
+	async importWords(words: string[]): Promise<void> {
+		return this.rpc('importWords', [words]);
+	}
+
+	async exportWords(): Promise<string[]> {
+		return this.rpc('exportWords', []);
+	}
+
 	/** Run a procedure on the remote worker. */
 	private async rpc(procName: string, args: any[]): Promise<any> {
 		const promise = new Promise((resolve, reject) => {

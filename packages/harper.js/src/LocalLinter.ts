@@ -104,4 +104,16 @@ export default class LocalLinter implements Linter {
 		const inner = await this.inner;
 		inner.clear_ignored_lints();
 	}
+
+	async importWords(words: string[]): Promise<void> {
+		await this.initialize();
+
+		return this.inner!.import_words(words);
+	}
+
+	async exportWords(): Promise<string[]> {
+		await this.initialize();
+
+		return this.inner!.export_words();
+	}
 }

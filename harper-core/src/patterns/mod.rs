@@ -15,11 +15,13 @@ mod any_pattern;
 mod consumes_remaining_pattern;
 mod either_pattern;
 mod exact_phrase;
+mod implies_quantity;
 mod indefinite_article;
 mod invert;
 mod is_not_title_case;
 mod naive_pattern_group;
-mod noun_phrase;
+mod nominal_phrase;
+mod pattern_map;
 mod repeating_pattern;
 mod sequence_pattern;
 mod similar_to_phrase;
@@ -38,11 +40,13 @@ use blanket::blanket;
 pub use consumes_remaining_pattern::ConsumesRemainingPattern;
 pub use either_pattern::EitherPattern;
 pub use exact_phrase::ExactPhrase;
+pub use implies_quantity::ImpliesQuantity;
 pub use indefinite_article::IndefiniteArticle;
 pub use invert::Invert;
 pub use is_not_title_case::IsNotTitleCase;
 pub use naive_pattern_group::NaivePatternGroup;
-pub use noun_phrase::NounPhrase;
+pub use nominal_phrase::NominalPhrase;
+pub use pattern_map::PatternMap;
 pub use repeating_pattern::RepeatingPattern;
 pub use sequence_pattern::SequencePattern;
 pub use similar_to_phrase::SimilarToPhrase;
@@ -132,11 +136,7 @@ where
 
         let tok = &tokens[0];
 
-        if self(tok, source) {
-            1
-        } else {
-            0
-        }
+        if self(tok, source) { 1 } else { 0 }
     }
 }
 
@@ -152,11 +152,7 @@ where
 
         let tok = &tokens[0];
 
-        if self(tok, source) {
-            1
-        } else {
-            0
-        }
+        if self(tok, source) { 1 } else { 0 }
     }
 }
 

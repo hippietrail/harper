@@ -1,15 +1,17 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 
-use crate::{ConjunctionData, NounData, Number, Punctuation, Quote, WordMetadata};
+use crate::{ConjunctionData, NounData, Number, PronounData, Punctuation, Quote, WordMetadata};
 
 #[derive(
     Debug, Is, Clone, Copy, Serialize, Deserialize, Default, PartialOrd, Hash, Eq, PartialEq,
 )]
 #[serde(tag = "kind", content = "value")]
 pub enum TokenKind {
-    Word(WordMetadata),
+    /// `None` if the word does not exist in the dictionary.
+    Word(Option<WordMetadata>),
     Punctuation(Punctuation),
+    Decade,
     Number(Number),
     /// A sequence of " " spaces.
     Space(usize),
@@ -23,6 +25,7 @@ pub enum TokenKind {
     #[default]
     Unlintable,
     ParagraphBreak,
+    Regexish,
 }
 
 impl TokenKind {
@@ -46,56 +49,76 @@ impl TokenKind {
             TokenKind::Word(..)
                 | TokenKind::EmailAddress
                 | TokenKind::Hostname
+                | TokenKind::Decade
                 | TokenKind::Number(..)
+        )
+    }
+
+    pub fn is_possessive_nominal(&self) -> bool {
+        matches!(
+            self,
+            TokenKind::Word(Some(WordMetadata {
+                noun: Some(NounData {
+                    is_possessive: Some(true),
+                    ..
+                }),
+                ..
+            })) | TokenKind::Word(Some(WordMetadata {
+                pronoun: Some(PronounData {
+                    is_possessive: Some(true),
+                    ..
+                }),
+                ..
+            }))
         )
     }
 
     pub fn is_possessive_noun(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 noun: Some(NounData {
                     is_possessive: Some(true),
                     ..
                 }),
                 ..
-            })
+            }))
         )
     }
 
-    pub fn is_pronoun(&self) -> bool {
+    pub fn is_possessive_pronoun(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
-                noun: Some(NounData {
-                    is_pronoun: Some(true),
+            TokenKind::Word(Some(WordMetadata {
+                pronoun: Some(PronounData {
+                    is_possessive: Some(true),
                     ..
                 }),
                 ..
-            })
+            }))
         )
     }
 
     pub fn is_proper_noun(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 noun: Some(NounData {
                     is_proper: Some(true),
                     ..
                 }),
                 ..
-            })
+            }))
         )
     }
 
     pub fn is_conjunction(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 conjunction: Some(ConjunctionData {}),
                 ..
-            })
+            }))
         )
     }
 
@@ -132,8 +155,24 @@ impl TokenKind {
         matches!(self, TokenKind::Punctuation(Punctuation::Currency(..)))
     }
 
-    pub fn is_article(&self) -> bool {
-        matches!(self, TokenKind::Word(WordMetadata { article: true, .. }))
+    pub fn is_preposition(&self) -> bool {
+        matches!(
+            self,
+            TokenKind::Word(Some(WordMetadata {
+                preposition: true,
+                ..
+            }))
+        )
+    }
+
+    pub fn is_determiner(&self) -> bool {
+        matches!(
+            self,
+            TokenKind::Word(Some(WordMetadata {
+                determiner: true,
+                ..
+            }))
+        )
     }
 
     pub fn is_ellipsis(&self) -> bool {
@@ -147,30 +186,30 @@ impl TokenKind {
     pub fn is_adjective(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 adjective: Some(_),
                 ..
-            })
+            }))
         )
     }
 
     pub fn is_adverb(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 adverb: Some(_),
                 ..
-            })
+            }))
         )
     }
 
     pub fn is_swear(&self) -> bool {
         matches!(
             self,
-            TokenKind::Word(WordMetadata {
+            TokenKind::Word(Some(WordMetadata {
                 swear: Some(true),
                 ..
-            })
+            }))
         )
     }
 
@@ -196,9 +235,9 @@ impl TokenKind {
 }
 
 impl TokenKind {
-    /// Construct a [`TokenKind::Word`] with no (default) metadata.
+    /// Construct a [`TokenKind::Word`] with no metadata.
     pub fn blank_word() -> Self {
-        Self::Word(WordMetadata::default())
+        Self::Word(None)
     }
 }
 
@@ -236,63 +275,111 @@ impl TokenKind {
     }
 
     pub fn is_verb(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 
         metadata.is_verb()
     }
 
+    pub fn is_auxiliary_verb(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return false;
+        };
+
+        metadata.is_auxiliary_verb()
+    }
+
     pub fn is_linking_verb(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 
         metadata.is_linking_verb()
     }
 
-    pub fn is_not_pronoun_noun(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+    pub fn is_not_plural_nominal(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
             return true;
         };
 
-        metadata.is_not_pronoun_noun()
+        metadata.is_not_plural_noun() || metadata.is_not_plural_pronoun()
     }
 
     pub fn is_not_plural_noun(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return true;
         };
 
         metadata.is_not_plural_noun()
     }
 
+    pub fn is_not_plural_pronoun(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return true;
+        };
+
+        metadata.is_not_plural_pronoun()
+    }
+
     pub fn is_common_word(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return true;
         };
 
         metadata.common
     }
 
+    pub fn is_plural_nominal(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return false;
+        };
+
+        metadata.is_plural_noun() || metadata.is_plural_pronoun()
+    }
+
+    pub fn is_plural_pronoun(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return false;
+        };
+
+        metadata.is_plural_pronoun()
+    }
+
     pub fn is_plural_noun(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 
         metadata.is_plural_noun()
     }
 
+    pub fn is_nominal(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return false;
+        };
+
+        metadata.is_noun() || metadata.is_pronoun()
+    }
+
     pub fn is_noun(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 
         metadata.is_noun()
     }
 
+    pub fn is_pronoun(&self) -> bool {
+        let TokenKind::Word(Some(metadata)) = self else {
+            return false;
+        };
+
+        metadata.is_pronoun()
+    }
+
     pub fn is_likely_homograph(&self) -> bool {
-        let TokenKind::Word(metadata) = self else {
+        let TokenKind::Word(Some(metadata)) = self else {
             return false;
         };
 

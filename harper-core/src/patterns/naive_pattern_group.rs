@@ -21,11 +21,7 @@ impl Pattern for NaivePatternGroup {
             .find_map(|p| {
                 let res = p.matches(tokens, source);
 
-                if res != 0 {
-                    Some(res)
-                } else {
-                    None
-                }
+                if res != 0 { Some(res) } else { None }
             })
             .unwrap_or_default()
     }

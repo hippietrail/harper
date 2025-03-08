@@ -4,14 +4,15 @@
 		"obsidian-plugin",
 		"web",
 		"vscode-plugin",
-		"harper.js"
+		"harper.js",
+		"wordpress-plugin"
 	],
 	"devDependencies": {
 		"eslint": "^8.28.0",
 		"eslint-config-prettier": "^10.0.1",
 		"eslint-plugin-prettier": "^5.2.1",
 		"eslint-plugin-svelte": "^2.46.1",
-		"prettier": "^3.4.2",
+		"prettier": "^3.5.3",
 		"prettier-plugin-svelte": "^3.0.3",
 		"@typescript-eslint/eslint-plugin": "^8.18.1",
 		"@typescript-eslint/parser": "^8.18.1",

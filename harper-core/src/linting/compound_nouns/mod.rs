@@ -1,12 +1,14 @@
 mod general_compound_nouns;
+mod implied_instantiated_compound_nouns;
 mod implied_ownership_compound_nouns;
 
-use super::{merge_linters::merge_linters, Lint, LintKind, Suggestion};
+use super::{Lint, LintKind, Suggestion, merge_linters::merge_linters};
 
 use general_compound_nouns::GeneralCompoundNouns;
+use implied_instantiated_compound_nouns::ImpliedInstantiatedCompoundNouns;
 use implied_ownership_compound_nouns::ImpliedOwnershipCompoundNouns;
 
-merge_linters!(CompoundNouns => GeneralCompoundNouns, ImpliedOwnershipCompoundNouns => "Detects compound nouns split by a space and suggests merging them when both parts form a valid noun." );
+merge_linters!(CompoundNouns => GeneralCompoundNouns, ImpliedInstantiatedCompoundNouns, ImpliedOwnershipCompoundNouns => "Detects compound nouns split by a space and suggests merging them when both parts form a valid noun." );
 
 #[cfg(test)]
 mod tests {
@@ -226,7 +228,7 @@ mod tests {
     #[test]
     fn web_socket() {
         let test_sentence = "Real-time updates are sent via a web socket.";
-        let expected = "Real-time updates are sent via a WebSocket.";
+        let expected = "Real-time updates are sent via a websocket.";
         assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
     }
 
@@ -254,5 +256,50 @@ mod tests {
     #[test]
     fn allow_issue_661() {
         assert_lint_count("I may be wrong.", CompoundNouns::default(), 0);
+    }
+
+    #[test]
+    fn allow_issue_704() {
+        assert_lint_count(
+            "Here are some ways to do that:",
+            CompoundNouns::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allows_issue_721() {
+        assert_lint_count(
+            "So if you adjust any one of these adjusters that can have a negative or a positive effect.",
+            CompoundNouns::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allows_678() {
+        assert_lint_count(
+            "they can't catch all the bugs.",
+            CompoundNouns::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn ina_not_suggested() {
+        assert_lint_count(
+            "past mistakes or a character in a looping reality facing personal challenges.",
+            CompoundNouns::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn allow_suppress_or() {
+        assert_lint_count(
+            "He must decide whether to suppress or coexist with his doppelgänger.",
+            CompoundNouns::default(),
+            0,
+        );
     }
 }

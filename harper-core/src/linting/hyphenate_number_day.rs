@@ -1,6 +1,6 @@
 use crate::{
-    patterns::{EitherPattern, Pattern, SequencePattern},
     Token,
+    patterns::{EitherPattern, NominalPhrase, Pattern, SequencePattern},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
@@ -15,20 +15,20 @@ impl Default for HyphenateNumberDay {
             .then_number()
             .then_whitespace()
             .t_aco("day")
-            .then(Box::new(EitherPattern::new(vec![
+            .then(EitherPattern::new(vec![
                 Box::new(
                     SequencePattern::default()
                         .then_whitespace()
-                        .then_noun_phrase(),
+                        .then(NominalPhrase),
                 ),
                 Box::new(
                     SequencePattern::default()
                         .then_hyphen()
                         .then_adjective()
                         .then_whitespace()
-                        .then_noun_phrase(),
+                        .then(NominalPhrase),
                 ),
-            ])));
+            ]));
 
         Self {
             pattern: Box::new(pattern),
@@ -41,11 +41,11 @@ impl PatternLinter for HyphenateNumberDay {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Option<Lint> {
         let number = matched_tokens[0].kind.expect_number();
         let space = matched_tokens[1];
 
-        Lint {
+        Some(Lint {
             span: space.span,
             lint_kind: LintKind::Miscellaneous,
             suggestions: vec![Suggestion::ReplaceWith(vec!['-'])],
@@ -54,7 +54,7 @@ impl PatternLinter for HyphenateNumberDay {
                 number
             ),
             priority: 31,
-        }
+        })
     }
 
     fn description(&self) -> &'static str {
