@@ -363,6 +363,12 @@ pub fn lint_group() -> LintGroup {
             "Did you mean `got rid of`?",
             "Ensures `got rid of` is used instead of `got rid off`."
         ),
+        "GottenRidOff" => (
+            ["gotten rid off"],
+            ["gotten rid of"],
+            "Did you mean `gotten rid of`?",
+            "Ensures `gotten rid of` is used instead of `gotten rid off`."
+        ),
         "LastButNotLeast" => (
             ["last but not the least", "last, but not the least", "last but, not least"],
             ["last but not least"],
@@ -602,7 +608,13 @@ pub fn lint_group() -> LintGroup {
             ["day and age"],
             "Use `day and age` for referring to the present time.",
             "Corrects the eggcorn `day in age` to `day and age`, which properly means the current era or time period."
-        )
+        ),
+        "NerveRacking" => (
+            ["nerve racking", "nerve wracking", "nerve wrecking", "nerve-wracking", "nerve-wrecking"],
+            ["nerve-racking"],
+            "Use `nerve-racking` for something that causes anxiety or tension.",
+            "Corrects common misspellings and missing hyphen in `nerve-racking`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -616,7 +628,6 @@ mod tests {
 
     use super::lint_group;
 
-    // todo: 4 tests: get/gets/getting rid off
     #[test]
     fn get_rid_off() {
         assert_suggestion_result(
@@ -625,6 +636,8 @@ mod tests {
             "Please bump axios version to get rid of npm warning #624",
         );
     }
+
+    #[test]
     fn gets_rid_off() {
         assert_suggestion_result(
             "Adding at as a runtime dependency gets rid off that error",
@@ -632,6 +645,8 @@ mod tests {
             "Adding at as a runtime dependency gets rid of that error",
         );
     }
+
+    #[test]
     fn getting_rid_off() {
         assert_suggestion_result(
             "getting rid off of all the complexity of the different accesses method of API service providers",
@@ -639,11 +654,22 @@ mod tests {
             "getting rid of of all the complexity of the different accesses method of API service providers",
         );
     }
+
+    #[test]
     fn got_rid_off() {
         assert_suggestion_result(
             "For now we got rid off circular deps in model tree structure and it's API.",
             lint_group(),
             "For now we got rid of circular deps in model tree structure and it's API.",
+        );
+    }
+
+    #[test]
+    fn gotten_rid_off() {
+        assert_suggestion_result(
+            "The baX variable thingy I have gotten rid off, that was due to a bad character in the encryption key.",
+            lint_group(),
+            "The baX variable thingy I have gotten rid of, that was due to a bad character in the encryption key.",
         );
     }
 
@@ -778,6 +804,51 @@ mod tests {
             "This seems like a blanketed statement and I have not found any info to back up whether PyJWT is affected.",
             lint_group(),
             "This seems like a blanket statement and I have not found any info to back up whether PyJWT is affected.",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wracking_hyphen() {
+        assert_suggestion_result(
+            "We've gone through several major changes / upgrades to atlantis, and it's always a little bit nerve-wracking because if we mess something up we ...",
+            lint_group(),
+            "We've gone through several major changes / upgrades to atlantis, and it's always a little bit nerve-racking because if we mess something up we ...",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wrecking_hyphen() {
+        assert_suggestion_result(
+            "The issue happens to me on a daily basis, and it is nerve-wrecking because I become unsure if I have actually saved the diagram, but every time ...",
+            lint_group(),
+            "The issue happens to me on a daily basis, and it is nerve-racking because I become unsure if I have actually saved the diagram, but every time ...",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wracking_no_hyphen() {
+        assert_suggestion_result(
+            "Very nerve wracking landing in an unfamiliar mountainous airport in dead of night with no radar to show surrounding terrain.",
+            lint_group(),
+            "Very nerve-racking landing in an unfamiliar mountainous airport in dead of night with no radar to show surrounding terrain.",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wrecking_no_hyphen() {
+        assert_suggestion_result(
+            "I appreciate any kind of help since this is kind of nerve wrecking.",
+            lint_group(),
+            "I appreciate any kind of help since this is kind of nerve-racking.",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_racking_no_hyphen() {
+        assert_suggestion_result(
+            "It's nerve racking to think about it because I have code inside the callback that resolves the member and somehow I feel like it's so ..",
+            lint_group(),
+            "It's nerve-racking to think about it because I have code inside the callback that resolves the member and somehow I feel like it's so ..",
         );
     }
 }
