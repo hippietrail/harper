@@ -1,4 +1,4 @@
-50350
+50400
 AA/1254M
 AAA/12
 AB/215M
@@ -2236,6 +2236,7 @@ Combs/2M
 Comdr
 Comintern/2M
 Commandment/1
+Commodore/2MS
 Commons/2M
 Commonwealth/2
 Communion/2SM
@@ -2889,6 +2890,7 @@ Drambuie/1M
 Drano/M
 Dravidian/215M
 Dreiser/2M
+Dremel/2M
 Dresden/21M
 Drew/2M
 Dreyfus/2M
@@ -4642,6 +4644,7 @@ I'm/~
 I've/~
 IA/21
 IBM/21M
+IC/1MS
 ICBM/1SM
 ICC/2
 ICU/12
@@ -7051,6 +7054,7 @@ NSF/21
 NSFW/5
 NSX/1M
 NT/21
+NTSC/1M
 NV/215
 NVIDIA/M
 NW/21M
@@ -9581,6 +9585,7 @@ TN/21
 TNT/12M
 TOEFL/1
 TQM/1
+TTL
 TV/1SM
 TVA/2
 TWA/21M
@@ -10244,6 +10249,7 @@ Vatican/25M
 Vauban/M
 Vaughan/2M
 Vaughn/2M
+Vauxhall/2MS
 Vazquez/2M
 Veblen/2M
 Veda/2SM
@@ -22421,7 +22427,7 @@ errata/~1SM
 erratic/~51Q
 erratum/1M
 erroneous/~5Y
-error/~14SM
+error/~14SMDG
 ersatz/51MS
 erst/5
 erstwhile/~5
@@ -27335,6 +27341,7 @@ hotheaded/5YP
 hotheadedness/1M
 hothouse/14SM
 hotkey/14S
+hotline/1SM
 hotlink/1S
 hotness/1M
 hotplate/1SM
@@ -28793,6 +28800,7 @@ interject/4GDS
 interjection/1SM
 interlace/14GDS
 interlard/4DGS
+interleaf/1M
 interleave/41DSG
 interleukin/1M
 interline/54GDSJ
@@ -30175,7 +30183,7 @@ leaflet/~14GMDS
 leafstalk/1MS
 leafy/5RT
 league/~14DSMG
-leak/~145MDSG
+leak/~145MDSGR
 leakage/~1MS
 leakiness/1M
 leaky/~5PRT
@@ -30996,6 +31004,7 @@ lukewarmness/1M
 lull/~14MDSG
 lullaby/~14SM
 lulu/~1S
+luma/1M
 lumbago/14M
 lumbar/~51
 lumber/~14MDRZGS
@@ -31927,6 +31936,7 @@ mercantilist/51SM
 mercenary/~15SM
 mercer/~1MS
 mercerize/4GDS
+merch/1M
 merchandise/~14MZGDRS
 merchandiser/1M
 merchandising/~14M
@@ -40890,6 +40900,7 @@ scam/~14MS
 scammed/4
 scammer/1S
 scamming/4
+scammy/5RT
 scamp/~14MRSZ
 scamper/14GMD
 scampi/1M
@@ -41162,7 +41173,7 @@ scrod/14M
 scrofula/1M
 scrofulous/5
 scrog/1S
-scroll/~14GSMD
+scroll/~14GSMDR
 scrooge/~14MS
 scrota/1
 scrotal/5
@@ -45767,7 +45778,7 @@ theistic/~5
 them/~8ot
 thematic/~51Q
 thematically/
-theme/~14DSM
+theme/~14DSMG
 themselves/~8
 then/~517M
 thence/~
@@ -47641,6 +47652,7 @@ university/~1SM
 univocal/51
 unjust/~5Y
 unkempt/5
+unkillable/5
 unkind/5T
 unkindly/5T
 unknowable/51M
@@ -48552,6 +48564,7 @@ voucher/14M
 vouchsafe/4DSG
 vow/~14SGMD
 vowel/~14SM
+voxel/1SM
 voyage/~14MZGDRS
 voyager/~1M
 voyageur/1SM
@@ -49322,6 +49335,8 @@ wing/~14MDRZGS
 wingding/1MS
 wingless/5
 winglike/5
+wingman/1M
+wingmen/9
 wingnut/1SM
 wingspan/~1MS
 wingspread/1SM
@@ -50346,3 +50361,5 @@ gzipping/4
 Reddit/2M
 Xbox/12MS
 eggcorn/1
+easy peasy/5
+un-American/5
