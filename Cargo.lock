@@ -795,6 +795,7 @@ dependencies = [
  "harper-html",
  "harper-literate-haskell",
  "harper-typst",
+ "indexmap",
  "itertools 0.14.0",
  "once_cell",
  "open",

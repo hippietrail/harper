@@ -1,7 +1,6 @@
 use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 
-use super::pattern_linter::PatternLinterCache;
 use super::{Lint, LintKind, Suggestion};
 use super::{LintGroup, PatternLinter};
 use crate::parsers::PlainEnglish;
@@ -117,14 +116,12 @@ fn lint_group_from_json(json: &str, dictionary: Arc<impl Dictionary + 'static>) 
     let rules: HashMap<String, RuleEntry> = serde_json::from_str(json).unwrap();
 
     for (key, rule) in rules.into_iter() {
-        group.add(
+        group.add_pattern_linter(
             key,
-            Box::new(PatternLinterCache::new_default_size(
-                ProperNounCapitalizationLinter::new_strs(
-                    rule.canonical,
-                    rule.description,
-                    dictionary.clone(),
-                ),
+            Box::new(ProperNounCapitalizationLinter::new_strs(
+                rule.canonical,
+                rule.description,
+                dictionary.clone(),
             )),
         );
     }
