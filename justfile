@@ -260,7 +260,12 @@ addnoun noun:
 
 # Search Harper's curated dictionary for a specific word
 searchdictfor word:
-  cargo run --bin harper-cli -- words | rg {{word}}
+  #! /bin/bash
+  if command -v rg > /dev/null; then
+    cargo run --bin harper-cli -- words | rg {{word}}
+  else
+    cargo run --bin harper-cli -- words | grep {{word}}
+  fi
 
 # Find words in the user's `harper-ls/dictionary.txt` for words already in the curated dictionary.
 userdictoverlap:
