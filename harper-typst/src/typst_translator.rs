@@ -326,10 +326,20 @@ impl<'a> TypstTranslator<'a> {
                 parse_params(&mut closure.params().children()),
                 recurse!(closure.body())
             ],
-            Expr::FuncCall(func) => merge![
-                token!(func.callee(), TokenKind::Unlintable),
-                parse_args(&mut func.args().items())
-            ],
+            Expr::FuncCall(func) => {
+                let func_ident = self
+                    .doc
+                    .get(self.doc.range(func.callee().span()).unwrap())
+                    .unwrap();
+                merge![
+                    token!(func.callee(), TokenKind::Unlintable),
+                    match func_ident {
+                        "rgb" => token!(func.args(), TokenKind::Unlintable),
+                        "color.rgb" => token!(func.args(), TokenKind::Unlintable),
+                        _ => parse_args(&mut func.args().items()),
+                    }
+                ]
+            }
             a => token!(a, TokenKind::Unlintable),
         }
     }
