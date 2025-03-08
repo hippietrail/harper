@@ -137,15 +137,23 @@ impl<'a> TypstTranslator<'a> {
         /// Quickly recurse without needing to pass in local variables.
         /// Matches both single and many expressions.
         macro_rules! recurse {
-        ($inner:expr) => {
-            self.parse_expr($inner, offset)
-        };
-        ($($inner:expr),+) => {
-            merge![
-                $(recurse!($inner)),*
-            ]
-        };
-    }
+            ($inner:expr) => {
+                self.parse_expr($inner, offset)
+            };
+            ($($inner:expr),+) => {
+                merge![
+                    $(recurse!($inner)),*
+                ]
+            };
+        }
+
+        macro_rules! get_text {
+            ($expr:expr) => {
+                self.doc
+                    .get(self.doc.range($expr.span()).unwrap())
+                    .expect("Unable to get text from typst document span!")
+            };
+        }
 
         // Recurse on each element of an iterator
         let iter_recurse = |exprs: &mut dyn Iterator<Item = Expr>| {
@@ -203,11 +211,7 @@ impl<'a> TypstTranslator<'a> {
         match expr {
             Expr::Text(text) => self.parse_english(text.get(), offset.push_to_span(text.span())),
             Expr::Space(a) => {
-                let mut chars = self
-                    .doc
-                    .get(self.doc.range(a.span()).unwrap())
-                    .unwrap()
-                    .chars();
+                let mut chars = get_text!(a).chars();
                 let first_char = chars.next().unwrap();
                 let length = chars.count() + 1;
 
@@ -327,15 +331,10 @@ impl<'a> TypstTranslator<'a> {
                 recurse!(closure.body())
             ],
             Expr::FuncCall(func) => {
-                let func_ident = self
-                    .doc
-                    .get(self.doc.range(func.callee().span()).unwrap())
-                    .unwrap();
                 merge![
                     token!(func.callee(), TokenKind::Unlintable),
-                    match func_ident {
-                        "rgb" => token!(func.args(), TokenKind::Unlintable),
-                        "color.rgb" => token!(func.args(), TokenKind::Unlintable),
+                    match get_text!(func.callee()) {
+                        "color.rgb" | "rgb" => token!(func.args(), TokenKind::Unlintable),
                         _ => parse_args(&mut func.args().items()),
                     }
                 ]
