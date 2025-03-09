@@ -235,10 +235,7 @@ fn main() -> anyhow::Result<()> {
                         "'{}' is already in the dictionary but not annotated.",
                         arg_bare_word
                     ),
-                    _ => format!(
-                        "'{}' is not in the dictionary yet.",
-                        arg_bare_word
-                    ),
+                    _ => format!("'{}' is not in the dictionary yet.", arg_bare_word),
                 };
 
                 let mut different_annot = false;
@@ -257,7 +254,8 @@ fn main() -> anyhow::Result<()> {
                         );
                     } else {
                         status_summary.push_str(
-                            format!("\n  Your annotations are the same as the dictionary.\n").as_str(),
+                            format!("\n  Your annotations are the same as the dictionary.\n")
+                                .as_str(),
                         );
                     }
                 }
@@ -287,7 +285,8 @@ fn main() -> anyhow::Result<()> {
                 };
 
                 let should_print_old_info = already_annotated;
-                let should_print_new_info = arg_annot.is_some() && (!already_annotated || different_annot);
+                let should_print_new_info =
+                    arg_annot.is_some() && (!already_annotated || different_annot);
 
                 if should_print_old_info {
                     println!("Old, from the dictionary:");
