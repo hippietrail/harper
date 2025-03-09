@@ -249,14 +249,11 @@ fn main() -> anyhow::Result<()> {
                         != arg_annot.unwrap().chars().collect()
                     {
                         different_annot = true;
-                        status_summary.push_str(
-                            format!("\n  Your annotations differ from the dictionary.\n").as_str(),
-                        );
+                        status_summary
+                            .push_str("\n  Your annotations differ from the dictionary.\n");
                     } else {
-                        status_summary.push_str(
-                            format!("\n  Your annotations are the same as the dictionary.\n")
-                                .as_str(),
-                        );
+                        status_summary
+                            .push_str("\n  Your annotations are the same as the dictionary.\n");
                     }
                 }
 
