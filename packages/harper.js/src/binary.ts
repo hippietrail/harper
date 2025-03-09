@@ -1,6 +1,6 @@
 import { default as binaryUrl } from 'harper-wasm/harper_wasm_bg.wasm?no-inline';
 import { default as binaryInlinedUrl } from 'harper-wasm/harper_wasm_bg.wasm?inline';
-import type { Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
+import type { InitInput, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
 import { assert } from './utils';
 import { LintConfig } from './main';
 
@@ -11,7 +11,14 @@ export async function loadBinary(binary: string): Promise<typeof import('harper-
 		return _loadedBinaryMap.get(binary)!;
 	} else {
 		const exports = await import('harper-wasm');
-		await exports.default({ module_or_path: binary });
+		let input: InitInput;
+		if (typeof window === 'undefined' && binary.startsWith('file://')) {
+			const fs = await import('node:fs/promises');
+			input = fs.readFile(new URL(binary).pathname);
+		} else {
+			input = binary;
+		}
+		await exports.default({ module_or_path: input });
 		_loadedBinaryMap.set(binary, exports);
 		return exports;
 	}
@@ -56,47 +63,48 @@ export function isSerializedRequest(v: unknown): v is SerializedRequest {
 /** This class aims to define the communication protocol between the main thread and the worker.
  * Note that much of the complication here comes from the fact that we can't serialize function calls or referenced WebAssembly memory.*/
 export class BinaryModule {
-	private exported: Promise<typeof import('harper-wasm')>;
+	public url: string | URL;
 
-	constructor(public url: string | URL) {
-		this.exported = import('harper-wasm').then(async (exports) => {
-			await exports.default({ module_or_path: url });
-			return exports;
-		});
+	private get inner() {
+		return loadBinary(typeof this.url === 'string' ? this.url : this.url.href);
+	}
+
+	constructor(url: string | URL) {
+		this.url = url;
 	}
 
 	async applySuggestion(text: string, suggestion: Suggestion, span: Span): Promise<string> {
-		const exported = await this.exported;
+		const exported = await this.inner;
 		return exported.apply_suggestion(text, span, suggestion);
 	}
 
 	async getDefaultLintConfigAsJSON(): Promise<string> {
-		const exported = await this.exported;
+		const exported = await this.inner;
 		return exported.get_default_lint_config_as_json();
 	}
 
 	async getDefaultLintConfig(): Promise<LintConfig> {
-		const exported = await this.exported;
+		const exported = await this.inner;
 		return exported.get_default_lint_config();
 	}
 
 	async toTitleCase(text: string): Promise<string> {
-		const exported = await this.exported;
+		const exported = await this.inner;
 		return exported.to_title_case(text);
 	}
 
 	async setup(): Promise<void> {
-		const exported = await this.exported;
+		const exported = await this.inner;
 		exported.setup();
 	}
 
 	async createLinter(): Promise<WasmLinter> {
-		const exported = await this.exported;
+		const exported = await this.inner;
 		return exported.Linter.new();
 	}
 
 	async serializeArg(arg: any): Promise<RequestArg> {
-		const { Lint, Span, Suggestion } = await this.exported;
+		const { Lint, Span, Suggestion } = await this.inner;
 
 		if (Array.isArray(arg)) {
 			return {
@@ -144,7 +152,7 @@ export class BinaryModule {
 	}
 
 	async deserializeArg(requestArg: RequestArg): Promise<any> {
-		const { Lint, Span, Suggestion } = await this.exported;
+		const { Lint, Span, Suggestion } = await this.inner;
 
 		switch (requestArg.type) {
 			case 'undefined':

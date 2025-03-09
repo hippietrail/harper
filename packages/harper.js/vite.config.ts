@@ -28,6 +28,7 @@ export default defineConfig({
 		minify: false,
 		assetsInlineLimit: 0,
 		rollupOptions: {
+			external: [/^node:/],
 			output: {
 				minifyInternalExports: false,
 				inlineDynamicImports: true

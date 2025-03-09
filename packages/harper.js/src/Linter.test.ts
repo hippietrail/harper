@@ -170,7 +170,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 	test(`${linterName} can add words to the dictionary`, async () => {
 		const source = 'asdf is not a word';
 
-		const linter = new Linter();
+		const linter = new Linter({ binary });
 		let lints = await linter.lint(source);
 
 		expect(lints).toHaveLength(1);
@@ -182,7 +182,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 	});
 
 	test(`${linterName} allows correct capitalization of "United States"`, async () => {
-		const linter = new Linter();
+		const linter = new Linter({ binary });
 		const lints = await linter.lint('The United States is a big country.');
 
 		expect(lints).toHaveLength(0);

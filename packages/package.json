@@ -5,7 +5,8 @@
 		"web",
 		"vscode-plugin",
 		"harper.js",
-		"wordpress-plugin"
+		"wordpress-plugin",
+		"harper.js/examples/commonjs-simple"
 	],
 	"devDependencies": {
 		"eslint": "^8.28.0",
