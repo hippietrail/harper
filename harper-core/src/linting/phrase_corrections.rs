@@ -877,7 +877,7 @@ mod tests {
             "This is not entirely unexpected in and of itself, as Git and GitHub Desktop both generally prove fairly bad at delineating context intelligently...",
         );
     }
-  
+
     #[test]
     fn detect_monumentous_atomic() {
         assert_suggestion_result("monumentous", lint_group(), "momentous");
