@@ -39,7 +39,7 @@ jobs:
         with:
           target: ${{ matrix.platform.rust_target }}
           args: "--locked --release --bin harper-ls"
-          strip: true
+          force-use-cross: true
       - name: Package extension
         id: package_extension
         shell: bash
