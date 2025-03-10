@@ -69,7 +69,7 @@ export default defineConfig({
 			headless: true,
 			screenshotFailures: false,
 			instances: [
-				{ browser: 'chromium' },
+				{ browser: 'chromium' }
 				// { browser: 'firefox' },
 			]
 		}
