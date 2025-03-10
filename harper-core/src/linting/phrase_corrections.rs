@@ -1,5 +1,4 @@
-use super::{LintGroup, MapPhraseLinter, PatternLinterCache};
-use std::num::NonZero;
+use super::{LintGroup, MapPhraseLinter};
 
 /// Produce a [`LintGroup`] that looks for errors in common phrases.
 /// Comes pre-configured with the recommended default settings.
@@ -11,17 +10,16 @@ pub fn lint_group() -> LintGroup {
             $($name:expr => ($input:expr, $corrections:expr, $hint:expr, $description:expr)),+ $(,)?
         }) => {
             $(
-                $group.add(
+                $group.add_pattern_linter(
                     $name,
-                    Box::new(PatternLinterCache::new(
+                    Box::new(
                         MapPhraseLinter::new_exact_phrases(
                             $input,
                             $corrections,
                             $hint,
                             $description
                         ),
-                        NonZero::new(1000).unwrap()
-                    )),
+                    ),
                 );
             )+
         };
@@ -31,13 +29,49 @@ pub fn lint_group() -> LintGroup {
         // The name of the rule
         "ChangeTack" => (
             // The exact phrase to look for.
-            ["change tact"],
+            ["change tact", "change tacks", "change tacts"],
             // The corrections to provide.
             ["change tack"],
             // The message to be shown with the error.
-            "Did you mean the sailing idiom?",
+            "Did you mean `change tack`? This idiom is commonly used to indicate a change in direction or approach.",
             // A description of the rule.
-            "Locates minor errors in the sailing idiom `change tack`."
+            "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+        ),
+        "ChangedTack" => (
+            ["changed tact", "changed tacks", "changed tacts"],
+            ["changed tack"],
+            "Did you mean `changed tack`? This idiom is commonly used to indicate a change in direction or approach.",
+            "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+        ),
+        "ChangesTack" => (
+            ["changes tact", "changes tacks", "changes tacts"],
+            ["changes tack"],
+            "Did you mean `changes tack`? This idiom is commonly used to indicate a change in direction or approach.",
+            "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+        ),
+        "ChangingTack" => (
+            ["changing tact", "changing tacks", "changing tacts"],
+            ["changing tack"],
+            "Did you mean `changing tack`? This idiom is commonly used to indicate a change in direction or approach.",
+            "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+        ),
+        "ChangeOfTack" => (
+            ["change of tact", "change of tacks", "change of tacts"],
+            ["change of tack"],
+            "Did you mean `change of tack`? This idiom is commonly used to indicate a change in direction or approach.",
+            "Locates errors in the idiom `change of tack` to convey the correct meaning of an alternative course or strategy."
+        ),
+        "ChangesOfTack" => (
+            ["changes of tact", "changes of tacks", "changes of tacts"],
+            ["changes of tack"],
+            "Did you mean `changes of tack`? This idiom is commonly used to indicate changes in direction or approach.",
+            "Locates errors in the idiom `change of tack` to convey the correct meaning of an alternative course or strategy."
+        ),
+        "ChangingOfTack" => (
+            ["changing of tact", "changing of tacks", "changing of tacts"],
+            ["changing of tack"],
+            "Did you mean `changing of tack`? This idiom is commonly used to indicate a change in direction or approach.",
+            "Locates errors in the idiom `to change of tack` to convey the correct meaning of altering one's course or strategy."
         ),
         "WantBe" => (
             ["want be"],
@@ -621,6 +655,48 @@ pub fn lint_group() -> LintGroup {
             "Use `in and of itself` for referring to something's inherent or intrinsic quality.",
             "Corrects nonstandard `in of itself` to standard `in and of itself`."
         ),
+        "ALotWorst" => (
+            ["a lot worst", "alot worst"],
+            ["a lot worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `a lot worst` to `a lot worse` for proper comparative usage."
+        ),
+        "FarWorse" => (
+            ["far worst"],
+            ["far worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `far worst` to `far worse` for proper comparative usage."
+        ),
+        "MuchWorse" => (
+            ["much worst"],
+            ["much worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `much worst` to `much worse` for proper comparative usage."
+        ),
+        "TurnForTheWorse" => (
+            ["turn for the worst"],
+            ["turn for the worse"],
+            "Use `turn for the worse` for a negative change in circumstances. Avoid the incorrect `turn for the worst`.",
+            "Corrects the nonstandard `turn for the worst` to the idiomatic `turn for the worse`, used to describe a situation that has deteriorated."
+        ),
+        "WorseAndWorse" => (
+            ["worst and worst", "worse and worst", "worst and worse"],
+            ["worse and worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `worst and worst` to `worse and worse` for proper comparative usage."
+        ),
+        "WorseThan" => (
+            ["worst than"],
+            ["worse than"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `worst than` to `worse than` for proper comparative usage."
+        ),
+        "WorstEver" => (
+            ["worse ever"],
+            ["worst ever"],
+            "Use `worst` for the extreme case. (`Worse` is for comparing)",
+            "Corrects `worse ever` to `worst ever` for proper comparative usage."
+        ),
         "Monumentous" => (
             ["monumentous"],
             ["momentous", "monumental"],
@@ -739,8 +815,64 @@ mod tests {
     }
 
     #[test]
-    fn change_tact() {
+    fn change_tact_atomic() {
         assert_suggestion_result("change tact", lint_group(), "change tack");
+    }
+
+    #[test]
+    fn changed_tacks_atomic() {
+        assert_suggestion_result("changed tacks", lint_group(), "changed tack");
+    }
+
+    #[test]
+    fn changes_tacts_atomic() {
+        assert_suggestion_result("changes tacts", lint_group(), "changes tack");
+    }
+
+    #[test]
+    fn changing_tact_atomic() {
+        assert_suggestion_result("changing tact", lint_group(), "changing tack");
+    }
+
+    #[test]
+    fn change_of_tacks_atomic() {
+        assert_suggestion_result("change of tacks", lint_group(), "change of tack");
+    }
+
+    #[test]
+    fn change_of_tact_real_world() {
+        assert_suggestion_result(
+            "Change of tact : come give your concerns - Death Knight",
+            lint_group(),
+            "Change of tack : come give your concerns - Death Knight",
+        );
+    }
+
+    #[test]
+    fn change_of_tacts_real_world() {
+        assert_suggestion_result(
+            "2013.08.15 - A Change of Tacts | Hero MUX Wiki | Fandom",
+            lint_group(),
+            "2013.08.15 - A Change of Tack | Hero MUX Wiki | Fandom",
+        );
+    }
+
+    #[test]
+    fn changing_of_tacks_real_world() {
+        assert_suggestion_result(
+            "Duffy's changing of tacks hidden in her poetry collection ...",
+            lint_group(),
+            "Duffy's changing of tack hidden in her poetry collection ...",
+        );
+    }
+
+    #[test]
+    fn changes_of_tact_real_world() {
+        assert_suggestion_result(
+            "While the notes and the changes of tact started to ...",
+            lint_group(),
+            "While the notes and the changes of tack started to ...",
+        );
     }
 
     #[test]
@@ -875,6 +1007,113 @@ mod tests {
             "This is not entirely unexpected in of itself, as Git and GitHub Desktop both generally prove fairly bad at delineating context intelligently...",
             lint_group(),
             "This is not entirely unexpected in and of itself, as Git and GitHub Desktop both generally prove fairly bad at delineating context intelligently...",
+        )
+    }
+
+    #[test]
+    fn detect_a_lot_worse_atomic() {
+        assert_suggestion_result("a lot worst", lint_group(), "a lot worse");
+    }
+
+    #[test]
+    fn detect_a_lot_worse_real_world() {
+        assert_suggestion_result(
+            "On a debug build, it's even a lot worst.",
+            lint_group(),
+            "On a debug build, it's even a lot worse.",
+        );
+    }
+
+    #[test]
+    fn detect_far_worse_atomic() {
+        assert_suggestion_result("far worst", lint_group(), "far worse");
+    }
+
+    #[test]
+    fn detect_far_worse_real_world() {
+        assert_suggestion_result(
+            "I mainly use Firefox (personal preference) and have noticed it has far worst performance than Chrome",
+            lint_group(),
+            "I mainly use Firefox (personal preference) and have noticed it has far worse performance than Chrome",
+        );
+    }
+
+    #[test]
+    fn detect_much_worse_atomic() {
+        assert_suggestion_result("much worst", lint_group(), "much worse");
+    }
+
+    #[test]
+    fn detect_much_worse_real_world() {
+        assert_suggestion_result(
+            "the generated image quality is much worst (actually nearly broken)",
+            lint_group(),
+            "the generated image quality is much worse (actually nearly broken)",
+        );
+    }
+
+    #[test]
+    fn detect_turn_for_the_worse_atomic() {
+        assert_suggestion_result("turn for the worst", lint_group(), "turn for the worse");
+    }
+
+    #[test]
+    fn detect_turn_for_the_worse_real_world() {
+        assert_suggestion_result(
+            "Very surprised to see this repo take such a turn for the worst.",
+            lint_group(),
+            "Very surprised to see this repo take such a turn for the worse.",
+        );
+    }
+
+    #[test]
+    fn detect_worst_and_worst_atomic() {
+        assert_suggestion_result("worst and worst", lint_group(), "worse and worse");
+    }
+
+    #[test]
+    fn detect_worst_and_worst_real_world() {
+        assert_suggestion_result(
+            "This control-L trick does not work for me. The padding is getting worst and worst.",
+            lint_group(),
+            "This control-L trick does not work for me. The padding is getting worse and worse.",
+        );
+    }
+
+    #[test]
+    fn detect_worse_and_worst_real_world() {
+        assert_suggestion_result(
+            "This progressively got worse and worst to the point that the machine (LEAD 1010) stopped moving alltogether.",
+            lint_group(),
+            "This progressively got worse and worse to the point that the machine (LEAD 1010) stopped moving alltogether.",
+        );
+    }
+
+    #[test]
+    fn detect_worse_than_atomic() {
+        assert_suggestion_result("worst than", lint_group(), "worse than");
+    }
+
+    #[test]
+    fn detect_worse_than_real_world() {
+        assert_suggestion_result(
+            "Project real image - inversion quality is worst than in StyleGAN2",
+            lint_group(),
+            "Project real image - inversion quality is worse than in StyleGAN2",
+        );
+    }
+
+    #[test]
+    fn detect_worst_ever_atomic() {
+        assert_suggestion_result("worse ever", lint_group(), "worst ever");
+    }
+
+    #[test]
+    fn detect_worst_ever_real_world() {
+        assert_suggestion_result(
+            "The Bcl package family is one of the worse ever published by Microsoft.",
+            lint_group(),
+            "The Bcl package family is one of the worst ever published by Microsoft.",
         );
     }
 
