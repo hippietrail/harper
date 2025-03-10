@@ -95,7 +95,7 @@ jobs:
           command: ${{ matrix.platform.command }}
           target: ${{ matrix.platform.target }}
           args: "--locked --release --bin ${{ matrix.platform.project }}"
-          force-use-cross: true
+          force-use-cross: ${{ matrix.platform.os == 'ubuntu-latest' }}
           strip: true
       - name: Package as archive
         shell: bash

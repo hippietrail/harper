@@ -39,7 +39,7 @@ jobs:
         with:
           target: ${{ matrix.platform.rust_target }}
           args: "--locked --release --bin harper-ls"
-          force-use-cross: true
+          force-use-cross: ${{ matrix.platform.os == 'ubuntu-latest' }}
           strip: true
       - name: Package extension
         id: package_extension
