@@ -904,7 +904,7 @@ mod tests {
     fn detect_a_lot_worse_atomic() {
         assert_suggestion_result("a lot worst", lint_group(), "a lot worse");
     }
-  
+
     #[test]
     fn detect_a_lot_worse_real_world() {
         assert_suggestion_result(
@@ -913,12 +913,12 @@ mod tests {
             "On a debug build, it's even a lot worse.",
         );
     }
-  
+
     #[test]
     fn detect_far_worse_atomic() {
         assert_suggestion_result("far worst", lint_group(), "far worse");
     }
-  
+
     #[test]
     fn detect_far_worse_real_world() {
         assert_suggestion_result(
@@ -927,12 +927,12 @@ mod tests {
             "I mainly use Firefox (personal preference) and have noticed it has far worse performance than Chrome",
         );
     }
-  
+
     #[test]
     fn detect_much_worse_atomic() {
         assert_suggestion_result("much worst", lint_group(), "much worse");
     }
-  
+
     #[test]
     fn detect_much_worse_real_world() {
         assert_suggestion_result(
@@ -941,12 +941,12 @@ mod tests {
             "the generated image quality is much worse (actually nearly broken)",
         );
     }
-  
+
     #[test]
     fn detect_turn_for_the_worse_atomic() {
         assert_suggestion_result("turn for the worst", lint_group(), "turn for the worse");
     }
-  
+
     #[test]
     fn detect_turn_for_the_worse_real_world() {
         assert_suggestion_result(
@@ -955,12 +955,12 @@ mod tests {
             "Very surprised to see this repo take such a turn for the worse.",
         );
     }
-  
+
     #[test]
     fn detect_worst_and_worst_atomic() {
         assert_suggestion_result("worst and worst", lint_group(), "worse and worse");
     }
-  
+
     #[test]
     fn detect_worst_and_worst_real_world() {
         assert_suggestion_result(
@@ -969,7 +969,7 @@ mod tests {
             "This control-L trick does not work for me. The padding is getting worse and worse.",
         );
     }
-  
+
     #[test]
     fn detect_worse_and_worst_real_world() {
         assert_suggestion_result(
@@ -978,12 +978,12 @@ mod tests {
             "This progressively got worse and worse to the point that the machine (LEAD 1010) stopped moving alltogether.",
         );
     }
-  
+
     #[test]
     fn detect_worse_than_atomic() {
         assert_suggestion_result("worst than", lint_group(), "worse than");
     }
-  
+
     #[test]
     fn detect_worse_than_real_world() {
         assert_suggestion_result(
@@ -992,12 +992,12 @@ mod tests {
             "Project real image - inversion quality is worse than in StyleGAN2",
         );
     }
-  
+
     #[test]
     fn detect_worst_ever_atomic() {
         assert_suggestion_result("worse ever", lint_group(), "worst ever");
     }
-  
+
     #[test]
     fn detect_worst_ever_real_world() {
         assert_suggestion_result(
