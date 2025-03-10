@@ -32,7 +32,10 @@
 		"vite-plugin-dts": "^4.5.0",
 		"vite-plugin-virtual": "^0.3.0",
 		"vitest": "^3.0.5",
-		"harper-wasm": "link:../../harper-wasm/pkg"
+		"harper-wasm": "link:../../harper-wasm/pkg",
+		"type-fest": "^4.37.0",
+		"p-memoize": "^7.1.1",
+		"p-lazy": "^5.0.0"
 	},
 	"main": "dist/harper.js",
 	"types": "dist/harper.d.ts",

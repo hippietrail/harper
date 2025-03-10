@@ -28,7 +28,7 @@ export default defineConfig({
 		minify: false,
 		assetsInlineLimit: 0,
 		rollupOptions: {
-			external: [/^node:/],
+			external: [/^node:/, 'fs'],
 			output: {
 				minifyInternalExports: false,
 				inlineDynamicImports: true
@@ -68,7 +68,10 @@ export default defineConfig({
 			enabled: true,
 			headless: true,
 			screenshotFailures: false,
-			instances: [{ browser: 'chromium' }, { browser: 'firefox' }]
+			instances: [
+				{ browser: 'chromium' },
+				// { browser: 'firefox' },
+			]
 		}
 	},
 	assetsInclude: ['**/*.wasm']

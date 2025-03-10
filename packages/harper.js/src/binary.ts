@@ -1,28 +1,30 @@
 import { default as binaryUrl } from 'harper-wasm/harper_wasm_bg.wasm?no-inline';
 import { default as binaryInlinedUrl } from 'harper-wasm/harper_wasm_bg.wasm?inline';
 import type { InitInput, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
+import pMemoize from 'p-memoize';
+import LazyPromise from 'p-lazy';
 import { assert } from './utils';
 import { LintConfig } from './main';
 
-const _loadedBinaryMap = new Map<string, typeof import('harper-wasm')>();
+export const loadBinary = pMemoize(async (binary: string) => {
+	const exports = await import('harper-wasm');
 
-export async function loadBinary(binary: string): Promise<typeof import('harper-wasm')> {
-	if (_loadedBinaryMap.has(binary)) {
-		return _loadedBinaryMap.get(binary)!;
+	let input: InitInput;
+	if (typeof process !== 'undefined' && binary.startsWith('file://')) {
+		const fs = await import(/* webpackIgnore: true */ /* @vite-ignore */ 'fs');
+		input = new Promise((resolve, reject) => {
+			fs.readFile(new URL(binary).pathname, (err, data) => {
+				if (err) reject(err);
+				resolve(data);
+			});
+		});
 	} else {
-		const exports = await import('harper-wasm');
-		let input: InitInput;
-		if (typeof window === 'undefined' && binary.startsWith('file://')) {
-			const fs = await import('node:fs/promises');
-			input = fs.readFile(new URL(binary).pathname);
-		} else {
-			input = binary;
-		}
-		await exports.default({ module_or_path: input });
-		_loadedBinaryMap.set(binary, exports);
-		return exports;
+		input = binary;
 	}
-}
+	await exports.default({ module_or_path: input });
+
+	return exports;
+});
 
 export type SerializableTypes =
 	| 'string'
@@ -65,12 +67,13 @@ export function isSerializedRequest(v: unknown): v is SerializedRequest {
 export class BinaryModule {
 	public url: string | URL;
 
-	private get inner() {
-		return loadBinary(typeof this.url === 'string' ? this.url : this.url.href);
-	}
+	private inner: Promise<typeof import('harper-wasm')>;
 
 	constructor(url: string | URL) {
 		this.url = url;
+		this.inner = LazyPromise.from(() =>
+			loadBinary(typeof this.url === 'string' ? this.url : this.url.href)
+		);
 	}
 
 	async applySuggestion(text: string, suggestion: Suggestion, span: Span): Promise<string> {

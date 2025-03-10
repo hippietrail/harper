@@ -1,5 +1,6 @@
 import type { Lint, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
 import { Language } from 'harper-wasm';
+import LazyPromise from 'p-lazy';
 import Linter, { LinterInit } from './Linter';
 import { LintConfig, LintOptions } from './main';
 import { BinaryModule } from './binary';
@@ -11,7 +12,10 @@ export default class LocalLinter implements Linter {
 
 	constructor(init: LinterInit) {
 		this.binary = init.binary;
-		this.inner = this.binary.setup().then(() => this.binary.createLinter());
+		this.inner = LazyPromise.from(async () => {
+			await this.binary.setup();
+			return this.binary.createLinter();
+		});
 	}
 
 	async setup(): Promise<void> {

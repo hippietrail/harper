@@ -1,5 +1,5 @@
 <script module lang="ts">
-	import { LocalLinter, type LintConfig } from 'harper.js';
+	import { LocalLinter, type LintConfig, binary } from 'harper.js';
 	import {
 		Table,
 		TableBody,
@@ -9,7 +9,6 @@
 		TableHeadCell
 	} from 'flowbite-svelte';
 
-	export const prerender = true;
 	export const frontmatter = {
 		title: 'Rules'
 	};
