@@ -633,6 +633,12 @@ pub fn lint_group() -> LintGroup {
             "Use `worse` for comparing. (`Worst` is for the extreme case)",
             "Corrects `much worst` to `much worse` for proper comparative usage."
         ),
+        "TurnForTheWorse" => (
+            ["turn for the worst"],
+            ["turn for the worse"],
+            "Use `turn for the worse` for a negative change in circumstances. Avoid the incorrect `turn for the worst`.",
+            "Corrects the nonstandard `turn for the worst` to the idiomatic `turn for the worse`, used to describe a situation that has deteriorated."
+        ),
         "WorseAndWorse" => (
             ["worst and worst", "worse and worst", "worst and worse"],
             ["worse and worse"],
@@ -922,6 +928,18 @@ mod tests {
             "the generated image quality is much worst (actually nearly broken)",
             lint_group(),
             "the generated image quality is much worse (actually nearly broken)",
+        );
+    }
+    #[test]
+    fn detect_turn_for_the_worse_atomic() {
+        assert_suggestion_result("turn for the worst", lint_group(), "turn for the worse");
+    }
+    #[test]
+    fn detect_turn_for_the_worse_real_world() {
+        assert_suggestion_result(
+            "Very surprised to see this repo take such a turn for the worst.",
+            lint_group(),
+            "Very surprised to see this repo take such a turn for the worse.",
         );
     }
     #[test]
