@@ -620,7 +620,13 @@ pub fn lint_group() -> LintGroup {
             ["in and of itself"],
             "Use `in and of itself` for referring to something's inherent or intrinsic quality.",
             "Corrects nonstandard `in of itself` to standard `in and of itself`."
-        )
+        ),
+        "Monumentous" => (
+            ["monumentous"],
+            ["momentous", "monumental"],
+            "Retain `monumentous` for jocular effect. Otherwise `momentous` indicates great signifcance while `monumental` indicates imposing size.",
+            "Advises using `momentous` or `monumental` instead of `monumentous` for serious usage."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -869,6 +875,20 @@ mod tests {
             "This is not entirely unexpected in of itself, as Git and GitHub Desktop both generally prove fairly bad at delineating context intelligently...",
             lint_group(),
             "This is not entirely unexpected in and of itself, as Git and GitHub Desktop both generally prove fairly bad at delineating context intelligently...",
+        );
+    }
+  
+    #[test]
+    fn detect_monumentous_atomic() {
+        assert_suggestion_result("monumentous", lint_group(), "momentous");
+    }
+
+    #[test]
+    fn detect_monumentous_real_world() {
+        assert_suggestion_result(
+            "I think that would be a monumentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
+            lint_group(),
+            "I think that would be a momentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
         );
     }
 }
