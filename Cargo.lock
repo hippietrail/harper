@@ -739,7 +739,6 @@ dependencies = [
  "foldhash",
  "fst",
  "hashbrown 0.15.2",
- "indexmap",
  "is-macro",
  "itertools 0.14.0",
  "lazy_static",

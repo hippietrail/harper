@@ -8,7 +8,6 @@ use std::sync::Arc;
 use cached::proc_macro::cached;
 use foldhash::quality::RandomState;
 use hashbrown::HashMap;
-use indexmap::IndexMap;
 use lru::LruCache;
 use serde::{Deserialize, Serialize};
 
@@ -72,7 +71,7 @@ use crate::{Dictionary, MutableDictionary};
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 #[serde(transparent)]
 pub struct LintGroupConfig {
-    inner: IndexMap<String, Option<bool>>,
+    inner: HashMap<String, Option<bool>>,
 }
 
 #[cached]
@@ -90,7 +89,7 @@ impl LintGroupConfig {
     /// Remove any configuration attached to a rule.
     /// This allows it to assume its default (curated) state.
     pub fn unset_rule_enabled(&mut self, key: impl AsRef<str>) {
-        self.inner.swap_remove_entry(key.as_ref());
+        self.inner.remove(key.as_ref());
     }
 
     pub fn set_rule_enabled_if_unset(&mut self, key: impl AsRef<str>, val: bool) {
@@ -116,7 +115,7 @@ impl LintGroupConfig {
     ///
     /// Conflicting keys will be overridden by the value in the other group.
     pub fn merge_from(&mut self, other: &mut LintGroupConfig) {
-        for (key, val) in other.inner.drain(..) {
+        for (key, val) in other.inner.drain() {
             if val.is_none() {
                 continue;
             }
@@ -145,6 +144,7 @@ impl Hash for LintGroupConfig {
                 hasher.write_u8(1);
                 hasher.write_u8(*value as u8);
             } else {
+                // Do it twice so we fill the same number of bytes as the other branch.
                 hasher.write_u8(0);
                 hasher.write_u8(0);
             }
