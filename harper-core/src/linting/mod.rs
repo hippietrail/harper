@@ -103,7 +103,7 @@ pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use out_of_date::OutOfDate;
 pub use oxford_comma::OxfordComma;
 pub use oxymorons::Oxymorons;
-pub use pattern_linter::{PatternLinter, PatternLinterCache};
+pub use pattern_linter::PatternLinter;
 pub use pique_interest::PiqueInterest;
 pub use plural_conjugate::PluralConjugate;
 pub use possessive_your::PossessiveYour;
@@ -175,6 +175,33 @@ mod tests {
         for lint in lints {
             dbg!(&lint);
             if let Some(sug) = lint.suggestions.first() {
+                sug.apply(lint.span, &mut text);
+            }
+        }
+
+        let transformed_str: String = text.iter().collect();
+
+        assert_eq!(transformed_str.as_str(), expected_result);
+
+        // Applying the suggestions should fix all the lints.
+        assert_lint_count(&transformed_str, linter, 0);
+    }
+
+    /// Runs a provided linter on text, applies the second suggestion from each
+    /// lint and asserts whether the result is equal to a given value.
+    pub fn assert_second_suggestion_result(
+        text: &str,
+        mut linter: impl Linter,
+        expected_result: &str,
+    ) {
+        let test = Document::new_markdown_default_curated(text);
+        let lints = linter.lint(&test);
+
+        let mut text: Vec<char> = text.chars().collect();
+
+        for lint in lints {
+            dbg!(&lint);
+            if let Some(sug) = lint.suggestions.get(1) {
                 sug.apply(lint.span, &mut text);
             }
         }
