@@ -1,4 +1,4 @@
-50400
+50450
 AA/1254M
 AAA/12
 AB/215M
@@ -420,6 +420,7 @@ Andorra/2M
 Andorran/15SM
 Andre/2MS
 Andrea/2M
+Andreas/2M
 Andrei/2M
 Andres/2M
 Andretti/21M
@@ -823,6 +824,7 @@ BO/124
 BP/215M
 BPOE/2
 BR/12
+BRICS/2M
 BS/214M
 BSA/12
 BSD/21SM
@@ -8083,7 +8085,7 @@ Prince/12M
 Princeton/2M
 Principe/2M
 Priscilla/2M
-Prius/M
+Prius/1MS
 Private/1
 Procrustean/5M
 Procrustes/2M
@@ -10110,6 +10112,7 @@ UT/21M
 UTC/2
 UV/51M
 Ubangi/2M
+Uber/2M
 Ubuntu/M
 Ucayali/2M
 Uccello/M
@@ -13140,6 +13143,7 @@ autonomic/~5
 autonomous/~5Y
 autonomy/~1M
 autopilot/14SM
+autoplay/14SMDG
 autopsy/~14GDSM
 autosuggestion/1
 autoworker/1MS
@@ -13691,6 +13695,7 @@ batiste/1M
 batman/~14M
 batmen/9
 baton/~14MS
+batshit/1M65
 batsman/~1M
 batsmen/~9
 battalion/~14SM
@@ -14417,11 +14422,13 @@ blatant/~5Y
 blather/41SMDG
 blaze/~14MZGDRS
 blazer/~1M
+blazing/5Y
 blazon/~14MDGS
 bldg/1
 bleach/~541MDRSZG
 bleached/~54U
 bleacher/1M
+bleacherly/j
 bleak/~51TPRY
 bleakness/1M
 blear/54
@@ -14684,7 +14691,7 @@ boink/41GDS
 boisterous/5YP
 boisterousness/1M
 bola/1SM
-bold/~541PTRY
+bold/~541PTRYSDG
 boldface/~145DM
 boldness/1M
 bole/1SM
@@ -14703,13 +14710,14 @@ bolt's
 bolt/~14USGD
 bolthole/1S
 bolus/14MS
-bomb/~145SJZGMDR
+bomb/~145SJZMDR
 bombard/14GDLS
 bombardier/~1MS
 bombardment/~1SM
 bombast/145M
 bombastic/5Q
-bomber/~15M
+bomber/~1SM
+bombing/145SM
 bombproof/514
 bombshell/1SM
 bombsite/1S
@@ -16762,6 +16770,7 @@ choirboy/1MS
 choirmaster/1SM
 choke/~41MZGDRS
 chokecherry/1SM
+chokepoint/1SM
 choker/1M
 cholecystectomy/1
 cholecystitis/1
@@ -20600,6 +20609,7 @@ disdain/~14SMDG
 disdainful/5Y
 disembowel/4SDLG
 disembowelment/1M
+disequilibrate/4SDG
 disfigurement/1SM
 disfranchisement/1M
 disgorgement/1M
@@ -23674,7 +23684,9 @@ finished/~54U
 finisher/~1MS
 finite/~51IY
 fink/~14MDGS
+finless/5
 finned/~54
+fintech/1M
 finny/5
 fir/~1ZGSJMDRH
 fire/~154MS
@@ -29232,7 +29244,8 @@ jaggies/1
 jaguar/~1SM
 jail/~14MDRZGS
 jailbird/1SM
-jailbreak/14SM
+jailbreak/14SMG
+jailbroken/45
 jailer/1M
 jailhouse/~1S
 jalapeno/1MS
@@ -29422,6 +29435,7 @@ jollity/1M
 jolly/~514TGPDRSM
 jolt/41MDRSZG
 jolter/1M
+jones/14SDG
 jonquil/1SM
 josh/~14MDRSZG
 josher/1M
@@ -31781,6 +31795,7 @@ mechanistic/~5
 mechanistically/j
 mechanization/~1M
 mechanize/4DSG
+mechatronics/1M
 med/~1SM
 medal/~14SM
 medalist/~1MS
@@ -32071,14 +32086,14 @@ meteoric/5
 meteorically/j
 meteorite/~1SM
 meteoroid/1SM
-meteorologic/5
+meteorologic/51
 meteorological/~5
 meteorologist/~1SM
 meteorology/~1M
 meter/~14GMD
 metformin/1
 methadone/1M
-methamphetamine/1M
+methamphetamine/1MS
 methane/~1M
 methanol/~1M
 methinks/
@@ -37805,6 +37820,7 @@ preowned/5
 prep/~14MS
 prepackage/4DSG
 prepacked/5
+prepandemic/5
 prepaid/~451
 preparation/~1SM
 preparatory/~5
@@ -39827,6 +39843,9 @@ resistless/5
 resistor/~1MS
 resit/41S
 resitting/14
+reskin/41S
+reskinned/45
+reskinning/451
 resold/4
 resole/4DSG
 resolute/~51PY
@@ -40605,7 +40624,7 @@ safe/~514MYTPRS
 safeguard/~14SMDG
 safekeeping/1M
 safeness/1M
-safety/~14SMY
+safety/~14SMU
 safflower/1MS
 saffron/~154MS
 sag/~14SM
@@ -41150,6 +41169,7 @@ scrapyard/1SM
 scratch/~415GMDS
 scratchcard/1S
 scratched/~54U
+scratcher/1MS
 scratchily/j
 scratchiness/1M
 scratchpad/1S
@@ -45964,7 +45984,7 @@ thralldom/1M
 thrash/~41JMDRSZG
 thrasher/1M
 thrashing/41M
-thread/~14SMDRZG
+thread/~14SMDRZGA
 threadbare/5
 threader/1M
 threadlike/5
@@ -47606,6 +47626,7 @@ unflinching/5Y
 unfollow/4SDG
 unforgettably/j
 unforgivably/j
+unforgiven/51
 unfortunate/~51MS
 unfree/5
 unfriendly/51T
@@ -47701,6 +47722,7 @@ unlucky/~5T
 unmanly/5T
 unmarried/~51
 unmeaning/51
+unmedicated/5
 unmentionable/51MS
 unmentionables/1M
 unmerged/5
@@ -48735,6 +48757,7 @@ war/~14SM
 warble/41MZGDRS
 warbler/~1M
 warbonnet/1SM
+warcraft/1M
 ward/~14AMDGS
 warden/~14MS
 warder/1MS
@@ -50396,3 +50419,4 @@ Xbox/12MS
 eggcorn/1
 easy peasy/5
 un-American/5
+BRICS/
