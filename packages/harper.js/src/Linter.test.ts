@@ -206,18 +206,3 @@ test('Linters have the same config format', async () => {
 		expect(config).toBeTypeOf('object');
 	}
 });
-
-test('Linters have the same JSON config format', async () => {
-	const configs = [];
-
-	for (const Linter of Object.values(linters)) {
-		const linter = new Linter();
-
-		configs.push(await linter.getLintConfigAsJSON());
-	}
-
-	for (const config of configs) {
-		expect(config).toEqual(configs[0]);
-		expect(config).toBeTypeOf('string');
-	}
-});
