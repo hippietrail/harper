@@ -308,6 +308,7 @@ fn lex_catch(_source: &[char]) -> Option<FoundToken> {
 
 #[cfg(test)]
 mod tests {
+    use crate::Punctuation;
     use crate::lexing::lex_plural_digit;
 
     use super::lex_hex_number;
@@ -547,8 +548,8 @@ mod tests {
         assert_eq!(
             lex_token(&source),
             Some(FoundToken {
-                token: TokenKind::Regexish,
-                next_index: 7
+                token: TokenKind::Punctuation(Punctuation::OpenSquare),
+                next_index: 1
             })
         );
     }
