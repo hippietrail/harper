@@ -98,7 +98,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 	test(`${linterName} can make things title case`, async () => {
 		const linter = new Linter();
 
-		const titleCase = await linter.toTitleCase('THIS IS A TEST FOR MAKING TITLES');
+		const titleCase = await linter.toTitleCase('this is a test for making titles');
 
 		expect(titleCase).toBe('This Is a Test for Making Titles');
 	});
