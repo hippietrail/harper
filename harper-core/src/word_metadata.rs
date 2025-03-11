@@ -11,6 +11,10 @@ pub struct WordMetadata {
     pub adverb: Option<AdverbData>,
     pub conjunction: Option<ConjunctionData>,
     pub swear: Option<bool>,
+    /// The dialect this word belongs to.
+    /// If no dialect is defined, it can be assumed that the word is
+    /// valid in all dialects of English.
+    pub dialect: Option<Dialect>,
     /// Whether the word is a [determiner](https://en.wikipedia.org/wiki/English_determiners).
     #[serde(default = "default_false")]
     pub determiner: bool,
@@ -96,6 +100,7 @@ impl WordMetadata {
             adjective: merge!(self.adjective, other.adjective),
             adverb: merge!(self.adverb, other.adverb),
             conjunction: merge!(self.conjunction, other.conjunction),
+            dialect: self.dialect.or(other.dialect),
             swear: self.swear.or(other.swear),
             determiner: self.determiner || other.determiner,
             preposition: self.preposition || other.preposition,
@@ -294,9 +299,9 @@ pub enum Degree {
     Superlative,
 }
 
-// some adjectives are not comparable so don't have -er or -est forms and can't be used with "more" or "most"
-// some adjectives can only be used "attributively" (before a noun); some only predicatively (after "is" etc.)
-// in old grammars words like the articles and determiners are classified as adjectives but behave differently
+// Some adjectives are not comparable so don't have -er or -est forms and can't be used with "more" or "most".
+// Some adjectives can only be used "attributively" (before a noun); some only predicatively (after "is" etc.).
+// In old grammars words like the articles and determiners are classified as adjectives but behave differently.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
 pub struct AdjectiveData {
     pub degree: Option<Degree>,
@@ -311,8 +316,8 @@ impl AdjectiveData {
     }
 }
 
-// adverb can be a "junk drawer" category for words which don't fit the other major categories
-// the typical adverbs are "adverbs of mannder", those derived from adjectives in -ly
+// Adverb can be a "junk drawer" category for words which don't fit the other major categories.
+// The typical adverbs are "adverbs of manner", those derived from adjectives in -ly
 // other adverbs (time, place, etc) should probably not be considered adverbs for Harper's purposes
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash, Default)]
 pub struct AdverbData {}
@@ -332,4 +337,13 @@ impl ConjunctionData {
     pub fn or(&self, _other: &Self) -> Self {
         Self {}
     }
+}
+
+/// A regional dialect.
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq, PartialOrd, Eq, Hash)]
+pub enum Dialect {
+    American,
+    Canadian,
+    Australian,
+    British,
 }
