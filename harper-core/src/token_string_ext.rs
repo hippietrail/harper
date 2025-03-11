@@ -16,6 +16,19 @@ macro_rules! create_decl_for {
             fn [<iter_ $thing s>](&self) -> impl Iterator<Item = Token> + '_;
         }
     };
+    ($thing:ident, $plural:ident) => {
+        paste! {
+            fn [< first_ $thing >](&self) -> Option<Token>;
+
+            fn [< last_ $thing >](&self) -> Option<Token>;
+
+            fn [< last_ $thing _index>](&self) -> Option<usize>;
+
+            fn [<iter_ $thing _indices>](&self) -> impl Iterator<Item = usize> + '_;
+
+            fn [<iter_ $plural>](&self) -> impl Iterator<Item = Token> + '_;
+        }
+    };
 }
 
 macro_rules! create_fns_for {
@@ -45,6 +58,32 @@ macro_rules! create_fns_for {
             }
         }
     };
+    ($thing:ident, $plural:ident) => {
+        paste! {
+            fn [< first_ $thing >](&self) -> Option<Token> {
+                self.iter().find(|v| v.kind.[<is_ $thing>]()).copied()
+            }
+
+            fn [< last_ $thing >](&self) -> Option<Token> {
+                self.iter().rev().find(|v| v.kind.[<is_ $thing>]()).copied()
+            }
+
+            fn [< last_ $thing _index>](&self) -> Option<usize> {
+                self.iter().rev().position(|v| v.kind.[<is_ $thing>]()).map(|i| self.len() - i - 1)
+            }
+
+            fn [<iter_ $thing _indices>](&self) -> impl Iterator<Item = usize> + '_ {
+                self.iter()
+                    .enumerate()
+                    .filter(|(_, t)| t.kind.[<is_ $thing>]())
+                    .map(|(i, _)| i)
+            }
+
+            fn [<iter_ $plural>](&self) -> impl Iterator<Item = Token> + '_ {
+                self.[<iter_ $thing _indices>]().map(|i| self[i])
+            }
+        }
+    };
 }
 
 /// Extension methods for [`Token`] sequences that make them easier to wrangle and query.
@@ -64,14 +103,14 @@ pub trait TokenStringExt {
     create_decl_for!(quote);
     create_decl_for!(number);
     create_decl_for!(at);
-    create_decl_for!(ellipsis);
+    create_decl_for!(ellipsis, ellipses);
     create_decl_for!(hostname);
     create_decl_for!(unlintable);
     create_decl_for!(sentence_terminator);
     create_decl_for!(paragraph_break);
     create_decl_for!(chunk_terminator);
     create_decl_for!(punctuation);
-    create_decl_for!(currency);
+    create_decl_for!(currency, currencies);
     create_decl_for!(likely_homograph);
     create_decl_for!(comma);
 
@@ -109,12 +148,12 @@ impl TokenStringExt for [Token] {
     create_fns_for!(number);
     create_fns_for!(at);
     create_fns_for!(punctuation);
-    create_fns_for!(ellipsis);
+    create_fns_for!(ellipsis, ellipses);
     create_fns_for!(unlintable);
     create_fns_for!(sentence_terminator);
     create_fns_for!(paragraph_break);
     create_fns_for!(chunk_terminator);
-    create_fns_for!(currency);
+    create_fns_for!(currency, currencies);
     create_fns_for!(likely_homograph);
     create_fns_for!(comma);
 

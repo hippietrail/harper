@@ -558,6 +558,29 @@ macro_rules! create_fns_on_doc {
             }
         }
     };
+    ($thing:ident, $plural:ident) => {
+        paste! {
+            fn [< first_ $thing >](&self) -> Option<Token> {
+                self.tokens.[< first_ $thing >]()
+            }
+
+            fn [< last_ $thing >](&self) -> Option<Token> {
+                self.tokens.[< last_ $thing >]()
+            }
+
+            fn [< last_ $thing _index>](&self) -> Option<usize> {
+                self.tokens.[< last_ $thing _index >]()
+            }
+
+            fn [<iter_ $thing _indices>](&self) -> impl Iterator<Item = usize> + '_ {
+                self.tokens.[< iter_ $thing _indices >]()
+            }
+
+            fn [<iter_ $plural>](&self) -> impl Iterator<Item = Token> + '_ {
+                self.tokens.[< iter_ $plural >]()
+            }
+        }
+    };
 }
 
 impl TokenStringExt for Document {
@@ -571,13 +594,13 @@ impl TokenStringExt for Document {
     create_fns_on_doc!(quote);
     create_fns_on_doc!(number);
     create_fns_on_doc!(at);
-    create_fns_on_doc!(ellipsis);
+    create_fns_on_doc!(ellipsis, ellipses);
     create_fns_on_doc!(unlintable);
     create_fns_on_doc!(sentence_terminator);
     create_fns_on_doc!(paragraph_break);
     create_fns_on_doc!(chunk_terminator);
     create_fns_on_doc!(punctuation);
-    create_fns_on_doc!(currency);
+    create_fns_on_doc!(currency, currencies);
     create_fns_on_doc!(likely_homograph);
     create_fns_on_doc!(comma);
 
