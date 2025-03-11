@@ -198,10 +198,11 @@ impl Parser for Markdown {
                 pulldown_cmark::Event::End(pulldown_cmark::TagEnd::Paragraph)
                 | pulldown_cmark::Event::End(pulldown_cmark::TagEnd::Item)
                 | pulldown_cmark::Event::End(pulldown_cmark::TagEnd::Heading(_))
+                | pulldown_cmark::Event::End(pulldown_cmark::TagEnd::CodeBlock)
                 | pulldown_cmark::Event::End(pulldown_cmark::TagEnd::TableCell) => {
                     tokens.push(Token {
                         span: Span::new_with_len(traversed_chars, 0),
-                        kind: TokenKind::Newline(2),
+                        kind: TokenKind::ParagraphBreak,
                     });
                     stack.pop();
                 }
@@ -276,7 +277,7 @@ impl Parser for Markdown {
         if matches!(
             tokens.last(),
             Some(Token {
-                kind: TokenKind::Newline(_),
+                kind: TokenKind::Newline(_) | TokenKind::ParagraphBreak,
                 ..
             })
         ) && source.last() != Some(&'\n')
@@ -502,5 +503,36 @@ mod tests {
                 TokenKind::Word(_)
             ]
         ));
+    }
+
+    /// Test that code blocks are immediately followed by a paragraph break.
+    #[test]
+    fn issue_880() {
+        let source = r#"
+Paragraph.
+
+```
+Code block
+```
+Paragraph.
+        "#;
+        let parser = Markdown::new(MarkdownOptions::default());
+        let tokens = parser.parse_str(source);
+        let token_kinds = tokens.iter().map(|t| t.kind).collect::<Vec<_>>();
+
+        dbg!(&token_kinds);
+
+        assert!(matches!(
+            token_kinds.as_slice(),
+            &[
+                TokenKind::Word(_),
+                TokenKind::Punctuation(_),
+                TokenKind::ParagraphBreak,
+                TokenKind::Unlintable,
+                TokenKind::ParagraphBreak,
+                TokenKind::Word(_),
+                TokenKind::Punctuation(_),
+            ]
+        ))
     }
 }
