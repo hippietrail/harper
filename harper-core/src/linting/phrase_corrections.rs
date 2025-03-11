@@ -1,5 +1,4 @@
-use super::{LintGroup, MapPhraseLinter, PatternLinterCache};
-use std::num::NonZero;
+use super::{LintGroup, MapPhraseLinter};
 
 /// Produce a [`LintGroup`] that looks for errors in common phrases.
 /// Comes pre-configured with the recommended default settings.
@@ -11,17 +10,16 @@ pub fn lint_group() -> LintGroup {
             $($name:expr => ($input:expr, $corrections:expr, $hint:expr, $description:expr)),+ $(,)?
         }) => {
             $(
-                $group.add(
+                $group.add_pattern_linter(
                     $name,
-                    Box::new(PatternLinterCache::new(
+                    Box::new(
                         MapPhraseLinter::new_exact_phrases(
                             $input,
                             $corrections,
                             $hint,
                             $description
                         ),
-                        NonZero::new(1000).unwrap()
-                    )),
+                    ),
                 );
             )+
         };
@@ -639,7 +637,7 @@ pub fn lint_group() -> LintGroup {
             "Use `haphazard` for randomness or lack of organization.",
             "Corrects the eggcorn `half hazard` to `haphazard`, which properly means lacking organization or being random."
         ),
-         "DayAndAge" => (
+        "DayAndAge" => (
             ["day in age"],
             ["day and age"],
             "Use `day and age` for referring to the present time.",
@@ -651,6 +649,78 @@ pub fn lint_group() -> LintGroup {
             "Use `nerve-racking` for something that causes anxiety or tension.",
             "Corrects common misspellings and missing hyphen in `nerve-racking`."
         ),
+        "InDetail" => (
+            ["in details"],
+            ["in detail"],
+            "Use singular `in detail` for referring to a detailed description.",
+            "Correct unidiomatic plural `in details` to `in detail`."
+        ),
+        "InMoreDetail" => (
+            ["in more details"],
+            ["in more detail"],
+            "Use singular `in more detail` for referring to a detailed description.",
+            "Correct unidiomatic plural `in more details` to `in more detail`."
+        ),
+        "TickingTimeClock" => (
+            ["ticking time clock"],
+            ["ticking time bomb", "ticking clock"],
+            "Use `ticking time bomb` for disastrous consequences, otherwise avoid redundancy with just `ticking clock`.",
+            "Corrects `ticking time clock` to `ticking time bomb` for idiomatic urgency or `ticking clock` otherwise."
+        ),
+        "InAndOfItself" => (
+            ["in of itself"],
+            ["in and of itself"],
+            "Use `in and of itself` for referring to something's inherent or intrinsic quality.",
+            "Corrects nonstandard `in of itself` to standard `in and of itself`."
+        ),
+        "ALotWorst" => (
+            ["a lot worst", "alot worst"],
+            ["a lot worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `a lot worst` to `a lot worse` for proper comparative usage."
+        ),
+        "FarWorse" => (
+            ["far worst"],
+            ["far worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `far worst` to `far worse` for proper comparative usage."
+        ),
+        "MuchWorse" => (
+            ["much worst"],
+            ["much worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `much worst` to `much worse` for proper comparative usage."
+        ),
+        "TurnForTheWorse" => (
+            ["turn for the worst"],
+            ["turn for the worse"],
+            "Use `turn for the worse` for a negative change in circumstances. Avoid the incorrect `turn for the worst`.",
+            "Corrects the nonstandard `turn for the worst` to the idiomatic `turn for the worse`, used to describe a situation that has deteriorated."
+        ),
+        "WorseAndWorse" => (
+            ["worst and worst", "worse and worst", "worst and worse"],
+            ["worse and worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `worst and worst` to `worse and worse` for proper comparative usage."
+        ),
+        "WorseThan" => (
+            ["worst than"],
+            ["worse than"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `worst than` to `worse than` for proper comparative usage."
+        ),
+        "WorstEver" => (
+            ["worse ever"],
+            ["worst ever"],
+            "Use `worst` for the extreme case. (`Worse` is for comparing)",
+            "Corrects `worse ever` to `worst ever` for proper comparative usage."
+        ),
+        "Monumentous" => (
+            ["monumentous"],
+            ["momentous", "monumental"],
+            "Retain `monumentous` for jocular effect. Otherwise `momentous` indicates great signifcance while `monumental` indicates imposing size.",
+            "Advises using `momentous` or `monumental` instead of `monumentous` for serious usage."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -660,7 +730,9 @@ pub fn lint_group() -> LintGroup {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
+    use crate::linting::tests::{
+        assert_lint_count, assert_second_suggestion_result, assert_suggestion_result,
+    };
 
     use super::lint_group;
 
@@ -941,6 +1013,187 @@ mod tests {
             "It's nerve racking to think about it because I have code inside the callback that resolves the member and somehow I feel like it's so ..",
             lint_group(),
             "It's nerve-racking to think about it because I have code inside the callback that resolves the member and somehow I feel like it's so ..",
+        );
+    }
+
+    #[test]
+    fn in_detail_atomic() {
+        assert_suggestion_result("in details", lint_group(), "in detail");
+    }
+
+    #[test]
+    fn in_more_detail_atomic() {
+        assert_suggestion_result("in more details", lint_group(), "in more detail");
+    }
+
+    #[test]
+    fn in_detail_real_world() {
+        assert_suggestion_result(
+            "c++ - who can tell me \"*this pointer\" in details?",
+            lint_group(),
+            "c++ - who can tell me \"*this pointer\" in detail?",
+        )
+    }
+
+    #[test]
+    fn suggests_ticking_time_bomb() {
+        assert_suggestion_result(
+            "One element that can help up the stakes (and tension!) is a “ticking time clock.”",
+            lint_group(),
+            "One element that can help up the stakes (and tension!) is a “ticking time bomb.”",
+        );
+    }
+
+    #[test]
+    fn in_more_detail_real_world() {
+        assert_suggestion_result(
+            "Document the interface in more details · Issue #3 · owlbarn ...",
+            lint_group(),
+            "Document the interface in more detail · Issue #3 · owlbarn ...",
+        );
+    }
+
+    #[test]
+    fn detect_atomic_in_of_itself() {
+        assert_suggestion_result("in of itself", lint_group(), "in and of itself");
+    }
+
+    #[test]
+    fn correct_real_world_in_of_itself() {
+        assert_suggestion_result(
+            "This is not entirely unexpected in of itself, as Git and GitHub Desktop both generally prove fairly bad at delineating context intelligently...",
+            lint_group(),
+            "This is not entirely unexpected in and of itself, as Git and GitHub Desktop both generally prove fairly bad at delineating context intelligently...",
+        )
+    }
+
+    #[test]
+    fn detect_a_lot_worse_atomic() {
+        assert_suggestion_result("a lot worst", lint_group(), "a lot worse");
+    }
+
+    #[test]
+    fn detect_a_lot_worse_real_world() {
+        assert_suggestion_result(
+            "On a debug build, it's even a lot worst.",
+            lint_group(),
+            "On a debug build, it's even a lot worse.",
+        );
+    }
+
+    #[test]
+    fn suggests_ticking_clock() {
+        assert_second_suggestion_result(
+            "The opportunity itself has a ticking time clock as all great opportunities do.",
+            lint_group(),
+            "The opportunity itself has a ticking clock as all great opportunities do.",
+        );
+    }
+
+    #[test]
+    fn detect_far_worse_atomic() {
+        assert_suggestion_result("far worst", lint_group(), "far worse");
+    }
+
+    #[test]
+    fn detect_far_worse_real_world() {
+        assert_suggestion_result(
+            "I mainly use Firefox (personal preference) and have noticed it has far worst performance than Chrome",
+            lint_group(),
+            "I mainly use Firefox (personal preference) and have noticed it has far worse performance than Chrome",
+        );
+    }
+
+    #[test]
+    fn detect_much_worse_atomic() {
+        assert_suggestion_result("much worst", lint_group(), "much worse");
+    }
+
+    #[test]
+    fn detect_much_worse_real_world() {
+        assert_suggestion_result(
+            "the generated image quality is much worst (actually nearly broken)",
+            lint_group(),
+            "the generated image quality is much worse (actually nearly broken)",
+        );
+    }
+
+    #[test]
+    fn detect_turn_for_the_worse_atomic() {
+        assert_suggestion_result("turn for the worst", lint_group(), "turn for the worse");
+    }
+
+    #[test]
+    fn detect_turn_for_the_worse_real_world() {
+        assert_suggestion_result(
+            "Very surprised to see this repo take such a turn for the worst.",
+            lint_group(),
+            "Very surprised to see this repo take such a turn for the worse.",
+        );
+    }
+
+    #[test]
+    fn detect_worst_and_worst_atomic() {
+        assert_suggestion_result("worst and worst", lint_group(), "worse and worse");
+    }
+
+    #[test]
+    fn detect_worst_and_worst_real_world() {
+        assert_suggestion_result(
+            "This control-L trick does not work for me. The padding is getting worst and worst.",
+            lint_group(),
+            "This control-L trick does not work for me. The padding is getting worse and worse.",
+        );
+    }
+
+    #[test]
+    fn detect_worse_and_worst_real_world() {
+        assert_suggestion_result(
+            "This progressively got worse and worst to the point that the machine (LEAD 1010) stopped moving alltogether.",
+            lint_group(),
+            "This progressively got worse and worse to the point that the machine (LEAD 1010) stopped moving alltogether.",
+        );
+    }
+
+    #[test]
+    fn detect_worse_than_atomic() {
+        assert_suggestion_result("worst than", lint_group(), "worse than");
+    }
+
+    #[test]
+    fn detect_worse_than_real_world() {
+        assert_suggestion_result(
+            "Project real image - inversion quality is worst than in StyleGAN2",
+            lint_group(),
+            "Project real image - inversion quality is worse than in StyleGAN2",
+        );
+    }
+
+    #[test]
+    fn detect_worst_ever_atomic() {
+        assert_suggestion_result("worse ever", lint_group(), "worst ever");
+    }
+
+    #[test]
+    fn detect_worst_ever_real_world() {
+        assert_suggestion_result(
+            "The Bcl package family is one of the worse ever published by Microsoft.",
+            lint_group(),
+            "The Bcl package family is one of the worst ever published by Microsoft.",
+        );
+    }
+
+    #[test]
+    fn detect_monumentous_atomic() {
+        assert_suggestion_result("monumentous", lint_group(), "momentous");
+    }
+
+    #[test]
+    fn detect_monumentous_real_world() {
+        assert_suggestion_result(
+            "I think that would be a monumentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
+            lint_group(),
+            "I think that would be a momentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
         );
     }
 }
