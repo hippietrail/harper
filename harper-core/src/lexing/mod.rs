@@ -8,7 +8,7 @@ use url::lex_url;
 
 use self::email_address::lex_email_address;
 use crate::char_ext::CharExt;
-use crate::punctuation::{Punctuation, Quote};
+use crate::punctuation::{Punctuation, Quote, AsianComma};
 use crate::{Number, TokenKind};
 
 #[derive(Debug)]

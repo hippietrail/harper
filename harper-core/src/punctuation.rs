@@ -2,6 +2,7 @@ use is_macro::Is;
 use serde::{Deserialize, Serialize};
 
 use crate::Currency;
+use crate::AsianComma;
 
 #[derive(
     Debug, Is, Clone, Copy, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Default, Hash,
@@ -72,6 +73,7 @@ pub enum Punctuation {
     /// `+`
     Plus,
     Currency(Currency),
+    AsianComma(AsianComma),
     /// `|`
     Pipe,
     /// `_`
@@ -97,6 +99,8 @@ impl Punctuation {
             ':' => Punctuation::Colon,
             ';' => Punctuation::Semicolon,
             ',' => Punctuation::Comma,
+            '、' => Punctuation::AsianComma(AsianComma::from_char(c)?),
+            '，' => Punctuation::AsianComma(AsianComma::from_char(c)?),
             '-' => Punctuation::Hyphen,
             '[' => Punctuation::OpenSquare,
             ']' => Punctuation::CloseSquare,

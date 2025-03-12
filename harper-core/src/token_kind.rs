@@ -1,7 +1,7 @@
 use is_macro::Is;
 use serde::{Deserialize, Serialize};
 
-use crate::{ConjunctionData, NounData, Number, PronounData, Punctuation, Quote, WordMetadata};
+use crate::{ConjunctionData, NounData, Number, PronounData, Punctuation, Quote, AsianComma, WordMetadata};
 
 #[derive(
     Debug, Is, Clone, Copy, Serialize, Deserialize, Default, PartialOrd, Hash, Eq, PartialEq,
@@ -131,7 +131,7 @@ impl TokenKind {
             TokenKind::Punctuation(punct) => {
                 matches!(
                     punct,
-                    Punctuation::Comma | Punctuation::Quote { .. } | Punctuation::Colon
+                    Punctuation::Comma | Punctuation::AsianComma(AsianComma) | Punctuation::Quote { .. } | Punctuation::Colon
                 )
             }
             _ => false,

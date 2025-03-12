@@ -4,6 +4,7 @@
 mod char_ext;
 mod char_string;
 mod currency;
+mod commas;
 mod document;
 mod edit_distance;
 mod fat_token;
@@ -30,6 +31,7 @@ use std::collections::VecDeque;
 
 pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
+pub use commas::AsianComma;
 pub use document::Document;
 pub use fat_token::FatToken;
 pub use ignored_lints::IgnoredLints;
