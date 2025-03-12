@@ -24,15 +24,16 @@ pub struct Mask {
 
 impl FromIterator<Span> for Mask {
     fn from_iter<T: IntoIterator<Item = Span>>(iter: T) -> Self {
-        let spans = iter.into_iter().sorted_by_key(|span| span.start);
+        let allowed = iter
+            .into_iter()
+            .sorted_by_key(|span| span.start)
+            .collect_vec();
         assert!(
-            spans.clone().tuple_windows().all(|(a, b)| b.start >= a.end),
+            allowed.is_sorted_by(|a, b| a.end <= b.start),
             "Masker elements cannot overlap and must be sorted!"
         );
 
-        Self {
-            allowed: spans.collect(),
-        }
+        Self { allowed }
     }
 }
 
