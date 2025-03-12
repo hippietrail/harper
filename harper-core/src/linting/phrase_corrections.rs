@@ -721,6 +721,12 @@ pub fn lint_group() -> LintGroup {
             "Retain `monumentous` for jocular effect. Otherwise `momentous` indicates great signifcance while `monumental` indicates imposing size.",
             "Advises using `momentous` or `monumental` instead of `monumentous` for serious usage."
         ),
+        "InAnyWay" => (
+            ["in anyway"],
+            ["in any way"],
+            "Use `in any way` for emphasizing a point.",
+            "Corrects ungrammatical `in anyway` to `in any way`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1194,6 +1200,20 @@ mod tests {
             "I think that would be a monumentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
             lint_group(),
             "I think that would be a momentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
+        );
+    }
+
+    #[test]
+    fn detect_in_anyway_atomic() {
+        assert_suggestion_result("in anyway", lint_group(), "in any way");
+    }
+
+    #[test]
+    fn detect_in_anyway_real_world() {
+        assert_suggestion_result(
+            "The names should not affect your application in anyway and you can override extension names.",
+            lint_group(),
+            "The names should not affect your application in any way and you can override extension names.",
         );
     }
 }
