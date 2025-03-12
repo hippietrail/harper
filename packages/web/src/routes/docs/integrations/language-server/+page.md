@@ -137,7 +137,7 @@ We _do_ take pull requests or issues for adding words to the static dictionary. 
 
 | Config         | Type     | Default Value | Description                                                     |
 | -------------- | -------- | ------------- | --------------------------------------------------------------- |
-| `userDictPath` | `string` | `""`          | Set the directory where the user dictionary is located          |
+| `userDictPath` | `string` | `""`          | Set the file path where the user dictionary is located          |
 | `fileDictPath` | `string` | `""`          | Set the directory where the file-local dictionaries are located |
 
 ### Linters
