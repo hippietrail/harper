@@ -1205,11 +1205,7 @@ mod tests {
 
     #[test]
     fn detect_as_early_back_as() {
-        assert_suggestion_result(
-            "as early back as",
-            lint_group(),
-            "as far back as",
-        );
+        assert_suggestion_result("as early back as", lint_group(), "as far back as");
     }
 
     #[test]
