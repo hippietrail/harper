@@ -387,6 +387,7 @@ Amparo/M
 Ampere/M
 Amritsar/2M
 Amsterdam/2M
+Amstrad/12MS
 Amtrak/2M
 Amundsen/2M
 Amur/2M
@@ -4002,6 +4003,7 @@ Greeley/2M
 Green/251SM
 Greene/2M
 Greenland/2M
+Greenlander/1MS
 Greenlandic/52
 Greenpeace/2M
 Greensboro/2M
@@ -4868,6 +4870,7 @@ JCS/2
 JD/12
 JDM
 JFK/214M
+JIT/1MS
 JP/12
 JPEG/214
 JV/1
@@ -6503,6 +6506,7 @@ McKinley/2M
 McKinney/2M
 McKnight/2M
 McLaughlin/2M
+McLaren/12MS
 McLean/2M
 McLeod/21M
 McLuhan/2M
@@ -8616,6 +8620,7 @@ Ru/MH
 Rubaiyat/M
 Rubbermaid/M
 Ruben/2SM
+Rubenesque/5
 Rubens/2M
 Rubicon/21MS
 Rubik/2M
@@ -11585,7 +11590,7 @@ aggravation/1M
 aggregate/154MGNDSX
 aggregation/1M
 aggregator/1SM
-aggression/1M
+aggression/1MS
 aggressive/51PY
 aggressiveness/1M
 aggressor/1SM
@@ -21210,6 +21215,7 @@ drinkable/51U
 drinker/1M
 drip/41MS
 dripped/4
+dripper/1MS
 dripping/14SM
 drippy/5TR
 drivability/1M
@@ -21219,6 +21225,7 @@ driveler/1M
 driven/45
 driver/1M
 driveshaft/1SM
+drivetrain/1MS
 driveway/1MS
 drizzle/41MGDS
 drizzly/5
@@ -21690,6 +21697,7 @@ egghead/1SM
 eggnog/1M
 eggplant/1MS
 eggshell/15SM
+eggy/5ST
 eglantine/1SM
 ego/1SM
 egocentric/51MSQ
@@ -21898,7 +21906,7 @@ embattled/54
 embed/41S
 embedded/45
 embedding/14
-embellish/4LGDS
+embellish/4LGDSR
 embellishment/1SM
 ember/15SM
 embezzle/4ZGLDRS
@@ -24065,6 +24073,7 @@ flyblown/5
 flyby/1M
 flybys/1
 flycatcher/1MS
+flyer/1MS
 flying/541M
 flyleaf/1M
 flyleaves/1
@@ -24506,6 +24515,7 @@ freeborn/5
 freedman/1M
 freedmen/9
 freedom/1SM
+freefall/1M
 freehand/54
 freehold/514ZMRS
 freeholder/1M
@@ -25643,6 +25653,7 @@ gout/14M
 gouty/5TR
 gov/1
 govern/41DGSBL
+governability/1MU
 governable/5U
 governance/1M
 governed/4U
@@ -27842,6 +27853,7 @@ illustrator/1SM
 illustrious/5PY
 illustriousness/1M
 image/14DSMG
+imager/1MS
 imagery/1M
 imaginable/5U
 imaginably/Uj
@@ -28870,6 +28882,7 @@ interpretation/1AMS
 interpretative/5
 interpreted/45U
 interpreter/1MS
+interprocess/5
 interracial/5
 interred/54E
 interregnum/1SM
@@ -31436,6 +31449,7 @@ manosphere/1M
 manpower/1M
 manque/5
 mansard/51MS
+manscape/14MSDG
 manse/41SXMN
 manservant/1M
 mansion/1M
@@ -31940,7 +31954,7 @@ mention/14GSMD
 mentioned/4U
 mentor/14MDSG
 mentorship/1
-menu/14MS
+menu/14MSG
 meow/14MDSG
 mercantile/5
 mercantilism/1M
@@ -33103,6 +33117,7 @@ multi/1
 multicellular/51
 multichannel/5
 multicolored/5
+multicore/5
 multicultural/5
 multiculturalism/1M
 multidimensional/51
@@ -34167,8 +34182,8 @@ norm/14MS
 normal/51MYS
 normalcy/1M
 normality/1M
-normalization/12M
-normalize/4DSG
+normalization/12MA
+normalize/4DSGA
 normative/51
 normie/1SM
 north/154ZMR
@@ -35690,7 +35705,7 @@ parallel/514SGMD
 paralleled/4U
 parallelism/1MS
 parallelization/1
-parallelize/4DSG
+parallelize/4DSGB
 parallelogram/1SM
 paralyses/14
 paralysis/1M
@@ -37578,6 +37593,7 @@ pound/14KDSG
 poundage/14M
 pounder/1MS
 pounding/415SM
+
 pour/41GDSJ
 pout/41ZGMDRS
 pouter/1M
@@ -37591,6 +37607,7 @@ powerful/5Y
 powerhouse/1SM
 powerless/5PY
 powerlessness/1M
+powertrain/1MS
 powwow/14SGMD
 pox/14MS
 pp/1
@@ -43589,7 +43606,7 @@ sprog/14S
 sprout/14GSMD
 spruce/154DRSPMYTG
 spruceness/1M
-sprung/45
+sprung/45U
 spry/5RYT
 spryness/1M
 spud/142MS
@@ -43682,7 +43699,7 @@ stabber/1MS
 stabbing/514MS
 stability/1IM
 stabilization/1CM
-stabilize/4CDSG
+stabilize/4CDSGA
 stabilizer/1MS
 stable/145DRSMTG
 stableman/1M
@@ -44395,6 +44412,7 @@ subdue/4DSG
 subeditor/1S
 subfamily/1SM
 subfield/1MS
+subfolder/1MS
 subframe/1MS
 subfreezing/5
 subgroup/14MS
@@ -44934,6 +44952,7 @@ swap/41MS
 swapped/4
 swapping/145
 sward/14SM
+swarf/1M
 swarm/14GSMD
 swarthy/51TR
 swash/145GMDS
@@ -47032,6 +47051,8 @@ ttys
 tub/14SZGMDR
 tuba/1MS
 tubal/5
+tubbed/5
+tubbing/14M5
 tubby/51TR
 tube/14MS
 tubeless/5M
@@ -48582,6 +48603,7 @@ voyageur/1SM
 voyeur/1MS
 voyeurism/1M
 voyeuristic/5
+vtable/1MS
 vulcanization/1M
 vulcanize/4GDS
 vulgar/51RYT
@@ -48875,6 +48897,7 @@ wayfaring/514SM
 waylaid/4
 waylay/4RSZG
 waylayer/1M
+waypoint/1MS
 wayside/15SM
 wayward/5PY
 waywardness/1M
