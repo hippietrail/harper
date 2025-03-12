@@ -80,7 +80,7 @@ If none of the previous installation methods are available to you, we also provi
 
 ### User Dictionary
 
-Each user of `harper-ls` has their own dictionary, which by default, is located in the following directories on each operating system:
+Each user of `harper-ls` has their own dictionary, which by default, is located in the following paths on each operating system:
 
 | Operating System |                                                                                Location |
 | :--------------- | --------------------------------------------------------------------------------------: |
