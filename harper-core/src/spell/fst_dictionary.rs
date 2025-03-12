@@ -137,11 +137,11 @@ impl Dictionary for FstDictionary {
         self.full_dict.contains_word_str(word)
     }
 
-    fn get_word_metadata(&self, word: &[char]) -> Option<WordMetadata> {
+    fn get_word_metadata(&self, word: &[char]) -> Option<&WordMetadata> {
         self.full_dict.get_word_metadata(word)
     }
 
-    fn get_word_metadata_str(&self, word: &str) -> Option<WordMetadata> {
+    fn get_word_metadata_str(&self, word: &str) -> Option<&WordMetadata> {
         self.full_dict.get_word_metadata_str(word)
     }
 
@@ -181,7 +181,7 @@ impl Dictionary for FstDictionary {
             merged.push(FuzzyMatchResult {
                 word,
                 edit_distance,
-                metadata: *metadata,
+                metadata,
             })
         }
 

@@ -15,7 +15,7 @@ impl PatternToken {
         if token.kind.is_word() {
             Self {
                 kind: token.kind.with_default_data(),
-                content: Some(document.get_span_content(token.span).into()),
+                content: Some(document.get_span_content(&token.span).into()),
             }
         } else {
             Self {
@@ -250,7 +250,7 @@ impl Linter for Matcher {
                         break;
                     };
 
-                    let t_pattern = PatternToken::from_token(token, document);
+                    let t_pattern = PatternToken::from_token(token.clone(), document);
 
                     if t_pattern != *pattern {
                         break;

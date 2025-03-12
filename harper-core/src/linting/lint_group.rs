@@ -379,7 +379,7 @@ impl Linter for LintGroup {
                 continue;
             };
 
-            let chunk_chars = document.get_span_content(chunk_span);
+            let chunk_chars = document.get_span_content(&chunk_span);
             let config_hash = self.hasher_builder.hash_one(&self.config);
             let key = (chunk_chars.into(), config_hash);
 

@@ -17,7 +17,7 @@ mod mutable_dictionary;
 pub struct FuzzyMatchResult<'a> {
     pub word: &'a [char],
     pub edit_distance: u8,
-    pub metadata: WordMetadata,
+    pub metadata: &'a WordMetadata,
 }
 
 impl PartialOrd for FuzzyMatchResult<'_> {

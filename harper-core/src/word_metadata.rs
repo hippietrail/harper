@@ -2,7 +2,7 @@ use is_macro::Is;
 use paste::paste;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Default, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Hash)]
+#[derive(Debug, Default, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Hash)]
 pub struct WordMetadata {
     pub noun: Option<NounData>,
     pub pronoun: Option<PronounData>,

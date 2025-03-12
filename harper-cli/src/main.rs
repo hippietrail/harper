@@ -334,7 +334,7 @@ fn main() -> anyhow::Result<()> {
             let mut words = HashMap::new();
 
             for word in doc.iter_words() {
-                let chars = doc.get_span_content(word.span);
+                let chars = doc.get_span_content(&word.span);
 
                 words
                     .entry(chars.to_lower())

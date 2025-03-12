@@ -28,7 +28,7 @@ impl PatternLinter for ToHope {
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        let offending_word = matched_tokens[2];
+        let offending_word = &matched_tokens[2];
         let word_chars = offending_word.span.get_content(source);
 
         Some(Lint {

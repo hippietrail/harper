@@ -56,7 +56,7 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
         let mut lints = Vec::new();
 
         for word in document.iter_words() {
-            let word_chars = document.get_span_content(word.span);
+            let word_chars = document.get_span_content(&word.span);
             if self.dictionary.contains_exact_word(word_chars)
                 || self.dictionary.contains_exact_word(&word_chars.to_lower())
             {
@@ -91,7 +91,7 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
             } else {
                 format!(
                     "Did you mean to spell “{}” this way?",
-                    document.get_span_content_str(word.span)
+                    document.get_span_content_str(&word.span)
                 )
             };
 

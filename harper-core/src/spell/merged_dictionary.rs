@@ -10,6 +10,9 @@ use crate::{CharString, WordMetadata};
 
 /// A simple wrapper over [`Dictionary`] that allows
 /// one to merge multiple dictionaries without copying.
+///
+/// In cases where more than one dictionary contains a word, data in the first
+/// dictionary inserted will be returned.
 #[derive(Clone)]
 pub struct MergedDictionary {
     children: Vec<Arc<dyn Dictionary>>,
@@ -90,22 +93,14 @@ impl Dictionary for MergedDictionary {
         false
     }
 
-    fn get_word_metadata(&self, word: &[char]) -> Option<WordMetadata> {
-        let mut found_anything = false;
-        let mut found_metadata = WordMetadata::default();
-
+    fn get_word_metadata(&self, word: &[char]) -> Option<&WordMetadata> {
         for child in &self.children {
             if let Some(found_item) = child.get_word_metadata(word) {
-                found_metadata.append(&found_item);
-                found_anything = true;
+                return Some(found_item);
             }
         }
 
-        if found_anything {
-            Some(found_metadata)
-        } else {
-            None
-        }
+        None
     }
 
     fn words_iter(&self) -> Box<dyn Iterator<Item = &'_ [char]> + Send + '_> {
@@ -130,7 +125,7 @@ impl Dictionary for MergedDictionary {
         self.contains_word(&chars)
     }
 
-    fn get_word_metadata_str(&self, word: &str) -> Option<WordMetadata> {
+    fn get_word_metadata_str(&self, word: &str) -> Option<&WordMetadata> {
         let chars: CharString = word.chars().collect();
         self.get_word_metadata(&chars)
     }

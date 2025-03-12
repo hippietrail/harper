@@ -53,7 +53,7 @@ impl AttributeList {
                     if let Some(val) = new_words.get_mut(&replaced) {
                         val.append(&expansion.adds_metadata);
                     } else {
-                        new_words.insert(replaced, expansion.adds_metadata);
+                        new_words.insert(replaced, expansion.adds_metadata.clone());
                     }
                 }
             }

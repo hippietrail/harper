@@ -163,11 +163,11 @@ impl Default for MutableDictionary {
 }
 
 impl Dictionary for MutableDictionary {
-    fn get_word_metadata(&self, word: &[char]) -> Option<WordMetadata> {
+    fn get_word_metadata(&self, word: &[char]) -> Option<&WordMetadata> {
         let normalized = seq_to_normalized(word);
         let correct_caps = self.get_correct_capitalization_of(&normalized)?;
 
-        self.word_map.get(correct_caps).cloned()
+        self.word_map.get(correct_caps)
     }
 
     fn contains_word(&self, word: &[char]) -> bool {
@@ -182,7 +182,7 @@ impl Dictionary for MutableDictionary {
         self.contains_word(&chars)
     }
 
-    fn get_word_metadata_str(&self, word: &str) -> Option<WordMetadata> {
+    fn get_word_metadata_str(&self, word: &str) -> Option<&WordMetadata> {
         let chars: CharString = word.chars().collect();
         self.get_word_metadata(&chars)
     }
