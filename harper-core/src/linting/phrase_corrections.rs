@@ -721,6 +721,12 @@ pub fn lint_group() -> LintGroup {
             "Retain `monumentous` for jocular effect. Otherwise `momentous` indicates great signifcance while `monumental` indicates imposing size.",
             "Advises using `momentous` or `monumental` instead of `monumentous` for serious usage."
         ),
+        "AsFarBackAs" => (
+            ["as early back as"],
+            ["as far back as"],
+            "Use `as far back as` for referring to a time in the past.",
+            "Corrects nonstandard `as early back as` to `as far back as`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1194,6 +1200,24 @@ mod tests {
             "I think that would be a monumentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
             lint_group(),
             "I think that would be a momentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
+        );
+    }
+
+    #[test]
+    fn detect_as_early_back_as() {
+        assert_suggestion_result(
+            "as early back as",
+            lint_group(),
+            "as far back as",
+        );
+    }
+
+    #[test]
+    fn detect_as_early_back_as_real_world() {
+        assert_suggestion_result(
+            "skin overrides also supports a wide variety of minecraft versions - as early back as 1.14.4.",
+            lint_group(),
+            "skin overrides also supports a wide variety of minecraft versions - as far back as 1.14.4.",
         );
     }
 }
