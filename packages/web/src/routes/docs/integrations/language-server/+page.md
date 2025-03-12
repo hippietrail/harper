@@ -82,11 +82,11 @@ If none of the previous installation methods are available to you, we also provi
 
 Each user of `harper-ls` has their own dictionary, which by default, is located in the following directories on each operating system:
 
-| Operating System |                                                  Location |
-| :--------------- | --------------------------------------------------------: |
-| Linux            | `$XDG_CONFIG_HOME/harper-ls` or `$HOME/.config/harper-ls` |
-| macOS            |             `$HOME/Library/Application Support/harper-ls` |
-| Windows          |                     `%FOLDERID_RoamingAppData%/harper-ls` |
+| Operating System |                                                                                Location |
+| :--------------- | --------------------------------------------------------------------------------------: |
+| Linux            | `$XDG_CONFIG_HOME/harper-ls/dictionary.txt` or `$HOME/.config/harper-ls/dictionary.txt` |
+| macOS            |                            `$HOME/Library/Application Support/harper-ls/dictionary.txt` |
+| Windows          |                                    `%FOLDERID_RoamingAppData%/harper-ls/dictionary.txt` |
 
 This dictionary is a simple line-separated word list in plaintext. You can add and remove words at will. Code actions on misspelled words allow you to add elements to this list. Additionally, [its location is configurable](#Dictionaries_).
 
