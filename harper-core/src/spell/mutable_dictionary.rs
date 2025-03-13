@@ -1,5 +1,5 @@
 use super::{
-    WordId,
+    FstDictionary, WordId,
     hunspell::{parse_default_attribute_list, parse_default_word_list},
     word_map::{WordMap, WordMapEntry},
 };
@@ -222,6 +222,18 @@ impl Dictionary for MutableDictionary {
 
     fn get_word_from_id(&self, id: &WordId) -> Option<&[char]> {
         self.word_map.get(id).map(|w| w.canonical_spelling.as_ref())
+    }
+}
+
+impl From<MutableDictionary> for FstDictionary {
+    fn from(dict: MutableDictionary) -> Self {
+        let words = dict
+            .word_map
+            .into_iter()
+            .map(|entry| (entry.canonical_spelling, entry.metadata))
+            .collect();
+
+        FstDictionary::new(words)
     }
 }
 

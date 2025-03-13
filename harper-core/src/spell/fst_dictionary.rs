@@ -1,8 +1,4 @@
-use super::{
-    MutableDictionary, WordId,
-    hunspell::{parse_default_attribute_list, parse_default_word_list},
-    word_map::WordMap,
-};
+use super::{MutableDictionary, WordId};
 use fst::{IntoStreamer, Map as FstMap, Streamer, map::StreamWithState};
 use lazy_static::lazy_static;
 use levenshtein_automata::{DFA, LevenshteinAutomatonBuilder};
@@ -16,7 +12,7 @@ use super::FuzzyMatchResult;
 /// An immutable dictionary allowing for very fast spellchecking.
 ///
 /// For dictionaries with changing contents, such as user and file dictionaries, prefer
-/// [`super::MutableDictionary`].
+/// [`MutableDictionary`].
 pub struct FstDictionary {
     /// Underlying [`super::MutableDictionary`] used for everything except fuzzy finding
     full_dict: Arc<MutableDictionary>,
@@ -26,29 +22,11 @@ pub struct FstDictionary {
     words: Vec<(CharString, WordMetadata)>,
 }
 
-/// The uncached function that is used to produce the original copy of the
-/// curated dictionary.
-fn uncached_inner_new() -> Arc<FstDictionary> {
-    let word_list = parse_default_word_list().unwrap();
-    let attr_list = parse_default_attribute_list();
-
-    // There will be at _least_ this number of words
-    let mut word_map = WordMap::with_capacity(word_list.len());
-    attr_list.expand_marked_words(word_list, &mut word_map);
-
-    Arc::new(FstDictionary::new(
-        word_map
-            .into_iter()
-            .map(|entry| (entry.canonical_spelling, entry.metadata))
-            .collect(),
-    ))
-}
-
 const EXPECTED_DISTANCE: u8 = 3;
 const TRANSPOSITION_COST_ONE: bool = false;
 
 lazy_static! {
-    static ref DICT: Arc<FstDictionary> = uncached_inner_new();
+    static ref DICT: Arc<FstDictionary> = Arc::new((*MutableDictionary::curated()).clone().into());
 }
 
 thread_local! {
@@ -75,6 +53,8 @@ impl FstDictionary {
         (*DICT).clone()
     }
 
+    /// Construct a new [`FstDictionary`] using a word list as a source.
+    /// This can be expensive, so only use this if fast fuzzy searches are worth it.
     pub fn new(mut words: Vec<(CharString, WordMetadata)>) -> Self {
         words.sort_unstable_by(|(a, _), (b, _)| a.cmp(b));
         words.dedup_by(|(a, _), (b, _)| a == b);
