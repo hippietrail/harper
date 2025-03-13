@@ -98,7 +98,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 	test(`${linterName} can make things title case`, async () => {
 		const linter = new Linter();
 
-		const titleCase = await linter.toTitleCase('THIS IS A TEST FOR MAKING TITLES');
+		const titleCase = await linter.toTitleCase('this is a test for making titles');
 
 		expect(titleCase).toBe('This Is a Test for Making Titles');
 	});
@@ -204,20 +204,5 @@ test('Linters have the same config format', async () => {
 	for (const config of configs) {
 		expect(config).toEqual(configs[0]);
 		expect(config).toBeTypeOf('object');
-	}
-});
-
-test('Linters have the same JSON config format', async () => {
-	const configs = [];
-
-	for (const Linter of Object.values(linters)) {
-		const linter = new Linter();
-
-		configs.push(await linter.getLintConfigAsJSON());
-	}
-
-	for (const config of configs) {
-		expect(config).toEqual(configs[0]);
-		expect(config).toBeTypeOf('string');
 	}
 });

@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper",
 	"description": "The grammar checker for developers",
-	"version": "0.24.0",
+	"version": "0.25.1",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -116,6 +116,12 @@
 					"scope": "resource",
 					"type": "string",
 					"description": "Optional path to a global dictionary file to use."
+				},
+				"harper.linters.ALotWorst": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `a lot worst` to `a lot worse` for proper comparative usage."
 				},
 				"harper.linters.AlzheimersDisease": {
 					"scope": "resource",
@@ -297,11 +303,47 @@
 					"default": true,
 					"description": "Ensures `case-sensitive` is correctly hyphenated."
 				},
+				"harper.linters.ChangeOfTack": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Locates errors in the idiom `change of tack` to convey the correct meaning of an alternative course or strategy."
+				},
 				"harper.linters.ChangeTack": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Locates minor errors in the sailing idiom `change tack`."
+					"description": "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+				},
+				"harper.linters.ChangedTack": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+				},
+				"harper.linters.ChangesOfTack": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Locates errors in the idiom `change of tack` to convey the correct meaning of an alternative course or strategy."
+				},
+				"harper.linters.ChangesTack": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+				},
+				"harper.linters.ChangingOfTack": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Locates errors in the idiom `to change of tack` to convey the correct meaning of altering one's course or strategy."
+				},
+				"harper.linters.ChangingTack": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
 				},
 				"harper.linters.ChineseCommunistParty": {
 					"scope": "resource",
@@ -459,6 +501,12 @@
 					"default": true,
 					"description": "Ensures `face first` is correctly hyphenated as `face-first` when used before `into`."
 				},
+				"harper.linters.FarWorse": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `far worst` to `far worse` for proper comparative usage."
+				},
 				"harper.linters.FastPaste": {
 					"scope": "resource",
 					"type": "boolean",
@@ -531,6 +579,12 @@
 					"default": true,
 					"description": "Ensures `got rid of` is used instead of `got rid off`."
 				},
+				"harper.linters.GottenRidOff": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensures `gotten rid of` is used instead of `gotten rid off`."
+				},
 				"harper.linters.HadOf": {
 					"scope": "resource",
 					"type": "boolean",
@@ -602,6 +656,24 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Fixes the incorrect spacing in `I a m` to properly form `I am`."
+				},
+				"harper.linters.InAndOfItself": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects nonstandard `in of itself` to standard `in and of itself`."
+				},
+				"harper.linters.InDetail": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Correct unidiomatic plural `in details` to `in detail`."
+				},
+				"harper.linters.InMoreDetail": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Correct unidiomatic plural `in more details` to `in more detail`."
 				},
 				"harper.linters.InOneFellSwoop": {
 					"scope": "resource",
@@ -801,6 +873,18 @@
 					"default": true,
 					"description": "Detects `of` mistakenly used with `would`, `could`, `should`, etc."
 				},
+				"harper.linters.Monumentous": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Advises using `momentous` or `monumental` instead of `monumentous` for serious usage."
+				},
+				"harper.linters.MuchWorse": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `much worst` to `much worse` for proper comparative usage."
+				},
 				"harper.linters.Multicore": {
 					"scope": "resource",
 					"type": "boolean",
@@ -854,6 +938,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Changes `ned help` to the correct `need help`."
+				},
+				"harper.linters.NerveRacking": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects common misspellings and missing hyphen in `nerve-racking`."
 				},
 				"harper.linters.NoOxfordComma": {
 					"scope": "resource",
@@ -1245,6 +1335,12 @@
 					"default": true,
 					"description": "Changes `though process` to `thought process`."
 				},
+				"harper.linters.TickingTimeClock": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `ticking time clock` to `ticking time bomb` for idiomatic urgency or `ticking clock` otherwise."
+				},
 				"harper.linters.ToDoHyphen": {
 					"scope": "resource",
 					"type": "boolean",
@@ -1268,6 +1364,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Ensure proper capitalization of Tumblr-related terms."
+				},
+				"harper.linters.TurnForTheWorse": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the nonstandard `turn for the worst` to the idiomatic `turn for the worse`, used to describe a situation that has deteriorated."
 				},
 				"harper.linters.TurnItOff": {
 					"scope": "resource",
@@ -1389,6 +1491,24 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `worldwide`."
 				},
+				"harper.linters.WorseAndWorse": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `worst and worst` to `worse and worse` for proper comparative usage."
+				},
+				"harper.linters.WorseThan": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `worst than` to `worse than` for proper comparative usage."
+				},
+				"harper.linters.WorstEver": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `worse ever` to `worst ever` for proper comparative usage."
+				},
 				"harper.linters.WrongQuotes": {
 					"scope": "resource",
 					"type": "boolean",
@@ -1418,7 +1538,7 @@
 		"esbuild": "^0.25.0",
 		"eslint": "^8.57.0",
 		"jasmine": "^5.6.0",
-		"typescript": "^5.7.3"
+		"typescript": "^5.8.2"
 	},
 	"dependencies": {
 		"vscode-languageclient": "^9.0.1"
