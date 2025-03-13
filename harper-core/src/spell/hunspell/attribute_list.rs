@@ -7,7 +7,7 @@ use super::Error;
 use super::affix_replacement::AffixReplacement;
 use super::expansion::{Expansion, HumanReadableExpansion};
 use super::word_list::MarkedWord;
-use crate::{CharString, Span, WordMetadata};
+use crate::{CharString, Span, WordId, WordMetadata};
 
 #[derive(Debug, Clone)]
 pub struct AttributeList {
@@ -77,9 +77,12 @@ impl AttributeList {
                     );
                     let t_metadata = dest.get_metadata_mut_chars(&new_word).unwrap();
                     t_metadata.append(&metadata);
+                    t_metadata.derived_from = Some(WordId::from_word_chars(&word.letters))
                 }
             } else {
-                for (key, value) in new_words.into_iter() {
+                for (key, mut value) in new_words.into_iter() {
+                    value.derived_from = Some(WordId::from_word_chars(&word.letters));
+
                     if let Some(val) = dest.get_metadata_mut_chars(&key) {
                         val.append(&value);
                     } else {

@@ -227,7 +227,6 @@ impl Dictionary for MutableDictionary {
 
 #[cfg(test)]
 mod tests {
-    use crate::CharString;
     use itertools::Itertools;
 
     use crate::{Dictionary, MutableDictionary};

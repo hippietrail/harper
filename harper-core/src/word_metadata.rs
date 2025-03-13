@@ -26,13 +26,18 @@ pub struct WordMetadata {
     /// Whether the word is considered especially common.
     #[serde(default = "default_false")]
     pub common: bool,
-    #[serde(skip_serializing, skip_deserializing)]
+    #[serde(default = "default_none")]
     pub derived_from: Option<WordId>,
 }
 
 /// Needed for `serde`
 fn default_false() -> bool {
     false
+}
+
+/// Needed for `serde`
+fn default_none<T>() -> Option<T> {
+    None
 }
 
 macro_rules! generate_metadata_queries {
