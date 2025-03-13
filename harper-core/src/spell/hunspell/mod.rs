@@ -28,13 +28,14 @@ pub fn parse_default_attribute_list() -> AttributeList {
 
 #[cfg(test)]
 mod tests {
-    use hashbrown::{HashMap, HashSet};
+    use hashbrown::HashSet;
     use serde_json::json;
 
+    use super::super::word_map::WordMap;
     use super::word_list::parse_word_list;
     use super::{parse_default_attribute_list, parse_default_word_list};
+    use crate::CharStringExt;
     use crate::spell::hunspell::attribute_list::HumanReadableAttributeList;
-    use crate::{CharString, WordMetadata};
 
     pub const TEST_WORD_LIST: &str = "3\nhello\ntry/B\nwork/AB";
 
@@ -85,12 +86,12 @@ mod tests {
         .unwrap();
         let attributes = attributes.into_normal().unwrap();
 
-        let mut expanded = HashMap::new();
+        let mut expanded = WordMap::default();
 
         attributes.expand_marked_words(words, &mut expanded);
         let expanded: HashSet<String> = expanded
             .into_iter()
-            .map(|v| v.0.into_iter().collect())
+            .map(|v| v.canonical_spelling.to_string())
             .collect();
 
         assert_eq!(
@@ -157,22 +158,22 @@ mod tests {
         .unwrap();
         let attributes = attributes.into_normal().unwrap();
 
-        let mut expanded: HashMap<CharString, WordMetadata> = HashMap::new();
+        let mut expanded = WordMap::default();
 
         attributes.expand_marked_words(words, &mut expanded);
 
-        let giant_data = expanded.get(&split("giant")).unwrap();
-        assert!(giant_data.is_noun());
+        let giant_data = expanded.get_with_str("giant").unwrap();
+        assert!(giant_data.metadata.is_noun());
 
-        let giants_data = expanded.get(&split("giants")).unwrap();
-        assert!(giants_data.is_plural_noun());
+        let giants_data = expanded.get_with_str("giants").unwrap();
+        assert!(giants_data.metadata.is_plural_noun());
     }
 
-    fn build_expanded() -> HashMap<CharString, WordMetadata> {
+    fn build_expanded() -> WordMap {
         let words = parse_default_word_list().unwrap();
         let attributes = parse_default_attribute_list();
 
-        let mut expanded = HashMap::new();
+        let mut expanded = WordMap::default();
 
         attributes.expand_marked_words(words, &mut expanded);
 
@@ -186,29 +187,30 @@ mod tests {
 
     #[test]
     fn expanded_contains_giants() {
-        assert!(build_expanded().contains_key(&split("giants")));
+        assert!(build_expanded().contains_str("giants"));
     }
 
     #[test]
     fn expanded_contains_deallocate() {
-        assert!(build_expanded().contains_key(&split("deallocate")));
+        assert!(build_expanded().contains_str("deallocate"));
     }
 
     #[test]
     fn expanded_contains_repo() {
         let expanded = build_expanded();
 
-        assert!(expanded.contains_key(&split("repo")));
-        assert!(expanded.contains_key(&split("repos")));
-        assert!(expanded.contains_key(&split("repo's")));
+        assert!(expanded.contains_str("repo"));
+        assert!(expanded.contains_str("repos"));
+        assert!(expanded.contains_str("repo's"));
     }
 
     #[test]
     fn expanded_contains_possessive_abandonment() {
         assert!(
             build_expanded()
-                .get(&split("abandonment's"))
+                .get_with_str("abandonment's")
                 .unwrap()
+                .metadata
                 .is_possessive_noun()
         )
     }
@@ -217,21 +219,21 @@ mod tests {
     fn has_is_not_a_nominal() {
         let expanded = build_expanded();
 
-        let has = expanded.get(&split("has"));
+        let has = expanded.get_with_str("has");
         assert!(has.is_some());
 
-        assert!(!has.unwrap().is_nominal(),)
+        assert!(!has.unwrap().metadata.is_nominal())
     }
 
     #[test]
     fn is_is_linking_verb() {
         let expanded = build_expanded();
 
-        let is = expanded.get(&split("is"));
+        let is = expanded.get_with_str("is");
 
         dbg!(&is);
         assert!(is.is_some());
-        assert!(is.unwrap().is_linking_verb());
+        assert!(is.unwrap().metadata.is_linking_verb());
     }
 
     #[test]
@@ -242,28 +244,24 @@ mod tests {
         let merged_attrs = parse_default_attribute_list();
         let spread_attrs = parse_default_attribute_list();
 
-        let mut expanded1 = HashMap::new();
-        let mut expanded2 = HashMap::new();
+        let mut expanded1 = WordMap::default();
+        let mut expanded2 = WordMap::default();
 
         merged_attrs.expand_marked_words(merged_word, &mut expanded1);
         let expanded_merged: HashSet<String> = expanded1
             .into_iter()
-            .map(|v| v.0.into_iter().collect())
+            .map(|v| v.canonical_spelling.into_iter().collect())
             .collect();
 
         spread_attrs.expand_marked_words(spread_word, &mut expanded2);
         let expanded_spread: HashSet<String> = expanded2
             .into_iter()
-            .map(|v| v.0.into_iter().collect())
+            .map(|v| v.canonical_spelling.into_iter().collect())
             .collect();
 
         assert_eq!(
             expanded_merged.into_iter().collect::<HashSet<_>>(),
             expanded_spread.into_iter().collect::<HashSet<_>>()
         );
-    }
-
-    fn split(text: &str) -> CharString {
-        text.chars().collect()
     }
 }

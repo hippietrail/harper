@@ -4,7 +4,7 @@ use std::sync::Arc;
 use foldhash::quality::FixedState;
 use itertools::Itertools;
 
-use super::FstDictionary;
+use super::{FstDictionary, WordId};
 use super::{FuzzyMatchResult, dictionary::Dictionary};
 use crate::{CharString, WordMetadata};
 
@@ -107,14 +107,6 @@ impl Dictionary for MergedDictionary {
         Box::new(self.children.iter().flat_map(|c| c.words_iter()))
     }
 
-    fn words_with_len_iter(&self, len: usize) -> Box<dyn Iterator<Item = &'_ [char]> + Send + '_> {
-        Box::new(
-            self.children
-                .iter()
-                .flat_map(move |c| c.words_with_len_iter(len)),
-        )
-    }
-
     fn contains_word_str(&self, word: &str) -> bool {
         let chars: CharString = word.chars().collect();
         self.contains_word(&chars)
@@ -160,5 +152,11 @@ impl Dictionary for MergedDictionary {
 
     fn word_count(&self) -> usize {
         self.children.iter().map(|d| d.word_count()).sum()
+    }
+
+    fn get_word_from_id(&self, id: &WordId) -> Option<&[char]> {
+        self.children
+            .iter()
+            .find_map(|dict| dict.get_word_from_id(id))
     }
 }

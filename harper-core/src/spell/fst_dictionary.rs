@@ -1,10 +1,9 @@
 use super::{
-    MutableDictionary,
+    MutableDictionary, WordId,
     hunspell::{parse_default_attribute_list, parse_default_word_list},
-    seq_to_normalized,
+    word_map::WordMap,
 };
 use fst::{IntoStreamer, Map as FstMap, Streamer, map::StreamWithState};
-use hashbrown::HashMap;
 use lazy_static::lazy_static;
 use levenshtein_automata::{DFA, LevenshteinAutomatonBuilder};
 use std::{cell::RefCell, sync::Arc};
@@ -34,10 +33,15 @@ fn uncached_inner_new() -> Arc<FstDictionary> {
     let attr_list = parse_default_attribute_list();
 
     // There will be at _least_ this number of words
-    let mut word_map = HashMap::with_capacity(word_list.len());
+    let mut word_map = WordMap::with_capacity(word_list.len());
     attr_list.expand_marked_words(word_list, &mut word_map);
 
-    Arc::new(FstDictionary::new(word_map))
+    Arc::new(FstDictionary::new(
+        word_map
+            .into_iter()
+            .map(|entry| (entry.canonical_spelling, entry.metadata))
+            .collect(),
+    ))
 }
 
 const EXPECTED_DISTANCE: u8 = 3;
@@ -71,8 +75,7 @@ impl FstDictionary {
         (*DICT).clone()
     }
 
-    pub fn new(new_words: HashMap<CharString, WordMetadata>) -> Self {
-        let mut words: Vec<(CharString, WordMetadata)> = new_words.into_iter().collect();
+    pub fn new(mut words: Vec<(CharString, WordMetadata)>) -> Self {
         words.sort_unstable_by(|(a, _), (b, _)| a.cmp(b));
         words.dedup_by(|(a, _), (b, _)| a == b);
 
@@ -151,7 +154,7 @@ impl Dictionary for FstDictionary {
         max_distance: u8,
         max_results: usize,
     ) -> Vec<FuzzyMatchResult> {
-        let misspelled_word_charslice = seq_to_normalized(word);
+        let misspelled_word_charslice = word.normalized();
         let misspelled_word_string = misspelled_word_charslice.to_string();
 
         // Actual FST search
@@ -210,10 +213,6 @@ impl Dictionary for FstDictionary {
         self.full_dict.words_iter()
     }
 
-    fn words_with_len_iter(&self, len: usize) -> Box<dyn Iterator<Item = &'_ [char]> + Send + '_> {
-        self.full_dict.words_with_len_iter(len)
-    }
-
     fn word_count(&self) -> usize {
         self.full_dict.word_count()
     }
@@ -229,6 +228,10 @@ impl Dictionary for FstDictionary {
     fn get_correct_capitalization_of(&self, word: &[char]) -> Option<&'_ [char]> {
         self.full_dict.get_correct_capitalization_of(word)
     }
+
+    fn get_word_from_id(&self, id: &WordId) -> Option<&[char]> {
+        self.full_dict.get_word_from_id(id)
+    }
 }
 
 #[cfg(test)]
@@ -236,7 +239,7 @@ mod tests {
     use itertools::Itertools;
 
     use crate::CharStringExt;
-    use crate::{Dictionary, spell::seq_to_normalized};
+    use crate::Dictionary;
 
     use super::FstDictionary;
 
@@ -245,7 +248,7 @@ mod tests {
         let dict = FstDictionary::curated();
 
         for word in dict.words_iter() {
-            let misspelled_normalized = seq_to_normalized(word);
+            let misspelled_normalized = word.normalized();
             let misspelled_word = misspelled_normalized.to_string();
             let misspelled_lower = misspelled_normalized.to_lower().to_string();
 
@@ -264,15 +267,22 @@ mod tests {
         let dict = FstDictionary::curated();
 
         let word: Vec<_> = "hello".chars().collect();
-        let misspelled_normalized = seq_to_normalized(&word);
-        let misspelled_word: String = misspelled_normalized.to_string();
-        let misspelled_lower: String = misspelled_normalized.to_lower().to_string();
+        let misspelled_normalized = word.normalized();
+        let misspelled_word = misspelled_normalized.to_string();
+        let misspelled_lower = misspelled_normalized.to_lower().to_string();
 
         assert!(dict.contains_word(&misspelled_normalized));
         assert!(
             dict.word_map.contains_key(misspelled_lower)
                 || dict.word_map.contains_key(misspelled_word)
         );
+    }
+
+    #[test]
+    fn on_is_not_nominal() {
+        let dict = FstDictionary::curated();
+
+        assert!(!dict.get_word_metadata_str("on").unwrap().is_nominal());
     }
 
     #[test]

@@ -4644,7 +4644,7 @@ Hymen/2M
 Hyperion/2M
 Hyundai/1M
 Hz/M
-I/8~sf
+I/8~f
 I'd/~
 I'll/~
 I'm/~
@@ -7388,7 +7388,6 @@ OHSA/M
 OJ/15
 OK/1452SMDG
 OMB/2M
-ON/2
 OPEC/2M
 OR/712
 OS/251M
@@ -26832,7 +26831,7 @@ heppest/5
 heptagon/1MS
 heptagonal/5
 heptathlon/1SM
-her/~-8ot
+her/~-*ot
 herald/~14SMDG
 heralded/~4U
 heraldic/~5
@@ -26929,7 +26928,7 @@ hf/~
 hgt/1
 hgwy/1
 hi/~15D
-his/~8-
+his/~*-
 hiatus/~1MS
 hibachi/1MS
 hibernate/4GNDS
@@ -34403,7 +34402,6 @@ nympho/1S
 nymphomania/1M
 nymphomaniac/15SM
 nymphs/~14
-o/~15+
 o'clock/
 oaf/1SM
 oafish/5PY
@@ -34720,8 +34718,9 @@ omniscience/1M
 omniscient/51
 omnivore/1MS
 omnivorous/~5PY
-omnivorousness/1M
-on/~5+41Y
+omnivorousness/5
+on/~5+4
+only/~
 onboard/~54
 once/~71M
 oncogene/1SM
@@ -48943,7 +48942,7 @@ wayside/15SM
 wayward/~5PY
 waywardness/1M
 wazoo/1S
-we/~sf:
+we/~:
 we'd/
 we'll/
 we're/~

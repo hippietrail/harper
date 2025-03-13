@@ -2,6 +2,8 @@ use is_macro::Is;
 use paste::paste;
 use serde::{Deserialize, Serialize};
 
+use crate::WordId;
+
 #[derive(Debug, Default, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Hash)]
 pub struct WordMetadata {
     pub noun: Option<NounData>,
@@ -24,6 +26,8 @@ pub struct WordMetadata {
     /// Whether the word is considered especially common.
     #[serde(default = "default_false")]
     pub common: bool,
+    #[serde(skip_serializing, skip_deserializing)]
+    pub derived_from: Option<WordId>,
 }
 
 /// Needed for `serde`
@@ -105,6 +109,7 @@ impl WordMetadata {
             determiner: self.determiner || other.determiner,
             preposition: self.preposition || other.preposition,
             common: self.common || other.common,
+            derived_from: self.derived_from.or(other.derived_from),
         }
     }
 
@@ -164,7 +169,7 @@ impl WordMetadata {
                 is_plural: Some(false),
                 ..
             })
-        ) && matches!(
+        ) || matches!(
             self.pronoun,
             Some(PronounData {
                 is_plural: Some(false),
@@ -195,7 +200,7 @@ impl WordMetadata {
         matches!(self.swear, Some(true))
     }
 
-    /// Same thing as [`Self::or`], except in-place rather than a copy.
+    /// Same thing as [`Self::or`], except in-place rather than a clone.
     pub fn append(&mut self, other: &Self) -> &mut Self {
         *self = self.or(other);
         self

@@ -1,6 +1,7 @@
 use blanket::blanket;
 
 use super::FuzzyMatchResult;
+use super::WordId;
 use crate::WordMetadata;
 
 /// An in-memory database that contains everything necessary to parse and analyze English text.
@@ -37,12 +38,13 @@ pub trait Dictionary: Send + Sync {
     /// If the word isn't in the dictionary, the resulting metadata will be
     /// empty.
     fn get_word_metadata_str(&self, word: &str) -> Option<&WordMetadata>;
+
     /// Iterate over the words in the dictionary.
     fn words_iter(&self) -> Box<dyn Iterator<Item = &'_ [char]> + Send + '_>;
 
     /// The number of words in the dictionary.
     fn word_count(&self) -> usize;
 
-    /// Iterate over all the words in the dictionary of a given length
-    fn words_with_len_iter(&self, len: usize) -> Box<dyn Iterator<Item = &'_ [char]> + Send + '_>;
+    /// Returns the correct capitalization of the word with the given ID.
+    fn get_word_from_id(&self, id: &WordId) -> Option<&[char]>;
 }

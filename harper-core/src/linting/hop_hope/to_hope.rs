@@ -10,11 +10,11 @@ pub struct ToHope {
 impl Default for ToHope {
     fn default() -> Self {
         let pattern = SequencePattern::default()
-            .then_singular_subject()
+            .then_not_plural_nominal()
             .then_whitespace()
             .then(WordSet::new(&["hop", "hopped"]))
             .then_whitespace()
-            .then_singular_subject();
+            .then_nominal();
 
         Self {
             pattern: Box::new(pattern),

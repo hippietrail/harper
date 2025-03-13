@@ -2,6 +2,7 @@ use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 use smallvec::ToSmallVec;
 
+use super::super::word_map::{WordMap, WordMapEntry};
 use super::Error;
 use super::affix_replacement::AffixReplacement;
 use super::expansion::{Expansion, HumanReadableExpansion};
@@ -30,11 +31,7 @@ impl AttributeList {
     /// Will append to the given `dest`;
     ///
     /// In the future, I want to make this function cleaner and faster.
-    pub fn expand_marked_word(
-        &self,
-        word: MarkedWord,
-        dest: &mut HashMap<CharString, WordMetadata>,
-    ) {
+    pub fn expand_marked_word(&self, word: MarkedWord, dest: &mut WordMap) {
         dest.reserve(word.attributes.len() + 1);
         let mut gifted_metadata = WordMetadata::default();
 
@@ -78,24 +75,33 @@ impl AttributeList {
                         },
                         dest,
                     );
-                    let t_metadata = dest.get_mut(&new_word).unwrap();
+                    let t_metadata = dest.get_metadata_mut_chars(&new_word).unwrap();
                     t_metadata.append(&metadata);
                 }
             } else {
                 for (key, value) in new_words.into_iter() {
-                    if let Some(val) = dest.get_mut(&key) {
+                    if let Some(val) = dest.get_metadata_mut_chars(&key) {
                         val.append(&value);
                     } else {
-                        dest.insert(key, value);
+                        dest.insert(WordMapEntry {
+                            canonical_spelling: key,
+                            metadata: value,
+                        });
                     }
                 }
             }
         }
 
-        if let Some(prev_val) = dest.get(&word.letters) {
-            dest.insert(word.letters, gifted_metadata.or(prev_val));
+        if let Some(prev_val) = dest.get_with_chars(&word.letters) {
+            dest.insert(WordMapEntry {
+                metadata: gifted_metadata.or(&prev_val.metadata),
+                canonical_spelling: word.letters,
+            });
         } else {
-            dest.insert(word.letters, gifted_metadata);
+            dest.insert(WordMapEntry {
+                metadata: gifted_metadata,
+                canonical_spelling: word.letters,
+            });
         }
     }
 
@@ -105,7 +111,7 @@ impl AttributeList {
     pub fn expand_marked_words(
         &self,
         words: impl IntoIterator<Item = MarkedWord>,
-        dest: &mut HashMap<CharString, WordMetadata>,
+        dest: &mut WordMap,
     ) {
         for word in words {
             self.expand_marked_word(word, dest);

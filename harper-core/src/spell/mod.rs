@@ -1,17 +1,18 @@
-use std::borrow::Cow;
-
 use crate::{CharString, CharStringExt, WordMetadata};
 
 pub use self::dictionary::Dictionary;
 pub use self::fst_dictionary::FstDictionary;
 pub use self::merged_dictionary::MergedDictionary;
 pub use self::mutable_dictionary::MutableDictionary;
+pub use self::word_id::WordId;
 
 mod dictionary;
 mod fst_dictionary;
 pub mod hunspell;
 mod merged_dictionary;
 mod mutable_dictionary;
+mod word_id;
+mod word_map;
 
 #[derive(PartialEq, Debug, Hash, Eq)]
 pub struct FuzzyMatchResult<'a> {
@@ -95,30 +96,13 @@ pub fn suggest_correct_spelling_str(
         .collect()
 }
 
-/// Convert a given character sequence to the standard character set
-/// the dictionary is in.
-fn seq_to_normalized(seq: &[char]) -> Cow<'_, [char]> {
-    if seq.iter().any(|c| char_to_normalized(*c) != *c) {
-        Cow::Owned(seq.iter().copied().map(char_to_normalized).collect())
-    } else {
-        Cow::Borrowed(seq)
-    }
-}
-
-fn char_to_normalized(c: char) -> char {
-    match c {
-        '’' => '\'',
-        '‘' => '\'',
-        '＇' => '\'',
-        _ => c,
-    }
-}
-
 #[cfg(test)]
 mod tests {
     use itertools::Itertools;
 
-    use super::{FstDictionary, seq_to_normalized, suggest_correct_spelling_str};
+    use crate::CharStringExt;
+
+    use super::{FstDictionary, suggest_correct_spelling_str};
 
     const RESULT_LIMIT: usize = 100;
     const MAX_EDIT_DIST: u8 = 2;
@@ -126,7 +110,7 @@ mod tests {
     #[test]
     fn normalizes_weve() {
         let word = vec!['w', 'e', '’', 'v', 'e'];
-        let norm = seq_to_normalized(&word);
+        let norm = word.normalized();
 
         assert_eq!(norm.clone(), vec!['w', 'e', '\'', 'v', 'e'])
     }

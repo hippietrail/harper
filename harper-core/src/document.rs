@@ -152,7 +152,7 @@ impl Document {
     /// When a word that is either an adjective or a noun is sandwiched between an article and a noun,
     /// it definitely is not a noun.
     fn articles_imply_nouns(&mut self) {
-        let pattern = Self::ELLIPSIS_PATTERN.with(|v| v.clone());
+        let pattern = Self::ARTICLE_PATTERN.with(|v| v.clone());
 
         for m in pattern.find_all_matches_in_doc(self) {
             if let TokenKind::Word(Some(metadata)) = &mut self.tokens[m.start + 2].kind {
