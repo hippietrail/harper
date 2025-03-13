@@ -727,6 +727,30 @@ pub fn lint_group() -> LintGroup {
             "Use `in any way` for emphasizing a point.",
             "Corrects ungrammatical `in anyway` to `in any way`."
         ),
+        "ExplanationMark" => (
+            ["explanation mark"],
+            ["exclamation mark"],
+            "The correct name for the `!` punctuation is `exclamation mark`.",
+            "Corrects the eggcorn `explanation mark` to `exclamation mark`."
+        ),
+        "ExplanationMarks" => (
+            ["explanation marks"],
+            ["exclamation marks"],
+            "The correct name for the `!` punctuation is `exclamation mark`.",
+            "Corrects the eggcorn `explanation mark` to `exclamation mark`."
+        ),
+        "ExplanationPoint" => (
+            ["explanation point"],
+            ["exclamation point"],
+            "The correct name for the `!` punctuation is `exclamation point`.",
+            "Corrects the eggcorn `explanation point` to `exclamation point`."
+        ),
+        "AsFarBackAs" => (
+            ["as early back as"],
+            ["as far back as"],
+            "Use `as far back as` for referring to a time in the past.",
+            "Corrects nonstandard `as early back as` to `as far back as`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1214,6 +1238,62 @@ mod tests {
             "The names should not affect your application in anyway and you can override extension names.",
             lint_group(),
             "The names should not affect your application in any way and you can override extension names.",
+        );
+    }
+       
+    #[test]
+    fn detect_explanation_mark_atomic() {
+        assert_suggestion_result("explanation mark", lint_group(), "exclamation mark");
+    }
+
+    #[test]
+    fn detect_explanation_marks_atomic() {
+        assert_suggestion_result("explanation marks", lint_group(), "exclamation marks");
+    }
+
+    #[test]
+    fn detect_explanation_mark_real_world() {
+        assert_suggestion_result(
+            "Note that circled explanation mark, question mark, plus and arrows may be significantly harder to distinguish than their uncircled variants.",
+            lint_group(),
+            "Note that circled exclamation mark, question mark, plus and arrows may be significantly harder to distinguish than their uncircled variants.",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_marks_real_world() {
+        assert_suggestion_result(
+            "this issue: html: properly handle explanation marks in comments",
+            lint_group(),
+            "this issue: html: properly handle exclamation marks in comments",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_point_atomic() {
+        assert_suggestion_result("explanation point", lint_group(), "exclamation point");
+    }
+
+    #[test]
+    fn detect_explanation_point_real_world() {
+        assert_suggestion_result(
+            "js and makes an offhand mention that you can disable inbuilt plugin with an explanation point (e.g. !error ).",
+            lint_group(),
+            "js and makes an offhand mention that you can disable inbuilt plugin with an exclamation point (e.g. !error ).",
+        );
+    }
+
+    #[test]
+    fn detect_as_early_back_as() {
+        assert_suggestion_result("as early back as", lint_group(), "as far back as");
+    }
+
+    #[test]
+    fn detect_as_early_back_as_real_world() {
+        assert_suggestion_result(
+            "skin overrides also supports a wide variety of minecraft versions - as early back as 1.14.4.",
+            lint_group(),
+            "skin overrides also supports a wide variety of minecraft versions - as far back as 1.14.4.",
         );
     }
 }
