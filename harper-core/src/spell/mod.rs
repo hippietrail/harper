@@ -182,6 +182,7 @@ mod tests {
 
     /// Assert that the default suggestion settings result in a specific word
     /// being in the top three results for a given misspelling.
+    #[track_caller]
     fn assert_suggests_correction(misspelled_word: &str, correct: &str) {
         let results = suggest_correct_spelling_str(
             misspelled_word,
