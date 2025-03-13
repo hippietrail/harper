@@ -32,10 +32,10 @@ mod tests {
     use serde_json::json;
 
     use super::super::word_map::WordMap;
+    use super::HumanReadableAttributeList;
     use super::word_list::parse_word_list;
     use super::{parse_default_attribute_list, parse_default_word_list};
     use crate::CharStringExt;
-    use crate::spell::hunspell::attribute_list::HumanReadableAttributeList;
 
     pub const TEST_WORD_LIST: &str = "3\nhello\ntry/B\nwork/AB";
 

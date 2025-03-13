@@ -8,9 +8,9 @@ pub use self::word_id::WordId;
 
 mod dictionary;
 mod fst_dictionary;
-pub mod hunspell;
 mod merged_dictionary;
 mod mutable_dictionary;
+mod rune;
 mod word_id;
 mod word_map;
 

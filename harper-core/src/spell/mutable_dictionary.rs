@@ -1,6 +1,6 @@
 use super::{
     FstDictionary, WordId,
-    hunspell::{parse_default_attribute_list, parse_default_word_list},
+    rune::{parse_default_attribute_list, parse_default_word_list},
     word_map::{WordMap, WordMapEntry},
 };
 use crate::edit_distance::edit_distance_min_alloc;
