@@ -80,13 +80,13 @@ If none of the previous installation methods are available to you, we also provi
 
 ### User Dictionary
 
-Each user of `harper-ls` has their own dictionary, which by default, is located in the following directories on each operating system:
+Each user of `harper-ls` has their own dictionary, which by default, is located at the following paths on each operating system:
 
-| Operating System |                                                  Location |
-| :--------------- | --------------------------------------------------------: |
-| Linux            | `$XDG_CONFIG_HOME/harper-ls` or `$HOME/.config/harper-ls` |
-| macOS            |             `$HOME/Library/Application Support/harper-ls` |
-| Windows          |                     `%FOLDERID_RoamingAppData%/harper-ls` |
+| Operating System |                                                                                Location |
+| :--------------- | --------------------------------------------------------------------------------------: |
+| Linux            | `$XDG_CONFIG_HOME/harper-ls/dictionary.txt` or `$HOME/.config/harper-ls/dictionary.txt` |
+| macOS            |                            `$HOME/Library/Application Support/harper-ls/dictionary.txt` |
+| Windows          |                                    `%FOLDERID_RoamingAppData%/harper-ls/dictionary.txt` |
 
 This dictionary is a simple line-separated word list in plaintext. You can add and remove words at will. Code actions on misspelled words allow you to add elements to this list. Additionally, [its location is configurable](#Dictionaries_).
 
@@ -137,7 +137,7 @@ We _do_ take pull requests or issues for adding words to the static dictionary. 
 
 | Config         | Type     | Default Value | Description                                                     |
 | -------------- | -------- | ------------- | --------------------------------------------------------------- |
-| `userDictPath` | `string` | `""`          | Set the directory where the user dictionary is located          |
+| `userDictPath` | `string` | `""`          | Set the file path where the user dictionary is located          |
 | `fileDictPath` | `string` | `""`          | Set the directory where the file-local dictionaries are located |
 
 ### Linters

@@ -46,7 +46,6 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
                         .iter_mut()
                         .enumerate()
                         .for_each(|(idx, c)| *c = correct_caps[idx]);
-                    continue;
                 }
             }
         };
@@ -58,11 +57,6 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
         if should_capitalize {
             output[word.span.start - start_index] =
                 output[word.span.start - start_index].to_ascii_uppercase();
-
-            // The rest of the word should be lowercase.
-            for v in &mut output[word.span.start + 1 - start_index..word.span.end - start_index] {
-                *v = v.to_ascii_lowercase();
-            }
         } else {
             // The whole word should be lowercase.
             for i in word.span {
@@ -132,14 +126,6 @@ mod tests {
                 &FstDictionary::curated()
             ),
             "The First and Last Words Should Be Capitalized, Even If It Is \"The\""
-        )
-    }
-
-    #[test]
-    fn start_as_uppercase() {
-        assert_eq!(
-            make_title_case_str("THIS IS A TEST", &PlainEnglish, &FstDictionary::curated()),
-            "This Is a Test"
         )
     }
 

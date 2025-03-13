@@ -738,7 +738,13 @@ pub fn lint_group() -> LintGroup {
             ["exclamation point"],
             "The correct name for the `!` punctuation is `exclamation point`.",
             "Corrects the eggcorn `explanation point` to `exclamation point`."
-        )
+        ),
+        "AsFarBackAs" => (
+            ["as early back as"],
+            ["as far back as"],
+            "Use `as far back as` for referring to a time in the past.",
+            "Corrects nonstandard `as early back as` to `as far back as`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1254,6 +1260,20 @@ mod tests {
             "js and makes an offhand mention that you can disable inbuilt plugin with an explanation point (e.g. !error ).",
             lint_group(),
             "js and makes an offhand mention that you can disable inbuilt plugin with an exclamation point (e.g. !error ).",
+        );
+    }
+
+    #[test]
+    fn detect_as_early_back_as() {
+        assert_suggestion_result("as early back as", lint_group(), "as far back as");
+    }
+
+    #[test]
+    fn detect_as_early_back_as_real_world() {
+        assert_suggestion_result(
+            "skin overrides also supports a wide variety of minecraft versions - as early back as 1.14.4.",
+            lint_group(),
+            "skin overrides also supports a wide variety of minecraft versions - as far back as 1.14.4.",
         );
     }
 }

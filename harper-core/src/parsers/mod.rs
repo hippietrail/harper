@@ -109,7 +109,7 @@ mod tests {
                 Space(1),
                 TokenKind::blank_word(),
                 Punctuation(Punctuation::Comma),
-                Newline(2),
+                ParagraphBreak,
                 TokenKind::blank_word(),
                 Space(1),
                 TokenKind::blank_word(),
