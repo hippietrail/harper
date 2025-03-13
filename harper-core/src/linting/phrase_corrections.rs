@@ -721,6 +721,24 @@ pub fn lint_group() -> LintGroup {
             "Retain `monumentous` for jocular effect. Otherwise `momentous` indicates great signifcance while `monumental` indicates imposing size.",
             "Advises using `momentous` or `monumental` instead of `monumentous` for serious usage."
         ),
+        "ExplanationMark" => (
+            ["explanation mark"],
+            ["exclamation mark"],
+            "The correct name for the `!` punctuation is `exclamation mark`.",
+            "Corrects the eggcorn `explanation mark` to `exclamation mark`."
+        ),
+        "ExplanationMarks" => (
+            ["explanation marks"],
+            ["exclamation marks"],
+            "The correct name for the `!` punctuation is `exclamation mark`.",
+            "Corrects the eggcorn `explanation mark` to `exclamation mark`."
+        ),
+        "ExplanationPoint" => (
+            ["explanation point"],
+            ["exclamation point"],
+            "The correct name for the `!` punctuation is `exclamation point`.",
+            "Corrects the eggcorn `explanation point` to `exclamation point`."
+        ),
         "AsFarBackAs" => (
             ["as early back as"],
             ["as far back as"],
@@ -1200,6 +1218,48 @@ mod tests {
             "I think that would be a monumentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
             lint_group(),
             "I think that would be a momentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_mark_atomic() {
+        assert_suggestion_result("explanation mark", lint_group(), "exclamation mark");
+    }
+
+    #[test]
+    fn detect_explanation_marks_atomic() {
+        assert_suggestion_result("explanation marks", lint_group(), "exclamation marks");
+    }
+
+    #[test]
+    fn detect_explanation_mark_real_world() {
+        assert_suggestion_result(
+            "Note that circled explanation mark, question mark, plus and arrows may be significantly harder to distinguish than their uncircled variants.",
+            lint_group(),
+            "Note that circled exclamation mark, question mark, plus and arrows may be significantly harder to distinguish than their uncircled variants.",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_marks_real_world() {
+        assert_suggestion_result(
+            "this issue: html: properly handle explanation marks in comments",
+            lint_group(),
+            "this issue: html: properly handle exclamation marks in comments",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_point_atomic() {
+        assert_suggestion_result("explanation point", lint_group(), "exclamation point");
+    }
+
+    #[test]
+    fn detect_explanation_point_real_world() {
+        assert_suggestion_result(
+            "js and makes an offhand mention that you can disable inbuilt plugin with an explanation point (e.g. !error ).",
+            lint_group(),
+            "js and makes an offhand mention that you can disable inbuilt plugin with an exclamation point (e.g. !error ).",
         );
     }
 
