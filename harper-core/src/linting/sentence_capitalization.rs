@@ -136,7 +136,7 @@ mod tests {
     }
 
     #[test]
-    fn unphased_unlintable() {
+    fn unfazed_unlintable() {
         assert_lint_count(
             "the linter should not be affected by `this` unlintable.",
             SentenceCapitalization,
@@ -145,7 +145,7 @@ mod tests {
     }
 
     #[test]
-    fn unphased_ellipsis() {
+    fn unfazed_ellipsis() {
         assert_lint_count(
             "the linter should not be affected by... that ellipsis.",
             SentenceCapitalization,
@@ -154,7 +154,7 @@ mod tests {
     }
 
     #[test]
-    fn unphased_comma() {
+    fn unfazed_comma() {
         assert_lint_count(
             "the linter should not be affected by, that comma.",
             SentenceCapitalization,

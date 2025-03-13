@@ -51,6 +51,10 @@ create_test!(javadoc_complex.java, 5);
 create_test!(issue_132.rs, 1);
 create_test!(laravel_app.php, 2);
 
+// Checks that some comments are masked out
+create_test!(ignore_comments.rs, 1);
+create_test!(ignore_comments.c, 1);
+
 // These are to make sure nothing crashes.
 create_test!(empty.js, 0);
 create_test!(issue_229.js, 0);

@@ -109,7 +109,7 @@ mod tests {
 
     #[test]
     fn normalizes_weve() {
-        let word = vec!['w', 'e', '’', 'v', 'e'];
+        let word = ['w', 'e', '’', 'v', 'e'];
         let norm = word.normalized();
 
         assert_eq!(norm.clone(), vec!['w', 'e', '\'', 'v', 'e'])
