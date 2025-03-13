@@ -1240,7 +1240,7 @@ mod tests {
             "The names should not affect your application in any way and you can override extension names.",
         );
     }
-       
+
     #[test]
     fn detect_explanation_mark_atomic() {
         assert_suggestion_result("explanation mark", lint_group(), "exclamation mark");
