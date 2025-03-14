@@ -217,6 +217,7 @@ Alar/1M
 Alaric/2M
 Alaska/21M
 Alaskan/51MS
+Alawite/1SM
 Alba/2M
 Albania/2M
 Albanian/512MS
@@ -4709,6 +4710,7 @@ Ida/2M
 Idaho/21SM
 Idahoan/51MS
 Idahoes
+Idlib/2M
 Ieyasu/M
 Ignacio/2M
 Ignatius/2M
@@ -5304,6 +5306,7 @@ Kennewick/2M
 Kennith/M
 Kenny/2M
 Kenosha/2M
+Kensington/2M
 Kent/2M
 Kenton/2M
 Kentuckian/51MS
@@ -6061,6 +6064,7 @@ MFA/21M
 MGM/21M
 MHz/
 MI/21M
+MI6/2M
 MIA/512
 MIDI/21M
 MIPS/12
@@ -9381,6 +9385,7 @@ Stamford/2M
 Stan/21M
 Standish/2M
 Stanford/2M
+Stanislav/2M
 Stanislavsky/M
 Stanley/2M
 Stanton/2M
@@ -10079,6 +10084,7 @@ Tyrolean/51
 Tyrone/21M
 Tyson/2M
 U/15+2M
+UAE/2M
 UAR/2
 UAW/2
 UBS/2M
@@ -12541,6 +12547,7 @@ approval/~1EM
 approvals/1
 approve/~4EGDS
 approved/~54U
+approvement/M
 approving/~54EY
 approx/~5
 approximate/~54DSXYGN
@@ -17582,6 +17589,7 @@ combativeness/1M
 combed/54U
 comber/1M
 combination/~1SM
+combinator/1MS
 combinatoric/5
 combine's
 combine/~41ADSG
@@ -19220,6 +19228,7 @@ cultivator/1MS
 cultural/~5Y
 culture/~14MGDS
 cultured/~54U
+culty/5
 culvert/~14MS
 cum/~+145SM
 cumber/41SDG
@@ -22936,7 +22945,7 @@ explosive/~51SPMY
 explosiveness/1M
 expo/~1MS
 exponent/~1MS
-exponential/~51Y
+exponential/~51YMS
 exponentiation/1
 export/~514BSZGMDR
 exportation/1M
@@ -25231,6 +25240,7 @@ germinate/~4GNDS
 germination/~1M
 germophobia/1M
 germophobe/1MS
+gerontocracy/1M
 gerontological/5
 gerontologist/1MS
 gerontology/1M
@@ -26427,7 +26437,7 @@ hardheartedness/1M
 hardihood/1M
 hardily/j
 hardiness/~1M
-hardliner/1MS
+hardline/15MSR
 hardness/~1M
 hardscrabble/5
 hardship/~14SM
@@ -28686,6 +28696,7 @@ inspirational/~51
 inspiratory/5
 inspired/~54U
 inspiring/~541U
+inspire
 inst/~1
 instability/~1S
 install/~41UBZRSDG
@@ -28695,7 +28706,7 @@ installment/~1SM
 instance/~14GD
 instant/~154MRYS
 instantaneous/~5Y
-instantiate/4DSG
+instantiate/4DSGN
 instar/~14
 instate/4AGDS
 instead/~
@@ -31602,6 +31613,8 @@ mascara/14GMDS
 mascot/~14MS
 masculine/~51SM
 masculinity/~1M
+masculinization/1M
+masculinize/4DSG
 maser/1SM
 mash/~14MDRSZG
 masher/1M
@@ -33133,6 +33146,7 @@ multicultural/~5
 multiculturalism/~1M
 multidimensional/51
 multidisciplinary/~5
+multiethnic/5
 multifaceted/~5
 multifamily/51
 multifarious/5PY
@@ -39555,6 +39569,7 @@ rehabbing/4
 rehabilitate/~4GNVDS
 rehabilitation/~1M
 rehang/41SDG
+rehaul/4SDG
 rehears/4GD
 rehearsal/~1MS
 rehearsed/~45U
@@ -40308,10 +40323,11 @@ roguery/1M
 roguish/5YP
 roguishness/1M
 roil/4GDS
+roil/
 roister/41ZGDRS
 roisterer/1M
 role/~1MS
-roll/~41MDRZGJS
+roll/~41MDRZGJSA
 rollback/~14SM
 roller/~14M
 rollerblading/14
@@ -41348,6 +41364,8 @@ seasonal/~51Y
 seasonality/1
 seasoned/~45U
 seasoning/~14M
+seastead/1MS
+seasteading/1M
 seat's
 seat/~14UGDS
 seating/~41M
@@ -41781,6 +41799,9 @@ shadily/j
 shadiness/1M
 shading/~41M
 shadow/~154SGMD
+shadowban/1M4S
+shadowbanned/45
+shadowbanning/415
 shadowbox/14GDS
 shadowy/~5RT
 shady/~5RPT
