@@ -1076,11 +1076,7 @@ mod tests {
 
     #[test]
     fn correct_atomic_an_whole_entire_to_an_entire() {
-        assert_second_suggestion_result(
-            "an whole entire",
-            lint_group(),
-            "an entire",
-        );
+        assert_second_suggestion_result("an whole entire", lint_group(), "an entire");
     }
 
     #[test]
@@ -1102,7 +1098,7 @@ mod tests {
     //         "Start mapping a whole new planet using NASA’s MOLA.",
     //     );
     // }
-    
+
     fn in_detail_atomic() {
         assert_suggestion_result("in details", lint_group(), "in detail");
     }
