@@ -1,4 +1,4 @@
-50500
+50550
 AA/1254M
 AAA/12
 AB/215M
@@ -2521,6 +2521,7 @@ DOJ/1M
 DOS/12M
 DOT/21
 DP/142SM
+DPRK/2M
 DPT/1
 DST/1
 DTP/1
@@ -3286,6 +3287,7 @@ Eurasia/2M
 Eurasian/51MS
 Euripides/2M
 Eurodollar/1SM
+Eurotrash/1M
 Europa/2M
 Europe/2M
 European/51MS
@@ -3730,6 +3732,7 @@ Gandhi/21M
 Gandhian/5M
 Ganesha/21M
 Ganges/2M
+Gangnam/2M
 Gangtok/2M
 Gansu/2M
 Gantry/M
@@ -4883,7 +4886,7 @@ JV/1
 Jack/21M
 Jackie/2M
 Jacklyn/2M
-Jackson/21M
+Jackson/2MS
 Jacksonian/15M
 Jacksonville/2M
 Jacky/21M
@@ -11094,6 +11097,7 @@ accede/~4GDS
 accelerate/~45GNXDS
 acceleration/~1M
 accelerator/~1SM
+accelerometer/1SM
 accent/~14MDSG
 accented/~45U
 accentual/5
@@ -12162,6 +12166,7 @@ angrily/~j
 angry/~54TR
 angst/~14M
 angstrom/1MS
+angsty/5RT
 anguish/~14GMDS
 angular/~51
 angularity/1SM
@@ -17015,6 +17020,7 @@ clamor/14GMDS
 clamorous/5
 clamp/~14GMDS
 clampdown/1MS
+clamshell/1MS
 clan/~1SM
 clandestine/~5Y
 clang/14ZGMDRS
@@ -17448,6 +17454,7 @@ coiffing/4
 coiffure/14DSMG
 coil's/A
 coil/~14UADGS
+coilover/1MS
 coin/~14MDRZGS
 coinage/~1SM
 coincide/~4DSG
@@ -18167,6 +18174,7 @@ consortium/~1M
 conspectus/1MS
 conspicuous/~5IPY
 conspicuousness/1IM
+conspiracism/1M
 conspiracist/1MS
 conspiracy/~14SM
 conspirator/~1MS
@@ -20608,7 +20616,7 @@ discreteness/1M
 discretion/~1IM
 discretionary/~5
 discriminant/15
-discriminate/~45GNDS
+discriminate/~45GNDSY
 discriminating/~54U
 discrimination/~1M
 discriminator/1MS
@@ -20650,6 +20658,7 @@ disillusion/41GLD
 disillusionment/~1M
 disinfectant/51MS
 disinfection/1M
+disinform/4SDG
 disinterested/~5PY
 disinterestedness/1M
 disjointed/~5YP
@@ -21538,6 +21547,7 @@ earthworm/1MS
 earthy/5RTP
 earwax/1M
 earwig/14SM
+earworm/1MS
 ease/~14EDSM
 easel/1SM
 easement/1SM
@@ -23882,6 +23892,7 @@ flathead/~1SM
 flatiron/15SM
 flatland/1M
 flatlet/1S
+flatline/14MSDG
 flatmate/1S
 flatness/1M
 flatted/4
@@ -24653,8 +24664,8 @@ frolicking/41
 frolicsome/5
 from/~+
 frond/1SM
-front's
 front/~154FSDG
+front's/5
 frontage/~1MS
 frontal/~51Y
 frontbench/1ZRS
@@ -24664,6 +24675,8 @@ frontiersmen/9
 frontierswoman/1
 frontierswomen/9
 frontispiece/14MS
+frontline/1SM
+front-line/5
 frontward/5S
 frosh/14M
 frost's
@@ -24763,6 +24776,7 @@ fundamental/~15SMY
 fundamentalism/~1M
 fundamentalist/~1SM
 funded/~45U
+funder/1MS
 funding/~41M
 fundraiser/~1MS
 fundraising/~15
@@ -26587,6 +26601,7 @@ he's/~
 head/~154MDRZGJS
 headache/~1MS
 headband/1MS
+headbang/4SDG
 headbanger/1S
 headbanging/145
 headboard/1SM
@@ -29274,6 +29289,7 @@ jamb/14MS
 jambalaya/1M
 jamboree/~1MS
 jammed/~54
+jammer/1MS
 jamming/~415
 jammy/51RT
 jangle/41DRSMZG
@@ -29802,7 +29818,7 @@ kiwi/~1MS
 kiwifruit/1MS
 kl/~
 klaxon/14S
-kleptocracy/1
+kleptocracy/1MS
 kleptomania/1M
 kleptomaniac/1SM
 kludge/14GDS
@@ -30015,8 +30031,9 @@ lanai/1SM
 lance/~14DRSMZG
 lancer/~1M
 lancet/~14SM
-land/~14MDRSGJ
+land/~14MDSGJ
 landau/~1SM
+lander/1MS
 landfall/~1MS
 landfill/~41MS
 landholder/1SM
@@ -30400,6 +30417,7 @@ let/~41ISM
 let's
 letdown/1SM
 lethal/~51Y
+lethality/1M
 lethargic/5Q
 lethargy/1M
 letter/~14ZGMDRS
@@ -30489,6 +30507,7 @@ lick/~41MDJSG
 licking/~14M
 licorice/1SM
 lid/~14SM
+lidar/1MS
 lidded/45
 lidless/5
 lido/1MS
@@ -30792,6 +30811,7 @@ lobsterman/1M
 lobstermen/9M
 local/~51SMY
 locale/~1MS
+localish/5
 locality/~1SM
 localization/~1M
 localize/4DSGR
@@ -31348,6 +31368,7 @@ maleness/1M
 malevolence/1M
 malevolent/~5Y
 malfeasance/1M
+malfeasant/1MS5
 malformation/1SM
 malformed/5
 malfunction/~14MDSG
@@ -32073,6 +32094,7 @@ metadata/~1
 metal/~154SMD
 metalanguage/1MS
 metallic/~51
+metallize/4ZGDRS
 metallurgic/5
 metallurgical/~5
 metallurgist/1MS
@@ -32539,6 +32561,7 @@ misogynist/15SM
 misogynistic/5
 misogynous/5
 misogyny/1M
+misperceive/4GDS
 misplace/4GLDS
 misplacement/1M
 misplay/41GMDS
@@ -34328,7 +34351,7 @@ nugatory/5
 nugget/~14SM
 nuisance/~1MS
 nuke/~14MGDS
-null/~154S
+null/~154SDG
 nullification/1M
 nullify/4NDSG
 nullity/1M
@@ -39272,6 +39295,7 @@ reboil/4SDG
 rebuild/~41SG
 rebuke/14DSMG
 rebuking/41Y
+rebush/4SDG
 rebuttal/~1MS
 rec'd/5
 rec/~145M
@@ -39322,6 +39346,7 @@ reckoning/~41M
 reclamation/~1M
 recline/41DRSZG
 recliner/1M
+reclock/4DSG
 recluse/514SMV
 recognizable/~5U
 recognizably/Uj
@@ -39540,6 +39565,7 @@ registrar/~1MS
 registration/~1SM
 registry/~1SM
 regnant/51
+regolith/1SM
 regress/14MDSGV
 regression/~1MS
 regret/~41SM
@@ -42021,6 +42047,7 @@ shitfest/1MS!6
 shithead/1S!6
 shitless/5!6
 shitload/1!6
+shitpost/!61MSDG
 shitted/4!6
 shitting/145!6
 shitty/5RT!6
@@ -43383,13 +43410,13 @@ spectacular/~51MYS
 spectate/4DSG
 spectator/~1SM
 specter/~1AMS
-spectra/~1
+spectra/~9
 spectral/~5
 spectrometer/~1MS
 spectroscope/1MS
 spectroscopic/~5
 spectroscopy/~1M
-spectrum/~1M
+spectrum/~1MS
 speculate/~4DSXGNV
 speculation/~1M
 speculative/~5Y
@@ -43480,6 +43507,7 @@ spinner/~1MS
 spinneret/1SM
 spinney/1S
 spinning/~14M
+spinny/5RTP
 spinster/1SM
 spinsterhood/1M
 spinsterish/5
@@ -44945,6 +44973,8 @@ survey's
 survey/~14ADGS
 surveying/~14M
 surveyor/~1SM
+survivability/1M
+survivable/5
 survival/~1SM
 survivalist/1SM
 survive/~4DSGB
@@ -49124,7 +49154,7 @@ wharves/~1
 what/~81MS
 whataboutism/1M
 whatchamacallit/1MS
-whatever/~851
+whatever/~851M
 whatnot/1M
 whatshername/8
 whatshisname/1
@@ -50480,3 +50510,12 @@ cryptographic/5Q
 easy peasy/5
 un-American/5
 BRICS/
+cross section/1MS
+ground-based/5
+high-level/5
+holy moley
+holy moly
+one-man/5
+run-up/1MS
+shout-out/1S
+uh-oh
