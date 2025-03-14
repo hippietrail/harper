@@ -603,24 +603,33 @@ pub fn lint_group() -> LintGroup {
             "Use `day and age` for referring to the present time.",
             "Corrects the eggcorn `day in age` to `day and age`, which properly means the current era or time period."
         ),
-        // "GuineaBissau" => (
-        //     ["Guinea Bissau"],
-        //     ["Guinea-Bissau"],
-        //     "The official spelling is hyphenated.",
-        //     "Checks for the correct official name of the African country."
-        // ),
-        // "PortAuPrince" => (
-        //     ["Port au Prince"],
-        //     ["Port-au-Prince"],
-        //     "The official spelling is hyphenated.",
-        //     "Checks for the correct official name of the capital of Haiti."
-        // ),
-        // "PortoNovo" => (
-        //     ["Porto Novo"],
-        //     ["Porto-Novo"],
-        //     "The official spelling is hyphenated.",
-        //     "Checks for the correct official name of the capital of Benin."
-        // ),
+        "GuineaBissau" => (
+            // Note: this lint cannot correct wrong case, only the hyphenation
+            // Note: $input must already be the correct case
+            // Note: do not add other case variants here
+            ["Guinea Bissau"],
+            ["Guinea-Bissau"],
+            "The official spelling is hyphenated.",
+            "Checks for the correct official name of the African country."
+        ),
+        "PortAuPrince" => (
+            // Note: this lint cannot correct wrong case, only the hyphenation
+            // Note: $input must already be the correct case
+            // Note: do not add other case variants here
+            ["Port au Prince"],
+            ["Port-au-Prince"],
+            "The official spelling is hyphenated.",
+            "Checks for the correct official name of the capital of Haiti."
+        ),
+        "PortoNovo" => (
+            // Note: this lint cannot correct wrong case, only the hyphenation
+            // Note: $input must already be the correct case
+            // Note: do not add other case variants here
+            ["Porto Novo"],
+            ["Porto-Novo"],
+            "The official spelling is hyphenated.",
+            "Checks for the correct official name of the capital of Benin."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -796,6 +805,15 @@ mod tests {
             "This seems like a blanketed statement and I have not found any info to back up whether PyJWT is affected.",
             lint_group(),
             "This seems like a blanket statement and I have not found any info to back up whether PyJWT is affected.",
+        );
+    }
+
+    #[test]
+    fn guinea_bissau_missing_hyphen_only() {
+        assert_suggestion_result(
+            "Guinea Bissau",
+            lint_group(),
+            "Guinea-Bissau",
         );
     }
 }
