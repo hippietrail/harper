@@ -1,4 +1,4 @@
-50550
+50570
 AA/1254M
 AAA/12
 AB/215M
@@ -1917,6 +1917,7 @@ Cenozoic/52M
 Centaurus/2M
 Centigrade
 Central/2
+Centronics/2
 Cepheid/1M
 Cepheus/2M
 Cerberus/2M
@@ -6673,6 +6674,7 @@ Micah/2M
 Micawber/14M
 Mich/2M
 Michael/2M
+Michaela/2M
 Michaelmas/2MS
 Micheal/2M
 Michel/2M
@@ -7044,6 +7046,7 @@ NCAA/2M
 NCO/1
 ND/215
 NE/215M
+NEC/2M
 NEH/2
 NF/251
 NFC/21
@@ -10219,6 +10222,7 @@ VIP/1SM
 VISTA
 VJ/142
 VLF/1M
+VM/1MS
 VMS/M
 VOA/21
 VP/12
@@ -14728,8 +14732,9 @@ bollocks/14
 bologna/~1M
 bolshie/15
 bolster/~14GMDS
-bolt's
 bolt/~14USGD
+bolt's
+bolter/14MSDG
 bolthole/1S
 bolus/14MS
 bomb/~145SJZMDR
@@ -19126,6 +19131,7 @@ crowbar/14MS
 crowd/~41SMDG
 crowded/~54U
 crowdfund/4SDG
+crowdsource/4SDG
 crowfeet/19
 crowfoot/1SM
 crown/~154SMDG
@@ -27697,6 +27703,7 @@ hyperbole/~1M
 hyperbolic/~5Q
 hypercritical/5Y
 hypercube/1
+hyperfixation/1M
 hyperglycemia/1M
 hyperinflate/41GDSN
 hyperlink/14GSMD
@@ -33384,6 +33391,7 @@ mythological/~5
 mythologist/1SM
 mythologize/4DSG
 mythology/~1SM
+mythos/1M
 myths/~1
 myxomatosis/1
 n/~157IKTH
@@ -34950,7 +34958,7 @@ organize/~4AESDG
 organized/~54U
 organizer/~1MS
 organza/1M
-orgasm/~14SM
+orgasm/~14SMDG
 orgasmic/5
 orgiastic/5
 orgy/1SM
@@ -36991,6 +36999,7 @@ pivot/~14MDGS
 pivotal/~5
 pix/~14M
 pixel/~14MS
+pixelate/4DSGN
 pixie/~1MS
 pizza/~1MS
 pizzazz/1M
@@ -39549,6 +39558,7 @@ refugee/~14SM
 refulgence/1M
 refulgent/5
 refund/~41B
+refurb/14MSDG
 refurbishment/~1MS
 refusal/~1MS
 refutation/~1MS
@@ -49188,10 +49198,11 @@ wheatmeal/1
 whee/4
 wheedle/41DRSZG
 wheedler/1M
-wheel/~14SMDRG
+wheel/~14SMDG
 wheelbarrow/14SM
 wheelbase/~1SM
 wheelchair/~1SM
+wheeler/1MS
 wheelhouse/1MS
 wheelie/145SM
 wheelwright/1MS
@@ -50528,16 +50539,28 @@ VirtualBox/21MS
 VMware/21MS
 Metasploit/21MS
 cryptographic/5Q
-easy peasy/5
 BRICS/
+Minix/2M
 un-American/5
 cross section/1MS
+cross-threaded/5
+easy peasy/5
+energy-efficient/5
 front-line/5
 ground-based/5
 high-level/5
+high-speed/5
 holy moley
 holy moly
+left-wing/5
+low-profile/5
+mind-blowing/5
+okey-dokey
+one-handed/5
 one-man/5
+right-wing/5
 run-up/1MS
 shout-out/1S
+third-party/5
 uh-oh
+working-class/15MS
