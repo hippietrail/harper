@@ -700,7 +700,7 @@ dependencies = [
 
 [[package]]
 name = "harper-comments"
-version = "0.25.0"
+version = "0.25.1"
 dependencies = [
  "harper-core",
  "harper-html",
@@ -731,7 +731,7 @@ dependencies = [
 
 [[package]]
 name = "harper-core"
-version = "0.25.0"
+version = "0.25.1"
 dependencies = [
  "blanket",
  "cached",
@@ -744,6 +744,7 @@ dependencies = [
  "lazy_static",
  "levenshtein_automata",
  "lru",
+ "once_cell",
  "ordered-float",
  "paste",
  "pulldown-cmark",
@@ -761,7 +762,7 @@ dependencies = [
 
 [[package]]
 name = "harper-html"
-version = "0.25.0"
+version = "0.25.1"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -772,7 +773,7 @@ dependencies = [
 
 [[package]]
 name = "harper-literate-haskell"
-version = "0.25.0"
+version = "0.25.1"
 dependencies = [
  "harper-comments",
  "harper-core",
@@ -783,7 +784,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ls"
-version = "0.25.0"
+version = "0.25.1"
 dependencies = [
  "anyhow",
  "clap",
@@ -809,7 +810,7 @@ dependencies = [
 
 [[package]]
 name = "harper-tree-sitter"
-version = "0.25.0"
+version = "0.25.1"
 dependencies = [
  "harper-core",
  "tree-sitter",
@@ -817,7 +818,7 @@ dependencies = [
 
 [[package]]
 name = "harper-typst"
-version = "0.25.0"
+version = "0.25.1"
 dependencies = [
  "harper-core",
  "itertools 0.14.0",
@@ -1250,9 +1251,9 @@ dependencies = [
 
 [[package]]
 name = "once_cell"
-version = "1.20.3"
+version = "1.21.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "945462a4b81e43c4e3ba96bd7b49d834c6f61198356aa858733bc4acf3cbe62e"
+checksum = "d75b0bedcc4fe52caa0e03d9f1151a323e4aa5e2d78ba3580400cd3c9e2bc4bc"
 
 [[package]]
 name = "oorandom"

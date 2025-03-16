@@ -1712,6 +1712,7 @@ Camelopardalis/2M
 Camelot/2MS
 Camembert/2MS
 Cameron/2M
+Cameronian/1MS
 Cameroon/21SM
 Cameroonian/51MS
 Camilla/2M
@@ -3714,6 +3715,7 @@ Gallagher/2M
 Gallegos/2M
 Gallic/5M
 Gallicism/1SM
+Gallipoli/2M
 Gallo/2M
 Galloway/21M
 Gallup/2M
@@ -7988,7 +7990,7 @@ Poiret/M
 Poirot/2M
 Poisson/1M
 Poitier/2M
-Pokemon/1M
+Pokémon/1M
 Pol/MY
 Poland/2M
 Polanski/2M
@@ -8953,6 +8955,7 @@ Scott/21M
 Scottie/21SM
 Scottish/51M
 Scottsdale/2M
+Scotty/2M
 Scrabble/2MS
 Scranton/2M
 Scriabin/M
@@ -10042,6 +10045,7 @@ Tupperware/1M
 Tupungato/2M
 Turgenev/M
 Turin/2M
+Turin/2M
 Turing/2M
 Turk/152SM
 Turkestan/2M
@@ -10051,6 +10055,7 @@ Turkish/25M
 Türkiye/2M
 Turkmenistan/2M
 Turlock/2M
+Turnbull/2M
 Turner/21M
 Turpin/2M
 Tuscaloosa/2M
@@ -10738,6 +10743,7 @@ Yacc/M
 Yahoo/14M
 Yahtzee/21M
 Yahweh/2M
+Yahya/2M
 Yakima/12M
 Yakut/12M
 Yakutsk/2M
@@ -12311,6 +12317,7 @@ anticlimax/1MS
 anticline/1SM
 anticlockwise/5
 anticoagulant/15MS
+anticolonial/51MS
 anticommunism/1M
 anticommunist/51SM
 anticyclone/1SM
@@ -14884,6 +14891,7 @@ bother/~41SMDG
 botheration/1
 bothered/~54U
 bothersome/5
+botlike/5
 botnet/1SM
 bottle/~14DRSMZG
 bottleneck/~14MS
@@ -18932,6 +18940,7 @@ creaminess/1M
 creamy/~51RPT
 crease/~14ICGMSD
 create/~45KADSGNV
+creatine/1M
 creation's/K
 creation/~1ASM
 creationism/~1SM
@@ -19310,9 +19319,9 @@ currency/~1SM
 current's
 current/~15FAY
 currents/~1
-curricula/~1
+curricula/~9
 curricular/~5
-curriculum/~1M
+curriculum/~1MS
 curry/~14DSMG
 currycomb/14SGMD
 curse/~14DSMGV
@@ -20857,7 +20866,7 @@ dizzy/~541DRSPTG
 djellaba/1MS
 do/~m1SJMRHZG
 doability/1M
-doable/51
+doable/51U
 dob/41S
 dobbed/4
 dobbin/1SM
@@ -23047,7 +23056,7 @@ extramural/5
 extraneous/5Y
 extraordinaire/51
 extraordinarily/~j
-extraordinary/~51
+extraordinary/~51P
 extrapolate/4XGNDS
 extrapolation/~1M
 extrasensory/5
@@ -23234,7 +23243,7 @@ fan/~14SM
 fanatic/~51SM
 fanatical/5Y
 fanaticism/1M
-fanboy/14SM
+fanboy/14SMDG
 fanciable/5
 fancier/15M
 fanciful/~5YP
@@ -24484,7 +24493,7 @@ fractiousness/1M
 fracture/~14MGDS
 frag/14S
 fragile/~51RT
-fragility/1M
+fragility/1MS
 fragment/~14GMDS
 fragmentary/~5M
 fragmentation/~1M
@@ -24677,7 +24686,6 @@ frontierswoman/1
 frontierswomen/9
 frontispiece/14MS
 frontline/1SM
-front-line/5
 frontward/5S
 frosh/14M
 frost's
@@ -26085,7 +26093,7 @@ guileless/5YP
 guilelessness/1M
 guillemot/1S
 guillotine/~14DSMG
-guilt/~14M
+guilt/~14MSDG
 guiltily/j
 guiltiness/1M
 guiltless/5
@@ -26391,6 +26399,7 @@ handsome/~54PYTR
 handsomeness/1M
 handspring/1MS
 handstand/14SM
+handsy/51RT
 handwork/14M
 handwoven/5
 handwriting/~14M
@@ -28453,6 +28462,7 @@ infancy/~1M
 infant/~14MS
 infanticide/1MS
 infantile/~5
+infantilize/4DSG
 infantry/~1SM
 infantryman/~1M
 infantrymen/~9
@@ -29425,6 +29435,7 @@ jobbing/415
 jobholder/1MS
 jobless/5P
 joblessness/1M
+jobseeker/1MS
 jobshare/14S
 jobsworth/1
 jobsworths/1
@@ -29580,6 +29591,7 @@ juridical/5Y
 jurisdiction/~1SM
 jurisdictional/5
 jurisprudence/~1M
+jurisprudential/5
 jurist/~1MS
 juristic/5
 juror/1SM
@@ -33193,6 +33205,7 @@ multimillionaire/1SM
 multinational/~51SM
 multipart/5
 multiparty/5
+multiplanetary/5
 multiplayer/~51M
 multiple/~51MS
 multiplex/~514ZGMDRS
@@ -33431,7 +33444,7 @@ nappy/145TRSM
 narc/14MS
 narcissism/1M
 narcissist/1MS
-narcissistic/~51
+narcissistic/~51Q
 narcissus/~1M
 narcolepsy/1M
 narcoleptic/15
@@ -33682,6 +33695,7 @@ neuritis/1M
 neurobiologist/1SM
 neurobiology/1M
 neurodegeneration/1M
+neurodiverse/5
 neurodiversity/1M
 neurological/~5Y
 neurologist/~1SM
@@ -33767,7 +33781,7 @@ nibbler/1M
 nice/~514PYTR
 niceness/1M
 nicety/1SM
-niche/~145SM
+niche/~145SMD
 nick/~14MDRSZG
 nickel/~154MS
 nickelodeon/~1SM
@@ -34124,6 +34138,7 @@ nonracial/5
 nonradioactive/5
 nonrandom/5
 nonreactive/5
+nonregulatory/5
 nonreciprocal/5SM
 nonreciprocating/5
 nonrecognition/51M
@@ -37659,6 +37674,7 @@ powerful/~5Y
 powerhouse/~1SM
 powerless/~5PY
 powerlessness/1M
+powertrain/1M
 powwow/14SGMD
 pox/14MS
 pp/~1
@@ -37688,7 +37704,7 @@ prance/41DRSMZG
 prancer/1M
 prancing/451Y
 prang/14DSG
-prank/~145MS
+prank/~145MSDG
 prankster/1SM
 praseodymium/1M
 prat/~15S
@@ -38375,7 +38391,7 @@ provability/1M
 provably/j
 prove/~41EAGDS
 proved/~4U
-proven/~54U
+proven/~54UE
 provenance/~14SM
 provender/14M
 provenience/1M
@@ -38663,6 +38679,7 @@ purveyor/1SM
 purview/~1M
 pus/14M
 push/~41ZGMDRS
+pushback/1M
 pushbike/14S
 pushcart/1SM
 pushchair/1S
@@ -39263,7 +39280,7 @@ realistic/~5UQ
 realities/~1
 reality/~1UM
 realization/~1MS
-realize/~4DSBG
+realize/~4DSBGU
 realized/~4U
 realm/~1MS
 realness/1M
@@ -39362,7 +39379,7 @@ recompile/41GD
 recon/~14S
 reconcile/~4GDSB
 reconciliation/~1S
-recondite/514
+recondite/514SM
 reconfiguration/1
 reconfigure/4D
 reconnaissance/~1MS
@@ -39372,6 +39389,7 @@ reconstructed/~45U
 recorded/~45U
 recorder/~1MS
 recording/~41MS
+recordkeeping/1M
 recoup/4DG
 recourse/~14M
 recoverable/51U
@@ -43780,7 +43798,7 @@ stabber/1MS
 stabbing/~514MS
 stability/~1IM
 stabilization/~1CM
-stabilize/~4CDSG
+stabilize/~4CDSGA
 stabilizer/1MS
 stable/~145DRSMTG
 stableman/1M
@@ -47706,7 +47724,7 @@ ungenerous/5
 ungentle/5
 ungodly/5T
 ungraceful/5Y
-ungrudging/5
+ungrudging/5Y
 unguarded/5
 unguent/15SM
 ungulate/51MS
@@ -49530,7 +49548,7 @@ withering/541Y
 withers/~14M
 withheld/~45
 withhold/~41SG
-withholding/~41M
+withholding/~41MS
 within/~+5M
 without/~+7
 withstand/~4GS
@@ -50511,9 +50529,10 @@ VMware/21MS
 Metasploit/21MS
 cryptographic/5Q
 easy peasy/5
-un-American/5
 BRICS/
+un-American/5
 cross section/1MS
+front-line/5
 ground-based/5
 high-level/5
 holy moley
