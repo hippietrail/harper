@@ -1,4 +1,4 @@
-50570
+50600
 AA/1254M
 AAA/12
 AB/215M
@@ -5460,6 +5460,7 @@ Kornberg/M
 Kory/2M
 Korzybski/M
 Kosciusko/2M
+Kosovo/2M
 Kossuth/2M
 Kosygin/M
 Kotlin/2M
@@ -6521,6 +6522,7 @@ McKinley/2M
 McKinney/2M
 McKnight/2M
 McLaughlin/2M
+McLaren/12MS
 McLean/2M
 McLeod/21M
 McLuhan/2M
@@ -8691,6 +8693,7 @@ SAP/21M
 SARS/12M
 SASE/1
 SAT/1MS
+SATA/1M
 SBA/12
 SC/512M
 SCSI/2M
@@ -8701,6 +8704,7 @@ SEATO/2
 SEC/21M
 SEO/1M
 SF/125
+SGI/2M
 SGML/2M
 SIDS/12M
 SJ/21
@@ -8721,6 +8725,7 @@ SRAM/1M
 SRO/1
 SS/125
 SSA/215
+SSD/1SM
 SSE/152M
 SSS/21
 SST/12
@@ -10100,6 +10105,7 @@ UAR/2
 UAW/2
 UBS/2M
 UCLA/2M
+UFC/2MS
 UFO/1SM
 UHF/152M
 UK/2M
@@ -13406,6 +13412,7 @@ badness/1M
 baffle/41MZGDRSL
 bafflement/1M
 baffler/1M
+bafflingly/j
 bag/~14SM
 bagatelle/14SM
 bagel/14MS
@@ -18222,7 +18229,7 @@ construction/~1CAMS
 constructional/5
 constructionist's
 constructionist/51CS
-constructive/~5YP
+constructive/~5YPU
 constructiveness/1M
 constructor/~1MS
 construe/14GDS
@@ -21030,6 +21037,7 @@ doorstepping/41
 doorstop/1MS
 doorway/~1SM
 dooryard/1MS
+doozy/1MS
 dopa/1M
 dopamine/~1
 dope/~145MZGDRS
@@ -24381,9 +24389,10 @@ formalities/1
 formality/~1IM
 formalization/1M
 formalize/4GDS
-format/~14SMVR
+format/~14SMV
 formation/~1CFASM
 formatted/~45A
+formatter/1MS
 formatting/~14M
 formed/~4U
 former/~51FIAM
@@ -25480,6 +25489,8 @@ globalism/1M
 globalist/51MS
 globalization/~1M
 globalize/4GDS
+globbed/4
+globbing/41
 globe/~14SM
 globetrotter/1MS
 globetrotting/41
@@ -27766,6 +27777,7 @@ hysterical/~5Y
 hysterics/1M
 i/~8
 is/~43
+iMac/1MS
 iOS/2M
 iPad/1MS
 iPhone/1MS
@@ -31718,6 +31730,7 @@ matchlock/1SM
 matchmaker/1MS
 matchmaking/14M
 matchstick/1MS
+matchup/1MS
 matchwood/1M
 mate/~14MS
 material/~514SMY
@@ -39124,7 +39137,7 @@ rand/~14M
 randiness/1M
 random/~154PSY
 randomization/1M
-randomize/4DSG
+randomize/4DSGR
 randomness/1MS
 randy/~51RTP
 ranee/1MS
@@ -39783,6 +39796,7 @@ reparable/5
 reparation/1MS
 reparations/~1M
 repartee/14M
+repartition/4SDG
 repatriate/14XDSMGN
 repatriation/~1M
 repeat/~41SMDRZGB
@@ -41133,6 +41147,7 @@ schmo/1M
 schmoes/1
 schmooze/41DRSZG
 schmuck/14MS
+schmutz/1M
 schnapps/1M
 schnauzer/1SM
 schnitzel/1SM
@@ -41291,7 +41306,7 @@ scrimmage/~14MGDS
 scrimp/145SDG
 scrimshaw/41MDGS
 scrip/1MS
-script/~14FSMDG
+script/~14FSMDGB
 scripted/~45U
 scriptural/~5
 scripture/~1MS
@@ -41655,6 +41670,7 @@ sensationalism/1M
 sensationalist/51MS
 sensationalize/4GDS
 sense/~14MGDS
+sensei/1MS
 senseless/5PY
 senselessness/1M
 sensibilities/~1
@@ -41920,7 +41936,7 @@ shapelessness/1M
 shapeliness/1M
 shapely/5PTR
 shard/~14MSG
-share/~14MZGDRS
+share/~14MZGDRSA
 shareable/51
 sharecrop/4S
 sharecropped/4
@@ -44589,6 +44605,7 @@ subsequent/~51Y
 subservience/1M
 subservient/5Y
 subset/~14SM
+subshell/1SM
 subside/4GDS
 subsidence/~1M
 subsidiarity/1
@@ -49913,6 +49930,7 @@ yahoo/~14SM
 yak/~14SM
 yakked/4
 yakking/4
+yakuza/1MS
 yam/~14SM
 yammer/41SZGMDR
 yammerer/1M
@@ -50541,9 +50559,12 @@ Metasploit/21MS
 cryptographic/5Q
 BRICS/
 Minix/2M
-un-American/5
+# Experimental multi-word entries
+bench-warmer/1MS
+built-in/1MS5
 cross section/1MS
 cross-threaded/5
+de facto/51M
 easy peasy/5
 energy-efficient/5
 front-line/5
@@ -50552,15 +50573,24 @@ high-level/5
 high-speed/5
 holy moley
 holy moly
+jiu-jitsu/1M
 left-wing/5
 low-profile/5
 mind-blowing/5
 okey-dokey
 one-handed/5
 one-man/5
+one-off/5
 right-wing/5
 run-up/1MS
+short-term/5j
 shout-out/1S
+single-handedly/j
 third-party/5
 uh-oh
+un-American/5
+user-friendly/5
+UTF-8/1M
+well-known/5
 working-class/15MS
+# New entries may be added below this line
