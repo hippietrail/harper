@@ -99,7 +99,6 @@ test-vscode:
     mkdir "$bin_dir"
   fi
 
-  cargo build --release
   cp "{{justfile_directory()}}/target/release/harper-ls"* "$bin_dir"
 
   cd "$ext_dir"
@@ -206,8 +205,6 @@ precommit: check test build-harperjs build-obsidian build-web build-wp
 
   cargo doc
   cargo build
-  cargo build --release
-  cargo bench
 
 # Install `harper-cli` and `harper-ls` to your machine via `cargo`
 install:
