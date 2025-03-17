@@ -18,11 +18,15 @@ export class HarperSettingTab extends PluginSettingTab {
 	}
 
 	updateSettings() {
-		this.plugin.getSettings().then((v) => (this.settings = v));
+		this.plugin.getSettings().then((v) => {
+			this.settings = v;
+		});
 	}
 
 	updateDescriptions() {
-		this.plugin.getDescriptions().then((v) => (this.descriptions = v));
+		this.plugin.getDescriptions().then((v) => {
+			this.descriptions = v;
+		});
 	}
 
 	display() {

@@ -2,7 +2,8 @@
 	"private": true,
 	"scripts": {
 		"check-dependency-version-consistency": "check-dependency-version-consistency",
-		"check": "biome check --write ."
+		"check": "biome check --write . --diagnostic-level=error",
+		"format": "biome check --write . --unsafe"
 	},
 	"devDependencies": {
 		"@babel/runtime": "catalog:",

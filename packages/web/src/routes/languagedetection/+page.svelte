@@ -10,8 +10,12 @@ let strippedText = '';
 let linter = new WorkerLinter({ binary });
 linter.setup();
 
-$: linter.isLikelyEnglish(text).then((v) => (isEnglish = v));
-$: linter.isolateEnglish(text).then((t) => (strippedText = t));
+$: linter.isLikelyEnglish(text).then((v) => {
+	isEnglish = v;
+});
+$: linter.isolateEnglish(text).then((t) => {
+	strippedText = t;
+});
 
 $: color = isEnglish == null ? '' : isEnglish ? 'bg-green-100' : 'bg-red-100';
 

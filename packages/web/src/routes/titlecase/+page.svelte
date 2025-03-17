@@ -10,7 +10,9 @@ let linter = new WorkerLinter({ binary });
 let text = $state('');
 
 $effect(() => {
-	linter.toTitleCase(text).then((t) => (text = t));
+	linter.toTitleCase(text).then((t) => {
+		text = t;
+	});
 });
 
 onMount(() => {

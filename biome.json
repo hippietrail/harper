@@ -13,10 +13,12 @@
 			"dist",
 			"target",
 			"build",
+			"temp",
 			"*.zip",
 			"**/*.rs",
 			".vscode-test",
 			".svelte-kit",
+			"packages/obsidian-plugin/main.js",
 			"pnpm-lock.yaml",
 			"package-lock.json",
 			"yarn.lock"
@@ -35,10 +37,21 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
+			"suspicious": {
+				"noExplicitAny": "warn",
+				"noArrayIndexKey": "warn",
+				"noLabelVar": "warn"
+			},
 			"a11y": {
-				"noSvgWithoutTitle": "off"
+				"noSvgWithoutTitle": "off",
+				"useGenericFontNames": "warn"
+			},
+			"correctness": {
+				"useExhaustiveDependencies": "warn"
 			},
 			"style": {
+				"noParameterAssign": "warn",
+				"noArguments": "off",
 				"noNonNullAssertion": "off",
 				"noUselessElse": "off",
 				"useNodejsImportProtocol": "off"

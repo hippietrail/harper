@@ -1,7 +1,7 @@
 # Format entire project
 format:
   cargo fmt  
-  cd "{{justfile_directory()}}/packages"; pnpm check --write .
+  cd "{{justfile_directory()}}/packages"; pnpm check
 
 # Build the WebAssembly for a specific target (usually either `web` or `bundler`)
 build-wasm:
@@ -189,11 +189,11 @@ check: check-rust build-web
 
   cd "{{justfile_directory()}}/packages"
   pnpm install
-  pnpm biome check .
+  pnpm check
 
   # Needed because Svelte has special linters
   cd web
-  pnpm run check
+  pnpm check
 
 # Populate build caches and install necessary local tooling (tools callable via `pnpm run <tool>`).
 setup: build-harperjs build-obsidian test-vscode test-harperjs build-web build-wp

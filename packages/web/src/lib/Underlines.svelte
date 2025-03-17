@@ -43,14 +43,11 @@ let linter: WorkerLinter;
 	await linter.setup();
 })();
 
-$: linter
-	?.lint(content)
-	.then(
-		(newLints) =>
-			(lints = newLints
-				.map<[Lint, number]>((lint, index) => [lint, index])
-				.toSorted(([a], [b]) => a.span().start - b.span().end)),
-	);
+$: linter?.lint(content).then((newLints) => {
+	lints = newLints
+		.map<[Lint, number]>((lint, index) => [lint, index])
+		.toSorted(([a], [b]) => a.span().start - b.span().end);
+});
 $: if (focusLintIndex != null && lintHighlights[focusLintIndex] != null)
 	lintHighlights[focusLintIndex].scrollIntoView({
 		behavior: 'smooth',
@@ -111,7 +108,7 @@ function processString(lintMap: [Lint, number][], focusLintIndex?: number) {
 
 	let lastLint = lints.at(-1);
 
-	let finalChunk;
+	let finalChunk: string;
 
 	if (lastLint != null) {
 		finalChunk = content.substring(lastLint[0].span().end);

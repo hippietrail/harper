@@ -25,7 +25,9 @@ let linter: WorkerLinter;
 
 let w: number | undefined;
 
-$: linter?.lint(content).then((newLints) => (lints = newLints));
+$: linter?.lint(content).then((newLints) => {
+	lints = newLints;
+});
 $: boxHeight = calcHeight(content);
 $: if (focused != null && lintCards[focused])
 	lintCards[focused].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });

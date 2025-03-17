@@ -1514,7 +1514,7 @@
 		"test": "node build/tests/runTests.js",
 		"vscode:prepublish": "pnpm lint && tsc --noEmit && node esbuild.cjs --production",
 		"package": "vsce package",
-		"lint": "biome check src/**/*.ts"
+		"lint": "biome check src"
 	},
 	"devDependencies": {
 		"@types/jasmine": "^5.1.7",
