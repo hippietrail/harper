@@ -94,7 +94,7 @@ function processString(lintMap: [Lint, number][], focusLintIndex?: number) {
 
 		let prevContent = [];
 
-		if (prevStart != prevEnd) {
+		if (prevStart !== prevEnd) {
 			prevContent.push(...reOrgString(content.substring(prevStart, prevEnd)));
 		}
 

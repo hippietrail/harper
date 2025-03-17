@@ -33,7 +33,7 @@ export class GithubClient {
 			`https://api.github.com/repos/${encodeURIComponent(repoOwner)}/${encodeURIComponent(repoName)}/releases/latest`,
 			{
 				headers: {
-					['ContentType']: 'application/json',
+					ContentType: 'application/json',
 				},
 			},
 		);

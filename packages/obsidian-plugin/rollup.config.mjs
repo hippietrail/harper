@@ -16,7 +16,7 @@ export default {
 			stringify: true,
 		}),
 		external(),
-		wasm({ maxFileSize: Math.pow(2, 32), publicPath: './' }),
+		wasm({ maxFileSize: 2 ** 32, publicPath: './' }),
 		nodeResolve(),
 		typescript({ compilerOptions: { lib: ['es5', 'es6', 'dom'], target: 'es5' } }),
 	],

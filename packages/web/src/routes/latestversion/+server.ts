@@ -11,7 +11,7 @@ export async function GET() {
 
 	return new Response(latestVersion, {
 		headers: {
-			['Cache-Control']: 'no-cache',
+			'Cache-Control': 'no-cache',
 		},
 	});
 }

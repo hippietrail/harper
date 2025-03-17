@@ -18,7 +18,7 @@ export default defineConfig({
 				description: 'A Grammar Checker from Automattic',
 			},
 			theme: defaultTheme({
-				editLink: `https://github.com/automattic/harper/edit/master/packages/web/src/routes/:route`,
+				editLink: 'https://github.com/automattic/harper/edit/master/packages/web/src/routes/:route',
 				logo: '/circle-logo.png',
 				github: 'https://github.com/automattic/harper',
 				discord: 'https://discord.gg/JBqcAaKrzQ',

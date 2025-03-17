@@ -20,7 +20,7 @@ async function generateConfig() {
 
 	let rows = Object.entries(default_config)
 		.map(([key, value]) => `\t\t\t${key} = ${value},`)
-		.reduce((prev, cur) => prev + '\n' + cur);
+		.reduce((prev, cur) => `${prev}\n${cur}`);
 
 	return head + rows + tail;
 }

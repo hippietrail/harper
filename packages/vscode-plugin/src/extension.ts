@@ -75,7 +75,7 @@ function getExecutablePath(context: ExtensionContext): string {
 }
 
 async function startLanguageServer(): Promise<void> {
-	if (client && client.needsStop()) {
+	if (client?.needsStop()) {
 		if (client.diagnostics) {
 			client.diagnostics.clear();
 		}

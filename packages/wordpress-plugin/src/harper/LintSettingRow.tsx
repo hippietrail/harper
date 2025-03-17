@@ -40,7 +40,7 @@ export default function LintSettingRow({
 						}
 						onChange={(val) => setValue(val)}
 						checked={value ?? defaultValue}
-					></CheckboxControl>
+					/>
 				</div>
 			)}
 		</Animate>

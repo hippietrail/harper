@@ -16,7 +16,7 @@ async function main() {
 			for (const sug of lint.suggestions()) {
 				console.log(
 					'\t - ',
-					sug.kind() == 1 ? 'Remove' : 'Replace with',
+					sug.kind() === 1 ? 'Remove' : 'Replace with',
 					sug.get_replacement_text(),
 				);
 			}

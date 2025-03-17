@@ -63,7 +63,7 @@ export default function SuggestionControl({ lintBox }: { lintBox: IgnorableLintB
 					pointerEvents: 'none',
 					zIndex: 1,
 				}}
-			></div>
+			/>
 			{showPopover ? (
 				<Popover ref={popoverRef} anchor={underlineRef.current} className="harper-popover">
 					<h2 className={`harper-underline-${lint.lint_kind()}`}>{lint.lint_kind_pretty()}</h2>

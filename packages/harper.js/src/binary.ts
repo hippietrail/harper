@@ -125,7 +125,7 @@ export class BinaryModule {
 				return { json: JSON.stringify(arg), type: argType };
 		}
 
-		if (arg.to_json != undefined) {
+		if (arg.to_json !== undefined) {
 			const json = arg.to_json();
 			let type: SerializableTypes | undefined = undefined;
 
@@ -137,7 +137,7 @@ export class BinaryModule {
 				type = 'Span';
 			}
 
-			if (type == undefined) {
+			if (type === undefined) {
 				throw new Error('Unhandled case');
 			}
 

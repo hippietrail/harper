@@ -8,11 +8,11 @@ import { HarperSettingTab } from './HarperSettingTab';
 import { linter } from './lint';
 
 function suggestionToLabel(sug: Suggestion) {
-	if (sug.kind() == SuggestionKind.Remove) {
+	if (sug.kind() === SuggestionKind.Remove) {
 		return 'Remove';
-	} else if (sug.kind() == SuggestionKind.Replace) {
+	} else if (sug.kind() === SuggestionKind.Replace) {
 		return `Replace with “${sug.get_replacement_text()}”`;
-	} else if (sug.kind() == SuggestionKind.InsertAfter) {
+	} else if (sug.kind() === SuggestionKind.InsertAfter) {
 		return `Insert “${sug.get_replacement_text()}” after this.`;
 	}
 }
@@ -41,7 +41,7 @@ export default class HarperPlugin extends Plugin {
 
 		const oldSettings = await this.getSettings();
 
-		if (settings.useWebWorker != oldSettings.useWebWorker) {
+		if (settings.useWebWorker !== oldSettings.useWebWorker) {
 			if (settings.useWebWorker) {
 				this.harper = new WorkerLinter({ binary });
 			} else {
@@ -88,7 +88,7 @@ export default class HarperPlugin extends Plugin {
 	}
 
 	async onload() {
-		if (typeof Response == 'undefined') {
+		if (typeof Response === 'undefined') {
 			new Notice('Please update your Electron version before running Harper.', 0);
 			return;
 		}
@@ -158,7 +158,7 @@ export default class HarperPlugin extends Plugin {
 	}
 
 	hasEditorLinter(): boolean {
-		return this.editorExtensions.length != 0;
+		return this.editorExtensions.length !== 0;
 	}
 
 	private toggleAutoLint() {
@@ -217,7 +217,7 @@ export default class HarperPlugin extends Plugin {
 						};
 					});
 
-					if (lint.lint_kind() == 'Spelling') {
+					if (lint.lint_kind() === 'Spelling') {
 						const word = lint.get_problem_text();
 
 						actions.push({
