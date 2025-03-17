@@ -754,8 +754,14 @@ pub fn lint_group() -> LintGroup {
         "EachAndEveryOne" => (
             ["each and everyone"],
             ["each and every one"],
-            "Use `each and every one` for referring to a group of people or things.",
+            "Use `every one` for individual members of a group.",
             "Corrects `each and everyone` to `each and every one`."
+        ),
+        "EveryOneOf" => (
+            ["everyone of"],
+            ["every one of"],
+            "Use `every one` for individual members of a group.",
+            "Corrects `everyone of` to `every one of`."
         ),
     });
 
@@ -1314,6 +1320,20 @@ mod tests {
             "I have modified each and everyone of them to keep only the best of the best!",
             lint_group(),
             "I have modified each and every one of them to keep only the best of the best!",
+        );
+    }
+
+    #[test]
+    fn detect_everyone_of() {
+        assert_suggestion_result("everyone of", lint_group(), "every one of");
+    }
+
+    #[test]
+    fn detect_everyone_of_real_world() {
+        assert_suggestion_result(
+            "Just chiming in to say I also get this on everyone of my builds and was about to file an issue ...",
+            lint_group(),
+            "Just chiming in to say I also get this on every one of my builds and was about to file an issue ...",
         );
     }
 }
