@@ -27,13 +27,15 @@ COPY --from=wasm-build /usr/build/harper-wasm/pkg /usr/build/harper-wasm/pkg
 COPY packages packages
 COPY demo.md .
 
+RUN pnpm install
+
 WORKDIR /usr/build/packages/harper.js
 
-RUN pnpm install && pnpm build && ./docs.sh
+RUN pnpm build && ./docs.sh
 
 WORKDIR /usr/build/packages/web
 
-RUN pnpm install && pnpm build
+RUN pnpm build
 
 FROM node:${NODE_VERSION}
 
