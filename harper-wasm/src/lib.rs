@@ -71,9 +71,9 @@ pub enum Dialect {
     Canadian,
 }
 
-impl Into<harper_core::Dialect> for Dialect {
-    fn into(self) -> harper_core::Dialect {
-        match self {
+impl From<Dialect> for harper_core::Dialect {
+    fn from(dialect: Dialect) -> Self {
+        match dialect {
             Dialect::American => harper_core::Dialect::American,
             Dialect::Canadian => harper_core::Dialect::Canadian,
             Dialect::Australian => harper_core::Dialect::Australian,
