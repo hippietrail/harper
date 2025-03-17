@@ -11,11 +11,8 @@
 		"start": "wp-scripts start --webpack-copy-php"
 	},
 	"devDependencies": {
-		"@wordpress/eslint-plugin": "^22.2.0",
 		"@wordpress/scripts": "^30.9.0",
 		"@wp-now/wp-now": "^0.1.74",
-		"eslint": "catalog:",
-		"prettier": "catalog:",
 		"typescript": "catalog:"
 	},
 	"dependencies": {

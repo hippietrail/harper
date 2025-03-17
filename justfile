@@ -1,7 +1,7 @@
 # Format entire project
 format:
   cargo fmt  
-  cd "{{justfile_directory()}}/packages"; pnpm prettier -w .
+  cd "{{justfile_directory()}}/packages"; pnpm check --write .
 
 # Build the WebAssembly for a specific target (usually either `web` or `bundler`)
 build-wasm:
@@ -172,7 +172,7 @@ update-vscode-linters:
     '.contributes.configuration.properties += $linters' <<< \
     "$manifest_without_linters" > \
     package.json
-  pnpm prettier --write package.json
+  pnpm biome --write package.json
 
 # Run Rust formatting and linting.
 check-rust:
@@ -189,8 +189,7 @@ check: check-rust build-web
 
   cd "{{justfile_directory()}}/packages"
   pnpm install
-  pnpm prettier --check .
-  pnpm eslint .
+  pnpm biome check .
 
   # Needed because Svelte has special linters
   cd web

@@ -22,14 +22,8 @@
 	"engines": {
 		"vscode": "^1.89.0"
 	},
-	"categories": [
-		"Other"
-	],
-	"keywords": [
-		"grammar",
-		"spellcheck",
-		"writing"
-	],
+	"categories": ["Other"],
+	"keywords": ["grammar", "spellcheck", "writing"],
 	"activationEvents": [
 		"onLanguage:c",
 		"onLanguage:cmake",
@@ -86,12 +80,7 @@
 				"harper.diagnosticSeverity": {
 					"scope": "resource",
 					"type": "string",
-					"enum": [
-						"error",
-						"hint",
-						"information",
-						"warning"
-					],
+					"enum": ["error", "hint", "information", "warning"],
 					"default": "information",
 					"description": "How severe do you want diagnostics to appear in the editor?"
 				},
@@ -1525,18 +1514,15 @@
 		"test": "node build/tests/runTests.js",
 		"vscode:prepublish": "pnpm lint && tsc --noEmit && node esbuild.cjs --production",
 		"package": "vsce package",
-		"lint": "eslint src --ext ts"
+		"lint": "biome check src/**/*.ts"
 	},
 	"devDependencies": {
 		"@types/jasmine": "^5.1.7",
 		"@types/node": "catalog:",
 		"@types/vscode": "^1.89.0",
-		"@typescript-eslint/eslint-plugin": "catalog:",
-		"@typescript-eslint/parser": "catalog:",
 		"@vscode/test-electron": "^2.3.9",
 		"@vscode/vsce": "^3.0.0",
 		"esbuild": "^0.25.0",
-		"eslint": "catalog:",
 		"jasmine": "^5.6.0",
 		"typescript": "catalog:"
 	},
