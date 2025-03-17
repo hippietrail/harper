@@ -1521,24 +1521,24 @@
 	"scripts": {
 		"watch:esbuild": "node esbuild.cjs --watch",
 		"watch:tsc": "tsc --noEmit --watch",
-		"pretest": "yarn lint && tsc && node esbuild.cjs",
+		"pretest": "pnpm lint && tsc && node esbuild.cjs",
 		"test": "node build/tests/runTests.js",
-		"vscode:prepublish": "yarn lint && tsc --noEmit && node esbuild.cjs --production",
+		"vscode:prepublish": "pnpm lint && tsc --noEmit && node esbuild.cjs --production",
 		"package": "vsce package",
 		"lint": "eslint src --ext ts"
 	},
 	"devDependencies": {
 		"@types/jasmine": "^5.1.7",
-		"@types/node": "22.x",
+		"@types/node": "catalog:",
 		"@types/vscode": "^1.89.0",
-		"@typescript-eslint/eslint-plugin": "^7.7.1",
-		"@typescript-eslint/parser": "^7.7.1",
+		"@typescript-eslint/eslint-plugin": "catalog:",
+		"@typescript-eslint/parser": "catalog:",
 		"@vscode/test-electron": "^2.3.9",
 		"@vscode/vsce": "^3.0.0",
 		"esbuild": "^0.25.0",
-		"eslint": "^8.57.0",
+		"eslint": "catalog:",
 		"jasmine": "^5.6.0",
-		"typescript": "^5.8.2"
+		"typescript": "catalog:"
 	},
 	"dependencies": {
 		"vscode-languageclient": "^9.0.1"

@@ -28,11 +28,11 @@ COPY demo.md .
 
 WORKDIR /usr/build/packages/harper.js
 
-RUN yarn install && yarn build && ./docs.sh
+RUN pnpm install && pnpm build && ./docs.sh
 
 WORKDIR /usr/build/packages/web
 
-RUN yarn install && yarn build
+RUN pnpm install && pnpm build
 
 FROM node:${NODE_VERSION}
 
@@ -41,7 +41,7 @@ COPY --from=node-build /usr/build/packages/web/package.json /usr/build/packages/
 
 WORKDIR /usr/build/packages/web
 
-RUN yarn install
+RUN pnpm install
 
 ENV HOST=0.0.0.0
 ENV PORT=3000
