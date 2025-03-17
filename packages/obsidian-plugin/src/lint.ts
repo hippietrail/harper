@@ -1,25 +1,25 @@
 import {
-	EditorView,
-	ViewPlugin,
-	Decoration,
-	DecorationSet,
-	WidgetType,
-	ViewUpdate,
-	logException,
-	hoverTooltip,
-	Tooltip
-} from '@codemirror/view';
-import {
+	type EditorState,
+	type Extension,
+	Facet,
+	RangeSet,
 	StateEffect,
 	StateField,
-	Extension,
-	TransactionSpec,
-	Transaction,
-	EditorState,
-	Facet,
+	type Transaction,
+	type TransactionSpec,
 	combineConfig,
-	RangeSet
 } from '@codemirror/state';
+import {
+	Decoration,
+	type DecorationSet,
+	EditorView,
+	type Tooltip,
+	ViewPlugin,
+	type ViewUpdate,
+	WidgetType,
+	hoverTooltip,
+	logException,
+} from '@codemirror/view';
 import elt from 'crelt';
 
 type Severity = 'hint' | 'info' | 'warning' | 'error';
@@ -96,14 +96,14 @@ class SelectedDiagnostic {
 	constructor(
 		readonly from: number,
 		readonly to: number,
-		readonly diagnostic: Diagnostic
+		readonly diagnostic: Diagnostic,
 	) {}
 }
 
 class LintState {
 	constructor(
 		readonly diagnostics: DecorationSet,
-		readonly selected: SelectedDiagnostic | null
+		readonly selected: SelectedDiagnostic | null,
 	) {}
 
 	static init(diagnostics: readonly Diagnostic[], state: EditorState) {
@@ -118,17 +118,19 @@ class LintState {
 				return d.from == d.to || (d.from == d.to - 1 && state.doc.lineAt(d.from).to == d.from)
 					? Decoration.widget({
 							widget: new DiagnosticWidget(d),
-							diagnostic: d
+							diagnostic: d,
 						}).range(d.from)
 					: Decoration.mark({
 							attributes: {
 								class:
-									'cm-lintRange cm-lintRange-' + d.severity + (d.markClass ? ' ' + d.markClass : '')
+									'cm-lintRange cm-lintRange-' +
+									d.severity +
+									(d.markClass ? ' ' + d.markClass : ''),
 							},
-							diagnostic: d
+							diagnostic: d,
 						}).range(d.from, d.to);
 			}),
-			true
+			true,
 		);
 		return new LintState(ranges, findDiagnostic(ranges));
 	}
@@ -137,7 +139,7 @@ class LintState {
 function findDiagnostic(
 	diagnostics: DecorationSet,
 	diagnostic: Diagnostic | null = null,
-	after = 0
+	after = 0,
 ): SelectedDiagnostic | null {
 	let found: SelectedDiagnostic | null = null;
 	diagnostics.between(after, 1e9, (from, to, { spec }) => {
@@ -171,10 +173,10 @@ function maybeEnableLint(state: EditorState, effects: readonly StateEffect<unkno
 /// active.
 export function setDiagnostics(
 	state: EditorState,
-	diagnostics: readonly Diagnostic[]
+	diagnostics: readonly Diagnostic[],
 ): TransactionSpec {
 	return {
-		effects: maybeEnableLint(state, [setDiagnosticsEffect.of(diagnostics)])
+		effects: maybeEnableLint(state, [setDiagnosticsEffect.of(diagnostics)]),
 	};
 }
 
@@ -211,7 +213,7 @@ const lintState = StateField.define<LintState>({
 
 		return value;
 	},
-	provide: (f) => [EditorView.decorations.from(f, (s) => s.diagnostics)]
+	provide: (f) => [EditorView.decorations.from(f, (s) => s.diagnostics)],
 });
 
 const activeMark = Decoration.mark({ class: 'cm-lintRange cm-lintRange-active' });
@@ -244,7 +246,7 @@ function lintTooltip(view: EditorView, pos: number, side: -1 | 1) {
 		above: view.state.doc.lineAt(stackStart).to < stackEnd,
 		create() {
 			return { dom: diagnosticsTooltip(view, found) };
-		}
+		},
 	};
 }
 
@@ -252,13 +254,13 @@ function diagnosticsTooltip(view: EditorView, diagnostics: readonly Diagnostic[]
 	return elt(
 		'ul',
 		{ class: 'cm-tooltip-lint' },
-		diagnostics.map((d) => renderDiagnostic(view, d, false))
+		diagnostics.map((d) => renderDiagnostic(view, d, false)),
 	);
 }
 
 /// The type of a function that produces diagnostics.
 export type LintSource = (
-	view: EditorView
+	view: EditorView,
 ) => readonly Diagnostic[] | Promise<readonly Diagnostic[]>;
 
 const lintPlugin = ViewPlugin.fromClass(
@@ -292,7 +294,7 @@ const lintPlugin = ViewPlugin.fromClass(
 						},
 						(error) => {
 							logException(this.view.state, error);
-						}
+						},
 					);
 			}
 		}
@@ -322,7 +324,7 @@ const lintPlugin = ViewPlugin.fromClass(
 		destroy() {
 			clearTimeout(this.timeout);
 		}
-	}
+	},
 );
 
 const lintConfig = Facet.define<
@@ -339,14 +341,14 @@ const lintConfig = Facet.define<
 					markerFilter: null,
 					tooltipFilter: null,
 					needsRefresh: null,
-					hideOn: () => null
+					hideOn: () => null,
 				},
 				{
-					needsRefresh: (a, b) => (!a ? b : !b ? a : (u) => a(u) || b(u))
-				}
-			)
+					needsRefresh: (a, b) => (!a ? b : !b ? a : (u) => a(u) || b(u)),
+				},
+			),
 		};
-	}
+	},
 });
 
 /// Given a diagnostic source, this function returns an extension that
@@ -389,7 +391,7 @@ function renderDiagnostic(view: EditorView, diagnostic: Diagnostic, inPanel: boo
 		elt(
 			'span',
 			{ class: 'cm-diagnosticText' },
-			diagnostic.renderMessage ? diagnostic.renderMessage(view) : diagnostic.message
+			diagnostic.renderMessage ? diagnostic.renderMessage(view) : diagnostic.message,
 		),
 		diagnostic.actions?.map((action, i) => {
 			let fired = false;
@@ -408,7 +410,7 @@ function renderDiagnostic(view: EditorView, diagnostic: Diagnostic, inPanel: boo
 					: [
 							name.slice(0, keyIndex),
 							elt('u', name.slice(keyIndex, keyIndex + 1)),
-							name.slice(keyIndex + 1)
+							name.slice(keyIndex + 1),
 						];
 			return elt(
 				'button',
@@ -417,9 +419,9 @@ function renderDiagnostic(view: EditorView, diagnostic: Diagnostic, inPanel: boo
 					class: 'cm-diagnosticAction',
 					onclick: click,
 					onmousedown: click,
-					'aria-label': ` Action: ${name}${keyIndex < 0 ? '' : ` (access key "${keys[i]})"`}.`
+					'aria-label': ` Action: ${name}${keyIndex < 0 ? '' : ` (access key "${keys[i]})"`}.`,
 				},
-				nameElt
+				nameElt,
 			);
 		}),
 		diagnostic.ignore &&
@@ -432,11 +434,11 @@ function renderDiagnostic(view: EditorView, diagnostic: Diagnostic, inPanel: boo
 						if (diagnostic.ignore) {
 							diagnostic.ignore();
 						}
-					}
+					},
 				},
-				'Ignore Diagnostic'
+				'Ignore Diagnostic',
 			),
-		diagnostic.source && elt('div', { class: 'cm-diagnosticSource' }, diagnostic.source)
+		diagnostic.source && elt('div', { class: 'cm-diagnosticSource' }, diagnostic.source),
 	);
 }
 
@@ -461,7 +463,7 @@ function svg(content: string, attrs = `viewBox="0 0 40 40"`) {
 function underline(color: string) {
 	return svg(
 		`<path d="m0 2.5 l2 -1.5 l1 0 l2 1.5 l1 0" stroke="${color}" fill="none" stroke-width="1"/>`,
-		`width="6" height="3"`
+		`width="6" height="3"`,
 	);
 }
 
@@ -471,17 +473,17 @@ const baseTheme = EditorView.baseTheme({
 		marginLeft: '0px',
 		display: 'flex',
 		flexDirection: 'column',
-		whiteSpace: 'pre-wrap'
+		whiteSpace: 'pre-wrap',
 	},
 
 	'.cm-diagnosticTitle': {
 		boxShadow: 'inset 0 -2px #DB2B39',
 		width: 'max-content',
-		fontWeight: 'bold'
+		fontWeight: 'bold',
 	},
 
 	'.cm-diagnosticText': {
-		marginTop: '8px'
+		marginTop: '8px',
 	},
 
 	'.cm-diagnosticAction': {
@@ -496,7 +498,7 @@ const baseTheme = EditorView.baseTheme({
 		fontSize: 'var(--font-ui-small)',
 		borderRadius: 'var(--radius-s)',
 		whiteSpace: 'nowrap',
-		width: '100%'
+		width: '100%',
 	},
 
 	'.cm-tooltip': {
@@ -508,27 +510,27 @@ const baseTheme = EditorView.baseTheme({
 		zIndex: 'var(--layer-menu) !important',
 		userSelect: 'none !important',
 		maxHeight: 'calc(100% - var(--header-height)) !important',
-		overflow: 'hidden !important'
+		overflow: 'hidden !important',
 	},
 
 	'.cm-diagnosticSource': {
 		fontSize: '70%',
-		opacity: 0.7
+		opacity: 0.7,
 	},
 
 	'.cm-diagnosticIgnore': {
 		padding: 'var(--size-4-1) 0px',
-		fontSize: 'var(--font-ui-small)'
+		fontSize: 'var(--font-ui-small)',
 	},
 
 	'.cm-diagnosticIgnore:hover': {
-		textDecoration: 'underline'
+		textDecoration: 'underline',
 	},
 
 	'.cm-lintRange': {
 		backgroundPosition: 'left bottom',
 		backgroundRepeat: 'repeat-x',
-		paddingBottom: '0.7px'
+		paddingBottom: '0.7px',
 	},
 
 	'.cm-lintRange-error': { backgroundImage: underline('#d11') },
@@ -539,7 +541,7 @@ const baseTheme = EditorView.baseTheme({
 
 	'.cm-tooltip-lint': {
 		padding: 0,
-		margin: 0
+		margin: 0,
 	},
 
 	'.cm-lintPoint': {
@@ -552,18 +554,18 @@ const baseTheme = EditorView.baseTheme({
 			left: '-2px',
 			borderLeft: '3px solid transparent',
 			borderRight: '3px solid transparent',
-			borderBottom: '4px solid #d11'
-		}
+			borderBottom: '4px solid #d11',
+		},
 	},
 
 	'.cm-lintPoint-warning': {
-		'&:after': { borderBottomColor: 'orange' }
+		'&:after': { borderBottomColor: 'orange' },
 	},
 	'.cm-lintPoint-info': {
-		'&:after': { borderBottomColor: '#999' }
+		'&:after': { borderBottomColor: '#999' },
 	},
 	'.cm-lintPoint-hint': {
-		'&:after': { borderBottomColor: '#66d' }
+		'&:after': { borderBottomColor: '#66d' },
 	},
 
 	'.cm-panel.cm-panel-lint': {
@@ -573,17 +575,17 @@ const baseTheme = EditorView.baseTheme({
 			overflowY: 'auto',
 			'& [aria-selected]': {
 				backgroundColor: '#ddd',
-				'& u': { textDecoration: 'underline' }
+				'& u': { textDecoration: 'underline' },
 			},
 			'&:focus [aria-selected]': {
 				background_fallback: '#bdf',
 				backgroundColor: 'Highlight',
 				color_fallback: 'white',
-				color: 'HighlightText'
+				color: 'HighlightText',
 			},
 			'& u': { textDecoration: 'none' },
 			padding: 0,
-			margin: 0
+			margin: 0,
 		},
 		'& [name=close]': {
 			position: 'absolute',
@@ -593,9 +595,9 @@ const baseTheme = EditorView.baseTheme({
 			border: 'none',
 			font: 'inherit',
 			padding: 0,
-			margin: 0
-		}
-	}
+			margin: 0,
+		},
+	},
 });
 
 const lintExtensions = [
@@ -607,7 +609,7 @@ const lintExtensions = [
 			: Decoration.set([activeMark.range(selected.from, selected.to)]);
 	}),
 	hoverTooltip(lintTooltip, { hideOn: hideTooltip }),
-	baseTheme
+	baseTheme,
 ];
 
 /// Iterate over the marked diagnostics for the given editor state,
@@ -617,7 +619,7 @@ const lintExtensions = [
 /// arguments hold the diagnostic's current position.
 export function forEachDiagnostic(
 	state: EditorState,
-	f: (d: Diagnostic, from: number, to: number) => void
+	f: (d: Diagnostic, from: number, to: number) => void,
 ) {
 	const lState = state.field(lintState, false);
 	if (lState && lState.diagnostics.size)

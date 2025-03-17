@@ -1,6 +1,6 @@
 import type { Lint, Span, Suggestion } from 'harper-wasm';
-import { LintConfig, LintOptions } from './main';
-import { BinaryModule } from './binary';
+import type { BinaryModule } from './binary';
+import type { LintConfig, LintOptions } from './main';
 
 /** An interface for an object that can perform linting actions. */
 export default interface Linter {

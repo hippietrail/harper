@@ -2,13 +2,13 @@ import type { Diagnostic, Extension } from 'vscode';
 
 import {
 	DiagnosticSeverity,
-	extensions,
-	languages,
 	Position,
 	Range,
 	Uri,
+	extensions,
+	languages,
 	window,
-	workspace
+	workspace,
 } from 'vscode';
 
 export async function activateHarper(): Promise<Extension<void>> {
@@ -39,7 +39,7 @@ export function createExpectedDiagnostics(
 
 export function compareActualVsExpectedDiagnostics(
 	actual: Diagnostic[],
-	expected: Diagnostic[]
+	expected: Diagnostic[],
 ): void {
 	expect(actual.length).toBe(expected.length);
 	for (let i = 0; i < actual.length; i++) {
@@ -54,7 +54,7 @@ export function createRange(
 	startRow: number,
 	startColumn: number,
 	endRow: number,
-	endColumn: number
+	endColumn: number,
 ): Range {
 	return new Range(new Position(startRow, startColumn), new Position(endRow, endColumn));
 }

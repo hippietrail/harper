@@ -1,6 +1,6 @@
 import type { Extension } from 'vscode';
 
-import { commands, ConfigurationTarget, Uri, workspace } from 'vscode';
+import { ConfigurationTarget, type Uri, commands, workspace } from 'vscode';
 
 import {
 	activateHarper,
@@ -9,7 +9,7 @@ import {
 	createRange,
 	getActualDiagnostics,
 	openFile,
-	sleep
+	sleep,
 } from './helper';
 
 describe('Integration >', () => {
@@ -34,13 +34,13 @@ describe('Integration >', () => {
 			createExpectedDiagnostics(
 				{
 					message: 'Did you mean to repeat this word?',
-					range: createRange(2, 39, 2, 48)
+					range: createRange(2, 39, 2, 48),
 				},
 				{
 					message: 'Did you mean to spell “errorz” this way?',
-					range: createRange(2, 26, 2, 32)
-				}
-			)
+					range: createRange(2, 26, 2, 32),
+				},
+			),
 		);
 	});
 
@@ -54,8 +54,8 @@ describe('Integration >', () => {
 			getActualDiagnostics(markdownUri),
 			createExpectedDiagnostics({
 				message: 'Did you mean to spell “errorz” this way?',
-				range: createRange(2, 26, 2, 32)
-			})
+				range: createRange(2, 26, 2, 32),
+			}),
 		);
 
 		// Set config back to default value
@@ -73,7 +73,7 @@ describe('Integration >', () => {
 
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
-			createExpectedDiagnostics()
+			createExpectedDiagnostics(),
 		);
 
 		// Restore and reopen deleted file
@@ -89,7 +89,7 @@ describe('Integration >', () => {
 
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
-			createExpectedDiagnostics()
+			createExpectedDiagnostics(),
 		);
 
 		// Restore and reopen deleted file

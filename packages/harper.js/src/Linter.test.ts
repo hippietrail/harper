@@ -1,11 +1,11 @@
 import { expect, test } from 'vitest';
-import WorkerLinter from './WorkerLinter';
 import LocalLinter from './LocalLinter';
+import WorkerLinter from './WorkerLinter';
 import { binary } from './binary';
 
 const linters = {
 	WorkerLinter: WorkerLinter,
-	LocalLinter: LocalLinter
+	LocalLinter: LocalLinter,
 };
 
 for (const [linterName, Linter] of Object.entries(linters)) {
@@ -23,7 +23,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		const promises = [
 			linter.lint('The problem is that that...'),
 			linter.lint('The problem is...'),
-			linter.lint('The the problem is...')
+			linter.lint('The the problem is...'),
 		];
 
 		const results = await Promise.all(promises);
@@ -40,7 +40,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		const promises = [
 			linter.lint('The problem is that that...'),
 			linter.lint('The problem is...'),
-			linter.lint('The the problem is...')
+			linter.lint('The the problem is...'),
 		];
 
 		const results = await Promise.all(promises);
@@ -55,7 +55,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		const linter = new Linter({ binary });
 
 		const result = await linter.isLikelyEnglish(
-			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.'
+			'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.',
 		);
 
 		expect(result).toBeTypeOf('boolean');

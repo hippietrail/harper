@@ -5,7 +5,7 @@ import {
 	createRange,
 	getActualDiagnostics,
 	openFile,
-	sleep
+	sleep,
 } from './helper';
 
 describe('Languages >', () => {
@@ -51,7 +51,7 @@ describe('Languages >', () => {
 		{ type: 'Shellscript with .sh extension', file: 'shellscript.sh', row: 0, column: 22 },
 		{ type: 'Swift', file: 'swift.swift', row: 9, column: 26 },
 		{ type: 'TypeScript', file: 'typescript.ts', row: 0, column: 32 },
-		{ type: 'TypeScript JSX', file: 'typescriptreact.tsx', row: 3, column: 7 }
+		{ type: 'TypeScript JSX', file: 'typescriptreact.tsx', row: 3, column: 7 },
 	].forEach((testCase) => {
 		it(`gives correct diagnostics for ${testCase.type} files`, async () => {
 			const uri = await openFile('languages', testCase.file);
@@ -63,8 +63,8 @@ describe('Languages >', () => {
 				getActualDiagnostics(uri),
 				createExpectedDiagnostics({
 					message: 'Did you mean to spell “Errorz” this way?',
-					range: createRange(testCase.row, testCase.column, testCase.row, testCase.column + 6)
-				})
+					range: createRange(testCase.row, testCase.column, testCase.row, testCase.column + 6),
+				}),
 			);
 		});
 	});

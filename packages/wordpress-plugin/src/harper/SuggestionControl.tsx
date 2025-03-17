@@ -1,8 +1,8 @@
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-import { IgnorableLintBox, isPointInBox } from './Box';
-import { useAddToDictionary } from './usePersonalDictionary';
 import { Button, Popover } from '@wordpress/components';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { type IgnorableLintBox, isPointInBox } from './Box';
 import { suggestionText } from './lintUtils';
+import { useAddToDictionary } from './usePersonalDictionary';
 
 /**
  * A control for an individual suggestion shown on the screen.
@@ -61,7 +61,7 @@ export default function SuggestionControl({ lintBox }: { lintBox: IgnorableLintB
 					width: `${width}px`,
 					height: `${height}px`,
 					pointerEvents: 'none',
-					zIndex: 1
+					zIndex: 1,
 				}}
 			></div>
 			{showPopover ? (

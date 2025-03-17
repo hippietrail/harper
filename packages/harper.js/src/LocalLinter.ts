@@ -1,9 +1,10 @@
 import type { Lint, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
 import { Language } from 'harper-wasm';
 import LazyPromise from 'p-lazy';
-import Linter, { LinterInit } from './Linter';
-import { LintConfig, LintOptions } from './main';
-import { BinaryModule } from './binary';
+import type Linter from './Linter';
+import type { LinterInit } from './Linter';
+import type { BinaryModule } from './binary';
+import type { LintConfig, LintOptions } from './main';
 
 /** A Linter that runs in the current JavaScript context (meaning it is allowed to block the event loop).  */
 export default class LocalLinter implements Linter {

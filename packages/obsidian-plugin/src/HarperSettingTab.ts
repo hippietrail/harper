@@ -1,7 +1,8 @@
 import './index.js';
 import { startCase } from 'lodash-es';
-import { App, PluginSettingTab, Setting } from 'obsidian';
-import HarperPlugin, { Settings } from './index.js';
+import { type App, PluginSettingTab, Setting } from 'obsidian';
+import type HarperPlugin from './index.js';
+import type { Settings } from './index.js';
 
 export class HarperSettingTab extends PluginSettingTab {
 	private plugin: HarperPlugin;
@@ -34,7 +35,7 @@ export class HarperSettingTab extends PluginSettingTab {
 			toggle.setValue(this.settings.useWebWorker).onChange(async (value) => {
 				this.settings.useWebWorker = value;
 				await this.plugin.initializeFromSettings(this.settings);
-			})
+			}),
 		);
 
 		for (const setting of Object.keys(this.settings.lintSettings)) {
@@ -53,7 +54,7 @@ export class HarperSettingTab extends PluginSettingTab {
 						.onChange(async (value) => {
 							this.settings.lintSettings[setting] = stringToValue(value);
 							await this.plugin.initializeFromSettings(this.settings);
-						})
+						}),
 				);
 		}
 

@@ -7,17 +7,17 @@ async function main() {
 
 	console.log('Here are the results of linting the above text:');
 
-	for (let lint of lints) {
+	for (const lint of lints) {
 		console.log(' - ', lint.span().start, ':', lint.span().end, lint.message());
 
-		if (lint.suggestion_count() != 0) {
+		if (lint.suggestion_count() !== 0) {
 			console.log('Suggestions:');
 
-			for (let sug of lint.suggestions()) {
+			for (const sug of lint.suggestions()) {
 				console.log(
 					'\t - ',
 					sug.kind() == 1 ? 'Remove' : 'Replace with',
-					sug.get_replacement_text()
+					sug.get_replacement_text(),
 				);
 			}
 		}

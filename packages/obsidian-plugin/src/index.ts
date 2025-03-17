@@ -1,11 +1,11 @@
-import { toArray } from 'lodash-es';
-import logoSvg from '../logo.svg';
-import { Plugin, Menu, PluginManifest, App, Notice } from 'obsidian';
-import { LintConfig, Linter, Suggestion } from 'harper.js';
+import type { Extension } from '@codemirror/state';
+import type { LintConfig, Linter, Suggestion } from 'harper.js';
 import { LocalLinter, SuggestionKind, WorkerLinter, binary } from 'harper.js';
-import { linter } from './lint';
-import { Extension } from '@codemirror/state';
+import { toArray } from 'lodash-es';
+import { type App, Menu, Notice, Plugin, type PluginManifest } from 'obsidian';
+import logoSvg from '../logo.svg';
 import { HarperSettingTab } from './HarperSettingTab';
+import { linter } from './lint';
 
 function suggestionToLabel(sug: Suggestion) {
 	if (sug.kind() == SuggestionKind.Remove) {
@@ -83,7 +83,7 @@ export default class HarperPlugin extends Plugin {
 			ignoredLints: await this.harper.exportIgnoredLints(),
 			useWebWorker: usingWebWorker,
 			lintSettings: await this.harper.getLintConfig(),
-			userDictionary: await this.harper.exportWords()
+			userDictionary: await this.harper.exportWords(),
 		};
 	}
 
@@ -125,7 +125,7 @@ export default class HarperPlugin extends Plugin {
 					.setIcon('documents')
 					.onClick(() => {
 						this.toggleAutoLint();
-					})
+					}),
 			);
 
 			menu.showAtMouseEvent(event);
@@ -138,7 +138,7 @@ export default class HarperPlugin extends Plugin {
 		this.addCommand({
 			id: 'harper-toggle-auto-lint',
 			name: 'Toggle automatic grammar checking',
-			callback: () => this.toggleAutoLint()
+			callback: () => this.toggleAutoLint(),
 		});
 	}
 
@@ -193,27 +193,27 @@ export default class HarperPlugin extends Plugin {
 										changes: {
 											from: span.start,
 											to: span.end,
-											insert: ''
-										}
+											insert: '',
+										},
 									});
 								} else if (sug.kind() === SuggestionKind.Replace) {
 									view.dispatch({
 										changes: {
 											from: span.start,
 											to: span.end,
-											insert: sug.get_replacement_text()
-										}
+											insert: sug.get_replacement_text(),
+										},
 									});
 								} else if (sug.kind() === SuggestionKind.InsertAfter) {
 									view.dispatch({
 										changes: {
 											from: span.end,
 											to: span.end,
-											insert: sug.get_replacement_text()
-										}
+											insert: sug.get_replacement_text(),
+										},
 									});
 								}
-							}
+							},
 						};
 					});
 
@@ -225,7 +225,7 @@ export default class HarperPlugin extends Plugin {
 							apply: (view) => {
 								this.harper.importWords([word]);
 								this.reinitialize();
-							}
+							},
 						});
 					}
 
@@ -239,13 +239,13 @@ export default class HarperPlugin extends Plugin {
 							await this.harper.ignoreLint(lint);
 							await this.reinitialize();
 						},
-						actions
+						actions,
 					};
 				});
 			},
 			{
-				delay: -1
-			}
+				delay: -1,
+			},
 		);
 	}
 }

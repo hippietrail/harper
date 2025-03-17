@@ -1,7 +1,7 @@
 /// <reference lib="webworker" />
 import './shims';
-import { isSerializedRequest, SerializedRequest, BinaryModule } from '../binary';
 import LocalLinter from '../LocalLinter';
+import { BinaryModule, type SerializedRequest, isSerializedRequest } from '../binary';
 
 // Notify the main thread that we are ready
 self.postMessage('ready');

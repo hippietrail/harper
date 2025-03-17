@@ -1,11 +1,11 @@
-import usePersonalDictionary from './usePersonalDictionary';
+import type { Lint } from 'harper.js';
 import { useCallback, useEffect, useState } from 'react';
-import { IgnorableLintBox, LintBox } from './Box';
-import RichText from './RichText';
-import { Lint } from 'harper.js';
+import { type IgnorableLintBox, LintBox } from './Box';
 import { useLinter } from './LinterProvider';
-import useLintConfig from './useLintConfig';
+import type RichText from './RichText';
 import useIgnoredLintState, { useIgnoreLint } from './useIgnoredLintState';
+import useLintConfig from './useLintConfig';
+import usePersonalDictionary from './usePersonalDictionary';
 
 /**
  * Lint given elements and return the resulting error targets.
@@ -46,7 +46,7 @@ export default function useLintBoxes(richTexts: RichText[]): [IgnorableLintBox[]
 				const contents = richText.getTextContent();
 
 				return await linter.lint(contents);
-			})
+			}),
 		);
 
 		setLoading(false);
@@ -61,7 +61,7 @@ export default function useLintBoxes(richTexts: RichText[]): [IgnorableLintBox[]
 			observer.observe(richText.getTargetElement(), {
 				childList: true,
 				characterData: true,
-				subtree: true
+				subtree: true,
 			});
 			return observer;
 		});
@@ -87,7 +87,7 @@ export default function useLintBoxes(richTexts: RichText[]): [IgnorableLintBox[]
 					.map((box) => {
 						return {
 							...box,
-							ignoreLint: () => ignoreLint(box.lint)
+							ignoreLint: () => ignoreLint(box.lint),
 						};
 					});
 			});
