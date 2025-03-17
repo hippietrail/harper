@@ -26,6 +26,8 @@ RUN mkdir harper-wasm
 COPY --from=wasm-build /usr/build/harper-wasm/pkg /usr/build/harper-wasm/pkg
 COPY packages packages
 COPY demo.md .
+COPY package.json .
+COPY pnpm-lock.yaml .
 
 RUN pnpm install
 
@@ -41,11 +43,16 @@ FROM node:${NODE_VERSION}
 
 COPY --from=node-build /usr/build/packages/web/build /usr/build/packages/web/build
 COPY --from=node-build /usr/build/packages/web/package.json /usr/build/packages/web/package.json
+COPY --from=node-build /usr/build/package.json /usr/build/package.json
+COPY --from=node-build /usr/build/pnpm-lock.yaml /usr/build/pnpm-lock.yaml
+COPY --from=node-build /usr/build/pnpm-workspace.yaml /usr/build/pnpm-workspace.yaml
 
-WORKDIR /usr/build/packages/web
+WORKDIR /usr/build
 
 RUN corepack enable
 RUN pnpm install
+
+WORKDIR /usr/build/packages/web
 
 ENV HOST=0.0.0.0
 ENV PORT=3000
