@@ -1,6 +1,6 @@
 use super::{
     FstDictionary, WordId,
-    rune::{parse_default_attribute_list, parse_default_word_list},
+    rune::{self, AttributeList, parse_word_list},
     word_map::{WordMap, WordMapEntry},
 };
 use crate::edit_distance::edit_distance_min_alloc;
@@ -30,15 +30,13 @@ pub struct MutableDictionary {
 /// The uncached function that is used to produce the original copy of the
 /// curated dictionary.
 fn uncached_inner_new() -> Arc<MutableDictionary> {
-    let word_list = parse_default_word_list().unwrap();
-    let attr_list = parse_default_attribute_list();
-
-    // There will be at _least_ this number of words
-    let mut word_map = WordMap::default();
-
-    attr_list.expand_marked_words(word_list, &mut word_map);
-
-    Arc::new(MutableDictionary { word_map })
+    Arc::new(
+        MutableDictionary::from_rune_files(
+            include_str!("../../dictionary.dict"),
+            include_str!("../../affixes.json"),
+        )
+        .expect("Curated dictionary should be valid."),
+    )
 }
 
 lazy_static! {
@@ -50,6 +48,18 @@ impl MutableDictionary {
         Self {
             word_map: WordMap::default(),
         }
+    }
+
+    pub fn from_rune_files(word_list: &str, attr_list: &str) -> Result<Self, rune::Error> {
+        let word_list = parse_word_list(word_list)?;
+        let attr_list = AttributeList::parse(attr_list)?;
+
+        // There will be at _least_ this number of words
+        let mut word_map = WordMap::default();
+
+        attr_list.expand_marked_words(word_list, &mut word_map);
+
+        Ok(Self { word_map })
     }
 
     /// Create a dictionary from the curated dictionary included
@@ -239,6 +249,7 @@ impl From<MutableDictionary> for FstDictionary {
 
 #[cfg(test)]
 mod tests {
+    use hashbrown::HashSet;
     use itertools::Itertools;
 
     use crate::{Dictionary, MutableDictionary};
@@ -312,5 +323,68 @@ mod tests {
 
         assert!(!dict.get_word_metadata_str("there").unwrap().is_nominal());
         assert!(!dict.get_word_metadata_str("there").unwrap().is_pronoun());
+    }
+
+    #[test]
+    fn expanded_contains_giants() {
+        assert!(MutableDictionary::curated().contains_word_str("giants"));
+    }
+
+    #[test]
+    fn expanded_contains_deallocate() {
+        assert!(MutableDictionary::curated().contains_word_str("deallocate"));
+    }
+
+    #[test]
+    fn curated_contains_repo() {
+        let dict = MutableDictionary::curated();
+
+        assert!(dict.contains_word_str("repo"));
+        assert!(dict.contains_word_str("repos"));
+        assert!(dict.contains_word_str("repo's"));
+    }
+
+    #[test]
+    fn curated_contains_possessive_abandonment() {
+        assert!(
+            MutableDictionary::curated()
+                .get_word_metadata_str("abandonment's")
+                .unwrap()
+                .is_possessive_noun()
+        )
+    }
+
+    #[test]
+    fn has_is_not_a_nominal() {
+        let dict = MutableDictionary::curated();
+
+        let has = dict.get_word_metadata_str("has");
+        assert!(has.is_some());
+
+        assert!(!has.unwrap().is_nominal())
+    }
+
+    #[test]
+    fn is_is_linking_verb() {
+        let dict = MutableDictionary::curated();
+
+        let is = dict.get_word_metadata_str("is");
+
+        assert!(is.is_some());
+        assert!(is.unwrap().is_linking_verb());
+    }
+
+    #[test]
+    fn are_merged_attrs_same_as_spread_attrs() {
+        let curated_attr_list = include_str!("../../affixes.json");
+
+        let merged = MutableDictionary::from_rune_files("1\nblork/DGS", curated_attr_list).unwrap();
+        let spread =
+            MutableDictionary::from_rune_files("2\nblork/DG\nblork/S", curated_attr_list).unwrap();
+
+        assert_eq!(
+            merged.word_map.into_iter().collect::<HashSet<_>>(),
+            spread.word_map.into_iter().collect::<HashSet<_>>()
+        );
     }
 }

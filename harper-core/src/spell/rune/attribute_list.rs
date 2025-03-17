@@ -16,7 +16,7 @@ pub struct AttributeList {
 }
 
 impl AttributeList {
-    pub fn into_human_readable(self) -> HumanReadableAttributeList {
+    fn into_human_readable(self) -> HumanReadableAttributeList {
         HumanReadableAttributeList {
             affixes: self
                 .affixes
@@ -24,6 +24,13 @@ impl AttributeList {
                 .map(|(affix, exp)| (affix, exp.into_human_readable()))
                 .collect(),
         }
+    }
+
+    pub fn parse(source: &str) -> Result<Self, Error> {
+        let human_readable: HumanReadableAttributeList =
+            serde_json::from_str(source).map_err(|_| Error::MalformedJSON)?;
+
+        human_readable.into_normal()
     }
 
     /// Expand [`MarkedWord`] into a list of full words, including itself.

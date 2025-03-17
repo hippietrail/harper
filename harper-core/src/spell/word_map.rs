@@ -10,7 +10,7 @@ pub struct WordMap {
     inner: HashMap<WordId, WordMapEntry>,
 }
 
-#[derive(Debug, Clone, Eq, PartialEq)]
+#[derive(Debug, Clone, Eq, PartialEq, Hash)]
 pub struct WordMapEntry {
     pub metadata: WordMetadata,
     pub canonical_spelling: CharString,
