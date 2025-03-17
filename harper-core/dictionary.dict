@@ -818,6 +818,7 @@ BFF/1
 BIA/2
 BIOS/1
 BITNET/2
+BJJ/1M
 BLT/1SM
 BM/124M
 BMW/214MS
@@ -4685,7 +4686,8 @@ IQ/1MS
 IRA/21SM
 IRC/214
 IRS/21M
-ISBN/1
+ISBN/1MS
+ISDN/1M
 ISIS/2
 ISO/21+M
 ISP/1
@@ -18778,7 +18780,8 @@ courier/~14MDSG
 course/~14EDGMS
 coursebook/1S
 courser/~1MS
-coursework/~1
+courseware/1M
+coursework/~1M
 court/~14SMDYG
 courteous/~5EY
 courteousness/1M
@@ -25822,6 +25825,7 @@ graphology/1M
 graphs/~14
 grapnel/14MS
 grapple/41MGDS
+grappler/1MS
 grasp/~41SMDBG
 grass/~14MDSG
 grasshopper/~14MS
@@ -32654,7 +32658,7 @@ mistrial/1MS
 mistrust/14MDSG
 mistrustful/5Y
 misty/~5PRT
-mistype/4GS
+mistype/4GSD
 misunderstand/4SGJ
 misunderstanding/~14M
 misunderstood/~45
@@ -37009,7 +37013,7 @@ pituitary/~51SM
 pity/~14GDSM
 pitying/41Y
 pivot/~14MDGS
-pivotal/~5
+pivotal/~5Y
 pix/~14M
 pixel/~14MS
 pixelate/4DSGN
@@ -47718,6 +47722,7 @@ unexcited/5
 unexciting/5
 unexpected/~51YP
 unexpectedness/1M
+unexploded/5
 unfailing/5Y
 unfair/~54PTRY
 unfaltering/5
@@ -49364,6 +49369,7 @@ whomsoever/8
 whoop/14SMDRZG
 whoopee/4S
 whooper/1M
+whoopsie/1MS
 whoosh/14MDSG
 whop/41S
 whopped/4
@@ -50558,6 +50564,7 @@ VMware/21MS
 Metasploit/21MS
 cryptographic/5Q
 BRICS/
+JNI/2M
 Minix/2M
 # Experimental multi-word entries
 bench-warmer/1MS
@@ -50568,12 +50575,13 @@ de facto/51M
 easy peasy/5
 energy-efficient/5
 front-line/5
+Greco-Roman/5
 ground-based/5
 high-level/5
 high-speed/5
+hissy fit/1MS
 holy moley
 holy moly
-jiu-jitsu/1M
 left-wing/5
 low-profile/5
 mind-blowing/5
