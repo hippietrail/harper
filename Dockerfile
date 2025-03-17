@@ -16,6 +16,7 @@ RUN wasm-pack build --release --target web
 FROM node:${NODE_VERSION} AS node-build
 
 RUN apt-get update && apt-get install git pandoc -y
+RUN corepack enable
 
 RUN mkdir -p /usr/build/
 WORKDIR /usr/build/
@@ -41,6 +42,7 @@ COPY --from=node-build /usr/build/packages/web/package.json /usr/build/packages/
 
 WORKDIR /usr/build/packages/web
 
+RUN corepack enable
 RUN pnpm install
 
 ENV HOST=0.0.0.0
