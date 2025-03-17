@@ -1,4 +1,4 @@
-import type { Lint, Suggestion, Span } from 'harper-wasm';
+import type { Lint, Suggestion, Span, Dialect } from 'harper-wasm';
 import Linter, { LinterInit } from '../Linter';
 import Worker from './worker.ts?worker&inline';
 import { LintConfig, LintOptions } from '../main';
@@ -17,12 +17,14 @@ export interface RequestItem {
  * NOTE: This class will not work properly in Node. In that case, just use `LocalLinter`. */
 export default class WorkerLinter implements Linter {
 	private binary: BinaryModule;
+	private dialect?: Dialect;
 	private worker: Worker;
 	private requestQueue: RequestItem[];
 	private working = true;
 
 	constructor(init: LinterInit) {
 		this.binary = init.binary;
+		this.dialect = init.dialect;
 		this.worker = new Worker();
 		this.requestQueue = [];
 
@@ -30,7 +32,7 @@ export default class WorkerLinter implements Linter {
 		this.worker.onmessage = () => {
 			this.setupMainEventListeners();
 
-			this.worker.postMessage(this.binary.url);
+			this.worker.postMessage([this.binary.url, this.dialect]);
 
 			this.working = false;
 			this.submitRemainingRequests();

@@ -753,6 +753,26 @@
           "is_auxiliary": true
         }
       }
+    },
+    "<": {
+      "#": "American property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "dialect": "American"
+      }
+    },
+    "!": {
+      "#": "GB property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "dialect": "British"
+      }
     }
   }
 }

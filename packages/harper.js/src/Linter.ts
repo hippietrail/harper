@@ -1,4 +1,4 @@
-import type { Lint, Span, Suggestion } from 'harper-wasm';
+import type { Dialect, Lint, Span, Suggestion } from 'harper-wasm';
 import { LintConfig, LintOptions } from './main';
 import { BinaryModule } from './binary';
 
@@ -76,4 +76,6 @@ export default interface Linter {
 export interface LinterInit {
 	/** The module or path to the WebAssembly binary. */
 	binary: BinaryModule;
+	/** The dialect of English Harper should use. If omitted, Harper will default to American English. */
+	dialect?: Dialect;
 }

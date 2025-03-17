@@ -11,7 +11,8 @@ use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, Linter};
 use harper_core::parsers::{Markdown, MarkdownOptions};
 use harper_core::{
-    remove_overlaps, CharStringExt, Dictionary, Document, FstDictionary, TokenKind, TokenStringExt,
+    remove_overlaps, CharStringExt, Dialect, Dictionary, Document, FstDictionary, TokenKind,
+    TokenStringExt,
 };
 use harper_literate_haskell::LiterateHaskellParser;
 use hashbrown::HashMap;
@@ -33,6 +34,8 @@ enum Args {
         /// If omitted, `harper-cli` will run every rule.
         #[arg(short, long)]
         only_lint_with: Option<Vec<String>>,
+        #[arg(short, long)]
+        dialect: Dialect,
     },
     /// Parse a provided document and print the detected symbols.
     Parse {
@@ -70,10 +73,11 @@ fn main() -> anyhow::Result<()> {
             file,
             count,
             only_lint_with,
+            dialect,
         } => {
             let (doc, source) = load_file(&file, markdown_options)?;
 
-            let mut linter = LintGroup::new_curated(dictionary);
+            let mut linter = LintGroup::new_curated(dictionary, dialect);
 
             if let Some(rules) = only_lint_with {
                 linter.set_all_rules_to(Some(false));
@@ -201,7 +205,7 @@ fn main() -> anyhow::Result<()> {
                 description: String,
             }
 
-            let linter = LintGroup::new_curated(dictionary);
+            let linter = LintGroup::new_curated(dictionary, Dialect::American);
 
             let default_config: HashMap<String, bool> =
                 serde_json::from_str(&serde_json::to_string(&linter.config).unwrap()).unwrap();

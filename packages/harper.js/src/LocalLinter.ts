@@ -14,7 +14,7 @@ export default class LocalLinter implements Linter {
 		this.binary = init.binary;
 		this.inner = LazyPromise.from(async () => {
 			await this.binary.setup();
-			return this.binary.createLinter();
+			return this.binary.createLinter(init.dialect);
 		});
 	}
 

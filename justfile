@@ -99,6 +99,8 @@ test-vscode:
     mkdir "$bin_dir"
   fi
 
+  cargo build --release
+
   cp "{{justfile_directory()}}/target/release/harper-ls"* "$bin_dir"
 
   cd "$ext_dir"
