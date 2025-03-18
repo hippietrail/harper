@@ -45,12 +45,18 @@ describe('Integration >', () => {
 		);
 	});
 
-	it('does nothing for untitled', async () => {
+	it('gives correct diagnostics for untitled', async () => {
 		const untitledUri = await openUntitled('Errorz');
+
+		// Wait for `harper-ls` to send diagnostics
+		await sleep(500);
 
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(untitledUri),
-			createExpectedDiagnostics()
+			createExpectedDiagnostics({
+				message: 'Did you mean to spell “Errorz” this way?',
+				range: createRange(0, 0, 0, 6)
+			})
 		);
 	});
 
