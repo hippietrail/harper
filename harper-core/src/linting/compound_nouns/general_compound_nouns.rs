@@ -77,10 +77,22 @@ impl PatternLinter for GeneralCompoundNouns {
             self.split_pattern
                 .get_merged_word(matched_tokens[2], matched_tokens[4], source)?;
 
+        // println!("mtok2 <<{}>>", matched_tokens[2].span.get_content(source).to_string());
+        // eprintln!("mtok2 <<{}>>", matched_tokens[2].span.get_content(source).to_string());
+        // println!("mtok4 <<{}>>", matched_tokens[4].span.get_content(source).to_string());
+        // eprintln!("mtok4 <<{}>>", matched_tokens[4].span.get_content(source).to_string());
+        // println!("word <<{}>>", word.to_string());
+        // eprintln!("word <<{}>>", word.to_string());
+
+        let wtv = word.to_vec();
+
+        let rwmc = Suggestion::replace_with_match_case(wtv, orig);
+
         Some(Lint {
             span,
             lint_kind: LintKind::WordChoice,
-            suggestions: vec![Suggestion::replace_with_match_case(word.to_vec(), orig)],
+            // suggestions: vec![Suggestion::replace_with_match_case(word.to_vec(), orig)],
+            suggestions: vec![rwmc],
             message: format!(
                 "Did you mean the closed compound noun “{}”?",
                 word.to_string()

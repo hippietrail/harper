@@ -16,6 +16,20 @@ mod tests {
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     #[test]
+    fn bug_lc() {
+        let test_sentence = "the web cam";
+        let expected = "the webcam";
+        assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
+    }
+
+    #[test]
+    fn bug_uc() {
+        let test_sentence = "the Web Cam";
+        let expected = "the WebCam";
+        assert_suggestion_result(test_sentence, CompoundNouns::default(), expected);
+    }
+
+    #[test]
     fn web_cam() {
         let test_sentence = "The web cam captured a stunning image.";
         let expected = "The webcam captured a stunning image.";
