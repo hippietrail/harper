@@ -12,9 +12,13 @@ export default class LocalLinter implements Linter {
 
 	constructor(init: LinterInit) {
 		this.binary = init.binary;
-		this.inner = LazyPromise.from(async () => {
+		this.inner = this.createInner(init.dialect);
+	}
+
+	private createInner(dialect?: Dialect): Promise<WasmLinter> {
+		return LazyPromise.from(async () => {
 			await this.binary.setup();
-			return this.binary.createLinter(init.dialect);
+			return this.binary.createLinter(dialect);
 		});
 	}
 
@@ -125,5 +129,15 @@ export default class LocalLinter implements Linter {
 		const inner = await this.inner;
 
 		return inner.get_dialect();
+	}
+
+	async setDialect(dialect: Dialect): Promise<void> {
+		const inner = await this.inner;
+
+		if (inner.get_dialect() != dialect) {
+			this.inner = this.createInner(dialect);
+		}
+
+		return Promise.resolve();
 	}
 }

@@ -74,6 +74,9 @@ export default interface Linter {
 
 	/** Get the dialect of English this linter was constructed for. */
 	getDialect(): Promise<Dialect>;
+
+	/** Get the dialect of English this linter was constructed for. */
+	setDialect(dialect: Dialect): Promise<void>;
 }
 
 export interface LinterInit {
