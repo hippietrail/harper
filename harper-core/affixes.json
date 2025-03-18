@@ -773,6 +773,16 @@
       "gifts_metadata": {
         "dialect": "British"
       }
+    },
+    "@": {
+      "#": "CA property",
+      "suffix": true,
+      "cross_product": true,
+      "replacements": [],
+      "adds_metadata": {},
+      "gifts_metadata": {
+        "dialect": "Canadian"
+      }
     }
   }
 }
