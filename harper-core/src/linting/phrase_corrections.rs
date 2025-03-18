@@ -650,12 +650,12 @@ pub fn lint_group() -> LintGroup {
             "Corrects common misspellings and missing hyphen in `nerve-racking`."
         ),
         // Avoid suggestions resulting in "a entire ...."
-        // "AWholeEntire" => (
-        //     ["a whole entire"],
-        //     ["a whole", "an entire"],
-        //     "Avoid redundancy. Use either `whole` or `entire` for referring to the complete amount or extent.",
-        //     "Corrects the redundancy in `whole entire` to `whole` or `entire`."
-        // ),
+        "AWholeEntire" => (
+            ["a whole entire"],
+            ["a whole", "an entire"],
+            "Avoid redundancy. Use either `whole` or `entire` for referring to the complete amount or extent.",
+            "Corrects the redundancy in `whole entire` to `whole` or `entire`."
+        ),
         "WholeEntire" => (
             ["whole entire"],
             ["whole", "entire"],
@@ -1064,19 +1064,29 @@ mod tests {
         assert_suggestion_result("whole entire", lint_group(), "whole");
     }
 
-    // #[test]
-    // fn correct_atomic_a_whole_entire_to_a_whole() {
-    //     assert_suggestion_result("a whole entire", lint_group(), "a whole");
-    // }
-
-    // #[test]
-    // fn correct_a_whole_entire_surrounded_by_text() {
-    //     assert_suggestion_result("A B C a whole entire X Y Z", lint_group(), "A B C a whole X Y Z");
-    // }
+    #[test]
+    fn correct_atomic_a_whole_entire_to_a_whole() {
+        assert_suggestion_result("a whole entire", lint_group(), "a whole");
+    }
 
     #[test]
-    fn correct_atomic_an_whole_entire_to_an_entire() {
-        assert_second_suggestion_result("an whole entire", lint_group(), "an entire");
+    fn correct_a_whole_entire_surrounded_by_text() {
+        assert_suggestion_result("A B C D a whole entire W X Y Z", lint_group(), "A B C D a whole W X Y Z");
+    }
+
+    #[test]
+    fn correct_a_whole_entire_nums() {
+        assert_suggestion_result("0123456789 a whole entire 9876543210", lint_group(), "0123456789 a whole 9876543210");
+    }
+
+    #[test]
+    fn correct_a_whole_entire_other() {
+        assert_suggestion_result("a whole entire other", lint_group(), "a whole other");
+    }
+
+    #[test]
+    fn correct_atomic_a_whole_entire_to_an_entire() {
+        assert_second_suggestion_result("a whole entire", lint_group(), "an entire");
     }
 
     #[test]
@@ -1090,14 +1100,14 @@ mod tests {
 
     // TODO: something goes wrong when both WholeEntire and AWholeEntire are enabled
     // TODO: result is `Start mapping a wholeanet using NASA’s MOLA.`
-    // #[test]
-    // fn correct_real_world_a_whole_entire() {
-    //     assert_suggestion_result(
-    //         "Start mapping a whole entire new planet using NASA’s MOLA.",
-    //         lint_group(),
-    //         "Start mapping a whole new planet using NASA’s MOLA.",
-    //     );
-    // }
+    #[test]
+    fn correct_real_world_a_whole_entire() {
+        assert_suggestion_result(
+            "Start mapping a whole entire new planet using NASA’s MOLA.",
+            lint_group(),
+            "Start mapping a whole new planet using NASA’s MOLA.",
+        );
+    }
 
     fn in_detail_atomic() {
         assert_suggestion_result("in details", lint_group(), "in detail");
