@@ -383,8 +383,8 @@ impl Linter for LintGroup {
             let config_hash = self.hasher_builder.hash_one(&self.config);
             let key = (chunk_chars.into(), config_hash);
 
-            if let Some(hit) = self.chunk_pattern_cache.get(&key) {
-                results.extend(hit.iter().cloned());
+            let mut chunk_results = if let Some(hit) = self.chunk_pattern_cache.get(&key) {
+                hit.clone()
             } else {
                 let mut pattern_lints = Vec::new();
 
@@ -394,10 +394,21 @@ impl Linter for LintGroup {
                     }
                 }
 
-                self.chunk_pattern_cache.put(key, pattern_lints.clone());
+                // Make the spans relative to the chunk start
+                for lint in &mut pattern_lints {
+                    lint.span.pull_by(chunk_span.start);
+                }
 
-                results.append(&mut pattern_lints);
+                self.chunk_pattern_cache.put(key, pattern_lints.clone());
+                pattern_lints
+            };
+
+            // Bring the spans back into document-space
+            for lint in &mut chunk_results {
+                lint.span.push_by(chunk_span.start);
             }
+
+            results.append(&mut chunk_results);
         }
 
         results
