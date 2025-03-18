@@ -1,4 +1,4 @@
-50600
+50640
 AA/1254M
 AAA/12
 AB/215M
@@ -232,6 +232,7 @@ Albigensian/51M
 Albion/2M
 Albireo/2M
 Albuquerque/2M
+Albury/2M
 Alcatraz/2M
 Alcestis/M
 Alcibiades/2M
@@ -3340,6 +3341,7 @@ FD/1
 FDA/2
 FDIC/2M
 FDR/21M
+FEMA/2M
 FHA/2M
 FICA/2M
 FIFO/1
@@ -7052,6 +7054,7 @@ ND/215
 NE/215M
 NEC/2M
 NEH/2
+NES/1M
 NF/251
 NFC/21
 NFL/21M
@@ -8516,6 +8519,7 @@ Rochester/2M
 Rock/2M
 Rockefeller/2MS
 Rockford/2M
+Rockhampton/2M
 Rockies/21M
 Rockne/M
 Rockwell/2M
@@ -9958,6 +9962,7 @@ Toto/12M
 Toulouse/2M
 Townes/2M
 Townsend/2M
+Townsville/2M
 Toynbee/M
 Toyoda/2M
 Toyota/21MS
@@ -10530,6 +10535,7 @@ Wei/2M
 Weierstrass/2M
 Weill/M
 Weinberg/2M
+Weinstein/2SM
 Weirton/2M
 Weiss/2M
 Weissmuller/M
@@ -13116,6 +13122,7 @@ aureole/14SM
 aureus/~1
 auricle/1SM
 auricular/51
+aurochs/1M
 aurora/~1SM
 auscultate/4GNDSX
 auscultation/~1M
@@ -13473,6 +13480,7 @@ balladeer/14MS
 balladry/1M
 ballast/~14GSMD
 ballcock/1MS
+baller/1MS
 ballerina/~1SM
 ballet/~14SM
 balletic/5
@@ -14669,6 +14677,7 @@ bobbed/54
 bobbin/1MS
 bobbing/41
 bobble/14MGDS
+bobblehead/1MS
 bobby/~1SM
 bobbysoxer/1SM
 bobcat/~1MS
@@ -15578,6 +15587,7 @@ buyer/~1M
 buyout/~1SM
 buzz/~14MDRSZG
 buzzard/~1MS
+buzzcut/1MS
 buzzer/1M
 buzzkill/1SM
 buzzword/1SM
@@ -17404,7 +17414,7 @@ codefendant/1SM
 codeine/1M
 codependency/1M
 codependent/51SM
-coder/1CM
+coder/1CMS
 codex/~1M
 codfish/1MS
 codger/1SM
@@ -18902,6 +18912,7 @@ crampon/14SM
 cranberry/~15SM
 crane/~14DSMG
 cranial/~5
+craniotomy/1SM
 cranium/1SM
 crank/~514SMDG
 crankcase/1SM
@@ -20209,6 +20220,7 @@ destructible/5I
 destruction/~1M
 destructive/~5PY
 destructiveness/1M
+destructor/1MS
 desuetude/1M
 desultorily/j
 desultory/5
@@ -20560,7 +20572,7 @@ dire/~5YTR
 direct/~54ASDGVT
 directer/51
 direction/~1IM
-directional/~51
+directional/~51Y
 directionless/5
 directions/~1
 directive/~51SM
@@ -23274,6 +23286,7 @@ fandom/~1
 fanfare/~14SM
 fang/~14MDS
 fanlight/1SM
+fanmade/5
 fanned/4
 fanning/~41
 fanny/~1SM
@@ -27208,6 +27221,7 @@ homebody/1SM
 homeboy/18SM
 homebrew/1SM4DG
 homecoming/~1SM
+homecooked/5
 homegrown/~5
 homeland/~1MS
 homeless/~51MP
@@ -27829,7 +27843,8 @@ idealist/1SM
 idealistic/~5Q
 idealization/1MS
 idealize/4DSG
-ideation/1SM
+idealogue/1MS
+ideate/4DSGN
 idem/~8
 idempotent/51
 identical/~51Y
@@ -29855,6 +29870,7 @@ kiwifruit/1MS
 kl/~
 klaxon/14S
 kleptocracy/1MS
+kleptocratic/5
 kleptomania/1M
 kleptomaniac/1SM
 kludge/14GDS
@@ -33246,6 +33262,7 @@ multipurpose/~5
 multiracial/51
 multistage/5
 multistory/51
+multisystem/5
 multitask/54GS
 multitasking/41M
 multitude/~1SM
@@ -34271,7 +34288,7 @@ normal/~51MYS
 normalcy/1M
 normality/1M
 normalization/~12M
-normalize/4DSG
+normalize/4DSGAN
 normative/~51Y
 normie/1SM
 north/~154ZMR
@@ -35286,6 +35303,8 @@ overconfidence/1M
 overconfident/5
 overconscientious/5
 overcook/4DGS
+overcorrect/4GDS
+overcorrection/1MS
 overcritical/5
 overcrowd/4SDG
 overcrowding/~41M
@@ -35833,6 +35852,7 @@ parasite/~14SM
 parasitic/~51
 parasitical/5Y
 parasitism/1M
+parasitize/4DSG
 parasol/14MS
 parasympathetic/~51S
 parathion/1M
@@ -42198,7 +42218,7 @@ showground/1S
 showily/j
 showiness/1M
 showing/~41M
-showjumping/1
+showjumping/1M
 showman/1M
 showmanship/1M
 showmen/9
@@ -42207,6 +42227,7 @@ showoff/1SM
 showpiece/1SM
 showplace/1SM
 showroom/~14MS
+showrunner/1MS
 showstopper/1MS
 showstopping/5
 showtime/~1
@@ -50575,6 +50596,7 @@ de facto/51M
 easy peasy/5
 energy-efficient/5
 front-line/5
+front man/1M
 Greco-Roman/5
 ground-based/5
 high-level/5
@@ -50582,10 +50604,15 @@ high-speed/5
 hissy fit/1MS
 holy moley
 holy moly
+jaw-droppingly/5
+kick start/4SDG
+knock-on effect/1MS
+laid-back/5
 left-wing/5
 low-profile/5
 mind-blowing/5
-okey-dokey
+neo-Nazi/15SM
+okey-dokey/1MS
 one-handed/5
 one-man/5
 one-off/5
@@ -50599,6 +50626,7 @@ uh-oh
 un-American/5
 user-friendly/5
 UTF-8/1M
+walkie-talkie/1MS
 well-known/5
 working-class/15MS
 # New entries may be added below this line
