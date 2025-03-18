@@ -116,28 +116,32 @@ export default class WorkerLinter implements Linter {
 		return JSON.parse(await this.getDefaultLintConfigAsJSON()) as LintConfig;
 	}
 
-	async ignoreLint(lint: Lint): Promise<void> {
+	ignoreLint(lint: Lint): Promise<void> {
 		return this.rpc('ignoreLint', [lint]);
 	}
 
-	async exportIgnoredLints(): Promise<string> {
+	exportIgnoredLints(): Promise<string> {
 		return this.rpc('exportIgnoredLints', []);
 	}
 
-	async importIgnoredLints(json: string): Promise<void> {
+	importIgnoredLints(json: string): Promise<void> {
 		return this.rpc('importIgnoredLints', [json]);
 	}
 
-	async clearIgnoredLints(): Promise<void> {
+	clearIgnoredLints(): Promise<void> {
 		return this.rpc('clearIgnoredLints', []);
 	}
 
-	async importWords(words: string[]): Promise<void> {
+	importWords(words: string[]): Promise<void> {
 		return this.rpc('importWords', [words]);
 	}
 
-	async exportWords(): Promise<string[]> {
+	exportWords(): Promise<string[]> {
 		return this.rpc('exportWords', []);
+	}
+
+	getDialect(): Promise<Dialect> {
+		return this.rpc('getDialect', []);
 	}
 
 	/** Run a procedure on the remote worker. */

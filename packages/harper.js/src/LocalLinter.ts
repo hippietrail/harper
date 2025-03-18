@@ -1,4 +1,4 @@
-import type { Lint, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
+import type { Dialect, Lint, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
 import { Language } from 'harper-wasm';
 import LazyPromise from 'p-lazy';
 import Linter, { LinterInit } from './Linter';
@@ -119,5 +119,11 @@ export default class LocalLinter implements Linter {
 		const inner = await this.inner;
 
 		return inner.export_words();
+	}
+
+	async getDialect(): Promise<Dialect> {
+		const inner = await this.inner;
+
+		return inner.get_dialect();
 	}
 }

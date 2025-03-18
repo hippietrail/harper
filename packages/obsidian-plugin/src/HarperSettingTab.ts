@@ -2,6 +2,7 @@ import './index.js';
 import { startCase } from 'lodash-es';
 import { App, PluginSettingTab, Setting } from 'obsidian';
 import HarperPlugin, { Settings } from './index.js';
+import { Dialect } from 'harper.js';
 
 export class HarperSettingTab extends PluginSettingTab {
 	private plugin: HarperPlugin;
@@ -28,7 +29,7 @@ export class HarperSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		console.log(this.settings.lintSettings);
+		console.log(this.settings);
 
 		new Setting(containerEl).setName('Use Web Worker').addToggle((toggle) =>
 			toggle.setValue(this.settings.useWebWorker).onChange(async (value) => {
@@ -36,6 +37,19 @@ export class HarperSettingTab extends PluginSettingTab {
 				await this.plugin.initializeFromSettings(this.settings);
 			})
 		);
+
+		new Setting(containerEl).setName('English Dialect').addDropdown((dropdown) => {
+			dropdown
+				.addOption(Dialect.American.toString(), 'American')
+				.addOption(Dialect.Canadian.toString(), 'Canadian')
+				.addOption(Dialect.British.toString(), 'British')
+				.addOption(Dialect.Australian.toString(), 'Australian')
+				.setValue((this.settings.dialect ?? Dialect.American).toString())
+				.onChange(async (value) => {
+					this.settings.dialect = parseInt(value);
+					await this.plugin.initializeFromSettings(this.settings);
+				});
+		});
 
 		for (const setting of Object.keys(this.settings.lintSettings)) {
 			const value = this.settings.lintSettings[setting];

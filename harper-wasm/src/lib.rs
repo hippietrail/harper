@@ -269,6 +269,11 @@ impl Linter {
             .map(|v| v.iter().collect())
             .collect()
     }
+
+    /// Get the dialect this struct was constructed for.
+    pub fn get_dialect(&self) -> Dialect {
+        self.dialect
+    }
 }
 
 #[wasm_bindgen]

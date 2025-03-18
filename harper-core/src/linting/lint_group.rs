@@ -199,7 +199,7 @@ impl LintGroup {
     /// If it returns `false`, it is because a linter with that key already existed in the group.
     ///
     /// This function is not significantly different from [`Self::add`], but allows us to take
-    /// advantage of some properties of [`PatterLinter`]s for cache optimization.
+    /// advantage of some properties of [`PatternLinter`]s for cache optimization.
     pub fn add_pattern_linter(
         &mut self,
         name: impl AsRef<str>,
