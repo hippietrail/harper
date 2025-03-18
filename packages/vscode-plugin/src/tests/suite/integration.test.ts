@@ -29,7 +29,7 @@ describe('Integration >', () => {
 		expect(harper.isActive).toBe(true);
 	});
 
-	it('gives correct diagnostics', () => {
+	it('gives correct diagnostics for files', () => {
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
 			createExpectedDiagnostics(
@@ -42,6 +42,15 @@ describe('Integration >', () => {
 					range: createRange(2, 26, 2, 32)
 				}
 			)
+		);
+	});
+
+	it('does nothing for untitled', async () => {
+		const untitledUri = await openUntitled('Errorz');
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(untitledUri),
+			createExpectedDiagnostics()
 		);
 	});
 
@@ -96,14 +105,5 @@ describe('Integration >', () => {
 		// Restore and reopen deleted file
 		await workspace.fs.writeFile(markdownUri, markdownContent);
 		await openFile('integration.md');
-	});
-
-	it('does nothing for untitled', async () => {
-		const untitledUri = await openUntitled('Errorz');
-
-		compareActualVsExpectedDiagnostics(
-			getActualDiagnostics(untitledUri),
-			createExpectedDiagnostics()
-		);
 	});
 });
