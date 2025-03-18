@@ -1,8 +1,8 @@
 import './index.js';
 import { startCase } from 'lodash-es';
-import { App, PluginSettingTab, Setting } from 'obsidian';
+import { App, BaseComponent, PluginSettingTab, SearchComponent, Setting } from 'obsidian';
 import HarperPlugin, { Settings } from './index.js';
-import { Dialect } from 'harper.js';
+import { Dialect, LintConfig } from 'harper.js';
 
 export class HarperSettingTab extends PluginSettingTab {
 	private plugin: HarperPlugin;
@@ -29,8 +29,6 @@ export class HarperSettingTab extends PluginSettingTab {
 		const { containerEl } = this;
 		containerEl.empty();
 
-		console.log(this.settings);
-
 		new Setting(containerEl).setName('Use Web Worker').addToggle((toggle) =>
 			toggle.setValue(this.settings.useWebWorker).onChange(async (value) => {
 				this.settings.useWebWorker = value;
@@ -51,9 +49,50 @@ export class HarperSettingTab extends PluginSettingTab {
 				});
 		});
 
+		new Setting(containerEl).setName('The Danger Zone').addButton((button) => {
+			button
+				.setButtonText('Forget Ignored Suggestions')
+				.onClick(() => {
+					this.settings.ignoredLints = undefined;
+					this.plugin.initializeFromSettings(this.settings);
+				})
+				.setWarning();
+		});
+
+		new Setting(containerEl)
+			.setName('Rules')
+			.setDesc('Search for a specific Harper rule.')
+			.addSearch((search) => {
+				search.setPlaceholder('Search for a rule...').onChange((query) => {
+					this.renderLintSettingsToId(query, 'HarperLintSettings');
+				});
+			});
+
+		const lintSettings = document.createElement('DIV');
+		lintSettings.id = 'HarperLintSettings';
+		containerEl.appendChild(lintSettings);
+
+		this.renderLintSettings('', lintSettings);
+	}
+
+	renderLintSettingsToId(searchQuery: string, id: string) {
+		const el = document.getElementById(id);
+		this.renderLintSettings(searchQuery, el!);
+	}
+
+	renderLintSettings(searchQuery: string, containerEl: HTMLElement) {
+		containerEl.innerHTML = '';
+
 		for (const setting of Object.keys(this.settings.lintSettings)) {
 			const value = this.settings.lintSettings[setting];
 			const description = this.descriptions[setting];
+
+			if (
+				searchQuery != '' &&
+				!(description.contains(searchQuery) || setting.contains(searchQuery))
+			) {
+				continue;
+			}
 
 			new Setting(containerEl)
 				.setName(startCase(setting))
@@ -70,16 +109,6 @@ export class HarperSettingTab extends PluginSettingTab {
 						})
 				);
 		}
-
-		new Setting(containerEl).setName('The Danger Zone').addButton((button) => {
-			button
-				.setButtonText('Forget Ignored Suggestions')
-				.onClick(() => {
-					this.settings.ignoredLints = undefined;
-					this.plugin.initializeFromSettings(this.settings);
-				})
-				.setWarning();
-		});
 	}
 }
 
