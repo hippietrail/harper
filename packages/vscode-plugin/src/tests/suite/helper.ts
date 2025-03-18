@@ -27,6 +27,13 @@ export async function openFile(...pathSegments: string[]): Promise<Uri> {
 	return uri;
 }
 
+export async function openUntitled(text: string): Promise<Uri> {
+	const document = await workspace.openTextDocument();
+	const editor = await window.showTextDocument(document);
+	await editor.edit((editBuilder) => editBuilder.insert(new Position(0, 0), text));
+	return document.uri;
+}
+
 export function getActualDiagnostics(resource: Uri): Diagnostic[] {
 	return languages.getDiagnostics(resource).filter((d) => d.source === 'Harper');
 }

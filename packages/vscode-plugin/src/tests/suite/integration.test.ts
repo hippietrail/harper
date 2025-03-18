@@ -9,6 +9,7 @@ import {
 	createRange,
 	getActualDiagnostics,
 	openFile,
+	openUntitled,
 	sleep
 } from './helper';
 
@@ -95,5 +96,14 @@ describe('Integration >', () => {
 		// Restore and reopen deleted file
 		await workspace.fs.writeFile(markdownUri, markdownContent);
 		await openFile('integration.md');
+	});
+
+	it('does nothing for untitled', async () => {
+		const untitledUri = await openUntitled('Errorz');
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(untitledUri),
+			createExpectedDiagnostics()
+		);
 	});
 });
