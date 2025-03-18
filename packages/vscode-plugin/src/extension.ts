@@ -31,7 +31,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 
 	clientOptions.documentSelector = manifest.activationEvents
 		.filter((e) => e.startsWith('onLanguage:'))
-		.map((e) => ({ language: e.split(':')[1] }));
+		.map((e) => ({ language: e.split(':')[1], scheme: 'file' }));
 
 	clientOptions.outputChannel = window.createOutputChannel('Harper');
 	context.subscriptions.push(clientOptions.outputChannel);
