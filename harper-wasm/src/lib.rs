@@ -63,6 +63,26 @@ impl Language {
 }
 
 #[wasm_bindgen]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy)]
+pub enum Dialect {
+    American,
+    British,
+    Australian,
+    Canadian,
+}
+
+impl From<Dialect> for harper_core::Dialect {
+    fn from(dialect: Dialect) -> Self {
+        match dialect {
+            Dialect::American => harper_core::Dialect::American,
+            Dialect::Canadian => harper_core::Dialect::Canadian,
+            Dialect::Australian => harper_core::Dialect::Australian,
+            Dialect::British => harper_core::Dialect::British,
+        }
+    }
+}
+
+#[wasm_bindgen]
 pub struct Linter {
     lint_group: LintGroup,
     /// The user-supplied dictionary.
@@ -71,6 +91,7 @@ pub struct Linter {
     user_dictionary: MutableDictionary,
     dictionary: Arc<MergedDictionary>,
     ignored_lints: IgnoredLints,
+    dialect: Dialect,
 }
 
 #[wasm_bindgen]
@@ -78,15 +99,16 @@ impl Linter {
     /// Construct a new `Linter`.
     /// Note that this can mean constructing the curated dictionary, which is the most expensive operation
     /// in Harper.
-    pub fn new() -> Self {
+    pub fn new(dialect: Dialect) -> Self {
         let dictionary = Self::construct_merged_dict(MutableDictionary::default());
-        let lint_group = LintGroup::new_curated_empty_config(dictionary.clone());
+        let lint_group = LintGroup::new_curated_empty_config(dictionary.clone(), dialect.into());
 
         Self {
             lint_group,
             user_dictionary: MutableDictionary::new(),
             dictionary,
             ignored_lints: IgnoredLints::default(),
+            dialect,
         }
     }
 
@@ -95,7 +117,8 @@ impl Linter {
     fn synchronize_lint_dict(&mut self) {
         let mut lint_config = self.lint_group.config.clone();
         self.dictionary = Self::construct_merged_dict(self.user_dictionary.clone());
-        self.lint_group = LintGroup::new_curated_empty_config(self.dictionary.clone());
+        self.lint_group =
+            LintGroup::new_curated_empty_config(self.dictionary.clone(), self.dialect.into());
         self.lint_group.config.merge_from(&mut lint_config);
     }
 
@@ -246,11 +269,10 @@ impl Linter {
             .map(|v| v.iter().collect())
             .collect()
     }
-}
 
-impl Default for Linter {
-    fn default() -> Self {
-        Self::new()
+    /// Get the dialect this struct was constructed for.
+    pub fn get_dialect(&self) -> Dialect {
+        self.dialect
     }
 }
 
@@ -385,14 +407,16 @@ impl Lint {
 
 #[wasm_bindgen]
 pub fn get_default_lint_config_as_json() -> String {
-    let config = LintGroup::new_curated(MutableDictionary::new().into()).config;
+    let config =
+        LintGroup::new_curated(MutableDictionary::new().into(), Dialect::American.into()).config;
 
     serde_json::to_string(&config).unwrap()
 }
 
 #[wasm_bindgen]
 pub fn get_default_lint_config() -> JsValue {
-    let config = LintGroup::new_curated(MutableDictionary::new().into()).config;
+    let config =
+        LintGroup::new_curated(MutableDictionary::new().into(), Dialect::American.into()).config;
 
     // Important for downstream JSON serialization
     let serializer = serde_wasm_bindgen::Serializer::json_compatible();

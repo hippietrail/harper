@@ -1,3 +1,4 @@
+import exp from 'node:constants';
 import type { Diagnostic, Extension } from 'vscode';
 
 import {
@@ -41,7 +42,10 @@ export function compareActualVsExpectedDiagnostics(
 	actual: Diagnostic[],
 	expected: Diagnostic[]
 ): void {
-	expect(actual.length).toBe(expected.length);
+	if (actual.length != expected.length) {
+		throw new Error(`Expected ${expected.length} diagnostics, got ${actual.length}.`);
+	}
+
 	for (let i = 0; i < actual.length; i++) {
 		expect(actual[i].source).toBe(expected[i].source);
 		expect(actual[i].message).toBe(expected[i].message);
