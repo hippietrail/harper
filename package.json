@@ -5,6 +5,10 @@
 		"check": "biome check --write . --diagnostic-level=error",
 		"format": "biome check --write . --unsafe"
 	},
+	"engines": {
+		"node": ">=22",
+		"pnpm": "^10.6.3"
+	},
 	"devDependencies": {
 		"@babel/runtime": "catalog:",
 		"@biomejs/biome": "1.9.4",
