@@ -751,6 +751,12 @@ pub fn lint_group() -> LintGroup {
             "Use `as far back as` for referring to a time in the past.",
             "Corrects nonstandard `as early back as` to `as far back as`."
         ),
+        "ALongTime" => (
+            ["along time"],
+            ["a long time"],
+            "Use `a long time` for referring to a duration of time.",
+            "Corrects `along time` to `a long time`."
+        ),
         "EachAndEveryOne" => (
             ["each and everyone"],
             ["each and every one"],
@@ -1354,6 +1360,20 @@ mod tests {
             "skin overrides also supports a wide variety of minecraft versions - as early back as 1.14.4.",
             lint_group(),
             "skin overrides also supports a wide variety of minecraft versions - as far back as 1.14.4.",
+        );
+    }
+
+    #[test]
+    fn detect_a_long_time() {
+        assert_suggestion_result("along time", lint_group(), "a long time");
+    }
+
+    #[test]
+    fn detect_a_long_time_real_world() {
+        assert_suggestion_result(
+            "Fast refreshing is very slow had to wait along time for it to update.",
+            lint_group(),
+            "Fast refreshing is very slow had to wait a long time for it to update.",
         );
     }
 
