@@ -144,7 +144,7 @@ pub trait Linter: LSend {
 #[cfg(test)]
 mod tests {
     use super::Linter;
-    use crate::Document;
+    use crate::{Document, FstDictionary, parsers::PlainEnglish};
 
     #[track_caller]
     pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
@@ -171,25 +171,43 @@ mod tests {
         );
     }
 
-    /// Runs a provided linter on text, applies the first suggestion from each
-    /// lint and asserts whether the result is equal to a given value.
+    /// Runs a provided linter on text, applies the first suggestion from each lint
+    /// and asserts whether the result is equal to a given value.
     #[track_caller]
     pub fn assert_suggestion_result(text: &str, mut linter: impl Linter, expected_result: &str) {
-        let test = Document::new_markdown_default_curated(text);
-        let lints = linter.lint(&test);
-
         let mut text_chars: Vec<char> = text.chars().collect();
 
-        if lints.is_empty() && expected_result != text {
-            panic!("Expected lints, but none were created.");
-        }
+        let mut iter_count = 0;
 
-        for lint in lints {
-            dbg!(&lint);
-            if let Some(sug) = lint.suggestions.first() {
-                sug.apply(lint.span, &mut text_chars);
+        loop {
+            iter_count += 1;
+
+            let test = Document::new_from_vec(
+                text_chars.clone().into(),
+                &PlainEnglish,
+                &FstDictionary::curated(),
+            );
+            let lints = linter.lint(&test);
+
+            if let Some(lint) = lints.first() {
+                if let Some(sug) = lint.suggestions.first() {
+                    sug.apply(lint.span, &mut text_chars);
+
+                    let transformed_str: String = text_chars.iter().collect();
+                    dbg!(transformed_str);
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+
+            if iter_count == 100 {
+                break;
             }
         }
+
+        eprintln!("Corrected {} times.", iter_count);
 
         let transformed_str: String = text_chars.iter().collect();
 
