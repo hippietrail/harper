@@ -265,7 +265,8 @@ addnoun noun:
   fi
 
   # Echo the noun with its flags to the dictionary file
-  echo "{{noun}}/$flags" >> $DICT_FILE
+  [[ -s $DICT_FILE && -n $(tail -c1 "$DICT_FILE") ]] && echo >> "$DICT_FILE"
+  echo "{{noun}}/$flags" >> "$DICT_FILE"
 
 # Search Harper's curated dictionary for a specific word
 searchdictfor word:
