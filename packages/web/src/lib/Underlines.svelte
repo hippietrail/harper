@@ -14,7 +14,7 @@ import { quintOut } from 'svelte/easing';
 
 let loadTime = Date.now();
 
-function slideUnderline(node: any) {
+function slideUnderline(_node: HTMLElement) {
 	return {
 		duration: 300,
 		css: (t: number) => {

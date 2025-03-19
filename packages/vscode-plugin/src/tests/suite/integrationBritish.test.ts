@@ -1,6 +1,6 @@
 import type { Extension } from 'vscode';
 
-import { commands, ConfigurationTarget, Uri, workspace } from 'vscode';
+import { ConfigurationTarget, type Uri, commands, workspace } from 'vscode';
 
 import {
 	activateHarper,
@@ -9,7 +9,7 @@ import {
 	createRange,
 	getActualDiagnostics,
 	openFile,
-	sleep
+	sleep,
 } from './helper';
 
 describe('IntegrationDialect >', () => {
@@ -31,7 +31,7 @@ describe('IntegrationDialect >', () => {
 	it('gives correct diagnostics for default config', () => {
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
-			createExpectedDiagnostics()
+			createExpectedDiagnostics(),
 		);
 	});
 
@@ -45,8 +45,8 @@ describe('IntegrationDialect >', () => {
 			getActualDiagnostics(markdownUri),
 			createExpectedDiagnostics({
 				message: 'Did you mean to spell “color” this way?',
-				range: createRange(0, 41, 0, 46)
-			})
+				range: createRange(0, 41, 0, 46),
+			}),
 		);
 
 		// Set config back to default value

@@ -1,4 +1,10 @@
-import type { InitInput, Span, Suggestion, Linter as WasmLinter, Dialect} from 'harper-wasm';
+import {
+	Dialect,
+	type InitInput,
+	type Span,
+	type Suggestion,
+	type Linter as WasmLinter,
+} from 'harper-wasm';
 import { default as binaryInlinedUrl } from 'harper-wasm/harper_wasm_bg.wasm?inline';
 import { default as binaryUrl } from 'harper-wasm/harper_wasm_bg.wasm?no-inline';
 import LazyPromise from 'p-lazy';

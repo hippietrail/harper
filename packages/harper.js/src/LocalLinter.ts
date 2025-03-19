@@ -135,7 +135,7 @@ export default class LocalLinter implements Linter {
 	async setDialect(dialect: Dialect): Promise<void> {
 		const inner = await this.inner;
 
-		if (inner.get_dialect() != dialect) {
+		if (inner.get_dialect() !== dialect) {
 			this.inner = this.createInner(dialect);
 		}
 

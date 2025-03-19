@@ -80,12 +80,7 @@
 				"harper.dialect": {
 					"scope": "resource",
 					"type": "string",
-					"enum": [
-						"British",
-						"American",
-						"Canadian",
-						"Australian"
-					],
+					"enum": ["British", "American", "Canadian", "Australian"],
 					"default": "American",
 					"description": "Set which dialect of English Harper should expect."
 				},

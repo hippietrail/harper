@@ -1,9 +1,9 @@
 import './index.js';
+import { Dialect } from 'harper.js';
 import { startCase } from 'lodash-es';
-import { type App, BaseComponent, PluginSettingTab, SearchComponent, Setting } from 'obsidian';
+import { type App, PluginSettingTab, Setting } from 'obsidian';
 import type HarperPlugin from './index.js';
 import type { Settings } from './index.js';
-import { Dialect, LintConfig } from 'harper.js';
 
 export class HarperSettingTab extends PluginSettingTab {
 	private plugin: HarperPlugin;
@@ -49,7 +49,7 @@ export class HarperSettingTab extends PluginSettingTab {
 				.addOption(Dialect.Australian.toString(), 'Australian')
 				.setValue((this.settings.dialect ?? Dialect.American).toString())
 				.onChange(async (value) => {
-					this.settings.dialect = parseInt(value);
+					this.settings.dialect = Number.parseInt(value);
 					await this.plugin.initializeFromSettings(this.settings);
 				});
 		});
@@ -93,7 +93,7 @@ export class HarperSettingTab extends PluginSettingTab {
 			const description = this.descriptions[setting];
 
 			if (
-				searchQuery != '' &&
+				searchQuery !== '' &&
 				!(description.contains(searchQuery) || setting.contains(searchQuery))
 			) {
 				continue;
@@ -130,7 +130,7 @@ function valueToString(value: boolean | undefined): string {
 	throw 'Fell through case';
 }
 
-function stringToValue(str): boolean | undefined {
+function stringToValue(str: string): boolean | undefined {
 	switch (str) {
 		case 'enable':
 			return true;

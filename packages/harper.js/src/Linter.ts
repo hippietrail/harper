@@ -1,4 +1,4 @@
-import type { Lint, Span, Suggestion, Dialect } from 'harper-wasm';
+import type { Dialect, Lint, Span, Suggestion } from 'harper-wasm';
 import type { BinaryModule } from './binary';
 import type { LintConfig, LintOptions } from './main';
 

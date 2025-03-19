@@ -1,7 +1,7 @@
 # Format entire project
 format:
   cargo fmt  
-  pnpm check
+  pnpm format
 
 # Build the WebAssembly for a specific target (usually either `web` or `bundler`)
 build-wasm:
@@ -188,12 +188,11 @@ check: check-rust build-web
   #! /bin/bash
   set -eo pipefail
 
-  cd "{{justfile_directory()}}/packages"
   pnpm install
   pnpm check
 
   # Needed because Svelte has special linters
-  cd web
+  cd "{{justfile_directory()}}/packages/web"
   pnpm check
 
 # Populate build caches and install necessary local tooling (tools callable via `pnpm run <tool>`).

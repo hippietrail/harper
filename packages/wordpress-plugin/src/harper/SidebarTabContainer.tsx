@@ -1,9 +1,9 @@
+import { Panel, PanelBody, SelectControl, TabPanel } from '@wordpress/components';
 import React from 'react';
 import type { IgnorableLintBox } from './Box';
-import LintSettingList from './LintSettingList';
 import DialectSelectRow from './DialectSelectRow';
-import { Panel, PanelBody, SelectControl, TabPanel } from '@wordpress/components';
 import LintList from './LintList';
+import LintSettingList from './LintSettingList';
 
 export default function SidebarTabContainer({
 	lintBoxes,

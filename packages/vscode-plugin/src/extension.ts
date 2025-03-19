@@ -35,7 +35,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 			const language = e.split(':')[1];
 			return [
 				{ language, scheme: 'file' },
-				{ language, scheme: 'untitled' }
+				{ language, scheme: 'untitled' },
 			];
 		});
 

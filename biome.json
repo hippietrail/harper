@@ -38,8 +38,8 @@
 		"rules": {
 			"recommended": true,
 			"suspicious": {
-				"noExplicitAny": "warn",
-				"noArrayIndexKey": "warn",
+				"noExplicitAny": "off",
+				"noArrayIndexKey": "off",
 				"noLabelVar": "warn"
 			},
 			"a11y": {
@@ -47,10 +47,10 @@
 				"useGenericFontNames": "warn"
 			},
 			"correctness": {
-				"useExhaustiveDependencies": "warn"
+				"useExhaustiveDependencies": "off"
 			},
 			"style": {
-				"noParameterAssign": "warn",
+				"noParameterAssign": "off",
 				"noArguments": "off",
 				"noNonNullAssertion": "off",
 				"noUselessElse": "off",

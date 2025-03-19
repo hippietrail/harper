@@ -166,7 +166,7 @@ function maybeEnableLint(state: EditorState, effects: readonly StateEffect<unkno
 }
 
 /// Returns a transaction spec which updates the current set of
-/// diagnostics, and enables the lint extension if if wasn't already
+/// diagnostics, and enables the lint extension if wasn't already
 /// active.
 export function setDiagnostics(
 	state: EditorState,
@@ -188,6 +188,8 @@ const lintState = StateField.define<LintState>({
 		return new LintState(Decoration.none, null);
 	},
 	update(value, tr) {
+		let newState: LintState;
+
 		if (tr.docChanged && value.diagnostics.size) {
 			const mapped = value.diagnostics.map(tr.changes);
 			let selected: SelectedDiagnostic | null = null;
@@ -197,14 +199,14 @@ const lintState = StateField.define<LintState>({
 					findDiagnostic(mapped, value.selected.diagnostic, selPos) ||
 					findDiagnostic(mapped, null, selPos);
 			}
-			value = new LintState(mapped, selected);
+			newState = new LintState(mapped, selected);
 		}
 
 		for (const effect of tr.effects) {
 			if (effect.is(setDiagnosticsEffect)) {
-				value = LintState.init(effect.value, tr.state);
+				newState = LintState.init(effect.value, tr.state);
 			} else if (effect.is(movePanelSelection)) {
-				value = new LintState(value.diagnostics, effect.value);
+				newState = new LintState(value.diagnostics, effect.value);
 			}
 		}
 
@@ -368,12 +370,12 @@ export function forceLinting(view: EditorView) {
 function assignKeys(actions: readonly Action[] | undefined) {
 	const assigned: string[] = [];
 	if (actions)
-		actions: for (const { name } of actions) {
+		outer: for (const { name } of actions) {
 			for (let i = 0; i < name.length; i++) {
 				const ch = name[i];
 				if (/[a-zA-Z]/.test(ch) && !assigned.some((c) => c.toLowerCase() === ch.toLowerCase())) {
 					assigned.push(ch);
-					continue actions;
+					continue outer;
 				}
 			}
 			assigned.push('');

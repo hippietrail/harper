@@ -1,4 +1,3 @@
-import exp from 'node:constants';
 import type { Diagnostic, Extension } from 'vscode';
 
 import {
@@ -49,7 +48,7 @@ export function compareActualVsExpectedDiagnostics(
 	actual: Diagnostic[],
 	expected: Diagnostic[],
 ): void {
-	if (actual.length != expected.length) {
+	if (actual.length !== expected.length) {
 		throw new Error(`Expected ${expected.length} diagnostics, got ${actual.length}.`);
 	}
 

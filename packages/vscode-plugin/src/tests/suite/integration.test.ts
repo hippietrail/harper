@@ -9,8 +9,8 @@ import {
 	createRange,
 	getActualDiagnostics,
 	openFile,
-	sleep,
 	openUntitled,
+	sleep,
 } from './helper';
 
 describe('Integration >', () => {
@@ -55,8 +55,8 @@ describe('Integration >', () => {
 			getActualDiagnostics(untitledUri),
 			createExpectedDiagnostics({
 				message: 'Did you mean to spell “Errorz” this way?',
-				range: createRange(0, 0, 0, 6)
-			})
+				range: createRange(0, 0, 0, 6),
+			}),
 		);
 	});
 

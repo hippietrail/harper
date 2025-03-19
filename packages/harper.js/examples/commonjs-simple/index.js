@@ -4,7 +4,7 @@ async function main() {
 	// This constructs the linter to consume American English.
 	const linter = new harper.LocalLinter({
 		binary: harper.binary,
-		dialect: harper.Dialect.American
+		dialect: harper.Dialect.American,
 	});
 
 	const lints = await linter.lint('This is a example of how to use `harper.js`.');

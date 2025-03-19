@@ -1,4 +1,4 @@
-import type { Lint, Span, Suggestion, Dialect } from 'harper-wasm';
+import type { Dialect, Lint, Span, Suggestion } from 'harper-wasm';
 import type Linter from '../Linter';
 import type { LinterInit } from '../Linter';
 import type { BinaryModule, DeserializedRequest } from '../binary';
@@ -150,7 +150,7 @@ export default class WorkerLinter implements Linter {
 	}
 
 	/** Run a procedure on the remote worker. */
-	private async rpc(procName: string, args: any[]): Promise<any> {
+	private async rpc(procName: string, args: unknown[]): Promise<any> {
 		const promise = new Promise((resolve, reject) => {
 			this.requestQueue.push({
 				resolve,

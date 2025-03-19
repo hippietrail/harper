@@ -45,16 +45,16 @@
 }
 
 * {
-	font-family: Atkinson Hyperlegible;
+	font-family: Atkinson Hyperlegible, sans-serif;
 }
 
 code {
-	font-family: "JetBrains Mono" !important;
+	font-family: "JetBrains Mono", monospace !important;
 	word-break: keep-all;
 }
 
 code * {
-	font-family: "JetBrains Mono" !important;
+	font-family: "JetBrains Mono", monospace !important;
 }
 
 .underlinespecial {

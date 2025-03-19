@@ -3,10 +3,10 @@ import { useCallback, useEffect, useState } from 'react';
 import { type IgnorableLintBox, LintBox } from './Box';
 import { useLinter } from './LinterProvider';
 import type RichText from './RichText';
+import useDialect from './useDialect';
 import useIgnoredLintState, { useIgnoreLint } from './useIgnoredLintState';
 import useLintConfig from './useLintConfig';
 import usePersonalDictionary from './usePersonalDictionary';
-import useDialect from './useDialect';
 
 /**
  * Lint given elements and return the resulting error targets.
