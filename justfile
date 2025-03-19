@@ -1,7 +1,7 @@
 # Format entire project
 format:
   cargo fmt  
-  cd "{{justfile_directory()}}/packages"; pnpm check
+  pnpm check
 
 # Build the WebAssembly for a specific target (usually either `web` or `bundler`)
 build-wasm:
