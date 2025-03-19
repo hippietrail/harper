@@ -1,6 +1,6 @@
 import { default as binaryUrl } from 'harper-wasm/harper_wasm_bg.wasm?no-inline';
 import { default as binaryInlinedUrl } from 'harper-wasm/harper_wasm_bg.wasm?inline';
-import type { InitInput, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
+import { Dialect, InitInput, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
 import pMemoize from 'p-memoize';
 import LazyPromise from 'p-lazy';
 import { assert } from './utils';
@@ -101,9 +101,9 @@ export class BinaryModule {
 		exported.setup();
 	}
 
-	async createLinter(): Promise<WasmLinter> {
+	async createLinter(dialect?: Dialect): Promise<WasmLinter> {
 		const exported = await this.inner;
-		return exported.Linter.new();
+		return exported.Linter.new(dialect ?? Dialect.American);
 	}
 
 	async serializeArg(arg: any): Promise<RequestArg> {

@@ -9,6 +9,7 @@ import {
 	createRange,
 	getActualDiagnostics,
 	openFile,
+	openUntitled,
 	sleep
 } from './helper';
 
@@ -28,7 +29,7 @@ describe('Integration >', () => {
 		expect(harper.isActive).toBe(true);
 	});
 
-	it('gives correct diagnostics', () => {
+	it('gives correct diagnostics for files', () => {
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
 			createExpectedDiagnostics(
@@ -41,6 +42,21 @@ describe('Integration >', () => {
 					range: createRange(2, 26, 2, 32)
 				}
 			)
+		);
+	});
+
+	it('gives correct diagnostics for untitled', async () => {
+		const untitledUri = await openUntitled('Errorz');
+
+		// Wait for `harper-ls` to send diagnostics
+		await sleep(500);
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(untitledUri),
+			createExpectedDiagnostics({
+				message: 'Did you mean to spell “Errorz” this way?',
+				range: createRange(0, 0, 0, 6)
+			})
 		);
 	});
 

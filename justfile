@@ -100,6 +100,7 @@ test-vscode:
   fi
 
   cargo build --release
+
   cp "{{justfile_directory()}}/target/release/harper-ls"* "$bin_dir"
 
   cd "$ext_dir"
@@ -206,8 +207,6 @@ precommit: check test build-harperjs build-obsidian build-web build-wp
 
   cargo doc
   cargo build
-  cargo build --release
-  cargo bench
 
 # Install `harper-cli` and `harper-ls` to your machine via `cargo`
 install:
@@ -266,7 +265,8 @@ addnoun noun:
   fi
 
   # Echo the noun with its flags to the dictionary file
-  echo "{{noun}}/$flags" >> $DICT_FILE
+  [[ -s $DICT_FILE && -n $(tail -c1 "$DICT_FILE") ]] && echo >> "$DICT_FILE"
+  echo "{{noun}}/$flags" >> "$DICT_FILE"
 
 # Search Harper's curated dictionary for a specific word
 searchdictfor word:

@@ -5,7 +5,7 @@ title: Introduction to harper.js
 ## The Mission
 
 If you're a developer, odds are that you are using JavaScript or TypeScript on a daily basis.
-Your project probably has a least a little bit of either.
+Your project probably has at least a little bit of either.
 
 Furthermore, a plurality of focused authorship happens inside either a web browser or an [Electron-based app](https://www.electronjs.org/).
 Given this, we wanted to create an environment where it would be trivial to integrate fantastic grammar checking into web applications.
