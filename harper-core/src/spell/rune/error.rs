@@ -12,6 +12,8 @@ pub enum Error {
     ExpectedUnsignedInteger,
     #[error("Could not parse because we encountered the end of the line.")]
     UnexpectedEndOfLine,
+    #[error("Received malformed JSON")]
+    MalformedJSON,
     #[error("An error occured with a condition: {0}")]
     Matcher(#[from] matcher::Error),
 }
