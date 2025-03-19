@@ -214,11 +214,11 @@ These configs are under the `markdown` key:
 
 ### Other Configs
 
-| Config               | Type                                                  | Default Value | Description                                                                                                                                                               |
-| -------------------- | ----------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `diagnosticSeverity` | `"error"`, `"hint"`, `"information"`, `"warning"`     | `"hint"`      | Configures how severe diagnostics appear in your editor                                                                                                                   |
-| `isolateEnglish`     | `boolean`                                             | `false`       | In documents that are a mixture of English and another language, only lint English text. This feature is incredibly new and unstable. Do not expect it to work perfectly. |
-| `dialect`            | `"American"`, `"British"`, `"Australian"`, `"Canadian"` | `"American"`    | Set the dialect of English Harper should expect.                                                                                                                          |
+| Config               | Type                                                    | Default Value | Description                                                                                                                                                               |
+| -------------------- | ------------------------------------------------------- | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `diagnosticSeverity` | `"error"`, `"hint"`, `"information"`, `"warning"`       | `"hint"`      | Configures how severe diagnostics appear in your editor                                                                                                                   |
+| `isolateEnglish`     | `boolean`                                               | `false`       | In documents that are a mixture of English and another language, only lint English text. This feature is incredibly new and unstable. Do not expect it to work perfectly. |
+| `dialect`            | `"American"`, `"British"`, `"Australian"`, `"Canadian"` | `"American"`  | Set the dialect of English Harper should expect.                                                                                                                          |
 
 ## Supported Languages
 

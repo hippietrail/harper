@@ -1,7 +1,6 @@
 #![doc = include_str!("../README.md")]
 
 use std::collections::BTreeMap;
-use std::os::linux::raw::stat;
 use std::path::{Path, PathBuf};
 use std::process;
 
@@ -362,7 +361,7 @@ fn print_word_derivations(word: &str, annot: &str, dictionary: &impl Dictionary)
 
     let children = dictionary
         .words_iter()
-        .filter(|e| dictionary.get_word_metadata(*e).unwrap().derived_from == Some(id));
+        .filter(|e| dictionary.get_word_metadata(e).unwrap().derived_from == Some(id));
 
     println!(" - {}", word);
 
