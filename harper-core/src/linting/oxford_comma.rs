@@ -42,7 +42,7 @@ impl Default for OxfordComma {
 impl OxfordComma {
     fn match_to_lint(&self, matched_toks: &[Token], _source: &[char]) -> Option<Lint> {
         let conj_index = matched_toks.last_conjunction_index()?;
-        let offender = matched_toks[conj_index - 2];
+        let offender = &matched_toks[conj_index - 2];
 
         Some(Lint {
             span: offender.span,
@@ -60,7 +60,10 @@ impl Linter for OxfordComma {
         for sentence in document.iter_sentences() {
             let mut tok_cursor = 0;
 
-            let mut words = sentence.iter_words().filter_map(|v| v.kind.expect_word());
+            let mut words = sentence
+                .iter_words()
+                .filter_map(|v| v.kind.as_word())
+                .flatten();
 
             if let (Some(first), Some(second)) = (words.next(), words.next()) {
                 if first.preposition && second.is_likely_homograph() {

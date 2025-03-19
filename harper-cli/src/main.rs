@@ -1,7 +1,6 @@
 #![doc = include_str!("../README.md")]
 
 use std::collections::BTreeMap;
-use std::collections::HashSet;
 use std::path::{Path, PathBuf};
 use std::process;
 
@@ -11,13 +10,9 @@ use clap::Parser;
 use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, Linter};
 use harper_core::parsers::{Markdown, MarkdownOptions};
-use harper_core::spell::hunspell::parse_default_attribute_list;
-use harper_core::spell::hunspell::parse_default_word_list;
-use harper_core::spell::hunspell::word_list::parse_word_list;
-use harper_core::spell::hunspell::word_list::MarkedWord;
 use harper_core::{
-    remove_overlaps, CharString, CharStringExt, Dictionary, Document, FstDictionary, TokenKind,
-    TokenStringExt, WordMetadata,
+    remove_overlaps, CharStringExt, Dialect, Dictionary, Document, FstDictionary,
+    MutableDictionary, TokenKind, TokenStringExt, WordId,
 };
 use harper_literate_haskell::LiterateHaskellParser;
 use hashbrown::HashMap;
@@ -39,6 +34,8 @@ enum Args {
         /// If omitted, `harper-cli` will run every rule.
         #[arg(short, long)]
         only_lint_with: Option<Vec<String>>,
+        #[arg(short, long)]
+        dialect: Dialect,
     },
     /// Parse a provided document and print the detected symbols.
     Parse {
@@ -56,7 +53,7 @@ enum Args {
     /// Get the metadata associated with a particular word.
     Metadata { word: String },
     /// Get all the forms of a word using the affixes.
-    Forms { words: Vec<String> },
+    Forms { line: String },
     /// Emit a decompressed, line-separated list of the words in Harper's dictionary.
     Words,
     /// Print the default config with descriptions.
@@ -78,10 +75,11 @@ fn main() -> anyhow::Result<()> {
             file,
             count,
             only_lint_with,
+            dialect,
         } => {
             let (doc, source) = load_file(&file, markdown_options)?;
 
-            let mut linter = LintGroup::new_curated(dictionary);
+            let mut linter = LintGroup::new_curated(dictionary, dialect);
 
             if let Some(rules) = only_lint_with {
                 linter.set_all_rules_to(Some(false));
@@ -202,100 +200,69 @@ fn main() -> anyhow::Result<()> {
 
             Ok(())
         }
-        Args::Forms { words: args_words } => {
-            let default_attrs = parse_default_attribute_list();
-            let args_total = args_words.len();
+        Args::Forms { line } => {
+            let (word, annot) = line_to_parts(&line);
 
-            let default_marked_words = parse_default_word_list().unwrap();
+            let curated_word_list = include_str!("../../harper-core/dictionary.dict");
+            let dict_lines = curated_word_list.split('\n');
 
-            for (arg_index, arg_word) in args_words.iter().enumerate() {
-                let mut arg_bare_word = arg_word.to_string();
-                let mut arg_annot = None;
-                if let Some((word_part, annot_part)) = arg_word.split_once('/') {
-                    arg_bare_word = word_part.to_string();
-                    arg_annot = Some(annot_part);
+            let mut entry_in_dict = None;
+
+            // Check if the word is contained in the list.
+            for dict_line in dict_lines {
+                let (dict_word, dict_annot) = line_to_parts(dict_line);
+
+                if dict_word == word {
+                    entry_in_dict = Some((dict_word, dict_annot));
+                    break;
                 }
+            }
 
-                let mut already_in_dict = false;
-                let mut already_annotated = false;
-                let old_annot = get_annotations(&default_marked_words, &arg_bare_word);
-
-                if let Some(ref annot) = old_annot {
-                    already_in_dict = true;
-                    already_annotated = !annot.is_empty();
-                }
-
-                let mut status_summary = match (already_in_dict, already_annotated) {
-                    (true, true) => format!(
-                        "'{}' is already in the dictionary with annotation `{}`.",
-                        arg_bare_word,
-                        old_annot.clone().unwrap()
-                    ),
-                    (true, false) => format!(
-                        "'{}' is already in the dictionary but not annotated.",
-                        arg_bare_word
-                    ),
-                    _ => format!("'{}' is not in the dictionary yet.", arg_bare_word),
-                };
-
-                let mut different_annot = false;
-
-                if already_annotated && arg_annot.is_some() {
-                    if old_annot
-                        .clone()
-                        .unwrap()
-                        .chars()
-                        .collect::<HashSet<char>>()
-                        != arg_annot.unwrap().chars().collect()
-                    {
-                        different_annot = true;
-                        status_summary
-                            .push_str("\n  Your annotations differ from the dictionary.\n");
+            let summary = match &entry_in_dict {
+                Some((dict_word, dict_annot)) => {
+                    let mut status_summary = if dict_annot.is_empty() {
+                        format!(
+                            "'{}' is already in the dictionary but not annotated.",
+                            dict_word
+                        )
                     } else {
-                        status_summary
-                            .push_str("\n  Your annotations are the same as the dictionary.\n");
-                    }
-                }
+                        format!(
+                            "'{}' is already in the dictionary with annotation `{}`.",
+                            dict_word, dict_annot
+                        )
+                    };
 
-                println!("{}", status_summary);
-
-                let print_word_info = |arg_index: usize, arg_word: &str| {
-                    let mut our_expanded_word: HashMap<CharString, WordMetadata> = HashMap::new();
-                    let our_marked_word = parse_word_list(&format!("1\n{arg_word}")).unwrap();
-                    default_attrs.expand_marked_words(our_marked_word, &mut our_expanded_word);
-
-                    println!(
-                        "{}{}{}",
-                        if arg_index > 0 { "\n" } else { "" },
-                        if args_total != 1 {
-                            format!("{}/{}: ", arg_index + 1, args_total)
+                    if !annot.is_empty() {
+                        if annot.as_str() != dict_annot.as_str() {
+                            status_summary
+                                .push_str("\n  Your annotations differ from the dictionary.\n");
                         } else {
-                            "".to_string()
-                        },
-                        arg_word
-                    );
+                            status_summary
+                                .push_str("\n  Your annotations are the same as the dictionary.\n");
+                        }
+                    }
 
-                    our_expanded_word.keys().for_each(|form| {
-                        let string_form: String = form.iter().collect();
-                        println!("  - {}", string_form);
-                    });
-                };
-
-                let should_print_old_info = already_annotated;
-                let should_print_new_info =
-                    arg_annot.is_some() && (!already_annotated || different_annot);
-
-                if should_print_old_info {
-                    println!("Old, from the dictionary:");
-                    print_word_info(
-                        arg_index,
-                        &format!("{}/{}", arg_bare_word, old_annot.unwrap()),
-                    );
+                    status_summary
                 }
-                if should_print_new_info {
-                    println!("New, from you:");
-                    print_word_info(arg_index, arg_word);
-                }
+                None => format!("'{}' is not in the dictionary yet.", word),
+            };
+
+            println!("{summary}");
+
+            if let Some((dict_word, dict_annot)) = &entry_in_dict {
+                println!("Old, from the dictionary:");
+                print_word_derivations(dict_word, dict_annot, &FstDictionary::curated());
+            };
+
+            if !annot.is_empty() {
+                let rune_words = format!("1\n{line}");
+                let dict = MutableDictionary::from_rune_files(
+                    &rune_words,
+                    include_str!("../../harper-core/affixes.json"),
+                )?;
+
+                println!("New, from you:");
+                print_word_derivations(&word, &annot, &dict);
             }
 
             Ok(())
@@ -307,7 +274,7 @@ fn main() -> anyhow::Result<()> {
                 description: String,
             }
 
-            let linter = LintGroup::new_curated(dictionary);
+            let linter = LintGroup::new_curated(dictionary, Dialect::American);
 
             let default_config: HashMap<String, bool> =
                 serde_json::from_str(&serde_json::to_string(&linter.config).unwrap()).unwrap();
@@ -334,7 +301,7 @@ fn main() -> anyhow::Result<()> {
             let mut words = HashMap::new();
 
             for word in doc.iter_words() {
-                let chars = doc.get_span_content(word.span);
+                let chars = doc.get_span_content(&word.span);
 
                 words
                     .entry(chars.to_lower())
@@ -378,13 +345,28 @@ fn load_file(file: &Path, markdown_options: MarkdownOptions) -> anyhow::Result<(
     Ok((Document::new_curated(&source, &parser), source))
 }
 
-fn get_annotations(marked_words: &[MarkedWord], word: &str) -> Option<String> {
-    for marked_word in marked_words.iter() {
-        let mw = &marked_word.letters;
-        let mw = mw.iter().collect::<String>();
-        if mw == word {
-            return Some(marked_word.attributes.iter().collect::<String>());
-        }
+/// Split a dictionary line into its word and annotation segments
+fn line_to_parts(line: &str) -> (String, String) {
+    if let Some((word, annot)) = line.split_once('/') {
+        (word.to_owned(), annot.to_string())
+    } else {
+        (line.to_owned(), String::new())
     }
-    None
+}
+
+fn print_word_derivations(word: &str, annot: &str, dictionary: &impl Dictionary) {
+    println!("{word}/{annot}");
+
+    let id = WordId::from_word_str(word);
+
+    let children = dictionary
+        .words_iter()
+        .filter(|e| dictionary.get_word_metadata(e).unwrap().derived_from == Some(id));
+
+    println!(" - {}", word);
+
+    for child in children {
+        let child_str: String = child.iter().collect();
+        println!(" - {}", child_str);
+    }
 }

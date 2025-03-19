@@ -77,6 +77,18 @@
 					"default": false,
 					"description": "Make code actions appear in \"stable\" positions by placing code actions that should always be available, like adding misspelled words in the dictionary, first."
 				},
+				"harper.dialect": {
+					"scope": "resource",
+					"type": "string",
+					"enum": [
+						"British",
+						"American",
+						"Canadian",
+						"Australian"
+					],
+					"default": "American",
+					"description": "Set which dialect of English Harper should expect."
+				},
 				"harper.diagnosticSeverity": {
 					"scope": "resource",
 					"type": "string",

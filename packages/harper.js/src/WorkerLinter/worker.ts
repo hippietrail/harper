@@ -7,12 +7,12 @@ import { BinaryModule, type SerializedRequest, isSerializedRequest } from '../bi
 self.postMessage('ready');
 
 self.onmessage = (e) => {
-	const binaryUrl = e.data;
+	const [binaryUrl, dialect] = e.data;
 	if (typeof binaryUrl !== 'string') {
 		throw new TypeError(`Expected binary to be a string of url but got ${typeof binaryUrl}.`);
 	}
 	const binary = new BinaryModule(binaryUrl);
-	const linter = new LocalLinter({ binary });
+	const linter = new LocalLinter({ binary, dialect });
 
 	async function processRequest(v: SerializedRequest) {
 		const { procName, args } = await binary.deserialize(v);

@@ -1,6 +1,6 @@
 import type { Extension } from '@codemirror/state';
 import type { LintConfig, Linter, Suggestion } from 'harper.js';
-import { LocalLinter, SuggestionKind, WorkerLinter, binary } from 'harper.js';
+import { Dialect, LocalLinter, SuggestionKind, WorkerLinter, binary } from 'harper.js';
 import { toArray } from 'lodash-es';
 import { type App, Menu, Notice, Plugin, type PluginManifest } from 'obsidian';
 import logoSvg from '../logo.svg';
@@ -20,6 +20,7 @@ function suggestionToLabel(sug: Suggestion) {
 export type Settings = {
 	ignoredLints?: string;
 	useWebWorker: boolean;
+	dialect?: Dialect;
 	lintSettings: LintConfig;
 	userDictionary?: string[];
 };
@@ -30,7 +31,7 @@ export default class HarperPlugin extends Plugin {
 
 	constructor(app: App, manifest: PluginManifest) {
 		super(app, manifest);
-		this.harper = new WorkerLinter({ binary });
+		this.harper = new WorkerLinter({ binary: binaryInlined });
 		this.editorExtensions = [];
 	}
 
@@ -41,11 +42,14 @@ export default class HarperPlugin extends Plugin {
 
 		const oldSettings = await this.getSettings();
 
-		if (settings.useWebWorker !== oldSettings.useWebWorker) {
+		if (
+			settings.useWebWorker != oldSettings.useWebWorker ||
+			settings.dialect != oldSettings.dialect
+		) {
 			if (settings.useWebWorker) {
-				this.harper = new WorkerLinter({ binary });
+				this.harper = new WorkerLinter({ binary: binaryInlined, dialect: settings.dialect });
 			} else {
-				this.harper = new LocalLinter({ binary });
+				this.harper = new LocalLinter({ binary: binaryInlined, dialect: settings.dialect });
 			}
 		} else {
 			await this.harper.clearIgnoredLints();
@@ -84,6 +88,7 @@ export default class HarperPlugin extends Plugin {
 			useWebWorker: usingWebWorker,
 			lintSettings: await this.harper.getLintConfig(),
 			userDictionary: await this.harper.exportWords(),
+			dialect: await this.harper.getDialect()
 		};
 	}
 

@@ -6,6 +6,7 @@ import type RichText from './RichText';
 import useIgnoredLintState, { useIgnoreLint } from './useIgnoredLintState';
 import useLintConfig from './useLintConfig';
 import usePersonalDictionary from './usePersonalDictionary';
+import useDialect from './useDialect';
 
 /**
  * Lint given elements and return the resulting error targets.
@@ -15,6 +16,7 @@ import usePersonalDictionary from './usePersonalDictionary';
 export default function useLintBoxes(richTexts: RichText[]): [IgnorableLintBox[][], boolean] {
 	const linter = useLinter();
 	const [config] = useLintConfig();
+	const [dialect] = useDialect();
 	const [ignoreState] = useIgnoredLintState();
 	const [personalDictionary] = usePersonalDictionary();
 	const ignoreLint = useIgnoreLint();
@@ -27,6 +29,10 @@ export default function useLintBoxes(richTexts: RichText[]): [IgnorableLintBox[]
 		if ((await linter.exportIgnoredLints()) !== ignoreState) {
 			await linter.clearIgnoredLints();
 		}
+
+		console.log(dialect);
+
+		await linter.setDialect(dialect);
 
 		if (personalDictionary) {
 			await linter.importWords(personalDictionary);
@@ -51,7 +57,7 @@ export default function useLintBoxes(richTexts: RichText[]): [IgnorableLintBox[]
 
 		setLoading(false);
 		setLints(newLints);
-	}, [richTexts, linter, config, ignoreState, personalDictionary]);
+	}, [richTexts, linter, config, ignoreState, personalDictionary, dialect]);
 
 	useEffect(() => {
 		updateLints();

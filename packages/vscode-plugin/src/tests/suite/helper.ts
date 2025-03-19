@@ -1,3 +1,4 @@
+import exp from 'node:constants';
 import type { Diagnostic, Extension } from 'vscode';
 
 import {
@@ -27,6 +28,13 @@ export async function openFile(...pathSegments: string[]): Promise<Uri> {
 	return uri;
 }
 
+export async function openUntitled(text: string): Promise<Uri> {
+	const document = await workspace.openTextDocument();
+	const editor = await window.showTextDocument(document);
+	await editor.edit((editBuilder) => editBuilder.insert(new Position(0, 0), text));
+	return document.uri;
+}
+
 export function getActualDiagnostics(resource: Uri): Diagnostic[] {
 	return languages.getDiagnostics(resource).filter((d) => d.source === 'Harper');
 }
@@ -41,7 +49,10 @@ export function compareActualVsExpectedDiagnostics(
 	actual: Diagnostic[],
 	expected: Diagnostic[],
 ): void {
-	expect(actual.length).toBe(expected.length);
+	if (actual.length != expected.length) {
+		throw new Error(`Expected ${expected.length} diagnostics, got ${actual.length}.`);
+	}
+
 	for (let i = 0; i < actual.length; i++) {
 		expect(actual[i].source).toBe(expected[i].source);
 		expect(actual[i].message).toBe(expected[i].message);
