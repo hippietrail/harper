@@ -51,6 +51,11 @@ impl Backend {
 
     /// Load a specific file's dictionary
     async fn load_file_dictionary(&self, url: &Url) -> anyhow::Result<MutableDictionary> {
+        // VS Code's unsaved documents have "untitled" scheme
+        if url.scheme() == "untitled" {
+            return Ok(MutableDictionary::new());
+        }
+
         let path = self
             .get_file_dict_path(url)
             .await
