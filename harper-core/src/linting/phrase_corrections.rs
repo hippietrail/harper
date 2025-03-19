@@ -751,6 +751,12 @@ pub fn lint_group() -> LintGroup {
             "Use `as far back as` for referring to a time in the past.",
             "Corrects nonstandard `as early back as` to `as far back as`."
         ),
+        "EachAndEveryOne" => (
+            ["each and everyone"],
+            ["each and every one"],
+            "Use `each and every one` for referring to a group of people or things.",
+            "Corrects `each and everyone` to `each and every one`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1294,6 +1300,20 @@ mod tests {
             "skin overrides also supports a wide variety of minecraft versions - as early back as 1.14.4.",
             lint_group(),
             "skin overrides also supports a wide variety of minecraft versions - as far back as 1.14.4.",
+        );
+    }
+
+    #[test]
+    fn detect_each_and_everyone() {
+        assert_suggestion_result("each and everyone", lint_group(), "each and every one");
+    }
+
+    #[test]
+    fn detect_each_and_everyone_real_world() {
+        assert_suggestion_result(
+            "I have modified each and everyone of them to keep only the best of the best!",
+            lint_group(),
+            "I have modified each and every one of them to keep only the best of the best!",
         );
     }
 }
