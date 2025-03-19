@@ -1376,7 +1376,7 @@ mod tests {
             "Fast refreshing is very slow had to wait a long time for it to update.",
         );
     }
-    
+
     #[test]
     fn detect_each_and_everyone() {
         assert_suggestion_result("each and everyone", lint_group(), "each and every one");
