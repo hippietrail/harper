@@ -5,7 +5,7 @@ import { binary } from './binary';
 
 const linters = {
 	WorkerLinter: WorkerLinter,
-	LocalLinter: LocalLinter
+	LocalLinter: LocalLinter,
 };
 
 for (const [linterName, Linter] of Object.entries(linters)) {

@@ -1,8 +1,9 @@
-import type { Lint, Suggestion, Span, Dialect } from 'harper-wasm';
-import Linter, { LinterInit } from '../Linter';
+import type { Dialect, Lint, Span, Suggestion } from 'harper-wasm';
+import type Linter from '../Linter';
+import type { LinterInit } from '../Linter';
+import type { BinaryModule, DeserializedRequest } from '../binary';
+import type { LintConfig, LintOptions } from '../main';
 import Worker from './worker.ts?worker&inline';
-import { LintConfig, LintOptions } from '../main';
-import { BinaryModule, DeserializedRequest } from '../binary';
 
 /** The data necessary to complete a request once the worker has responded. */
 export interface RequestItem {
@@ -149,12 +150,12 @@ export default class WorkerLinter implements Linter {
 	}
 
 	/** Run a procedure on the remote worker. */
-	private async rpc(procName: string, args: any[]): Promise<any> {
+	private async rpc(procName: string, args: unknown[]): Promise<any> {
 		const promise = new Promise((resolve, reject) => {
 			this.requestQueue.push({
 				resolve,
 				reject,
-				request: { procName, args }
+				request: { procName, args },
 			});
 
 			this.submitRemainingRequests();
