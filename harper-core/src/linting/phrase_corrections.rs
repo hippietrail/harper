@@ -821,7 +821,7 @@ pub fn lint_group() -> LintGroup {
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{
-        assert_lint_count, assert_second_suggestion_result, assert_suggestion_result,
+        assert_lint_count, assert_nth_suggestion_result, assert_suggestion_result,
     };
 
     use super::lint_group;
@@ -1227,10 +1227,11 @@ mod tests {
 
     #[test]
     fn suggests_ticking_clock() {
-        assert_second_suggestion_result(
+        assert_nth_suggestion_result(
             "The opportunity itself has a ticking time clock as all great opportunities do.",
             lint_group(),
             "The opportunity itself has a ticking clock as all great opportunities do.",
+            1,
         );
     }
 

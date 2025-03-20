@@ -14,7 +14,7 @@ export default function Logo() {
 				clipRule: 'evenodd',
 				strokeLinecap: 'round',
 				strokeLinejoin: 'round',
-				strokeMiterlimit: 1.5
+				strokeMiterlimit: 1.5,
 			}}
 		>
 			<g transform="matrix(1,0,0,1,-5,-1720)">
@@ -26,7 +26,7 @@ export default function Logo() {
 								style={{
 									fill: 'none',
 									stroke: 'currentColor',
-									strokeWidth: '22.92px'
+									strokeWidth: '22.92px',
 								}}
 							/>
 						</g>
@@ -36,7 +36,7 @@ export default function Logo() {
 								style={{
 									fill: 'none',
 									stroke: 'currentColor',
-									strokeWidth: '22.92px'
+									strokeWidth: '22.92px',
 								}}
 							/>
 						</g>
@@ -50,7 +50,7 @@ export default function Logo() {
 									style={{
 										fill: 'none',
 										stroke: 'currentColor',
-										strokeWidth: '20.82px'
+										strokeWidth: '20.82px',
 									}}
 								/>
 							</g>
@@ -62,7 +62,7 @@ export default function Logo() {
 								style={{
 									fill: 'none',
 									stroke: 'currentColor',
-									strokeWidth: '20.82px'
+									strokeWidth: '20.82px',
 								}}
 							/>
 							<rect
@@ -73,7 +73,7 @@ export default function Logo() {
 								style={{
 									fill: 'none',
 									stroke: 'currentColor',
-									strokeWidth: '20.82px'
+									strokeWidth: '20.82px',
 								}}
 							/>
 							<g transform="matrix(-1,0,0,1,4281.79,-0.853887)">
@@ -85,7 +85,7 @@ export default function Logo() {
 									style={{
 										fill: 'none',
 										stroke: 'currentColor',
-										strokeWidth: '20.82px'
+										strokeWidth: '20.82px',
 									}}
 								/>
 							</g>
@@ -98,7 +98,7 @@ export default function Logo() {
 									style={{
 										fill: 'none',
 										stroke: 'currentColor',
-										strokeWidth: '20.82px'
+										strokeWidth: '20.82px',
 									}}
 								/>
 							</g>
@@ -111,7 +111,7 @@ export default function Logo() {
 									style={{
 										fill: 'none',
 										stroke: 'currentColor',
-										strokeWidth: '20.82px'
+										strokeWidth: '20.82px',
 									}}
 								/>
 							</g>

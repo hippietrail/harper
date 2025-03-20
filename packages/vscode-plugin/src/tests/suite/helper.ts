@@ -1,15 +1,14 @@
-import exp from 'node:constants';
 import type { Diagnostic, Extension } from 'vscode';
 
 import {
 	DiagnosticSeverity,
-	extensions,
-	languages,
 	Position,
 	Range,
 	Uri,
+	extensions,
+	languages,
 	window,
-	workspace
+	workspace,
 } from 'vscode';
 
 export async function activateHarper(): Promise<Extension<void>> {
@@ -47,9 +46,9 @@ export function createExpectedDiagnostics(
 
 export function compareActualVsExpectedDiagnostics(
 	actual: Diagnostic[],
-	expected: Diagnostic[]
+	expected: Diagnostic[],
 ): void {
-	if (actual.length != expected.length) {
+	if (actual.length !== expected.length) {
 		throw new Error(`Expected ${expected.length} diagnostics, got ${actual.length}.`);
 	}
 
@@ -65,7 +64,7 @@ export function createRange(
 	startRow: number,
 	startColumn: number,
 	endRow: number,
-	endColumn: number
+	endColumn: number,
 ): Range {
 	return new Range(new Position(startRow, startColumn), new Position(endRow, endColumn));
 }

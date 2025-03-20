@@ -1,23 +1,23 @@
 <script module>
-	import Graph from '$lib/Graph.svelte';
-	import CodeLogo from '$lib/CodeLogo.svelte';
-	import Editor from '$lib/Editor.svelte';
-	import Section from '$lib/Section.svelte';
-	import Logo from '$lib/Logo.svelte';
-	import GitHubLogo from '$lib/GitHubLogo.svelte';
-	import ObsidianLogo from '$lib/ObsidianLogo.svelte';
+import CodeLogo from '$lib/CodeLogo.svelte';
+import Editor from '$lib/Editor.svelte';
+import GitHubLogo from '$lib/GitHubLogo.svelte';
+import Graph from '$lib/Graph.svelte';
+import Logo from '$lib/Logo.svelte';
+import ObsidianLogo from '$lib/ObsidianLogo.svelte';
+import Section from '$lib/Section.svelte';
 
-	export const frontmatter = {
-		home: false
-	};
+export const frontmatter = {
+	home: false,
+};
 
-	let width = $state(window.innerWidth);
+let width = $state(window.innerWidth);
 
-	window.addEventListener('resize', () => {
-		width = window.innerWidth;
-	});
+window.addEventListener('resize', () => {
+	width = window.innerWidth;
+});
 
-	let mobile = $derived(width < 640);
+let mobile = $derived(width < 640);
 </script>
 
 <div class="w-full flex flex-col items-center">

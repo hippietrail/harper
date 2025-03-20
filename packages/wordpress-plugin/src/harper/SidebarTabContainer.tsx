@@ -1,13 +1,13 @@
-import React from 'react';
-import LintSettingList from './LintSettingList';
-import DialectSelectRow from './DialectSelectRow';
 import { Panel, PanelBody, SelectControl, TabPanel } from '@wordpress/components';
+import React from 'react';
+import type { IgnorableLintBox } from './Box';
+import DialectSelectRow from './DialectSelectRow';
 import LintList from './LintList';
-import { IgnorableLintBox } from './Box';
+import LintSettingList from './LintSettingList';
 
 export default function SidebarTabContainer({
 	lintBoxes,
-	loading
+	loading,
 }: {
 	lintBoxes: IgnorableLintBox[];
 	loading: boolean;
@@ -16,7 +16,7 @@ export default function SidebarTabContainer({
 		<TabPanel
 			tabs={[
 				{ name: 'errors', title: 'Errors' },
-				{ name: 'settings', title: 'Settings' }
+				{ name: 'settings', title: 'Settings' },
 			]}
 		>
 			{(tab) => {
