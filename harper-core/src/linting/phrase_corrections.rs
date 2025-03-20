@@ -116,6 +116,16 @@ mod tests {
         );
     }
 
+    // Replication of a whole entire project fails when images in it have signatures attached
+    #[test]
+    fn correct_real_world_a_whole_entire_to_an_entire() {
+        assert_second_suggestion_result(
+            "Replication of a whole entire project fails when images in it have signatures attached",
+            lint_group(),
+            "Replication of an entire project fails when images in it have signatures attached",
+        );
+    }
+
     #[test]
     fn detect_each_and_everyone() {
         assert_suggestion_result("each and everyone", lint_group(), "each and every one");
