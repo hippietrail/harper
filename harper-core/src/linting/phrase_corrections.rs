@@ -675,6 +675,7 @@ pub fn lint_group() -> LintGroup {
             ["Porto-Novo"],
             "The official spelling is hyphenated.",
             "Checks for the correct official name of the capital of Benin."
+        ),
         "NerveRacking" => (
             ["nerve racking", "nerve wracking", "nerve wrecking", "nerve-wracking", "nerve-wrecking"],
             ["nerve-racking"],
@@ -1105,6 +1106,9 @@ mod tests {
             "Guinea Bissau",
             lint_group(),
             "Guinea-Bissau",
+        );
+    }
+    
     fn detect_nerve_wracking_hyphen() {
         assert_suggestion_result(
             "We've gone through several major changes / upgrades to atlantis, and it's always a little bit nerve-wracking because if we mess something up we ...",
