@@ -16,6 +16,7 @@
 			"temp",
 			"*.zip",
 			"**/*.rs",
+			"harper-wasm/pkg",
 			".vscode-test",
 			".svelte-kit",
 			"packages/obsidian-plugin/main.js",
