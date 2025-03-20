@@ -75,7 +75,7 @@ impl PatternLinter for GeneralCompoundNouns {
         // If the pattern matched, this will not return `None`.
         let word =
             self.split_pattern
-                .get_merged_word(matched_tokens[2], matched_tokens[4], source)?;
+                .get_merged_word(&matched_tokens[2], &matched_tokens[4], source)?;
 
         // println!("mtok2 <<{}>>", matched_tokens[2].span.get_content(source).to_string());
         // eprintln!("mtok2 <<{}>>", matched_tokens[2].span.get_content(source).to_string());
