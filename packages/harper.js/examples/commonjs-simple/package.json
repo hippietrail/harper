@@ -6,6 +6,6 @@
 		"start": "node index.js"
 	},
 	"dependencies": {
-		"harper.js": "*"
+		"harper.js": "workspace:*"
 	}
 }

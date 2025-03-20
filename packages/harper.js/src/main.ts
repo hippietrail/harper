@@ -11,7 +11,7 @@ export {
 	BinaryModule,
 	binary,
 	binaryInlined,
-	isSerializedRequest
+	isSerializedRequest,
 } from './binary';
 
 /** A linting rule configuration dependent on upstream Harper's available rules.

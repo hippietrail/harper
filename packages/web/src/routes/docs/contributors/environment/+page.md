@@ -7,7 +7,7 @@ To use the tooling required to build and debug Harper, you'll need the following
 - [`just`](https://github.com/casey/just)
 - `bash`
 - [`cargo`](https://www.rust-lang.org/) (we develop against the latest version of Rust)
-- `yarn`
+- `pnpm`
 - `node`
 - `grep`
 - [`wasm-pack`](https://rustwasm.github.io/wasm-pack/installer/)

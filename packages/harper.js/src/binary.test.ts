@@ -1,5 +1,5 @@
-import { expect, test } from 'vitest';
 import { Span } from 'harper-wasm';
+import { expect, test } from 'vitest';
 import LocalLinter from './LocalLinter';
 import { binary } from './binary';
 
