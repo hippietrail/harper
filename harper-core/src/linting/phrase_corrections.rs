@@ -799,18 +799,6 @@ pub fn lint_group() -> LintGroup {
             "Add `a` to form `in quite a while`, clarifying the duration.",
             "Corrects `in quite awhile` => `in quite a while` by inserting the missing article."
         ),
-        "AwayFrom" => (
-            ["away fro"],
-            ["away from"],
-            "Use `away from` to indicate distance or separation.",
-            "Corrects a common slip of `away fro` to the standard `away from`."
-        ),
-        "ForOrFrom" => (
-            ["fro"],
-            ["for", "from"],
-            "Did you mean `for` or `from`? Check context.",
-            "Offers corrections for `fro`, ensuring modern usage rather than the archaic or idiomatic form."
-        ),
         "HumanBeings" => (
             ["human's beings", "humans beings"],
             ["human beings"],
@@ -1518,24 +1506,6 @@ mod tests {
             "I haven’t seen him in quite awhile.",
             lint_group(),
             "I haven’t seen him in quite a while.",
-        );
-    }
-
-    #[test]
-    fn test_away_from() {
-        assert_suggestion_result(
-            "Keep it away fro the children.",
-            lint_group(),
-            "Keep it away from the children.",
-        );
-    }
-
-    #[test]
-    fn test_for_or_from() {
-        assert_suggestion_result(
-            "I got a text fro Sarah.",
-            lint_group(),
-            "I got a text for Sarah.",
         );
     }
 
