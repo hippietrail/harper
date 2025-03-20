@@ -30,7 +30,12 @@ export default defineConfig({
 						end: '#818eae'
 					}
 				},
-				navbar: [{ title: 'Documentation', to: '/docs/about' }],
+				navbar: [
+          { title: 'Documentation', to: '/docs/about' },
+          { title: 'Visual Studio Code', to: '/docs/integrations/visual-studio-code' },
+          { title: 'Obsidian', to: '/docs/integrations/obsidian' },
+          { title: 'harper.js', to: '/docs/harperjs/introduction' },
+        ],
 				sidebar: {
 					'/docs/': [
 						{
