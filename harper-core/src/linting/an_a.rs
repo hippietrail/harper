@@ -24,11 +24,11 @@ impl Linter for AnA {
                     continue;
                 }
 
-                let first = chunk[first_idx];
-                let second = chunk[second_idx];
+                let first = &chunk[first_idx];
+                let second = &chunk[second_idx];
 
-                let chars_first = document.get_span_content(first.span);
-                let chars_second = document.get_span_content(second.span);
+                let chars_first = document.get_span_content(&first.span);
+                let chars_second = document.get_span_content(&second.span);
                 // Break the second word on hyphens for this lint.
                 // Example: "An ML-based" is an acceptable noun phrase.
                 let chars_second = chars_second

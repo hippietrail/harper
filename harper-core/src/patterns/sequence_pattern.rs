@@ -1,9 +1,7 @@
 use paste::paste;
 
 use super::whitespace_pattern::WhitespacePattern;
-use super::{
-    AnyCapitalization, AnyPattern, IndefiniteArticle, Pattern, RepeatingPattern, SingularSubject,
-};
+use super::{AnyCapitalization, AnyPattern, IndefiniteArticle, Pattern, RepeatingPattern};
 use crate::{Token, TokenKind};
 
 /// A pattern that checks that a sequence of other patterns match.
@@ -86,6 +84,7 @@ impl SequencePattern {
     gen_then_from_is!(determiner);
     gen_then_from_is!(proper_noun);
     gen_then_from_is!(preposition);
+    gen_then_from_is!(not_plural_nominal);
 
     pub fn then_indefinite_article(self) -> Self {
         self.then(IndefiniteArticle::default())
@@ -112,10 +111,6 @@ impl SequencePattern {
                 w_char_count == tok_chars.len()
             }));
         self
-    }
-
-    pub fn then_singular_subject(self) -> Self {
-        self.then(SingularSubject::default())
     }
 
     /// Shorthand for [`Self::any_capitalization_of`].
