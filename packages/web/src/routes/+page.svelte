@@ -94,7 +94,9 @@
 	</span>
 
 	<img
-		src={["/images/harper_wp_playground_screenshot.png", "/images/obsidian_screenshot.webp", ][Math.floor(Math.random() * 2)]}
+		src={['/images/harper_wp_playground_screenshot.png', '/images/obsidian_screenshot.webp'][
+			Math.floor(Math.random() * 2)
+		]}
 		class="dark:invert rounded"
 		alt="A screenshot of a text editor with Harper suggestions."
 	/></Section
