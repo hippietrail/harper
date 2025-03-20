@@ -1,8 +1,8 @@
 import { toArray } from 'lodash-es';
 import logoSvg from '../logo.svg';
 import { Plugin, Menu, PluginManifest, App, Notice } from 'obsidian';
-import { LintConfig, Linter, Suggestion } from 'harper.js';
-import { LocalLinter, SuggestionKind, WorkerLinter } from 'harper.js';
+import { Dialect, LintConfig, Linter, Suggestion } from 'harper.js';
+import { LocalLinter, SuggestionKind, WorkerLinter, binaryInlined } from 'harper.js';
 import { linter } from './lint';
 import { Extension } from '@codemirror/state';
 import { HarperSettingTab } from './HarperSettingTab';
@@ -20,6 +20,7 @@ function suggestionToLabel(sug: Suggestion) {
 export type Settings = {
 	ignoredLints?: string;
 	useWebWorker: boolean;
+	dialect?: Dialect;
 	lintSettings: LintConfig;
 	userDictionary?: string[];
 };
@@ -30,7 +31,7 @@ export default class HarperPlugin extends Plugin {
 
 	constructor(app: App, manifest: PluginManifest) {
 		super(app, manifest);
-		this.harper = new WorkerLinter();
+		this.harper = new WorkerLinter({ binary: binaryInlined });
 		this.editorExtensions = [];
 	}
 
@@ -41,11 +42,14 @@ export default class HarperPlugin extends Plugin {
 
 		const oldSettings = await this.getSettings();
 
-		if (settings.useWebWorker != oldSettings.useWebWorker) {
+		if (
+			settings.useWebWorker != oldSettings.useWebWorker ||
+			settings.dialect != oldSettings.dialect
+		) {
 			if (settings.useWebWorker) {
-				this.harper = new WorkerLinter();
+				this.harper = new WorkerLinter({ binary: binaryInlined, dialect: settings.dialect });
 			} else {
-				this.harper = new LocalLinter();
+				this.harper = new LocalLinter({ binary: binaryInlined, dialect: settings.dialect });
 			}
 		} else {
 			await this.harper.clearIgnoredLints();
@@ -83,7 +87,8 @@ export default class HarperPlugin extends Plugin {
 			ignoredLints: await this.harper.exportIgnoredLints(),
 			useWebWorker: usingWebWorker,
 			lintSettings: await this.harper.getLintConfig(),
-			userDictionary: await this.harper.exportWords()
+			userDictionary: await this.harper.exportWords(),
+			dialect: await this.harper.getDialect()
 		};
 	}
 

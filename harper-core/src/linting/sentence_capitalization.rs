@@ -38,7 +38,7 @@ impl Linter for SentenceCapitalization {
                         continue;
                     }
 
-                    let letters = document.get_span_content(first_word.span);
+                    let letters = document.get_span_content(&first_word.span);
 
                     if let Some(first_letter) = letters.first() {
                         if first_letter.is_alphabetic() && !first_letter.is_uppercase() {
@@ -71,7 +71,7 @@ fn is_full_sentence(toks: &[Token]) -> bool {
     let mut has_verb = false;
 
     for tok in toks {
-        if let TokenKind::Word(Some(metadata)) = tok.kind {
+        if let TokenKind::Word(Some(metadata)) = &tok.kind {
             if metadata.is_nominal() {
                 has_nominal = true;
             }
@@ -136,7 +136,7 @@ mod tests {
     }
 
     #[test]
-    fn unphased_unlintable() {
+    fn unfazed_unlintable() {
         assert_lint_count(
             "the linter should not be affected by `this` unlintable.",
             SentenceCapitalization,
@@ -145,7 +145,7 @@ mod tests {
     }
 
     #[test]
-    fn unphased_ellipsis() {
+    fn unfazed_ellipsis() {
         assert_lint_count(
             "the linter should not be affected by... that ellipsis.",
             SentenceCapitalization,
@@ -154,7 +154,7 @@ mod tests {
     }
 
     #[test]
-    fn unphased_comma() {
+    fn unfazed_comma() {
         assert_lint_count(
             "the linter should not be affected by, that comma.",
             SentenceCapitalization,

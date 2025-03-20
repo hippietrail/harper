@@ -14,7 +14,7 @@ impl ImpliesQuantity {
     pub fn implies_plurality(tokens: &[Token], source: &[char]) -> Option<bool> {
         let token = tokens.first()?;
 
-        match token.kind {
+        match &token.kind {
             TokenKind::Word(Some(word_metadata)) => {
                 if word_metadata.determiner {
                     return Some(false);

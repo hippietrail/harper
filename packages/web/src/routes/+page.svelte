@@ -90,7 +90,7 @@
 		>, Neovim,
 		<a href="https://github.com/Stef16Robbe/harper_zed">Zed</a>
 		and
-		<a href="/obsidian">Obsidian</a> integration is amazing.
+		<a href="/docs/integrations/obsidian">Obsidian</a> integration is amazing.
 	</span>
 
 	<img

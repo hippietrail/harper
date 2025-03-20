@@ -1,5 +1,4 @@
-use super::{LintGroup, MapPhraseLinter, PatternLinterCache};
-use std::num::NonZero;
+use super::{LintGroup, MapPhraseLinter};
 
 /// Produce a [`LintGroup`] that looks for errors in common phrases.
 /// Comes pre-configured with the recommended default settings.
@@ -11,17 +10,16 @@ pub fn lint_group() -> LintGroup {
             $($name:expr => ($input:expr, $corrections:expr, $hint:expr, $description:expr)),+ $(,)?
         }) => {
             $(
-                $group.add(
+                $group.add_pattern_linter(
                     $name,
-                    Box::new(PatternLinterCache::new(
+                    Box::new(
                         MapPhraseLinter::new_exact_phrases(
                             $input,
                             $corrections,
                             $hint,
                             $description
                         ),
-                        NonZero::new(1000).unwrap()
-                    )),
+                    ),
                 );
             )+
         };
@@ -31,13 +29,49 @@ pub fn lint_group() -> LintGroup {
         // The name of the rule
         "ChangeTack" => (
             // The exact phrase(s) to look for.
-            ["change tact"],
+            ["change tact", "change tacks", "change tacts"],
             // The corrections to provide.
             ["change tack"],
             // The message to be shown with the error.
-            "Did you mean the sailing idiom?",
+            "Did you mean `change tack`? This idiom is commonly used to indicate a change in direction or approach.",
             // A description of the rule.
-            "Locates minor errors in the sailing idiom `change tack`."
+            "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+        ),
+        "ChangedTack" => (
+            ["changed tact", "changed tacks", "changed tacts"],
+            ["changed tack"],
+            "Did you mean `changed tack`? This idiom is commonly used to indicate a change in direction or approach.",
+            "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+        ),
+        "ChangesTack" => (
+            ["changes tact", "changes tacks", "changes tacts"],
+            ["changes tack"],
+            "Did you mean `changes tack`? This idiom is commonly used to indicate a change in direction or approach.",
+            "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+        ),
+        "ChangingTack" => (
+            ["changing tact", "changing tacks", "changing tacts"],
+            ["changing tack"],
+            "Did you mean `changing tack`? This idiom is commonly used to indicate a change in direction or approach.",
+            "Locates errors in the idiom `to change tack` to convey the correct meaning of altering one's course or strategy."
+        ),
+        "ChangeOfTack" => (
+            ["change of tact", "change of tacks", "change of tacts"],
+            ["change of tack"],
+            "Did you mean `change of tack`? This idiom is commonly used to indicate a change in direction or approach.",
+            "Locates errors in the idiom `change of tack` to convey the correct meaning of an alternative course or strategy."
+        ),
+        "ChangesOfTack" => (
+            ["changes of tact", "changes of tacks", "changes of tacts"],
+            ["changes of tack"],
+            "Did you mean `changes of tack`? This idiom is commonly used to indicate changes in direction or approach.",
+            "Locates errors in the idiom `change of tack` to convey the correct meaning of an alternative course or strategy."
+        ),
+        "ChangingOfTack" => (
+            ["changing of tact", "changing of tacks", "changing of tacts"],
+            ["changing of tack"],
+            "Did you mean `changing of tack`? This idiom is commonly used to indicate a change in direction or approach.",
+            "Locates errors in the idiom `to change of tack` to convey the correct meaning of altering one's course or strategy."
         ),
         "WantBe" => (
             ["want be"],
@@ -340,28 +374,34 @@ pub fn lint_group() -> LintGroup {
             "Corrects `hunger pain` to `hunger pang`."
         ),
         "GetRidOff" => (
-            ["get rid off"],
+            ["get rid off", "get ride of", "get ride off"],
             ["get rid of"],
             "Did you mean `get rid of`?",
             "Ensures `get rid of` is used instead of `get rid off`."
         ),
         "GetsRidOff" => (
-            ["gets rid off"],
+            ["gets rid off", "gets ride of", "gets ride off"],
             ["gets rid of"],
             "Did you mean `gets rid of`?",
             "Ensures `gets rid of` is used instead of `gets rid off`."
             ),
         "GettingRidOff" => (
-            ["getting rid off"],
+            ["getting rid off", "getting ride of", "getting ride off"],
             ["getting rid of"],
             "Did you mean `getting rid of`?",
             "Ensures `getting rid of` is used instead of `getting rid off`."
         ),
         "GotRidOff" => (
-            ["got rid off"],
+            ["got rid off", "got ride of", "got ride off"],
             ["got rid of"],
             "Did you mean `got rid of`?",
             "Ensures `got rid of` is used instead of `got rid off`."
+        ),
+        "GottenRidOff" => (
+            ["gotten rid off", "gotten ride of", "gotten ride off"],
+            ["gotten rid of"],
+            "Did you mean `gotten rid of`?",
+            "Ensures `gotten rid of` is used instead of `gotten rid off`."
         ),
         "LastButNotLeast" => (
             ["last but not the least", "last, but not the least", "last but, not least"],
@@ -597,14 +637,16 @@ pub fn lint_group() -> LintGroup {
             "Use `haphazard` for randomness or lack of organization.",
             "Corrects the eggcorn `half hazard` to `haphazard`, which properly means lacking organization or being random."
         ),
-         "DayAndAge" => (
+        "DayAndAge" => (
             ["day in age"],
             ["day and age"],
             "Use `day and age` for referring to the present time.",
             "Corrects the eggcorn `day in age` to `day and age`, which properly means the current era or time period."
         ),
         "GuineaBissau" => (
-            // Note: this lint cannot correct wrong case, only the hyphenation
+            // Note: this lint matches any case but cannot correct wrong case
+            // Note: It can only correct the hyphenation
+            // Note: See linting/matcher.rs for case corrections
             // Note: $input must already be the correct case
             // Note: do not add other case variants here
             ["Guinea Bissau"],
@@ -613,7 +655,9 @@ pub fn lint_group() -> LintGroup {
             "Checks for the correct official name of the African country."
         ),
         "PortAuPrince" => (
-            // Note: this lint cannot correct wrong case, only the hyphenation
+            // Note: this lint matches any case but cannot correct wrong case
+            // Note: It can only correct the hyphenation
+            // Note: See linting/matcher.rs for case corrections
             // Note: $input must already be the correct case
             // Note: do not add other case variants here
             ["Port au Prince"],
@@ -622,13 +666,134 @@ pub fn lint_group() -> LintGroup {
             "Checks for the correct official name of the capital of Haiti."
         ),
         "PortoNovo" => (
-            // Note: this lint cannot correct wrong case, only the hyphenation
+            // Note: this lint matches any case but cannot correct wrong case
+            // Note: It can only correct the hyphenation
+            // Note: See linting/matcher.rs for case corrections
             // Note: $input must already be the correct case
             // Note: do not add other case variants here
             ["Porto Novo"],
             ["Porto-Novo"],
             "The official spelling is hyphenated.",
             "Checks for the correct official name of the capital of Benin."
+        "NerveRacking" => (
+            ["nerve racking", "nerve wracking", "nerve wrecking", "nerve-wracking", "nerve-wrecking"],
+            ["nerve-racking"],
+            "Use `nerve-racking` for something that causes anxiety or tension.",
+            "Corrects common misspellings and missing hyphen in `nerve-racking`."
+        ),
+        "InDetail" => (
+            ["in details"],
+            ["in detail"],
+            "Use singular `in detail` for referring to a detailed description.",
+            "Correct unidiomatic plural `in details` to `in detail`."
+        ),
+        "InMoreDetail" => (
+            ["in more details"],
+            ["in more detail"],
+            "Use singular `in more detail` for referring to a detailed description.",
+            "Correct unidiomatic plural `in more details` to `in more detail`."
+        ),
+        "TickingTimeClock" => (
+            ["ticking time clock"],
+            ["ticking time bomb", "ticking clock"],
+            "Use `ticking time bomb` for disastrous consequences, otherwise avoid redundancy with just `ticking clock`.",
+            "Corrects `ticking time clock` to `ticking time bomb` for idiomatic urgency or `ticking clock` otherwise."
+        ),
+        "InAndOfItself" => (
+            ["in of itself"],
+            ["in and of itself"],
+            "Use `in and of itself` for referring to something's inherent or intrinsic quality.",
+            "Corrects nonstandard `in of itself` to standard `in and of itself`."
+        ),
+        "ALotWorst" => (
+            ["a lot worst", "alot worst"],
+            ["a lot worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `a lot worst` to `a lot worse` for proper comparative usage."
+        ),
+        "FarWorse" => (
+            ["far worst"],
+            ["far worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `far worst` to `far worse` for proper comparative usage."
+        ),
+        "MuchWorse" => (
+            ["much worst"],
+            ["much worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `much worst` to `much worse` for proper comparative usage."
+        ),
+        "TurnForTheWorse" => (
+            ["turn for the worst"],
+            ["turn for the worse"],
+            "Use `turn for the worse` for a negative change in circumstances. Avoid the incorrect `turn for the worst`.",
+            "Corrects the nonstandard `turn for the worst` to the idiomatic `turn for the worse`, used to describe a situation that has deteriorated."
+        ),
+        "WorseAndWorse" => (
+            ["worst and worst", "worse and worst", "worst and worse"],
+            ["worse and worse"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `worst and worst` to `worse and worse` for proper comparative usage."
+        ),
+        "WorseThan" => (
+            ["worst than"],
+            ["worse than"],
+            "Use `worse` for comparing. (`Worst` is for the extreme case)",
+            "Corrects `worst than` to `worse than` for proper comparative usage."
+        ),
+        "WorstEver" => (
+            ["worse ever"],
+            ["worst ever"],
+            "Use `worst` for the extreme case. (`Worse` is for comparing)",
+            "Corrects `worse ever` to `worst ever` for proper comparative usage."
+        ),
+        "Monumentous" => (
+            ["monumentous"],
+            ["momentous", "monumental"],
+            "Retain `monumentous` for jocular effect. Otherwise `momentous` indicates great signifcance while `monumental` indicates imposing size.",
+            "Advises using `momentous` or `monumental` instead of `monumentous` for serious usage."
+        ),
+        "InAnyWay" => (
+            ["in anyway"],
+            ["in any way"],
+            "Use `in any way` for emphasizing a point.",
+            "Corrects ungrammatical `in anyway` to `in any way`."
+        ),
+        "ExplanationMark" => (
+            ["explanation mark"],
+            ["exclamation mark"],
+            "The correct name for the `!` punctuation is `exclamation mark`.",
+            "Corrects the eggcorn `explanation mark` to `exclamation mark`."
+        ),
+        "ExplanationMarks" => (
+            ["explanation marks"],
+            ["exclamation marks"],
+            "The correct name for the `!` punctuation is `exclamation mark`.",
+            "Corrects the eggcorn `explanation mark` to `exclamation mark`."
+        ),
+        "ExplanationPoint" => (
+            ["explanation point"],
+            ["exclamation point"],
+            "The correct name for the `!` punctuation is `exclamation point`.",
+            "Corrects the eggcorn `explanation point` to `exclamation point`."
+        ),
+        "AsFarBackAs" => (
+            ["as early back as"],
+            ["as far back as"],
+            "Use `as far back as` for referring to a time in the past.",
+            "Corrects nonstandard `as early back as` to `as far back as`."
+        ),
+        "ALongTime" => (
+            ["along time"],
+            ["a long time"],
+            "Use `a long time` for referring to a duration of time.",
+            "Corrects `along time` to `a long time`."
+        ),
+        "EachAndEveryOne" => (
+            ["each and everyone"],
+            ["each and every one"],
+            "Use `each and every one` for referring to a group of people or things.",
+            "Corrects `each and everyone` to `each and every one`."
         ),
     });
 
@@ -639,11 +804,12 @@ pub fn lint_group() -> LintGroup {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
+    use crate::linting::tests::{
+        assert_lint_count, assert_second_suggestion_result, assert_suggestion_result,
+    };
 
     use super::lint_group;
 
-    // todo: 4 tests: get/gets/getting rid off
     #[test]
     fn get_rid_off() {
         assert_suggestion_result(
@@ -652,6 +818,8 @@ mod tests {
             "Please bump axios version to get rid of npm warning #624",
         );
     }
+
+    #[test]
     fn gets_rid_off() {
         assert_suggestion_result(
             "Adding at as a runtime dependency gets rid off that error",
@@ -659,6 +827,8 @@ mod tests {
             "Adding at as a runtime dependency gets rid of that error",
         );
     }
+
+    #[test]
     fn getting_rid_off() {
         assert_suggestion_result(
             "getting rid off of all the complexity of the different accesses method of API service providers",
@@ -666,11 +836,76 @@ mod tests {
             "getting rid of of all the complexity of the different accesses method of API service providers",
         );
     }
+
+    #[test]
     fn got_rid_off() {
         assert_suggestion_result(
             "For now we got rid off circular deps in model tree structure and it's API.",
             lint_group(),
             "For now we got rid of circular deps in model tree structure and it's API.",
+        );
+    }
+
+    #[test]
+    fn gotten_rid_off() {
+        assert_suggestion_result(
+            "The baX variable thingy I have gotten rid off, that was due to a bad character in the encryption key.",
+            lint_group(),
+            "The baX variable thingy I have gotten rid of, that was due to a bad character in the encryption key.",
+        );
+    }
+
+    #[test]
+    fn get_ride_of() {
+        assert_suggestion_result(
+            "Get ride of \"WARNING Deprecated: markdown_github. Use gfm\"",
+            lint_group(),
+            "Get rid of \"WARNING Deprecated: markdown_github. Use gfm\"",
+        );
+    }
+
+    #[test]
+    fn get_ride_off() {
+        assert_suggestion_result(
+            "This exact hack was what I trying to get ride off. ",
+            lint_group(),
+            "This exact hack was what I trying to get rid of. ",
+        );
+    }
+
+    #[test]
+    fn getting_ride_of() {
+        assert_suggestion_result(
+            "If you have any idea how to fix this without getting ride of bootstrap I would be thankfull.",
+            lint_group(),
+            "If you have any idea how to fix this without getting rid of bootstrap I would be thankfull.",
+        );
+    }
+
+    #[test]
+    fn gets_ride_of() {
+        assert_suggestion_result(
+            ".. gets ride of a central back-end/server and eliminates all the risks associated to it.",
+            lint_group(),
+            ".. gets rid of a central back-end/server and eliminates all the risks associated to it.",
+        );
+    }
+
+    #[test]
+    fn gotten_ride_of() {
+        assert_suggestion_result(
+            "I have gotten ride of the react-table and everything works just fine.",
+            lint_group(),
+            "I have gotten rid of the react-table and everything works just fine.",
+        );
+    }
+
+    #[test]
+    fn got_ride_of() {
+        assert_suggestion_result(
+            "I had to adjust the labels on the free version because you guys got ride of ...",
+            lint_group(),
+            "I had to adjust the labels on the free version because you guys got rid of ...",
         );
     }
 
@@ -728,8 +963,64 @@ mod tests {
     }
 
     #[test]
-    fn change_tact() {
+    fn change_tact_atomic() {
         assert_suggestion_result("change tact", lint_group(), "change tack");
+    }
+
+    #[test]
+    fn changed_tacks_atomic() {
+        assert_suggestion_result("changed tacks", lint_group(), "changed tack");
+    }
+
+    #[test]
+    fn changes_tacts_atomic() {
+        assert_suggestion_result("changes tacts", lint_group(), "changes tack");
+    }
+
+    #[test]
+    fn changing_tact_atomic() {
+        assert_suggestion_result("changing tact", lint_group(), "changing tack");
+    }
+
+    #[test]
+    fn change_of_tacks_atomic() {
+        assert_suggestion_result("change of tacks", lint_group(), "change of tack");
+    }
+
+    #[test]
+    fn change_of_tact_real_world() {
+        assert_suggestion_result(
+            "Change of tact : come give your concerns - Death Knight",
+            lint_group(),
+            "Change of tack : come give your concerns - Death Knight",
+        );
+    }
+
+    #[test]
+    fn change_of_tacts_real_world() {
+        assert_suggestion_result(
+            "2013.08.15 - A Change of Tacts | Hero MUX Wiki | Fandom",
+            lint_group(),
+            "2013.08.15 - A Change of Tack | Hero MUX Wiki | Fandom",
+        );
+    }
+
+    #[test]
+    fn changing_of_tacks_real_world() {
+        assert_suggestion_result(
+            "Duffy's changing of tacks hidden in her poetry collection ...",
+            lint_group(),
+            "Duffy's changing of tack hidden in her poetry collection ...",
+        );
+    }
+
+    #[test]
+    fn changes_of_tact_real_world() {
+        assert_suggestion_result(
+            "While the notes and the changes of tact started to ...",
+            lint_group(),
+            "While the notes and the changes of tack started to ...",
+        );
     }
 
     #[test]
@@ -814,6 +1105,326 @@ mod tests {
             "Guinea Bissau",
             lint_group(),
             "Guinea-Bissau",
+    fn detect_nerve_wracking_hyphen() {
+        assert_suggestion_result(
+            "We've gone through several major changes / upgrades to atlantis, and it's always a little bit nerve-wracking because if we mess something up we ...",
+            lint_group(),
+            "We've gone through several major changes / upgrades to atlantis, and it's always a little bit nerve-racking because if we mess something up we ...",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wrecking_hyphen() {
+        assert_suggestion_result(
+            "The issue happens to me on a daily basis, and it is nerve-wrecking because I become unsure if I have actually saved the diagram, but every time ...",
+            lint_group(),
+            "The issue happens to me on a daily basis, and it is nerve-racking because I become unsure if I have actually saved the diagram, but every time ...",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wracking_no_hyphen() {
+        assert_suggestion_result(
+            "Very nerve wracking landing in an unfamiliar mountainous airport in dead of night with no radar to show surrounding terrain.",
+            lint_group(),
+            "Very nerve-racking landing in an unfamiliar mountainous airport in dead of night with no radar to show surrounding terrain.",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_wrecking_no_hyphen() {
+        assert_suggestion_result(
+            "I appreciate any kind of help since this is kind of nerve wrecking.",
+            lint_group(),
+            "I appreciate any kind of help since this is kind of nerve-racking.",
+        );
+    }
+
+    #[test]
+    fn detect_nerve_racking_no_hyphen() {
+        assert_suggestion_result(
+            "It's nerve racking to think about it because I have code inside the callback that resolves the member and somehow I feel like it's so ..",
+            lint_group(),
+            "It's nerve-racking to think about it because I have code inside the callback that resolves the member and somehow I feel like it's so ..",
+        );
+    }
+
+    #[test]
+    fn in_detail_atomic() {
+        assert_suggestion_result("in details", lint_group(), "in detail");
+    }
+
+    #[test]
+    fn in_more_detail_atomic() {
+        assert_suggestion_result("in more details", lint_group(), "in more detail");
+    }
+
+    #[test]
+    fn in_detail_real_world() {
+        assert_suggestion_result(
+            "c++ - who can tell me \"*this pointer\" in details?",
+            lint_group(),
+            "c++ - who can tell me \"*this pointer\" in detail?",
+        )
+    }
+
+    #[test]
+    fn suggests_ticking_time_bomb() {
+        assert_suggestion_result(
+            "One element that can help up the stakes (and tension!) is a “ticking time clock.”",
+            lint_group(),
+            "One element that can help up the stakes (and tension!) is a “ticking time bomb.”",
+        );
+    }
+
+    #[test]
+    fn in_more_detail_real_world() {
+        assert_suggestion_result(
+            "Document the interface in more details · Issue #3 · owlbarn ...",
+            lint_group(),
+            "Document the interface in more detail · Issue #3 · owlbarn ...",
+        );
+    }
+
+    #[test]
+    fn detect_atomic_in_of_itself() {
+        assert_suggestion_result("in of itself", lint_group(), "in and of itself");
+    }
+
+    #[test]
+    fn correct_real_world_in_of_itself() {
+        assert_suggestion_result(
+            "This is not entirely unexpected in of itself, as Git and GitHub Desktop both generally prove fairly bad at delineating context intelligently...",
+            lint_group(),
+            "This is not entirely unexpected in and of itself, as Git and GitHub Desktop both generally prove fairly bad at delineating context intelligently...",
+        )
+    }
+
+    #[test]
+    fn detect_a_lot_worse_atomic() {
+        assert_suggestion_result("a lot worst", lint_group(), "a lot worse");
+    }
+
+    #[test]
+    fn detect_a_lot_worse_real_world() {
+        assert_suggestion_result(
+            "On a debug build, it's even a lot worst.",
+            lint_group(),
+            "On a debug build, it's even a lot worse.",
+        );
+    }
+
+    #[test]
+    fn suggests_ticking_clock() {
+        assert_second_suggestion_result(
+            "The opportunity itself has a ticking time clock as all great opportunities do.",
+            lint_group(),
+            "The opportunity itself has a ticking clock as all great opportunities do.",
+        );
+    }
+
+    #[test]
+    fn detect_far_worse_atomic() {
+        assert_suggestion_result("far worst", lint_group(), "far worse");
+    }
+
+    #[test]
+    fn detect_far_worse_real_world() {
+        assert_suggestion_result(
+            "I mainly use Firefox (personal preference) and have noticed it has far worst performance than Chrome",
+            lint_group(),
+            "I mainly use Firefox (personal preference) and have noticed it has far worse performance than Chrome",
+        );
+    }
+
+    #[test]
+    fn detect_much_worse_atomic() {
+        assert_suggestion_result("much worst", lint_group(), "much worse");
+    }
+
+    #[test]
+    fn detect_much_worse_real_world() {
+        assert_suggestion_result(
+            "the generated image quality is much worst (actually nearly broken)",
+            lint_group(),
+            "the generated image quality is much worse (actually nearly broken)",
+        );
+    }
+
+    #[test]
+    fn detect_turn_for_the_worse_atomic() {
+        assert_suggestion_result("turn for the worst", lint_group(), "turn for the worse");
+    }
+
+    #[test]
+    fn detect_turn_for_the_worse_real_world() {
+        assert_suggestion_result(
+            "Very surprised to see this repo take such a turn for the worst.",
+            lint_group(),
+            "Very surprised to see this repo take such a turn for the worse.",
+        );
+    }
+
+    #[test]
+    fn detect_worst_and_worst_atomic() {
+        assert_suggestion_result("worst and worst", lint_group(), "worse and worse");
+    }
+
+    #[test]
+    fn detect_worst_and_worst_real_world() {
+        assert_suggestion_result(
+            "This control-L trick does not work for me. The padding is getting worst and worst.",
+            lint_group(),
+            "This control-L trick does not work for me. The padding is getting worse and worse.",
+        );
+    }
+
+    #[test]
+    fn detect_worse_and_worst_real_world() {
+        assert_suggestion_result(
+            "This progressively got worse and worst to the point that the machine (LEAD 1010) stopped moving alltogether.",
+            lint_group(),
+            "This progressively got worse and worse to the point that the machine (LEAD 1010) stopped moving alltogether.",
+        );
+    }
+
+    #[test]
+    fn detect_worse_than_atomic() {
+        assert_suggestion_result("worst than", lint_group(), "worse than");
+    }
+
+    #[test]
+    fn detect_worse_than_real_world() {
+        assert_suggestion_result(
+            "Project real image - inversion quality is worst than in StyleGAN2",
+            lint_group(),
+            "Project real image - inversion quality is worse than in StyleGAN2",
+        );
+    }
+
+    #[test]
+    fn detect_worst_ever_atomic() {
+        assert_suggestion_result("worse ever", lint_group(), "worst ever");
+    }
+
+    #[test]
+    fn detect_worst_ever_real_world() {
+        assert_suggestion_result(
+            "The Bcl package family is one of the worse ever published by Microsoft.",
+            lint_group(),
+            "The Bcl package family is one of the worst ever published by Microsoft.",
+        );
+    }
+
+    #[test]
+    fn detect_monumentous_atomic() {
+        assert_suggestion_result("monumentous", lint_group(), "momentous");
+    }
+
+    #[test]
+    fn detect_monumentous_real_world() {
+        assert_suggestion_result(
+            "I think that would be a monumentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
+            lint_group(),
+            "I think that would be a momentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
+        );
+    }
+
+    #[test]
+    fn detect_in_anyway_atomic() {
+        assert_suggestion_result("in anyway", lint_group(), "in any way");
+    }
+
+    #[test]
+    fn detect_in_anyway_real_world() {
+        assert_suggestion_result(
+            "The names should not affect your application in anyway and you can override extension names.",
+            lint_group(),
+            "The names should not affect your application in any way and you can override extension names.",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_mark_atomic() {
+        assert_suggestion_result("explanation mark", lint_group(), "exclamation mark");
+    }
+
+    #[test]
+    fn detect_explanation_marks_atomic() {
+        assert_suggestion_result("explanation marks", lint_group(), "exclamation marks");
+    }
+
+    #[test]
+    fn detect_explanation_mark_real_world() {
+        assert_suggestion_result(
+            "Note that circled explanation mark, question mark, plus and arrows may be significantly harder to distinguish than their uncircled variants.",
+            lint_group(),
+            "Note that circled exclamation mark, question mark, plus and arrows may be significantly harder to distinguish than their uncircled variants.",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_marks_real_world() {
+        assert_suggestion_result(
+            "this issue: html: properly handle explanation marks in comments",
+            lint_group(),
+            "this issue: html: properly handle exclamation marks in comments",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_point_atomic() {
+        assert_suggestion_result("explanation point", lint_group(), "exclamation point");
+    }
+
+    #[test]
+    fn detect_explanation_point_real_world() {
+        assert_suggestion_result(
+            "js and makes an offhand mention that you can disable inbuilt plugin with an explanation point (e.g. !error ).",
+            lint_group(),
+            "js and makes an offhand mention that you can disable inbuilt plugin with an exclamation point (e.g. !error ).",
+        );
+    }
+
+    #[test]
+    fn detect_as_early_back_as() {
+        assert_suggestion_result("as early back as", lint_group(), "as far back as");
+    }
+
+    #[test]
+    fn detect_as_early_back_as_real_world() {
+        assert_suggestion_result(
+            "skin overrides also supports a wide variety of minecraft versions - as early back as 1.14.4.",
+            lint_group(),
+            "skin overrides also supports a wide variety of minecraft versions - as far back as 1.14.4.",
+        );
+    }
+
+    #[test]
+    fn detect_a_long_time() {
+        assert_suggestion_result("along time", lint_group(), "a long time");
+    }
+
+    #[test]
+    fn detect_a_long_time_real_world() {
+        assert_suggestion_result(
+            "Fast refreshing is very slow had to wait along time for it to update.",
+            lint_group(),
+            "Fast refreshing is very slow had to wait a long time for it to update.",
+        );
+    }
+
+    #[test]
+    fn detect_each_and_everyone() {
+        assert_suggestion_result("each and everyone", lint_group(), "each and every one");
+    }
+
+    #[test]
+    fn detect_each_and_everyone_real_world() {
+        assert_suggestion_result(
+            "I have modified each and everyone of them to keep only the best of the best!",
+            lint_group(),
+            "I have modified each and every one of them to keep only the best of the best!",
         );
     }
 }
