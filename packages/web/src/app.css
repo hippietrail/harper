@@ -102,7 +102,7 @@ textarea {
 }
 
 .header {
-	top: 6px !important;
+	padding-top: 6px;
 }
 
 th[align="center"] {
