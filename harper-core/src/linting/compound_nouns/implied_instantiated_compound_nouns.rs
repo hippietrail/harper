@@ -42,7 +42,7 @@ impl PatternLinter for ImpliedInstantiatedCompoundNouns {
         // If the pattern matched, this will not return `None`.
         let word =
             self.split_pattern
-                .get_merged_word(matched_tokens[0], matched_tokens[2], source)?;
+                .get_merged_word(&matched_tokens[0], &matched_tokens[2], source)?;
 
         Some(Lint {
             span,

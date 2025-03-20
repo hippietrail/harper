@@ -1,6 +1,7 @@
 import React from 'react';
 import LintSettingList from './LintSettingList';
-import { Panel, PanelBody, TabPanel } from '@wordpress/components';
+import DialectSelectRow from './DialectSelectRow';
+import { Panel, PanelBody, SelectControl, TabPanel } from '@wordpress/components';
 import LintList from './LintList';
 import { IgnorableLintBox } from './Box';
 
@@ -26,6 +27,7 @@ export default function SidebarTabContainer({
 						return (
 							<Panel>
 								<PanelBody title="Rules">
+									<DialectSelectRow />
 									<LintSettingList />
 								</PanelBody>
 							</Panel>

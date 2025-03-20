@@ -41,7 +41,7 @@ impl PatternLinter for ImpliedOwnershipCompoundNouns {
         // If the pattern matched, this will not return `None`.
         let word =
             self.split_pattern
-                .get_merged_word(matched_tokens[2], matched_tokens[4], source)?;
+                .get_merged_word(&matched_tokens[2], &matched_tokens[4], source)?;
 
         Some(Lint {
             span,

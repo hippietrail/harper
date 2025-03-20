@@ -2,13 +2,13 @@
 title: Visual Studio Code
 ---
 
-This document details how to develop the Visual Studio Code extension locally. If you're interested in how it's packaged and distributed, you can checkout the [Release VS Code Plugin](https://github.com/Automattic/harper/blob/master/.github/workflows/release_vscode_plugin.yml) workflow.
+This document details how to develop the Visual Studio Code extension locally. If you're interested in how it's packaged and distributed, you can check out the [Release VS Code Plugin](https://github.com/Automattic/harper/blob/master/.github/workflows/release_vscode_plugin.yml) workflow.
 
 ## Notes
 
 - The extension code and its tests live in the `packages/vscode-plugin/src` directory. Most changes you'll need to make will be there.
-- VS Code can only pickup the tasks and launch configurations set in `packages/vscode-plugin/.vscode` if this directory, `packages/vscode-plugin`, not the root of the Harper repository, is open.
-- You can look at the project's [`justfile`](https://github.com/Automattic/harper/blob/master/justfile) to see exactly what running the `just` recipes below do.
+- VS Code can only pick up the tasks and launch configurations set in `packages/vscode-plugin/.vscode` if this directory, `packages/vscode-plugin`, not the root of the Harper repository, is open.
+- You can look at the project's [`justfile`](https://github.com/Automattic/harper/blob/master/justfile) to see exactly what running the `just` recipes below does.
 
 ## Prerequisites
 

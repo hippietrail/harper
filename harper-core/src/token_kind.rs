@@ -3,9 +3,7 @@ use serde::{Deserialize, Serialize};
 
 use crate::{ConjunctionData, NounData, Number, PronounData, Punctuation, Quote, WordMetadata};
 
-#[derive(
-    Debug, Is, Clone, Copy, Serialize, Deserialize, Default, PartialOrd, Hash, Eq, PartialEq,
-)]
+#[derive(Debug, Is, Clone, Serialize, Deserialize, Default, PartialOrd, Hash, Eq, PartialEq)]
 #[serde(tag = "kind", content = "value")]
 pub enum TokenKind {
     /// `None` if the word does not exist in the dictionary.
@@ -229,7 +227,7 @@ impl TokenKind {
             TokenKind::Number(..) => TokenKind::Number(Default::default()),
             TokenKind::Space(_) => TokenKind::Space(Default::default()),
             TokenKind::Newline(_) => TokenKind::Newline(Default::default()),
-            _ => *self,
+            _ => self.clone(),
         }
     }
 }

@@ -5,15 +5,15 @@ use paste::paste;
 macro_rules! create_decl_for {
     ($thing:ident) => {
         paste! {
-            fn [< first_ $thing >](&self) -> Option<Token>;
+            fn [< first_ $thing >](&self) -> Option<&Token>;
 
-            fn [< last_ $thing >](&self) -> Option<Token>;
+            fn [< last_ $thing >](&self) -> Option<&Token>;
 
             fn [< last_ $thing _index >](&self) -> Option<usize>;
 
             fn [<iter_ $thing _indices>](&self) -> impl Iterator<Item = usize> + '_;
 
-            fn [<iter_ $thing s>](&self) -> impl Iterator<Item = Token> + '_;
+            fn [<iter_ $thing s>](&self) -> impl Iterator<Item = &Token> + '_;
         }
     };
 }
@@ -21,12 +21,12 @@ macro_rules! create_decl_for {
 macro_rules! create_fns_for {
     ($thing:ident) => {
         paste! {
-            fn [< first_ $thing >](&self) -> Option<Token> {
-                self.iter().find(|v| v.kind.[<is_ $thing>]()).copied()
+            fn [< first_ $thing >](&self) -> Option<&Token> {
+                self.iter().find(|v| v.kind.[<is_ $thing>]())
             }
 
-            fn [< last_ $thing >](&self) -> Option<Token> {
-                self.iter().rev().find(|v| v.kind.[<is_ $thing>]()).copied()
+            fn [< last_ $thing >](&self) -> Option<&Token> {
+                self.iter().rev().find(|v| v.kind.[<is_ $thing>]())
             }
 
             fn [< last_ $thing _index >](&self) -> Option<usize> {
@@ -40,8 +40,8 @@ macro_rules! create_fns_for {
                     .map(|(i, _)| i)
             }
 
-            fn [<iter_ $thing s>](&self) -> impl Iterator<Item = Token> + '_ {
-                self.[<iter_ $thing _indices>]().map(|i| self[i])
+            fn [<iter_ $thing s>](&self) -> impl Iterator<Item = &Token> + '_ {
+                self.[<iter_ $thing _indices>]().map(|i| &self[i])
             }
         }
     };
@@ -49,8 +49,8 @@ macro_rules! create_fns_for {
 
 /// Extension methods for [`Token`] sequences that make them easier to wrangle and query.
 pub trait TokenStringExt {
-    fn first_sentence_word(&self) -> Option<Token>;
-    fn first_non_whitespace(&self) -> Option<Token>;
+    fn first_sentence_word(&self) -> Option<&Token>;
+    fn first_non_whitespace(&self) -> Option<&Token>;
     /// Grab the span that represents the beginning of the first element and the
     /// end of the last element.
     fn span(&self) -> Option<Span>;
@@ -76,7 +76,7 @@ pub trait TokenStringExt {
     create_decl_for!(comma);
 
     fn iter_linking_verb_indices(&self) -> impl Iterator<Item = usize> + '_;
-    fn iter_linking_verbs(&self) -> impl Iterator<Item = Token> + '_;
+    fn iter_linking_verbs(&self) -> impl Iterator<Item = &Token> + '_;
 
     /// Iterate over chunks.
     ///
@@ -118,18 +118,18 @@ impl TokenStringExt for [Token] {
     create_fns_for!(likely_homograph);
     create_fns_for!(comma);
 
-    fn first_non_whitespace(&self) -> Option<Token> {
-        self.iter().find(|t| !t.kind.is_whitespace()).copied()
+    fn first_non_whitespace(&self) -> Option<&Token> {
+        self.iter().find(|t| !t.kind.is_whitespace())
     }
 
-    fn first_sentence_word(&self) -> Option<Token> {
+    fn first_sentence_word(&self) -> Option<&Token> {
         let (w_idx, word) = self.iter().find_position(|v| v.kind.is_word())?;
 
         let Some(u_idx) = self.iter().position(|v| v.kind.is_unlintable()) else {
-            return Some(*word);
+            return Some(word);
         };
 
-        if w_idx < u_idx { Some(*word) } else { None }
+        if w_idx < u_idx { Some(word) } else { None }
     }
 
     fn span(&self) -> Option<Span> {
@@ -147,7 +147,7 @@ impl TokenStringExt for [Token] {
 
     fn iter_linking_verb_indices(&self) -> impl Iterator<Item = usize> + '_ {
         self.iter_word_indices().filter(|idx| {
-            let word = self[*idx];
+            let word = &self[*idx];
             let Some(Some(meta)) = word.kind.as_word() else {
                 return false;
             };
@@ -156,8 +156,8 @@ impl TokenStringExt for [Token] {
         })
     }
 
-    fn iter_linking_verbs(&self) -> impl Iterator<Item = Token> + '_ {
-        self.iter_linking_verb_indices().map(|idx| self[idx])
+    fn iter_linking_verbs(&self) -> impl Iterator<Item = &Token> + '_ {
+        self.iter_linking_verb_indices().map(|idx| &self[idx])
     }
 
     fn iter_chunks(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {

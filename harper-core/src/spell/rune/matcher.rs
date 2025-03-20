@@ -4,7 +4,7 @@ use serde::{Deserialize, Serialize};
 
 /// A simplified, Regex-like matcher.
 ///
-/// See Hunspell documentation on affixes for more information.
+/// See the Hunspell documentation on affixes for more information.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct Matcher {
     /// Position-based operators.
@@ -128,8 +128,7 @@ pub enum Error {
 
 #[cfg(test)]
 mod tests {
-    use super::Matcher;
-    use crate::spell::hunspell::matcher::Operator;
+    use super::{Matcher, Operator};
 
     #[test]
     fn parses_simple() {

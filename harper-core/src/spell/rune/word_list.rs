@@ -7,7 +7,7 @@ pub struct MarkedWord {
     pub attributes: Vec<char>,
 }
 
-/// Parse a Hunspell word list
+/// Parse a Rune word list
 ///
 /// Returns [`None`] if the given string is invalid.
 pub fn parse_word_list(source: &str) -> Result<Vec<MarkedWord>, Error> {

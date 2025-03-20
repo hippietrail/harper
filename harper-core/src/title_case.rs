@@ -1,3 +1,5 @@
+use std::borrow::Cow;
+
 use crate::Lrc;
 use crate::Token;
 use crate::TokenKind;
@@ -50,7 +52,7 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
             }
         };
 
-        let should_capitalize = should_capitalize_token(&word, source, dict)
+        let should_capitalize = should_capitalize_token(word, source, dict)
             || index == 0
             || word_likes.peek().is_none();
 
@@ -71,8 +73,8 @@ pub fn make_title_case(toks: &[Token], source: &[char], dict: &impl Dictionary) 
 /// Determines whether a token should be capitalized.
 /// Is not responsible for capitalization requirements that are dependent on token position.
 fn should_capitalize_token(tok: &Token, source: &[char], dict: &impl Dictionary) -> bool {
-    match tok.kind {
-        TokenKind::Word(Some(mut metadata)) => {
+    match &tok.kind {
+        TokenKind::Word(Some(metadata)) => {
             // Only specific conjunctions are not capitalized.
             lazy_static! {
                 static ref SPECIAL_CONJUNCTIONS: HashSet<Vec<char>> =
@@ -85,7 +87,11 @@ fn should_capitalize_token(tok: &Token, source: &[char], dict: &impl Dictionary)
             let chars = tok.span.get_content(source);
             let chars_lower = chars.to_lower();
 
-            metadata = metadata.or(&dict.get_word_metadata(&chars_lower).unwrap_or_default());
+            let mut metadata = Cow::Borrowed(metadata);
+
+            if let Some(metadata_lower) = dict.get_word_metadata(&chars_lower) {
+                metadata = Cow::Owned(metadata.clone().or(metadata_lower));
+            }
 
             let is_short_preposition = metadata.preposition && tok.span.len() <= 4;
 

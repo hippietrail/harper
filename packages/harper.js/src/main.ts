@@ -1,5 +1,5 @@
 export type { Lint, Span, Suggestion } from 'harper-wasm';
-export { SuggestionKind } from 'harper-wasm';
+export { SuggestionKind, Dialect } from 'harper-wasm';
 export type { default as Linter, LinterInit } from './Linter';
 export { default as LocalLinter } from './LocalLinter';
 export { default as WorkerLinter } from './WorkerLinter';

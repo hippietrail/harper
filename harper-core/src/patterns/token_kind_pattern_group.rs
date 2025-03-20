@@ -10,7 +10,7 @@ pub struct TokenKindPatternGroup {
 
 impl Pattern for TokenKindPatternGroup {
     fn matches(&self, tokens: &[Token], source: &[char]) -> usize {
-        let Some(first_kind) = &tokens.first().map(|t| t.kind) else {
+        let Some(first_kind) = tokens.first().map(|t| &t.kind) else {
             return 0;
         };
 

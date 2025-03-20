@@ -2,11 +2,12 @@ use hashbrown::HashMap;
 use serde::{Deserialize, Serialize};
 use smallvec::ToSmallVec;
 
+use super::super::word_map::{WordMap, WordMapEntry};
 use super::Error;
 use super::affix_replacement::AffixReplacement;
 use super::expansion::{Expansion, HumanReadableExpansion};
 use super::word_list::MarkedWord;
-use crate::{CharString, Span, WordMetadata};
+use crate::{CharString, Span, WordId, WordMetadata};
 
 #[derive(Debug, Clone)]
 pub struct AttributeList {
@@ -15,7 +16,7 @@ pub struct AttributeList {
 }
 
 impl AttributeList {
-    pub fn into_human_readable(self) -> HumanReadableAttributeList {
+    fn into_human_readable(self) -> HumanReadableAttributeList {
         HumanReadableAttributeList {
             affixes: self
                 .affixes
@@ -25,16 +26,19 @@ impl AttributeList {
         }
     }
 
+    pub fn parse(source: &str) -> Result<Self, Error> {
+        let human_readable: HumanReadableAttributeList =
+            serde_json::from_str(source).map_err(|_| Error::MalformedJSON)?;
+
+        human_readable.into_normal()
+    }
+
     /// Expand [`MarkedWord`] into a list of full words, including itself.
     ///
     /// Will append to the given `dest`;
     ///
     /// In the future, I want to make this function cleaner and faster.
-    pub fn expand_marked_word(
-        &self,
-        word: MarkedWord,
-        dest: &mut HashMap<CharString, WordMetadata>,
-    ) {
+    pub fn expand_marked_word(&self, word: MarkedWord, dest: &mut WordMap) {
         dest.reserve(word.attributes.len() + 1);
         let mut gifted_metadata = WordMetadata::default();
 
@@ -53,7 +57,7 @@ impl AttributeList {
                     if let Some(val) = new_words.get_mut(&replaced) {
                         val.append(&expansion.adds_metadata);
                     } else {
-                        new_words.insert(replaced, expansion.adds_metadata);
+                        new_words.insert(replaced, expansion.adds_metadata.clone());
                     }
                 }
             }
@@ -78,24 +82,36 @@ impl AttributeList {
                         },
                         dest,
                     );
-                    let t_metadata = dest.get_mut(&new_word).unwrap();
+                    let t_metadata = dest.get_metadata_mut_chars(&new_word).unwrap();
                     t_metadata.append(&metadata);
+                    t_metadata.derived_from = Some(WordId::from_word_chars(&word.letters))
                 }
             } else {
-                for (key, value) in new_words.into_iter() {
-                    if let Some(val) = dest.get_mut(&key) {
+                for (key, mut value) in new_words.into_iter() {
+                    value.derived_from = Some(WordId::from_word_chars(&word.letters));
+
+                    if let Some(val) = dest.get_metadata_mut_chars(&key) {
                         val.append(&value);
                     } else {
-                        dest.insert(key, value);
+                        dest.insert(WordMapEntry {
+                            canonical_spelling: key,
+                            metadata: value,
+                        });
                     }
                 }
             }
         }
 
-        if let Some(prev_val) = dest.get(&word.letters) {
-            dest.insert(word.letters, gifted_metadata.or(prev_val));
+        if let Some(prev_val) = dest.get_with_chars(&word.letters) {
+            dest.insert(WordMapEntry {
+                metadata: gifted_metadata.or(&prev_val.metadata),
+                canonical_spelling: word.letters,
+            });
         } else {
-            dest.insert(word.letters, gifted_metadata);
+            dest.insert(WordMapEntry {
+                metadata: gifted_metadata,
+                canonical_spelling: word.letters,
+            });
         }
     }
 
@@ -105,7 +121,7 @@ impl AttributeList {
     pub fn expand_marked_words(
         &self,
         words: impl IntoIterator<Item = MarkedWord>,
-        dest: &mut HashMap<CharString, WordMetadata>,
+        dest: &mut WordMap,
     ) {
         for word in words {
             self.expand_marked_word(word, dest);

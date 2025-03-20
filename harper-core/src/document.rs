@@ -131,7 +131,7 @@ impl Document {
             if let TokenKind::Word(meta) = &mut token.kind {
                 let word_source = token.span.get_content(&self.source);
                 let found_meta = dictionary.get_word_metadata(word_source);
-                *meta = found_meta
+                *meta = found_meta.cloned()
             }
         }
     }
@@ -152,7 +152,7 @@ impl Document {
     /// When a word that is either an adjective or a noun is sandwiched between an article and a noun,
     /// it definitely is not a noun.
     fn articles_imply_nouns(&mut self) {
-        let pattern = Self::ELLIPSIS_PATTERN.with(|v| v.clone());
+        let pattern = Self::ARTICLE_PATTERN.with(|v| v.clone());
 
         for m in pattern.find_all_matches_in_doc(self) {
             if let TokenKind::Word(Some(metadata)) = &mut self.tokens[m.start + 2].kind {
@@ -181,7 +181,7 @@ impl Document {
     fn condense_indices(&mut self, indices: &[usize], stretch_len: usize) {
         // Update spans
         for idx in indices {
-            let end_tok = self.tokens[idx + stretch_len - 1];
+            let end_tok = self.tokens[idx + stretch_len - 1].clone();
             let start_tok = &mut self.tokens[*idx];
 
             start_tok.span.end = end_tok.span.end;
@@ -198,7 +198,7 @@ impl Document {
         let mut iter = indices.iter().peekable();
 
         while let (Some(a_idx), b) = (iter.next(), iter.peek()) {
-            self.tokens.push(old[*a_idx]);
+            self.tokens.push(old[*a_idx].clone());
 
             if let Some(b_idx) = b {
                 self.tokens
@@ -215,7 +215,7 @@ impl Document {
         );
     }
 
-    pub fn get_token_at_char_index(&self, char_index: usize) -> Option<Token> {
+    pub fn get_token_at_char_index(&self, char_index: usize) -> Option<&Token> {
         let index = self
             .tokens
             .binary_search_by(|t| {
@@ -227,17 +227,17 @@ impl Document {
             })
             .ok()?;
 
-        Some(self.tokens[index])
+        Some(&self.tokens[index])
     }
 
     /// Defensively attempt to grab a specific token.
-    pub fn get_token(&self, index: usize) -> Option<Token> {
-        self.tokens.get(index).copied()
+    pub fn get_token(&self, index: usize) -> Option<&Token> {
+        self.tokens.get(index)
     }
 
     /// Get an iterator over all the tokens contained in the document.
-    pub fn tokens(&self) -> impl Iterator<Item = Token> + '_ {
-        self.tokens.iter().copied()
+    pub fn tokens(&self) -> impl Iterator<Item = &Token> + '_ {
+        self.tokens.iter()
     }
 
     /// Get an iterator over all the tokens contained in the document.
@@ -245,16 +245,16 @@ impl Document {
         self.tokens().map(|token| token.to_fat(&self.source))
     }
 
-    pub fn get_span_content(&self, span: Span) -> &[char] {
+    pub fn get_span_content(&self, span: &Span) -> &[char] {
         span.get_content(&self.source)
     }
 
-    pub fn get_span_content_str(&self, span: Span) -> String {
+    pub fn get_span_content_str(&self, span: &Span) -> String {
         String::from_iter(self.get_span_content(span))
     }
 
     pub fn get_full_string(&self) -> String {
-        self.get_span_content_str(Span {
+        self.get_span_content_str(&Span {
             start: 0,
             end: self.source.len(),
         })
@@ -305,13 +305,13 @@ impl Document {
         let mut replace_starts = Vec::new();
 
         for idx in 0..self.tokens.len() - 1 {
-            let b = self.tokens[idx + 1];
-            let a = self.tokens[idx];
+            let b = &self.tokens[idx + 1];
+            let a = &self.tokens[idx];
 
             // TODO: Allow spaces between `a` and `b`
 
-            if let (TokenKind::Number(..), TokenKind::Word(..)) = (a.kind, b.kind) {
-                if let Some(found_suffix) = NumberSuffix::from_chars(self.get_span_content(b.span))
+            if let (TokenKind::Number(..), TokenKind::Word(..)) = (&a.kind, &b.kind) {
+                if let Some(found_suffix) = NumberSuffix::from_chars(self.get_span_content(&b.span))
                 {
                     self.tokens[idx].kind.as_mut_number().unwrap().suffix = Some(found_suffix);
                     replace_starts.push(idx);
@@ -461,8 +461,8 @@ impl Document {
         let mut initialism_start = None;
 
         loop {
-            let a = self.tokens[cursor - 1];
-            let b = self.tokens[cursor];
+            let a = &self.tokens[cursor - 1];
+            let b = &self.tokens[cursor];
 
             let is_initialism_chunk = a.kind.is_word() && a.span.len() == 1 && b.kind.is_period();
 
@@ -537,11 +537,11 @@ impl Document {
 macro_rules! create_fns_on_doc {
     ($thing:ident) => {
         paste! {
-            fn [< first_ $thing >](&self) -> Option<Token> {
+            fn [< first_ $thing >](&self) -> Option<&Token> {
                 self.tokens.[< first_ $thing >]()
             }
 
-            fn [< last_ $thing >](&self) -> Option<Token> {
+            fn [< last_ $thing >](&self) -> Option<&Token> {
                 self.tokens.[< last_ $thing >]()
             }
 
@@ -553,7 +553,7 @@ macro_rules! create_fns_on_doc {
                 self.tokens.[< iter_ $thing _indices >]()
             }
 
-            fn [<iter_ $thing s>](&self) -> impl Iterator<Item = Token> + '_ {
+            fn [<iter_ $thing s>](&self) -> impl Iterator<Item = &Token> + '_ {
                 self.tokens.[< iter_ $thing s >]()
             }
         }
@@ -581,11 +581,11 @@ impl TokenStringExt for Document {
     create_fns_on_doc!(likely_homograph);
     create_fns_on_doc!(comma);
 
-    fn first_sentence_word(&self) -> Option<Token> {
+    fn first_sentence_word(&self) -> Option<&Token> {
         self.tokens.first_sentence_word()
     }
 
-    fn first_non_whitespace(&self) -> Option<Token> {
+    fn first_non_whitespace(&self) -> Option<&Token> {
         self.tokens.first_non_whitespace()
     }
 
@@ -597,7 +597,7 @@ impl TokenStringExt for Document {
         self.tokens.iter_linking_verb_indices()
     }
 
-    fn iter_linking_verbs(&self) -> impl Iterator<Item = Token> + '_ {
+    fn iter_linking_verbs(&self) -> impl Iterator<Item = &Token> + '_ {
         self.tokens.iter_linking_verbs()
     }
 
@@ -617,7 +617,7 @@ impl TokenStringExt for Document {
 impl Display for Document {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for token in &self.tokens {
-            write!(f, "{}", self.get_span_content_str(token.span))?;
+            write!(f, "{}", self.get_span_content_str(&token.span))?;
         }
 
         Ok(())
@@ -680,7 +680,7 @@ mod tests {
     fn assert_token_count(source: &str, count: usize) {
         let document = Document::new_plain_english_curated(source);
 
-        dbg!(document.tokens().map(|t| t.kind).collect_vec());
+        dbg!(document.tokens().map(|t| t.kind.clone()).collect_vec());
         assert_eq!(document.tokens.len(), count);
     }
 

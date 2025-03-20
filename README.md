@@ -30,7 +30,7 @@ Harper is even small enough to load via [WebAssembly.](https://writewithharper.c
 
 ## Language Support
 
-Harper currently only supports American English, but the core is extensible to support other languages, so we welcome contributions that allow for other language support.
+Harper currently only supports English, but the core is extensible to support other languages, so we welcome contributions that allow for other language support.
 
 ## Performance Issues
 

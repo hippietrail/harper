@@ -2,7 +2,7 @@ use std::path::PathBuf;
 
 use anyhow::{Result, bail};
 use dirs::{config_dir, data_local_dir};
-use harper_core::{linting::LintGroupConfig, parsers::MarkdownOptions};
+use harper_core::{Dialect, linting::LintGroupConfig, parsers::MarkdownOptions};
 use resolve_path::PathResolveExt;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -70,6 +70,7 @@ pub struct Config {
     pub code_action_config: CodeActionConfig,
     pub isolate_english: bool,
     pub markdown_options: MarkdownOptions,
+    pub dialect: Dialect,
 }
 
 impl Config {
@@ -114,6 +115,10 @@ impl Config {
             base.diagnostic_severity = serde_json::from_value(v.clone())?;
         }
 
+        if let Some(v) = value.get("dialect") {
+            base.dialect = serde_json::from_value(v.clone())?;
+        }
+
         if let Some(v) = value.get("codeActions") {
             base.code_action_config = CodeActionConfig::from_lsp_config(v.clone())?;
         }
@@ -148,6 +153,7 @@ impl Default for Config {
             code_action_config: CodeActionConfig::default(),
             isolate_english: false,
             markdown_options: MarkdownOptions::default(),
+            dialect: Dialect::American,
         }
     }
 }

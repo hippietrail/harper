@@ -7,7 +7,7 @@ use super::Suggestion;
 use super::{Lint, LintKind, Linter};
 use crate::document::Document;
 use crate::spell::suggest_correct_spelling;
-use crate::{CharString, CharStringExt, Dictionary, TokenStringExt};
+use crate::{CharString, CharStringExt, Dialect, Dictionary, TokenStringExt};
 
 pub struct SpellCheck<T>
 where
@@ -15,13 +15,15 @@ where
 {
     dictionary: T,
     word_cache: LruCache<CharString, Vec<CharString>>,
+    dialect: Dialect,
 }
 
 impl<T: Dictionary> SpellCheck<T> {
-    pub fn new(dictionary: T) -> Self {
+    pub fn new(dictionary: T, dialect: Dialect) -> Self {
         Self {
             dictionary,
             word_cache: LruCache::new(NonZero::new(10000).unwrap()),
+            dialect,
         }
     }
 }
@@ -45,6 +47,15 @@ impl<T: Dictionary> SpellCheck<T> {
             dist += 1;
         }
 
+        // Remove entries outside the configured dialect
+        suggestions.retain(|v| {
+            self.dictionary
+                .get_word_metadata(v)
+                .unwrap()
+                .dialect
+                .is_none_or(|d| d == self.dialect)
+        });
+
         self.word_cache.put(word.into(), suggestions.clone());
 
         suggestions
@@ -56,12 +67,16 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
         let mut lints = Vec::new();
 
         for word in document.iter_words() {
-            let word_chars = document.get_span_content(word.span);
-            if self.dictionary.contains_exact_word(word_chars)
-                || self.dictionary.contains_exact_word(&word_chars.to_lower())
-            {
-                continue;
-            }
+            let word_chars = document.get_span_content(&word.span);
+
+            if let Some(metadata) = word.kind.as_word().unwrap() {
+                if metadata.dialect.is_none_or(|d| d == self.dialect)
+                    && (self.dictionary.contains_exact_word(word_chars)
+                        || self.dictionary.contains_exact_word(&word_chars.to_lower()))
+                {
+                    continue;
+                }
+            };
 
             let mut possibilities = self.cached_suggest_correct_spelling(word_chars);
 
@@ -91,7 +106,7 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
             } else {
                 format!(
                     "Did you mean to spell “{}” this way?",
-                    document.get_span_content_str(word.span)
+                    document.get_span_content_str(&word.span)
                 )
             };
 
@@ -115,7 +130,7 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
 #[cfg(test)]
 mod tests {
     use crate::{
-        FstDictionary,
+        Dialect, FstDictionary,
         linting::tests::{assert_lint_count, assert_suggestion_result},
     };
 
@@ -125,7 +140,7 @@ mod tests {
     fn markdown_capitalized() {
         assert_suggestion_result(
             "The word markdown should be capitalized.",
-            SpellCheck::new(FstDictionary::curated()),
+            SpellCheck::new(FstDictionary::curated(), Dialect::American),
             "The word Markdown should be capitalized.",
         );
     }
@@ -134,8 +149,17 @@ mod tests {
     fn harper_automattic_capitalized() {
         assert_lint_count(
             "So should harper and automattic.",
-            SpellCheck::new(FstDictionary::curated()),
+            SpellCheck::new(FstDictionary::curated(), Dialect::American),
             2,
+        );
+    }
+
+    #[test]
+    fn american_color_in_british_dialect() {
+        assert_lint_count(
+            "Do you like the color?",
+            SpellCheck::new(FstDictionary::curated(), Dialect::British),
+            1,
         );
     }
 }

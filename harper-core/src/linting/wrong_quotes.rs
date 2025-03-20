@@ -19,13 +19,13 @@ impl Linter for WrongQuotes {
     }
 }
 
-fn lint_quote(document: &Document, quote_idx: usize, quote_token: Token) -> Option<Lint> {
+fn lint_quote(document: &Document, quote_idx: usize, quote_token: &Token) -> Option<Lint> {
     let quote = quote_token.kind.as_quote().unwrap();
 
     let twin_loc = quote.twin_loc?;
     let is_left = twin_loc > quote_idx;
 
-    let quote_char = *document.get_span_content(quote_token.span).first()?;
+    let quote_char = *document.get_span_content(&quote_token.span).first()?;
 
     let should_be = if is_left { '“' } else { '”' };
 

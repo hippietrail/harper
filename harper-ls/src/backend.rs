@@ -7,7 +7,7 @@ use harper_comments::CommentParser;
 use harper_core::linting::{LintGroup, LintGroupConfig};
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Markdown, Parser, PlainEnglish};
 use harper_core::{
-    Dictionary, Document, FstDictionary, MergedDictionary, MutableDictionary, WordMetadata,
+    Dialect, Dictionary, Document, FstDictionary, MergedDictionary, MutableDictionary, WordMetadata,
 };
 use harper_html::HtmlParser;
 use harper_literate_haskell::LiterateHaskellParser;
@@ -51,6 +51,11 @@ impl Backend {
 
     /// Load a specific file's dictionary
     async fn load_file_dictionary(&self, url: &Url) -> anyhow::Result<MutableDictionary> {
+        // VS Code's unsaved documents have "untitled" scheme
+        if url.scheme() == "untitled" {
+            return Ok(MutableDictionary::new());
+        }
+
         let path = self
             .get_file_dict_path(url)
             .await
@@ -140,12 +145,13 @@ impl Backend {
         self.pull_config().await;
 
         // Copy necessary configuration to avoid holding lock.
-        let (lint_config, markdown_options, isolate_english) = {
+        let (lint_config, markdown_options, isolate_english, dialect) = {
             let config = self.config.read().await;
             (
                 config.lint_config.clone(),
                 config.markdown_options,
                 config.isolate_english,
+                config.dialect,
             )
         };
 
@@ -161,7 +167,8 @@ impl Backend {
             info!("Constructing new LintGroup for new document.");
 
             DocumentState {
-                linter: LintGroup::new_curated(dict.clone()).with_lint_config(lint_config.clone()),
+                linter: LintGroup::new_curated(dict.clone(), dialect)
+                    .with_lint_config(lint_config.clone()),
                 language_id: language_id.map(|v| v.to_string()),
                 dict: dict.clone(),
                 url: url.clone(),
@@ -173,7 +180,7 @@ impl Backend {
             doc_state.dict = dict.clone();
             info!("Constructing new linter because of modified dictionary.");
             doc_state.linter =
-                LintGroup::new_curated(dict.clone()).with_lint_config(lint_config.clone());
+                LintGroup::new_curated(dict.clone(), dialect).with_lint_config(lint_config.clone());
         }
 
         let Some(language_id) = &doc_state.language_id else {
@@ -188,6 +195,7 @@ impl Backend {
             url: &'a Url,
             doc_state: &'a mut DocumentState,
             lint_config: &LintGroupConfig,
+            dialect: Dialect,
         ) -> Result<Box<dyn Parser>> {
             if doc_state.ident_dict != new_dict {
                 info!("Constructing new linter because of modified ident dictionary.");
@@ -197,8 +205,8 @@ impl Backend {
                 merged.add_dictionary(new_dict);
                 let merged = Arc::new(merged);
 
-                doc_state.linter =
-                    LintGroup::new_curated(merged.clone()).with_lint_config(lint_config.clone());
+                doc_state.linter = LintGroup::new_curated(merged.clone(), dialect)
+                    .with_lint_config(lint_config.clone());
                 doc_state.dict = merged.clone();
             }
 
@@ -223,6 +231,7 @@ impl Backend {
                             url,
                             doc_state,
                             &lint_config,
+                            dialect,
                         )
                         .await?,
                     )
@@ -244,6 +253,7 @@ impl Backend {
                             url,
                             doc_state,
                             &lint_config,
+                            dialect,
                         )
                         .await?,
                     )
@@ -597,7 +607,7 @@ impl LanguageServer for Backend {
 
             for doc in doc_lock.values_mut() {
                 info!("Constructing new LintGroup for updated configuration.");
-                doc.linter = LintGroup::new_curated(doc.dict.clone())
+                doc.linter = LintGroup::new_curated(doc.dict.clone(), config_lock.dialect)
                     .with_lint_config(config_lock.lint_config.clone());
             }
 

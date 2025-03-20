@@ -29,7 +29,7 @@ impl NoOxfordComma {
 
     fn match_to_lint(&self, matched_toks: &[Token], _source: &[char]) -> Option<Lint> {
         let last_comma_index = matched_toks.last_comma_index()?;
-        let offender = matched_toks[last_comma_index];
+        let offender = &matched_toks[last_comma_index];
 
         Some(Lint {
             span: offender.span,
