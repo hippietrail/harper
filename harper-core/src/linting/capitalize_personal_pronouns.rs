@@ -15,7 +15,7 @@ impl Linter for CapitalizePersonalPronouns {
                 pronoun: Some(_), ..
             })) = tok.kind
             {
-                if document.get_span_content(tok.span) == ['i'] {
+                if document.get_span_content(&tok.span) == ['i'] {
                     lints.push(Lint {
                         span: tok.span,
                         lint_kind: LintKind::Capitalization,

@@ -87,7 +87,7 @@ impl PatternLinter for ModalOf {
                 if w3_text.as_str() != "of" {
                     return None;
                 }
-                let w1_kind = matched_toks.first().unwrap().kind;
+                let w1_kind = &matched_toks.first().unwrap().kind;
                 // the might of something, great might of something
                 if w1_kind.is_adjective() || w1_kind.is_determiner() {
                     return None;
