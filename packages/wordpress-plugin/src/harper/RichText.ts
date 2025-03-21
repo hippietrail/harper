@@ -1,5 +1,5 @@
-import { Lint, LocalLinter, Suggestion } from 'harper.js';
-import { LintBox } from './Box';
+import { type Lint, LocalLinter, type Suggestion, binaryInlined } from 'harper.js';
+import type { LintBox } from './Box';
 import DataBlock from './DataBlock';
 import { getRangeForTextSpan } from './domUtils';
 
@@ -32,7 +32,8 @@ export default class RichText {
 		const text = this.targetElement.textContent;
 		const span = lint.span();
 		const range = getRangeForTextSpan(this.targetElement, span);
-		const linter = new LocalLinter();
+		// Use a local linter because we won't be doing any expensive operations with it.
+		const linter = new LocalLinter({ binary: binaryInlined });
 
 		if (range === null || text === null) {
 			console.log('Could not locate range.');
@@ -56,7 +57,7 @@ export default class RichText {
 					const fixed = await linter.applySuggestion(text, sug, span);
 
 					this.editContent(fixed);
-				}
+				},
 			});
 		}
 

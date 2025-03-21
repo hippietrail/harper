@@ -1,7 +1,7 @@
-import { registerPlugin } from '@wordpress/plugins';
 import { PluginSidebar, PluginSidebarMoreMenuItem } from '@wordpress/edit-post';
-import SidebarControl from './SidebarControl';
+import { registerPlugin } from '@wordpress/plugins';
 import Logo from './Logo';
+import SidebarControl from './SidebarControl';
 import './index.css';
 import React from 'react';
 import LinterProvider from './LinterProvider';

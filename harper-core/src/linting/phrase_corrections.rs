@@ -374,31 +374,31 @@ pub fn lint_group() -> LintGroup {
             "Corrects `hunger pain` to `hunger pang`."
         ),
         "GetRidOff" => (
-            ["get rid off"],
+            ["get rid off", "get ride of", "get ride off"],
             ["get rid of"],
             "Did you mean `get rid of`?",
             "Ensures `get rid of` is used instead of `get rid off`."
         ),
         "GetsRidOff" => (
-            ["gets rid off"],
+            ["gets rid off", "gets ride of", "gets ride off"],
             ["gets rid of"],
             "Did you mean `gets rid of`?",
             "Ensures `gets rid of` is used instead of `gets rid off`."
             ),
         "GettingRidOff" => (
-            ["getting rid off"],
+            ["getting rid off", "getting ride of", "getting ride off"],
             ["getting rid of"],
             "Did you mean `getting rid of`?",
             "Ensures `getting rid of` is used instead of `getting rid off`."
         ),
         "GotRidOff" => (
-            ["got rid off"],
+            ["got rid off", "got ride of", "got ride off"],
             ["got rid of"],
             "Did you mean `got rid of`?",
             "Ensures `got rid of` is used instead of `got rid off`."
         ),
         "GottenRidOff" => (
-            ["gotten rid off"],
+            ["gotten rid off", "gotten ride of", "gotten ride off"],
             ["gotten rid of"],
             "Did you mean `gotten rid of`?",
             "Ensures `gotten rid of` is used instead of `gotten rid off`."
@@ -721,6 +721,48 @@ pub fn lint_group() -> LintGroup {
             "Retain `monumentous` for jocular effect. Otherwise `momentous` indicates great signifcance while `monumental` indicates imposing size.",
             "Advises using `momentous` or `monumental` instead of `monumentous` for serious usage."
         ),
+        "InAnyWay" => (
+            ["in anyway"],
+            ["in any way"],
+            "Use `in any way` for emphasizing a point.",
+            "Corrects ungrammatical `in anyway` to `in any way`."
+        ),
+        "ExplanationMark" => (
+            ["explanation mark"],
+            ["exclamation mark"],
+            "The correct name for the `!` punctuation is `exclamation mark`.",
+            "Corrects the eggcorn `explanation mark` to `exclamation mark`."
+        ),
+        "ExplanationMarks" => (
+            ["explanation marks"],
+            ["exclamation marks"],
+            "The correct name for the `!` punctuation is `exclamation mark`.",
+            "Corrects the eggcorn `explanation mark` to `exclamation mark`."
+        ),
+        "ExplanationPoint" => (
+            ["explanation point"],
+            ["exclamation point"],
+            "The correct name for the `!` punctuation is `exclamation point`.",
+            "Corrects the eggcorn `explanation point` to `exclamation point`."
+        ),
+        "AsFarBackAs" => (
+            ["as early back as"],
+            ["as far back as"],
+            "Use `as far back as` for referring to a time in the past.",
+            "Corrects nonstandard `as early back as` to `as far back as`."
+        ),
+        "ALongTime" => (
+            ["along time"],
+            ["a long time"],
+            "Use `a long time` for referring to a duration of time.",
+            "Corrects `along time` to `a long time`."
+        ),
+        "EachAndEveryOne" => (
+            ["each and everyone"],
+            ["each and every one"],
+            "Use `each and every one` for referring to a group of people or things.",
+            "Corrects `each and everyone` to `each and every one`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -731,7 +773,7 @@ pub fn lint_group() -> LintGroup {
 #[cfg(test)]
 mod tests {
     use crate::linting::tests::{
-        assert_lint_count, assert_second_suggestion_result, assert_suggestion_result,
+        assert_lint_count, assert_nth_suggestion_result, assert_suggestion_result,
     };
 
     use super::lint_group;
@@ -778,6 +820,60 @@ mod tests {
             "The baX variable thingy I have gotten rid off, that was due to a bad character in the encryption key.",
             lint_group(),
             "The baX variable thingy I have gotten rid of, that was due to a bad character in the encryption key.",
+        );
+    }
+
+    #[test]
+    fn get_ride_of() {
+        assert_suggestion_result(
+            "Get ride of \"WARNING Deprecated: markdown_github. Use gfm\"",
+            lint_group(),
+            "Get rid of \"WARNING Deprecated: markdown_github. Use gfm\"",
+        );
+    }
+
+    #[test]
+    fn get_ride_off() {
+        assert_suggestion_result(
+            "This exact hack was what I trying to get ride off. ",
+            lint_group(),
+            "This exact hack was what I trying to get rid of. ",
+        );
+    }
+
+    #[test]
+    fn getting_ride_of() {
+        assert_suggestion_result(
+            "If you have any idea how to fix this without getting ride of bootstrap I would be thankfull.",
+            lint_group(),
+            "If you have any idea how to fix this without getting rid of bootstrap I would be thankfull.",
+        );
+    }
+
+    #[test]
+    fn gets_ride_of() {
+        assert_suggestion_result(
+            ".. gets ride of a central back-end/server and eliminates all the risks associated to it.",
+            lint_group(),
+            ".. gets rid of a central back-end/server and eliminates all the risks associated to it.",
+        );
+    }
+
+    #[test]
+    fn gotten_ride_of() {
+        assert_suggestion_result(
+            "I have gotten ride of the react-table and everything works just fine.",
+            lint_group(),
+            "I have gotten rid of the react-table and everything works just fine.",
+        );
+    }
+
+    #[test]
+    fn got_ride_of() {
+        assert_suggestion_result(
+            "I had to adjust the labels on the free version because you guys got ride of ...",
+            lint_group(),
+            "I had to adjust the labels on the free version because you guys got rid of ...",
         );
     }
 
@@ -1083,10 +1179,11 @@ mod tests {
 
     #[test]
     fn suggests_ticking_clock() {
-        assert_second_suggestion_result(
+        assert_nth_suggestion_result(
             "The opportunity itself has a ticking time clock as all great opportunities do.",
             lint_group(),
             "The opportunity itself has a ticking clock as all great opportunities do.",
+            1,
         );
     }
 
@@ -1194,6 +1291,104 @@ mod tests {
             "I think that would be a monumentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
             lint_group(),
             "I think that would be a momentous step in the right direction, and would DEFINATLY turn heads in not just the music industry, but every ...",
+        );
+    }
+
+    #[test]
+    fn detect_in_anyway_atomic() {
+        assert_suggestion_result("in anyway", lint_group(), "in any way");
+    }
+
+    #[test]
+    fn detect_in_anyway_real_world() {
+        assert_suggestion_result(
+            "The names should not affect your application in anyway and you can override extension names.",
+            lint_group(),
+            "The names should not affect your application in any way and you can override extension names.",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_mark_atomic() {
+        assert_suggestion_result("explanation mark", lint_group(), "exclamation mark");
+    }
+
+    #[test]
+    fn detect_explanation_marks_atomic() {
+        assert_suggestion_result("explanation marks", lint_group(), "exclamation marks");
+    }
+
+    #[test]
+    fn detect_explanation_mark_real_world() {
+        assert_suggestion_result(
+            "Note that circled explanation mark, question mark, plus and arrows may be significantly harder to distinguish than their uncircled variants.",
+            lint_group(),
+            "Note that circled exclamation mark, question mark, plus and arrows may be significantly harder to distinguish than their uncircled variants.",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_marks_real_world() {
+        assert_suggestion_result(
+            "this issue: html: properly handle explanation marks in comments",
+            lint_group(),
+            "this issue: html: properly handle exclamation marks in comments",
+        );
+    }
+
+    #[test]
+    fn detect_explanation_point_atomic() {
+        assert_suggestion_result("explanation point", lint_group(), "exclamation point");
+    }
+
+    #[test]
+    fn detect_explanation_point_real_world() {
+        assert_suggestion_result(
+            "js and makes an offhand mention that you can disable inbuilt plugin with an explanation point (e.g. !error ).",
+            lint_group(),
+            "js and makes an offhand mention that you can disable inbuilt plugin with an exclamation point (e.g. !error ).",
+        );
+    }
+
+    #[test]
+    fn detect_as_early_back_as() {
+        assert_suggestion_result("as early back as", lint_group(), "as far back as");
+    }
+
+    #[test]
+    fn detect_as_early_back_as_real_world() {
+        assert_suggestion_result(
+            "skin overrides also supports a wide variety of minecraft versions - as early back as 1.14.4.",
+            lint_group(),
+            "skin overrides also supports a wide variety of minecraft versions - as far back as 1.14.4.",
+        );
+    }
+
+    #[test]
+    fn detect_a_long_time() {
+        assert_suggestion_result("along time", lint_group(), "a long time");
+    }
+
+    #[test]
+    fn detect_a_long_time_real_world() {
+        assert_suggestion_result(
+            "Fast refreshing is very slow had to wait along time for it to update.",
+            lint_group(),
+            "Fast refreshing is very slow had to wait a long time for it to update.",
+        );
+    }
+
+    #[test]
+    fn detect_each_and_everyone() {
+        assert_suggestion_result("each and everyone", lint_group(), "each and every one");
+    }
+
+    #[test]
+    fn detect_each_and_everyone_real_world() {
+        assert_suggestion_result(
+            "I have modified each and everyone of them to keep only the best of the best!",
+            lint_group(),
+            "I have modified each and every one of them to keep only the best of the best!",
         );
     }
 }

@@ -66,7 +66,7 @@ use super::wrong_quotes::WrongQuotes;
 use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
 use super::{Lint, PatternLinter};
 use crate::linting::{closed_compounds, phrase_corrections};
-use crate::{CharString, Document, TokenStringExt};
+use crate::{CharString, Dialect, Document, TokenStringExt};
 use crate::{Dictionary, MutableDictionary};
 
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
@@ -77,8 +77,8 @@ pub struct LintGroupConfig {
 
 #[cached]
 fn curated_config() -> LintGroupConfig {
-    // Dictionary does not matter, we're just after the config.
-    let group = LintGroup::new_curated(MutableDictionary::new().into());
+    // The Dictionary and Dialect do not matter, we're just after the config.
+    let group = LintGroup::new_curated(MutableDictionary::new().into(), Dialect::American);
     group.config
 }
 
@@ -200,7 +200,7 @@ impl LintGroup {
     /// If it returns `false`, it is because a linter with that key already existed in the group.
     ///
     /// This function is not significantly different from [`Self::add`], but allows us to take
-    /// advantage of some properties of [`PatterLinter`]s for cache optimization.
+    /// advantage of some properties of [`PatternLinter`]s for cache optimization.
     pub fn add_pattern_linter(
         &mut self,
         name: impl AsRef<str>,
@@ -265,7 +265,7 @@ impl LintGroup {
         self
     }
 
-    pub fn new_curated(dictionary: Arc<impl Dictionary + 'static>) -> Self {
+    pub fn new_curated(dictionary: Arc<impl Dictionary + 'static>, dialect: Dialect) -> Self {
         let mut out = Self::empty();
 
         macro_rules! insert_struct_rule {
@@ -344,15 +344,18 @@ impl LintGroup {
         insert_pattern_rule!(ExpandTimeShorthands, true);
         insert_pattern_rule!(ModalOf, true);
 
-        out.add("SpellCheck", Box::new(SpellCheck::new(dictionary)));
+        out.add("SpellCheck", Box::new(SpellCheck::new(dictionary, dialect)));
         out.config.set_rule_enabled("SpellCheck", true);
 
         out
     }
 
     /// Create a new curated group with all config values cleared out.
-    pub fn new_curated_empty_config(dictionary: Arc<impl Dictionary + 'static>) -> Self {
-        let mut group = Self::new_curated(dictionary);
+    pub fn new_curated_empty_config(
+        dictionary: Arc<impl Dictionary + 'static>,
+        dialect: Dialect,
+    ) -> Self {
+        let mut group = Self::new_curated(dictionary, dialect);
         group.config.clear();
         group
     }
@@ -381,12 +384,12 @@ impl Linter for LintGroup {
                 continue;
             };
 
-            let chunk_chars = document.get_span_content(chunk_span);
+            let chunk_chars = document.get_span_content(&chunk_span);
             let config_hash = self.hasher_builder.hash_one(&self.config);
             let key = (chunk_chars.into(), config_hash);
 
-            if let Some(hit) = self.chunk_pattern_cache.get(&key) {
-                results.extend(hit.iter().cloned());
+            let mut chunk_results = if let Some(hit) = self.chunk_pattern_cache.get(&key) {
+                hit.clone()
             } else {
                 let mut pattern_lints = Vec::new();
 
@@ -396,10 +399,21 @@ impl Linter for LintGroup {
                     }
                 }
 
-                self.chunk_pattern_cache.put(key, pattern_lints.clone());
+                // Make the spans relative to the chunk start
+                for lint in &mut pattern_lints {
+                    lint.span.pull_by(chunk_span.start);
+                }
 
-                results.append(&mut pattern_lints);
+                self.chunk_pattern_cache.put(key, pattern_lints.clone());
+                pattern_lints
+            };
+
+            // Bring the spans back into document-space
+            for lint in &mut chunk_results {
+                lint.span.push_by(chunk_span.start);
             }
+
+            results.append(&mut chunk_results);
         }
 
         results
@@ -414,19 +428,20 @@ impl Linter for LintGroup {
 mod tests {
     use std::sync::Arc;
 
-    use crate::{Document, FstDictionary, MutableDictionary, linting::Linter};
+    use crate::{Dialect, Document, FstDictionary, MutableDictionary, linting::Linter};
 
     use super::LintGroup;
 
     #[test]
     fn can_get_all_descriptions() {
-        let group = LintGroup::new_curated(Arc::new(MutableDictionary::default()));
+        let group =
+            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Dialect::American);
         group.all_descriptions();
     }
 
     #[test]
     fn lint_descriptions_are_clean() {
-        let mut group = LintGroup::new_curated(FstDictionary::curated());
+        let mut group = LintGroup::new_curated(FstDictionary::curated(), Dialect::American);
         let pairs: Vec<_> = group
             .all_descriptions()
             .into_iter()
