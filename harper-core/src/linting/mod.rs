@@ -144,17 +144,24 @@ pub trait Linter: LSend {
 #[cfg(test)]
 mod tests {
     use super::Linter;
-    use crate::Document;
+    use crate::{Document, FstDictionary, parsers::PlainEnglish};
 
+    #[track_caller]
     pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
         let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
         dbg!(&lints);
-        assert_eq!(lints.len(), count);
+        if lints.len() != count {
+            panic!(
+                "Expected \"{text}\" to create {count} lints, but it created {}.",
+                lints.len()
+            );
+        }
     }
 
     /// Assert the total number of suggestions produced by a [`Linter`], spread across all produced
     /// [`Lint`]s.
+    #[track_caller]
     pub fn assert_suggestion_count(text: &str, mut linter: impl Linter, count: usize) {
         let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
@@ -164,53 +171,67 @@ mod tests {
         );
     }
 
-    /// Runs a provided linter on text, applies the first suggestion from each
-    /// lint and asserts whether the result is equal to a given value.
-    pub fn assert_suggestion_result(text: &str, mut linter: impl Linter, expected_result: &str) {
-        let test = Document::new_markdown_default_curated(text);
-        let lints = linter.lint(&test);
+    /// Runs a provided linter on text, applies the nth suggestion from each lint
+    /// and asserts whether the result is equal to a given value.
+    ///
+    /// Note that `n` starts at zero.
+    #[track_caller]
+    pub fn assert_nth_suggestion_result(
+        text: &str,
+        mut linter: impl Linter,
+        expected_result: &str,
+        n: usize,
+    ) {
+        let mut text_chars: Vec<char> = text.chars().collect();
 
-        let mut text: Vec<char> = text.chars().collect();
+        let mut iter_count = 0;
 
-        for lint in lints {
-            dbg!(&lint);
-            if let Some(sug) = lint.suggestions.first() {
-                sug.apply(lint.span, &mut text);
+        loop {
+            iter_count += 1;
+
+            let test = Document::new_from_vec(
+                text_chars.clone().into(),
+                &PlainEnglish,
+                &FstDictionary::curated(),
+            );
+            let lints = linter.lint(&test);
+
+            if let Some(lint) = lints.first() {
+                if let Some(sug) = lint.suggestions.get(n) {
+                    sug.apply(lint.span, &mut text_chars);
+
+                    let transformed_str: String = text_chars.iter().collect();
+                    dbg!(transformed_str);
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+
+            if iter_count == 100 {
+                break;
             }
         }
 
-        let transformed_str: String = text.iter().collect();
+        eprintln!("Corrected {} times.", iter_count);
 
-        assert_eq!(transformed_str.as_str(), expected_result);
+        let transformed_str: String = text_chars.iter().collect();
+
+        if transformed_str.as_str() != expected_result {
+            panic!(
+                "Expected \"{transformed_str}\" to be \"{expected_result}\" after applying the computed suggestions."
+            );
+        }
 
         // Applying the suggestions should fix all the lints.
         assert_lint_count(&transformed_str, linter, 0);
     }
 
-    /// Runs a provided linter on text, applies the second suggestion from each
-    /// lint and asserts whether the result is equal to a given value.
-    pub fn assert_second_suggestion_result(
-        text: &str,
-        mut linter: impl Linter,
-        expected_result: &str,
-    ) {
-        let test = Document::new_markdown_default_curated(text);
-        let lints = linter.lint(&test);
-
-        let mut text: Vec<char> = text.chars().collect();
-
-        for lint in lints {
-            dbg!(&lint);
-            if let Some(sug) = lint.suggestions.get(1) {
-                sug.apply(lint.span, &mut text);
-            }
-        }
-
-        let transformed_str: String = text.iter().collect();
-
-        assert_eq!(transformed_str.as_str(), expected_result);
-
-        // Applying the suggestions should fix all the lints.
-        assert_lint_count(&transformed_str, linter, 0);
+    /// Runs a provided linter on text, applies the first suggestion from each lint
+    /// and asserts whether the result is equal to a given value.
+    #[track_caller]
+    pub fn assert_suggestion_result(text: &str, linter: impl Linter, expected_result: &str) {
+        assert_nth_suggestion_result(text, linter, expected_result, 0);
     }
 }

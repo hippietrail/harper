@@ -31,7 +31,8 @@
 	},
 	"dependencies": {
 		"crelt": "^1.0.5",
-		"harper.js": "link:../harper.js",
+		"tslib": "catalog:",
+		"harper.js": "workspace:*",
 		"lodash-es": "^4.17.21"
 	}
 }
