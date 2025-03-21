@@ -1102,13 +1102,9 @@ mod tests {
 
     #[test]
     fn guinea_bissau_missing_hyphen_only() {
-        assert_suggestion_result(
-            "Guinea Bissau",
-            lint_group(),
-            "Guinea-Bissau",
-        );
+        assert_suggestion_result("Guinea Bissau", lint_group(), "Guinea-Bissau");
     }
-    
+
     fn detect_nerve_wracking_hyphen() {
         assert_suggestion_result(
             "We've gone through several major changes / upgrades to atlantis, and it's always a little bit nerve-wracking because if we mess something up we ...",
