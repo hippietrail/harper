@@ -47,12 +47,10 @@ impl Suggestion {
             Self::ReplaceWith(chars) => {
                 // Avoid allocation if possible
                 if chars.len() == span.len() {
-                    println!("char len = span.len");
                     for (index, c) in chars.iter().enumerate() {
                         source[index + span.start] = *c
                     }
                 } else {
-                    println!("char len ≠ span.len");
                     let popped = source.split_off(span.start);
 
                     source.extend(chars);

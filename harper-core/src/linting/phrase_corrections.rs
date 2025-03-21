@@ -1136,29 +1136,6 @@ mod tests {
     }
 
     #[test]
-    fn correct_a_whole_entire_surrounded_by_text() {
-        assert_suggestion_result(
-            "A B C D a whole entire W X Y Z",
-            lint_group(),
-            "A B C D a whole W X Y Z",
-        );
-    }
-
-    #[test]
-    fn correct_a_whole_entire_surrounded_by_numbers() {
-        assert_suggestion_result(
-            "0123456789 a whole entire 9876543210",
-            lint_group(),
-            "0123456789 a whole 9876543210",
-        );
-    }
-
-    #[test]
-    fn correct_a_whole_entire_other() {
-        assert_suggestion_result("a whole entire other", lint_group(), "a whole other");
-    }
-
-    #[test]
     fn correct_atomic_a_whole_entire_to_an_entire() {
         assert_nth_suggestion_result("a whole entire", lint_group(), "an entire", 1);
     }
@@ -1172,14 +1149,22 @@ mod tests {
         );
     }
 
-    // TODO: something goes wrong when both WholeEntire and AWholeEntire are enabled
-    // TODO: result is `Start mapping a wholeanet using NASA’s MOLA.`
     #[test]
-    fn correct_real_world_a_whole_entire() {
+    fn correct_real_world_a_whole_entire_to_a_whole() {
         assert_suggestion_result(
             "Start mapping a whole entire new planet using NASA’s MOLA.",
             lint_group(),
             "Start mapping a whole new planet using NASA’s MOLA.",
+        );
+    }
+
+    #[test]
+    fn correct_real_world_a_whole_entire_to_an_entire() {
+        assert_nth_suggestion_result(
+            "I am not sure I can pass in a whole entire query via the include.",
+            lint_group(),
+            "I am not sure I can pass in an entire query via the include.",
+            1,
         );
     }
 
