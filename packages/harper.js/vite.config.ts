@@ -1,8 +1,8 @@
 /// <reference types="vitest" />
 import { resolve } from 'path';
+import { type Plugin, defineConfig } from 'vite';
 import dts from 'vite-plugin-dts';
 import apiExtractorConfig from './api-extractor.json';
-import { defineConfig, type Plugin } from 'vite';
 
 function removeAssetsPlugin(options: { test: RegExp }): Plugin {
 	return {
@@ -13,7 +13,7 @@ function removeAssetsPlugin(options: { test: RegExp }): Plugin {
 					delete bundle[file];
 				}
 			}
-		}
+		},
 	};
 }
 
@@ -21,9 +21,9 @@ export default defineConfig({
 	build: {
 		lib: {
 			entry: resolve(__dirname, 'src/main.ts'),
-			fileName: `harper`,
+			fileName: 'harper',
 			name: 'harper',
-			formats: ['es']
+			formats: ['es'],
 		},
 		minify: false,
 		assetsInlineLimit: 0,
@@ -31,35 +31,35 @@ export default defineConfig({
 			external: [/^node:/, 'fs'],
 			output: {
 				minifyInternalExports: false,
-				inlineDynamicImports: true
+				inlineDynamicImports: true,
 			},
 			treeshake: {
 				moduleSideEffects: false,
-				propertyReadSideEffects: false
-			}
-		}
+				propertyReadSideEffects: false,
+			},
+		},
 	},
 	base: './',
 	plugins: [
 		dts({
 			...apiExtractorConfig,
 			rollupTypes: true,
-			tsconfigPath: './tsconfig.json'
-		})
+			tsconfigPath: './tsconfig.json',
+		}),
 	],
 	worker: {
 		format: 'es',
 		plugins: () => [removeAssetsPlugin({ test: /\.wasm$/ })],
 		rollupOptions: {
 			output: {
-				inlineDynamicImports: true
-			}
-		}
+				inlineDynamicImports: true,
+			},
+		},
 	},
 	server: {
 		fs: {
-			allow: ['../../harper-wasm/pkg']
-		}
+			allow: ['../../harper-wasm/pkg'],
+		},
 	},
 	test: {
 		retry: process.env.CI ? 5 : 0,
@@ -69,10 +69,10 @@ export default defineConfig({
 			headless: true,
 			screenshotFailures: false,
 			instances: [
-				{ browser: 'chromium' }
+				{ browser: 'chromium' },
 				// { browser: 'firefox' },
-			]
-		}
+			],
+		},
 	},
-	assetsInclude: ['**/*.wasm']
+	assetsInclude: ['**/*.wasm'],
 });

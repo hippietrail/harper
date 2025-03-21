@@ -1,4 +1,4 @@
-import { Span } from 'harper.js';
+import type { Span } from 'harper.js';
 
 /**
  * Turn a `NodeList` into a normal JavaScript array.

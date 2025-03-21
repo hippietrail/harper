@@ -1,5 +1,5 @@
-import { Lint, LocalLinter, Suggestion, binaryInlined } from 'harper.js';
-import { LintBox } from './Box';
+import { type Lint, LocalLinter, type Suggestion, binaryInlined } from 'harper.js';
+import type { LintBox } from './Box';
 import DataBlock from './DataBlock';
 import { getRangeForTextSpan } from './domUtils';
 
@@ -57,7 +57,7 @@ export default class RichText {
 					const fixed = await linter.applySuggestion(text, sug, span);
 
 					this.editContent(fixed);
-				}
+				},
 			});
 		}
 

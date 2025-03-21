@@ -2,8 +2,8 @@
 
 set -eo pipefail
 
-yarn run api-extractor run 
-yarn run api-documenter markdown -i temp
+pnpm api-extractor run 
+pnpm api-documenter markdown -i temp
 
 rm -r html || true
 mkdir html || true
