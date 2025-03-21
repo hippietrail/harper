@@ -21,23 +21,144 @@ impl Linter for CommaFixes {
             toks.3 = document.get_token(ci + 1);
             toks.4 = document.get_token(ci + 2);
 
-            let which_comma = toks.2.span.get_content(source).first().unwrap();
 
-            if which_comma != &',' {
-                let flag_comma = true;
+            let comma_kind = toks.2.span.get_content(source).first().unwrap();
+
+            let mut need_to_remove_space_before_comma = false;
+            let mut need_to_fix_comma = false;
+            let mut need_to_add_space_after_comma = false;
+
+            if comma_kind != &',' {
+                need_to_fix_comma = true;
+            }
+            
+            // if let Some(token) = toks.1 {
+            //     if matches!(token.kind, TokenKind::Word(_)) {
+            //         println!("foo");
+            //     }
+            // }
+            
+            // if let (Some(prev), Some(curr)) = (toks.0, toks.1) {
+            //     if matches!(curr.kind, TokenKind::Space(_)) && matches!(prev.kind, TokenKind::Word(_)) {
+            //         println!("bar");
+            //     }
+            // }
+
+            // ?w,␣w => ok
+            // w␣,␣w => replace ␣, with ,   == replace [1,2]    ,
+            // ?w,w? => replace , with ,␣   == replace [2]      ,␣
+            // w␣,w? => replace ␣, with ,␣  == replace [1,2]    ,␣
+            // ?w@␣w => replace @ with ,    == replace [2]      ,
+            // w␣@␣w => replace ␣@ with ,   == replace [1,2]    ,
+            // ?w@w? => replace @ with ,␣   == replace [2]      ,␣
+            // w␣@w? => replace ␣@ with ,␣  == replace [1,2]    ,␣
+
+            let made_msg = make_message(source, toks, *comma_kind);
+            println!("{}", made_msg);
+
+            match (toks.0, toks.1, comma_kind, toks.3, toks.4) {
+                // ?w,␣w => ok
+                (None | Some(_), Some(t1_w), ',', Some(t3_s), Some(t4_w))
+                    if matches!(t1_w.kind, TokenKind::Word(_))
+                    && matches!(t3_s.kind, TokenKind::Space(_))
+                    && matches!(t4_w.kind, TokenKind::Word(_)) => {
+                        println!("`?w,␣w` -> word comma space word -> ok");
+                        continue;
+                    },
+
+                // ?w@␣w => ok
+                (None | Some(_), Some(t1_w), _, Some(t3_s), Some(t4_w))
+                    if matches!(t1_w.kind, TokenKind::Word(_))
+                    && matches!(t3_s.kind, TokenKind::Space(_))
+                    && matches!(t4_w.kind, TokenKind::Word(_)) => {
+                        println!("`?w@␣w` -> word asian comma space word -> replace @ with ,");
+                        need_to_fix_comma = true;
+                    },
+
+                // w␣,␣w => replace ␣, with ,   == replace [1,2]    ,
+                (Some(t0_w), Some(t1_s), ',', Some(t3_s), Some(t4_w))
+                    if matches!(t0_w.kind, TokenKind::Word(_))
+                    && matches!(t1_s.kind, TokenKind::Space(_))
+                    && matches!(t3_s.kind, TokenKind::Space(_))
+                    && matches!(t4_w.kind, TokenKind::Word(_)) => {
+                        println!("`w␣,␣w` -> word space comma space word -> replace ␣, with ,");
+                        need_to_remove_space_before_comma = true;
+                    },
+
+                // w␣@␣w => replace ␣@ with ,␣  == replace [1,2]    ,␣
+                (Some(t0_w), Some(t1_s), _, Some(t3_s), Some(t4_w))
+                    if matches!(t0_w.kind, TokenKind::Word(_))
+                    && matches!(t1_s.kind, TokenKind::Space(_))
+                    && matches!(t3_s.kind, TokenKind::Space(_))
+                    && matches!(t4_w.kind, TokenKind::Word(_)) => {
+                        println!("`w␣@␣w` -> word space asian comma space word -> replace ␣@ with ,");
+                        need_to_remove_space_before_comma = true;
+                        need_to_fix_comma = true;
+                    },
+
+                // ?w,w? => replace , with ,␣   == replace [2]      ,␣
+                (None | Some(_), Some(t1_w), ',', Some(t3_w), None | Some(_))
+                    if matches!(t1_w.kind, TokenKind::Word(_))
+                    && matches!(t3_w.kind, TokenKind::Word(_)) => {
+                        println!("`?w,w?` -> word comma word -> replace , with ,␣");
+                        need_to_add_space_after_comma = true;
+                    },
+
+                // ?w@w? => replace @ with ,␣   == replace [2]      ,␣
+                (None | Some(_), Some(t1_w), _, Some(t3_w), None | Some(_))
+                    if matches!(t1_w.kind, TokenKind::Word(_))
+                    && matches!(t3_w.kind, TokenKind::Word(_)) => {
+                        println!("`?w@w?` -> word asian comma word -> replace @ with ,");
+                        need_to_fix_comma = true;
+                        need_to_add_space_after_comma = true;
+                    },
+
+                // w␣,w? => replace ␣, with ,␣  == replace [1,2]    ,␣
+                (Some(t0_w), Some(t1_s), ',', Some(t3_w), None | Some(_))
+                    if matches!(t0_w.kind, TokenKind::Word(_))
+                    && matches!(t1_s.kind, TokenKind::Space(_))
+                    && matches!(t3_w.kind, TokenKind::Word(_)) => {
+                        println!("`w␣,w?` -> word space comma word -> replace ␣, with ,");
+                        need_to_remove_space_before_comma = true;
+                    },
+
+                // w␣@w? => replace ␣@ with ,␣  == replace [1,2]    ,␣
+                (Some(t0_w), Some(t1_s), _, Some(t3_w), None | Some(_))
+                    if matches!(t0_w.kind, TokenKind::Word(_))
+                    && matches!(t1_s.kind, TokenKind::Space(_))
+                    && matches!(t3_w.kind, TokenKind::Word(_)) => {
+                        println!("`w␣@w?` -> word space asian comma word -> replace ␣@ with ,");
+                        need_to_remove_space_before_comma = true;
+                        need_to_fix_comma = true;
+                        // let range = (t0_w.span.start, t3_w.span.end);
+                        // lints.push(Lint::new(
+                        //     LintKind::Miscellaneous,
+                        //     range,
+                        //     Suggestion::ReplaceWith(vec![',']),
+                        // ));
+                    },
+
+                _ => {
+                    println!("anything else. skipping");
+                    continue;
+                }
             }
 
-            let msg = make_message(source, toks, *which_comma);
+            // println!("remove space before? {}, fix comma? {}, add space after? {}", need_to_remove_space_before_comma, need_to_fix_comma, need_to_add_space_after_comma);
 
-            lints.push(Lint {
-                span: toks.2.span,
-                lint_kind: LintKind::Formatting,
-                suggestions: vec![Suggestion::ReplaceWith(vec![
-                    '«', 'c', 'o', 'm', 'm', 'a', '»',
-                ])],
-                message: msg,
-                priority: 32,
-            })
+            // let span_to_replace = toks.2.span;
+
+            // let replace_with_this = vec!['«', 'c', 'o', 'm', 'm', 'a', '»'];
+
+            // let msg = make_message(source, toks, *comma_kind);
+
+            // lints.push(Lint {
+            //     span: span_to_replace,
+            //     lint_kind: LintKind::Formatting,
+            //     suggestions: vec![Suggestion::ReplaceWith(replace_with_this)],
+            //     message: msg,
+            //     priority: 32,
+            // })
         }
 
         lints
@@ -146,11 +267,6 @@ fn make_message(
     msg.push_str(&tok_str(toks.0));
     msg.push(' ');
     msg.push_str(&tok_str(toks.1));
-    // if which_comma == ',' {
-    //     msg.push_str(" ●̧ ");
-    // } else {
-    //     msg.push_str(format!(" ●̧<U+{:04X}> ", which_comma as u32).as_str());
-    // }
     let comma_str = if which_comma == ',' {
         " ●̧ ".to_string()
     } else {
@@ -196,5 +312,50 @@ mod tests {
     #[test]
     fn corrects_ideographic_comma_real_world() {
         assert_suggestion_result("cout、endl、string", CommaFixes, "cout,endl,string")
+    }
+
+    #[test]
+    fn word_comma_space_word() {
+        assert_lint_count("foo, bar", CommaFixes, 0);
+    }
+
+    #[test]
+    fn word_fullwidth_comma_space_word() {
+        assert_lint_count("foo， bar", CommaFixes, 1);
+    }
+
+    #[test]
+    fn word_ideographic_comma_space_word() {
+        assert_lint_count("foo、 bar", CommaFixes, 1);
+    }
+
+    #[test]
+    fn word_semicolon_space_word() {
+        assert_lint_count("foo; bar", CommaFixes, 0);
+    }
+
+    #[test]
+    fn word_comma_word() {
+        assert_suggestion_result("foo,bar", CommaFixes, "foo, bar")
+    }
+
+    #[test]
+    fn word_space_comma_word() {
+        assert_suggestion_result("foo ,bar", CommaFixes, "foo, bar")
+    }
+
+    #[test]
+    fn word_space_asian_comma_word() {
+        assert_suggestion_result("foo ，bar", CommaFixes, "foo, bar")
+    }
+
+    #[test]
+    fn word_space_comma_space_word() {
+        assert_suggestion_result("foo , bar", CommaFixes, "foo, bar")
+    }
+
+    #[test]
+    fn word_space_asian_comma_space_word() {
+        assert_suggestion_result("foo 、 bar", CommaFixes, "foo, bar")
     }
 }
