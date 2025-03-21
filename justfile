@@ -1,7 +1,7 @@
 # Format entire project
 format:
   cargo fmt  
-  cd "{{justfile_directory()}}/packages"; yarn prettier -w .
+  pnpm format
 
 # Build the WebAssembly for a specific target (usually either `web` or `bundler`)
 build-wasm:
@@ -13,12 +13,13 @@ build-harperjs: build-wasm
   #! /bin/bash
   set -eo pipefail
 
+  pnpm install
+
   # Removes a duplicate copy of the WASM binary if Vite is left to its devices.
   perl -pi -e 's/new URL\(.*\)/new URL()/g' "{{justfile_directory()}}/harper-wasm/pkg/harper_wasm.js"
 
   cd "{{justfile_directory()}}/packages/harper.js"
-  yarn install -f
-  yarn run build
+  pnpm build
 
   # Generate API reference
   ./docs.sh
@@ -26,16 +27,15 @@ build-harperjs: build-wasm
 test-harperjs: build-harperjs
   #!/bin/bash
   set -eo pipefail
-  
+
+  pnpm install
   cd "{{justfile_directory()}}/packages/harper.js"
-  yarn install -f
-  yarn playwright install
-  yarn test
+  pnpm playwright install
+  pnpm test
 
   # Test runnable examples
   cd "{{justfile_directory()}}/packages/harper.js/examples/commonjs-simple"
-  yarn install
-  yarn start
+  pnpm start
 
 dev-wp: build-harperjs
   #! /bin/bash
@@ -43,9 +43,9 @@ dev-wp: build-harperjs
   set -eo pipefail
 
   cd "{{justfile_directory()}}/packages/wordpress-plugin"
-  yarn install -f
-  yarn run wp-now start &
-  yarn start 
+  pnpm install
+  pnpm wp-now start &
+  pnpm start 
 
 # Build the WordPress plugin
 build-wp: build-harperjs
@@ -53,9 +53,9 @@ build-wp: build-harperjs
   set -eo pipefail
 
   cd "{{justfile_directory()}}/packages/wordpress-plugin"
-  yarn install -f
-  yarn build
-  yarn plugin-zip
+  pnpm install
+  pnpm build
+  pnpm plugin-zip
 
 # Compile the website's dependencies and start a development server. Note that if you make changes to `harper-wasm`, you will have to re-run this command.
 dev-web: build-harperjs
@@ -63,8 +63,8 @@ dev-web: build-harperjs
   set -eo pipefail
 
   cd "{{justfile_directory()}}/packages/web"
-  yarn install -f
-  yarn dev
+  pnpm install
+  pnpm dev
 
 # Build the Harper website.
 build-web: build-harperjs
@@ -72,8 +72,8 @@ build-web: build-harperjs
   set -eo pipefail
   
   cd "{{justfile_directory()}}/packages/web"
-  yarn install -f
-  yarn run build
+  pnpm install
+  pnpm build
 
 # Build the Harper Obsidian plugin.
 build-obsidian: build-harperjs
@@ -82,8 +82,8 @@ build-obsidian: build-harperjs
   
   cd "{{justfile_directory()}}/packages/obsidian-plugin"
 
-  yarn install -f
-  yarn build
+  pnpm install
+  pnpm build
 
   zip harper-obsidian-plugin.zip manifest.json main.js
 
@@ -105,12 +105,12 @@ test-vscode:
 
   cd "$ext_dir"
 
-  yarn install -f
+  pnpm install
   # For environments without displays like CI servers or containers
   if [[ "$(uname)" == "Linux" ]] && [[ -z "$DISPLAY" ]]; then
-    xvfb-run --auto-servernum yarn test
+    xvfb-run --auto-servernum pnpm test
   else
-    yarn test
+    pnpm test
   fi
 
 # Build and package the Visual Studio Code extension.
@@ -136,11 +136,11 @@ package-vscode target="":
 
   cd "$ext_dir"
 
-  yarn install -f
+  pnpm install
   if [[ -n "{{target}}" ]]; then
-    yarn package --target {{target}}
+    pnpm package --target {{target}}
   else
-    yarn package
+    pnpm package
   fi
 
 update-vscode-linters:
@@ -173,7 +173,7 @@ update-vscode-linters:
     '.contributes.configuration.properties += $linters' <<< \
     "$manifest_without_linters" > \
     package.json
-  yarn prettier --write package.json
+  pnpm biome --write package.json
 
 # Run Rust formatting and linting.
 check-rust:
@@ -188,16 +188,14 @@ check: check-rust build-web
   #! /bin/bash
   set -eo pipefail
 
-  cd "{{justfile_directory()}}/packages"
-  yarn install
-  yarn prettier --check .
-  yarn eslint .
+  pnpm install
+  pnpm check
 
   # Needed because Svelte has special linters
-  cd web
-  yarn run check
+  cd "{{justfile_directory()}}/packages/web"
+  pnpm check
 
-# Populate build caches and install necessary local tooling (tools callable via `yarn run <tool>`).
+# Populate build caches and install necessary local tooling (tools callable via `pnpm run <tool>`).
 setup: build-harperjs build-obsidian test-vscode test-harperjs build-web build-wp
 
 # Perform full format and type checking, build all projects and run all tests. Run this before pushing your code.

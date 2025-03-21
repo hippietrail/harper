@@ -1,7 +1,7 @@
-import useDialect from './useDialect';
 import { SelectControl } from '@wordpress/components';
 import { Dialect } from 'harper.js';
 import React from 'react';
+import useDialect from './useDialect';
 
 export default function DialectSelectRow() {
 	const [dialect, setDialect] = useDialect();
@@ -16,23 +16,23 @@ export default function DialectSelectRow() {
 				options={[
 					{
 						label: 'American',
-						value: Dialect.American.toString()
+						value: Dialect.American.toString(),
 					},
 					{
 						label: 'Canadian',
-						value: Dialect.Canadian.toString()
+						value: Dialect.Canadian.toString(),
 					},
 					{
 						label: 'Australian',
-						value: Dialect.Australian.toString()
+						value: Dialect.Australian.toString(),
 					},
 					{
 						label: 'British',
-						value: Dialect.British.toString()
-					}
+						value: Dialect.British.toString(),
+					},
 				]}
-				onChange={(value) => setDialect(parseInt(value))}
-			></SelectControl>
+				onChange={(value) => setDialect(Number.parseInt(value))}
+			/>
 		</div>
 	);
 }
