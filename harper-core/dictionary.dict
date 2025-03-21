@@ -1,4 +1,9 @@
-51870
+52000
+
+# Start of original dictionary import
+# This section is sorted alphabetically
+# This section contains general-purpose English words
+
 AA/1254M
 AAA/12
 AB/215M
@@ -50222,6 +50227,12 @@ zydeco/1M
 zygote/1SM
 zygotic/~5
 zymurgy/1M
+
+# End of original dictionary import
+# Words below this point have not been sorted alphabetically
+# This section contains mostly programming and technical terms
+# Some words may be very domain-specific
+
 StackOverflow/M
 CommonMark/M
 lex/~41D
@@ -50645,43 +50656,6 @@ cryptographic/5Q
 BRICS/
 JNI/2M
 Minix/2M
-# Experimental multi-word entries
-bench-warmer/1MS
-built-in/1MS5
-cross section/1MS
-cross-threaded/5
-de facto/51M
-easy peasy/5
-energy-efficient/5
-front-line/5
-front man/1M
-Greco-Roman/5
-ground-based/5
-high-level/5
-high-speed/5
-hissy fit/1MS
-holy moley
-holy moly
-jaw-droppingly/5
-kick start/4SDG
-knock-on effect/1MS
-laid-back/5
-left-wing/5
-low-profile/5
-mind-blowing/5
-neo-Nazi/15SM
-okey-dokey/1MS
-one-handed/5
-one-man/5
-one-off/5
-right-wing/5
-run-up/1MS
-short-term/5j
-shout-out/1S
-single-handedly/j
-third-party/5
-uh-oh
-un-American/5
 BRICS/
 here's/
 Americanisation/1MS!
@@ -50694,6 +50668,11 @@ Koranic/5
 Manilas/1
 Manilla/2M
 Roumania/2M
+
+# Start of dialect spelling dictionary import
+# This section contains mostly words that are spelled differently
+# In US English vs UK, Canadian, and Australian English etc
+
 abetter/1SM!
 abridgement/1MS!@
 absinth/1M!@
@@ -51854,9 +51833,57 @@ wainscotting/14MS@
 yogourt/1MS@
 yoghurt/1MS!
 probiotic/15SM
+
+# Experimental multi-word entries
+# Harper may not recognize these as words in documents
+# But it will be able to include them in suggestions
+
+bench-warmer/1MS
+built-in/1MS5
+cross section/1MS
+cross-threaded/5
+de facto/51M
+double-decker/5
+easy peasy/5
+energy-efficient/5
+front-line/5
+front man/1M
+Greco-Roman/5
+ground-based/5
+heavy-handed/5
+high-level/5
+high-speed/5
+hissy fit/1MS
+holy moley
+holy moly
+jaw-droppingly/5
+kick start/4SDG
+knock-on effect/1MS
+laid-back/5
+left-wing/5
+low-profile/5
+mind-blowing/5
+neo-Nazi/15SM
+okey-dokey/1MS
+one-handed/5
+one-man/5
+one-off/5
+right-wing/5
+run-up/1MS
+short-term/5j
+shout-out/1S
+single-handedly/j
+third-party/5
+uh-oh
+un-American/5
 user-friendly/5
 UTF-8/1M
 walkie-talkie/1MS
 well-known/5
 working-class/15MS
+
 # New entries may be added below this line
+# If you're not confident in using the affix annotations, add missing words here
+# And they will be reviewed
+# Word added using the `just addnoun` command will be added here
+
