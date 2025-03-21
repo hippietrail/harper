@@ -109,6 +109,28 @@ async function startLanguageServer(): Promise<void> {
 			},
 		};
 
+		client.middleware.executeCommand = (command, args, next) => {
+			if (
+				command === 'HarperAddToFileDict' &&
+				args.find((a) => typeof a === 'string' && a.startsWith('untitled:'))
+			) {
+				window
+					.showInformationMessage(
+						'Save the file to add words to its file dictionary.',
+						'Save File',
+						'Dismiss',
+					)
+					.then((selected) => {
+						if (selected === 'Save File') {
+							commands.executeCommand('workbench.action.files.save');
+						}
+					});
+				return;
+			}
+
+			next(command, args);
+		};
+
 		await client.start();
 	} catch (error) {
 		showError('Failed to start harper-ls', error);
