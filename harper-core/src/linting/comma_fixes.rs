@@ -1,9 +1,9 @@
 use super::{Lint, LintKind, Linter, Suggestion};
 use crate::{Span, TokenKind, TokenStringExt};
 
-const MSG_SPACE_BEFORE: &'static str = "Don't use a space before a comma.";
-const MSG_AVOID_ASIAN: &'static str = "Avoid East Asian commas in English contexts.";
-const MSG_SPACE_AFTER: &'static str = "Use a space after a comma.";
+const MSG_SPACE_BEFORE: &str = "Don't use a space before a comma.";
+const MSG_AVOID_ASIAN: &str = "Avoid East Asian commas in English contexts.";
+const MSG_SPACE_AFTER: &str = "Use a space after a comma.";
 
 /// A linter that fixes common comma errors:
 /// No space after.
