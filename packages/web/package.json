@@ -11,32 +11,32 @@
 		"start": "node build"
 	},
 	"devDependencies": {
-		"@sveltejs/adapter-node": "^3.0.3",
-		"@sveltejs/kit": "^2.15.2",
+		"@sveltejs/adapter-node": "^5.2.12",
+		"@sveltejs/kit": "^2.17.1",
 		"@sveltejs/vite-plugin-svelte": "^5.0.3",
 		"@types/reveal.js": "^5.0.3",
-		"autoprefixer": "^10.4.16",
-		"flowbite": "^1.8.1",
+		"autoprefixer": "^10.4.21",
+		"flowbite": "^3.1.2",
 		"flowbite-svelte": "^0.44.18",
 		"postcss": "^8.4.31",
 		"svelte": "^5.15.0",
-		"svelte-check": "^4.1.1",
+		"svelte-check": "^4.1.5",
 		"tailwindcss": "^3.3.3",
-		"tslib": "^2.4.1",
-		"typescript": "^5.0.0",
-		"vite": "^6.0.9",
+		"tslib": "catalog:",
+		"vite": "^6.1.0",
+		"typescript": "catalog:",
 		"vite-plugin-pwa": "^0.21.1",
-		"vite-plugin-top-level-await": "^1.4.1",
-		"vite-plugin-wasm": "^3.3.0"
+		"vite-plugin-top-level-await": "^1.5.0",
+		"vite-plugin-wasm": "^3.4.1"
 	},
 	"type": "module",
 	"dependencies": {
-		"@sveltepress/theme-default": "^5.0.5",
-		"@sveltepress/vite": "^1.1.2",
-		"@zachleat/snow-fall": "^1.0.3",
-		"harper.js": "link:../harper.js",
+		"@sveltepress/theme-default": "^5.0.7",
+		"@sveltepress/vite": "^1.1.5",
+		"harper.js": "workspace:*",
 		"lodash-es": "^4.17.21",
 		"reveal.js": "^5.1.0",
-		"svelte-intersection-observer": "^1.0.0"
+		"svelte-intersection-observer": "^1.0.0",
+		"typed.js": "^2.1.0"
 	}
 }

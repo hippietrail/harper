@@ -1,24 +1,28 @@
+import type { Extension } from '@codemirror/state';
+import type { LintConfig, Linter, Suggestion } from 'harper.js';
+import { type Dialect, LocalLinter, SuggestionKind, WorkerLinter, binary } from 'harper.js';
+import { toArray } from 'lodash-es';
+import { type App, Menu, Notice, Plugin, type PluginManifest } from 'obsidian';
 import logoSvg from '../logo.svg';
-import { Plugin, Menu, PluginManifest, App } from 'obsidian';
-import { LintConfig, Linter, Suggestion } from 'harper.js';
-import { LocalLinter, SuggestionKind, WorkerLinter } from 'harper.js';
-import { linter } from './lint';
-import { Extension } from '@codemirror/state';
 import { HarperSettingTab } from './HarperSettingTab';
+import { linter } from './lint';
 
 function suggestionToLabel(sug: Suggestion) {
-	if (sug.kind() == SuggestionKind.Remove) {
+	if (sug.kind() === SuggestionKind.Remove) {
 		return 'Remove';
-	} else if (sug.kind() == SuggestionKind.Replace) {
-		return `Replace with "${sug.get_replacement_text()}"`;
-	} else if (sug.kind() == SuggestionKind.InsertAfter) {
-		return `Insert "${sug.get_replacement_text()}" after this.`;
+	} else if (sug.kind() === SuggestionKind.Replace) {
+		return `Replace with “${sug.get_replacement_text()}”`;
+	} else if (sug.kind() === SuggestionKind.InsertAfter) {
+		return `Insert “${sug.get_replacement_text()}” after this.`;
 	}
 }
 
 export type Settings = {
+	ignoredLints?: string;
 	useWebWorker: boolean;
+	dialect?: Dialect;
 	lintSettings: LintConfig;
+	userDictionary?: string[];
 };
 
 export default class HarperPlugin extends Plugin {
@@ -27,7 +31,7 @@ export default class HarperPlugin extends Plugin {
 
 	constructor(app: App, manifest: PluginManifest) {
 		super(app, manifest);
-		this.harper = new WorkerLinter();
+		this.harper = new WorkerLinter({ binary: binaryInlined });
 		this.editorExtensions = [];
 	}
 
@@ -36,10 +40,27 @@ export default class HarperPlugin extends Plugin {
 			settings = { useWebWorker: true, lintSettings: {} };
 		}
 
-		if (settings.useWebWorker) {
-			this.harper = new WorkerLinter();
+		const oldSettings = await this.getSettings();
+
+		if (
+			settings.useWebWorker !== oldSettings.useWebWorker ||
+			settings.dialect !== oldSettings.dialect
+		) {
+			if (settings.useWebWorker) {
+				this.harper = new WorkerLinter({ binary: binaryInlined, dialect: settings.dialect });
+			} else {
+				this.harper = new LocalLinter({ binary: binaryInlined, dialect: settings.dialect });
+			}
 		} else {
-			this.harper = new LocalLinter();
+			await this.harper.clearIgnoredLints();
+		}
+
+		if (settings.ignoredLints !== undefined) {
+			await this.harper.importIgnoredLints(settings.ignoredLints);
+		}
+
+		if (settings.userDictionary != null && settings.userDictionary.length > 0) {
+			await this.harper.importWords(settings.userDictionary);
 		}
 
 		await this.harper.setLintConfig(settings.lintSettings);
@@ -54,16 +75,29 @@ export default class HarperPlugin extends Plugin {
 		await this.saveData(settings);
 	}
 
+	public async reinitialize() {
+		const settings = await this.getSettings();
+		await this.initializeFromSettings(settings);
+	}
+
 	public async getSettings(): Promise<Settings> {
 		const usingWebWorker = this.harper instanceof WorkerLinter;
 
 		return {
+			ignoredLints: await this.harper.exportIgnoredLints(),
 			useWebWorker: usingWebWorker,
-			lintSettings: await this.harper.getLintConfig()
+			lintSettings: await this.harper.getLintConfig(),
+			userDictionary: await this.harper.exportWords(),
+			dialect: await this.harper.getDialect(),
 		};
 	}
 
 	async onload() {
+		if (typeof Response === 'undefined') {
+			new Notice('Please update your Electron version before running Harper.', 0);
+			return;
+		}
+
 		const data = await this.loadData();
 		await this.initializeFromSettings(data);
 		this.registerEditorExtension(this.editorExtensions);
@@ -96,7 +130,7 @@ export default class HarperPlugin extends Plugin {
 					.setIcon('documents')
 					.onClick(() => {
 						this.toggleAutoLint();
-					})
+					}),
 			);
 
 			menu.showAtMouseEvent(event);
@@ -109,7 +143,7 @@ export default class HarperPlugin extends Plugin {
 		this.addCommand({
 			id: 'harper-toggle-auto-lint',
 			name: 'Toggle automatic grammar checking',
-			callback: () => this.toggleAutoLint()
+			callback: () => this.toggleAutoLint(),
 		});
 	}
 
@@ -129,7 +163,7 @@ export default class HarperPlugin extends Plugin {
 	}
 
 	hasEditorLinter(): boolean {
-		return this.editorExtensions.length != 0;
+		return this.editorExtensions.length !== 0;
 	}
 
 	private toggleAutoLint() {
@@ -145,11 +179,60 @@ export default class HarperPlugin extends Plugin {
 		return linter(
 			async (view) => {
 				const text = view.state.doc.sliceString(-1);
+				const chars = toArray(text);
 
 				const lints = await this.harper.lint(text);
 
 				return lints.map((lint) => {
 					const span = lint.span();
+
+					span.start = charIndexToCodePointIndex(span.start, chars);
+					span.end = charIndexToCodePointIndex(span.end, chars);
+
+					const actions = lint.suggestions().map((sug) => {
+						return {
+							name: suggestionToLabel(sug),
+							apply: (view) => {
+								if (sug.kind() === SuggestionKind.Remove) {
+									view.dispatch({
+										changes: {
+											from: span.start,
+											to: span.end,
+											insert: '',
+										},
+									});
+								} else if (sug.kind() === SuggestionKind.Replace) {
+									view.dispatch({
+										changes: {
+											from: span.start,
+											to: span.end,
+											insert: sug.get_replacement_text(),
+										},
+									});
+								} else if (sug.kind() === SuggestionKind.InsertAfter) {
+									view.dispatch({
+										changes: {
+											from: span.end,
+											to: span.end,
+											insert: sug.get_replacement_text(),
+										},
+									});
+								}
+							},
+						};
+					});
+
+					if (lint.lint_kind() === 'Spelling') {
+						const word = lint.get_problem_text();
+
+						actions.push({
+							name: `Add “${word}” to your dictionary`,
+							apply: (view) => {
+								this.harper.importWords([word]);
+								this.reinitialize();
+							},
+						});
+					}
 
 					return {
 						from: span.start,
@@ -157,44 +240,32 @@ export default class HarperPlugin extends Plugin {
 						severity: 'error',
 						title: lint.lint_kind(),
 						message: lint.message(),
-						actions: lint.suggestions().map((sug) => {
-							return {
-								name: suggestionToLabel(sug),
-								apply: (view) => {
-									if (sug.kind() === SuggestionKind.Remove) {
-										view.dispatch({
-											changes: {
-												from: span.start,
-												to: span.end,
-												insert: ''
-											}
-										});
-									} else if (sug.kind() === SuggestionKind.Replace) {
-										view.dispatch({
-											changes: {
-												from: span.start,
-												to: span.end,
-												insert: sug.get_replacement_text()
-											}
-										});
-									} else if (sug.kind() === SuggestionKind.InsertAfter) {
-										view.dispatch({
-											changes: {
-												from: span.end,
-												to: span.end,
-												insert: sug.get_replacement_text()
-											}
-										});
-									}
-								}
-							};
-						})
+						ignore: async () => {
+							await this.harper.ignoreLint(lint);
+							await this.reinitialize();
+						},
+						actions,
 					};
 				});
 			},
 			{
-				delay: -1
-			}
+				delay: -1,
+			},
 		);
 	}
+}
+
+/** Harper returns positions based on char indexes,
+ * but Obsidian identifies locations in documents based on Unicode code points.
+ * This converts between from the former to the latter.*/
+function charIndexToCodePointIndex(index: number, sourceChars: string[]): number {
+	let traversed = 0;
+
+	for (let i = 0; i < index; i++) {
+		const delta = sourceChars[i].length;
+
+		traversed += delta;
+	}
+
+	return traversed;
 }

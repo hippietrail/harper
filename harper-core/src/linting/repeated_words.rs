@@ -1,7 +1,6 @@
-use smallvec::smallvec;
-
 use super::{Lint, LintKind, Linter, Suggestion};
-use crate::token::TokenStringExt;
+use crate::TokenStringExt;
+use crate::char_string::char_string;
 use crate::{CharString, CharStringExt, Document, Span};
 
 #[derive(Debug, Clone)]
@@ -13,12 +12,16 @@ pub struct RepeatedWords {
 impl RepeatedWords {
     pub fn new() -> Self {
         Self {
-            special_cases: vec![smallvec!['i', 's'], smallvec!['a']],
+            special_cases: vec![char_string!("is"), char_string!("this")],
         }
     }
 
     fn is_special_case(&self, chars: &[char]) -> bool {
-        self.special_cases.iter().any(|v| v.as_slice() == chars)
+        let lower = chars.to_lower();
+
+        self.special_cases
+            .iter()
+            .any(|v| v.as_slice() == lower.as_ref())
     }
 }
 
@@ -36,10 +39,13 @@ impl Linter for RepeatedWords {
             let mut iter = chunk.iter_word_indices().zip(chunk.iter_words()).peekable();
 
             while let (Some((idx_a, tok_a)), Some((idx_b, tok_b))) = (iter.next(), iter.peek()) {
-                let word_a = document.get_span_content(tok_a.span);
-                let word_b = document.get_span_content(tok_b.span);
+                let word_a = document.get_span_content(&tok_a.span);
+                let word_b = document.get_span_content(&tok_b.span);
 
-                if (!tok_a.kind.is_likely_homograph() || self.is_special_case(word_a))
+                if (tok_a.kind.is_preposition()
+                    || tok_a.kind.is_conjunction()
+                    || !tok_a.kind.is_likely_homograph()
+                    || self.is_special_case(word_a))
                     && word_a.to_lower() == word_b.to_lower()
                 {
                     let intervening_tokens = &chunk[idx_a + 1..*idx_b];
@@ -52,7 +58,7 @@ impl Linter for RepeatedWords {
                         span: Span::new(tok_a.span.start, tok_b.span.end),
                         lint_kind: LintKind::Repetition,
                         suggestions: vec![Suggestion::ReplaceWith(
-                            document.get_span_content(tok_a.span).to_vec(),
+                            document.get_span_content(&tok_a.span).to_vec(),
                         )],
                         message: "Did you mean to repeat this word?".to_string(),
                         ..Default::default()
@@ -93,7 +99,11 @@ mod tests {
 
     #[test]
     fn issue_253() {
-        assert_lint_count("this paper shows that, while the method may be more accurate accurate, the turnout overestimate suggests that self-selection bias is not sufficiently reduced", RepeatedWords::default(), 1);
+        assert_lint_count(
+            "this paper shows that, while the method may be more accurate accurate, the turnout overestimate suggests that self-selection bias is not sufficiently reduced",
+            RepeatedWords::default(),
+            1,
+        );
     }
 
     #[test]
@@ -111,6 +121,24 @@ mod tests {
             "This is a a test",
             RepeatedWords::default(),
             "This is a test",
+        );
+    }
+
+    #[test]
+    fn double_and() {
+        assert_suggestion_result(
+            "And and this is also a test",
+            RepeatedWords::default(),
+            "And this is also a test",
+        );
+    }
+
+    #[test]
+    fn on_on_github() {
+        assert_suggestion_result(
+            "Take a look at the project on on GitHub.",
+            RepeatedWords::default(),
+            "Take a look at the project on GitHub.",
         );
     }
 }

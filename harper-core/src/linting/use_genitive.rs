@@ -10,7 +10,7 @@ pub struct UseGenitive {
 impl UseGenitive {
     fn new() -> Self {
         // Define the environment in which the genitive case __should__ be used.
-        let environment = Lrc::new(SequencePattern::default().then_whitespace().then(Box::new(
+        let environment = Lrc::new(SequencePattern::default().then_whitespace().then(
             EitherPattern::new(vec![
                     Box::new(
                         SequencePattern::default()
@@ -20,7 +20,7 @@ impl UseGenitive {
                     ),
                     Box::new(SequencePattern::default().then_noun()),
                 ]),
-        )));
+        ));
 
         let trigger_words = ["there", "they're"];
 
@@ -32,20 +32,20 @@ impl UseGenitive {
                 Box::new(
                     SequencePattern::default()
                         .then_exact_word(word)
-                        .then(Box::new(environment.clone())),
+                        .then(environment.clone()),
                 ),
             )
         }
 
         // Add a prelude to remove false-positives.
         let full_pattern = SequencePattern::default()
-            .then(Box::new(Invert::new(Box::new(EitherPattern::new(vec![
-                Box::new(SequencePattern::default().then_exact_word_or_lowercase("Is")),
-                Box::new(SequencePattern::default().then_exact_word_or_lowercase("Were")),
+            .then(Invert::new(EitherPattern::new(vec![
+                Box::new(SequencePattern::default().t_aco("is")),
+                Box::new(SequencePattern::default().t_aco("were")),
                 Box::new(SequencePattern::default().then_adjective()),
-            ])))))
+            ])))
             .then_whitespace()
-            .then(Box::new(primary_pattern));
+            .then(primary_pattern);
 
         Self {
             pattern: Box::new(full_pattern),
@@ -58,14 +58,14 @@ impl PatternLinter for UseGenitive {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Lint {
-        Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Option<Lint> {
+        Some(Lint {
             span: matched_tokens[2].span,
             lint_kind: LintKind::Miscellaneous,
             suggestions: vec![Suggestion::ReplaceWith(vec!['t', 'h', 'e', 'i', 'r'])],
             message: "Use the genitive case.".to_string(),
             priority: 31,
-        }
+        })
     }
 
     fn description(&self) -> &'static str {

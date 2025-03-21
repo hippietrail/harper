@@ -11,7 +11,7 @@ merge_linters! {PronounContraction => ShouldContract, AvoidContraction => "Choos
 #[cfg(test)]
 mod tests {
     use super::PronounContraction;
-    use crate::linting::tests::assert_suggestion_result;
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     #[test]
     fn issue_225() {
@@ -46,6 +46,30 @@ mod tests {
             "You're car is black.",
             PronounContraction::default(),
             "Your car is black.",
+        );
+    }
+
+    #[test]
+    fn allows_you_are_still() {
+        assert_lint_count(
+            "In case you're still not convinced.",
+            PronounContraction::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn issue_576() {
+        assert_lint_count(
+            "If you're not happy you try again.",
+            PronounContraction::default(),
+            0,
+        );
+        assert_lint_count("No you're not.", PronounContraction::default(), 0);
+        assert_lint_count(
+            "Even if you're not fluent in arm assembly, you surely noticed this.",
+            PronounContraction::default(),
+            0,
         );
     }
 }

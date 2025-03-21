@@ -5,7 +5,7 @@ import {
 	createRange,
 	getActualDiagnostics,
 	openFile,
-	sleep
+	sleep,
 } from './helper';
 
 describe('Languages >', () => {
@@ -34,12 +34,14 @@ describe('Languages >', () => {
 		{ type: 'C++', file: 'cpp.cpp', row: 3, column: 5 },
 		{ type: 'H', file: 'cpp.h', row: 0, column: 3 },
 		{ type: 'C#', file: 'csharp.cs', row: 2, column: 2 },
+		{ type: 'Dart', file: 'dart.dart', row: 1, column: 29 },
 		{ type: 'Git Commit', file: 'git-commit', row: 0, column: 0 },
 		{ type: 'Go', file: 'go.go', row: 4, column: 4 },
 		{ type: 'HTML', file: 'html.html', row: 8, column: 6 },
 		{ type: 'Java', file: 'java.java', row: 2, column: 17 },
 		{ type: 'JavaScript', file: 'javascript.js', row: 1, column: 3 },
 		{ type: 'Lua', file: 'lua.lua', row: 0, column: 24 },
+		{ type: 'PHP', file: 'php.php', row: 2, column: 31 },
 		{ type: 'Plaintext without extension', file: 'plaintext', row: 0, column: 0 },
 		{ type: 'Plaintext with extension', file: 'plaintext.txt', row: 4, column: 0 },
 		{ type: 'Python', file: 'python.py', row: 1, column: 2 },
@@ -49,7 +51,7 @@ describe('Languages >', () => {
 		{ type: 'Shellscript with .sh extension', file: 'shellscript.sh', row: 0, column: 22 },
 		{ type: 'Swift', file: 'swift.swift', row: 9, column: 26 },
 		{ type: 'TypeScript', file: 'typescript.ts', row: 0, column: 32 },
-		{ type: 'TypeScript JSX', file: 'typescriptreact.tsx', row: 3, column: 7 }
+		{ type: 'TypeScript JSX', file: 'typescriptreact.tsx', row: 3, column: 7 },
 	].forEach((testCase) => {
 		it(`gives correct diagnostics for ${testCase.type} files`, async () => {
 			const uri = await openFile('languages', testCase.file);
@@ -61,8 +63,8 @@ describe('Languages >', () => {
 				getActualDiagnostics(uri),
 				createExpectedDiagnostics({
 					message: 'Did you mean to spell “Errorz” this way?',
-					range: createRange(testCase.row, testCase.column, testCase.row, testCase.column + 6)
-				})
+					range: createRange(testCase.row, testCase.column, testCase.row, testCase.column + 6),
+				}),
 			);
 		});
 	});

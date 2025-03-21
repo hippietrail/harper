@@ -1,8 +1,8 @@
 use std::path::PathBuf;
 
-use anyhow::{bail, Result};
+use anyhow::{Result, bail};
 use dirs::{config_dir, data_local_dir};
-use harper_core::{linting::LintGroupConfig, parsers::MarkdownOptions};
+use harper_core::{Dialect, linting::LintGroupConfig, parsers::MarkdownOptions};
 use resolve_path::PathResolveExt;
 use serde::{Deserialize, Serialize};
 use serde_json::Value;
@@ -50,9 +50,9 @@ impl CodeActionConfig {
             bail!("The code action configuration must be an object.");
         };
 
-        if let Some(force_stable_val) = value.get("forceStable") {
+        if let Some(force_stable_val) = value.get("ForceStable") {
             let Value::Bool(force_stable) = force_stable_val else {
-                bail!("forceStable must be a boolean value.");
+                bail!("ForceStable must be a boolean value.");
             };
             base.force_stable = *force_stable;
         };
@@ -71,6 +71,7 @@ pub struct Config {
     pub code_action_config: CodeActionConfig,
     pub isolate_english: bool,
     pub markdown_options: MarkdownOptions,
+    pub dialect: Dialect,
 }
 
 impl Config {
@@ -123,6 +124,10 @@ impl Config {
             base.diagnostic_severity = serde_json::from_value(v.clone())?;
         }
 
+        if let Some(v) = value.get("dialect") {
+            base.dialect = serde_json::from_value(v.clone())?;
+        }
+
         if let Some(v) = value.get("codeActions") {
             base.code_action_config = CodeActionConfig::from_lsp_config(v.clone())?;
         }
@@ -136,7 +141,9 @@ impl Config {
         }
 
         if let Some(v) = value.get("markdown") {
-            base.markdown_options = serde_json::from_value(v.clone())?;
+            if let Some(v) = v.get("IgnoreLinkTitle") {
+                base.markdown_options.ignore_link_title = serde_json::from_value(v.clone())?;
+            }
         }
 
         Ok(base)
@@ -156,6 +163,7 @@ impl Default for Config {
             code_action_config: CodeActionConfig::default(),
             isolate_english: false,
             markdown_options: MarkdownOptions::default(),
+            dialect: Dialect::American,
         }
     }
 }

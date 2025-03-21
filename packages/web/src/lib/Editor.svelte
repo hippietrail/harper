@@ -1,49 +1,56 @@
 <script lang="ts">
-	import { Card } from 'flowbite-svelte';
-	import demo from '../../../../demo.md?raw';
-	import Underlines from '$lib/Underlines.svelte';
-	import { Button } from 'flowbite-svelte';
-	import { WorkerLinter, SuggestionKind } from 'harper.js';
-	import type { Lint } from 'harper.js';
-	import CheckMark from '$lib/CheckMark.svelte';
-	import { fly } from 'svelte/transition';
+import CheckMark from '$lib/CheckMark.svelte';
+import Underlines from '$lib/Underlines.svelte';
+import { Card } from 'flowbite-svelte';
+import { Button } from 'flowbite-svelte';
+import { type Lint, SuggestionKind, type WorkerLinter } from 'harper.js';
+import { fly } from 'svelte/transition';
+import demo from '../../../../demo.md?raw';
+import lintKindColor from './lintKindColor';
 
-	export let content = demo;
+export let content = demo;
 
-	let lints: Lint[] = [];
-	let lintCards: HTMLButtonElement[] = [];
-	let focused: number | undefined;
-	let editor: HTMLTextAreaElement | null;
-	let linter = new WorkerLinter();
+let lints: Lint[] = [];
+let lintCards: HTMLButtonElement[] = [];
+let focused: number | undefined;
+let editor: HTMLTextAreaElement | null;
+let linter: WorkerLinter;
 
-	linter.setup();
+(async () => {
+	let { WorkerLinter, binary } = await import('harper.js');
+	linter = new WorkerLinter({ binary });
 
-	let w: number | undefined;
+	await linter.setup();
+})();
 
-	$: linter.lint(content).then((newLints) => (lints = newLints));
-	$: boxHeight = calcHeight(content);
-	$: if (focused != null && lintCards[focused])
-		lintCards[focused].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
-	$: if (focused != null && focused >= lints.length) focused = undefined;
+let w: number | undefined;
 
-	$: if (editor != null && focused != null) {
-		let lint = lints[focused % lints.length];
-		if (lint != null) {
-			let p = lint.span().end;
-			editor.selectionStart = p;
-			editor.selectionEnd = p;
-		}
+$: linter?.lint(content).then((newLints) => {
+	lints = newLints;
+});
+$: boxHeight = calcHeight(content);
+$: if (focused != null && lintCards[focused])
+	lintCards[focused].scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+$: if (focused != null && focused >= lints.length) focused = undefined;
+
+$: if (editor != null && focused != null) {
+	let lint = lints[focused % lints.length];
+	if (lint != null) {
+		let p = lint.span().end;
+		editor.selectionStart = p;
+		editor.selectionEnd = p;
 	}
+}
 
-	function calcHeight(boxContent: string): number {
-		let numberOfLineBreaks = (boxContent.match(/\n/g) || []).length;
-		let newHeight = 20 + numberOfLineBreaks * 30 + 12 + 2;
-		return newHeight;
-	}
+function calcHeight(boxContent: string): number {
+	let numberOfLineBreaks = (boxContent.match(/\n/g) || []).length;
+	let newHeight = 20 + numberOfLineBreaks * 30 + 12 + 2;
+	return newHeight;
+}
 
-	// Whether to display a smallar variant of the editor
-	$: small = (w ?? 1024) < 1024;
-	$: superSmall = (w ?? 1024) < 550;
+// Whether to display a smallar variant of the editor
+$: small = (w ?? 1024) < 1024;
+$: superSmall = (w ?? 1024) < 550;
 </script>
 
 <div class={`flex w-full h-full p-5 ${small ? 'flex-col' : 'flex-row'}`} bind:clientWidth={w}>
@@ -79,10 +86,10 @@
 					on:click={() => (focused = i)}
 					bind:this={lintCards[i]}
 				>
-					<div class="pl-2 border-l-[3px] border-l-primary-500">
+					<div class={`pl-2`} style={`border-left: 4px solid ${lintKindColor(lint.lint_kind())}`}>
 						<div class="flex flex-row">
 							<h3 class="font-bold text-base p-0">
-								{lint.lint_kind()} - “<span class="italic">
+								{lint.lint_kind_pretty()} - “<span class="italic">
 									{lint.get_problem_text()}
 								</span>”
 							</h3>
@@ -123,7 +130,7 @@
 			class={`max-w-full w-full ${superSmall ? 'justify-center' : 'justify-between'} flex-row ${small ? '' : 'hidden'}`}
 		>
 			<div class={superSmall ? 'hidden' : ''}>
-				<h1 class={`font-bold p-0 text-base`}>{lints[focused].lint_kind()}</h1>
+				<h1 class={`font-bold p-0 text-base`}>{lints[focused].lint_kind_pretty()}</h1>
 				<p class={`p-0 text-sm`}>{lints[focused].message()}</p>
 			</div>
 			<div class="flex flex-row">

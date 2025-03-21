@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use itertools::Itertools;
 
-use crate::{CharString, CharStringExt, Dictionary, Document, FstDictionary, Span};
+use crate::{CharString, Dictionary, Document, FstDictionary, Span};
 
 use super::{Lint, LintKind, Linter, Suggestion};
 
@@ -35,8 +35,14 @@ impl Linter for MergeWords {
                 continue;
             }
 
-            let a_chars = document.get_span_content(a.span);
-            let b_chars = document.get_span_content(b.span);
+            let a_chars = document.get_span_content(&a.span);
+            let b_chars = document.get_span_content(&b.span);
+
+            if (a_chars.len() == 1 && a_chars[0].is_uppercase())
+                || (b_chars.len() == 1 && b_chars[0].is_uppercase())
+            {
+                continue;
+            }
 
             // Not super helpful in this case, so we skip it
             if matches!(a_chars, ['a']) || matches!(b_chars, ['a']) {
@@ -44,17 +50,34 @@ impl Linter for MergeWords {
             }
 
             merged_word.clear();
-            merged_word.extend_from_slice(&a_chars.to_lower());
-            merged_word.extend_from_slice(&b_chars.to_lower());
+            merged_word.extend_from_slice(a_chars);
+            merged_word.extend_from_slice(b_chars);
 
             if self.dict.contains_word(&merged_word)
                 && (!self.dict.contains_word(a_chars) || !self.dict.contains_word(b_chars))
             {
                 lints.push(Lint {
                     span: Span::new(a.span.start, b.span.end),
-                    lint_kind: LintKind::Spelling,
+                    lint_kind: LintKind::WordChoice,
                     suggestions: vec![Suggestion::ReplaceWith(merged_word.to_vec())],
                     message: "It seems these words would go better together.".to_owned(),
+                    priority: 63,
+                });
+            }
+
+            merged_word.clear();
+            merged_word.extend_from_slice(a_chars);
+            merged_word.push('\'');
+            merged_word.extend_from_slice(b_chars);
+
+            if self.dict.contains_word(&merged_word)
+                && (!self.dict.contains_word(a_chars) || !self.dict.contains_word(b_chars))
+            {
+                lints.push(Lint {
+                    span: Span::new(a.span.start, b.span.end),
+                    lint_kind: LintKind::WordChoice,
+                    suggestions: vec![Suggestion::ReplaceWith(merged_word.to_vec())],
+                    message: "It seems you intended to make this a contraction.".to_owned(),
                     priority: 63,
                 });
             }
@@ -70,7 +93,7 @@ impl Linter for MergeWords {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::assert_lint_count;
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     use super::MergeWords;
 
@@ -95,5 +118,16 @@ mod tests {
     #[test]
     fn therefore() {
         assert_lint_count("The refore", MergeWords::default(), 1);
+    }
+
+    #[test]
+    fn that_is_contraction() {
+        assert_suggestion_result("That s", MergeWords::default(), "That's");
+    }
+
+    #[test]
+    fn allows_issue_722() {
+        assert_lint_count("Leaving S and K alone.", MergeWords::default(), 0);
+        assert_lint_count("Similarly an S with a line.", MergeWords::default(), 0);
     }
 }

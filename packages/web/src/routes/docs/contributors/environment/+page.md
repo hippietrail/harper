@@ -7,12 +7,20 @@ To use the tooling required to build and debug Harper, you'll need the following
 - [`just`](https://github.com/casey/just)
 - `bash`
 - [`cargo`](https://www.rust-lang.org/) (we develop against the latest version of Rust)
-- `yarn`
+- `pnpm`
 - `node`
 - `grep`
 - [`wasm-pack`](https://rustwasm.github.io/wasm-pack/installer/)
 - `zip`
 - `pandoc`
+
+To run integration tests, you may also need `libnss3` and/or `libasound3`.
+These are installable in Ubuntu using `apt-get`.
+
+```bash
+sudo apt-get install libnss3
+sudo apt-get install libasound2
+```
 
 We develop a set of tools, accessible via `just`, to build and debug Harper's algorithm (otherwise known as `harper-core`) and its various integrations.
 The source code is in the `justfile` [at the root of the repository](https://github.com/Automattic/harper/blob/master/justfile).
@@ -22,4 +30,7 @@ To see all the tools in the toolbox, run:
 just --list
 ```
 
+> Please note that `just build-web` _only_ builds the website for production, while `just dev-web` also spins up a development server.
+
 Before making any modifications, we highly recommend that you run `just setup` to populate your build caches and download all dependencies.
+If you see a Visual Studio code window pop open, don't worry! That's just a part of our integration tests.

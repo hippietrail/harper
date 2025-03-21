@@ -14,16 +14,21 @@ impl Linter for AnA {
 
         for chunk in document.iter_chunks() {
             for (first_idx, second_idx) in chunk.iter_word_indices().tuple_windows() {
-                // [`TokenKind::Unlintable`] might be semantic words.
-                if chunk[first_idx..second_idx].iter_unlintables().count() > 0 {
+                // [`TokenKind::Unlintable`] might have semantic meaning.
+                if chunk[first_idx..second_idx].iter_unlintables().count() > 0
+                    || chunk[first_idx + 1..second_idx]
+                        .iter_word_like_indices()
+                        .count()
+                        > 0
+                {
                     continue;
                 }
 
-                let first = chunk[first_idx];
-                let second = chunk[second_idx];
+                let first = &chunk[first_idx];
+                let second = &chunk[second_idx];
 
-                let chars_first = document.get_span_content(first.span);
-                let chars_second = document.get_span_content(second.span);
+                let chars_first = document.get_span_content(&first.span);
+                let chars_second = document.get_span_content(&second.span);
                 // Break the second word on hyphens for this lint.
                 // Example: "An ML-based" is an acceptable noun phrase.
                 let chars_second = chars_second
@@ -33,7 +38,9 @@ impl Linter for AnA {
 
                 let is_a_an = match chars_first {
                     ['a'] => Some(true),
+                    ['A'] => Some(true),
                     ['a', 'n'] => Some(false),
+                    ['A', 'n'] => Some(false),
                     _ => None,
                 };
 
@@ -52,7 +59,10 @@ impl Linter for AnA {
                     lints.push(Lint {
                         span: first.span,
                         lint_kind: LintKind::Miscellaneous,
-                        suggestions: vec![Suggestion::ReplaceWith(replacement)],
+                        suggestions: vec![Suggestion::replace_with_match_case(
+                            replacement,
+                            chars_first,
+                        )],
                         message: "Incorrect indefinite article.".to_string(),
                         priority: 31,
                     })
@@ -113,7 +123,8 @@ fn starts_with_vowel(word: &[char]) -> bool {
         | ['u', 'n', 'i', 'n' | 'm', ..]
         | ['u', 'n', 'a' | 'u', ..]
         | ['h', 'e', 'r', 'b', ..]
-        | ['u', 'r', 'b', ..])
+        | ['u', 'r', 'b', ..]
+        | ['i', 'n', 't', ..])
     {
         return true;
     }
@@ -249,5 +260,19 @@ mod tests {
     #[test]
     fn disallows_uppercase_consonants() {
         assert_lint_count("not an Crash", AnA, 1);
+    }
+
+    #[test]
+    fn disallows_a_interface() {
+        assert_lint_count(
+            "A interface for an object that can perform linting actions.",
+            AnA,
+            1,
+        );
+    }
+
+    #[test]
+    fn allow_issue_751() {
+        assert_lint_count("He got a 52% approval rating.", AnA, 0);
     }
 }

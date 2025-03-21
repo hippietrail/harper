@@ -1,11 +1,7 @@
-use super::{
-    hunspell::{parse_default_attribute_list, parse_default_word_list},
-    seq_to_normalized, FullDictionary,
-};
-use fst::{map::StreamWithState, IntoStreamer, Map as FstMap, Streamer};
-use hashbrown::HashMap;
+use super::{MutableDictionary, WordId};
+use fst::{IntoStreamer, Map as FstMap, Streamer, map::StreamWithState};
 use lazy_static::lazy_static;
-use levenshtein_automata::{LevenshteinAutomatonBuilder, DFA};
+use levenshtein_automata::{DFA, LevenshteinAutomatonBuilder};
 use std::{cell::RefCell, sync::Arc};
 
 use crate::{CharString, CharStringExt, WordMetadata};
@@ -13,33 +9,24 @@ use crate::{CharString, CharStringExt, WordMetadata};
 use super::Dictionary;
 use super::FuzzyMatchResult;
 
+/// An immutable dictionary allowing for very fast spellchecking.
+///
+/// For dictionaries with changing contents, such as user and file dictionaries, prefer
+/// [`MutableDictionary`].
 pub struct FstDictionary {
-    /// Underlying FullDictionary used for everything except fuzzy finding
-    full_dict: Arc<FullDictionary>,
+    /// Underlying [`super::MutableDictionary`] used for everything except fuzzy finding
+    full_dict: Arc<MutableDictionary>,
     /// Used for fuzzy-finding the index of words or metadata
     word_map: FstMap<Vec<u8>>,
     /// Used for fuzzy-finding the index of words or metadata
     words: Vec<(CharString, WordMetadata)>,
 }
 
-/// The uncached function that is used to produce the original copy of the
-/// curated dictionary.
-fn uncached_inner_new() -> Arc<FstDictionary> {
-    let word_list = parse_default_word_list().unwrap();
-    let attr_list = parse_default_attribute_list();
-
-    // There will be at _least_ this number of words
-    let mut word_map = HashMap::with_capacity(word_list.len());
-    attr_list.expand_marked_words(word_list, &mut word_map);
-
-    Arc::new(FstDictionary::new(word_map))
-}
-
 const EXPECTED_DISTANCE: u8 = 3;
 const TRANSPOSITION_COST_ONE: bool = false;
 
 lazy_static! {
-    static ref DICT: Arc<FstDictionary> = uncached_inner_new();
+    static ref DICT: Arc<FstDictionary> = Arc::new((*MutableDictionary::curated()).clone().into());
 }
 
 thread_local! {
@@ -66,8 +53,9 @@ impl FstDictionary {
         (*DICT).clone()
     }
 
-    pub fn new(new_words: HashMap<CharString, WordMetadata>) -> Self {
-        let mut words: Vec<(CharString, WordMetadata)> = new_words.into_iter().collect();
+    /// Construct a new [`FstDictionary`] using a word list as a source.
+    /// This can be expensive, so only use this if fast fuzzy searches are worth it.
+    pub fn new(mut words: Vec<(CharString, WordMetadata)>) -> Self {
         words.sort_unstable_by(|(a, _), (b, _)| a.cmp(b));
         words.dedup_by(|(a, _), (b, _)| a == b);
 
@@ -79,7 +67,7 @@ impl FstDictionary {
                 .expect("Insertion not in lexicographical order!");
         }
 
-        let mut full_dict = FullDictionary::new();
+        let mut full_dict = MutableDictionary::new();
         full_dict.extend_words(words.iter().cloned());
 
         let fst_bytes = builder.into_inner().unwrap();
@@ -94,7 +82,7 @@ impl FstDictionary {
 }
 
 fn build_dfa(max_distance: u8, query: &str) -> DFA {
-    // Insert if does not exist
+    // Insert if it does not exist
     AUTOMATON_BUILDERS.with_borrow_mut(|v| {
         if !v.iter().any(|t| t.0 == max_distance) {
             v.push((
@@ -132,11 +120,11 @@ impl Dictionary for FstDictionary {
         self.full_dict.contains_word_str(word)
     }
 
-    fn get_word_metadata(&self, word: &[char]) -> WordMetadata {
+    fn get_word_metadata(&self, word: &[char]) -> Option<&WordMetadata> {
         self.full_dict.get_word_metadata(word)
     }
 
-    fn get_word_metadata_str(&self, word: &str) -> WordMetadata {
+    fn get_word_metadata_str(&self, word: &str) -> Option<&WordMetadata> {
         self.full_dict.get_word_metadata_str(word)
     }
 
@@ -146,7 +134,7 @@ impl Dictionary for FstDictionary {
         max_distance: u8,
         max_results: usize,
     ) -> Vec<FuzzyMatchResult> {
-        let misspelled_word_charslice = seq_to_normalized(word);
+        let misspelled_word_charslice = word.normalized();
         let misspelled_word_string = misspelled_word_charslice.to_string();
 
         // Actual FST search
@@ -176,11 +164,12 @@ impl Dictionary for FstDictionary {
             merged.push(FuzzyMatchResult {
                 word,
                 edit_distance,
-                metadata: *metadata,
+                metadata,
             })
         }
 
         merged.sort_unstable_by_key(|v| v.word);
+        merged.dedup_by_key(|v| v.word);
         merged.sort_unstable_by_key(|v| v.edit_distance);
         merged.truncate(max_results);
 
@@ -204,8 +193,24 @@ impl Dictionary for FstDictionary {
         self.full_dict.words_iter()
     }
 
-    fn words_with_len_iter(&self, len: usize) -> Box<dyn Iterator<Item = &'_ [char]> + Send + '_> {
-        self.full_dict.words_with_len_iter(len)
+    fn word_count(&self) -> usize {
+        self.full_dict.word_count()
+    }
+
+    fn contains_exact_word(&self, word: &[char]) -> bool {
+        self.full_dict.contains_exact_word(word)
+    }
+
+    fn contains_exact_word_str(&self, word: &str) -> bool {
+        self.full_dict.contains_exact_word_str(word)
+    }
+
+    fn get_correct_capitalization_of(&self, word: &[char]) -> Option<&'_ [char]> {
+        self.full_dict.get_correct_capitalization_of(word)
+    }
+
+    fn get_word_from_id(&self, id: &WordId) -> Option<&[char]> {
+        self.full_dict.get_word_from_id(id)
     }
 }
 
@@ -214,7 +219,8 @@ mod tests {
     use itertools::Itertools;
 
     use crate::CharStringExt;
-    use crate::{spell::seq_to_normalized, Dictionary};
+    use crate::Dictionary;
+    use crate::WordId;
 
     use super::FstDictionary;
 
@@ -223,7 +229,7 @@ mod tests {
         let dict = FstDictionary::curated();
 
         for word in dict.words_iter() {
-            let misspelled_normalized = seq_to_normalized(word);
+            let misspelled_normalized = word.normalized();
             let misspelled_word = misspelled_normalized.to_string();
             let misspelled_lower = misspelled_normalized.to_lower().to_string();
 
@@ -242,15 +248,22 @@ mod tests {
         let dict = FstDictionary::curated();
 
         let word: Vec<_> = "hello".chars().collect();
-        let misspelled_normalized = seq_to_normalized(&word);
-        let misspelled_word: String = misspelled_normalized.to_string();
-        let misspelled_lower: String = misspelled_normalized.to_lower().to_string();
+        let misspelled_normalized = word.normalized();
+        let misspelled_word = misspelled_normalized.to_string();
+        let misspelled_lower = misspelled_normalized.to_lower().to_string();
 
         assert!(dict.contains_word(&misspelled_normalized));
         assert!(
             dict.word_map.contains_key(misspelled_lower)
                 || dict.word_map.contains_key(misspelled_word)
         );
+    }
+
+    #[test]
+    fn on_is_not_nominal() {
+        let dict = FstDictionary::curated();
+
+        assert!(!dict.get_word_metadata_str("on").unwrap().is_nominal());
     }
 
     #[test]
@@ -265,5 +278,81 @@ mod tests {
             .all(|(a, b)| a <= b);
 
         assert!(is_sorted_by_dist)
+    }
+
+    #[test]
+    fn curated_contains_no_duplicates() {
+        let dict = FstDictionary::curated();
+
+        assert!(dict.words.iter().map(|(word, _)| word).all_unique());
+    }
+
+    #[test]
+    fn contractions_not_derived() {
+        let dict = FstDictionary::curated();
+
+        let contractions = ["there's", "we're", "here's"];
+
+        for contraction in contractions {
+            dbg!(contraction);
+            assert!(
+                dict.get_word_metadata_str(contraction)
+                    .unwrap()
+                    .derived_from
+                    .is_none()
+            )
+        }
+    }
+
+    #[test]
+    fn plural_llamas_derived_from_llama() {
+        let dict = FstDictionary::curated();
+
+        assert_eq!(
+            dict.get_word_metadata_str("llamas")
+                .unwrap()
+                .derived_from
+                .unwrap(),
+            WordId::from_word_str("llama")
+        )
+    }
+
+    #[test]
+    fn plural_cats_derived_from_cat() {
+        let dict = FstDictionary::curated();
+
+        assert_eq!(
+            dict.get_word_metadata_str("cats")
+                .unwrap()
+                .derived_from
+                .unwrap(),
+            WordId::from_word_str("cat")
+        );
+    }
+
+    #[test]
+    fn unhappy_derived_from_happy() {
+        let dict = FstDictionary::curated();
+
+        assert_eq!(
+            dict.get_word_metadata_str("unhappy")
+                .unwrap()
+                .derived_from
+                .unwrap(),
+            WordId::from_word_str("happy")
+        );
+    }
+
+    #[test]
+    fn quickly_derived_from_quick() {
+        let dict = FstDictionary::curated();
+
+        assert_eq!(
+            dict.get_word_metadata_str("quickly")
+                .unwrap()
+                .derived_from
+                .unwrap(),
+            WordId::from_word_str("quick")
+        );
     }
 }

@@ -1,5 +1,5 @@
 use super::Parser;
-use crate::lexing::{lex_token, FoundToken};
+use crate::lexing::{FoundToken, lex_token};
 use crate::{Span, Token};
 
 /// A parser that will attempt to lex as many tokens as possible,
@@ -15,7 +15,7 @@ impl Parser for PlainEnglish {
         let mut tokens = Vec::new();
 
         loop {
-            if cursor == source.len() {
+            if cursor >= source.len() {
                 return tokens;
             }
 

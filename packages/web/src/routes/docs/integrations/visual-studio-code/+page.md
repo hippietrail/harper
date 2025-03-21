@@ -2,18 +2,28 @@
 title: Visual Studio Code
 ---
 
-With more than 14 million users Visual Studio Code is undeniably the most widely used programming environment in the world.
-Most programming languages support doc-comments, a type of inline comment used to generate public-facing documentation.
+For our Visual Studio Code integration, we provide an extension powered by [`harper-ls`](./language-server), which also works for VS Code forks like VSCodium and Windsurf. It's available in the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=elijah-potter.harper) as well as the [Open VSX Registry](https://open-vsx.org/extension/elijah-potter/harper).
 
-- [Javadoc](https://en.wikipedia.org/wiki/Javadoc) for Java
-- [JSDoc](https://jsdoc.app/) for JavaScript
-- [Annex D](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/language-specification/documentation-comments) for C#.
-- ... and many more
+## Installation
 
-The problem: most of these users aren't spending a sufficient amount of time ensuring their comments meet the editorial standards that readers expect.
-This can leave a poor first impression on readers.
+Open the Extensions view in your editor by selecting the Extensions icon in the Activity Bar or by using the `Ctrl+Shift+X` keyboard shortcut, then search for "Harper" and click "Install".
 
-Fortunately, Harper can help!
-By parsing your comments and checking them for style, Harper can significantly improve the professionalism and readability of written documentation.
+If you prefer to use the command line, you can use the following command:
 
-Just search for "Harper" in the [Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=elijah-potter.harper) and hit install!
+```bash
+code --install-extension elijah-potter.harper
+```
+
+## Commands
+
+| Command                         | ID                              | Description          |
+| ------------------------------- | ------------------------------- | -------------------- |
+| Harper: Restart Language Server | `harper.languageserver.restart` | Restarts `harper-ls` |
+
+## Settings
+
+The settings below are VS Code specific. There are other settings that `harper-ls` supports such as which linters to use or how code actions should appear that you can configure. You can view them in your editor's Settings UI under "Harper" or peruse through them in the [configuration section](./language-server#Configuration) of our `harper-ls` documentation.
+
+| Setting       | Type     | Default Value | Description                                                                                                                                                 |
+| ------------- | -------- | ------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `harper.path` | `string` | `""`          | Optional path to a `harper-ls` executable to use. Primarily useful if the bundled binary doesn't work in your system like in immutable Linux distributions. |

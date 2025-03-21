@@ -5,7 +5,9 @@ use std::fmt::Display;
 use paste::paste;
 
 use crate::parsers::{Markdown, MarkdownOptions, Parser, PlainEnglish};
-use crate::patterns::{PatternExt, RepeatingPattern, SequencePattern};
+use crate::patterns::{
+    DocPattern, EitherPattern, Pattern, RepeatingPattern, SequencePattern, WordSet,
+};
 use crate::punctuation::Punctuation;
 use crate::vec_ext::VecExt;
 use crate::{Dictionary, FatToken, FstDictionary, Lrc, Token, TokenKind, TokenStringExt};
@@ -25,6 +27,16 @@ impl Default for Document {
 }
 
 impl Document {
+    /// Locate all the tokens that intersect a provided span.
+    ///
+    /// Desperately needs optimization.
+    pub fn token_indices_intersecting(&self, span: Span) -> Vec<usize> {
+        self.tokens()
+            .enumerate()
+            .filter_map(|(idx, tok)| tok.span.overlaps_with(span).then_some(idx))
+            .collect()
+    }
+
     /// Lexes and parses text to produce a document using a provided language
     /// parser and dictionary.
     pub fn new(text: &str, parser: &impl Parser, dictionary: &impl Dictionary) -> Self {
@@ -79,7 +91,7 @@ impl Document {
     }
 
     /// Parse text to produce a document using the built-in [`Markdown`] parser
-    /// and curated dictionary with the default markdown configuration.
+    /// and curated dictionary with the default Markdown configuration.
     pub fn new_markdown_default_curated(text: &str) -> Self {
         Self::new_markdown_curated(text, MarkdownOptions::default())
     }
@@ -95,7 +107,7 @@ impl Document {
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
-    /// parser and the curated dictionary with the default markdown configuration.
+    /// parser and the curated dictionary with the default Markdown configuration.
     pub fn new_markdown_default(text: &str, dictionary: &impl Dictionary) -> Self {
         Self::new_markdown(text, MarkdownOptions::default(), dictionary)
     }
@@ -105,19 +117,47 @@ impl Document {
     /// Should be run after every change to the underlying [`Self::source`].
     fn parse(&mut self, dictionary: &impl Dictionary) {
         self.condense_spaces();
-        self.condense_ellipsis();
         self.condense_newlines();
         self.newlines_to_breaks();
         self.condense_contractions();
         self.condense_dotted_initialisms();
         self.condense_number_suffixes();
+        self.condense_ellipsis();
+        self.condense_latin();
         self.match_quotes();
+        self.articles_imply_nouns();
 
         for token in self.tokens.iter_mut() {
             if let TokenKind::Word(meta) = &mut token.kind {
                 let word_source = token.span.get_content(&self.source);
                 let found_meta = dictionary.get_word_metadata(word_source);
-                *meta = meta.or(&found_meta);
+                *meta = found_meta.cloned()
+            }
+        }
+    }
+
+    fn uncached_article_pattern() -> Lrc<SequencePattern> {
+        Lrc::new(
+            SequencePattern::default()
+                .then_determiner()
+                .then_whitespace()
+                .then(|t: &Token, _source: &[char]| t.kind.is_adjective() && t.kind.is_noun())
+                .then_whitespace()
+                .then_noun(),
+        )
+    }
+
+    thread_local! {static ARTICLE_PATTERN: Lrc<SequencePattern> = Document::uncached_article_pattern()}
+
+    /// When a word that is either an adjective or a noun is sandwiched between an article and a noun,
+    /// it definitely is not a noun.
+    fn articles_imply_nouns(&mut self) {
+        let pattern = Self::ARTICLE_PATTERN.with(|v| v.clone());
+
+        for m in pattern.find_all_matches_in_doc(self) {
+            if let TokenKind::Word(Some(metadata)) = &mut self.tokens[m.start + 2].kind {
+                metadata.noun = None;
+                metadata.verb = None;
             }
         }
     }
@@ -141,7 +181,7 @@ impl Document {
     fn condense_indices(&mut self, indices: &[usize], stretch_len: usize) {
         // Update spans
         for idx in indices {
-            let end_tok = self.tokens[idx + stretch_len - 1];
+            let end_tok = self.tokens[idx + stretch_len - 1].clone();
             let start_tok = &mut self.tokens[*idx];
 
             start_tok.span.end = end_tok.span.end;
@@ -158,7 +198,7 @@ impl Document {
         let mut iter = indices.iter().peekable();
 
         while let (Some(a_idx), b) = (iter.next(), iter.peek()) {
-            self.tokens.push(old[*a_idx]);
+            self.tokens.push(old[*a_idx].clone());
 
             if let Some(b_idx) = b {
                 self.tokens
@@ -175,7 +215,7 @@ impl Document {
         );
     }
 
-    pub fn get_token_at_char_index(&self, char_index: usize) -> Option<Token> {
+    pub fn get_token_at_char_index(&self, char_index: usize) -> Option<&Token> {
         let index = self
             .tokens
             .binary_search_by(|t| {
@@ -187,17 +227,17 @@ impl Document {
             })
             .ok()?;
 
-        Some(self.tokens[index])
+        Some(&self.tokens[index])
     }
 
     /// Defensively attempt to grab a specific token.
-    pub fn get_token(&self, index: usize) -> Option<Token> {
-        self.tokens.get(index).copied()
+    pub fn get_token(&self, index: usize) -> Option<&Token> {
+        self.tokens.get(index)
     }
 
     /// Get an iterator over all the tokens contained in the document.
-    pub fn tokens(&self) -> impl Iterator<Item = Token> + '_ {
-        self.tokens.iter().copied()
+    pub fn tokens(&self) -> impl Iterator<Item = &Token> + '_ {
+        self.tokens.iter()
     }
 
     /// Get an iterator over all the tokens contained in the document.
@@ -205,16 +245,16 @@ impl Document {
         self.tokens().map(|token| token.to_fat(&self.source))
     }
 
-    pub fn get_span_content(&self, span: Span) -> &[char] {
+    pub fn get_span_content(&self, span: &Span) -> &[char] {
         span.get_content(&self.source)
     }
 
-    pub fn get_span_content_str(&self, span: Span) -> String {
+    pub fn get_span_content_str(&self, span: &Span) -> String {
         String::from_iter(self.get_span_content(span))
     }
 
     pub fn get_full_string(&self) -> String {
-        self.get_span_content_str(Span {
+        self.get_span_content_str(&Span {
             start: 0,
             end: self.source.len(),
         })
@@ -233,7 +273,7 @@ impl Document {
     }
 
     /// Searches for quotation marks and fills the
-    /// [`Punctuation::Quote::twin_loc`] field. This is on a best effort
+    /// [`Punctuation::Quote::twin_loc`] field. This is on a best-effort
     /// basis.
     ///
     /// Current algorithm is basic and could use some work.
@@ -265,15 +305,15 @@ impl Document {
         let mut replace_starts = Vec::new();
 
         for idx in 0..self.tokens.len() - 1 {
-            let b = self.tokens[idx + 1];
-            let a = self.tokens[idx];
+            let b = &self.tokens[idx + 1];
+            let a = &self.tokens[idx];
 
             // TODO: Allow spaces between `a` and `b`
 
-            if let (TokenKind::Number(..), TokenKind::Word(..)) = (a.kind, b.kind) {
-                if let Some(found_suffix) = NumberSuffix::from_chars(self.get_span_content(b.span))
+            if let (TokenKind::Number(..), TokenKind::Word(..)) = (&a.kind, &b.kind) {
+                if let Some(found_suffix) = NumberSuffix::from_chars(self.get_span_content(&b.span))
                 {
-                    *self.tokens[idx].kind.as_mut_number().unwrap().1 = Some(found_suffix);
+                    self.tokens[idx].kind.as_mut_number().unwrap().suffix = Some(found_suffix);
                     replace_starts.push(idx);
                 }
             }
@@ -324,6 +364,49 @@ impl Document {
         }
 
         self.tokens.remove_indices(remove_these);
+    }
+
+    thread_local! {
+        static LATIN_PATTERN: Lrc<EitherPattern> = Document::uncached_latin_pattern();
+    }
+
+    fn uncached_latin_pattern() -> Lrc<EitherPattern> {
+        Lrc::new(EitherPattern::new(vec![
+            Box::new(
+                SequencePattern::default()
+                    .then(WordSet::new(&["etc", "vs"]))
+                    .then_period(),
+            ),
+            Box::new(
+                SequencePattern::aco("et")
+                    .then_whitespace()
+                    .t_aco("al")
+                    .then_period(),
+            ),
+        ]))
+    }
+
+    /// Assumes that the first matched token is the canonical one to be condensed into.
+    /// Takes a callback that can be used to retroactively edit the canonical token afterwards.
+    fn condense_pattern<F>(&mut self, pattern: &impl Pattern, edit: F)
+    where
+        F: Fn(&mut Token),
+    {
+        let matches = pattern.find_all_matches_in_doc(self);
+
+        let mut remove_indices = VecDeque::with_capacity(matches.len());
+
+        for m in matches {
+            remove_indices.extend(m.start + 1..m.end);
+            self.tokens[m.start].span = self.tokens[m.into_iter()].span().unwrap();
+            edit(&mut self.tokens[m.start]);
+        }
+
+        self.tokens.remove_indices(remove_indices);
+    }
+
+    fn condense_latin(&mut self) {
+        self.condense_pattern(&Self::LATIN_PATTERN.with(|v| v.clone()), |_| {})
     }
 
     /// Searches for multiple sequential newline tokens and condenses them down
@@ -378,8 +461,8 @@ impl Document {
         let mut initialism_start = None;
 
         loop {
-            let a = self.tokens[cursor - 1];
-            let b = self.tokens[cursor];
+            let a = &self.tokens[cursor - 1];
+            let b = &self.tokens[cursor];
 
             let is_initialism_chunk = a.kind.is_word() && a.span.len() == 1 && b.kind.is_period();
 
@@ -414,7 +497,7 @@ impl Document {
 
     fn uncached_ellipsis_pattern() -> Lrc<RepeatingPattern> {
         let period = SequencePattern::default().then_period();
-        Lrc::new(RepeatingPattern::new(Box::new(period)))
+        Lrc::new(RepeatingPattern::new(Box::new(period), 2))
     }
 
     thread_local! {
@@ -422,68 +505,31 @@ impl Document {
     }
 
     fn condense_ellipsis(&mut self) {
-        let found = Self::ELLIPSIS_PATTERN
-            .with(|v| v.clone())
-            .find_all_matches(&self.tokens, &self.source);
-        let mut to_remove = VecDeque::new();
+        let pattern = Self::ELLIPSIS_PATTERN.with(|v| v.clone());
+        self.condense_pattern(&pattern, |tok| {
+            tok.kind = TokenKind::Punctuation(Punctuation::Ellipsis)
+        });
+    }
 
-        for found_slice in found {
-            if found_slice.len() <= 1 {
-                continue;
-            }
+    fn uncached_contraction_pattern() -> Lrc<SequencePattern> {
+        Lrc::new(
+            SequencePattern::default()
+                .then_any_word()
+                .then_apostrophe()
+                .then_any_word(),
+        )
+    }
 
-            let found_toks = &mut self.tokens[found_slice.start..found_slice.end];
-
-            let end_char = found_toks.last().unwrap().span.end;
-            let first = found_toks.first_mut().unwrap();
-            first.kind = TokenKind::Punctuation(Punctuation::Ellipsis);
-            first.span.end = end_char;
-            for i in found_slice.start + 1..found_slice.end {
-                to_remove.push_back(i)
-            }
-        }
-
-        self.tokens.remove_indices(to_remove);
+    thread_local! {
+        static CONTRACTION_PATTERN: Lrc<SequencePattern> = Document::uncached_contraction_pattern();
     }
 
     /// Searches for contractions and condenses them down into single
     /// tokens.
     fn condense_contractions(&mut self) {
-        if self.tokens.len() < 3 {
-            return;
-        }
+        let pattern = Self::CONTRACTION_PATTERN.with(|v| v.clone());
 
-        // Indices of the three token stretches we are going to condense.
-        let mut replace_starts = Vec::new();
-
-        for idx in 0..self.tokens.len() - 2 {
-            let a = self.tokens[idx];
-            let b = self.tokens[idx + 1];
-            let c = self.tokens[idx + 2];
-
-            if matches!(
-                (a.kind, b.kind, c.kind),
-                (
-                    TokenKind::Word(..),
-                    TokenKind::Punctuation(Punctuation::Apostrophe),
-                    TokenKind::Word(..)
-                )
-            ) {
-                // Ensure there is no overlapping between replacements
-                let should_replace = if let Some(last_idx) = replace_starts.last() {
-                    *last_idx < idx - 2
-                } else {
-                    true
-                };
-
-                if should_replace {
-                    replace_starts.push(idx);
-                    self.tokens[idx].span.end = c.span.end;
-                }
-            }
-        }
-
-        self.condense_indices(&replace_starts, 3);
+        self.condense_pattern(&pattern, |_| {});
     }
 }
 
@@ -491,11 +537,11 @@ impl Document {
 macro_rules! create_fns_on_doc {
     ($thing:ident) => {
         paste! {
-            fn [< first_ $thing >](&self) -> Option<Token> {
+            fn [< first_ $thing >](&self) -> Option<&Token> {
                 self.tokens.[< first_ $thing >]()
             }
 
-            fn [< last_ $thing >](&self) -> Option<Token> {
+            fn [< last_ $thing >](&self) -> Option<&Token> {
                 self.tokens.[< last_ $thing >]()
             }
 
@@ -507,7 +553,7 @@ macro_rules! create_fns_on_doc {
                 self.tokens.[< iter_ $thing _indices >]()
             }
 
-            fn [<iter_ $thing s>](&self) -> impl Iterator<Item = Token> + '_ {
+            fn [<iter_ $thing s>](&self) -> impl Iterator<Item = &Token> + '_ {
                 self.tokens.[< iter_ $thing s >]()
             }
         }
@@ -516,6 +562,7 @@ macro_rules! create_fns_on_doc {
 
 impl TokenStringExt for Document {
     create_fns_on_doc!(word);
+    create_fns_on_doc!(hostname);
     create_fns_on_doc!(word_like);
     create_fns_on_doc!(conjunction);
     create_fns_on_doc!(space);
@@ -532,12 +579,13 @@ impl TokenStringExt for Document {
     create_fns_on_doc!(punctuation);
     create_fns_on_doc!(currency);
     create_fns_on_doc!(likely_homograph);
+    create_fns_on_doc!(comma);
 
-    fn first_sentence_word(&self) -> Option<Token> {
+    fn first_sentence_word(&self) -> Option<&Token> {
         self.tokens.first_sentence_word()
     }
 
-    fn first_non_whitespace(&self) -> Option<Token> {
+    fn first_non_whitespace(&self) -> Option<&Token> {
         self.tokens.first_non_whitespace()
     }
 
@@ -549,7 +597,7 @@ impl TokenStringExt for Document {
         self.tokens.iter_linking_verb_indices()
     }
 
-    fn iter_linking_verbs(&self) -> impl Iterator<Item = Token> + '_ {
+    fn iter_linking_verbs(&self) -> impl Iterator<Item = &Token> + '_ {
         self.tokens.iter_linking_verbs()
     }
 
@@ -569,7 +617,7 @@ impl TokenStringExt for Document {
 impl Display for Document {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         for token in &self.tokens {
-            write!(f, "{}", self.get_span_content_str(token.span))?;
+            write!(f, "{}", self.get_span_content_str(&token.span))?;
         }
 
         Ok(())
@@ -581,7 +629,7 @@ mod tests {
     use itertools::Itertools;
 
     use super::Document;
-    use crate::{parsers::MarkdownOptions, Span};
+    use crate::{Span, parsers::MarkdownOptions};
 
     fn assert_condensed_contractions(text: &str, final_tok_count: usize) {
         let document = Document::new_plain_english_curated(text);
@@ -632,7 +680,7 @@ mod tests {
     fn assert_token_count(source: &str, count: usize) {
         let document = Document::new_plain_english_curated(source);
 
-        dbg!(document.tokens().map(|t| t.kind).collect_vec());
+        dbg!(document.tokens().map(|t| t.kind.clone()).collect_vec());
         assert_eq!(document.tokens.len(), count);
     }
 

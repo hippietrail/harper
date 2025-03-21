@@ -1,6 +1,7 @@
 use super::{Lint, LintKind, Linter};
-use crate::token::TokenStringExt;
+use crate::CharStringExt;
 use crate::Document;
+use crate::TokenStringExt;
 
 /// Detect and warn that the sentence is too long.
 #[derive(Debug, Clone, Copy, Default)]
@@ -11,22 +12,24 @@ impl Linter for LinkingVerbs {
         let mut output = Vec::new();
 
         for chunk in document.iter_chunks() {
-            // The word prior to "is" must be a noun.
+            // The word prior to "is" must be a nominal (noun or pronoun).
             for idx in chunk.iter_linking_verb_indices() {
-                let linking_verb = chunk[idx];
-                let linking_verb_text = document.get_span_content_str(linking_verb.span);
-
+                let linking_verb = &chunk[idx];
                 if let Some(prev_word) = &chunk[0..idx].last_word() {
-                    if !prev_word.kind.as_word().unwrap().is_noun() {
-                        output.push(Lint {
-                            span: linking_verb.span,
-                            lint_kind: LintKind::Miscellaneous,
-                            message: format!(
-                                "Linking verbs like “{}” must be preceded by a noun.",
-                                linking_verb_text
-                            ),
-                            ..Default::default()
-                        })
+                    if let Some(metadata) = prev_word.kind.as_word().unwrap() {
+                        if !metadata.is_nominal() {
+                            let linking_verb_text = document.get_span_content(&linking_verb.span);
+
+                            output.push(Lint {
+                                span: linking_verb.span,
+                                lint_kind: LintKind::Miscellaneous,
+                                message: format!(
+                                    "Linking verbs like “{}” must be preceded by a noun or pronoun.",
+                                    linking_verb_text.to_string()
+                                ),
+                                ..Default::default()
+                            })
+                        }
                     }
                 }
             }

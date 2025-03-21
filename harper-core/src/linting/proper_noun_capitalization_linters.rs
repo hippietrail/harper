@@ -1,474 +1,197 @@
-use super::PatternLinter;
+use hashbrown::HashMap;
+use serde::{Deserialize, Serialize};
+
 use super::{Lint, LintKind, Suggestion};
-use crate::make_title_case;
-use crate::patterns::{EitherPattern, IsNotTitleCase, Pattern, SequencePattern, WordSet};
-use crate::FstDictionary;
+use super::{LintGroup, PatternLinter};
+use crate::parsers::PlainEnglish;
+use crate::patterns::{ExactPhrase, Pattern, PatternMap};
+use crate::{Dictionary, Document};
 use crate::{Token, TokenStringExt};
 use std::sync::Arc;
 
-/// A macro that will generate a linter to enforce capitalization of a multi-token proper noun.
-macro_rules! create_linter_for {
-    ($name:ident, $pattern:expr, $message:literal) => {
-        create_linter_for!($name, $pattern, $message, $message);
-    };
-    ($name:ident, $pattern:expr, $message:literal, $description:literal) => {
-        #[doc = $description]
-        pub struct $name {
-            pattern: Box<dyn Pattern>,
-            dict: Arc<FstDictionary>,
-        }
-
-        impl $name {
-            pub fn new() -> Self {
-                let dict = FstDictionary::curated();
-
-                Self {
-                    pattern: Box::new(IsNotTitleCase::new(Box::new($pattern), dict.clone())),
-                    dict,
-                }
-            }
-        }
-
-        impl Default for $name {
-            fn default() -> Self {
-                Self::new()
-            }
-        }
-
-        impl PatternLinter for $name {
-            fn pattern(&self) -> &dyn Pattern {
-                self.pattern.as_ref()
-            }
-
-            fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
-                let proper = make_title_case(matched_tokens, source, &self.dict);
-
-                Lint {
-                    span: matched_tokens.span().unwrap(),
-                    lint_kind: LintKind::Capitalization,
-                    suggestions: vec![Suggestion::ReplaceWith(proper)],
-                    message: $message.to_string(),
-                    priority: 31,
-                }
-            }
-
-            fn description(&self) -> &'static str {
-                $description
-            }
-        }
-    };
+/// A linter that corrects the capitalization of multi-word proper nouns.
+/// They are corrected to a "canonical capitalization" provided at construction.
+///
+/// If you would like to add a proper noun to Harper, see `proper_noun_rules.json`.
+pub struct ProperNounCapitalizationLinter<D: Dictionary + 'static> {
+    pattern_map: PatternMap<Document>,
+    description: String,
+    dictionary: Arc<D>,
 }
 
-create_linter_for!(
-    Americas,
-    SequencePattern::default()
-        .then(Box::new(WordSet::all(&["South", "North",])))
-        .then_whitespace()
-        .t_aco("America"),
-    "When referring to the continents, make sure to treat them as a proper noun."
-);
-
-create_linter_for!(
-    Koreas,
-    SequencePattern::default()
-        .then(Box::new(WordSet::all(&["South", "North",])))
-        .then_whitespace()
-        .t_aco("Korea"),
-    "When referring to the nations, make sure to treat them as a proper noun."
-);
-
-create_linter_for!(
-    ChineseCommunistParty,
-    SequencePattern::aco("Chinese")
-        .then_whitespace()
-        .t_aco("Communist")
-        .then_whitespace()
-        .t_aco("Party"),
-    "When referring to the political party, make sure to treat them as a proper noun."
-);
-
-create_linter_for!(
-    UnitedOrganizations,
-    SequencePattern::default()
-        .t_aco("United")
-        .then_whitespace()
-        .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::aco("Nations")),
-            Box::new(SequencePattern::aco("States")),
-            Box::new(SequencePattern::aco("Kingdom")),
-            Box::new(SequencePattern::aco("Airlines")),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Arab")
-                    .then_whitespace()
-                    .t_aco("Emirates")
-            )
-        ]))),
-    "When referring to national or international organizations, make sure to treat them as a proper noun."
-);
-
-create_linter_for!(
-    Holidays,
-    EitherPattern::new(vec![
-        Box::new(
-            SequencePattern::default()
-                .then(Box::new(EitherPattern::new(vec![
-                    Box::new(WordSet::all(&[
-                        "Presidents'",
-                        "Valentines",
-                        "Christmas",
-                        "Easter",
-                        "Flag",
-                        "Independence",
-                        "Mothers'",
-                        "Years",
-                        "Fathers'",
-                        "Columbus",
-                        "Thanksgiving",
-                        "Memorial",
-                        "May",
-                        "Halloween",
-                        "Tax",
-                        "Parents",
-                        "Veterans",
-                        "Armistice",
-                        "Groundhog"
-                    ])),
-                    Box::new(
-                        SequencePattern::default()
-                            .t_aco("National")
-                            .then_whitespace()
-                            .t_aco("Freedom")
-                    ),
-                    Box::new(
-                        SequencePattern::default()
-                            .t_aco("All")
-                            .then_whitespace()
-                            .t_aco("Saints")
-                    ),
-                    Box::new(
-                        SequencePattern::default()
-                            .t_aco("All")
-                            .then_whitespace()
-                            .t_aco("Souls")
-                    )
-                ])))
-                .then_whitespace()
-                .t_aco("Day")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("Black")
-                .then_whitespace()
-                .t_aco("Friday")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("Cyber")
-                .then_whitespace()
-                .t_aco("Monday")
+impl<D: Dictionary + 'static> ProperNounCapitalizationLinter<D> {
+    /// Wrapper function around [`Self::new`] that allows construction with Strings.
+    pub fn new_strs(
+        canonical_versions: impl IntoIterator<Item = impl AsRef<str>>,
+        description: impl ToString,
+        dictionary: D,
+    ) -> Self {
+        Self::new(
+            canonical_versions
+                .into_iter()
+                .map(|s| s.as_ref().chars().collect::<Vec<_>>()),
+            description,
+            dictionary,
         )
-    ]),
-    "When referring to holidays, make sure to treat them as a proper noun."
-);
+    }
 
-create_linter_for!(
-    AmazonNames,
-    SequencePattern::default()
-    .t_aco("Amazon")
-    .then_whitespace()
-    .then(Box::new(EitherPattern::new(vec![
-        Box::new(
-            SequencePattern::default()
-                .t_aco("Shopping")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("Web")
-                    .then_whitespace()
-                .t_aco("Services")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("Lambda")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("RDS")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("DynamoDB")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("SageMaker")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("Rekognition")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("CloudFront")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("ECS")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("EKS")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("CloudWatch")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("IAM")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("Prime")
-        ),
-        Box::new(
-            SequencePattern::default()
-                .t_aco("Kindle")
-        )
-    ]))),
-    "When referring to the various products of Amazon.com, make sure to treat them as a proper noun."
-);
+    /// Create a linter that corrects the capitalization of phrases provided.
+    pub fn new(
+        canonical_versions: impl IntoIterator<Item = impl AsRef<[char]>>,
+        description: impl ToString,
+        dictionary: D,
+    ) -> Self {
+        let dictionary = Arc::new(dictionary);
 
-create_linter_for!(
-    GoogleNames,
-    SequencePattern::default()
-        .t_aco("Google")
-        .then_whitespace()
-        .then(Box::new(WordSet::all(&[
-            "Search",
-            "Cloud",
-            "Maps",
-            "Docs",
-            "Sheets",
-            "Slides",
-            "Drive",
-            "Meet",
-            "Gmail",
-            "Calendar",
-            "Chrome",
-            "ChromeOS",
-            "Android",
-            "Play",
-            "Bard",
-            "Gemini",
-            "YouTube",
-            "Photos",
-            "Analytics",
-            "AdSense",
-            "Pixel",
-            "Nest",
-            "Workspace",
-        ]))),
-    "When referring to Google products and services, make sure to treat them as proper nouns."
-);
+        let mut pattern_map = PatternMap::default();
 
-create_linter_for!(
-    AzureNames,
-    SequencePattern::default()
-        .t_aco("Azure")
-        .then_whitespace()
-        .then(Box::new(EitherPattern::new(vec![
-            Box::new(SequencePattern::aco("DevOps")),
-            Box::new(SequencePattern::aco("Functions")),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Cosmos")
-                    .then_whitespace()
-                    .t_aco("DB")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("SQL")
-                    .then_whitespace()
-                    .t_aco("Database")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Kubernetes")
-                    .then_whitespace()
-                    .t_aco("Service")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Virtual")
-                    .then_whitespace()
-                    .t_aco("Machines")
-            ),
-            Box::new(SequencePattern::aco("Monitor")),
-            Box::new(SequencePattern::aco("Storage")),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Active")
-                    .then_whitespace()
-                    .t_aco("Directory")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("App")
-                    .then_whitespace()
-                    .t_aco("Service")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Key")
-                    .then_whitespace()
-                    .t_aco("Vault")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Cognitive")
-                    .then_whitespace()
-                    .t_aco("Services")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Service")
-                    .then_whitespace()
-                    .t_aco("Bus")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Event")
-                    .then_whitespace()
-                    .t_aco("Hub")
-            )
-        ]))),
-    "When referring to Azure cloud services, make sure to treat them as proper nouns."
-);
+        for can_vers in canonical_versions {
+            let doc = Document::new_from_vec(
+                can_vers.as_ref().to_vec().into(),
+                &PlainEnglish,
+                &dictionary,
+            );
+            let pattern = ExactPhrase::from_document(&doc);
 
-create_linter_for!(
-    MicrosoftNames,
-    SequencePattern::default()
-        .t_aco("Microsoft")
-        .then_whitespace()
-        .then(Box::new(EitherPattern::new(vec![
-            Box::new(WordSet::all(&[
-                "Windows",
-                "Office",
-                "Teams",
-                "Excel",
-                "PowerPoint",
-                "Word",
-                "Outlook",
-                "OneDrive",
-                "SharePoint",
-                "Xbox",
-                "Surface",
-                "Edge",
-                "Bing",
-                "Dynamics",
-            ])),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Visual")
-                    .then_whitespace()
-                    .t_aco("Studio")
-            )
-        ]))),
-    "When referring to Microsoft products and services, make sure to treat them as proper nouns."
-);
+            pattern_map.insert(pattern, doc);
+        }
 
-create_linter_for!(
-    AppleNames,
-    SequencePattern::default()
-        .t_aco("Apple")
-        .then_whitespace()
-        .then(Box::new(EitherPattern::new(vec![
-            Box::new(WordSet::all(&[
-                "iPhone", "iPad", "iMac", "MacBook", "Watch", "TV", "Music", "Arcade", "iCloud",
-                "Safari", "HomeKit", "CarPlay",
-            ])),
-            Box::new(
-                SequencePattern::aco("MacBook")
-                    .then_whitespace()
-                    .t_aco("Pro")
-            ),
-            Box::new(
-                SequencePattern::aco("MacBook")
-                    .then_whitespace()
-                    .t_aco("Air")
-            ),
-            Box::new(SequencePattern::aco("Mac").then_whitespace().t_aco("Pro")),
-            Box::new(SequencePattern::aco("Mac").then_whitespace().t_aco("Mini")),
-            Box::new(SequencePattern::aco("AirPods")),
-            Box::new(
-                SequencePattern::aco("AirPods")
-                    .then_whitespace()
-                    .t_aco("Pro")
-            ),
-            Box::new(
-                SequencePattern::aco("AirPods")
-                    .then_whitespace()
-                    .t_aco("Max")
-            ),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Vision")
-                    .then_whitespace()
-                    .t_aco("Pro")
-            )
-        ]))),
-    "When referring to Apple products and services, make sure to treat them as proper nouns."
-);
+        Self {
+            pattern_map,
+            dictionary: dictionary.clone(),
+            description: description.to_string(),
+        }
+    }
+}
 
-create_linter_for!(
-    MetaNames,
-    SequencePattern::aco("Meta")
-        .then_whitespace()
-        .then(Box::new(EitherPattern::new(vec![
-            Box::new(WordSet::all(&[
-                "Oculus", "Portals", "Quest", "Gaming", "Horizon",
-            ])),
-            Box::new(
-                SequencePattern::default()
-                    .t_aco("Reality")
-                    .then_whitespace()
-                    .t_aco("Labs")
-            ),
-        ]))),
-    "When referring to Meta products and services, make sure to treat them as proper nouns."
-);
+impl<D: Dictionary + 'static> PatternLinter for ProperNounCapitalizationLinter<D> {
+    fn pattern(&self) -> &dyn Pattern {
+        &self.pattern_map
+    }
+
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
+        let canonical_case = self.pattern_map.lookup(matched_tokens, source).unwrap();
+
+        let mut broken = false;
+
+        for (err_token, correct_token) in matched_tokens.iter().zip(canonical_case.fat_tokens()) {
+            let err_chars = err_token.span.get_content(source);
+            if err_chars != correct_token.content {
+                broken = true;
+                break;
+            }
+        }
+
+        if !broken {
+            return None;
+        }
+
+        Some(Lint {
+            span: matched_tokens.span()?,
+            lint_kind: LintKind::Capitalization,
+            suggestions: vec![Suggestion::ReplaceWith(
+                canonical_case.get_source().to_vec(),
+            )],
+            message: self.description.to_string(),
+            priority: 31,
+        })
+    }
+
+    fn description(&self) -> &str {
+        self.description.as_str()
+    }
+}
+
+#[derive(Serialize, Deserialize)]
+struct RuleEntry {
+    canonical: Vec<String>,
+    description: String,
+}
+
+/// For the time being, this panics on invalid JSON.
+/// Do not use with user provided JSON.
+fn lint_group_from_json(json: &str, dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
+    let mut group = LintGroup::empty();
+
+    let rules: HashMap<String, RuleEntry> = serde_json::from_str(json).unwrap();
+
+    for (key, rule) in rules.into_iter() {
+        group.add_pattern_linter(
+            key,
+            Box::new(ProperNounCapitalizationLinter::new_strs(
+                rule.canonical,
+                rule.description,
+                dictionary.clone(),
+            )),
+        );
+    }
+
+    group.set_all_rules_to(Some(true));
+
+    group
+}
+
+pub fn lint_group(dictionary: Arc<impl Dictionary + 'static>) -> LintGroup {
+    lint_group_from_json(include_str!("../../proper_noun_rules.json"), dictionary)
+}
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
+    use crate::{
+        FstDictionary,
+        linting::tests::{assert_lint_count, assert_suggestion_result},
+    };
 
-    use super::{Americas, MetaNames, MicrosoftNames, UnitedOrganizations};
+    use super::lint_group;
 
     #[test]
     fn americas_lowercase() {
-        assert_suggestion_result("south america", Americas::default(), "South America");
-        assert_suggestion_result("north america", Americas::default(), "North America");
+        assert_suggestion_result(
+            "south america",
+            lint_group(FstDictionary::curated()),
+            "South America",
+        );
+        assert_suggestion_result(
+            "north america",
+            lint_group(FstDictionary::curated()),
+            "North America",
+        );
     }
 
     #[test]
     fn americas_uppercase() {
-        assert_suggestion_result("SOUTH AMERICA", Americas::default(), "South America");
-        assert_suggestion_result("NORTH AMERICA", Americas::default(), "North America");
+        assert_suggestion_result(
+            "SOUTH AMERICA",
+            lint_group(FstDictionary::curated()),
+            "South America",
+        );
+        assert_suggestion_result(
+            "NORTH AMERICA",
+            lint_group(FstDictionary::curated()),
+            "North America",
+        );
     }
 
     #[test]
     fn americas_allow_correct() {
-        assert_lint_count("South America", Americas::default(), 0);
-        assert_lint_count("North America", Americas::default(), 0);
+        assert_lint_count("South America", lint_group(FstDictionary::curated()), 0);
+        assert_lint_count("North America", lint_group(FstDictionary::curated()), 0);
+    }
+
+    #[test]
+    fn issue_798() {
+        assert_suggestion_result(
+            "The United states is a big country.",
+            lint_group(FstDictionary::curated()),
+            "The United States is a big country.",
+        );
     }
 
     #[test]
     fn united_nations_uppercase() {
         assert_suggestion_result(
             "UNITED NATIONS",
-            UnitedOrganizations::default(),
+            lint_group(FstDictionary::curated()),
             "United Nations",
         );
     }
@@ -477,26 +200,26 @@ mod tests {
     fn united_arab_emirates_lowercase() {
         assert_suggestion_result(
             "UNITED ARAB EMIRATES",
-            UnitedOrganizations::default(),
+            lint_group(FstDictionary::curated()),
             "United Arab Emirates",
         );
     }
 
     #[test]
     fn united_nations_allow_correct() {
-        assert_lint_count("United Nations", UnitedOrganizations::default(), 0);
+        assert_lint_count("United Nations", lint_group(FstDictionary::curated()), 0);
     }
 
     #[test]
     fn meta_allow_correct() {
-        assert_lint_count("Meta Quest", MetaNames::default(), 0);
+        assert_lint_count("Meta Quest", lint_group(FstDictionary::curated()), 0);
     }
 
     #[test]
     fn microsoft_lowercase() {
         assert_suggestion_result(
             "microsoft visual studio",
-            MicrosoftNames::default(),
+            lint_group(FstDictionary::curated()),
             "Microsoft Visual Studio",
         );
     }
@@ -505,8 +228,99 @@ mod tests {
     fn microsoft_first_word_is_correct() {
         assert_suggestion_result(
             "Microsoft visual studio",
-            MicrosoftNames::default(),
+            lint_group(FstDictionary::curated()),
             "Microsoft Visual Studio",
+        );
+    }
+
+    #[test]
+    fn test_atlantic_ocean_lowercase() {
+        let dictionary = FstDictionary::curated();
+        assert_suggestion_result("atlantic ocean", lint_group(dictionary), "Atlantic Ocean");
+    }
+
+    #[test]
+    fn test_pacific_ocean_lowercase() {
+        let dictionary = FstDictionary::curated();
+        assert_suggestion_result("pacific ocean", lint_group(dictionary), "Pacific Ocean");
+    }
+
+    #[test]
+    fn test_indian_ocean_lowercase() {
+        let dictionary = FstDictionary::curated();
+        assert_suggestion_result("indian ocean", lint_group(dictionary), "Indian Ocean");
+    }
+
+    #[test]
+    fn test_southern_ocean_lowercase() {
+        let dictionary = FstDictionary::curated();
+        assert_suggestion_result("southern ocean", lint_group(dictionary), "Southern Ocean");
+    }
+
+    #[test]
+    fn test_arctic_ocean_lowercase() {
+        let dictionary = FstDictionary::curated();
+        assert_suggestion_result("arctic ocean", lint_group(dictionary), "Arctic Ocean");
+    }
+
+    #[test]
+    fn test_mediterranean_sea_lowercase() {
+        let dictionary = FstDictionary::curated();
+        assert_suggestion_result(
+            "mediterranean sea",
+            lint_group(dictionary),
+            "Mediterranean Sea",
+        );
+    }
+
+    #[test]
+    fn test_caribbean_sea_lowercase() {
+        let dictionary = FstDictionary::curated();
+        assert_suggestion_result("caribbean sea", lint_group(dictionary), "Caribbean Sea");
+    }
+
+    #[test]
+    fn test_south_china_sea_lowercase() {
+        let dictionary = FstDictionary::curated();
+        assert_suggestion_result("south china sea", lint_group(dictionary), "South China Sea");
+    }
+
+    #[test]
+    fn test_atlantic_ocean_correct() {
+        let dictionary = FstDictionary::curated();
+        assert_lint_count("Atlantic Ocean", lint_group(dictionary), 0);
+    }
+
+    #[test]
+    fn test_pacific_ocean_correct() {
+        let dictionary = FstDictionary::curated();
+        assert_lint_count("Pacific Ocean", lint_group(dictionary), 0);
+    }
+
+    #[test]
+    fn test_indian_ocean_correct() {
+        let dictionary = FstDictionary::curated();
+        assert_lint_count("Indian Ocean", lint_group(dictionary), 0);
+    }
+
+    #[test]
+    fn test_mediterranean_sea_correct() {
+        let dictionary = FstDictionary::curated();
+        assert_lint_count("Mediterranean Sea", lint_group(dictionary), 0);
+    }
+
+    #[test]
+    fn test_south_china_sea_correct() {
+        let dictionary = FstDictionary::curated();
+        assert_lint_count("South China Sea", lint_group(dictionary), 0);
+    }
+
+    #[test]
+    fn day_one_in_sentence() {
+        assert_suggestion_result(
+            "I love day one. It is the best journaling app.",
+            lint_group(FstDictionary::curated()),
+            "I love Day One. It is the best journaling app.",
         );
     }
 }

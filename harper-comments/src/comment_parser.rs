@@ -2,18 +2,18 @@ use std::path::Path;
 
 use comment_parsers::{Go, JavaDoc, JsDoc, Unit};
 use harper_core::parsers::{self, MarkdownOptions, Parser};
-use harper_core::{FullDictionary, Token};
-use harper_tree_sitter::TreeSitterMasker;
+use harper_core::{MutableDictionary, Token};
 use tree_sitter::Node;
 
 use crate::comment_parsers;
+use crate::masker::CommentMasker;
 
 pub struct CommentParser {
-    inner: parsers::Mask<TreeSitterMasker, Box<dyn Parser>>,
+    inner: parsers::Mask<CommentMasker, Box<dyn Parser>>,
 }
 
 impl CommentParser {
-    pub fn create_ident_dict(&self, source: &[char]) -> Option<FullDictionary> {
+    pub fn create_ident_dict(&self, source: &[char]) -> Option<MutableDictionary> {
         self.inner.masker.create_ident_dict(source)
     }
 
@@ -41,6 +41,8 @@ impl CommentParser {
             "shellscript" => tree_sitter_bash::language(),
             "java" => tree_sitter_java::language(),
             "haskell" => tree_sitter_haskell::language(),
+            "php" => tree_sitter_php::language_php(),
+            "dart" => tree_sitter_dart::language(),
             _ => return None,
         };
 
@@ -55,7 +57,7 @@ impl CommentParser {
 
         Some(Self {
             inner: parsers::Mask::new(
-                TreeSitterMasker::new(language, Self::node_condition),
+                CommentMasker::new(language, Self::node_condition),
                 comment_parser,
             ),
         })
@@ -94,6 +96,8 @@ impl CommentParser {
             "bash" => "shellscript",
             "java" => "java",
             "hs" => "haskell",
+            "php" => "php",
+            "dart" => "dart",
             _ => return None,
         })
     }

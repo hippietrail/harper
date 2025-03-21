@@ -2,6 +2,8 @@ use std::ops::Range;
 
 use serde::{Deserialize, Serialize};
 
+use crate::CharStringExt;
+
 /// A window in a [`char`] sequence.
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default, PartialEq, Eq)]
 pub struct Span {
@@ -57,7 +59,14 @@ impl Span {
 
     /// Get the associated content. Will panic if any aspect is invalid.
     pub fn get_content<'a>(&self, source: &'a [char]) -> &'a [char] {
-        self.try_get_content(source).unwrap()
+        match self.try_get_content(source) {
+            Some(v) => v,
+            None => panic!(
+                "Could not get position {:?} within \"{}\"",
+                self,
+                source.to_string()
+            ),
+        }
     }
 
     pub fn get_content_string(&self, source: &[char]) -> String {
@@ -95,11 +104,15 @@ impl Span {
     }
 
     // Subtract an amount to a copy of both [`Self::start`] and [`Self::end`]
-    pub fn pulled_by(&self, by: usize) -> Self {
+    pub fn pulled_by(&self, by: usize) -> Option<Self> {
+        if by > self.start {
+            return None;
+        }
+
         let mut clone = *self;
         clone.start -= by;
         clone.end -= by;
-        clone
+        Some(clone)
     }
 
     // Add an amount a copy of both [`Self::start`] and [`Self::end`]

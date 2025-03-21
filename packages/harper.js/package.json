@@ -1,6 +1,6 @@
 {
 	"name": "harper.js",
-	"version": "0.17.0",
+	"version": "0.25.1",
 	"license": "Apache-2.0",
 	"author": "Elijah Potter",
 	"description": "The grammar checker for developers.",
@@ -17,20 +17,28 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build",
-		"test": "vitest run --browser chromium && vitest run --browser firefox"
+		"test": "vitest run",
+		"test:debug": "vitest run --browser.headless false --testTimeout 0",
+		"api:extractor": "api-extractor run",
+		"api:documenter": "api-documenter markdown -i temp"
 	},
 	"devDependencies": {
-		"@microsoft/api-documenter": "^7.26.5",
-		"@microsoft/api-extractor": "^7.49.1",
-		"@vitest/browser": "^2.1.8",
+		"@microsoft/api-documenter": "^7.26.10",
+		"@microsoft/api-extractor": "^7.50.1",
+		"@vitest/browser": "^3.0.6",
 		"playwright": "^1.49.1",
-		"typescript": "~5.6.2",
-		"vite": "^5.4.12",
+		"typescript": "catalog:",
+		"vite": "^6.1.0",
 		"vite-plugin-dts": "^4.5.0",
 		"vite-plugin-virtual": "^0.3.0",
-		"vitest": "^2.1.8",
-		"wasm": "link:../../harper-wasm/pkg"
+		"vitest": "^3.0.5",
+		"harper-wasm": "workspace:*",
+		"type-fest": "^4.37.0",
+		"p-memoize": "^7.1.1",
+		"p-lazy": "^5.0.0"
 	},
 	"main": "dist/harper.js",
-	"types": "dist/harper.d.ts"
+	"types": "dist/harper.d.ts",
+	"sideEffects": false,
+	"files": ["dist"]
 }

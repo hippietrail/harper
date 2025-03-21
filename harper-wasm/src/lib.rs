@@ -4,12 +4,15 @@ use std::convert::Into;
 use std::sync::Arc;
 
 use harper_core::language_detection::is_doc_likely_english;
-use harper_core::linting::{LintGroup, LintGroupConfig, Linter as _};
+use harper_core::linting::{LintGroup, Linter as _};
 use harper_core::parsers::{IsolateEnglish, Markdown, Parser, PlainEnglish};
-use harper_core::{remove_overlaps, Document, FstDictionary, FullDictionary, Lrc};
+use harper_core::{
+    CharString, Dictionary, Document, FstDictionary, IgnoredLints, Lrc, MergedDictionary,
+    MutableDictionary, WordMetadata, remove_overlaps,
+};
 use serde::{Deserialize, Serialize};
-use wasm_bindgen::prelude::wasm_bindgen;
 use wasm_bindgen::JsValue;
+use wasm_bindgen::prelude::wasm_bindgen;
 
 /// Setup the WebAssembly module's logging.
 ///
@@ -43,15 +46,52 @@ make_serialize_fns_for!(Lint);
 make_serialize_fns_for!(Span);
 
 #[wasm_bindgen]
+#[derive(Serialize, Deserialize, Debug, Copy, Clone)]
 pub enum Language {
     Plain,
     Markdown,
 }
 
+impl Language {
+    fn create_parser(&self) -> Box<dyn Parser> {
+        match self {
+            Language::Plain => Box::new(PlainEnglish),
+            // TODO: Have a way to configure the Markdown parser
+            Language::Markdown => Box::new(Markdown::default()),
+        }
+    }
+}
+
+#[wasm_bindgen]
+#[derive(Serialize, Deserialize, Debug, Clone, Copy)]
+pub enum Dialect {
+    American,
+    British,
+    Australian,
+    Canadian,
+}
+
+impl From<Dialect> for harper_core::Dialect {
+    fn from(dialect: Dialect) -> Self {
+        match dialect {
+            Dialect::American => harper_core::Dialect::American,
+            Dialect::Canadian => harper_core::Dialect::Canadian,
+            Dialect::Australian => harper_core::Dialect::Australian,
+            Dialect::British => harper_core::Dialect::British,
+        }
+    }
+}
+
 #[wasm_bindgen]
 pub struct Linter {
-    lint_group: LintGroup<Arc<FstDictionary>>,
-    dictionary: Arc<FstDictionary>,
+    lint_group: LintGroup,
+    /// The user-supplied dictionary.
+    ///
+    /// To make changes affect linting, run [`Self::synchronize_lint_dict`].
+    user_dictionary: MutableDictionary,
+    dictionary: Arc<MergedDictionary>,
+    ignored_lints: IgnoredLints,
+    dialect: Dialect,
 }
 
 #[wasm_bindgen]
@@ -59,13 +99,38 @@ impl Linter {
     /// Construct a new `Linter`.
     /// Note that this can mean constructing the curated dictionary, which is the most expensive operation
     /// in Harper.
-    pub fn new() -> Self {
-        let dictionary = FstDictionary::curated();
+    pub fn new(dialect: Dialect) -> Self {
+        let dictionary = Self::construct_merged_dict(MutableDictionary::default());
+        let lint_group = LintGroup::new_curated_empty_config(dictionary.clone(), dialect.into());
 
         Self {
-            lint_group: LintGroup::new(LintGroupConfig::default(), dictionary.clone()),
+            lint_group,
+            user_dictionary: MutableDictionary::new(),
             dictionary,
+            ignored_lints: IgnoredLints::default(),
+            dialect,
         }
+    }
+
+    /// Update the dictionary inside [`Self::lint_group`] to include [`Self::user_dictionary`].
+    /// This clears any linter caches, so use it sparingly.
+    fn synchronize_lint_dict(&mut self) {
+        let mut lint_config = self.lint_group.config.clone();
+        self.dictionary = Self::construct_merged_dict(self.user_dictionary.clone());
+        self.lint_group =
+            LintGroup::new_curated_empty_config(self.dictionary.clone(), self.dialect.into());
+        self.lint_group.config.merge_from(&mut lint_config);
+    }
+
+    /// Construct the actual dictionary to be used for linting and parsing from the curated dictionary
+    /// and [`Self::user_dictionary`].
+    fn construct_merged_dict(user_dictionary: MutableDictionary) -> Arc<MergedDictionary> {
+        let mut lint_dict = MergedDictionary::new();
+
+        lint_dict.add_dictionary(FstDictionary::curated());
+        lint_dict.add_dictionary(Arc::new(user_dictionary.clone()));
+
+        Arc::new(lint_dict)
     }
 
     /// Helper method to quickly check if a plain string is likely intended to be English
@@ -95,13 +160,19 @@ impl Linter {
     }
 
     pub fn set_lint_config_from_json(&mut self, json: String) -> Result<(), String> {
-        self.lint_group.config = serde_json::from_str(&json).map_err(|v| v.to_string())?;
+        self.lint_group
+            .config
+            .merge_from(&mut serde_json::from_str(&json).map_err(|v| v.to_string())?);
         Ok(())
     }
 
     /// Get a Record containing the descriptions of all the linting rules.
     pub fn get_lint_descriptions_as_object(&self) -> JsValue {
-        serde_wasm_bindgen::to_value(&self.lint_group.all_descriptions()).unwrap()
+        let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+        self.lint_group
+            .all_descriptions()
+            .serialize(&serializer)
+            .unwrap()
     }
 
     pub fn get_lint_config_as_object(&self) -> JsValue {
@@ -112,9 +183,20 @@ impl Linter {
     }
 
     pub fn set_lint_config_from_object(&mut self, object: JsValue) -> Result<(), String> {
-        self.lint_group.config =
-            serde_wasm_bindgen::from_value(object).map_err(|v| v.to_string())?;
+        self.lint_group
+            .config
+            .merge_from(&mut serde_wasm_bindgen::from_value(object).map_err(|v| v.to_string())?);
         Ok(())
+    }
+
+    pub fn ignore_lint(&mut self, lint: Lint) {
+        let document = Document::new_from_vec(
+            lint.source.into(),
+            &lint.language.create_parser(),
+            &self.dictionary,
+        );
+
+        self.ignored_lints.ignore_lint(&lint.inner, &document);
     }
 
     /// Perform the configured linting on the provided text.
@@ -122,28 +204,75 @@ impl Linter {
         let source: Vec<_> = text.chars().collect();
         let source = Lrc::new(source);
 
-        let parser: Box<dyn Parser> = match language {
-            Language::Plain => Box::new(PlainEnglish),
-            // TODO: Have a way to configure the Markdown parser
-            Language::Markdown => Box::new(Markdown::default()),
-        };
+        let parser = language.create_parser();
 
-        let document = Document::new_from_vec(source.clone(), &parser, &FullDictionary::curated());
+        let document = Document::new_from_vec(source.clone(), &parser, &self.dictionary);
+
+        let temp = self.lint_group.config.clone();
+        self.lint_group.config.fill_with_curated();
 
         let mut lints = self.lint_group.lint(&document);
 
+        self.lint_group.config = temp;
+
         remove_overlaps(&mut lints);
+
+        self.ignored_lints.remove_ignored(&mut lints, &document);
 
         lints
             .into_iter()
-            .map(|l| Lint::new(l, source.to_vec()))
+            .map(|l| Lint::new(l, source.to_vec(), language))
             .collect()
     }
-}
 
-impl Default for Linter {
-    fn default() -> Self {
-        Self::new()
+    /// Export the linter's ignored lints as a privacy-respecting JSON list of hashes.
+    pub fn export_ignored_lints(&self) -> String {
+        serde_json::to_string(&self.ignored_lints).unwrap()
+    }
+
+    /// Import into the linter's ignored lints from a privacy-respecting JSON list of hashes.
+    pub fn import_ignored_lints(&mut self, json: String) -> Result<(), String> {
+        let list: IgnoredLints = serde_json::from_str(&json).map_err(|err| err.to_string())?;
+
+        self.ignored_lints.append(list);
+
+        Ok(())
+    }
+
+    pub fn clear_ignored_lints(&mut self) {
+        self.ignored_lints = IgnoredLints::new();
+    }
+
+    /// Import words into the dictionary.
+    pub fn import_words(&mut self, additional_words: Vec<String>) {
+        let init_len = self.user_dictionary.word_count();
+
+        self.user_dictionary
+            .extend_words(additional_words.iter().map(|word| {
+                (
+                    word.chars().collect::<CharString>(),
+                    WordMetadata::default(),
+                )
+            }));
+
+        // Only synchronize if we added words that were not there before.
+        if self.user_dictionary.word_count() > init_len {
+            self.synchronize_lint_dict();
+        }
+    }
+
+    /// Export words from the dictionary.
+    /// Note: this will only return words previously added by [`Self::import_words`].
+    pub fn export_words(&mut self) -> Vec<String> {
+        self.user_dictionary
+            .words_iter()
+            .map(|v| v.iter().collect())
+            .collect()
+    }
+
+    /// Get the dialect this struct was constructed for.
+    pub fn get_dialect(&self) -> Dialect {
+        self.dialect
     }
 }
 
@@ -219,12 +348,21 @@ impl Suggestion {
 pub struct Lint {
     inner: harper_core::linting::Lint,
     source: Vec<char>,
+    language: Language,
 }
 
 #[wasm_bindgen]
 impl Lint {
-    pub(crate) fn new(inner: harper_core::linting::Lint, source: Vec<char>) -> Self {
-        Self { inner, source }
+    pub(crate) fn new(
+        inner: harper_core::linting::Lint,
+        source: Vec<char>,
+        language: Language,
+    ) -> Self {
+        Self {
+            inner,
+            source,
+            language,
+        }
     }
 
     /// Get the content of the source material pointed to by [`Self::span`]
@@ -234,6 +372,11 @@ impl Lint {
 
     /// Get a string representing the general category of the lint.
     pub fn lint_kind(&self) -> String {
+        self.inner.lint_kind.to_string_key()
+    }
+
+    /// Get a string representing the general category of the lint.
+    pub fn lint_kind_pretty(&self) -> String {
         self.inner.lint_kind.to_string()
     }
 
@@ -264,16 +407,16 @@ impl Lint {
 
 #[wasm_bindgen]
 pub fn get_default_lint_config_as_json() -> String {
-    let mut config = LintGroupConfig::default();
-    config.fill_default_values();
+    let config =
+        LintGroup::new_curated(MutableDictionary::new().into(), Dialect::American.into()).config;
 
     serde_json::to_string(&config).unwrap()
 }
 
 #[wasm_bindgen]
 pub fn get_default_lint_config() -> JsValue {
-    let mut config = LintGroupConfig::default();
-    config.fill_default_values();
+    let config =
+        LintGroup::new_curated(MutableDictionary::new().into(), Dialect::American.into()).config;
 
     // Important for downstream JSON serialization
     let serializer = serde_wasm_bindgen::Serializer::json_compatible();

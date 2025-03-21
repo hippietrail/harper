@@ -1,5 +1,8 @@
 {
-	"files.associations": { "git-commit": "git-commit" },
-	"harper-ls.linters.spell_check": true,
-	"harper-ls.linters.repeated_words": true
+	"files.associations": {
+		"git-commit": "git-commit"
+	},
+	"harper.linters.SpellCheck": true,
+	"harper.linters.RepeatedWords": true,
+	"harper.dialect": "American"
 }

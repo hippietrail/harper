@@ -5,20 +5,24 @@ mod char_ext;
 mod char_string;
 mod currency;
 mod document;
+mod edit_distance;
 mod fat_token;
+mod ignored_lints;
 pub mod language_detection;
 mod lexing;
 pub mod linting;
 mod mask;
+mod number;
 pub mod parsers;
 pub mod patterns;
 mod punctuation;
 mod span;
-mod spell;
+pub mod spell;
 mod sync;
 mod title_case;
 mod token;
 mod token_kind;
+mod token_string_ext;
 mod vec_ext;
 mod word_metadata;
 
@@ -28,17 +32,22 @@ pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use document::Document;
 pub use fat_token::FatToken;
+pub use ignored_lints::IgnoredLints;
 use linting::Lint;
 pub use mask::{Mask, Masker};
+pub use number::{Number, NumberSuffix};
 pub use punctuation::{Punctuation, Quote};
 pub use span::Span;
-pub use spell::{Dictionary, FstDictionary, FullDictionary, MergedDictionary};
-pub use sync::Lrc;
+pub use spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary, WordId};
+pub use sync::{LSend, Lrc};
 pub use title_case::{make_title_case, make_title_case_str};
-pub use token::{Token, TokenStringExt};
-pub use token_kind::{NumberSuffix, TokenKind};
+pub use token::Token;
+pub use token_kind::TokenKind;
+pub use token_string_ext::TokenStringExt;
 pub use vec_ext::VecExt;
-pub use word_metadata::{AdverbData, ConjunctionData, NounData, Tense, VerbData, WordMetadata};
+pub use word_metadata::{
+    AdverbData, ConjunctionData, Dialect, NounData, PronounData, Tense, VerbData, WordMetadata,
+};
 
 /// A utility function that removes overlapping lints in a vector,
 /// keeping the more important ones.
@@ -68,20 +77,16 @@ pub fn remove_overlaps(lints: &mut Vec<Lint>) {
 #[cfg(test)]
 mod tests {
     use crate::{
-        linting::{LintGroup, LintGroupConfig, Linter},
-        remove_overlaps, Document, FstDictionary,
+        Dialect, Document, FstDictionary,
+        linting::{LintGroup, Linter},
+        remove_overlaps,
     };
 
     #[test]
     fn keeps_space_lint() {
         let doc = Document::new_plain_english_curated("Ths  tet");
 
-        let lint_config = LintGroupConfig {
-            spell_check: Some(true),
-            spaces: Some(true),
-            ..LintGroupConfig::none()
-        };
-        let mut linter = LintGroup::new(lint_config, FstDictionary::curated());
+        let mut linter = LintGroup::new_curated(FstDictionary::curated(), Dialect::American);
 
         let mut lints = linter.lint(&doc);
 

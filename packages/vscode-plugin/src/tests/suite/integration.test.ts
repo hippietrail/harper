@@ -1,6 +1,6 @@
 import type { Extension } from 'vscode';
 
-import { commands, ConfigurationTarget, Uri, workspace } from 'vscode';
+import { ConfigurationTarget, type Uri, commands, workspace } from 'vscode';
 
 import {
 	activateHarper,
@@ -9,7 +9,8 @@ import {
 	createRange,
 	getActualDiagnostics,
 	openFile,
-	sleep
+	openUntitled,
+	sleep,
 } from './helper';
 
 describe('Integration >', () => {
@@ -28,25 +29,40 @@ describe('Integration >', () => {
 		expect(harper.isActive).toBe(true);
 	});
 
-	it('gives correct diagnostics', () => {
+	it('gives correct diagnostics for files', () => {
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
 			createExpectedDiagnostics(
 				{
 					message: 'Did you mean to repeat this word?',
-					range: createRange(2, 39, 2, 48)
+					range: createRange(2, 39, 2, 48),
 				},
 				{
 					message: 'Did you mean to spell “errorz” this way?',
-					range: createRange(2, 26, 2, 32)
-				}
-			)
+					range: createRange(2, 26, 2, 32),
+				},
+			),
+		);
+	});
+
+	it('gives correct diagnostics for untitled', async () => {
+		const untitledUri = await openUntitled('Errorz');
+
+		// Wait for `harper-ls` to send diagnostics
+		await sleep(500);
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(untitledUri),
+			createExpectedDiagnostics({
+				message: 'Did you mean to spell “Errorz” this way?',
+				range: createRange(0, 0, 0, 6),
+			}),
 		);
 	});
 
 	it('updates diagnostics on configuration change', async () => {
-		const config = workspace.getConfiguration('harper-ls.linters');
-		await config.update('repeated_words', false, ConfigurationTarget.Workspace);
+		const config = workspace.getConfiguration('harper.linters');
+		await config.update('RepeatedWords', false, ConfigurationTarget.Workspace);
 		// Wait for `harper-ls` to update diagnostics
 		await sleep(300);
 
@@ -54,12 +70,12 @@ describe('Integration >', () => {
 			getActualDiagnostics(markdownUri),
 			createExpectedDiagnostics({
 				message: 'Did you mean to spell “errorz” this way?',
-				range: createRange(2, 26, 2, 32)
-			})
+				range: createRange(2, 26, 2, 32),
+			}),
 		);
 
 		// Set config back to default value
-		await config.update('repeated_words', true, ConfigurationTarget.Workspace);
+		await config.update('RepeatedWords', true, ConfigurationTarget.Workspace);
 	});
 
 	it('updates diagnostics when files are deleted', async () => {
@@ -73,7 +89,7 @@ describe('Integration >', () => {
 
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
-			createExpectedDiagnostics()
+			createExpectedDiagnostics(),
 		);
 
 		// Restore and reopen deleted file
@@ -89,7 +105,7 @@ describe('Integration >', () => {
 
 		compareActualVsExpectedDiagnostics(
 			getActualDiagnostics(markdownUri),
-			createExpectedDiagnostics()
+			createExpectedDiagnostics(),
 		);
 
 		// Restore and reopen deleted file

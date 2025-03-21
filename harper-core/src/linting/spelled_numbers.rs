@@ -1,5 +1,5 @@
 use crate::linting::{LintKind, Linter, Suggestion};
-use crate::{Document, Lint, TokenStringExt};
+use crate::{Document, Lint, Number, TokenStringExt};
 
 /// Linter that checks to make sure small integers (< 10) are spelled
 /// out.
@@ -11,15 +11,22 @@ impl Linter for SpelledNumbers {
         let mut lints = Vec::new();
 
         for number_tok in document.iter_numbers() {
-            let (number, _suffix) = number_tok.kind.number().unwrap();
-            let number: f64 = number.into();
+            let Number {
+                value,
+                suffix: None,
+                ..
+            } = number_tok.kind.as_number().unwrap()
+            else {
+                continue;
+            };
+            let value: f64 = (*value).into();
 
-            if (number - number.floor()).abs() < f64::EPSILON && number < 10. {
+            if (value - value.floor()).abs() < f64::EPSILON && value < 10. {
                 lints.push(Lint {
                     span: number_tok.span,
                     lint_kind: LintKind::Readability,
                     suggestions: vec![Suggestion::ReplaceWith(
-                        spell_out_number(number as u64).unwrap().chars().collect(),
+                        spell_out_number(value as u64).unwrap().chars().collect(),
                     )],
                     message: "Try to spell out numbers less than ten.".to_string(),
                     priority: 63,
@@ -96,7 +103,7 @@ fn spell_out_number(num: u64) -> Option<String> {
 mod tests {
     use crate::linting::tests::assert_suggestion_result;
 
-    use super::{spell_out_number, SpelledNumbers};
+    use super::{SpelledNumbers, spell_out_number};
 
     #[test]
     fn produces_zero() {

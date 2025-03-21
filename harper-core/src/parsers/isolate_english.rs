@@ -1,4 +1,4 @@
-use crate::{language_detection::is_likely_english, Dictionary};
+use crate::{Dictionary, language_detection::is_likely_english};
 
 use super::{Parser, Token, TokenStringExt};
 
@@ -26,7 +26,7 @@ impl<D: Dictionary> Parser for IsolateEnglish<D> {
 
         for chunk in tokens.iter_chunks() {
             if chunk.len() < 5 || is_likely_english(chunk, source, &self.dict) {
-                english_tokens.extend(chunk);
+                english_tokens.extend_from_slice(chunk);
             }
         }
 
@@ -36,7 +36,7 @@ impl<D: Dictionary> Parser for IsolateEnglish<D> {
 
 #[cfg(test)]
 mod tests {
-    use crate::{parsers::PlainEnglish, Document, FstDictionary, TokenStringExt};
+    use crate::{Document, FstDictionary, TokenStringExt, parsers::PlainEnglish};
 
     use super::IsolateEnglish;
 

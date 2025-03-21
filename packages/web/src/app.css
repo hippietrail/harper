@@ -7,6 +7,10 @@
 		@apply list-disc pl-4;
 	}
 
+	ol {
+		@apply list-decimal pl-4;
+	}
+
 	h1 {
 		@apply text-5xl py-4;
 	}
@@ -17,6 +21,10 @@
 
 	h3 {
 		@apply text-xl sm:text-xl lg:text-2xl py-4;
+	}
+
+	h4 {
+		@apply font-bold;
 	}
 
 	p {
@@ -37,16 +45,16 @@
 }
 
 * {
-	font-family: Atkinson Hyperlegible;
+	font-family: Atkinson Hyperlegible, sans-serif;
 }
 
 code {
-	font-family: 'JetBrains Mono' !important;
+	font-family: "JetBrains Mono", monospace !important;
 	word-break: keep-all;
 }
 
 code * {
-	font-family: 'JetBrains Mono' !important;
+	font-family: "JetBrains Mono", monospace !important;
 }
 
 .underlinespecial {
@@ -58,7 +66,7 @@ code * {
 	transition-property: all;
 	transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 	transition-duration: 150ms;
-	content: '';
+	content: "";
 	display: block;
 	width: 100%;
 	height: var(--line-width);
@@ -94,13 +102,14 @@ textarea {
 }
 
 .header {
-	top: 6px !important;
+	padding-top: 6px;
+	mask-image: linear-gradient(to bottom, black 50%, transparent);
 }
 
-th[align='center'] {
+th[align="center"] {
 	text-align: center;
 }
 
-th[align='right'] {
+th[align="right"] {
 	text-align: right;
 }

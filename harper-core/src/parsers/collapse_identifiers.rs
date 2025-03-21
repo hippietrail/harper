@@ -26,9 +26,9 @@ impl CollapseIdentifiers {
 thread_local! {
     static WORD_OR_NUMBER: Lrc<SequencePattern> = Lrc::new(SequencePattern::default()
                 .then_any_word()
-                .then_one_or_more(Box::new(SequencePattern::default()
+                .then_one_or_more(SequencePattern::default()
         .then_case_separator()
-        .then_any_word())));
+        .then_any_word()));
 }
 
 impl Parser for CollapseIdentifiers {
@@ -60,8 +60,8 @@ impl Parser for CollapseIdentifiers {
 #[cfg(test)]
 mod tests {
     use crate::{
+        FstDictionary, MergedDictionary, MutableDictionary, WordMetadata,
         parsers::{PlainEnglish, StrParser},
-        FstDictionary, FullDictionary, MergedDictionary, WordMetadata,
     };
 
     use super::*;
@@ -99,7 +99,7 @@ mod tests {
                 .parse_str(source);
         assert_eq!(tokens.len(), 13);
 
-        let mut dict = FullDictionary::new();
+        let mut dict = MutableDictionary::new();
         dict.append_word_str("separated_identifier", WordMetadata::default());
 
         let mut merged_dict = MergedDictionary::new();
@@ -123,7 +123,7 @@ mod tests {
 
         assert_eq!(tokens.len(), 13);
 
-        let mut dict = FullDictionary::new();
+        let mut dict = MutableDictionary::new();
         dict.append_word_str("separated-identifier", WordMetadata::default());
 
         let mut merged_dict = MergedDictionary::new();
@@ -147,7 +147,7 @@ mod tests {
                 .parse_str(source);
         assert_eq!(tokens.len(), 15);
 
-        let mut dict = FullDictionary::new();
+        let mut dict = MutableDictionary::new();
         dict.append_word_str("separated_identifier_token", WordMetadata::default());
 
         let mut merged_dict = MergedDictionary::new();
@@ -170,7 +170,7 @@ mod tests {
                 .parse_str(source);
         assert_eq!(tokens.len(), 17);
 
-        let mut dict = FullDictionary::new();
+        let mut dict = MutableDictionary::new();
         dict.append_word_str("separated_identifier", WordMetadata::default());
 
         let mut merged_dict = MergedDictionary::new();
@@ -193,7 +193,7 @@ mod tests {
                 .parse_str(source);
         assert_eq!(tokens.len(), 15);
 
-        let mut dict = FullDictionary::new();
+        let mut dict = MutableDictionary::new();
         dict.append_word_str("separated_identifier", WordMetadata::default());
         dict.append_word_str("identifier_token", WordMetadata::default());
 
@@ -217,7 +217,7 @@ mod tests {
                 .parse_str(source);
         assert_eq!(tokens.len(), 15);
 
-        let mut dict = FullDictionary::new();
+        let mut dict = MutableDictionary::new();
         dict.append_word_str("separated_identifier_token", WordMetadata::default());
         dict.append_word_str("separated_identifier", WordMetadata::default());
 

@@ -30,7 +30,7 @@ Harper is even small enough to load via [WebAssembly.](https://writewithharper.c
 
 ## Language Support
 
-Harper currently only supports American English, but the core is extensible to support other languages, so we welcome contributions that allow for other language support.
+Harper currently only supports English, but the core is extensible to support other languages, so we welcome contributions that allow for other language support.
 
 ## Performance Issues
 
@@ -43,9 +43,16 @@ Just make sure to read [our contribution guidelines first.](https://github.com/a
 ## Links
 
 - [Frequently Asked Questions](https://writewithharper.com/docs/faq)
+- [Obsidian Documentation](https://writewithharper.com/docs/integrations/obsidian)
 - [`harper-ls` Documentation](https://writewithharper.com/docs/integrations/language-server)
-- [Neovim Support](https://writewithharper.com/docs/integrations/neovim)
+- Supported Editors' Documentation
+  - [Visual Studio Code](https://writewithharper.com/docs/integrations/visual-studio-code)
+  - [Neovim](https://writewithharper.com/docs/integrations/neovim)
+  - [Helix](https://writewithharper.com/docs/integrations/helix)
+  - [Emacs](https://writewithharper.com/docs/integrations/emacs)
+  - [Zed](https://writewithharper.com/docs/integrations/zed)
 - [`harper.js` Documentation](https://writewithharper.com/docs/harperjs/introduction)
+- [Official Discord Server](https://discord.com/invite/JBqcAaKrzQ)
 
 ## Huge Thanks
 

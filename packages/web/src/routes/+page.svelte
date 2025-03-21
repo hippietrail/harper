@@ -1,23 +1,23 @@
 <script module>
-	import Graph from '$lib/Graph.svelte';
-	import CodeLogo from '$lib/CodeLogo.svelte';
-	import Editor from '$lib/Editor.svelte';
-	import Section from '$lib/Section.svelte';
-	import Logo from '$lib/Logo.svelte';
-	import GitHubLogo from '$lib/GitHubLogo.svelte';
-	import ObsidianLogo from '$lib/ObsidianLogo.svelte';
+import CodeLogo from '$lib/CodeLogo.svelte';
+import Editor from '$lib/Editor.svelte';
+import GitHubLogo from '$lib/GitHubLogo.svelte';
+import Graph from '$lib/Graph.svelte';
+import Logo from '$lib/Logo.svelte';
+import ObsidianLogo from '$lib/ObsidianLogo.svelte';
+import Section from '$lib/Section.svelte';
 
-	export const frontmatter = {
-		home: false
-	};
+export const frontmatter = {
+	home: false,
+};
 
-	let width = $state(window.innerWidth);
+let width = $state(window.innerWidth);
 
-	window.addEventListener('resize', () => {
-		width = window.innerWidth;
-	});
+window.addEventListener('resize', () => {
+	width = window.innerWidth;
+});
 
-	let mobile = $derived(width < 640);
+let mobile = $derived(width < 640);
 </script>
 
 <div class="w-full flex flex-col items-center">
@@ -90,13 +90,15 @@
 		>, Neovim,
 		<a href="https://github.com/Stef16Robbe/harper_zed">Zed</a>
 		and
-		<a href="/obsidian">Obsidian</a> integration is amazing.
+		<a href="/docs/integrations/obsidian">Obsidian</a> integration is amazing.
 	</span>
 
 	<img
-		src="/images/example_nvim.webp"
+		src={['/images/harper_wp_playground_screenshot.png', '/images/obsidian_screenshot.webp'][
+			Math.floor(Math.random() * 2)
+		]}
 		class="dark:invert rounded"
-		alt="A screenshot of Neovim with Harper suggestions."
+		alt="A screenshot of a text editor with Harper suggestions."
 	/></Section
 >
 

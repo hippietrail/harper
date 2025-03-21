@@ -1,15 +1,15 @@
 use crate::OffsetCursor;
 use harper_core::{
+    Punctuation, Token, TokenKind,
     parsers::{PlainEnglish, StrParser},
-    Punctuation, Token, TokenKind, WordMetadata,
 };
 use itertools::Itertools;
 use typst_syntax::{
+    Source,
     ast::{
         Arg, ArrayItem, AstNode, DestructuringItem, DictItem, Expr, Ident, LetBindingKind, Param,
         Pattern, Spread,
     },
-    Source,
 };
 
 /// Directly translate a span ($a) in a Typst source ($doc) to a token.
@@ -89,7 +89,7 @@ impl<'a> TypstTranslator<'a> {
                     .filter_map(|item| match item {
                         DestructuringItem::Pattern(pattern) => self.parse_pattern(pattern, offset),
                         DestructuringItem::Named(named) => merge![
-                            token!(named.name(), TokenKind::Word(WordMetadata::default())),
+                            token!(named.name(), TokenKind::Word(None)),
                             self.parse_pattern(named.pattern(), offset)
                         ],
                         DestructuringItem::Spread(spread) => merge![
@@ -137,19 +137,36 @@ impl<'a> TypstTranslator<'a> {
         /// Quickly recurse without needing to pass in local variables.
         /// Matches both single and many expressions.
         macro_rules! recurse {
-        ($inner:expr) => {
-            self.parse_expr($inner, offset)
-        };
-        ($($inner:expr),+) => {
-            merge![
-                $(recurse!($inner)),*
-            ]
-        };
-    }
+            ($inner:expr) => {
+                self.parse_expr($inner, offset)
+            };
+            ($($inner:expr),+) => {
+                merge![
+                    $(recurse!($inner)),*
+                ]
+            };
+        }
+
+        macro_rules! get_text {
+            ($expr:expr) => {
+                self.doc
+                    .get(self.doc.range($expr.span()).unwrap())
+                    .expect("Unable to get text from typst document span!")
+            };
+        }
 
         // Recurse on each element of an iterator
         let iter_recurse = |exprs: &mut dyn Iterator<Item = Expr>| {
-            Some(exprs.filter_map(|e| recurse!(e)).flatten().collect_vec())
+            let mut buf = Vec::new();
+            let exprs = exprs.collect_vec();
+            let exprs = super::convert_parbreaks(&mut buf, &exprs);
+            Some(
+                exprs
+                    .into_iter()
+                    .filter_map(|e| recurse!(e))
+                    .flatten()
+                    .collect_vec(),
+            )
         };
 
         // Parse the parameters of a function or closure
@@ -194,11 +211,7 @@ impl<'a> TypstTranslator<'a> {
         match expr {
             Expr::Text(text) => self.parse_english(text.get(), offset.push_to_span(text.span())),
             Expr::Space(a) => {
-                let mut chars = self
-                    .doc
-                    .get(self.doc.range(a.span()).unwrap())
-                    .unwrap()
-                    .chars();
+                let mut chars = get_text!(a).chars();
                 let first_char = chars.next().unwrap();
                 let length = chars.count() + 1;
 
@@ -225,9 +238,6 @@ impl<'a> TypstTranslator<'a> {
             Expr::Strong(strong) => iter_recurse(&mut strong.body().exprs()),
             Expr::Emph(emph) => iter_recurse(&mut emph.body().exprs()),
             Expr::Link(a) => token!(a, TokenKind::Url),
-            Expr::Ref(a) => {
-                token!(a, TokenKind::Word(WordMetadata::default()))
-            }
             Expr::Heading(heading) => iter_recurse(&mut heading.body().exprs()),
             Expr::List(list_item) => iter_recurse(&mut list_item.body().exprs()),
             Expr::Enum(enum_item) => iter_recurse(&mut enum_item.body().exprs()),
@@ -284,10 +294,7 @@ impl<'a> TypstTranslator<'a> {
             ),
             Expr::FieldAccess(field_access) => merge![
                 recurse!(field_access.target()),
-                token!(
-                    field_access.field(),
-                    TokenKind::Word(WordMetadata::default())
-                )
+                token!(field_access.field(), TokenKind::Word(None))
             ],
             Expr::Let(let_binding) => merge![
                 match let_binding.kind() {
@@ -323,10 +330,15 @@ impl<'a> TypstTranslator<'a> {
                 parse_params(&mut closure.params().children()),
                 recurse!(closure.body())
             ],
-            Expr::FuncCall(func) => merge![
-                token!(func.callee(), TokenKind::Unlintable),
-                parse_args(&mut func.args().items())
-            ],
+            Expr::FuncCall(func) => {
+                merge![
+                    token!(func.callee(), TokenKind::Unlintable),
+                    match get_text!(func.callee()) {
+                        "color.rgb" | "rgb" => token!(func.args(), TokenKind::Unlintable),
+                        _ => parse_args(&mut func.args().items()),
+                    }
+                ]
+            }
             a => token!(a, TokenKind::Unlintable),
         }
     }
