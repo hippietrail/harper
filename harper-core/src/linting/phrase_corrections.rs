@@ -1137,12 +1137,20 @@ mod tests {
 
     #[test]
     fn correct_a_whole_entire_surrounded_by_text() {
-        assert_suggestion_result("A B C D a whole entire W X Y Z", lint_group(), "A B C D a whole W X Y Z");
+        assert_suggestion_result(
+            "A B C D a whole entire W X Y Z",
+            lint_group(),
+            "A B C D a whole W X Y Z",
+        );
     }
 
     #[test]
-    fn correct_a_whole_entire_nums() {
-        assert_suggestion_result("0123456789 a whole entire 9876543210", lint_group(), "0123456789 a whole 9876543210");
+    fn correct_a_whole_entire_surrounded_by_numbers() {
+        assert_suggestion_result(
+            "0123456789 a whole entire 9876543210",
+            lint_group(),
+            "0123456789 a whole 9876543210",
+        );
     }
 
     #[test]
@@ -1152,7 +1160,7 @@ mod tests {
 
     #[test]
     fn correct_atomic_a_whole_entire_to_an_entire() {
-        assert_second_suggestion_result("a whole entire", lint_group(), "an entire");
+        assert_nth_suggestion_result("a whole entire", lint_group(), "an entire", 1);
     }
 
     #[test]
