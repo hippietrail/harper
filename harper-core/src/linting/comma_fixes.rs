@@ -41,82 +41,90 @@ impl Linter for CommaFixes {
             match (toks.0, toks.1, comma_kind, toks.3, toks.4) {
                 (None | Some(_), Some(t1_w), _, Some(t3_s), Some(t4_w))
                     if matches!(t1_w.kind, TokenKind::Word(_))
-                    && comma_kind != ','
-                    && matches!(t3_s.kind, TokenKind::Space(_))
-                    && matches!(t4_w.kind, TokenKind::Word(_)) => {
-                        span = toks.2.span;
-                        suggestion = Suggestion::ReplaceWith(vec![',']);
-                        fix_comma = true;
-                    },
+                        && comma_kind != ','
+                        && matches!(t3_s.kind, TokenKind::Space(_))
+                        && matches!(t4_w.kind, TokenKind::Word(_)) =>
+                {
+                    span = toks.2.span;
+                    suggestion = Suggestion::ReplaceWith(vec![',']);
+                    fix_comma = true;
+                }
 
                 (Some(t0_w), Some(t1_s), ',', Some(t3_s), Some(t4_w))
                     if matches!(t0_w.kind, TokenKind::Word(_))
-                    && matches!(t1_s.kind, TokenKind::Space(_))
-                    && matches!(t3_s.kind, TokenKind::Space(_))
-                    && matches!(t4_w.kind, TokenKind::Word(_)) => {
-                        span = toks.1.unwrap().span;
-                        suggestion = Suggestion::Remove;
-                        remove_space_before = true;
-                    },
+                        && matches!(t1_s.kind, TokenKind::Space(_))
+                        && matches!(t3_s.kind, TokenKind::Space(_))
+                        && matches!(t4_w.kind, TokenKind::Word(_)) =>
+                {
+                    span = toks.1.unwrap().span;
+                    suggestion = Suggestion::Remove;
+                    remove_space_before = true;
+                }
 
                 (Some(t0_w), Some(t1_s), _, Some(t3_s), Some(t4_w))
                     if matches!(t0_w.kind, TokenKind::Word(_))
-                    && matches!(t1_s.kind, TokenKind::Space(_))
-                    && comma_kind != ','
-                    && matches!(t3_s.kind, TokenKind::Space(_))
-                    && matches!(t4_w.kind, TokenKind::Word(_)) => {
-                        span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
-                        suggestion = Suggestion::ReplaceWith(vec![',']);
-                        remove_space_before = true;
-                        fix_comma = true;
-                    },
+                        && matches!(t1_s.kind, TokenKind::Space(_))
+                        && comma_kind != ','
+                        && matches!(t3_s.kind, TokenKind::Space(_))
+                        && matches!(t4_w.kind, TokenKind::Word(_)) =>
+                {
+                    span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
+                    suggestion = Suggestion::ReplaceWith(vec![',']);
+                    remove_space_before = true;
+                    fix_comma = true;
+                }
 
                 (None | Some(_), Some(t1_w), ',', Some(t3_w), None | Some(_))
                     if matches!(t1_w.kind, TokenKind::Word(_))
-                    && matches!(t3_w.kind, TokenKind::Word(_)) => {
-                        span = toks.2.span;
-                        suggestion = Suggestion::InsertAfter(vec![' ']);
-                        add_space_after = true;
-                    },
+                        && matches!(t3_w.kind, TokenKind::Word(_)) =>
+                {
+                    span = toks.2.span;
+                    suggestion = Suggestion::InsertAfter(vec![' ']);
+                    add_space_after = true;
+                }
 
                 (None | Some(_), Some(t1_w), _, Some(t3_w), None | Some(_))
                     if matches!(t1_w.kind, TokenKind::Word(_))
-                    && comma_kind != ','
-                    && matches!(t3_w.kind, TokenKind::Word(_)) => {
-                        span = toks.2.span;
-                        suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
-                        fix_comma = true;
-                        add_space_after = true;
-                    },
+                        && comma_kind != ','
+                        && matches!(t3_w.kind, TokenKind::Word(_)) =>
+                {
+                    span = toks.2.span;
+                    suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
+                    fix_comma = true;
+                    add_space_after = true;
+                }
 
                 (Some(t0_w), Some(t1_s), ',', Some(t3_w), None | Some(_))
                     if matches!(t0_w.kind, TokenKind::Word(_))
-                    && matches!(t1_s.kind, TokenKind::Space(_))
-                    && matches!(t3_w.kind, TokenKind::Word(_)) => {
-                        span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
-                        suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
-                        remove_space_before = true;
-                        add_space_after = true;
-                    },
+                        && matches!(t1_s.kind, TokenKind::Space(_))
+                        && matches!(t3_w.kind, TokenKind::Word(_)) =>
+                {
+                    span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
+                    suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
+                    remove_space_before = true;
+                    add_space_after = true;
+                }
 
                 (Some(t0_w), Some(t1_s), _, Some(t3_w), None | Some(_))
                     if matches!(t0_w.kind, TokenKind::Word(_))
-                    && matches!(t1_s.kind, TokenKind::Space(_))
-                    && comma_kind != ','
-                    && matches!(t3_w.kind, TokenKind::Word(_)) => {
-                        span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
-                        suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
-                        remove_space_before = true;
-                        fix_comma = true;
-                        add_space_after = true;
-                    },
+                        && matches!(t1_s.kind, TokenKind::Space(_))
+                        && comma_kind != ','
+                        && matches!(t3_w.kind, TokenKind::Word(_)) =>
+                {
+                    span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
+                    suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
+                    remove_space_before = true;
+                    fix_comma = true;
+                    add_space_after = true;
+                }
 
                 (None | Some(_), None | Some(_), _, None | Some(_), None | Some(_))
-                    if comma_kind != ',' => {
-                        span = toks.2.span;
-                        suggestion = Suggestion::ReplaceWith(vec![',']);
-                        fix_comma = true;
-                    },
+                    if comma_kind != ',' =>
+                {
+                    span = toks.2.span;
+                    suggestion = Suggestion::ReplaceWith(vec![',']);
+                    fix_comma = true;
+                }
 
                 _ => {
                     continue;
