@@ -1,6 +1,13 @@
 import type { Extension } from '@codemirror/state';
 import type { LintConfig, Linter, Suggestion } from 'harper.js';
-import { type Dialect, LocalLinter, SuggestionKind, WorkerLinter, binary } from 'harper.js';
+import {
+	type Dialect,
+	LocalLinter,
+	SuggestionKind,
+	WorkerLinter,
+	binary,
+	binaryInlined,
+} from 'harper.js';
 import { toArray } from 'lodash-es';
 import { type App, Menu, Notice, Plugin, type PluginManifest } from 'obsidian';
 import logoSvg from '../logo.svg';
@@ -180,8 +187,11 @@ export default class HarperPlugin extends Plugin {
 			async (view) => {
 				const text = view.state.doc.sliceString(-1);
 				const chars = toArray(text);
+				console.log(text);
 
 				const lints = await this.harper.lint(text);
+
+				console.log(lints);
 
 				return lints.map((lint) => {
 					const span = lint.span();

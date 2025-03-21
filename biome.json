@@ -42,7 +42,8 @@
 			"suspicious": {
 				"noExplicitAny": "off",
 				"noArrayIndexKey": "off",
-				"noLabelVar": "warn"
+				"noLabelVar": "warn",
+				"noDoubleEquals": "off"
 			},
 			"a11y": {
 				"noSvgWithoutTitle": "off",
