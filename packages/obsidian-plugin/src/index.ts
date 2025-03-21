@@ -1,18 +1,18 @@
+import type { Extension } from '@codemirror/state';
+import type { LintConfig, Linter, Suggestion } from 'harper.js';
+import { type Dialect, LocalLinter, SuggestionKind, WorkerLinter, binary } from 'harper.js';
 import { toArray } from 'lodash-es';
+import { type App, Menu, Notice, Plugin, type PluginManifest } from 'obsidian';
 import logoSvg from '../logo.svg';
-import { Plugin, Menu, PluginManifest, App, Notice } from 'obsidian';
-import { LintConfig, Linter, Suggestion } from 'harper.js';
-import { LocalLinter, SuggestionKind, WorkerLinter, binary } from 'harper.js';
-import { linter } from './lint';
-import { Extension } from '@codemirror/state';
 import { HarperSettingTab } from './HarperSettingTab';
+import { linter } from './lint';
 
 function suggestionToLabel(sug: Suggestion) {
-	if (sug.kind() == SuggestionKind.Remove) {
+	if (sug.kind() === SuggestionKind.Remove) {
 		return 'Remove';
-	} else if (sug.kind() == SuggestionKind.Replace) {
+	} else if (sug.kind() === SuggestionKind.Replace) {
 		return `Replace with “${sug.get_replacement_text()}”`;
-	} else if (sug.kind() == SuggestionKind.InsertAfter) {
+	} else if (sug.kind() === SuggestionKind.InsertAfter) {
 		return `Insert “${sug.get_replacement_text()}” after this.`;
 	}
 }
@@ -20,6 +20,7 @@ function suggestionToLabel(sug: Suggestion) {
 export type Settings = {
 	ignoredLints?: string;
 	useWebWorker: boolean;
+	dialect?: Dialect;
 	lintSettings: LintConfig;
 	userDictionary?: string[];
 };
@@ -30,7 +31,7 @@ export default class HarperPlugin extends Plugin {
 
 	constructor(app: App, manifest: PluginManifest) {
 		super(app, manifest);
-		this.harper = new WorkerLinter({ binary });
+		this.harper = new WorkerLinter({ binary: binaryInlined });
 		this.editorExtensions = [];
 	}
 
@@ -41,11 +42,14 @@ export default class HarperPlugin extends Plugin {
 
 		const oldSettings = await this.getSettings();
 
-		if (settings.useWebWorker != oldSettings.useWebWorker) {
+		if (
+			settings.useWebWorker !== oldSettings.useWebWorker ||
+			settings.dialect !== oldSettings.dialect
+		) {
 			if (settings.useWebWorker) {
-				this.harper = new WorkerLinter({ binary });
+				this.harper = new WorkerLinter({ binary: binaryInlined, dialect: settings.dialect });
 			} else {
-				this.harper = new LocalLinter({ binary });
+				this.harper = new LocalLinter({ binary: binaryInlined, dialect: settings.dialect });
 			}
 		} else {
 			await this.harper.clearIgnoredLints();
@@ -83,12 +87,13 @@ export default class HarperPlugin extends Plugin {
 			ignoredLints: await this.harper.exportIgnoredLints(),
 			useWebWorker: usingWebWorker,
 			lintSettings: await this.harper.getLintConfig(),
-			userDictionary: await this.harper.exportWords()
+			userDictionary: await this.harper.exportWords(),
+			dialect: await this.harper.getDialect(),
 		};
 	}
 
 	async onload() {
-		if (typeof Response == 'undefined') {
+		if (typeof Response === 'undefined') {
 			new Notice('Please update your Electron version before running Harper.', 0);
 			return;
 		}
@@ -125,7 +130,7 @@ export default class HarperPlugin extends Plugin {
 					.setIcon('documents')
 					.onClick(() => {
 						this.toggleAutoLint();
-					})
+					}),
 			);
 
 			menu.showAtMouseEvent(event);
@@ -138,7 +143,7 @@ export default class HarperPlugin extends Plugin {
 		this.addCommand({
 			id: 'harper-toggle-auto-lint',
 			name: 'Toggle automatic grammar checking',
-			callback: () => this.toggleAutoLint()
+			callback: () => this.toggleAutoLint(),
 		});
 	}
 
@@ -158,7 +163,7 @@ export default class HarperPlugin extends Plugin {
 	}
 
 	hasEditorLinter(): boolean {
-		return this.editorExtensions.length != 0;
+		return this.editorExtensions.length !== 0;
 	}
 
 	private toggleAutoLint() {
@@ -193,31 +198,31 @@ export default class HarperPlugin extends Plugin {
 										changes: {
 											from: span.start,
 											to: span.end,
-											insert: ''
-										}
+											insert: '',
+										},
 									});
 								} else if (sug.kind() === SuggestionKind.Replace) {
 									view.dispatch({
 										changes: {
 											from: span.start,
 											to: span.end,
-											insert: sug.get_replacement_text()
-										}
+											insert: sug.get_replacement_text(),
+										},
 									});
 								} else if (sug.kind() === SuggestionKind.InsertAfter) {
 									view.dispatch({
 										changes: {
 											from: span.end,
 											to: span.end,
-											insert: sug.get_replacement_text()
-										}
+											insert: sug.get_replacement_text(),
+										},
 									});
 								}
-							}
+							},
 						};
 					});
 
-					if (lint.lint_kind() == 'Spelling') {
+					if (lint.lint_kind() === 'Spelling') {
 						const word = lint.get_problem_text();
 
 						actions.push({
@@ -225,7 +230,7 @@ export default class HarperPlugin extends Plugin {
 							apply: (view) => {
 								this.harper.importWords([word]);
 								this.reinitialize();
-							}
+							},
 						});
 					}
 
@@ -239,13 +244,13 @@ export default class HarperPlugin extends Plugin {
 							await this.harper.ignoreLint(lint);
 							await this.reinitialize();
 						},
-						actions
+						actions,
 					};
 				});
 			},
 			{
-				delay: -1
-			}
+				delay: -1,
+			},
 		);
 	}
 }

@@ -1,6 +1,6 @@
-import type { Lint, Span, Suggestion } from 'harper-wasm';
-import { LintConfig, LintOptions } from './main';
-import { BinaryModule } from './binary';
+import type { Dialect, Lint, Span, Suggestion } from 'harper-wasm';
+import type { BinaryModule } from './binary';
+import type { LintConfig, LintOptions } from './main';
 
 /** An interface for an object that can perform linting actions. */
 export default interface Linter {
@@ -71,9 +71,17 @@ export default interface Linter {
 	/** Export all added words from the dictionary. Note that this will NOT export anything from the curated dictionary,
 	 * only words from previous calls to `this.importWords`. */
 	exportWords(): Promise<string[]>;
+
+	/** Get the dialect of English this linter was constructed for. */
+	getDialect(): Promise<Dialect>;
+
+	/** Get the dialect of English this linter was constructed for. */
+	setDialect(dialect: Dialect): Promise<void>;
 }
 
 export interface LinterInit {
 	/** The module or path to the WebAssembly binary. */
 	binary: BinaryModule;
+	/** The dialect of English Harper should use. If omitted, Harper will default to American English. */
+	dialect?: Dialect;
 }

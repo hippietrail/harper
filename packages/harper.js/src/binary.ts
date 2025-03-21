@@ -1,10 +1,16 @@
-import { default as binaryUrl } from 'harper-wasm/harper_wasm_bg.wasm?no-inline';
+import {
+	Dialect,
+	type InitInput,
+	type Span,
+	type Suggestion,
+	type Linter as WasmLinter,
+} from 'harper-wasm';
 import { default as binaryInlinedUrl } from 'harper-wasm/harper_wasm_bg.wasm?inline';
-import type { InitInput, Span, Suggestion, Linter as WasmLinter } from 'harper-wasm';
-import pMemoize from 'p-memoize';
+import { default as binaryUrl } from 'harper-wasm/harper_wasm_bg.wasm?no-inline';
 import LazyPromise from 'p-lazy';
+import pMemoize from 'p-memoize';
+import type { LintConfig } from './main';
 import { assert } from './utils';
-import { LintConfig } from './main';
 
 export const loadBinary = pMemoize(async (binary: string) => {
 	const exports = await import('harper-wasm');
@@ -72,7 +78,7 @@ export class BinaryModule {
 	constructor(url: string | URL) {
 		this.url = url;
 		this.inner = LazyPromise.from(() =>
-			loadBinary(typeof this.url === 'string' ? this.url : this.url.href)
+			loadBinary(typeof this.url === 'string' ? this.url : this.url.href),
 		);
 	}
 
@@ -101,9 +107,9 @@ export class BinaryModule {
 		exported.setup();
 	}
 
-	async createLinter(): Promise<WasmLinter> {
+	async createLinter(dialect?: Dialect): Promise<WasmLinter> {
 		const exported = await this.inner;
-		return exported.Linter.new();
+		return exported.Linter.new(dialect ?? Dialect.American);
 	}
 
 	async serializeArg(arg: any): Promise<RequestArg> {
@@ -112,7 +118,7 @@ export class BinaryModule {
 		if (Array.isArray(arg)) {
 			return {
 				json: JSON.stringify(await Promise.all(arg.map((a) => this.serializeArg(a)))),
-				type: 'Array'
+				type: 'Array',
 			};
 		}
 
@@ -125,7 +131,7 @@ export class BinaryModule {
 				return { json: JSON.stringify(arg), type: argType };
 		}
 
-		if (arg.to_json != undefined) {
+		if (arg.to_json !== undefined) {
 			const json = arg.to_json();
 			let type: SerializableTypes | undefined = undefined;
 
@@ -137,7 +143,7 @@ export class BinaryModule {
 				type = 'Span';
 			}
 
-			if (type == undefined) {
+			if (type === undefined) {
 				throw new Error('Unhandled case');
 			}
 
@@ -150,7 +156,7 @@ export class BinaryModule {
 	async serialize(req: DeserializedRequest): Promise<SerializedRequest> {
 		return {
 			procName: req.procName,
-			args: await Promise.all(req.args.map((arg) => this.serializeArg(arg)))
+			args: await Promise.all(req.args.map((arg) => this.serializeArg(arg))),
 		};
 	}
 
@@ -183,7 +189,7 @@ export class BinaryModule {
 	async deserialize(request: SerializedRequest): Promise<DeserializedRequest> {
 		return {
 			procName: request.procName,
-			args: await Promise.all(request.args.map((arg) => this.deserializeArg(arg)))
+			args: await Promise.all(request.args.map((arg) => this.deserializeArg(arg))),
 		};
 	}
 }
