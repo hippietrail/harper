@@ -123,8 +123,20 @@ impl Linter for CommaFixes {
                 //  to prevent changing commas within CJK text
                 (None | Some(_), None | Some(_), _, None | Some(_), None | Some(_))
                     if comma_kind != ','
-                    && !matches!(toks.1, Some(Token { kind: TokenKind::Unlintable, .. }))
-                    && !matches!(toks.3, Some(Token { kind: TokenKind::Unlintable, .. })) =>
+                        && !matches!(
+                            toks.1,
+                            Some(Token {
+                                kind: TokenKind::Unlintable,
+                                ..
+                            })
+                        )
+                        && !matches!(
+                            toks.3,
+                            Some(Token {
+                                kind: TokenKind::Unlintable,
+                                ..
+                            })
+                        ) =>
                 {
                     span = toks.2.span;
                     suggestion = Suggestion::ReplaceWith(vec![',']);
