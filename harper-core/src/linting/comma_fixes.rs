@@ -1,5 +1,5 @@
 use super::{Lint, LintKind, Linter, Suggestion};
-use crate::{Span, TokenKind, TokenStringExt};
+use crate::{Span, Token, TokenKind, TokenStringExt};
 
 const MSG_SPACE_BEFORE: &str = "Don't use a space before a comma.";
 const MSG_AVOID_ASIAN: &str = "Avoid East Asian commas in English contexts.";
@@ -118,8 +118,13 @@ impl Linter for CommaFixes {
                     add_space_after = true;
                 }
 
+                // Handles Asian commas in all other contexts
+                // TokenKind::Unlintable is used for non-English tokens
+                //  to prevent changing commas within CJK text
                 (None | Some(_), None | Some(_), _, None | Some(_), None | Some(_))
-                    if comma_kind != ',' =>
+                    if comma_kind != ','
+                    && !matches!(toks.1, Some(Token { kind: TokenKind::Unlintable, .. }))
+                    && !matches!(toks.3, Some(Token { kind: TokenKind::Unlintable, .. })) =>
                 {
                     span = toks.2.span;
                     suggestion = Suggestion::ReplaceWith(vec![',']);
@@ -241,5 +246,10 @@ mod tests {
     #[test]
     fn corrects_asian_comma_between_words_with_space_on_both_sides() {
         assert_suggestion_result("foo 、 bar", CommaFixes, "foo, bar")
+    }
+
+    #[test]
+    fn doesnt_correct_comma_between_non_english_tokens() {
+        assert_lint_count("严禁采摘花、 果、叶，挖掘树根、草药!", CommaFixes, 0);
     }
 }
