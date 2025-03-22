@@ -115,14 +115,14 @@ class LintState {
 		const ranges = Decoration.set(
 			markedDiagnostics.map((d: Diagnostic) => {
 				// For zero-length ranges or ranges covering only a line break, create a widget
-				return d.from === d.to || (d.from === d.to - 1 && state.doc.lineAt(d.from).to === d.from)
+				return d.from == d.to || (d.from == d.to - 1 && state.doc.lineAt(d.from).to == d.from)
 					? Decoration.widget({
 							widget: new DiagnosticWidget(d),
 							diagnostic: d,
 						}).range(d.from)
 					: Decoration.mark({
 							attributes: {
-								class: `cm-lintRange cm-lintRange-${d.severity}${d.markClass ?? ''}`,
+								class: `cm-lintRange cm-lintRange-${d.severity}${d.markClass ? ` ${d.markClass}` : ''}`,
 							},
 							diagnostic: d,
 						}).range(d.from, d.to);
@@ -140,7 +140,7 @@ function findDiagnostic(
 ): SelectedDiagnostic | null {
 	let found: SelectedDiagnostic | null = null;
 	diagnostics.between(after, 1e9, (from, to, { spec }) => {
-		if (diagnostic && spec.diagnostic !== diagnostic) return;
+		if (diagnostic && spec.diagnostic != diagnostic) return;
 		found = new SelectedDiagnostic(from, to, spec.diagnostic);
 		return false;
 	});
@@ -166,7 +166,7 @@ function maybeEnableLint(state: EditorState, effects: readonly StateEffect<unkno
 }
 
 /// Returns a transaction spec which updates the current set of
-/// diagnostics, and enables the lint extension if wasn't already
+/// diagnostics, and enables the lint extension if if wasn't already
 /// active.
 export function setDiagnostics(
 	state: EditorState,
@@ -188,8 +188,6 @@ const lintState = StateField.define<LintState>({
 		return new LintState(Decoration.none, null);
 	},
 	update(value, tr) {
-		let newState: LintState;
-
 		if (tr.docChanged && value.diagnostics.size) {
 			const mapped = value.diagnostics.map(tr.changes);
 			let selected: SelectedDiagnostic | null = null;
@@ -199,14 +197,14 @@ const lintState = StateField.define<LintState>({
 					findDiagnostic(mapped, value.selected.diagnostic, selPos) ||
 					findDiagnostic(mapped, null, selPos);
 			}
-			newState = new LintState(mapped, selected);
+			value = new LintState(mapped, selected);
 		}
 
 		for (const effect of tr.effects) {
 			if (effect.is(setDiagnosticsEffect)) {
-				newState = LintState.init(effect.value, tr.state);
+				value = LintState.init(effect.value, tr.state);
 			} else if (effect.is(movePanelSelection)) {
-				newState = new LintState(value.diagnostics, effect.value);
+				value = new LintState(value.diagnostics, effect.value);
 			}
 		}
 
@@ -215,9 +213,7 @@ const lintState = StateField.define<LintState>({
 	provide: (f) => [EditorView.decorations.from(f, (s) => s.diagnostics)],
 });
 
-const activeMark = Decoration.mark({
-	class: 'cm-lintRange cm-lintRange-active',
-});
+const activeMark = Decoration.mark({ class: 'cm-lintRange cm-lintRange-active' });
 
 function lintTooltip(view: EditorView, pos: number, side: -1 | 1) {
 	const { diagnostics } = view.state.field(lintState);
@@ -228,7 +224,7 @@ function lintTooltip(view: EditorView, pos: number, side: -1 | 1) {
 		if (
 			pos >= from &&
 			pos <= to &&
-			(from === to || ((pos > from || side > 0) && (pos < to || side < 0)))
+			(from == to || ((pos > from || side > 0) && (pos < to || side < 0)))
 		) {
 			found.push(spec.diagnostic);
 			stackStart = Math.min(from, stackStart);
@@ -290,7 +286,7 @@ const lintPlugin = ViewPlugin.fromClass(
 					Promise.all(sources.map((source) => Promise.resolve(source(this.view)))).then(
 						(annotations) => {
 							const all = annotations.reduce((a, b) => a.concat(b));
-							if (this.view.state.doc === state.doc)
+							if (this.view.state.doc == state.doc)
 								this.view.dispatch(setDiagnostics(this.view.state, all));
 						},
 						(error) => {
@@ -304,7 +300,7 @@ const lintPlugin = ViewPlugin.fromClass(
 			const config = update.state.facet(lintConfig);
 			if (
 				update.docChanged ||
-				config !== update.startState.facet(lintConfig) ||
+				config != update.startState.facet(lintConfig) ||
 				config.needsRefresh?.(update)
 			) {
 				this.lintTime = Date.now() + config.delay;
@@ -370,12 +366,13 @@ export function forceLinting(view: EditorView) {
 function assignKeys(actions: readonly Action[] | undefined) {
 	const assigned: string[] = [];
 	if (actions)
-		outer: for (const { name } of actions) {
+		// biome-ignore lint/suspicious/noLabelVar: reasons
+		actions: for (const { name } of actions) {
 			for (let i = 0; i < name.length; i++) {
 				const ch = name[i];
-				if (/[a-zA-Z]/.test(ch) && !assigned.some((c) => c.toLowerCase() === ch.toLowerCase())) {
+				if (/[a-zA-Z]/.test(ch) && !assigned.some((c) => c.toLowerCase() == ch.toLowerCase())) {
 					assigned.push(ch);
-					continue outer;
+					continue actions;
 				}
 			}
 			assigned.push('');
@@ -449,20 +446,16 @@ class DiagnosticWidget extends WidgetType {
 	}
 
 	eq(other: DiagnosticWidget) {
-		return other.diagnostic === this.diagnostic;
+		return other.diagnostic == this.diagnostic;
 	}
 
 	toDOM() {
-		return elt('span', {
-			class: `cm-lintPoint cm-lintPoint-${this.diagnostic.severity}`,
-		});
+		return elt('span', { class: `cm-lintPoint cm-lintPoint-${this.diagnostic.severity}` });
 	}
 }
 
 function svg(content: string, attrs = `viewBox="0 0 40 40"`) {
-	return `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" ${attrs}>${encodeURIComponent(
-		content,
-	)}</svg>')`;
+	return `url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" ${attrs}>${encodeURIComponent(content)}</svg>')`;
 }
 
 function underline(color: string) {
@@ -609,7 +602,7 @@ const lintExtensions = [
 	lintState,
 	EditorView.decorations.compute([lintState], (state) => {
 		const { selected, panel } = state.field(lintState);
-		return !selected || !panel || selected.from === selected.to
+		return !selected || !panel || selected.from == selected.to
 			? Decoration.none
 			: Decoration.set([activeMark.range(selected.from, selected.to)]);
 	}),

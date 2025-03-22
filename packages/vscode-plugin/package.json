@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper",
 	"description": "The grammar checker for developers",
-	"version": "0.25.1",
+	"version": "0.26.0",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -113,6 +113,12 @@
 					"type": "string",
 					"description": "Optional path to a global dictionary file to use."
 				},
+				"harper.linters.ALongTime": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `along time` to `a long time`."
+				},
 				"harper.linters.ALotWorst": {
 					"scope": "resource",
 					"type": "boolean",
@@ -178,6 +184,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "When referring to Apple products and services, make sure to treat them as proper nouns."
+				},
+				"harper.linters.AsFarBackAs": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects nonstandard `as early back as` to `as far back as`."
 				},
 				"harper.linters.Australia": {
 					"scope": "resource",
@@ -455,6 +467,12 @@
 					"default": true,
 					"description": "Ensures common initialisms (like \"i.e.\") are properly dot-separated."
 				},
+				"harper.linters.EachAndEveryOne": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `each and everyone` to `each and every one`."
+				},
 				"harper.linters.EllipsisLength": {
 					"scope": "resource",
 					"type": "boolean",
@@ -490,6 +508,24 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Fixes the misinterpretation of `expatriate`, ensuring the correct term is used for individuals residing abroad."
+				},
+				"harper.linters.ExplanationMark": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the eggcorn `explanation mark` to `exclamation mark`."
+				},
+				"harper.linters.ExplanationMarks": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the eggcorn `explanation mark` to `exclamation mark`."
+				},
+				"harper.linters.ExplanationPoint": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the eggcorn `explanation point` to `exclamation point`."
 				},
 				"harper.linters.FaceFirst": {
 					"scope": "resource",
@@ -658,6 +694,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Corrects nonstandard `in of itself` to standard `in and of itself`."
+				},
+				"harper.linters.InAnyWay": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects ungrammatical `in anyway` to `in any way`."
 				},
 				"harper.linters.InDetail": {
 					"scope": "resource",
