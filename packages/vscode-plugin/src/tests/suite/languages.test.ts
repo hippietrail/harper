@@ -14,8 +14,6 @@ describe('Languages >', () => {
 	[
 		// Uncomment when #265 is fixed.
 		// { type: 'JavaScript JSX', file: 'javascriptreact.jsx', row: 1, column: 36 },
-		// Uncomment when #65 is fixed.
-		// { type: 'Shellscript without extension', file: 'shellscript', row: 2, column: 2 },
 
 		// VS Code doesn't support CMake, Haskell, Literate Haskell, Nix, TOML, and Typst files out of
 		// the box. Uncomment when you figure out how to support them during testing.
@@ -43,6 +41,7 @@ describe('Languages >', () => {
 		{ type: 'Python', file: 'python.py', row: 1, column: 2 },
 		{ type: 'Ruby', file: 'ruby.rb', row: 3, column: 16 },
 		{ type: 'Rust', file: 'rust.rs', row: 0, column: 4 },
+		{ type: 'Shellscript without extension', file: 'shellscript', row: 3, column: 2 },
 		{ type: 'Shellscript with .bash extension', file: 'shellscript.bash', row: 7, column: 9 },
 		{ type: 'Shellscript with .sh extension', file: 'shellscript.sh', row: 0, column: 22 },
 		{ type: 'Swift', file: 'swift.swift', row: 9, column: 26 },
