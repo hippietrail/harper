@@ -29,12 +29,12 @@ const clientOptions: LanguageClientOptions = {
 		},
 		executeCommand(command, args, next) {
 			if (
-				command === 'HarperAddToFileDict' &&
+				['HarperAddToUserDict', 'HarperAddToFileDict'].includes(command) &&
 				args.find((a) => typeof a === 'string' && a.startsWith('untitled:'))
 			) {
 				window
 					.showInformationMessage(
-						'Save the file to add words to its file dictionary.',
+						'Save the file to add words to the dictionary.',
 						'Save File',
 						'Dismiss',
 					)
