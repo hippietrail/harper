@@ -1,5 +1,9 @@
 use super::{Lint, LintKind, Linter, Suggestion};
-use crate::{Span, Token, TokenKind, TokenStringExt};
+use crate::{
+    Span,
+    TokenKind::{Space, Unlintable, Word},
+    TokenStringExt,
+};
 
 const MSG_SPACE_BEFORE: &str = "Don't use a space before a comma.";
 const MSG_AVOID_ASIAN: &str = "Avoid East Asian commas in English contexts.";
@@ -20,7 +24,6 @@ pub struct CommaFixes;
 impl Linter for CommaFixes {
     fn lint(&mut self, document: &crate::Document) -> Vec<Lint> {
         let mut lints = Vec::new();
-
         let source = document.get_source();
 
         for ci in document.iter_comma_indices() {
@@ -30,7 +33,13 @@ impl Linter for CommaFixes {
             toks.3 = document.get_token(ci + 1);
             toks.4 = document.get_token(ci + 2);
 
-            let comma_kind = *toks.2.span.get_content(source).first().unwrap();
+            let kinds = (
+                toks.0.map(|t| &t.kind),
+                toks.1.map(|t| &t.kind),
+                *toks.2.span.get_content(source).first().unwrap(),
+                toks.3.map(|t| &t.kind),
+                toks.4.map(|t| &t.kind),
+            );
 
             let span;
             let suggestion;
@@ -38,79 +47,47 @@ impl Linter for CommaFixes {
             let mut fix_comma = false;
             let mut add_space_after = false;
 
-            match (toks.0, toks.1, comma_kind, toks.3, toks.4) {
-                (None | Some(_), Some(t1_w), _, Some(t3_s), Some(t4_w))
-                    if matches!(t1_w.kind, TokenKind::Word(_))
-                        && comma_kind != ','
-                        && matches!(t3_s.kind, TokenKind::Space(_))
-                        && matches!(t4_w.kind, TokenKind::Word(_)) =>
-                {
+            match kinds {
+                (_, Some(Word(_)), '、' | '，', Some(Space(_)), Some(Word(_))) => {
                     span = toks.2.span;
                     suggestion = Suggestion::ReplaceWith(vec![',']);
                     fix_comma = true;
                 }
 
-                (Some(t0_w), Some(t1_s), ',', Some(t3_s), Some(t4_w))
-                    if matches!(t0_w.kind, TokenKind::Word(_))
-                        && matches!(t1_s.kind, TokenKind::Space(_))
-                        && matches!(t3_s.kind, TokenKind::Space(_))
-                        && matches!(t4_w.kind, TokenKind::Word(_)) =>
-                {
+                (Some(Word(_)), Some(Space(_)), ',', Some(Space(_)), Some(Word(_))) => {
                     span = toks.1.unwrap().span;
                     suggestion = Suggestion::Remove;
                     remove_space_before = true;
                 }
 
-                (Some(t0_w), Some(t1_s), _, Some(t3_s), Some(t4_w))
-                    if matches!(t0_w.kind, TokenKind::Word(_))
-                        && matches!(t1_s.kind, TokenKind::Space(_))
-                        && comma_kind != ','
-                        && matches!(t3_s.kind, TokenKind::Space(_))
-                        && matches!(t4_w.kind, TokenKind::Word(_)) =>
-                {
+                (Some(Word(_)), Some(Space(_)), '、' | '，', Some(Space(_)), Some(Word(_))) => {
                     span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
                     suggestion = Suggestion::ReplaceWith(vec![',']);
                     remove_space_before = true;
                     fix_comma = true;
                 }
 
-                (None | Some(_), Some(t1_w), ',', Some(t3_w), None | Some(_))
-                    if matches!(t1_w.kind, TokenKind::Word(_))
-                        && matches!(t3_w.kind, TokenKind::Word(_)) =>
-                {
+                (_, Some(Word(_)), ',', Some(Word(_)), _) => {
                     span = toks.2.span;
                     suggestion = Suggestion::InsertAfter(vec![' ']);
                     add_space_after = true;
                 }
 
-                (None | Some(_), Some(t1_w), _, Some(t3_w), None | Some(_))
-                    if matches!(t1_w.kind, TokenKind::Word(_))
-                        && comma_kind != ','
-                        && matches!(t3_w.kind, TokenKind::Word(_)) =>
-                {
+                (_, Some(Word(_)), '、' | '，', Some(Word(_)), _) => {
                     span = toks.2.span;
                     suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
                     fix_comma = true;
                     add_space_after = true;
                 }
 
-                (Some(t0_w), Some(t1_s), ',', Some(t3_w), None | Some(_))
-                    if matches!(t0_w.kind, TokenKind::Word(_))
-                        && matches!(t1_s.kind, TokenKind::Space(_))
-                        && matches!(t3_w.kind, TokenKind::Word(_)) =>
-                {
+                (Some(Word(_)), Some(Space(_)), ',', Some(Word(_)), _) => {
                     span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
                     suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
                     remove_space_before = true;
                     add_space_after = true;
                 }
 
-                (Some(t0_w), Some(t1_s), _, Some(t3_w), None | Some(_))
-                    if matches!(t0_w.kind, TokenKind::Word(_))
-                        && matches!(t1_s.kind, TokenKind::Space(_))
-                        && comma_kind != ','
-                        && matches!(t3_w.kind, TokenKind::Word(_)) =>
-                {
+                (Some(Word(_)), Some(Space(_)), '、' | '，', Some(Word(_)), _) => {
                     span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
                     suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
                     remove_space_before = true;
@@ -119,33 +96,17 @@ impl Linter for CommaFixes {
                 }
 
                 // Handles Asian commas in all other contexts
-                // TokenKind::Unlintable is used for non-English tokens
-                //  to prevent changing commas within CJK text
-                (None | Some(_), None | Some(_), _, None | Some(_), None | Some(_))
-                    if comma_kind != ','
-                        && !matches!(
-                            toks.1,
-                            Some(Token {
-                                kind: TokenKind::Unlintable,
-                                ..
-                            })
-                        )
-                        && !matches!(
-                            toks.3,
-                            Some(Token {
-                                kind: TokenKind::Unlintable,
-                                ..
-                            })
-                        ) =>
-                {
+                // Unlintable is used for non-English tokens to prevent changing commas in CJK text
+                (_, Some(Unlintable), '、' | '，', _, _) => continue,
+                (_, _, '、' | '，', Some(Unlintable), _) => continue,
+
+                (_, _, '、' | '，', _, _) => {
                     span = toks.2.span;
                     suggestion = Suggestion::ReplaceWith(vec![',']);
                     fix_comma = true;
                 }
 
-                _ => {
-                    continue;
-                }
+                _ => continue,
             }
 
             let mut message = Vec::new();
