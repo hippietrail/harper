@@ -1,19 +1,15 @@
 import {
-	activateHarper,
 	compareActualVsExpectedDiagnostics,
 	createExpectedDiagnostics,
 	createRange,
 	getActualDiagnostics,
 	openFile,
-	sleep,
+	waitForUpdatesFromOpenedFile,
 } from './helper';
 
 describe('Languages >', () => {
-	beforeAll(async () => {
-		await activateHarper();
-		// Wait for `harper-ls` to start
-		await sleep(500);
-	});
+	// NOTE: There's no need to activate Harper here since it was already activated in
+	// `integration.test.ts`, which runs first.
 
 	[
 		// Uncomment when #265 is fixed.
@@ -21,7 +17,7 @@ describe('Languages >', () => {
 		// Uncomment when #65 is fixed.
 		// { type: 'Shellscript without extension', file: 'shellscript', row: 2, column: 2 },
 
-		// VSCode doesn't support CMake, Haskell, Literate Haskell, Nix, TOML, and Typst files out of
+		// VS Code doesn't support CMake, Haskell, Literate Haskell, Nix, TOML, and Typst files out of
 		// the box. Uncomment when you figure out how to support them during testing.
 		// { type: 'CMake', file: 'CMakeLists.txt', row: 2, column: 30 },
 		// { type: 'Haskell', file: 'haskell.hs', row: 1, column: 3 },
@@ -55,9 +51,7 @@ describe('Languages >', () => {
 	].forEach((testCase) => {
 		it(`gives correct diagnostics for ${testCase.type} files`, async () => {
 			const uri = await openFile('languages', testCase.file);
-
-			// Wait for `harper-ls` to send diagnostics
-			await sleep(75);
+			await waitForUpdatesFromOpenedFile();
 
 			compareActualVsExpectedDiagnostics(
 				getActualDiagnostics(uri),

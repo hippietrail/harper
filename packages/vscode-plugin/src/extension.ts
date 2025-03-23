@@ -4,7 +4,7 @@ import type { Executable, LanguageClientOptions } from 'vscode-languageclient/no
 import { Uri, commands, window, workspace } from 'vscode';
 import { LanguageClient, ResponseError, TransportKind } from 'vscode-languageclient/node';
 
-// There's no publicly available extension manifest type except for the internal one from VSCode's
+// There's no publicly available extension manifest type except for the internal one from VS Code's
 // codebase. So, we declare our own with only the fields we need and have. See:
 // https://stackoverflow.com/a/78536803
 type ExtensionManifest = {
@@ -14,7 +14,42 @@ type ExtensionManifest = {
 
 let client: LanguageClient | undefined;
 const serverOptions: Executable = { command: '', transport: TransportKind.stdio };
-const clientOptions: LanguageClientOptions = {};
+const clientOptions: LanguageClientOptions = {
+	middleware: {
+		workspace: {
+			async configuration(params, token, next) {
+				const response = await next(params, token);
+
+				if (response instanceof ResponseError) {
+					return response;
+				}
+
+				return [{ 'harper-ls': response[0].harper }];
+			},
+		},
+		executeCommand(command, args, next) {
+			if (
+				command === 'HarperAddToFileDict' &&
+				args.find((a) => typeof a === 'string' && a.startsWith('untitled:'))
+			) {
+				window
+					.showInformationMessage(
+						'Save the file to add words to its file dictionary.',
+						'Save File',
+						'Dismiss',
+					)
+					.then((selected) => {
+						if (selected === 'Save File') {
+							commands.executeCommand('workbench.action.files.save');
+						}
+					});
+				return;
+			}
+
+			next(command, args);
+		},
+	},
+};
 
 export async function activate(context: ExtensionContext): Promise<void> {
 	serverOptions.command = getExecutablePath(context);
@@ -96,41 +131,6 @@ async function startLanguageServer(): Promise<void> {
 
 	try {
 		client = new LanguageClient('harper', 'Harper', serverOptions, clientOptions);
-
-		client.middleware.workspace = {
-			async configuration(params, token, next) {
-				const response = await next(params, token);
-
-				if (response instanceof ResponseError) {
-					return response;
-				}
-
-				return [{ 'harper-ls': response[0].harper }];
-			},
-		};
-
-		client.middleware.executeCommand = (command, args, next) => {
-			if (
-				command === 'HarperAddToFileDict' &&
-				args.find((a) => typeof a === 'string' && a.startsWith('untitled:'))
-			) {
-				window
-					.showInformationMessage(
-						'Save the file to add words to its file dictionary.',
-						'Save File',
-						'Dismiss',
-					)
-					.then((selected) => {
-						if (selected === 'Save File') {
-							commands.executeCommand('workbench.action.files.save');
-						}
-					});
-				return;
-			}
-
-			next(command, args);
-		};
-
 		await client.start();
 	} catch (error) {
 		showError('Failed to start harper-ls', error);
