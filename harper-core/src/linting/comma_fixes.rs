@@ -41,84 +41,62 @@ impl Linter for CommaFixes {
                 toks.4.map(|t| &t.kind),
             );
 
-            let span;
-            let suggestion;
-            let mut remove_space_before = false;
-            let mut fix_comma = false;
-            let mut add_space_after = false;
+            let (span, suggestion, message) = match kinds {
+                (_, Some(Word(_)), '、' | '，', Some(Space(_)), Some(Word(_))) => (
+                    toks.2.span,
+                    Suggestion::ReplaceWith(vec![',']),
+                    vec![MSG_AVOID_ASIAN],
+                ),
 
-            match kinds {
-                (_, Some(Word(_)), '、' | '，', Some(Space(_)), Some(Word(_))) => {
-                    span = toks.2.span;
-                    suggestion = Suggestion::ReplaceWith(vec![',']);
-                    fix_comma = true;
-                }
+                (Some(Word(_)), Some(Space(_)), ',', Some(Space(_)), Some(Word(_))) => (
+                    toks.1.unwrap().span,
+                    Suggestion::Remove,
+                    vec![MSG_SPACE_BEFORE],
+                ),
 
-                (Some(Word(_)), Some(Space(_)), ',', Some(Space(_)), Some(Word(_))) => {
-                    span = toks.1.unwrap().span;
-                    suggestion = Suggestion::Remove;
-                    remove_space_before = true;
-                }
+                (Some(Word(_)), Some(Space(_)), '、' | '，', Some(Space(_)), Some(Word(_))) => (
+                    Span::new(toks.1.unwrap().span.start, toks.2.span.end),
+                    Suggestion::ReplaceWith(vec![',']),
+                    vec![MSG_SPACE_BEFORE, MSG_AVOID_ASIAN],
+                ),
 
-                (Some(Word(_)), Some(Space(_)), '、' | '，', Some(Space(_)), Some(Word(_))) => {
-                    span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
-                    suggestion = Suggestion::ReplaceWith(vec![',']);
-                    remove_space_before = true;
-                    fix_comma = true;
-                }
+                (_, Some(Word(_)), ',', Some(Word(_)), _) => (
+                    toks.2.span,
+                    Suggestion::InsertAfter(vec![' ']),
+                    vec![MSG_SPACE_AFTER],
+                ),
 
-                (_, Some(Word(_)), ',', Some(Word(_)), _) => {
-                    span = toks.2.span;
-                    suggestion = Suggestion::InsertAfter(vec![' ']);
-                    add_space_after = true;
-                }
+                (_, Some(Word(_)), '、' | '，', Some(Word(_)), _) => (
+                    toks.2.span,
+                    Suggestion::ReplaceWith(vec![',', ' ']),
+                    vec![MSG_AVOID_ASIAN, MSG_SPACE_AFTER],
+                ),
 
-                (_, Some(Word(_)), '、' | '，', Some(Word(_)), _) => {
-                    span = toks.2.span;
-                    suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
-                    fix_comma = true;
-                    add_space_after = true;
-                }
+                (Some(Word(_)), Some(Space(_)), ',', Some(Word(_)), _) => (
+                    Span::new(toks.1.unwrap().span.start, toks.2.span.end),
+                    Suggestion::ReplaceWith(vec![',', ' ']),
+                    vec![MSG_SPACE_BEFORE, MSG_SPACE_AFTER],
+                ),
 
-                (Some(Word(_)), Some(Space(_)), ',', Some(Word(_)), _) => {
-                    span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
-                    suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
-                    remove_space_before = true;
-                    add_space_after = true;
-                }
-
-                (Some(Word(_)), Some(Space(_)), '、' | '，', Some(Word(_)), _) => {
-                    span = Span::new(toks.1.unwrap().span.start, toks.2.span.end);
-                    suggestion = Suggestion::ReplaceWith(vec![',', ' ']);
-                    remove_space_before = true;
-                    fix_comma = true;
-                    add_space_after = true;
-                }
+                (Some(Word(_)), Some(Space(_)), '、' | '，', Some(Word(_)), _) => (
+                    Span::new(toks.1.unwrap().span.start, toks.2.span.end),
+                    Suggestion::ReplaceWith(vec![',', ' ']),
+                    vec![MSG_SPACE_BEFORE, MSG_AVOID_ASIAN, MSG_SPACE_AFTER],
+                ),
 
                 // Handles Asian commas in all other contexts
                 // Unlintable is used for non-English tokens to prevent changing commas in CJK text
                 (_, Some(Unlintable), '、' | '，', _, _) => continue,
                 (_, _, '、' | '，', Some(Unlintable), _) => continue,
 
-                (_, _, '、' | '，', _, _) => {
-                    span = toks.2.span;
-                    suggestion = Suggestion::ReplaceWith(vec![',']);
-                    fix_comma = true;
-                }
+                (_, _, '、' | '，', _, _) => (
+                    toks.2.span,
+                    Suggestion::ReplaceWith(vec![',']),
+                    vec![MSG_AVOID_ASIAN],
+                ),
 
                 _ => continue,
-            }
-
-            let mut message = Vec::new();
-            if remove_space_before {
-                message.push(MSG_SPACE_BEFORE);
-            }
-            if fix_comma {
-                message.push(MSG_AVOID_ASIAN);
-            }
-            if add_space_after {
-                message.push(MSG_SPACE_AFTER);
-            }
+            };
 
             lints.push(Lint {
                 span,
