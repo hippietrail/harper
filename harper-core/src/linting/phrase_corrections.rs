@@ -763,6 +763,36 @@ pub fn lint_group() -> LintGroup {
             "Use `each and every one` for referring to a group of people or things.",
             "Corrects `each and everyone` to `each and every one`."
         ),
+        "AnAnother" => (
+            ["an another", "a another"],
+            ["another"],
+            "Use `another` on its own.",
+            "Corrects `an another` and `a another`."
+        ),
+        "AnotherAn" => (
+            ["another an"],
+            ["another"],
+            "Use `another` on its own.",
+            "Corrects `another an` to `another`."
+        ),
+        "AnotherOnes" => (
+            ["another ones"],
+            ["another one", "another one's", "other ones"],
+            "`another` is singular but `ones` is plural. Or maybe you meant the possessive `one's`.",
+            "Corrects `another ones`."
+        ),
+        "AnotherThings" => (
+            ["another things"],
+            ["another thing", "other things"],
+            "`another` is singular but `things` is plural.",
+            "Corrects `another things`."
+        ),
+        "TheAnother" => (
+            ["the another"],
+            ["the other", "another"],
+            "Use `the other` or `another`, not both.",
+            "Corrects `the another`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1389,6 +1419,62 @@ mod tests {
             "I have modified each and everyone of them to keep only the best of the best!",
             lint_group(),
             "I have modified each and every one of them to keep only the best of the best!",
+        );
+    }
+
+    #[test]
+    fn correct_an_another() {
+        assert_suggestion_result(
+            "Render shader to use it as texture in an another shader.",
+            lint_group(),
+            "Render shader to use it as texture in another shader.",
+        );
+    }
+
+    #[test]
+    fn correct_a_another() {
+        assert_suggestion_result(
+            "Audit login is a another package for laravel framework.",
+            lint_group(),
+            "Audit login is another package for laravel framework.",
+        );
+    }
+
+    #[test]
+    fn correct_another_an() {
+        assert_suggestion_result(
+            "Yet another an atomic deployment tool.",
+            lint_group(),
+            "Yet another atomic deployment tool.",
+        );
+    }
+
+    #[test]
+    fn correct_another_ones() {
+        assert_nth_suggestion_result(
+            "Change list params of a resource, another ones change too",
+            lint_group(),
+            "Change list params of a resource, other ones change too",
+            2,
+        );
+    }
+
+    #[test]
+    fn correct_another_things() {
+        assert_nth_suggestion_result(
+            "Another things to fix in the Mask editor",
+            lint_group(),
+            "Other things to fix in the Mask editor",
+            1,
+        );
+    }
+
+    #[test]
+    fn correct_the_another() {
+        assert_suggestion_result(
+            "Another possible cause is simply that the application does not have file creation permissions on the another machine.",
+            lint_group(),
+            "Another possible cause is simply that the application does not have file creation permissions on the other machine.",
         );
     }
 }
