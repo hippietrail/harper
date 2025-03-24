@@ -3,7 +3,7 @@ use super::pattern_linter::PatternLinter;
 use crate::linting::LintKind;
 use crate::patterns::{Pattern, SequencePattern, WordSet};
 use crate::{CharStringExt, Lint, Lrc, Token, TokenStringExt};
-use std::collections::HashSet;
+use hashbrown::HashSet;
 
 /// Linter that checks if multiple pronouns are being used right after each
 /// other. This is a common mistake to make during the revision process.
