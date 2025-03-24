@@ -11,6 +11,7 @@ import {
 	getActualDiagnostics,
 	openFile,
 	openUntitled,
+	setTextDocumentLanguage,
 	sleep,
 } from './helper';
 
@@ -58,6 +59,41 @@ describe('Integration >', () => {
 			createExpectedDiagnostics({
 				message: 'Did you mean to spell “Errorz” this way?',
 				range: createRange(0, 0, 0, 6),
+			}),
+		);
+	});
+
+	it('gives correct diagnostics when language is changed', async () => {
+		const untitledUri = await openUntitled('Errorz # Errorz');
+		await setTextDocumentLanguage(untitledUri, 'plaintext');
+
+		// Wait for `harper-ls` to send diagnostics
+		await sleep(500);
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(untitledUri),
+			createExpectedDiagnostics(
+				{
+					message: 'Did you mean to spell “Errorz” this way?',
+					range: createRange(0, 0, 0, 6),
+				},
+				{
+					message: 'Did you mean to spell “Errorz” this way?',
+					range: createRange(0, 9, 0, 15),
+				},
+			),
+		);
+
+		await setTextDocumentLanguage(untitledUri, 'shellscript');
+
+		// Wait for `harper-ls` to send diagnostics
+		await sleep(500);
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(untitledUri),
+			createExpectedDiagnostics({
+				message: 'Did you mean to spell “Errorz” this way?',
+				range: createRange(0, 9, 0, 15),
 			}),
 		);
 	});

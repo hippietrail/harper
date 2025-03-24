@@ -40,6 +40,11 @@ export async function openUntitled(text: string): Promise<Uri> {
 	return document.uri;
 }
 
+export async function setTextDocumentLanguage(uri: Uri, languageId: string): Promise<void> {
+	const document = await workspace.openTextDocument(uri);
+	languages.setTextDocumentLanguage(document, languageId);
+}
+
 export function getActualDiagnostics(resource: Uri): Diagnostic[] {
 	return languages.getDiagnostics(resource).filter((d) => d.source === 'Harper');
 }
