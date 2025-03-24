@@ -21,7 +21,7 @@ impl MultipleSequentialPronouns {
             "us", "you", "them", // object case, plural
             "mine", "yours", "his", "hers", // possessive pronouns, singular
             "ours", "yours", "theirs", // possessive pronouns, plural
-            "my", "your", "his", "her", // possessive adjectives, singular
+            "my", "your", "his", "her", "its", // possessive adjectives, singular
             "our", "your", "their", // possessive adjectives, plural
         ]));
 
