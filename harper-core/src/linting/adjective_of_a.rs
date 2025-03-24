@@ -27,16 +27,16 @@ impl Linter for AdjectiveOfA {
             let word: &[char] = document.get_span_content(&adjective.span);
             // Avoid common false positives where the word is more common as a
             // noun than an adjective in this context.
-            if word == &['k', 'i', 'n', 'd']
-                || word == &['m', 'e', 'a', 'n', 'i', 'n', 'g']
-                || word == &['p', 'a', 'r', 't']
+            if word == ['k', 'i', 'n', 'd']
+                || word == ['m', 'e', 'a', 'n', 'i', 'n', 'g']
+                || word == ['p', 'a', 'r', 't']
             {
                 continue;
             }
             let len = word.len();
             if len > 2 {
                 let ending = &word[len - 2..len];
-                if ending == &['e', 'r'] || ending == &['s', 't'] {
+                if ending == ['e', 'r'] || ending == ['s', 't'] {
                     continue;
                 }
             }
