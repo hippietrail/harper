@@ -12,8 +12,17 @@ pub struct MultipleSequentialPronouns {
 
 impl MultipleSequentialPronouns {
     fn new() -> Self {
+        // Some words occur in multiple positions in the paradigm
+        // but this is a set, so it doesn't matter and is much clearer
         let pronouns = Lrc::new(WordSet::new(&[
-            "me", "my", "I", "we", "you", "he", "him", "her", "she", "it", "they",
+            "I", "you", "he", "she", "it", // subject case, singular
+            "me", "you", "him", "her", "it", // object case, singular
+            "we", "you", "they", // subject case, plural
+            "us", "you", "them", // object case, plural
+            "mine", "yours", "his", "hers", // possessive pronouns, singular
+            "ours", "yours", "theirs", // possessive pronouns, plural
+            "my", "your", "his", "her", // possessive adjectives, singular
+            "our", "your", "their", // possessive adjectives, plural
         ]));
 
         Self {
