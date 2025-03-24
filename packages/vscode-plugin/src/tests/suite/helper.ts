@@ -11,6 +11,12 @@ import {
 	workspace,
 } from 'vscode';
 
+export async function closeAll(): Promise<void> {
+	for (const tabGroup of window.tabGroups.all) {
+		await window.tabGroups.close(tabGroup);
+	}
+}
+
 export async function activateHarper(): Promise<Extension<void>> {
 	const harper = extensions.getExtension('elijah-potter.harper')!;
 

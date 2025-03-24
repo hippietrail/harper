@@ -4,6 +4,7 @@ import { ConfigurationTarget, type Uri, commands, workspace } from 'vscode';
 
 import {
 	activateHarper,
+	closeAll,
 	compareActualVsExpectedDiagnostics,
 	createExpectedDiagnostics,
 	createRange,
@@ -18,6 +19,7 @@ describe('Integration >', () => {
 	let markdownUri: Uri;
 
 	beforeAll(async () => {
+		await closeAll();
 		harper = await activateHarper();
 		// Open test file so diagnostics can occur
 		markdownUri = await openFile('integration.md');
