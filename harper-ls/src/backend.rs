@@ -1,3 +1,4 @@
+use harper_stats::RecordKind;
 use std::collections::HashMap;
 use std::fs::OpenOptions;
 use std::io::{BufWriter, Write};
@@ -36,7 +37,7 @@ use crate::config::Config;
 use crate::dictionary_io::{file_dict_name, load_dict, save_dict};
 use crate::document_state::DocumentState;
 use crate::git_commit_parser::GitCommitParser;
-use harper_stats::{LintRecord, Stats};
+use harper_stats::{Record, Stats};
 
 pub struct Backend {
     client: Client,
@@ -530,13 +531,13 @@ impl LanguageServer for Backend {
                     return Ok(None);
                 };
 
-                let Ok(record) = LintRecord::record_now(kind) else {
+                let Ok(record) = Record::now(RecordKind::Lint(kind)) else {
                     error!("System time error");
                     return Ok(None);
                 };
 
                 let mut stats = self.stats.write().await;
-                stats.lint_applied(record);
+                stats.records.push(record);
             }
             "HarperAddToUserDict" => {
                 let word = &first.chars().collect::<Vec<_>>();

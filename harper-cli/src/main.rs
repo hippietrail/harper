@@ -209,7 +209,7 @@ fn main() -> anyhow::Result<()> {
             let mut reader = BufReader::new(file);
             let stats = Stats::read_csv(&mut reader)?;
 
-            let summary = stats.summarize_lints_applied();
+            let summary = stats.summarize();
             println!("{summary}");
 
             Ok(())
