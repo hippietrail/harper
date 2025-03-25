@@ -143,6 +143,10 @@ export default defineConfig({
 									title: 'Reviewing Pull Requests',
 									to: '/docs/contributors/review',
 								},
+								{
+									title: 'FAQ',
+									to: '/docs/contributors/faq',
+								},
 							],
 						},
 						{
