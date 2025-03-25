@@ -36,9 +36,9 @@ RUN pnpm build
 
 FROM node:${NODE_VERSION}
 
-COPY --from=node-build /usr/build/packages/web/build /usr/build
+COPY --from=node-build /usr/build/packages/web/build /usr/build/packages/web/build
 
-WORKDIR /usr/build
+WORKDIR /usr/build/packages/web/build
 
 ENV HOST=0.0.0.0
 ENV PORT=3000

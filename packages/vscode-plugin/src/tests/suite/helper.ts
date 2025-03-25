@@ -11,6 +11,12 @@ import {
 	workspace,
 } from 'vscode';
 
+export async function closeAll(): Promise<void> {
+	for (const tabGroup of window.tabGroups.all) {
+		await window.tabGroups.close(tabGroup);
+	}
+}
+
 export async function activateHarper(): Promise<Extension<void>> {
 	const harper = extensions.getExtension('elijah-potter.harper')!;
 
@@ -32,6 +38,11 @@ export async function openUntitled(text: string): Promise<Uri> {
 	const editor = await window.showTextDocument(document);
 	await editor.edit((editBuilder) => editBuilder.insert(new Position(0, 0), text));
 	return document.uri;
+}
+
+export async function setTextDocumentLanguage(uri: Uri, languageId: string): Promise<void> {
+	const document = await workspace.openTextDocument(uri);
+	languages.setTextDocumentLanguage(document, languageId);
 }
 
 export function getActualDiagnostics(resource: Uri): Diagnostic[] {
