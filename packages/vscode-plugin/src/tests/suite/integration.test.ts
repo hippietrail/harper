@@ -4,12 +4,14 @@ import { ConfigurationTarget, type Uri, commands, workspace } from 'vscode';
 
 import {
 	activateHarper,
+	closeAll,
 	compareActualVsExpectedDiagnostics,
 	createExpectedDiagnostics,
 	createRange,
 	getActualDiagnostics,
 	openFile,
 	openUntitled,
+	setTextDocumentLanguage,
 	sleep,
 } from './helper';
 
@@ -18,6 +20,7 @@ describe('Integration >', () => {
 	let markdownUri: Uri;
 
 	beforeAll(async () => {
+		await closeAll();
 		harper = await activateHarper();
 		// Open test file so diagnostics can occur
 		markdownUri = await openFile('integration.md');
@@ -56,6 +59,41 @@ describe('Integration >', () => {
 			createExpectedDiagnostics({
 				message: 'Did you mean to spell “Errorz” this way?',
 				range: createRange(0, 0, 0, 6),
+			}),
+		);
+	});
+
+	it('gives correct diagnostics when language is changed', async () => {
+		const untitledUri = await openUntitled('Errorz # Errorz');
+		await setTextDocumentLanguage(untitledUri, 'plaintext');
+
+		// Wait for `harper-ls` to send diagnostics
+		await sleep(500);
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(untitledUri),
+			createExpectedDiagnostics(
+				{
+					message: 'Did you mean to spell “Errorz” this way?',
+					range: createRange(0, 0, 0, 6),
+				},
+				{
+					message: 'Did you mean to spell “Errorz” this way?',
+					range: createRange(0, 9, 0, 15),
+				},
+			),
+		);
+
+		await setTextDocumentLanguage(untitledUri, 'shellscript');
+
+		// Wait for `harper-ls` to send diagnostics
+		await sleep(500);
+
+		compareActualVsExpectedDiagnostics(
+			getActualDiagnostics(untitledUri),
+			createExpectedDiagnostics({
+				message: 'Did you mean to spell “Errorz” this way?',
+				range: createRange(0, 9, 0, 15),
 			}),
 		);
 	});
