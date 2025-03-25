@@ -4,11 +4,19 @@ use super::Error;
 use super::affix_replacement::{AffixReplacement, HumanReadableAffixReplacement};
 use crate::WordMetadata;
 
+#[derive(Debug, Clone, Copy, Serialize, Deserialize, PartialEq)]
+#[serde(rename_all = "snake_case")]
+pub enum AffixEntryKind {
+    Property,
+    Suffix,
+    Prefix,
+}
+
 #[derive(Debug, Clone)]
 pub struct Expansion {
     /// If `!true`, this is a prefix
     /// But if `true` it may be a prefix but may be a property only
-    pub suffix_or_property: bool,
+    pub entry_kind: AffixEntryKind,
     pub cross_product: bool,
     pub replacements: Vec<AffixReplacement>,
     /// When the expansion is applied, the resulting word will have this
@@ -22,7 +30,7 @@ pub struct Expansion {
 impl Expansion {
     pub fn into_human_readable(self) -> HumanReadableExpansion {
         HumanReadableExpansion {
-            suffix_or_property: self.suffix_or_property,
+            entry_kind: self.entry_kind,
             cross_product: self.cross_product,
             replacements: self
                 .replacements
@@ -37,7 +45,7 @@ impl Expansion {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HumanReadableExpansion {
-    pub suffix_or_property: bool,
+    pub entry_kind: AffixEntryKind,
     pub cross_product: bool,
     pub replacements: Vec<HumanReadableAffixReplacement>,
     pub target_metadata: WordMetadata,
@@ -53,7 +61,7 @@ impl HumanReadableExpansion {
         }
 
         Ok(Expansion {
-            suffix_or_property: self.suffix_or_property,
+            entry_kind: self.entry_kind,
             cross_product: self.cross_product,
             replacements,
             target_metadata: self.target_metadata,

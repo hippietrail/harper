@@ -5,7 +5,7 @@ use smallvec::ToSmallVec;
 use super::super::word_map::{WordMap, WordMapEntry};
 use super::Error;
 use super::affix_replacement::AffixReplacement;
-use super::expansion::{Expansion, HumanReadableExpansion};
+use super::expansion::{Expansion, HumanReadableExpansion, AffixEntryKind};
 use super::word_list::MarkedWord;
 use crate::{CharString, Span, WordId, WordMetadata};
 
@@ -54,7 +54,7 @@ impl AttributeList {
                 if let Some(replaced) = Self::apply_replacement(
                     replacement,
                     &word.letters,
-                    expansion.suffix_or_property,
+                    expansion.entry_kind,
                 ) {
                     if let Some(val) = new_words.get_mut(&replaced) {
                         val.append(&expansion.target_metadata);
@@ -71,7 +71,7 @@ impl AttributeList {
                     let Some(attr_def) = self.affixes.get(attr) else {
                         continue;
                     };
-                    if attr_def.suffix_or_property != expansion.suffix_or_property {
+                    if attr_def.entry_kind != expansion.entry_kind {
                         opp_attr.push(*attr);
                     }
                 }
@@ -133,13 +133,13 @@ impl AttributeList {
     fn apply_replacement(
         replacement: &AffixReplacement,
         letters: &[char],
-        suffix: bool,
+        entry_kind: AffixEntryKind,
     ) -> Option<CharString> {
         if replacement.condition.len() > letters.len() {
             return None;
         }
 
-        let target_span = if suffix {
+        let target_span = if entry_kind == AffixEntryKind::Suffix {
             Span::new(letters.len() - replacement.condition.len(), letters.len())
         } else {
             Span::new(0, replacement.condition.len())
@@ -151,7 +151,7 @@ impl AttributeList {
             let mut replaced_segment = letters.to_smallvec();
             let mut remove: CharString = replacement.remove.to_smallvec();
 
-            if !suffix {
+            if entry_kind != AffixEntryKind::Suffix {
                 replaced_segment.reverse();
             } else {
                 remove.reverse();
@@ -169,13 +169,13 @@ impl AttributeList {
 
             let mut to_add = replacement.add.to_vec();
 
-            if !suffix {
+            if entry_kind != AffixEntryKind::Suffix {
                 to_add.reverse()
             }
 
             replaced_segment.extend(to_add);
 
-            if !suffix {
+            if entry_kind != AffixEntryKind::Suffix {
                 replaced_segment.reverse();
             }
 
