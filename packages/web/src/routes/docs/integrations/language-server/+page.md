@@ -248,6 +248,7 @@ These configs are under the `markdown` key:
 | Python            |           `python`            |            ✅ |
 | Ruby              |            `ruby`             |            ✅ |
 | Rust              |            `rust`             |            ✅ |
+| Scala             |           `scala`             |            ✅ |
 | Shell/Bash Script |         `shellscript`         |            ✅ |
 | Swift             |            `swift`            |            ✅ |
 | TOML              |            `toml`             |            ✅ |
