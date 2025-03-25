@@ -34,7 +34,7 @@ mod tests {
         json!({
             "affixes": {
                 "A": {
-                    "entry_kind": "prefix",
+                    "kind": "prefix",
                     "cross_product": true,
                     "replacements": [
                       {
@@ -50,7 +50,7 @@ mod tests {
                     "base_metadata": {}
                 },
                 "B": {
-                    "entry_kind": "suffix",
+                    "kind": "suffix",
                     "cross_product": true,
                     "replacements": [
                       {
@@ -151,7 +151,7 @@ mod tests {
             &json!({
                 "affixes": {
                     "S": {
-                        "entry_kind": "suffix",
+                        "kind": "suffix",
                         "cross_product": true,
                         "replacements": [
                           {
@@ -180,7 +180,7 @@ mod tests {
                         }
                     },
                     "M": {
-                        "entry_kind": "suffix",
+                        "kind": "suffix",
                         "cross_product": true,
                         "replacements": [
                           {

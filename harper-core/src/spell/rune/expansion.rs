@@ -16,7 +16,7 @@ pub enum AffixEntryKind {
 pub struct Expansion {
     /// If `!true`, this is a prefix
     /// But if `true` it may be a prefix but may be a property only
-    pub entry_kind: AffixEntryKind,
+    pub kind: AffixEntryKind,
     pub cross_product: bool,
     pub replacements: Vec<AffixReplacement>,
     /// When the expansion is applied, the resulting word will have this
@@ -30,7 +30,7 @@ pub struct Expansion {
 impl Expansion {
     pub fn into_human_readable(self) -> HumanReadableExpansion {
         HumanReadableExpansion {
-            entry_kind: self.entry_kind,
+            kind: self.kind,
             cross_product: self.cross_product,
             replacements: self
                 .replacements
@@ -45,7 +45,7 @@ impl Expansion {
 
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct HumanReadableExpansion {
-    pub entry_kind: AffixEntryKind,
+    pub kind: AffixEntryKind,
     pub cross_product: bool,
     pub replacements: Vec<HumanReadableAffixReplacement>,
     pub target_metadata: WordMetadata,
@@ -61,7 +61,7 @@ impl HumanReadableExpansion {
         }
 
         Ok(Expansion {
-            entry_kind: self.entry_kind,
+            kind: self.kind,
             cross_product: self.cross_product,
             replacements,
             target_metadata: self.target_metadata,

@@ -2,7 +2,7 @@
 	"affixes": {
 		"K": {
 			"#": "'pro-' prefix",
-			"entry_kind": "prefix",
+			"kind": "prefix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -16,7 +16,7 @@
 		},
 		"L": {
 			"#": "'-ment' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -30,7 +30,7 @@
 		},
 		"E": {
 			"#": "'dis-' prefix",
-			"entry_kind": "prefix",
+			"kind": "prefix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -44,7 +44,7 @@
 		},
 		"Y": {
 			"#": "'-ly' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -58,7 +58,7 @@
 		},
 		"U": {
 			"#": "'un-' prefix",
-			"entry_kind": "prefix",
+			"kind": "prefix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -72,7 +72,7 @@
 		},
 		"H": {
 			"#": "'-ieth' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": false,
 			"replacements": [
 				{
@@ -91,7 +91,7 @@
 		},
 		"T": {
 			"#": "'-(i)est' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": false,
 			"replacements": [
 				{
@@ -120,7 +120,7 @@
 		},
 		"R": {
 			"#": "'-(i)er' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -151,7 +151,7 @@
 		},
 		"C": {
 			"#": "'de-' prefix",
-			"entry_kind": "prefix",
+			"kind": "prefix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -165,7 +165,7 @@
 		},
 		"V": {
 			"#": "'-ive' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": false,
 			"replacements": [
 				{
@@ -184,7 +184,7 @@
 		},
 		"N": {
 			"#": "nominalization suffixes: -ion, -ication, -en",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -208,7 +208,7 @@
 		},
 		"A": {
 			"#": "'re-' prefix",
-			"entry_kind": "prefix",
+			"kind": "prefix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -222,7 +222,7 @@
 		},
 		"Z": {
 			"#": "'-(i)(e)rs' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -251,7 +251,7 @@
 		},
 		"P": {
 			"#": "'-(i)ness' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -275,7 +275,7 @@
 		},
 		"M": {
 			"#": "-'s possessive suffix; contraction of 'has' and 'is",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -295,7 +295,7 @@
 		},
 		"F": {
 			"#": "'con-' prefix",
-			"entry_kind": "prefix",
+			"kind": "prefix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -309,7 +309,7 @@
 		},
 		"B": {
 			"#": "'-able' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -333,7 +333,7 @@
 		},
 		"S": {
 			"#": "'-(i)(e)s' plural suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -366,7 +366,7 @@
 		},
 		"D": {
 			"#": "'-(e)d' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -399,7 +399,7 @@
 		},
 		"G": {
 			"#": "'-ing' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -422,7 +422,7 @@
 		},
 		"Q": {
 			"#": "'-ally' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -436,7 +436,7 @@
 		},
 		"O": {
 			"#": "'-ful' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -450,7 +450,7 @@
 		},
 		"I": {
 			"#": "'in-' prefix",
-			"entry_kind": "prefix",
+			"kind": "prefix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -464,7 +464,7 @@
 		},
 		"X": {
 			"#": "'-ions', '-ications', '-ens' suffixes",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -488,7 +488,7 @@
 		},
 		"J": {
 			"#": "'-ings' suffix",
-			"entry_kind": "suffix",
+			"kind": "suffix",
 			"cross_product": true,
 			"replacements": [
 				{
@@ -507,7 +507,7 @@
 		},
 		"1": {
 			"#": "singular noun property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -519,7 +519,7 @@
 		},
 		"2": {
 			"#": "proper noun property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -531,7 +531,7 @@
 		},
 		"3": {
 			"#": "linking verb property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -543,7 +543,7 @@
 		},
 		"4": {
 			"#": "verb property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -553,7 +553,7 @@
 		},
 		"5": {
 			"#": "adjective property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -563,7 +563,7 @@
 		},
 		"6": {
 			"#": "swear word property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {
@@ -575,7 +575,7 @@
 		},
 		"7": {
 			"#": "conjunction property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -585,7 +585,7 @@
 		},
 		"8": {
 			"#": "pronoun property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -595,7 +595,7 @@
 		},
 		"9": {
 			"#": "plural noun property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -607,7 +607,7 @@
 		},
 		"~": {
 			"#": "common word property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -617,7 +617,7 @@
 		},
 		"+": {
 			"#": "preposition property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -627,7 +627,7 @@
 		},
 		"-": {
 			"#": "determiner property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -637,7 +637,7 @@
 		},
 		"j": {
 			"#": "adverb property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -647,7 +647,7 @@
 		},
 		"s": {
 			"#": "subject case property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -657,7 +657,7 @@
 		},
 		"o": {
 			"#": "object case property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -667,7 +667,7 @@
 		},
 		"f": {
 			"#": "first-person property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -679,7 +679,7 @@
 		},
 		"n": {
 			"#": "second-person property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -689,7 +689,7 @@
 		},
 		"t": {
 			"#": "third-person property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -699,7 +699,7 @@
 		},
 		"c": {
 			"#": "comparative property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -709,7 +709,7 @@
 		},
 		"u": {
 			"#": "superlative property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -719,7 +719,7 @@
 		},
 		"*": {
 			"#": "singular third-person pronoun property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -732,7 +732,7 @@
 		},
 		":": {
 			"#": "plural pronoun property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -744,7 +744,7 @@
 		},
 		"m": {
 			"#": "auxiliary verb property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -756,7 +756,7 @@
 		},
 		"<": {
 			"#": "American property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -766,7 +766,7 @@
 		},
 		"!": {
 			"#": "GB property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
@@ -776,7 +776,7 @@
 		},
 		"@": {
 			"#": "CA property",
-			"entry_kind": "property",
+			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
 			"target_metadata": {},
