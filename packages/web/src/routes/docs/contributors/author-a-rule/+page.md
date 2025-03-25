@@ -119,19 +119,18 @@ use super::correct_number_suffix::CorrectNumberSuffix;
 // [svp! df:+]use super::my_rule::MyRule;
 ```
 
-Finally, enable it in the macro invocation near the bottom:
+Finally, enable it in a macro invocation near the bottom:
 
 ```rust title="harper-core/src/linting/lint_group.rs"
-create_lint_group_config!(
-    SpelledNumbers => false,
-    AnA => true,
-    SentenceCapitalization => true,
-    UnclosedQuotes => true,
-// [svp! df:+]    MyRule => true
-);
+insert_struct_rule!(AdjectiveOfA, true);
+insert_pattern_rule!(BackInTheDay, true);
+insert_struct_rule!(WordPressDotcom, true);
+insert_pattern_rule!(OutOfDate, true);
+// [svp! df:+]   insert_pattern_rule!(MyRule, true); 
 ```
 
-That's it!
+If you use a `PatternLinter`, use `insert_pattern_rule` to take advantage of Harper's aggressive caching.
+Otherwise, use `insert_struct_rule`.
 
 ## Write Your Rule
 
