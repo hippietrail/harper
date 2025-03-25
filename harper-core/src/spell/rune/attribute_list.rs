@@ -5,7 +5,7 @@ use smallvec::ToSmallVec;
 use super::super::word_map::{WordMap, WordMapEntry};
 use super::Error;
 use super::affix_replacement::AffixReplacement;
-use super::expansion::{Expansion, HumanReadableExpansion, AffixEntryKind};
+use super::expansion::{AffixEntryKind, Expansion, HumanReadableExpansion};
 use super::word_list::MarkedWord;
 use crate::{CharString, Span, WordId, WordMetadata};
 
@@ -51,11 +51,9 @@ impl AttributeList {
             let mut new_words: HashMap<CharString, WordMetadata> = HashMap::new();
 
             for replacement in &expansion.replacements {
-                if let Some(replaced) = Self::apply_replacement(
-                    replacement,
-                    &word.letters,
-                    expansion.entry_kind,
-                ) {
+                if let Some(replaced) =
+                    Self::apply_replacement(replacement, &word.letters, expansion.entry_kind)
+                {
                     if let Some(val) = new_words.get_mut(&replaced) {
                         val.append(&expansion.target_metadata);
                     } else {
