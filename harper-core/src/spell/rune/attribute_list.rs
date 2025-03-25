@@ -47,17 +47,19 @@ impl AttributeList {
                 continue;
             };
 
-            gifted_metadata.append(&expansion.gifts_metadata);
+            gifted_metadata.append(&expansion.base_metadata);
             let mut new_words: HashMap<CharString, WordMetadata> = HashMap::new();
 
             for replacement in &expansion.replacements {
-                if let Some(replaced) =
-                    Self::apply_replacement(replacement, &word.letters, expansion.suffix)
-                {
+                if let Some(replaced) = Self::apply_replacement(
+                    replacement,
+                    &word.letters,
+                    expansion.suffix_or_property,
+                ) {
                     if let Some(val) = new_words.get_mut(&replaced) {
-                        val.append(&expansion.adds_metadata);
+                        val.append(&expansion.target_metadata);
                     } else {
-                        new_words.insert(replaced, expansion.adds_metadata.clone());
+                        new_words.insert(replaced, expansion.target_metadata.clone());
                     }
                 }
             }
@@ -69,7 +71,7 @@ impl AttributeList {
                     let Some(attr_def) = self.affixes.get(attr) else {
                         continue;
                     };
-                    if attr_def.suffix != expansion.suffix {
+                    if attr_def.suffix_or_property != expansion.suffix_or_property {
                         opp_attr.push(*attr);
                     }
                 }
