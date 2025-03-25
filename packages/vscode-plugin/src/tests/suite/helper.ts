@@ -80,6 +80,19 @@ export function createRange(
 	return new Range(new Position(startRow, startColumn), new Position(endRow, endColumn));
 }
 
-export function sleep(duration: number): Promise<void> {
+// The numbers used in these functions are what works when running tests in GitHub CI.
+export async function waitForHarperToActivate() {
+	await sleep(500);
+}
+export async function waitForUpdatesFromOpenedFile() {
+	await sleep(75);
+}
+export async function waitForUpdatesFromConfigChange() {
+	await sleep(300);
+}
+export async function waitForUpdatesFromDeletedFile() {
+	await sleep(450);
+}
+function sleep(duration: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, duration));
 }
