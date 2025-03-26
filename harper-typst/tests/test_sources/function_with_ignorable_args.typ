@@ -13,3 +13,5 @@
 #std.raw(syntaxes: ("../a", "../b"), theme: "../c", [Errorz])
 #std.image("../a", caption: [Errorz])
 #std.regex("(?i)")
+#datetime.today().display("y:[year repr:last_two]")
+#context counter(heading).display("i", both: [Errorz])

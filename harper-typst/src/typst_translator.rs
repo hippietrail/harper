@@ -221,9 +221,10 @@ impl<'a> TypstTranslator<'a> {
                 )
             };
 
+            let text = get_text!(func.callee());
             merge![
                 token!(func.callee(), TokenKind::Unlintable),
-                match get_text!(func.callee()) {
+                match text {
                     "std.rgb" | "color.rgb" | "rgb" => parse_args_without(true, &[]),
                     "std.plugin" | "plugin" => parse_args_without(true, &[]),
                     "std.bibliography" | "bibliography" => parse_args_without(true, &["style"]),
@@ -231,6 +232,7 @@ impl<'a> TypstTranslator<'a> {
                     "std.raw" | "raw" => parse_args_without(false, &["syntaxes", "theme"]),
                     "std.image" | "image" => parse_args_without(true, &[]),
                     "std.regex" | "regex" => parse_args_without(true, &[]),
+                    _ if text.ends_with(".display") => parse_args_without(true, &[]),
                     _ => parse_args(&mut func.args().items()),
                 }
             ]
