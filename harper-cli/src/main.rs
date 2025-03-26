@@ -207,7 +207,7 @@ fn main() -> anyhow::Result<()> {
         Args::SummarizeLintRecord { file } => {
             let file = File::open(file)?;
             let mut reader = BufReader::new(file);
-            let stats = Stats::read_csv(&mut reader)?;
+            let stats = Stats::read(&mut reader)?;
 
             let summary = stats.summarize();
             println!("{summary}");

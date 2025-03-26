@@ -123,7 +123,7 @@ impl Backend {
                 .create(true)
                 .open(&config.stats_path)?,
         );
-        stats.write_csv(&mut writer)?;
+        stats.write(&mut writer)?;
         writer.flush()?;
 
         Ok(())
