@@ -571,12 +571,6 @@ pub fn lint_group() -> LintGroup {
             "Use the hyphenated form for `well-being`.",
             "Ensures `well-being` is correctly hyphenated."
         ),
-        "PerformThis" => (
-            ["performing this"],
-            ["perform this"],
-            "Use `perform this` for correct verb usage.",
-            "Corrects `performing this` to `perform this` for proper verb usage."
-        ),
         "SimpleGrammatical" => (
             ["simply grammatical"],
             ["simple grammatical"],
