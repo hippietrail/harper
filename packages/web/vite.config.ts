@@ -91,6 +91,10 @@ export default defineConfig({
 									to: '/docs/harperjs/linting',
 								},
 								{
+									title: 'Configure Rules',
+									to: '/docs/harperjs/configurerules',
+								},
+								{
 									title: 'Node.js',
 									to: '/docs/harperjs/node',
 								},
