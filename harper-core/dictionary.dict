@@ -13463,6 +13463,8 @@ backpacking/41M
 backpedal/41SDG
 backpedalled/4!@@
 backpedalling/41!@@
+backplane/SM
+backport/41DGSM
 backrest/1SM
 backronym/1SM
 backroom/15S
@@ -13568,6 +13570,7 @@ balaclava/1MS
 balalaika/1MS
 balance/~14UDSG
 balance's
+balancer/SM
 balboa/~1SM
 balcony/~1SM
 bald/~514STGPDRY
@@ -14723,6 +14726,7 @@ blotting/41
 blotto/514
 blouse/~14MGDS
 blow/~415SZGMR
+blowback/~1MS
 blower/~1M
 blowfly/1SM
 blowgun/1MS
@@ -15801,6 +15805,7 @@ cadaverous/5
 caddie/14MDS
 caddish/5YP
 caddishness/1M
+caddy/1SM
 caddying/4
 cadence/~14DSM
 cadenza/1SM
@@ -16677,6 +16682,7 @@ changeably/j
 changed/~54U
 changeless/5Y
 changeling/~15SM
+changelog/SM
 changeover/1SM
 changer/~1M
 changing/~41U
@@ -17632,6 +17638,7 @@ codding/45
 coddle/41DSG
 code/~14CZGDRS
 code's
+codebase/1S
 codefendant/1SM
 codeine/1M
 codependency/1M
@@ -17664,6 +17671,7 @@ coeval/51SMY
 coexist/~4DG
 coexistence/~1M
 coexistent/51
+coexists/4
 coextensive/5
 coffee/~154SM
 coffeecake/1SM
@@ -19678,6 +19686,7 @@ customer/~1M
 customhouse/1SM
 customisation/1M!
 customise/4DSG!
+customizable/5
 customization/~1M
 customize/4DSG
 cut/~451TSMR
@@ -21481,6 +21490,7 @@ downpour/14MS
 downrange/5
 downright/~5
 downriver/~5
+downsample/SMG
 downscale/54
 downshift/14SGD
 downside/~1MS
@@ -25466,6 +25476,7 @@ gamechanger/1MS
 gamecock/1MS
 gamekeeper/1MS
 gameness/1M
+gameplay/~1
 gamer/~1SM
 gamesmanship/1M
 gamester/1MS
@@ -25704,7 +25715,7 @@ gentlefolk/1MS
 gentlefolks/1M
 gentleman/~1MY
 gentlemanly/5U
-gentlemen/~9
+gentlemen/~9M
 gentleness/1M
 gentlewoman/1M
 gentlewomen/9
@@ -25980,7 +25991,7 @@ gloaming/14SM
 gloat/41SMDG
 gloating/41Y
 glob/~14MDGS
-global/~51Y
+global/~51YSM
 globalisation/1M!
 globalise/4GDS!
 globalism/1M
@@ -28246,6 +28257,7 @@ hydrophone/1SM
 hydroplane/41GDSM
 hydroponic/5SQ
 hydroponics/1M
+hydropower/~1
 hydrosphere/1M
 hydrotherapy/1M
 hydrothermal/5
@@ -32408,6 +32420,7 @@ matcha/1M
 matchbook/1SM
 matchbox/1MS
 matched/~41U
+matcher/1MS
 matching/~451
 matchless/5
 matchlock/1SM
@@ -32923,6 +32936,7 @@ mick/~15S
 mickey/~14MS
 micro/~514SM
 microaggression/1SM
+microarchitecture/1MS
 microbe/1MS
 microbial/~51
 microbiological/5
@@ -34437,6 +34451,7 @@ neoconsolativism/1M
 neocortex/1
 neodymium/1M
 neoliberal/51SM
+neoliberalism/1M
 neolithic/~5
 neologism/~1SM
 neon/~15M
@@ -35312,6 +35327,7 @@ objectivity/~1M
 objector/~1MS
 objurgate/4XGNDS
 objurgation/1M
+oblast/~1SM
 oblate/154NX
 oblation/1M
 obligate/45DSXGN
@@ -35397,6 +35413,7 @@ ocarina/1MS
 occasion/~14GMDS
 occasional/~51Y
 occidental/~51SM
+occipital/~51SM
 occlude/4GDS
 occlusion/~1SM
 occlusive/51
@@ -35785,6 +35802,7 @@ organizational/~5Y
 organize/~4AESDG
 organized/~54U
 organizer/~1MS
+organoid/SM
 organza/1M
 orgasm/~14SMDG
 orgasmic/5
@@ -36219,6 +36237,7 @@ overprice/4DSG
 overprint/14SMDG
 overproduce/4GDS
 overproduction/1M
+overpromise/4SGD
 overprotect/4SDGV
 overqualified/5
 overran/~4
@@ -37219,6 +37238,7 @@ perception/~1SM
 perceptional/5
 perceptive/5PY
 perceptiveness/1M
+perceptron/SM
 perceptual/~5Y
 perch/~14GMDS
 perchance/
@@ -39399,6 +39419,7 @@ psephologist/1S
 psephology/1
 pseud/1S
 pseudo/~15S
+pseudocode/1MG
 pseudonym/~1SM
 pseudonymous/~5
 pseudorandom/5P
@@ -40038,6 +40059,7 @@ rainbow/~154SM
 raincoat/1SM
 raindrop/1SM
 rainfall/~1SM
+rainforest/~SM
 rainmaker/~1SM
 rainmaking/1M
 rainproof/54
@@ -40515,6 +40537,7 @@ reflexive/~51SMY
 reflexivity/1
 reflexology/1
 refloat/4DGS
+reflow/4SGD
 reforge/4DSG
 reform/~14MZ
 reformat/4V
@@ -40621,6 +40644,8 @@ rehome/4DSG
 rehung/4
 reify/4NDSG
 reign/~14MDSG
+reimagine/4SDG
+reimagined/45
 reimburse/4BDSGL
 reimbursement/1MS
 rein/~14GD
@@ -40855,6 +40880,7 @@ repurchase/41GDS
 reputability/1M
 reputably/Ej
 reputation/~1MS
+reputational/5
 repute/14DSMGB
 reputed/~45Y
 request/~41GDR
@@ -40878,7 +40904,7 @@ rescission/1M
 rescue/~41DRSMZG
 reseal/4B
 resemble/~4DSG
-resend/41
+resend/41SGD
 resent/~4LSDG
 resentful/~5YP
 resentfulness/1M
@@ -45764,6 +45790,7 @@ subtree/1SM
 subtropic/1S
 subtropical/~51
 subtropics/1M
+subtype/~1MS
 suburb/~1MS
 suburban/~51SM
 suburbanite/1SM
@@ -47630,6 +47657,7 @@ toolbar/~1SM
 toolbox/~1MS
 toolkit/~1
 toolmaker/1MS
+tooltip/1MS
 toot/14MDRZGS
 tooter/1M
 tooth/~14MD
@@ -47743,6 +47771,7 @@ touchily/j
 touchiness/1M
 touching/~45+1Y
 touchline/1S
+touchpad/SM
 touchpaper/1S
 touchscreen/1MS
 touchstone/~1MS
@@ -48889,6 +48918,7 @@ unease/14M
 uneasy/~5T
 uneatable/5
 uneconomic/5
+unelected/5
 unemployed/~5M
 unending/5
 unenterprising/5
@@ -49200,6 +49230,7 @@ upriver/~5
 uproar/~14SM
 uproarious/5Y
 uproot/41GSD
+upsample/SMG
 upscale/~54
 upset/~514SM
 upsetting/~415
@@ -51670,40 +51701,29 @@ a12s/9
 a8c/SM
 archytas/SM
 async/5
-backend/1SM
-backplane/SM
-backport/41DGSM
-balancer/SM
-baz/~
+backend/1SM         # dictionaries prefer: back end
+baz/~               # cf. foo, bar
 bitstream/SM
-blowback/~1MS
 bool/S
-caddy/1SM
 cannabinoids/1
 centric/~SM
-changelog/SM
 chatbot/SM
 ciphertext/~1MS
 clickjack/4SGD
-codebase/1S
-coexists/4
 config/14SM
 const/~S
 contrapositive/1SM
 crypto/~M
 cryptographic/5Q
-customizable/5
 cyberattack/SM
 cyberphysical/51Y
 cybersecurity/M
-decrupt/4SGD
 dedup/1M
 dedupe/14SMDG
 deserialize/4SGD
 desolder/4SGD
 dev/~1MS
 dotfile/~1S
-downsample/SMG
 e.g./~1
 eggcorn/1MS
 et al./~
@@ -51714,12 +51734,9 @@ evalled/4
 evalling/4
 filesystem/~SM
 filetype/14GSMD
-frontend/1SM
+frontend/1SM        # dictionaries prefer: front end
 gRPC/2SM
-gameplay/~1
 gamify/4D
-gentlemen/~9M
-global/~1SM
 glymph/SM
 grift/1GDS
 grifter/MS
@@ -51729,8 +51746,7 @@ gzipping/4
 hackathon/1SM
 hardcode/4GDS
 here's/
-hotwire/4BG
-hydropower/~1
+hotwire/4BG         # dictionaries prefer: hot-wire
 i.e./~
 inclusivity/SM
 inoperability/1MS
@@ -51738,81 +51754,58 @@ interconnectedness/1
 intergenerational/5
 iterable/5
 journaling/SM3
-ketamine/1M
 keymap/1SM
 labriola/SM
 leaderboard/1MS
 lex/~41D
 linter/1SM
 macOS/2SM
-matcher/1MS
 maximalist/1MS
 merchantability/1
-microarchitecture/1MS
 microservice/1SM
 middleware/~SM
 monorepo/SM
 namespace/~14GSMD
-neoliberal/51SM
-neoliberalism/1M
-oblast/~1SM
-occipital/~51SM
 olds/~
 onboarding/14SM
-organoid/SM
-overhyped/45
 overleveraged/5
-overpromise/4SGD
 overstimulation/1
 pandoc/SM
 param/1MS
-perceptron/SM
 plaintext/~1MS
 pre/~+14
 preloaded/54
-pseudocode/1MG
 quartile/1S
-rainforest/~SM
 ramp/~4SGD
-raytracer/1
+raytracer/1         # dictionaries prefer: ray tracer
 rebalance/4SGD
 redeclare/4SGD
-reflow/4SGD
 regex/1MS
-reimagine
-reimagined/4
 renderer/~1SM
-reputational/5
-resend/4SGD
 reskilling/4
 royale/~15SM
 s.t./~
-scatterplot/14SMG
-scrollbar/1SM
+scatterplot/14SMG   # dictionaries prefer: scatter plot
+scrollbar/1SM       # dictionaries prefer: scroll bar
 sioyek/SM
-stacktrace/SM1
+stacktrace/SM1      # dictionaries prefer: stack trace
 standup/SM
 struct/1MS
 stylization/SM
 subquery/14SGD
 subsequence/1MS
 substring/14SM
-subtype/~1MS
 summarizer/1MS
 suprachiasmatic/5
 sweetgrass/1SM
 telemedicine/SM
-tooltip/1MS
-touchpad/SM
 transformative/~5
 typeahead/1M
 uncheck/SM
 undercount/14DGS
 underinsured/5
-unelected/5
 unmute/4SGD
 unnest/4SGD
-upsample/SMG
 vs./~
 whitespace/~1SM
 wikilink/~1SM
