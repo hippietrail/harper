@@ -51814,6 +51814,7 @@ unmute/4SGD
 unnest/4SGD
 upsample/SMG
 vs./~
+whitespace/~1SM
 wikilink/~1SM
 
 # Experimental multi-word entries
@@ -51864,7 +51865,6 @@ UTF-8/1M
 walkie-talkie/1MS
 web page/~1SM
 well-known/5
-white space/~1SM
 working-class/15MS
 
 # New entries may be added below this line
