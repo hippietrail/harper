@@ -7,8 +7,8 @@ use itertools::Itertools;
 use typst_syntax::{
     Source,
     ast::{
-        Arg, ArrayItem, AstNode, DestructuringItem, DictItem, Expr, Ident, LetBindingKind, Param,
-        Pattern, Spread,
+        Arg, ArrayItem, AstNode, DestructuringItem, DictItem, Expr, FuncCall, Ident,
+        LetBindingKind, Param, Pattern, Spread,
     },
 };
 
@@ -203,6 +203,38 @@ impl<'a> TypstTranslator<'a> {
             )
         };
 
+        // Parse a function call
+        let parse_func_call = |func: FuncCall| {
+            let parse_args_without = |pos: bool, nameds: &[&str]| {
+                let (dead, alive): (Vec<_>, Vec<_>) = func.args().items().partition(|a| match a {
+                    Arg::Pos(_) => pos,
+                    Arg::Named(named) => nameds.contains(&named.name().as_str()),
+                    Arg::Spread(_) => false,
+                });
+
+                Some(
+                    dead.iter()
+                        .flat_map(|a| token!(a, TokenKind::Unlintable))
+                        .chain(parse_args(&mut alive.into_iter()))
+                        .flatten()
+                        .collect_vec(),
+                )
+            };
+
+            merge![
+                token!(func.callee(), TokenKind::Unlintable),
+                match get_text!(func.callee()) {
+                    "color.rgb" | "rgb" => parse_args_without(true, &[]),
+                    "std.plugin" | "plugin" => parse_args_without(true, &[]),
+                    "std.bibliography" | "bibliography" => parse_args_without(true, &["style"]),
+                    "std.cite" | "cite" => parse_args_without(true, &["style"]),
+                    "std.raw" | "raw" => parse_args_without(false, &["syntaxes", "theme"]),
+                    "std.image" | "image" => parse_args_without(true, &[]),
+                    _ => parse_args(&mut func.args().items()),
+                }
+            ]
+        };
+
         // Delegate parsing based on the kind of Typst expression.
         // Not all expression kinds have defined behavior, so the default behavior is
         // an [`harper_core::TokenKind::Unlintable`] token.
@@ -330,15 +362,7 @@ impl<'a> TypstTranslator<'a> {
                 parse_params(&mut closure.params().children()),
                 recurse!(closure.body())
             ],
-            Expr::FuncCall(func) => {
-                merge![
-                    token!(func.callee(), TokenKind::Unlintable),
-                    match get_text!(func.callee()) {
-                        "color.rgb" | "rgb" => token!(func.args(), TokenKind::Unlintable),
-                        _ => parse_args(&mut func.args().items()),
-                    }
-                ]
-            }
+            Expr::FuncCall(func) => parse_func_call(func),
             a => token!(a, TokenKind::Unlintable),
         }
     }
