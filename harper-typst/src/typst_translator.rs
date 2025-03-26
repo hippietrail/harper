@@ -224,7 +224,7 @@ impl<'a> TypstTranslator<'a> {
             merge![
                 token!(func.callee(), TokenKind::Unlintable),
                 match get_text!(func.callee()) {
-                    "color.rgb" | "rgb" => parse_args_without(true, &[]),
+                    "std.rgb" | "color.rgb" | "rgb" => parse_args_without(true, &[]),
                     "std.plugin" | "plugin" => parse_args_without(true, &[]),
                     "std.bibliography" | "bibliography" => parse_args_without(true, &["style"]),
                     "std.cite" | "cite" => parse_args_without(true, &["style"]),
