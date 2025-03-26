@@ -54,8 +54,12 @@ enum Args {
     Metadata { word: String },
     /// Get all the forms of a word using the affixes.
     Forms { line: String },
+    /// Get a word from its ID (hash).
+    WordFromId { id: String },
     /// Emit a decompressed, line-separated list of the words in Harper's dictionary.
     Words,
+    /// Emit a decompressed, line-separated list of the words in Harper's dictionary that have been derived from other words.
+    DerivedWords,
     /// Print the default config with descriptions.
     Config,
     /// Print a list of all the words in a document, sorted by frequency.
@@ -192,6 +196,18 @@ fn main() -> anyhow::Result<()> {
 
             Ok(())
         }
+        Args::DerivedWords => {
+            for word in dictionary.words_iter() {
+                if let Some(metadata) = dictionary.get_word_metadata(word) {
+                    if let Some(derived_from) = metadata.derived_from {
+                        let base_word = dictionary.get_word_from_id(&WordId::from_u64(derived_from.hash()));
+                        println!("{} -> {}", base_word.unwrap().iter().collect::<String>(), word.iter().collect::<String>());
+                    }
+                }
+            }
+
+            Ok(())
+        }
         Args::Metadata { word } => {
             let metadata = dictionary.get_word_metadata_str(&word);
             let json = serde_json::to_string_pretty(&metadata).unwrap();
@@ -265,6 +281,16 @@ fn main() -> anyhow::Result<()> {
                 print_word_derivations(&word, &annot, &dict);
             }
 
+            Ok(())
+        }
+        Args::WordFromId { id } => {
+            let word_id = WordId::from_u64(id.parse().unwrap());
+            let word = dictionary.get_word_from_id(&word_id);
+            if let Some(word) = word {
+                println!("{}", word.iter().collect::<String>());
+            } else {
+                println!("No word found with ID {}", id);
+            }
             Ok(())
         }
         Args::Config => {

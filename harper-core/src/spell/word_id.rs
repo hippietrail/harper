@@ -31,4 +31,14 @@ impl WordId {
         let chars: CharString = text.as_ref().chars().collect();
         Self::from_word_chars(chars)
     }
+
+    /// Create a word ID from an integer.
+    pub fn from_u64(hash: u64) -> Self {
+        Self { hash }
+    }
+
+    /// Get the hash value of the word ID.
+    pub fn hash(&self) -> u64 {
+        self.hash
+    }
 }
