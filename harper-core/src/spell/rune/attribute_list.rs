@@ -38,8 +38,8 @@ impl AttributeList {
     /// Will append to the given `dest`;
     ///
     /// In the future, I want to make this function cleaner and faster.
-    pub fn expand_marked_word(&self, word: MarkedWord, dest: &mut WordMap) {
-        dest.reserve(word.attributes.len() + 1);
+    pub fn expand_marked_word(&self, word: MarkedWord, destination_word_map: &mut WordMap) {
+        destination_word_map.reserve(word.attributes.len() + 1);
         let mut gifted_metadata = WordMetadata::default();
 
         for attr in &word.attributes {
@@ -80,20 +80,57 @@ impl AttributeList {
                             letters: new_word.clone(),
                             attributes: opp_attr.clone(),
                         },
-                        dest,
+                        destination_word_map,
                     );
-                    let t_metadata = dest.get_metadata_mut_chars(&new_word).unwrap();
+                    let t_metadata = destination_word_map.get_metadata_mut_chars(&new_word).unwrap();
+                    let old_derived_from = t_metadata.derived_from;
                     t_metadata.append(&metadata);
-                    t_metadata.derived_from = Some(WordId::from_word_chars(&word.letters))
+                    t_metadata.derived_from = Some(WordId::from_word_chars(&word.letters));
+
+                    if let Some(old_base_word_id) = old_derived_from {
+                        let new_base_word = word.letters.iter().collect::<String>();
+                        let derived_word = new_word.iter().collect::<String>();
+                        let old_base_word = destination_word_map.get(&old_base_word_id).unwrap().canonical_spelling.iter().collect::<String>();
+
+                        if new_base_word.to_lowercase() == old_base_word.to_lowercase() {
+                            println!("{} ← {} ⨯DUPE (case) {}", derived_word, new_base_word, old_base_word);
+                        } else {
+                            println!("{} ← {} ⨯DUPE {}", derived_word, new_base_word, old_base_word);
+                        }
+                    }
                 }
             } else {
                 for (key, mut value) in new_words.into_iter() {
                     value.derived_from = Some(WordId::from_word_chars(&word.letters));
 
-                    if let Some(val) = dest.get_metadata_mut_chars(&key) {
-                        val.append(&value);
+                    let mut old_base_word = None;
+                    if let Some(old_base_word_id) = value.derived_from {
+                        if let Some(old_base_word_map_entry) = destination_word_map.get(&old_base_word_id) {
+                            old_base_word = Some(old_base_word_map_entry.canonical_spelling.iter().collect::<String>());
+                        } else {
+                            println!("** base word id {:?} but no base word entry for {:?}", old_base_word_id, value);
+                        }
+                    }
+
+                    if let Some(mutable_word_metadata) = destination_word_map.get_metadata_mut_chars(&key) {
+                        if mutable_word_metadata.derived_from.is_some() {
+                            let derived_word = key.iter().collect::<String>();
+                            let new_base_word = word.letters.iter().collect::<String>();
+
+                            if let Some(old_base_word) = old_base_word {
+                                println!("{} ← {} DUPE {}", derived_word, new_base_word, old_base_word);
+                            } else {
+                                // This means 
+                                println!("{} ← {} DUPE ???", derived_word, new_base_word);
+                                println!("{:?}", mutable_word_metadata);
+                            }
+                        } else {
+                            println!("  append, not previously derived");
+                        }
+                        mutable_word_metadata.append(&value);
                     } else {
-                        dest.insert(WordMapEntry {
+                        // println!("  insert");
+                        destination_word_map.insert(WordMapEntry {
                             canonical_spelling: key,
                             metadata: value,
                         });
@@ -102,13 +139,13 @@ impl AttributeList {
             }
         }
 
-        if let Some(prev_val) = dest.get_with_chars(&word.letters) {
-            dest.insert(WordMapEntry {
+        if let Some(prev_val) = destination_word_map.get_with_chars(&word.letters) {
+            destination_word_map.insert(WordMapEntry {
                 metadata: gifted_metadata.or(&prev_val.metadata),
                 canonical_spelling: word.letters,
             });
         } else {
-            dest.insert(WordMapEntry {
+            destination_word_map.insert(WordMapEntry {
                 metadata: gifted_metadata,
                 canonical_spelling: word.letters,
             });

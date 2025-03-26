@@ -290,6 +290,9 @@ getmetadata word:
 # Get all the forms of a word using the affixes.
 getforms word:
   cargo run --bin harper-cli -- forms {{word}}
+# Get a word from its ID (hash)
+getwordfromid wordid:
+  cargo run --bin harper-cli -- word-from-id {{wordid}}
 # Get a random sample of words from Harper's dictionary and list all forms of each.
 sampleforms count:
   #!/bin/bash
