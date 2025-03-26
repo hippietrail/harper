@@ -230,6 +230,7 @@ impl<'a> TypstTranslator<'a> {
                     "std.cite" | "cite" => parse_args_without(true, &["style"]),
                     "std.raw" | "raw" => parse_args_without(false, &["syntaxes", "theme"]),
                     "std.image" | "image" => parse_args_without(true, &[]),
+                    "std.regex" | "regex" => parse_args_without(true, &[]),
                     _ => parse_args(&mut func.args().items()),
                 }
             ]

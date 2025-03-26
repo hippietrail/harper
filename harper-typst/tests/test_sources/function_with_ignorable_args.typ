@@ -4,6 +4,7 @@
 #cite(style: "../a.csl", supplement: [Errorz])
 #raw(syntaxes: ("../a", "../b"), theme: "../c", [Errorz])
 #image("../a", caption: [Errorz])
+#regex("(?i)")
 #std.rgb("ffffff")
 #color.rgb("ffffff")
 #std.plugin("../a.wasm")
@@ -11,3 +12,4 @@
 #std.cite(style: "../a.csl", supplement: [Errorz])
 #std.raw(syntaxes: ("../a", "../b"), theme: "../c", [Errorz])
 #std.image("../a", caption: [Errorz])
+#std.regex("(?i)")
