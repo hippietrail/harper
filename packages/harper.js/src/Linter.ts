@@ -77,6 +77,15 @@ export default interface Linter {
 
 	/** Get the dialect of English this linter was constructed for. */
 	setDialect(dialect: Dialect): Promise<void>;
+
+	/** Summarize the linter's usage statistics. */
+	summarizeStats(): Promise<Record<string, number>>;
+
+	/** Generate a statistics log file you can save to permanent storage. */
+	generateStatsFile(): Promise<string>;
+
+	/** Import a statistics log file. */
+	importStatsFile(statsFile: string): Promise<void>;
 }
 
 export interface LinterInit {

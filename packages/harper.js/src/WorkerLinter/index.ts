@@ -149,6 +149,18 @@ export default class WorkerLinter implements Linter {
 		return this.rpc('setDialect', [dialect]);
 	}
 
+	summarizeStats(): Promise<Record<string, number>> {
+		return this.rpc('summarizeStats', []);
+	}
+
+	generateStatsFile(): Promise<string> {
+		return this.rpc('generateStatsFile', []);
+	}
+
+	importStatsFile(statsFile: string): Promise<void> {
+		return this.rpc('importStatsFile', [statsFile]);
+	}
+
 	/** Run a procedure on the remote worker. */
 	private async rpc(procName: string, args: unknown[]): Promise<any> {
 		const promise = new Promise((resolve, reject) => {

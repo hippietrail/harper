@@ -1,6 +1,8 @@
 #![doc = include_str!("../README.md")]
 
+use std::collections::HashMap;
 use std::convert::Into;
+use std::io::Cursor;
 use std::sync::Arc;
 
 use harper_core::language_detection::is_doc_likely_english;
@@ -16,9 +18,6 @@ use wasm_bindgen::JsValue;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 /// Setup the WebAssembly module's logging.
-///
-///
-/// painful.
 #[wasm_bindgen(start)]
 pub fn setup() {
     console_error_panic_hook::set_once();
@@ -169,6 +168,19 @@ impl Linter {
         Ok(())
     }
 
+    pub fn summarize_stats(&self) -> JsValue {
+        serde_wasm_bindgen::to_value(
+            &self
+                .stats
+                .summarize()
+                .lint_counts
+                .iter()
+                .map(|(key, value)| (key.to_string_key(), *value))
+                .collect::<HashMap<_, _>>(),
+        )
+        .unwrap()
+    }
+
     /// Get a Record containing the descriptions of all the linting rules.
     pub fn get_lint_descriptions_as_object(&self) -> JsValue {
         let serializer = serde_wasm_bindgen::Serializer::json_compatible();
@@ -294,6 +306,23 @@ impl Linter {
         suggestion.inner.apply(lint.inner.span, &mut source);
 
         Ok(source.iter().collect())
+    }
+
+    pub fn generate_stats_file(&self) -> String {
+        let mut output = Vec::new();
+        self.stats.write(&mut output).unwrap();
+
+        String::from_utf8(output).unwrap()
+    }
+
+    pub fn import_stats_file(&mut self, file: String) -> Result<(), String> {
+        let data = file.as_bytes();
+        let mut read = Cursor::new(data);
+
+        let mut new_stats = Stats::read(&mut read).map_err(|err| err.to_string())?;
+        self.stats.records.append(&mut new_stats.records);
+
+        Ok(())
     }
 }
 

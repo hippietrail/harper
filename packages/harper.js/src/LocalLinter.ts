@@ -142,4 +142,19 @@ export default class LocalLinter implements Linter {
 
 		return Promise.resolve();
 	}
+
+	async summarizeStats(): Promise<Record<string, number>> {
+		const inner = await this.inner;
+		return inner.summarize_stats();
+	}
+
+	async generateStatsFile(): Promise<string> {
+		const inner = await this.inner;
+		return inner.generate_stats_file();
+	}
+
+	async importStatsFile(statsFile: string): Promise<void> {
+		const inner = await this.inner;
+		return inner.import_stats_file(statsFile);
+	}
 }
