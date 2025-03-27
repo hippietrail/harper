@@ -205,10 +205,10 @@ impl<'a> TypstTranslator<'a> {
 
         // Parse a function call
         let parse_func_call = |func: FuncCall| {
-            let parse_args_without = |pos: bool, nameds: &[&str]| {
+            let parse_args_ignored = |ignore_pos: bool, ignore_nameds: &[&str]| {
                 let (dead, alive): (Vec<_>, Vec<_>) = func.args().items().partition(|a| match a {
-                    Arg::Pos(_) => pos,
-                    Arg::Named(named) => nameds.contains(&named.name().as_str()),
+                    Arg::Pos(_) => ignore_pos,
+                    Arg::Named(named) => ignore_nameds.contains(&named.name().as_str()),
                     Arg::Spread(_) => false,
                 });
 
@@ -225,14 +225,14 @@ impl<'a> TypstTranslator<'a> {
             merge![
                 token!(func.callee(), TokenKind::Unlintable),
                 match text {
-                    "std.rgb" | "color.rgb" | "rgb" => parse_args_without(true, &[]),
-                    "std.plugin" | "plugin" => parse_args_without(true, &[]),
-                    "std.bibliography" | "bibliography" => parse_args_without(true, &["style"]),
-                    "std.cite" | "cite" => parse_args_without(true, &["style"]),
-                    "std.raw" | "raw" => parse_args_without(false, &["syntaxes", "theme"]),
-                    "std.image" | "image" => parse_args_without(true, &[]),
-                    "std.regex" | "regex" => parse_args_without(true, &[]),
-                    _ if text.ends_with(".display") => parse_args_without(true, &[]),
+                    "std.rgb" | "color.rgb" | "rgb" => parse_args_ignored(true, &[]),
+                    "std.plugin" | "plugin" => parse_args_ignored(true, &[]),
+                    "std.bibliography" | "bibliography" => parse_args_ignored(true, &["style"]),
+                    "std.cite" | "cite" => parse_args_ignored(true, &["style"]),
+                    "std.raw" | "raw" => parse_args_ignored(false, &["syntaxes", "theme"]),
+                    "std.image" | "image" => parse_args_ignored(true, &[]),
+                    "std.regex" | "regex" => parse_args_ignored(true, &[]),
+                    _ if text.ends_with(".display") => parse_args_ignored(true, &[]),
                     _ => parse_args(&mut func.args().items()),
                 }
             ]
