@@ -478,7 +478,19 @@ impl LanguageServer for Backend {
         self.publish_diagnostics(&params.text_document.uri).await;
     }
 
-    async fn did_close(&self, _params: DidCloseTextDocumentParams) {}
+    async fn did_close(&self, _params: DidCloseTextDocumentParams) {
+        let url = _params.text_document.uri;
+        let mut doc_lock = self.doc_state.lock().await;
+        doc_lock.remove(&url);
+
+        self.client
+            .send_notification::<PublishDiagnostics>(PublishDiagnosticsParams {
+                uri: url.clone(),
+                diagnostics: vec![],
+                version: None,
+            })
+            .await;
+    }
 
     async fn did_change_watched_files(&self, params: DidChangeWatchedFilesParams) {
         let mut doc_lock = self.doc_state.lock().await;
