@@ -3346,6 +3346,7 @@ Eysenck/M
 Ezekiel/2M
 Ezra/2M
 F/5124MD
+F1/9M
 FAA/2
 FAQ/1SM
 FBI/21M
@@ -4596,6 +4597,7 @@ Houma/12M
 House/2M
 Housman/2M
 Houston/2M
+Houthi/1MS
 Houyhnhnm/1M
 Hovhaness/M
 Howard/2M
@@ -10957,6 +10959,7 @@ Zyrtec/M
 Zyuganov/M
 Zzz
 a/~-+
+a.m./
 aah/14
 aardvark/~1SM
 ab/~14+SDY
@@ -19500,7 +19503,7 @@ crutch/14MS
 crux/1MS
 cry/~41ZGJDRSM
 crybaby/14SM
-cryogenic/~5S
+cryogenic/~5SQ
 cryogenics/1M
 cryonics/1
 cryosurgery/1M
@@ -19725,6 +19728,7 @@ cybernetics/1M
 cyberpunk/1SM
 cybersex/14
 cyberspace/~1MS
+cyberstalk/4SDG
 cyborg/~14SM
 cyclamen/1MS
 cycle/~14ADSMG
@@ -28093,6 +28097,7 @@ hum/~14SM
 human/~514SMRYTP
 humane/~5PY
 humaneness/1M
+humanhood/1M
 humanisation/1CM!
 humanise/4CDSG!
 humaniser/1SM!
@@ -32232,9 +32237,9 @@ mantle's
 mantoes/1!@
 mantra/~1MS
 manual/~15MYS
-manufacture/~14DRSMZG
+manufacture/~14DRSMZGA
 manufacturer/~1M
-manufacturing/~154M
+manufacturing/~154MA
 manumission/1SM
 manumit/4S
 manumitted/4
@@ -34443,6 +34448,7 @@ neoclassic/5
 neoclassical/~51
 neoclassicism/1M
 neoclassicist/51MS
+neocolonial/5
 neocolonialism/1M
 neocolonialist/51MS
 neocon/15SM
@@ -36385,6 +36391,7 @@ oyster/~154SM
 oz/~1
 ozone/~14M
 p/~+14NRXTGJ
+p.m./
 pH/
 pa/~1SMH
 pablum/1M
@@ -40898,7 +40905,7 @@ requiter/1M
 reread/41SG
 rerecord/14GDS
 rerunning/4
-resale/1B!@
+resale/1MSB
 resample/4GDS
 resat/4
 rescind/4SDG
@@ -42634,7 +42641,7 @@ selfishness/1UM
 selfless/~5PY
 selflessness/1M
 selfsame/51
-sell/~41AZGRS
+sell/~41AZGRSB
 sell's
 seller's
 selloff/1MS
@@ -51816,6 +51823,8 @@ wikilink/~1SM
 # Harper may not recognize these as words in documents
 # But it will be able to include them in suggestions
 
+add-on/1MS
+beck and call/1
 bench-warmer/1MS
 built-in/1MS5
 cross section/1MS
@@ -51829,17 +51838,20 @@ front-line/5
 Greco-Roman/5
 ground-based/5
 heavy-handed/5
+H-1B/1MS
 high-level/5
 high-speed/5
 hissy fit/1MS
 holy moley
 holy moly
+in situ/5j
 jaw-droppingly/5
 kick start/4SDG
 knock-on effect/1MS
 laid-back/5
 left-wing/5
 low-profile/5
+man child/1M
 mind-blowing/5
 neo-Nazi/15SM
 okey-dokey/1MS
@@ -51848,6 +51860,7 @@ one-man/5
 one-off/5
 out-and-out/5
 Pan Am/1M
+plan B/M
 right-wing/5
 run-up/1MS
 short-term/5j
