@@ -299,9 +299,9 @@ impl Linter {
     ) -> Result<String, String> {
         let mut source = lint.source.clone();
 
-        self.stats.records.push(
-            Record::now(RecordKind::Lint(lint.inner.lint_kind)).map_err(|err| err.to_string())?,
-        );
+        self.stats
+            .records
+            .push(Record::now(RecordKind::Lint(lint.inner.lint_kind)));
 
         suggestion.inner.apply(lint.inner.span, &mut source);
 

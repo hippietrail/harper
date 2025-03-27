@@ -1,5 +1,3 @@
-use std::time::{SystemTime, SystemTimeError, UNIX_EPOCH};
-
 use harper_core::linting::{LintGroupConfig, LintKind};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
@@ -8,18 +6,18 @@ use uuid::Uuid;
 pub struct Record {
     pub kind: RecordKind,
     /// Recorded as seconds from the Unix Epoch
-    pub when: u64,
+    pub when: i64,
     pub uuid: Uuid,
 }
 
 impl Record {
     /// Record a new instance at the current system time.
-    pub fn now(kind: RecordKind) -> Result<Self, SystemTimeError> {
-        Ok(Self {
+    pub fn now(kind: RecordKind) -> Self {
+        Self {
             kind,
-            when: SystemTime::now().duration_since(UNIX_EPOCH)?.as_secs(),
+            when: chrono::Utc::now().timestamp(),
             uuid: Uuid::new_v4(),
-        })
+        }
     }
 }
 
@@ -71,7 +69,7 @@ mod tests {
         fn arbitrary(g: &mut quickcheck::Gen) -> Self {
             Record {
                 kind: RecordKind::arbitrary(g),
-                when: u64::arbitrary(g),
+                when: i64::arbitrary(g),
                 uuid: uuid::Builder::from_u128(u128::arbitrary(g)).into_uuid(),
             }
         }

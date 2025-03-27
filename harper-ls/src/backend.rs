@@ -543,10 +543,7 @@ impl LanguageServer for Backend {
                     return Ok(None);
                 };
 
-                let Ok(record) = Record::now(RecordKind::Lint(kind)) else {
-                    error!("System time error");
-                    return Ok(None);
-                };
+                let record = Record::now(RecordKind::Lint(kind));
 
                 let mut stats = self.stats.write().await;
                 stats.records.push(record);
