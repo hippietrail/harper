@@ -1,6 +1,6 @@
 use std::time::{SystemTime, SystemTimeError, UNIX_EPOCH};
 
-use harper_core::linting::LintKind;
+use harper_core::linting::{LintGroupConfig, LintKind};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -23,21 +23,34 @@ impl Record {
     }
 }
 
-#[derive(Debug, Deserialize, Serialize, Clone, Copy, Eq, PartialEq)]
+#[derive(Debug, Deserialize, Serialize, Clone, Eq, PartialEq)]
 pub enum RecordKind {
     Lint(LintKind),
+    LintConfigUpdate(LintGroupConfig),
 }
 
 #[cfg(test)]
 mod tests {
-    use harper_core::linting::LintKind;
+    use harper_core::linting::{LintGroupConfig, LintKind};
     use quickcheck::Arbitrary;
 
     use super::{Record, RecordKind};
 
+    fn arbitrary_lintconfig(g: &mut quickcheck::Gen) -> LintGroupConfig {
+        let mut config = LintGroupConfig::default();
+
+        for _ in 0..g.size() {
+            config.set_rule_enabled(String::arbitrary(g), bool::arbitrary(g));
+        }
+
+        config
+    }
+
     impl Arbitrary for RecordKind {
         fn arbitrary(g: &mut quickcheck::Gen) -> Self {
-            *g.choose(&[
+            let lcu = Self::LintConfigUpdate(arbitrary_lintconfig(g));
+
+            g.choose(&[
                 Self::Lint(LintKind::Spelling),
                 Self::Lint(LintKind::Capitalization),
                 Self::Lint(LintKind::Style),
@@ -47,8 +60,10 @@ mod tests {
                 Self::Lint(LintKind::Readability),
                 Self::Lint(LintKind::WordChoice),
                 Self::Lint(LintKind::Miscellaneous),
+                lcu,
             ])
             .unwrap()
+            .clone()
         }
     }
 

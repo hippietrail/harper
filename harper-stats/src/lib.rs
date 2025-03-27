@@ -28,8 +28,11 @@ impl Stats {
         let mut summary = Summary::new();
 
         for record in &self.records {
-            match record.kind {
-                RecordKind::Lint(lint_kind) => summary.inc_lint_count(lint_kind),
+            match &record.kind {
+                RecordKind::Lint(lint_kind) => summary.inc_lint_count(*lint_kind),
+                RecordKind::LintConfigUpdate(lint_group_config) => {
+                    summary.final_config = lint_group_config.clone();
+                }
             }
         }
 

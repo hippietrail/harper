@@ -1,15 +1,17 @@
 use std::{collections::HashMap, fmt::Display};
 
-use harper_core::linting::LintKind;
+use harper_core::linting::{LintGroupConfig, LintKind};
 
 pub struct Summary {
-    lint_counts: HashMap<LintKind, usize>,
+    pub lint_counts: HashMap<LintKind, usize>,
+    pub final_config: LintGroupConfig,
 }
 
 impl Summary {
     pub fn new() -> Self {
         Self {
             lint_counts: HashMap::new(),
+            final_config: LintGroupConfig::default(),
         }
     }
 
@@ -22,7 +24,7 @@ impl Summary {
     }
 
     /// Get the count for a particular lint kind.
-    pub fn get(&self, kind: LintKind) -> usize {
+    pub fn get_count(&self, kind: LintKind) -> usize {
         self.lint_counts.get(&kind).copied().unwrap_or(0)
     }
 }
