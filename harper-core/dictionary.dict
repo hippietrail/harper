@@ -4670,6 +4670,7 @@ Hyundai/1M
 Hz/M
 I/8~f
 I'd/~
+I'd've/
 I'll/~
 I'm/~
 I've/~
@@ -7079,6 +7080,7 @@ NES/1M
 NF/251
 NFC/21
 NFL/21M
+NGO/1MS
 NH/2145
 NHL/12M
 NIH/25
@@ -10619,7 +10621,6 @@ Whitman/2M
 Whitney/2M
 Whitsunday/12MS
 Whittier/2M
-WiFi/14
 Wicca/2M
 Wichita/12M
 Wiemar/M
@@ -12986,7 +12987,7 @@ assessor/1MS
 asset/~1MS
 asseverate/4DSGN
 asseveration/1M
-asshole/1MS!6
+asshole/1MS6
 assiduity/1M
 assiduous/5PY
 assiduousness/1M
@@ -15556,10 +15557,10 @@ bullock/~14SM
 bullpen/~1SM
 bullring/1MS
 bullseye/~1
-bullshit/~154MS!
-bullshitted/4!
-bullshitter/1SM!
-bullshitting/4!
+bullshit/~154MS6
+bullshitted/46
+bullshitter/1SM6
+bullshitting/46
 bullwhip/14S
 bully/~145DSMG
 bulrush/1MS
@@ -16908,7 +16909,7 @@ chicken/~154MDG
 chickenfeed/1M
 chickenhearted/5
 chickenpox/1M
-chickenshit/51S!
+chickenshit/51S6
 chickpea/1SM
 chickweed/1M
 chicle/1M
@@ -17623,7 +17624,7 @@ cockney/~152SM
 cockpit/~1SM
 cockroach/1MS
 cockscomb/1SM
-cocksucker/1MS!6
+cocksucker/1MS6
 cocksure/5
 cocktail/~154MS
 cocky/514RTP
@@ -19586,7 +19587,7 @@ cumulus/~1M
 cuneiform/~51M
 cunnilingus/1M
 cunning/~51MRYT
-cunt/145MS!6
+cunt/145MS6
 cup/~14SM
 cupboard/~14SM
 cupcake/14MS
@@ -20720,7 +20721,7 @@ diciest/5
 dick/~14MRXZS6
 dicker/41DG
 dickey/~15SM
-dickhead/1S
+dickhead/1S6
 dickybird/S
 dicotyledon/1MS
 dicotyledonous/5
@@ -25236,9 +25237,9 @@ fryer/~1SM
 ft/~14
 ftp/~5124ZGS
 fuchsia/15MS
-fuck/~41SMGDRZ!6
-fucker/1M!6S
-fuckhead/1S!6
+fuck/~41SMGDRZ6
+fucker/1M6S
+fuckhead/1S6
 fuddle/41DSMG
 fudge/~14DSMG
 fuehrer/1MS
@@ -27425,7 +27426,7 @@ heppest/5
 heptagon/1MS
 heptagonal/5
 heptathlon/1SM
-her/~-*ot
+her/~-ot
 herald/~14SMDG
 heralded/~4U
 heraldic/~5
@@ -27489,7 +27490,7 @@ herpetologist/1SM
 herpetology/1M
 herring/~1MS
 herringbone/14M
-hers/~8
+hers/~8*
 herself/~8
 hertz/~1M
 hesitance/1M
@@ -27928,7 +27929,7 @@ horsemen/~9
 horseplay/14M
 horsepower/~1M
 horseradish/1MS
-horseshit/1!6
+horseshit/16
 horseshoe/~14DSM
 horseshoeing/4
 horsetail/1SM
@@ -29886,7 +29887,7 @@ iteration/~1AM
 iterator/1S
 itinerant/~51SM
 itinerary/~15SM
-its/~8-
+its/~8-*
 itself/~8
 iv/~U
 ivory/~15SM
@@ -33133,7 +33134,7 @@ mind/~14ADRSZG
 mind's
 mindbogglingly/j
 minded/~54P
-mindfuck/1SM6!
+mindfuck/1SM6
 mindful/~51YP
 mindfulness/~1M
 mindless/5YP
@@ -33795,8 +33796,8 @@ moth/~14M
 mothball/14GMDS
 mother/~14MDYSG
 motherboard/~1SM
-motherfucker/1MS!6
-motherfucking/5!
+motherfucker/1MS6
+motherfucking/56
 motherhood/~1M
 motherland/~1MS
 motherless/5
@@ -34612,11 +34613,11 @@ nifedipine/1
 niff/14
 niffy/5
 nifty/51TR
-nigga/1MS!
+nigga/1MS6
 niggard/514SMY
 niggardliness/1M
-niggaz/1!
-nigger/~14SM!
+niggaz/16
+nigger/~14SM6
 niggle/14MZGDRS
 niggler/1M
 nigh/~54+RT
@@ -36219,7 +36220,7 @@ overmaster/4SDG
 overmodest/5
 overmuch/51S
 overnice/5
-overnight/~541MS
+overnight/~541MSDG
 overoptimism/1M
 overoptimistic/5
 overpaid/4
@@ -40320,6 +40321,7 @@ rebelliousness/1M
 rebid/41S
 rebidding/4
 rebirth/~14M
+reboard/4GDS
 reboil/4SDG
 rebuild/~41SG
 rebuke/14DSMG
@@ -43143,16 +43145,16 @@ shirtsleeve/1SM
 shirttail/1SM
 shirtwaist/1MS
 shirty/5
-shit/~154SM!6
-shitfaced/5!6
-shitfest/1MS!6
-shithead/1S!6
-shitless/5!6
-shitload/1!6
-shitpost/!61MSDG
-shitted/4!6
-shitting/145!6
-shitty/5RT!6
+shit/~154SM6
+shitfaced/56
+shitfest/1MS6
+shithead/1S6
+shitless/56
+shitload/16
+shitpost/61MSDG
+shitted/46
+shitting/1456
+shitty/5RT6
 shiv/~14ZMRS
 shiver/41MDG
 shivery/5
@@ -51845,6 +51847,7 @@ one-handed/5
 one-man/5
 one-off/5
 out-and-out/5
+Pan Am/1M
 right-wing/5
 run-up/1MS
 short-term/5j
@@ -51858,6 +51861,7 @@ UTF-8/1M
 walkie-talkie/1MS
 web page/~1SM
 well-known/5
+Wi-Fi/1M
 working-class/15MS
 
 # New entries may be added below this line
