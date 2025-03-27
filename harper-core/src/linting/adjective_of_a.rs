@@ -15,37 +15,39 @@ impl Linter for AdjectiveOfA {
             let word_of = document.get_token(i + 2);
             let space_2 = document.get_token(i + 3);
             let a_or_an = document.get_token(i + 4);
-            // Ensure the adjective adjective is positive form, not comparative or superlative.
-            // Rightly prevents flagging: "for the better of a day"
-            // And "might not be the best of a given run"
-            // And "Which brings me to my best of a bad situation."
-            //
-            // But wrongly prevents flagging: "I don't think that's too much better of an idea."
-            // And: "see if you can give us a little better of an answer"
-            // And: "hopefully it won't be too much worse of a problem"
-            // And: "seems far worse of a result to me"
-            let word: &[char] = document.get_span_content(&adjective.span);
-            // Avoid common false positives where the word is more common as a
-            // noun than an adjective in this context.
-            if word == ['k', 'i', 'n', 'd']
-                || word == ['m', 'e', 'a', 'n', 'i', 'n', 'g']
-                || word == ['p', 'a', 'r', 't']
+            let adj_chars: &[char] = document.get_span_content(&adjective.span);
+
+            // Rule out false positives
+
+            // "much of a" is a different and valid construction.
+            if adj_chars == ['m', 'u', 'c', 'h']
+                // The word is used more as a noun in this context.
+                // (using .kind.is_likely_homograph() here is too strict)
+                || adj_chars == ['k', 'i', 'n', 'd']
+                || adj_chars == ['m', 'e', 'a', 'n', 'i', 'n', 'g']
+                || adj_chars == ['p', 'a', 'r', 't']
             {
                 continue;
             }
-            let len = word.len();
+
+            // Rule out comparatives and superlatives.
+
+            // Pros:
+            // "for the better of a day"
+            // "might not be the best of a given run"
+            // "Which brings me to my best of a bad situation."
+            //
+            // Cons:
+            // "see if you can give us a little better of an answer"
+            // "hopefully it won't be too much worse of a problem"
+            // "seems far worse of a result to me"
+            let len = adj_chars.len();
             if len > 2 {
-                let ending = &word[len - 2..len];
+                let ending = &adj_chars[len - 2..len];
                 if ending == ['e', 'r'] || ending == ['s', 't'] {
                     continue;
                 }
             }
-            // Check if it might also be valid as other parts of speech.
-            // This stops us flagging "meaning of a".
-            // But it also stops "good of a".
-            // if adjective.kind.is_likely_homograph() {
-            //     continue;
-            // }
             if space_1.is_none() || word_of.is_none() || space_2.is_none() || a_or_an.is_none() {
                 continue;
             }
@@ -57,8 +59,8 @@ impl Linter for AdjectiveOfA {
             if !word_of.kind.is_word() {
                 continue;
             }
-            let w2 = document.get_span_content(&word_of.span);
-            if w2 != ['o', 'f'] {
+            let word_of = document.get_span_content(&word_of.span);
+            if word_of != ['o', 'f'] {
                 continue;
             }
             let space_2 = space_2.unwrap();
@@ -69,8 +71,8 @@ impl Linter for AdjectiveOfA {
             if !a_or_an.kind.is_word() {
                 continue;
             }
-            let w4 = document.get_span_content(&a_or_an.span);
-            if w4 != ['a'] && w4 != ['a', 'n'] {
+            let a_or_an_chars = document.get_span_content(&a_or_an.span);
+            if a_or_an_chars != ['a'] && a_or_an_chars != ['a', 'n'] {
                 continue;
             }
 
@@ -161,6 +163,15 @@ mod tests {
     fn dont_flag_part() {
         assert_lint_count(
             "cannot delete a food that is no longer part of a recipe",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_much() {
+        assert_lint_count(
+            "How much of a performance impact when switching from rails to rails-api ?",
             AdjectiveOfA,
             0,
         );
