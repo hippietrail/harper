@@ -61,8 +61,6 @@ impl Stats {
         for line_res in br.lines() {
             let line = line_res?;
 
-            dbg!(&line);
-
             let record: Record = serde_json::from_str(&line)?;
             records.push(record);
         }

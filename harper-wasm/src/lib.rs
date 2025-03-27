@@ -10,6 +10,7 @@ use harper_core::{
     CharString, Dictionary, Document, FstDictionary, IgnoredLints, Lrc, MergedDictionary,
     MutableDictionary, WordMetadata, remove_overlaps,
 };
+use harper_stats::{Record, RecordKind, Stats};
 use serde::{Deserialize, Serialize};
 use wasm_bindgen::JsValue;
 use wasm_bindgen::prelude::wasm_bindgen;
@@ -92,6 +93,7 @@ pub struct Linter {
     dictionary: Arc<MergedDictionary>,
     ignored_lints: IgnoredLints,
     dialect: Dialect,
+    stats: Stats,
 }
 
 #[wasm_bindgen]
@@ -109,6 +111,7 @@ impl Linter {
             dictionary,
             ignored_lints: IgnoredLints::default(),
             dialect,
+            stats: Stats::default(),
         }
     }
 
@@ -274,25 +277,29 @@ impl Linter {
     pub fn get_dialect(&self) -> Dialect {
         self.dialect
     }
+
+    /// Apply a suggestion from a given lint.
+    /// This action will be logged to the Linter's statistics.
+    pub fn apply_suggestion(
+        &mut self,
+        lint: &Lint,
+        suggestion: &Suggestion,
+    ) -> Result<String, String> {
+        let mut source = lint.source.clone();
+
+        self.stats.records.push(
+            Record::now(RecordKind::Lint(lint.inner.lint_kind)).map_err(|err| err.to_string())?,
+        );
+
+        suggestion.inner.apply(lint.inner.span, &mut source);
+
+        Ok(source.iter().collect())
+    }
 }
 
 #[wasm_bindgen]
 pub fn to_title_case(text: String) -> String {
     harper_core::make_title_case_str(&text, &PlainEnglish, &FstDictionary::curated())
-}
-
-#[wasm_bindgen]
-pub fn apply_suggestion(
-    text: String,
-    span: Span,
-    suggestion: &Suggestion,
-) -> Result<String, String> {
-    let mut source: Vec<_> = text.chars().collect();
-    let span: harper_core::Span = span.into();
-
-    suggestion.inner.apply(span, &mut source);
-
-    Ok(source.iter().collect())
 }
 
 /// A suggestion to fix a Lint.
