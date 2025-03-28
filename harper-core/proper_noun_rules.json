@@ -513,7 +513,14 @@
 		"description": "Ensure proper capitalization of major universities in the United States."
 	},
 	"NotablePlaces": {
-		"canonical": ["Las Palmas", "Las Vegas", "Los Angeles", "San Francisco"],
+		"canonical": [
+			"Darien Gap",
+			"Las Palmas",
+			"Las Vegas",
+			"Los Angeles",
+			"Panama Canal",
+			"San Francisco"
+		],
 		"description": "Ensure proper capitalization of notable places that are significant regional centers, travel destinations, or have international importance."
 	}
 }
