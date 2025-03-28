@@ -519,6 +519,7 @@
 			"Las Vegas",
 			"Los Angeles",
 			"Panama Canal",
+			"Rio de Janeiro",
 			"San Francisco"
 		],
 		"description": "Ensure proper capitalization of notable places that are significant regional centers, travel destinations, or have international importance."

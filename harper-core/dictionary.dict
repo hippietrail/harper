@@ -12805,6 +12805,7 @@ armhole/1SM
 armistice/~12SM
 armlet/1MS
 armload/1S
+armlock/14MSDG
 armoire/1MS
 armor/~14ZGMDRS
 armored/~54U
@@ -14450,6 +14451,7 @@ biorhythm/1MS
 biosensor/1S
 biosphere/~1SM
 biosynthesis/~1
+biosynthetic/5
 biotech/~1
 biotechnological/5
 biotechnology/~1M
@@ -17241,6 +17243,7 @@ citron/15MS
 citronella/1M
 citrus/~15MS
 city/~1SM
+cityscape/1SM
 citywide/~51
 civet/1MS
 civic/~5SQ
@@ -29140,6 +29143,7 @@ influencer/1SM
 influential/~51Y
 influenza/~1M
 info/~1M
+infographic/15SM
 infomercial/1SM
 inform/~45Z
 informal/~5Y
@@ -30376,6 +30380,7 @@ kibosh/14M
 kick/~41MDRSZG
 kickback/~1SM
 kickball/1M
+kickboxer/1MS
 kickboxing/~1
 kicker/~1M
 kickoff/~1MS
@@ -36245,6 +36250,7 @@ overpower/~4SDG
 overpowering/451Y
 overpraise/41DSG
 overprecise/5
+overprepare/4GDS
 overprice/4DSG
 overprint/14SMDG
 overproduce/4GDS
@@ -40328,6 +40334,7 @@ reassuring/451Y
 reauthorise/4S!
 reauthorized/4!
 reauthorizing/4!
+rebadge/4GDS
 rebate/~14M
 rebel/~14MS
 rebellion/~1MS
@@ -40460,8 +40467,7 @@ recurring/~451
 recurse/4DSG
 recursion/~1S
 recuse/4DSG
-recyclable/~51SM
-recycling/~14M
+recycle/4SDGRB
 red/~51PSM
 redact/4SDGU
 redaction/1M
@@ -41429,6 +41435,7 @@ roil/4GDS
 roister/41ZGDRS
 roisterer/1M
 role/~1MS
+roleplay/4SDG
 roll/~41MDRZGJSA
 rollback/~14SM
 roller/~14M
@@ -46514,6 +46521,7 @@ tactless/5PY
 tactlessness/1M
 tad/~1SM
 tadpole/1MS
+taekwondo/1M
 taffeta/1M
 taffrail/1SM
 taffy/1SM
@@ -48781,6 +48789,7 @@ unctuous/5YP
 unctuousness/1M
 uncut/~5
 undaunted/5Y
+undead/51
 undecided/~514SM
 undemonstrative/5Y
 undeniably/j
@@ -51850,6 +51859,7 @@ easy peasy/5
 energy-efficient/5
 far right/1MS
 far-right/5
+feature-length/5
 front-line/5
 front man/1M
 front-line/5
@@ -51871,6 +51881,8 @@ kick start/4SDG
 knock-on effect/1MS
 laid-back/5
 left-wing/5
+live action/1
+low-budget/5
 low-profile/5
 man child/1M
 mind-blowing/5
@@ -51880,6 +51892,7 @@ neo-Nazi/15SM
 off-road/1MS
 off-roader/1MS
 okey-dokey/1MS
+once-in-a-lifetime/5
 one-handed/5
 one-man/5
 one-off/5
