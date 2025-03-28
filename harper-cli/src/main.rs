@@ -126,7 +126,7 @@ fn main() -> anyhow::Result<()> {
             process::exit(1)
         }
         Args::Parse { file } => {
-            let (doc, _) = load_file(&file, markdown_options)?;
+            let (doc, _) = load_file(&file, markdown_options, &dictionary)?;
 
             for token in doc.tokens() {
                 let json = serde_json::to_string(&token)?;
@@ -139,7 +139,7 @@ fn main() -> anyhow::Result<()> {
             file,
             include_newlines,
         } => {
-            let (doc, source) = load_file(&file, markdown_options)?;
+            let (doc, source) = load_file(&file, markdown_options, &dictionary)?;
 
             let primary_color = Color::Blue;
             let secondary_color = Color::Magenta;
@@ -296,7 +296,7 @@ fn main() -> anyhow::Result<()> {
             Ok(())
         }
         Args::MineWords { file } => {
-            let (doc, _source) = load_file(&file, MarkdownOptions::default())?;
+            let (doc, _source) = load_file(&file, MarkdownOptions::default(), &dictionary)?;
 
             let mut words = HashMap::new();
 
@@ -325,7 +325,11 @@ fn main() -> anyhow::Result<()> {
     }
 }
 
-fn load_file(file: &Path, markdown_options: MarkdownOptions) -> anyhow::Result<(Document, String)> {
+fn load_file(
+    file: &Path,
+    markdown_options: MarkdownOptions,
+    dictionary: &impl Dictionary,
+) -> anyhow::Result<(Document, String)> {
     let source = std::fs::read_to_string(file)?;
 
     let parser: Box<dyn harper_core::parsers::Parser> =
@@ -342,7 +346,7 @@ fn load_file(file: &Path, markdown_options: MarkdownOptions) -> anyhow::Result<(
             ),
         };
 
-    Ok((Document::new_curated(&source, &parser), source))
+    Ok((Document::new(&source, &parser, dictionary), source))
 }
 
 /// Split a dictionary line into its word and annotation segments
