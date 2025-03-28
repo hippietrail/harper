@@ -5341,6 +5341,7 @@ Kent/2M
 Kenton/2M
 Kentuckian/51MS
 Kentucky/2M
+Kenworth/12MS
 Kenya/2M
 Kenyan/15SM
 Kenyatta/M
@@ -18740,7 +18741,7 @@ coop/~14MDRZGS
 cooper/~14MDG
 cooperage/1M
 cooperate/~4DSGNV
-cooperation/~1M
+cooperation/~1MS
 cooperative/~51PMYS
 cooperativeness/1M
 cooperator/1SM
@@ -27373,6 +27374,7 @@ hellion/15MS
 hellish/5YP
 hellishness/1M
 hello/~14SM
+hellscape/1SM
 helluva/5
 helm/~14MS
 helmet/~14SMD
@@ -29488,7 +29490,7 @@ interesting/~54Y
 interface/~14MGDS
 interfaith/~5
 interfere/~4GDS
-interference/~14M
+interference/~14MS
 interferon/1M
 interfile/4GDS
 intergalactic/5
@@ -39031,6 +39033,7 @@ primula/1S
 prince/~14SMY
 princedom/1SM
 princeliness/1M
+princeling/1MS
 princely/~5PRT
 princess/~1MS
 principal/~51SMY
@@ -39314,6 +39317,7 @@ prose/~14M
 prosecute/~4DSXGN
 prosecution/~1M
 prosecutor/~1MS
+prosecutorial/5Q
 proselyte/14DSMG
 proselytise/4DRSZG!
 proselytiser/1M!
@@ -39361,6 +39365,7 @@ proton/~1SM
 protoplasm/1M
 protoplasmic/5
 prototype/~14MGS
+prototyper/1MS
 prototypical/5
 protozoa/1
 protozoan/15MS
@@ -43946,6 +43951,7 @@ smelliness/1M
 smelly/51RPT
 smelt/14SMDRZG
 smelter/1M
+smidge/1MS
 smidgen/1MS
 smilax/1M
 smile/~14DSMG
@@ -44851,6 +44857,7 @@ sprung/~45U
 spry/5RYT
 spryness/1M
 spud/142MS
+spudger/1MS
 spume/14DSMG
 spumoni/1M
 spumy/5
@@ -47028,6 +47035,7 @@ terror/~1SM
 terrorise/4DSG!
 terrorism/~1M
 terrorist/~15SM
+terroristic/5Q
 terrorize/4DSG
 terry/~1RMZ
 terrycloth/1M
@@ -49278,6 +49286,7 @@ urbane/5RYT
 urbanisation/1M!
 urbanise/4DSG!
 urbanism/~1M
+urbanite/1MS
 urbanity/1M
 urbanization/~1M
 urbanize/4DSG
@@ -51836,13 +51845,19 @@ de facto/51M
 double-decker/5
 easy peasy/5
 energy-efficient/5
+far right/1MS
+far-right/5
+front-line/5
 front man/1M
 front-line/5
+full-scale/5
 Greco-Roman/5
 ground-based/5
 heavy-handed/5
+high-quality/5
 H-1B/1MS
 high-level/5
+high-rise/1MS
 high-speed/5
 hissy fit/1MS
 holy moley
@@ -51866,9 +51881,11 @@ one-man/5
 one-off/5
 out-and-out/5
 Pan Am/1M
+per capita/5j
 plan B/M
 right-wing/5
 run-up/1MS
+self-obsessed/5
 short-term/5j
 shout-out/1S
 single-handedly/j
