@@ -24,6 +24,7 @@ impl Linter for AdjectiveOfA {
                 ['m', 'u', 'c', 'h'] | ['M', 'u', 'c', 'h'] => true,
                 // The word is used more as a noun in this context.
                 // (using .kind.is_likely_homograph() here is too strict)
+                ['f', 'r', 'o', 'n', 't'] | ['F', 'r', 'o', 'n', 't'] => true,
                 ['k', 'i', 'n', 'd'] | ['K', 'i', 'n', 'd'] => true,
                 ['m', 'e', 'a', 'n', 'i', 'n', 'g'] | ['M', 'e', 'a', 'n', 'i', 'n', 'g'] => true,
                 ['p', 'a', 'r', 't'] | ['P', 'a', 'r', 't'] => true,
