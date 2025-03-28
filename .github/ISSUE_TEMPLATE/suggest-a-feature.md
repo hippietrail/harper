@@ -22,8 +22,8 @@ Which component of Harper would this feature affect? For example:
 - Core grammar checking engine
 - Obsidian plugin
 - VS Code extension
-- Neovim plugin
-- WebAssembly version
+- The `harper-ls` language server
+- `harper.js`
 - Another component
 
 ## Use Cases
