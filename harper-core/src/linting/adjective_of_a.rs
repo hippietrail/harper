@@ -19,8 +19,10 @@ impl Linter for AdjectiveOfA {
 
             // Rule out false positives
 
-            // "much of a" is a different and valid construction.
-            if adj_chars == ['m', 'u', 'c', 'h']
+            // Different valid constructions.
+            if adj_chars == ['i', 'n', 's', 'i', 'd', 'e']
+                || adj_chars == ['m', 'u', 'c', 'h']
+                || adj_chars == ['o', 'u', 't']
                 // The word is used more as a noun in this context.
                 // (using .kind.is_likely_homograph() here is too strict)
                 || adj_chars == ['k', 'i', 'n', 'd']
@@ -172,6 +174,24 @@ mod tests {
     fn dont_flag_much() {
         assert_lint_count(
             "How much of a performance impact when switching from rails to rails-api ?",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_inside() {
+        assert_lint_count(
+            "Michael and Brock sat inside of a diner in Brandon",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_out() {
+        assert_lint_count(
+            "not only would he potentially be out of a job and back to sort of poverty",
             AdjectiveOfA,
             0,
         );
