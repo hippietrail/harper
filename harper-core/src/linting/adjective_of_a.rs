@@ -21,6 +21,7 @@ impl Linter for AdjectiveOfA {
 
             if match adj_chars {
                 // Different valid constructions.
+                ['f', 'u', 'l', 'l'] | ['F', 'u', 'l', 'l'] => true,
                 ['i', 'n', 's', 'i', 'd', 'e'] | ['I', 'n', 's', 'i', 'd', 'e'] => true,
                 ['m', 'u', 'c', 'h'] | ['M', 'u', 'c', 'h'] => true,
                 ['o', 'u', 't'] | ['O', 'u', 't'] => true,
@@ -204,6 +205,15 @@ mod tests {
     fn dont_flag_out() {
         assert_lint_count(
             "not only would he potentially be out of a job and back to sort of poverty",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_full() {
+        assert_lint_count(
+            "fortunately I happen to have this Tupperware full of an unceremoniously disassembled LED Mac Mini",
             AdjectiveOfA,
             0,
         );
