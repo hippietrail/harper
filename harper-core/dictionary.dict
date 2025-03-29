@@ -377,6 +377,8 @@ Amerasian/15M
 America/2SM
 American/152MS
 Americana/1M
+Americanisation/1MS!
+Americanise/4GDS!
 Americanism/1MS
 Americanization/1MS
 Americanize/4GDS
@@ -2100,6 +2102,7 @@ Christendom/1MS
 Christensen/2M
 Christi/M
 Christian/125SM
+Christianise/4!
 Christianity/2SM
 Christianize/4
 Christie/2M
@@ -2636,6 +2639,7 @@ David/2MS
 Davidson/2M
 Davies/21M
 Davis/2M
+Davos/2M
 Davy/21SM
 Dawes/2M
 Dawkins/2
@@ -4366,6 +4370,8 @@ Heliopolis/2M
 Helios/2M
 Hellene/1SM
 Hellenic/52M
+Hellenisation/1M!
+Hellenise/4!
 Hellenism/1MS
 Hellenist/1
 Hellenistic/5M
@@ -20492,6 +20498,7 @@ descry/4GDS
 desecrate/45DSGN
 desecration/1M
 deselection/1
+deserialize/4SGD
 desert/~154SDRZGM
 deserter/1M
 desertification/1
@@ -20521,6 +20528,7 @@ desktop/~15SM
 desolate/~54PDSYGN
 desolateness/1M
 desolation/1M
+desolder/4SGD
 despair/~41SMDG
 despairing/541Y
 desperado/~1M
@@ -24126,6 +24134,7 @@ file's/KC
 filename/~1S
 filer/1CSM
 filet/14
+filetype/14GSMD
 filial/~5
 filibuster/14MDRSZG
 filibusterer/1M
@@ -25495,6 +25504,7 @@ gamester/1MS
 gamete/1SM
 gametic/5
 gamey/5ST
+gamify/4D
 gamin/1SM
 gamine/15SM
 gaminess/1M
@@ -49093,8 +49103,10 @@ unmistakably/j
 unmoral/5
 unmovable/5
 unmusical/5
+unmute/4SGD
 unnecessary/~5
 unnerving/45Y
+unnest/4SGD
 unobservant/5
 unobtanium/1M
 unoffensive/5
@@ -51467,93 +51479,87 @@ zymurgy/1M
 # This section contains mostly programming and technical terms
 # Some words may be very domain-specific, proprietary, or trademarked
 
-0s/~9
-1s/~9
-3D/5
+0s/~9                   # not sure how well "words" starting with numbers are handled
+1s/~9                   # not sure how well "words" starting with numbers are handled
+3D/5                    # not sure how well "words" starting with numbers are handled
 ACM/1M
-AGI/MS
-AOC/2M
+AGI/MS                  # artificial general intelligence
+AOC/2M                  # US politician Alexandria Ocasio-Cortez
 Akismet/2M
-Alexa/2M
+Alexa/2M                # Amazon product    
 Alexandre/2SM
-AlphaFold/2M
-Ambien/1SM
-Americanisation/1MS!
-Americanise/4GDS!
+AlphaFold/2M            # Google DeepMind project
+Ambien/1SM              # insomnia treatment
 Anker/SM
 Archytas/SM
-Automattic/SM
+Automattic/SM           # WordPress company
 Automattician/SM
-BRICS/
-BYD/2MS
+BRICS/                  # intergovernmental organization
+BYD/2MS                 # Chinese automobile manufacturer
 Bachiyski/SM
-Bezos/2
-Bing/2M
+Bezos/2                 # Surname, Amazon founder
+Bing/2M                 # Microsoft product
 BlasterHacks/SM
 BurpSuite/21MS
-C++/2SM
-CCP/2S
-CEO/1SM
-CERN/2M
-CI/1SM
+C++/2SM                 # programming language
+CCP/2S                  # Chinese Communist Party
+CEO/1SM                 # chief executive officer
+CERN/2M                 # intergovernmental organization
+CI/1SM                  # continuous integration
 CMake/SM
 CQL/1
 CRDT/1SM
 CRM/12SM
 CTE/1S
-ChatGPT/2M
-Christianise/4!
-Codeberg/21M
+ChatGPT/2M              # OpenAI product
+Codeberg/21M            # GitHub alternative
 Colemak/15M
 CommonMark/M
 Corretto/SM
 Crowdsignal/2M
 Cypher/21M
 DATETIME/1MS
-DBMS/12SM
+DBMS/12SM               # database management system
 DKIM/1SM
-DM/1MS
-DNS/2SM
-DOM/1SM
-DSL/1SM
-Davos/2M
+DM/1MS                  # direct message
+DNS/2SM                 # domain name system
+DOM/1SM                 # document object model
+DSL/1SM                 # domain-specific language
 DeepMind/2M
 DevOps/SM
-Dreamcast/2MS
+Dreamcast/2MS           # game console
 EMR/12SM
-EV/1SM
+EV/1SM                  # electric vehicle
 ElasticSearch/SM
 Elon/2M
-Erdoğan/2M
-Ethereum/2M
+Erdoğan/2M              # surname, Turkish politician
+Ethereum/2M             # digital currency
 Evo/2MS
 FIDO/12SM
-FPGA/1SM
+FPGA/1SM                # field-programmable gate array
 FPM/SM
 Firestore/M
 Foddy/SM
 Frankl/SM
 GLFW/2M
-GPL/2M
+GPL/2M                  # GNU General Public License
 GPT/1SM
-GPU/1S
+GPU/1S                  # graphics processing unit
 Ganeti/SM
 Gateron/SM
-GitLab/SM
+GitLab/SM           # GitHub alternative
 Gmail/214SM
-Golang/SM
+Golang/SM           # programming language
 Goleman/SM
-Gradle/SM
+Gradle/SM           # build tool
 Grafana/SM
-Grammarly/M
+Grammarly/M         # grammar checker
 Grandey/SM
 Graphviz/SM
 Gravatar/2M
 HQL/1
-Harper/SM
+Harper/SM           # grammar checker
 Hasan/2SM
-Hellenisation/1M!
-Hellenise/4!
 Hiera/SM
 Holmdel/SM
 IMAP/2SM
@@ -51561,13 +51567,13 @@ IPCC/2M
 IPv4/2SM
 IntelliJ/SM
 IntelliSense/2M
-JNI/2M
+JNI/2M              # Java Native Interface
 JSDoc/SM
-JSON/2M
-JVM/SM
+JSON/2M             # data format
+JVM/SM              # Java virtual machine
 Jacoco/SM
 JavaDoc/SM
-JavaScript/21SM
+JavaScript/21SM     # programming language
 Javadoc/SM
 Jetpack/2M
 Joomla/SM
@@ -51575,32 +51581,32 @@ KSQL/1
 Kagi/SM
 Kahneman/SM
 KanBan/M1
-Kia/21MS
+Kia/21MS            # automobile brand
 Koran/12MS
 Koranic/5
 Kubernetes/2SM
 LADAR
 LEGO/1SM
-LIDAR/1
-LLVM/1M
-LSP/1MS
+LIDAR/1             # FIXME! elsewhere we have LiDAR
+LLVM/1M             # compiler system
+LSP/1MS             # language server protocol
 LTS/1SM
 LVM/SM
 Labriola/2SM
-LanguageTool/M
+LanguageTool/M      # grammar checker
 Laravel/M
 Lato/21M
-Lenovo/2M
-Levenshtein/M
-LiDAR/1
+Lenovo/2M           # computer manufacturer
+Levenshtein/M       # surname, mathematician
+LiDAR/1             # FIXME! elsewhere we have LIDAR
 LinkedIn/2M
 Logotherapy/SM
 Longreads/2M
-Lua/SM
+Lua/SM              # programming language
 MPC/21M
 MSNBC/2M
 MTA/1SM
-MacBook/2SM
+MacBook/2SM         # Apple product
 Manilas/1
 Manilla/2M
 MapReduce/1
@@ -51608,11 +51614,11 @@ Marchus/SM
 Metasploit/21MS
 Minecraft/2M
 Minhaj/2SM
-Minix/2M
+Minix/2M            # old hobby operating system
 Mockito/SM
 Mullenweg/M
 Munin/SM
-N.S.A./2SM
+N.S.A./2SM          # National Security Agency
 N1/2M
 N2/2M
 N3/2M
@@ -51624,21 +51630,21 @@ NPM/SM
 NYTimes/SM
 NYU/2M
 Neo4J/21M
-Neovim/M
+Neovim/M            # code editor
 Nikolay/SM
 NoSQL/1
 NumPy/21M
 Nvidia/2M
 O'Reilly/2SM
-OAuth/M
-ORM/12S
-OpenGL/SM
+OAuth/M             # open authentication
+ORM/12S             # object-relational mapping
+OpenGL/SM           # open graphics library
 OpenMetrics/SM
 OpenPGP/SM
 OpenSearch/SM
 P2/MS
 P2P/21M
-PDP/1SM
+PDP/1SM             # old computer
 PII/1SM
 PKCS/SM
 PRQL/1
@@ -51649,57 +51655,58 @@ Parth/SM
 Patreon/2MS
 Polldaddy/2M
 Postfix/SM
-PowerShell/SM
+PowerShell/SM       # Microsoft product
 PromQL/SM
-QUERTY/SM
+QUERTY/SM           # keyboard layout
 QUIC/2SM
 Qin/2SM
-RDBMS/12SM
-RFID/21M
-ROM/1SM
+RDBMS/12SM          # relational database management system
+RFID/21M            # radio frequency identification
+ROM/1SM             # read-only memory
 RPC/21SM
 RTX/1SM
 Raytheon/2M
 Reddit/2M
-Rivian/SM
+Rivian/SM           # ev company
 Rosenthal/2SM
-Roumania/2M
-SDK/1SM
-SIMD/1SM
+Roumania/2M         # pre-WWII spelling
+SDK/1SM             # software development kit
+SIMD/1SM            # single instruction, multiple data
 SLA/1SM
-SNL/2M
+SNL/2M              # Saturday Night Live
 SQLAlchemy/1
-SVG/21s
+SVG/21s             # scalable vector graphics
+SVGA/1              # super VGA
 Sharman/2SM
 Simplenote/2M
 Sioyek/M1
-Siri/2M
+Siri/2M             # Apple product
 Snapchat/SM
-Soros/2M
+Soros/2M            # financier George Soros
 Spotify/2M
 StackExchange/SM
 StackOverflow/M
 Sudbury/2M
-Systemd/SM
-TCP/52SM
-TODO
-TOML/1M
-TSMC/2M
-TUI/12SM
+Systemd/SM          # Linux system software
+TCP/52SM            # internet protocol
+TODO                # FIXME! elsewhere in Harper we refer to Todo and to-do
+TOML/1M             # configuration file format
+TSMC/2M             # Taiwanese Semiconductor Manufacturing Company
+TUI/12SM            # text user interface
 Tandy/2M
 TechCrunch/SM
-ThinkPad/2SM
+ThinkPad/2SM        # pc
 TikTok/SM
-Todo
+Todo                # FIXME! elsewhere in Harper we refer to TODO and to-do
 Trocla/SM
 TrueNAS/SM
 Tumblr/2M
 Typst/SM
 UDP/12SM
-URI/1SM
+URI/1SM             # uniform resource identifier
 VARCHAR/1MS
 VMware/21MS
-VPN/1SM
+VPN/1SM             # virtual private network
 VR/2M
 Vaadin/SM
 VaultPress/2M
@@ -51708,34 +51715,34 @@ Viktor/SM
 VirtualBox/21MS
 Vite/SM
 WAL/21SM
-WASM/M
+WASM/M              # see WebAssembly
 Waymo/2M
-WebAssembly/M
+WebAssembly/M       # see WASM
 WebGPU/SM
 WebKit/2M
 WebRTC/2M
 WebSocket/SM
-WhatsApp/124MG
-Wikilink/MS1
+WhatsApp/124MG      # messaging app
+Wikilink/MS1        # FIXME! elsewhere we have wikilink
 Wireguard/SM
 WooCommerce/2M
 Xbox/12MS
 Xorg/21MS
-YAML/2SM
+YAML/2SM            # markup language
 Yazi/21MS
 YubiKey/SM
 Zettelkasten/1M
-Zig/2M
-Zuckerberg/2MS
+Zig/2M              # programming language
+Zuckerberg/2MS      # surname, Facebook founder
 a11n/1
 a12s/9
 a8c/SM
 archytas/SM
-async/5
+async/5             # abbreviation of "asynchronous"
 backend/1SM         # dictionaries prefer: back end
 baz/~               # cf. foo, bar
 bitstream/SM
-bool/S
+bool/S              # abbreviation of "boolean"
 cannabinoids/1
 centric/~SM
 chatbot/SM
@@ -51751,8 +51758,6 @@ cyberphysical/51Y
 cybersecurity/M
 dedup/1M
 dedupe/14SMDG
-deserialize/4SGD
-desolder/4SGD
 dev/~1MS
 dotfile/~1S
 e.g./~1
@@ -51763,20 +51768,18 @@ eudaimonia/1M
 eval/14SGM
 evalled/4
 evalling/4
-filesystem/~SM
-filetype/14GSMD
+filesystem/~SM      # dictionaries prefer: file system
 frontend/1SM        # dictionaries prefer: front end
 gRPC/2SM
-gamify/4D
 glymph/SM
 grift/1GDS
 grifter/MS
-gzip/4S
+gzip/4S             # GNU compression utility
 gzipped/4
 gzipping/4
 hackathon/1SM
 hardcode/4GDS
-here's/
+here's/             # contraction of "here is"
 hotwire/4BG         # dictionaries prefer: hot-wire
 i.e./~
 inclusivity/SM
@@ -51797,7 +51800,7 @@ microservice/1SM
 middleware/~SM
 monorepo/SM
 namespace/~14GSMD
-olds/~
+olds/~              # common in phrasing such as "twenty year olds"
 onboarding/14SM
 overleveraged/5
 overstimulation/1
@@ -51835,11 +51838,9 @@ typeahead/1M
 uncheck/SM
 undercount/14DGS
 underinsured/5
-unmute/4SGD
-unnest/4SGD
 vs./~
-whitespace/~1SM
-wikilink/~1SM
+whitespace/~1SM     # dictionaries prefer: white space
+wikilink/~1SM       # FIXME! elsewhere we have Wikilink
 
 # Experimental multi-word entries
 # Harper may not recognize these as words in documents
