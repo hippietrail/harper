@@ -36,7 +36,8 @@ enum Args {
         /// If omitted, `harper-cli` will run every rule.
         #[arg(short, long)]
         only_lint_with: Option<Vec<String>>,
-        #[arg(short, long)]
+        /// Specify the dialect.
+        #[arg(short, long, default_value = Dialect::American.to_string())]
         dialect: Dialect,
         /// Path to the user dictionary.
         #[arg(short, long, default_value = config_dir().unwrap().join("harper-ls/dictionary.txt").into_os_string())]
