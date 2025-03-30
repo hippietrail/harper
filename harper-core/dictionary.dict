@@ -207,6 +207,7 @@ Ajax/2M
 Akbar/2M
 Akhmatova/M
 Akihito/M
+Akira/2MS
 Akita/21M
 Akiva/2M
 Akkad/2M
@@ -4037,6 +4038,7 @@ Greene/2M
 Greenland/2M
 Greenlander/1MS
 Greenlandic/52
+Greenlandish/15M
 Greenpeace/2M
 Greensboro/2M
 Greensleeves/M
@@ -9793,7 +9795,7 @@ Teller/2M
 Telugu/21M
 Temecula/2M
 Tempe/2
-Templar/1M
+Templar/1MS
 Temple/2M
 Tenn/M
 Tennessean/51SM
@@ -12193,6 +12195,7 @@ analytical/~5Y
 analyzable/5
 analyze/~4ADSG
 analyzer/~1SM
+anamorphic/5
 anapest/1SM
 anapestic/51MS
 anaphylactic/5
@@ -12397,6 +12400,7 @@ anthology/~1SM
 anthracite/1M
 anthrax/~1M
 anthropocentric/5
+anthropogenic/5
 anthropoid/51MS
 anthropological/~5Y
 anthropologist/~1SM
@@ -14100,7 +14104,8 @@ behaviour/1SM!@
 behavioural/5Y!@
 behaviourism/1M!@
 behaviourist/1SM!@
-behead/4DGS
+behead/4DS
+beheading/1MS
 beheld/4
 behemoth/1M
 behemoths/1
@@ -14378,7 +14383,7 @@ bike/~14DRSMZG
 biker/~1M
 bikini/~1MS
 bilabial/51MS
-bilateral/~51Y
+bilateral/~51YMS
 bilberry/1S
 bile/~14M
 bilge/14MS
@@ -16119,6 +16124,7 @@ capitulate/4ADSXGN
 capitulation/~1AM
 caplet/1MS
 capo/~1SM
+capoeira/1M
 capon/14MS
 capped/~54UA
 capping/41UA
@@ -21694,6 +21700,7 @@ driveller/1SM!@
 drivelling/415!@
 driven/~45
 driver/~1M
+driverless/5
 driveshaft/1SM
 drivetrain/1MS
 driveway/1MS
@@ -23969,6 +23976,7 @@ feminise/4DSG!
 feminism/~1M
 feminist/~51SM
 feminize/4DSG
+femme/1MS
 femoral/~5
 femur/~1SM
 fen/~1SM
@@ -26208,7 +26216,7 @@ goodbye/~14MS
 goodhearted/5
 goodish/5
 goodly/5TR
-goodness/~1M
+goodness/~1MS
 goodnight/~14
 goods/~14M
 goodwill/~1M
@@ -27785,6 +27793,7 @@ hollyhock/1MS
 holmium/1M
 holocaust/~14SM
 hologram/1MS
+hologrammatic/5Q
 holograph/14M
 holographic/~5
 holographs/1
@@ -28343,6 +28352,8 @@ hyperplane/1
 hypersensitive/5P
 hypersensitiveness/1M
 hypersensitivity/~1SM
+hypersexualise/4SDG!
+hypersexualize/4SDG
 hyperspace/14S
 hypertension/~1M
 hypertensive/51SM
@@ -28358,6 +28369,7 @@ hypervisor/1MS
 hyphen/~147MDSG
 hyphenate/41XDSMGN
 hyphenation/1M
+hypnagogic/5
 hypnoses/1
 hypnosis/~1M
 hypnotherapist/1S
@@ -29099,7 +29111,7 @@ inertness/1M
 inescapable/5
 inescapably/j
 inestimably/j
-inevitability/1M
+inevitability/1MS
 inevitable/~51M
 inevitably/~j
 inexact/5Y
@@ -29358,7 +29370,7 @@ insidious/5YP
 insidiousness/1M
 insight/~1MS
 insightful/5
-insignia/~1M
+insignia/~1MS
 insinuate/4GNVDSX
 insinuation/1M
 insinuator/1SM
@@ -31129,6 +31141,8 @@ leniency/1M
 lenient/~51Y
 lenitive/51
 lens/~14MS
+lensman/1M
+lensmen/9
 lent/~14
 lentil/1MS
 lento/51
@@ -31320,7 +31334,7 @@ lignin/~1
 lignite/1M
 lii
 likability/1M
-likable/5P
+likable/5PE
 likableness/1M
 like/~4157+EMGDST
 likeability/1M!@
@@ -31407,8 +31421,9 @@ linguistic/~5SQ
 linguistics/~1M
 liniment/14SM
 lining/~14M
-link/~14MDRSG
+link/~14MDSG
 linkage/~1MS
+linker/1MS
 linkman/1
 linkmen/9
 linkup/1MS
@@ -32700,6 +32715,7 @@ megalithic/~5
 megaliths/1
 megalomania/1M
 megalomaniac/15SM
+megalomaniacal/5
 megalopolis/~1MS
 megameter/1S
 megametre/1S!@
@@ -34293,6 +34309,7 @@ nanny/~14SM
 nanobot/1S
 nanometer/1S
 nanometre/1S!@
+nanoprocessor/1SM
 nanosecond/1SM
 nanotechnology/~1SM
 nanotube/1
@@ -34527,6 +34544,7 @@ neophyte/1MS
 neoplasm/1MS
 neoplastic/5
 neoprene/1M
+neorealist/51SM
 nepenthe/1M
 nephew/~1SM
 nephrectomy/1MS
@@ -35772,6 +35790,7 @@ oppose/~4DSG
 opposed/~54U
 opposite/~51+SMYNX
 opposition/~1M
+oppositional/5
 oppress/4DSGV
 oppression/~1M
 oppressive/~5YP
@@ -40391,6 +40410,9 @@ reauthorizing/4!
 rebadge/4GDS
 rebalance/4SGD
 reballing/4
+rebar/1SM
+rebarred/4
+rebarring/4
 rebate/~14M
 rebel/~14MS
 rebellion/~1MS
@@ -43441,6 +43463,7 @@ sidecar/1SM
 sidekick/~1SM
 sidelight/1MS
 sideline/~14DSMG
+sideload/4DGS
 sidelong/5
 sideman/~1M
 sidemen/9
@@ -43533,6 +43556,8 @@ sill/~15MS
 silliness/1M
 silly/~51TRSMP
 silo/~14MS
+silovik/1MS
+siloviki/9
 silt/~14GMDS
 silty/5TR
 silver/~154GMDS
@@ -46158,6 +46183,7 @@ supervised/~45U
 supervision/~1M
 supervisor/~1MS
 supervisory/~5
+superweapon/1MS
 superwoman/1M
 superwomen/9
 supine/51Y
@@ -48958,7 +48984,7 @@ underpopulated/5
 underprivileged/~51
 underproduction/1M
 underrate/41GDS
-underrepresented/45
+underrepresent/4DGS
 underscore/14DSMG
 undersea/~5S
 underseal/1SMDG
@@ -51857,6 +51883,7 @@ bench-warmer/1MS
 blue-collar/5
 boot up/4
 built-in/1MS5
+built-up/5
 cross section/1MS
 cross-threaded/5
 de facto/51M
@@ -51891,8 +51918,10 @@ jaw-droppingly/5
 kick start/4SDG
 knock-on effect/1MS
 laid-back/5
+lead-up/1MS
 left-wing/5
 live action/1
+load-bearing/5
 low-budget/5
 low-profile/5
 man child/1M
@@ -51915,11 +51944,14 @@ per capita/5j
 plan B/M
 right-wing/5
 run-up/1MS
+sci-fi/1M
 self-obsessed/5
 short-term/5j
 shout-out/1S
 single-handedly/j
 so-called/5
+socio-political/5
+spot on/5
 stand-up/51
 third-party/5
 uh-oh
