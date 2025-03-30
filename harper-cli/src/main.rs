@@ -30,6 +30,9 @@ enum Args {
         /// without further details.
         #[arg(short, long)]
         count: bool,
+        /// Whether to print suggestions for each lint.
+        #[arg(short, long)]
+        suggestions: bool,
         /// Restrict linting to only a specific set of rules.
         /// If omitted, `harper-cli` will run every rule.
         #[arg(short, long)]
@@ -75,12 +78,16 @@ fn main() -> anyhow::Result<()> {
         Args::Lint {
             file,
             count,
+            suggestions,
             only_lint_with,
             dialect,
         } => {
             let (doc, source) = load_file(&file, markdown_options)?;
 
             let mut linter = LintGroup::new_curated(dictionary, dialect);
+
+            // before trying to use only_lint_with, print out all the rules
+            // dbg!(&linter);
 
             if let Some(rules) = only_lint_with {
                 linter.set_all_rules_to(Some(false));
@@ -119,6 +126,16 @@ fn main() -> anyhow::Result<()> {
                         .with_message(lint.message)
                         .with_color(primary_color),
                 );
+
+                if suggestions {
+                    for suggestion in &lint.suggestions {
+                        report_builder = report_builder.with_label(
+                            Label::new((&filename, lint.span.into()))
+                                .with_message(suggestion.to_string())
+                                .with_color(Color::Cyan),
+                        );
+                    }
+                }
             }
 
             let report = report_builder.finish();

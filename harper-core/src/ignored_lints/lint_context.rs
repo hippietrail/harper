@@ -43,6 +43,22 @@ impl LintContext {
             .map(|t| t.to_fat(document.get_source()))
             .collect();
 
+        // todo!();
+        // eprintln!("Before deduplication: {:?} suggestions",
+        //     suggestions
+        // );
+
+        // Deduplicate suggestions using HashSet
+        // let suggestions = suggestions
+        //     .into_iter()
+        //     .collect::<std::collections::HashSet<_>>()
+        //     .into_iter()
+        //     .collect();
+
+        // eprintln!("After deduplication: {:?} suggestions",
+        //     suggestions
+        // );
+
         Self {
             lint_kind,
             suggestions,
