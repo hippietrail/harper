@@ -843,7 +843,7 @@ BRICS/2M
 BS/214M
 BSA/12
 BSD/21SM
-BTU/1
+BTU/1               # same as Btu?
 BTW/
 BYOB/
 Ba/21M
@@ -1529,7 +1529,7 @@ Bryce/2M
 Brynner/M
 Bryon/2M
 Brzezinski/2M
-Btu/M
+Btu/M               # same as BTU?
 Buber/M
 Buchanan/2M
 Bucharest/2M
@@ -6562,6 +6562,7 @@ McLean/2M
 McLeod/21M
 McLuhan/2M
 McMahon/2M
+McMansion/1MS
 McMillan/2M
 McNamara/2M
 McNaughton/2M
@@ -7073,7 +7074,7 @@ NAFTA/2M
 NASA/2M
 NASCAR/2M
 NASDAQ/2M
-NATO/2M
+NATO/2M             # North Atlantic Treaty Organization
 NB/512
 NBA/2M
 NBC/215M
@@ -7081,40 +7082,41 @@ NBS
 NC/215
 NCAA/2M
 NCO/1
-ND/215
+ND/215              # North Dakota
 NE/215M
 NEC/2M
 NEH/2
-NES/1M
+NES/1M              # game console
 NF/251
-NFC/21
+NFC/21              # near-field communication
 NFL/21M
-NGO/1MS
+NGO/1MS             # non-government organization
 NH/2145
 NHL/12M
-NIH/25
-NIMBY/15
+NIH/25              # National Institutes of Health
+NIMBY/15            # not in my backyard
 NJ/25
 NLRB/2
 NM/2514
 NORAD/2M
 NOW/21
 NP/21
-NPC/1SM
-NPR/21M
+NPC/1SM             # non-player character
+NPR/21M             # National Public Radio
 NR/512
-NRA/2
+NRA/2               # National Rifle Association
 NRC/215
 NS/215
-NSA/521M
+NSA/521M            # FIXME! elsewhere we have N.S.A.
 NSC/21
 NSF/21
-NSFW/5
-NSX/1M
+NSFW/5              # not safe for work
+NSX/1M              # car
 NT/21
-NTSC/1M
+NTSC/1M             # television standard
 NV/215
-NVIDIA/M
+NVIDIA/M            # FIXME! elsewhere we have Nvidia
+NVMe/2
 NW/21M
 NWT/2
 NY/2
@@ -7911,7 +7913,7 @@ Petty/2M
 Peugeot/21M
 Pfc
 Pfizer/2M
-PhD/1M
+PhD/1MS
 Phaedra/2M
 Phaethon/2M
 Phanerozoic/52M
@@ -18738,6 +18740,7 @@ cookhouse/1S
 cookie/~14SM
 cooking/~154M
 cookout/1SM
+cooktop/1SM
 cookware/1SM
 cool/~514MDRYZTGPS
 coolant/~1SM
@@ -29906,6 +29909,7 @@ itemisation/1M!
 itemise/4GDS!
 itemization/1M
 itemize/4GDS
+iterable/5
 iterate/415AXGNVDS
 iteration/~1AM
 iterator/1S
@@ -30369,6 +30373,7 @@ keyboarder/1M
 keyboardist/~1SM
 keycap/1SM
 keyhole/~14MS
+keymap/1SM
 keynote/~14MZGDRS
 keynoter/1M
 keypad/1SM
@@ -37784,6 +37789,7 @@ pier/~1M
 pierce/~41JGDS
 piercing/~415MY
 piety/~1M
+piezo/5
 piezoelectric/51
 piffle/14MG
 pig/~14SML
@@ -40346,6 +40352,7 @@ reauthorized/4!
 reauthorizing/4!
 rebadge/4GDS
 rebate/~14M
+reballing/4
 rebel/~14MS
 rebellion/~1MS
 rebellious/~5YP
@@ -40968,6 +40975,7 @@ resist/~41SMDRZG
 resistance/~1SM
 resistant/~15U
 resistible/5
+resistive/5
 resistivity/1
 resistless/5
 resistor/~1MS
@@ -45571,6 +45579,7 @@ stropping/41
 stroppy/5TRP
 strove/~4
 struck/~4
+struct/1MS
 structural/~51Y
 structuralism/1
 structuralist/51S
@@ -45757,6 +45766,7 @@ subpoena/~14GMDS
 subprime/51
 subprofessional/51SM
 subprogram/1S
+subquery/14SGD
 subroutine/1SM
 subscribe/~4UASDG
 subscriber/~1MS
@@ -47847,6 +47857,7 @@ towhee/1MS
 towline/1MS
 town/~1MS
 townee/1S
+townhome/1MS
 townhouse/~1MS
 townie/1MS
 townsfolk/1M
@@ -48859,6 +48870,7 @@ underhanded/541PY
 underhandedness/1M
 underhood/5
 underinflated/4
+underinsured/5
 underinvest/4GDS
 underlain/4
 underlay/41SM
@@ -50130,6 +50142,7 @@ waldo/~1S
 waldoes/1
 wale/14MGDS
 walk/~41MDRZGS
+walkable/5
 walkabout/~1S
 walkaway/1MS
 walker/~1M
@@ -51486,7 +51499,7 @@ ACM/1M
 AGI/MS                  # artificial general intelligence
 AOC/2M                  # US politician Alexandria Ocasio-Cortez
 Akismet/2M
-Alexa/2M                # Amazon product    
+Alexa/2M                # voice assistant    
 Alexandre/2SM
 AlphaFold/2M            # Google DeepMind project
 Ambien/1SM              # insomnia treatment
@@ -51506,7 +51519,8 @@ CCP/2S                  # Chinese Communist Party
 CEO/1SM                 # chief executive officer
 CERN/2M                 # intergovernmental organization
 CI/1SM                  # continuous integration
-CMake/SM
+CMake/SM                # build tool
+CMOS/1
 CQL/1
 CRDT/1SM
 CRM/12SM
@@ -51518,7 +51532,7 @@ CommonMark/M
 Corretto/SM
 Crowdsignal/2M
 Cypher/21M
-DATETIME/1MS
+DATETIME/1MS            # dictionaries prefer: datetime
 DBMS/12SM               # database management system
 DKIM/1SM
 DM/1MS                  # direct message
@@ -51543,7 +51557,7 @@ Foddy/SM
 Frankl/SM
 GLFW/2M
 GPL/2M                  # GNU General Public License
-GPT/1SM
+GPT/1SM                 # generative pre-trained transformer
 GPU/1S                  # graphics processing unit
 Ganeti/SM
 Gateron/SM
@@ -51558,11 +51572,11 @@ Grandey/SM
 Graphviz/SM
 Gravatar/2M
 HQL/1
-Harper/SM           # grammar checker
-Hasan/2SM
+Harper/SM           # surname; grammar checker
+Hasan/2SM           # surname, given name
 Hiera/SM
 Holmdel/SM
-IMAP/2SM
+IMAP/2SM            # internet message access protocol
 IPCC/2M
 IPv4/2SM
 IntelliJ/SM
@@ -51618,7 +51632,7 @@ Minix/2M            # old hobby operating system
 Mockito/SM
 Mullenweg/M
 Munin/SM
-N.S.A./2SM          # National Security Agency
+N.S.A./2SM          # FIXME! elsewhere we have NSA
 N1/2M
 N2/2M
 N3/2M
@@ -51634,7 +51648,7 @@ Neovim/M            # code editor
 Nikolay/SM
 NoSQL/1
 NumPy/21M
-Nvidia/2M
+Nvidia/2M           # FIXME! elsewhere we have NVIDIA
 O'Reilly/2SM
 OAuth/M             # open authentication
 ORM/12S             # object-relational mapping
@@ -51680,7 +51694,7 @@ SVGA/1              # super VGA
 Sharman/2SM
 Simplenote/2M
 Sioyek/M1
-Siri/2M             # Apple product
+Siri/2M             # voice assistant
 Snapchat/SM
 Soros/2M            # financier George Soros
 Spotify/2M
@@ -51745,7 +51759,6 @@ bitstream/SM
 bool/S              # abbreviation of "boolean"
 cannabinoids/1
 centric/~SM
-chatbot/SM
 ciphertext/~1MS
 clickjack/4SGD
 config/14SM
@@ -51778,7 +51791,7 @@ gzip/4S             # GNU compression utility
 gzipped/4
 gzipping/4
 hackathon/1SM
-hardcode/4GDS
+hardcode/4GDS       # dictionaries prefer: hard code
 here's/             # contraction of "here is"
 hotwire/4BG         # dictionaries prefer: hot-wire
 i.e./~
@@ -51786,9 +51799,7 @@ inclusivity/SM
 inoperability/1MS
 interconnectedness/1
 intergenerational/5
-iterable/5
 journaling/SM3
-keymap/1SM
 labriola/SM
 leaderboard/1MS
 lex/~41D
@@ -51824,9 +51835,7 @@ scrollbar/1SM       # dictionaries prefer: scroll bar
 sioyek/SM
 stacktrace/SM1      # dictionaries prefer: stack trace
 standup/SM
-struct/1MS
 stylization/SM
-subquery/14SGD
 subsequence/1MS
 substring/14SM
 summarizer/1MS
@@ -51837,7 +51846,6 @@ transformative/~5
 typeahead/1M
 uncheck/SM
 undercount/14DGS
-underinsured/5
 vs./~
 whitespace/~1SM     # dictionaries prefer: white space
 wikilink/~1SM       # FIXME! elsewhere we have Wikilink
@@ -51868,10 +51876,12 @@ front-line/5
 full-scale/5
 Greco-Roman/5
 ground-based/5
+hard code/4SDG
 heavy-handed/5
 high-quality/5
 H-1B/1MS
 high-level/5
+high-profile/5
 high-rise/1MS
 high-speed/5
 hissy fit/1MS
@@ -51894,6 +51904,7 @@ neo-Nazi/15SM
 off-road/1MS
 off-roader/1MS
 okey-dokey/1MS
+on-off/5
 once-in-a-lifetime/5
 one-handed/5
 one-man/5
