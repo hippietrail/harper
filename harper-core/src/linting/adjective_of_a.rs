@@ -31,7 +31,9 @@ impl Linter for AdjectiveOfA {
                 ['k', 'i', 'n', 'd'] | ['K', 'i', 'n', 'd'] => true,
                 ['m', 'e', 'a', 'n', 'i', 'n', 'g'] | ['M', 'e', 'a', 'n', 'i', 'n', 'g'] => true,
                 ['p', 'a', 'r', 't'] | ['P', 'a', 'r', 't'] => true,
-                // TODO: consider "more of a" and "less of a"
+                ['s', 'o', 'm', 'e', 't', 'h', 'i', 'n', 'g']
+                | ['S', 'o', 'm', 'e', 't', 'h', 'i', 'n', 'g'] => true,
+                // TODO: consider "more of a" and "less of a" but they may have too many true positives
                 _ => false,
             } {
                 continue;
@@ -214,6 +216,15 @@ mod tests {
     fn dont_flag_full() {
         assert_lint_count(
             "fortunately I happen to have this Tupperware full of an unceremoniously disassembled LED Mac Mini",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_something() {
+        assert_lint_count(
+            "Well its popularity seems to be taking something of a dip right now.",
             AdjectiveOfA,
             0,
         );
