@@ -27,10 +27,13 @@ impl Linter for AdjectiveOfA {
                 ['o', 'u', 't'] | ['O', 'u', 't'] => true,
                 // The word is used more as a noun in this context.
                 // (using .kind.is_likely_homograph() here is too strict)
+                ['b', 'o', 't', 't', 'o', 'm'] | ['B', 'o', 't', 't', 'o', 'm'] => true,
                 ['f', 'r', 'o', 'n', 't'] | ['F', 'r', 'o', 'n', 't'] => true,
                 ['k', 'i', 'n', 'd'] | ['K', 'i', 'n', 'd'] => true,
                 ['m', 'e', 'a', 'n', 'i', 'n', 'g'] | ['M', 'e', 'a', 'n', 'i', 'n', 'g'] => true,
                 ['p', 'a', 'r', 't'] | ['P', 'a', 'r', 't'] => true,
+                ['s', 'h', 'a', 'd', 'o', 'w'] | ['S', 'h', 'a', 'd', 'o', 'w'] => true,
+                ['s', 'h', 'o', 'r', 't'] | ['S', 'h', 'o', 'r', 't'] => true,
                 ['s', 'o', 'm', 'e', 't', 'h', 'i', 'n', 'g']
                 | ['S', 'o', 'm', 'e', 't', 'h', 'i', 'n', 'g'] => true,
                 // TODO: consider "more of a" and "less of a" but they may have too many true positives
@@ -228,5 +231,23 @@ mod tests {
             AdjectiveOfA,
             0,
         );
+    }
+
+    #[test]
+    fn dont_flag_short() {
+        assert_lint_count(
+            "I found one Youtube short of an indonesian girl.",
+            AdjectiveOfA,
+            0,
+        )
+    }
+
+    #[test]
+    fn dont_flag_bottom() {
+        assert_lint_count(
+            "When leaves are just like coming out individually from the bottom of a fruit.",
+            AdjectiveOfA,
+            0,
+        )
     }
 }
