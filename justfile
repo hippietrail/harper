@@ -173,7 +173,7 @@ update-vscode-linters:
     '.contributes.configuration.properties += $linters' <<< \
     "$manifest_without_linters" > \
     package.json
-  pnpm biome --write package.json
+  just format
 
 # Run Rust formatting and linting.
 check-rust:

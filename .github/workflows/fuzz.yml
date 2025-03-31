@@ -1,8 +1,9 @@
 name: Fuzz
 
 on:
-  schedule:
-    - cron: "*/10 * * * *"
+  schedule: 
+    #- cron: "*/10 * * * *"
+    - cron: "*/0 * * * *"
 
 env:
   CARGO_TERM_COLOR: always

@@ -30,7 +30,12 @@ export default defineConfig({
 						end: '#818eae',
 					},
 				},
-				navbar: [{ title: 'Documentation', to: '/docs/about' }],
+				navbar: [
+					{ title: 'Documentation', to: '/docs/about' },
+					{ title: 'Visual Studio Code', to: '/docs/integrations/visual-studio-code' },
+					{ title: 'Obsidian', to: '/docs/integrations/obsidian' },
+					{ title: 'harper.js', to: '/docs/harperjs/introduction' },
+				],
 				sidebar: {
 					'/docs/': [
 						{
@@ -86,6 +91,14 @@ export default defineConfig({
 									to: '/docs/harperjs/linting',
 								},
 								{
+									title: 'Spans',
+									to: '/docs/harperjs/spans',
+								},
+								{
+									title: 'Configure Rules',
+									to: '/docs/harperjs/configurerules',
+								},
+								{
 									title: 'Node.js',
 									to: '/docs/harperjs/node',
 								},
@@ -137,6 +150,10 @@ export default defineConfig({
 								{
 									title: 'Reviewing Pull Requests',
 									to: '/docs/contributors/review',
+								},
+								{
+									title: 'FAQ',
+									to: '/docs/contributors/faq',
 								},
 							],
 						},

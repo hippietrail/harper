@@ -11,6 +11,7 @@ use hashbrown::HashMap;
 use lru::LruCache;
 use serde::{Deserialize, Serialize};
 
+use super::adjective_of_a::AdjectiveOfA;
 use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::back_in_the_day::BackInTheDay;
@@ -291,6 +292,7 @@ impl LintGroup {
         out.merge_from(&mut closed_compounds::lint_group());
 
         // Add all the more complex rules to the group.
+        insert_struct_rule!(AdjectiveOfA, true);
         insert_pattern_rule!(BackInTheDay, true);
         insert_struct_rule!(WordPressDotcom, true);
         insert_pattern_rule!(OutOfDate, true);

@@ -33,3 +33,4 @@ just --list
 > Please note that `just build-web` _only_ builds the website for production, while `just dev-web` also spins up a development server.
 
 Before making any modifications, we highly recommend that you run `just setup` to populate your build caches and download all dependencies.
+If you see a Visual Studio code window pop open, don't worry! That's just a part of our integration tests.

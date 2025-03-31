@@ -2,6 +2,7 @@
 //!
 //! See the [`Linter`] trait and the [documentation for authoring a rule](https://writewithharper.com/docs/contributors/author-a-rule) for more information.
 
+mod adjective_of_a;
 mod an_a;
 mod avoid_curses;
 mod back_in_the_day;
@@ -67,6 +68,7 @@ mod whereas;
 mod wordpress_dotcom;
 mod wrong_quotes;
 
+pub use adjective_of_a::AdjectiveOfA;
 pub use an_a::AnA;
 pub use avoid_curses::AvoidCurses;
 pub use back_in_the_day::BackInTheDay;
