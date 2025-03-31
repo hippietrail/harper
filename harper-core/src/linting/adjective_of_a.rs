@@ -5,6 +5,34 @@ use crate::{Document, Span, TokenStringExt};
 #[derive(Debug, Clone, Copy, Default)]
 pub struct AdjectiveOfA;
 
+const FALSE_POSITIVES: &[&str] = &[
+    // Different valid constructions.
+    "all",
+    "full",
+    "inside",
+    "much",
+    "out",
+    // The word is used more as a noun in this context.
+    // (using .kind.is_likely_homograph() here is too strict)
+    "bottom",
+    "front",
+    "kind",
+    "left",
+    "meaning",
+    "one",
+    "part",
+    "shadow",
+    "short",
+    "something",
+];
+
+fn is_false_positive(chars: &[char]) -> bool {
+    let word = chars.iter().collect::<String>();
+    FALSE_POSITIVES
+        .iter()
+        .any(|&false_pos| word.eq_ignore_ascii_case(false_pos))
+}
+
 impl Linter for AdjectiveOfA {
     fn lint(&mut self, document: &Document) -> Vec<Lint> {
         let mut lints = Vec::new();
@@ -18,30 +46,10 @@ impl Linter for AdjectiveOfA {
             let adj_chars: &[char] = document.get_span_content(&adjective.span);
 
             // Rule out false positives
-
-            if match adj_chars {
-                // Different valid constructions.
-                ['f', 'u', 'l', 'l'] | ['F', 'u', 'l', 'l'] => true,
-                ['i', 'n', 's', 'i', 'd', 'e'] | ['I', 'n', 's', 'i', 'd', 'e'] => true,
-                ['m', 'u', 'c', 'h'] | ['M', 'u', 'c', 'h'] => true,
-                ['o', 'u', 't'] | ['O', 'u', 't'] => true,
-                // The word is used more as a noun in this context.
-                // (using .kind.is_likely_homograph() here is too strict)
-                ['b', 'o', 't', 't', 'o', 'm'] | ['B', 'o', 't', 't', 'o', 'm'] => true,
-                ['f', 'r', 'o', 'n', 't'] | ['F', 'r', 'o', 'n', 't'] => true,
-                ['k', 'i', 'n', 'd'] | ['K', 'i', 'n', 'd'] => true,
-                ['m', 'e', 'a', 'n', 'i', 'n', 'g'] | ['M', 'e', 'a', 'n', 'i', 'n', 'g'] => true,
-                ['o', 'n', 'e'] | ['O', 'n', 'e'] => true,
-                ['p', 'a', 'r', 't'] | ['P', 'a', 'r', 't'] => true,
-                ['s', 'h', 'a', 'd', 'o', 'w'] | ['S', 'h', 'a', 'd', 'o', 'w'] => true,
-                ['s', 'h', 'o', 'r', 't'] | ['S', 'h', 'o', 'r', 't'] => true,
-                ['s', 'o', 'm', 'e', 't', 'h', 'i', 'n', 'g']
-                | ['S', 'o', 'm', 'e', 't', 'h', 'i', 'n', 'g'] => true,
-                // TODO: consider "more of a" and "less of a" but they may have too many true positives
-                _ => false,
-            } {
+            if is_false_positive(adj_chars) {
                 continue;
             }
+
             // Rule out comparatives and superlatives.
 
             // Pros:
@@ -250,5 +258,15 @@ mod tests {
             AdjectiveOfA,
             0,
         )
+    }
+
+    #[test]
+    fn dont_flag_left() {
+        assert_lint_count("and what is left of a 12vt coil", AdjectiveOfA, 0)
+    }
+
+    #[test]
+    fn dont_flag_full_uppercase() {
+        assert_lint_count("Full of a bunch varnish like we get.", AdjectiveOfA, 0);
     }
 }
