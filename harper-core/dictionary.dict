@@ -12,7 +12,7 @@ AAA/12
 AB/215M
 ABA/21
 ABC/125SM
-ABI/1MS
+ABI/1MS             # application binary interface, cf. API
 ABM/21SM
 ABS/12
 AC/152M
@@ -22,17 +22,17 @@ ACTH/1M
 AD/152M
 ADC/1
 ADD/1
-ADHD/1
+ADHD/1              # attention deficit hyperactivity disorder
 ADM/12
 ADP/1M
 AF/15
-AFAIK/
+AFAIK/              # as far as I know
 AFB/1
 AFC/21M
 AFDC/2
 AFN/21
 AFT/2
-AI/12SM
+AI/12SM             # artificial intelligence
 AIDS/15M
 AK/21
 AL/12
@@ -45,27 +45,28 @@ AOL/2M
 AP/125M
 APB/1
 APC/125
-API/1SM
+API/1SM             # application programming interface, cf. ABI
 APO/1
 APR/1
 AR/512
 ARC/125
-ASAP/
+ASAP/               # as soon as possible
 ASCII/2SM
 ASIO/2M
-ASL/2M
+ASML/2M             # company
+ASL/2M              # American Sign Language
 ASPCA/2
 AST/1MS
-ATM/1MS
+ATM/1MS             # automated teller machine
 ATP/21M
-ATV/21
+ATV/21              # all-terrain vehicle
 AV/512
 AVI/2
 AWACS/1M
-AWOL/51M
+AWOL/51M            # absent without leave
 AWS/21M
 AZ/2M
-AZT/1M
+AZT/1M              # drug
 Aachen/2M
 Aaliyah/2M
 Aaron/21M
@@ -177,7 +178,7 @@ Agatha/2M
 Aggie/21M
 Aglaia/2M
 Agnes/2M
-Agnew/2M
+Agnew/2M            # spiro -
 Agni/2M
 Agra/2M
 Agricola/M
@@ -199,7 +200,7 @@ Aida/2M
 Aiken/2M
 Aileen/2M
 Aimee/2M
-Ainu/152M
+Ainu/152M           # ethnicity, language
 Airedale/21MS
 Aires/M
 Aisha/2M
@@ -212,7 +213,7 @@ Akita/21M
 Akiva/2M
 Akkad/2M
 Akron/2M
-Al/12M
+Al/12M              # aluminium, aluminum; given name
 Ala/12S
 Alabama/12M
 Alabaman/51MS
@@ -1618,59 +1619,60 @@ Byzantine/51MS
 Byzantium/21M
 C/1245SM
 CA/21
-CAD/1M
+CAD/1M              # computer-aided design; canadian dollar
 CAI/12
 CAM/12
 CAP/12
 CARE
 CATV/1
-CB/152
+CB/152              # citizen's band (radio)
 CBC/215M
-CBS/21M
-CCP/2M
-CCTV/12
+CBS/21M             # media company
+CCP/2M              # political party
+CCTV/12             # closed-circuit television
 CCU/1
 CD/14SM
 CDC/21
 CDT/1
-CEO/1MS
+CEO/1MS             # chief executive officer
 CF/125
 CFC/21M
-CFO/12
-CGI/124
-CIA/215M
+CFO/12              # financial officer
+CGI/124             # computer graphics interface; common gateway interface
+CIA/215M            # agency
 CID/12
 CLI/1MS
-CNC/1
+CNC/1               # computer numerical control
 CNN/21M
 CNS/1M
 CO/214M
-COBOL/2SM
+CO₂/1
+COBOL/2SM           # programming language
 COD/21
 COL/21
 COLA/12
-COVID/1
-CPA/1M
+COVID/1             # virus
+CPA/1M              
 CPI/12M
 CPO/1
 CPR/12M
 CPU/1MS
-CRT/1SM
+CRT/1SM             # cathode ray tube
 CSS/12M
 CST/21M
 CT/2145M
-CUDA/21M
-CV/125
+CUDA/21M            # computing architecture
+CV/125              # curriculum vitae
 CVS/12M
 CZ/1
-Ca/M
+Ca/M                # calcium
 Cabernet/M
 Cabot/2M
 Cabral/M
 Cabrera/2M
 Cabrini/M
 Cadette
-Cadillac/251MS
+Cadillac/251MS      # car company
 Cadiz/2M
 Caedmon/2M
 Caerphilly/2M
@@ -2990,38 +2992,39 @@ Dzerzhinsky/2M
 Dzungaria/2M
 E/12SM
 EC/12
-ECG/1M
+ECG/1M              # electrocardiogram, cf. EKG
 ECM/1MS
-ECMAScript/2M
+ECMAScript/2M       # programming language, cf. JavaScript, TypeScript
 EDP/12M
 EDT/21
 EEC/21M
-EEG/1M
+EEG/1M              # electroencephalogram
 EEO/1
 EEOC/2
 EFL/12
 EFT/12
-EKG/1M
-ELF/12M
+EKG/1M              # cf. ECG
+ELF/12M             # file format
 EM/15
 EMT/1
 ENE/15M
 EOE/1
-EPA/21M
+EPA/21M             # agency
 ER/21
-ERA/12
+ERA/12              # equal rights amendment
 ESE/15M
 ESL/1
-ESP/1M
-ESPN/2M
+ESP/1M              # extra-sensory perception
+ESPN/2M             # media company
 ESR/1
 EST/21M
 ET/1
-ETA/214
+ETA/214             # estimated time of arrival
 ETD/1
 EU/21
-EULA/1S
+EULA/1S             # end-user license agreement
 EUR/1
+EUV/1               # extreme ultraviolet
 Eakins/2M
 Earhart/2M
 Earl/12M
@@ -8747,13 +8750,14 @@ SAC/12
 SALT/2M
 SAM/21M
 SAP/21M
-SARS/12M
+SAR/1               # special administrative region
+SARS/12M            # disease
 SASE/1
 SAT/1MS
-SATA/1M
+SATA/1M             # computing standard
 SBA/12
 SC/512M
-SCSI/2M
+SCSI/2M             # computing standard
 SD/21
 SDI/12
 SE/125M
@@ -8761,14 +8765,14 @@ SEATO/2
 SEC/21M
 SEO/1M
 SF/125
-SGI/2M
+SGI/2M              # computer company
 SGML/2M
 SIDS/12M
 SJ/21
 SJW/1
 SK/412
 SLR/1
-SNES/1MS
+SNES/1MS            # game console
 SO/18S
 SOB/1M
 SOP/21M
@@ -8776,27 +8780,28 @@ SOS/1M
 SOSes/1
 SPCA/2
 SPF/152
-SQL/1
+SQL/1               # database query language
 SQLite/M
 SRAM/1M
 SRO/1
 SS/125
 SSA/215
-SSD/1SM
+SSD/1SM             # solid-state drive
 SSE/152M
 SSS/21
 SST/12
 SSW/15M
 ST/124
-STD/51
+STD/51MS            # sexually transmitted disease; cf. STI, VD
+STI/1M              # sexually transmitted infection; cf. STD, VD
 STOL/1
 SUSE/M
-SUV/1MS
+SUV/1MS             # vehicle type
 SVN/2M
 SW/2154M
 SWAK/
 SWAT/1
-Saab/21M
+Saab/21M            # car brand
 Saar/2M
 Saarinen/M
 Saatchi/2M
@@ -10270,26 +10275,26 @@ Utrillo/M
 Uzbek/152M
 Uzbekistan/2M
 Uzi/1SM
-V/1+M
+V/1+M               # vanadium; ...
 V10/1MS
 V12/1MS
 V6/1MS
 V8/12MS
 VA/215
-VAT/1M
-VAX
+VAT/1M              # tax
+VAX                 # old computer
 VAXes
 VBA/2M
 VCR/1M
-VD/1M
-VDT/1
-VDU/1
+VD/1M               # venereal disease; cf. STD, STI
+VDT/1               # video display terminal
+VDU/1               # visual display unit
 VF/15
 VFW/2M
 VG/51
-VGA/21
-VHF/51M
-VHS/1
+VGA/21              # computing standard
+VHF/51M             # frequency band
+VHS/1               # video tape
 VI/12M
 VIN/1MS
 VIP/1SM
@@ -10297,13 +10302,13 @@ VISTA
 VJ/142
 VLF/1M
 VM/1MS
-VMS/M
-VOA/21
-VP/12
-VRAM/1M
+VMS/M               # operating system
+VOA/21              # voice of america
+VP/12               # vice president
+VRAM/1M             # video memory
 VT/2154
-VTOL/1
-VW/2MS
+VTOL/1              # vertical takeoff and landing
+VW/2MS              # car brand; cf. Volkswagen
 Va/2M
 Vacaville/2M
 Vader/M
@@ -12601,8 +12606,6 @@ apotheosis/1M
 app/~1SM
 appal/4S!
 appall/4GDS
-appalled/54!
-appalling/~45Y
 appaloosa/1MS
 apparatchik/1S
 apparatus/~1MS
@@ -25580,6 +25583,8 @@ gantlet/1MS
 gantry/~1SM
 gap/~14GSMD
 gape/41MS
+gapped/45
+gapping/41
 gar/~14SLM
 garage/~14DSMG
 garb/~14MDGS
@@ -30790,6 +30795,7 @@ lancer/~1M
 lancet/~14SM
 land/~14MDSGJ
 landau/~1SM
+landbased/5
 lander/1MS
 landfall/~1MS
 landfill/~41MS
@@ -39231,9 +39237,11 @@ produce's
 producer/~1AM
 producible/5A
 production/~1ASM
+productise/4DSGN!
 productive/~5UY
 productiveness/1M
 productivity/~1M
+productize/4DSGN
 prof/~1MS
 profanation/1MS
 profane/~514PYGDS
@@ -51964,6 +51972,7 @@ one-off/5
 one-way/5
 out-and-out/5
 Pan Am/1M
+Pax Americana/2M
 per capita/5j
 plan B/M
 right-wing/5
@@ -51986,6 +51995,7 @@ user-friendly/5
 UTF-8/1M
 walkie-talkie/1MS
 web page/~1SM
+welch plug/1SM
 well-known/5
 Wi-Fi/1M
 working-class/15MS
