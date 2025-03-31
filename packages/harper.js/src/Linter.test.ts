@@ -188,6 +188,30 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		expect(lints).toHaveLength(0);
 	});
 
+	test(`${linterName} can summarize simple stat records`, async () => {
+		const linter = new Linter({ binary });
+		linter.setup();
+
+		const source = 'This is an test.';
+
+		const lints = await linter.lint(source);
+
+		const lint = lints[0];
+
+		expect(lint).not.toBeNull();
+
+		const sug = lint.suggestions()[0];
+
+		expect(sug).not.toBeNull();
+
+		const applied = await linter.applySuggestion(lint, sug);
+
+		expect(applied).toBe('This is a test.');
+
+		const summary = await linter.summarizeStats();
+    expect(summary).toBeTypeOf('object');
+	});
+
 	test(`${linterName} can save and restore stat records`, async () => {
 		const linter = new Linter({ binary });
 		linter.setup();

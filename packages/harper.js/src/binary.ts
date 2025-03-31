@@ -30,6 +30,7 @@ export type SerializableTypes =
 	| 'string'
 	| 'number'
 	| 'boolean'
+  | 'object'
 	| 'Suggestion'
 	| 'Lint'
 	| 'Span'
@@ -133,13 +134,17 @@ export class BinaryModule {
 			}
 
 			if (type === undefined) {
-				throw new Error('Unhandled case');
+				throw new Error('Unhandled case: type undefined');
 			}
 
 			return { json, type };
 		}
 
-		throw new Error('Unhandled case');
+    if (argType == 'object'){
+      return { json: JSON.stringify(arg), type: 'object'}
+    }
+
+		throw new Error(`Unhandled case: ${arg}`);
 	}
 
 	async serialize(req: DeserializedRequest): Promise<SerializedRequest> {
@@ -170,6 +175,10 @@ export class BinaryModule {
 				assert(Array.isArray(parsed));
 				return await Promise.all(parsed.map((arg) => this.deserializeArg(arg)));
 			}
+      case 'object': {
+				const parsed = JSON.parse(requestArg.json);
+				return parsed;
+      }
 			default:
 				throw new Error(`Unhandled case: ${requestArg.type}`);
 		}
