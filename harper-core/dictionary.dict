@@ -4066,6 +4066,7 @@ Gretel/2M
 Gretzky/21M
 Grey/21M
 Grieg/M
+Grier/2M
 Griffin/2M
 Griffith/2M
 Grimes/2M
@@ -6147,6 +6148,7 @@ Mac/12M
 MacArthur/2M
 MacBride/M
 MacDonald/2M
+MacGuffin/12MS
 MacLeish/M
 Macao/2M
 Macaulay/2M
@@ -7224,6 +7226,7 @@ Nebr/2
 Nebraska/2M
 Nebraskan/51MS
 Nebuchadnezzar/21M
+Necronomicon/2M
 Ned/2M
 Nefertiti/2M
 Negev/2M
@@ -12314,7 +12317,7 @@ animated/~54Y
 animation/~1AM
 animations/~1
 animator/~1MS
-anime/~1M
+anime/~1MS
 animism/1M
 animist/1SM
 animistic/5
@@ -13640,7 +13643,7 @@ balletic/5
 ballgame/1MS
 ballgirl/1S
 ballgown/14S
-ballistic/~5S
+ballistic/~5SQ
 ballistics/1M
 balloon/~14SGMD
 balloonist/1MS
@@ -14146,6 +14149,7 @@ belfry/~1SM
 belie/4DS
 belief/~1EUM
 beliefs/~1
+believability/1M
 believable/~5U
 believably/Uj
 believe/~4EDRSZG
@@ -14456,6 +14460,7 @@ biochemistry/~1M
 biodegradability/1M
 biodegrade/4DSGB
 biodiversity/~1M
+biohazard/1MS
 bioethics/~1M
 biofeedback/1M
 biofilm/1MS
@@ -14464,6 +14469,7 @@ biographer/~1SM
 biographic/5
 biographical/~5Y
 biography/~14SM
+biohazard/1MS
 biol/1
 biologic/51
 biological/~51Y
@@ -15708,7 +15714,7 @@ bursae/9
 bursar/1SM
 bursary/1SM
 bursitis/1M
-burst/~41SMG
+burst/~41SMGR
 bury/~41ADSG
 bus/~14AMS
 busboy/1SM
@@ -18830,6 +18836,7 @@ copycatting/4
 copyist/1MS
 copyleft/14
 copyright/~14GSMD
+copywrite/4SDG
 copywriter/1MS
 coquetry/1SM
 coquette/145DSMG
@@ -26005,7 +26012,7 @@ glamorisation/1M!
 glamorise/4DSG!
 glamorization/1M
 glamorize/4DSG
-glamorous/~5Y
+glamorous/~5YU
 glamour/~14GMDS
 glance/~41DSMG
 gland/~1SM
@@ -26772,6 +26779,7 @@ gunsmiths/1
 gunwale/1MS
 guppy/1SM
 gurgle/41MGDS
+gurn/1SM4GD
 gurney/~1MS
 guru/~14MS
 gush/~14MDRSZG
@@ -29372,6 +29380,7 @@ insecticidal/5
 insecticide/1MS
 insectivore/1MS
 insectivorous/~5
+insectoid/51MS
 insecure/~5Y
 inseminate/4DSGN
 insemination/1M
@@ -29559,6 +29568,7 @@ interdependence/1M
 interdependent/5Y
 interdict/~14GMDS
 interdiction/~1M
+interdimensional/5
 interdisciplinary/~5
 interest/~14ESMD
 interested/~54U
@@ -29696,7 +29706,7 @@ intimacy/~1SM
 intimate/~514MYGNDSX
 intimation/1M
 intimidate/~4GNDS
-intimidating/~45Y
+intimidating/~45YU
 intimidation/~1M
 intonation/~1SM
 intoxicant/15SM
@@ -33243,6 +33253,7 @@ mine/~814MZGNDRSX
 minefield/1SM
 miner/~1M
 mineral/~15MS
+mineralize/4GDS
 mineralogical/5
 mineralogist/1MS
 mineralogy/~1M
@@ -34144,6 +34155,7 @@ munchie/1S
 munchies/1M
 munchkin/1SM
 mundane/~51SY
+mundanity/1M
 mung/14DSG
 municipal/~51SMY
 municipality/~1SM
@@ -36081,6 +36093,7 @@ outhitting/4
 outhouse/14SM
 outing/~14M
 outlaid/4
+outland/51MS4DG
 outlandish/51PY
 outlandishness/1M
 outlast/4DSG
@@ -36466,6 +36479,7 @@ owner/~1MS
 ownership/~1M
 ox/~1MN
 oxalate/~14
+oxalis/1MS
 oxblood/15M
 oxbow/~1MS
 oxcart/1SM
@@ -36664,6 +36678,7 @@ pandemic/~51SM
 pandemonium/1M
 pander/14MDRZGS
 panderer/1M
+pandimensional/5
 pane/~14KM
 panegyric/15SM
 panel/~14SGJMD
@@ -36810,6 +36825,7 @@ parasitic/~51
 parasitical/5Y
 parasitism/1M
 parasitize/4DSG
+parasitoid/1MS
 parasol/14MS
 parasympathetic/~51S
 parathion/1M
@@ -37810,6 +37826,7 @@ physiology/~1M
 physiotherapist/1MS
 physiotherapy/1M
 physique/~1MS
+phytokarst/1M
 phytoplankton/1
 pi/~145SMDRHZG
 pianissimo/1SM
@@ -38336,6 +38353,7 @@ poetical/~5Y
 poetry/~1M
 pogrom/14SM
 poi/~1M
+poignance/1M
 poignancy/1M
 poignant/~5Y
 poinciana/~1SM
@@ -41115,6 +41133,7 @@ responsibly/j
 responsive/~5UYP
 responsiveness/1UM
 rest/~14GVMDS
+restage/4SDG
 restamp/4GDS
 restate/4GDS
 restaurant/~1SM
@@ -41403,6 +41422,7 @@ rime/~14MS
 rimless/5
 rimmed/~54
 rimming/41
+rimstone/1MS
 rind/14MS
 ring/~14ZGMDRJ
 ringer/~1M
@@ -41737,6 +41757,7 @@ ruggedization/1M
 ruggedize/4DSG
 ruggedness/1M
 rugger/1
+rugosa/1MS
 rugrat/1SM
 ruin/~14MDGS
 ruination/1M
@@ -42311,6 +42332,7 @@ schlep/41SM
 schlepped/4
 schlepping/4
 schlock/1M
+schlocky/5RT
 schlong/1MS6
 schmaltz/1M
 schmaltzy/5TR
@@ -42556,6 +42578,7 @@ scurvy/51TRM
 scutcheon/1SM
 scuttle/14MGDS
 scuttlebutt/14M
+scuzziness/1M
 scuzzy/5TR
 scythe/14DSMG
 sea/~1SM
@@ -46991,6 +47014,7 @@ telemeter/14SM
 telemetry/1SM
 teleological/5
 teleology/1
+telepath/1MS
 telepathic/~5Q
 telepathy/1M
 telephone/~14DRSMZG
@@ -48827,7 +48851,7 @@ ululation/1M
 um/~4
 umbel/1SM
 umber/~154M
-umbilical/51
+umbilical/51MS
 umbilici/1
 umbilicus/1M
 umbra/1SM
@@ -48868,6 +48892,7 @@ unbeknownst/~
 unbend/4SG
 unbent/45
 unbid/54
+unbirth/1MS
 unblinking/5Y
 unblushing/54Y
 unbosom/4DG
@@ -49582,6 +49607,7 @@ valvular/5
 vamoose/4DSG
 vamp/14AMDGS
 vampire/~14SM
+vampiric/5
 van/~14SM
 vanadium/~1M
 vandal/~1SM
@@ -50387,6 +50413,8 @@ wasteful/~5PY
 wastefulness/1M
 wastegate/1MS
 wasteland/~1SM
+wasteman/1M
+wastemen/9
 wastepaper/1M
 waster/1M
 wastewater/~1
@@ -51329,6 +51357,7 @@ xciv
 xcix
 xcvi
 xcvii
+xenomorph/1MS
 xenon/~1M
 xenophobe/1MS
 xenophobia/1M
