@@ -91,6 +91,14 @@ export default defineConfig({
 									to: '/docs/harperjs/linting',
 								},
 								{
+									title: 'Spans',
+									to: '/docs/harperjs/spans',
+								},
+								{
+									title: 'Configure Rules',
+									to: '/docs/harperjs/configurerules',
+								},
+								{
 									title: 'Node.js',
 									to: '/docs/harperjs/node',
 								},
