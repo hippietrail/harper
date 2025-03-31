@@ -190,23 +190,23 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 
 	test(`${linterName} can save and restore stat records`, async () => {
 		const linter = new Linter({ binary });
-    linter.setup();
+		linter.setup();
 
 		const source = 'This is an test.';
 
 		const lints = await linter.lint(source);
 
-    let lint = lints[0];
+		const lint = lints[0];
 
-    expect(lint).not.toBeNull()
+		expect(lint).not.toBeNull();
 
-    let sug = lint.suggestions()[0];
+		const sug = lint.suggestions()[0];
 
-    expect(sug).not.toBeNull()
+		expect(sug).not.toBeNull();
 
 		const applied = await linter.applySuggestion(lint, sug);
 
-    expect(applied).toBe("This is a test.");
+		expect(applied).toBe('This is a test.');
 
 		const stats = await linter.generateStatsFile();
 
