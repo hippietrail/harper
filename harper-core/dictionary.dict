@@ -4687,19 +4687,19 @@ I'm/~
 I've/~
 IA/21
 IBM/21M
-IC/1MS
+IC/1MS              # integrated circuit
 ICBM/1SM
-ICC/2
-ICU/12
+ICC/2               # International Criminal Court
+ICU/12              # Unicode library
 ID/1245SM
 IDE/1
-IDF/2M
+IDF/2M              # Israel's military
 IE/215
-IED/1
-IEEE/2
-IKEA/2M
+IED/1               # improvised explosive device
+IEEE/2              # standards organization
+IKEA/2M             # furniture company
 IL/12
-IMF/2M
+IMF/2M              # International Monetary Fund
 IMHO/
 IMNSHO/
 IMO/12
@@ -4709,16 +4709,16 @@ INRI
 INS/12
 IOU/1M
 IP/512
-IPA/21
+IPA/21              # phonetic alphabet
 IPO/14
 IQ/1MS
 IRA/21SM
-IRC/214
+IRC/214             # chat protocol
 IRS/21M
 ISBN/1MS
-ISDN/1M
+ISDN/1M             # telephone standard
 ISIS/2
-ISO/21+M
+ISO/21+M            # standards organization
 ISP/1
 ISS/12
 IT/15
@@ -6115,13 +6115,13 @@ MIDI/21M
 MIPS/12
 MIRV/1
 MIT/2M
-MLK/2M
+MLK/2M              # Martin Luther King
 MM/12
 MMA/1M
 MN/21
 MO/215
 MOOC/1
-MOSFET/1MS
+MOSFET/1MS          # transistor
 MP/125M
 MP3/1SM
 MPEG/21
@@ -7075,7 +7075,7 @@ Myst/M
 N/1MD
 N'Djamena/2
 NAACP/2M
-NAFTA/2M
+NAFTA/2M            # trade agreement
 NASA/2M
 NASCAR/2M
 NASDAQ/2M
@@ -7674,6 +7674,7 @@ PGP/12
 PHP/12M
 PIN/1
 PJ's
+PLA/2M              # china's army
 PLO/21M
 PM/14SMDG
 PMS/1245M
@@ -9583,6 +9584,7 @@ Superfund/1M
 Superglue/M
 Superior/2M
 Superman/21M
+Supra/1MS           # car model
 Supt
 Surabaya/2M
 Surat/21M
@@ -10263,6 +10265,7 @@ Uzbek/152M
 Uzbekistan/2M
 Uzi/1SM
 V/1+M
+V10/1MS
 V12/1MS
 V6/1MS
 V8/12MS
@@ -19301,6 +19304,7 @@ creche/1SM
 cred/1
 credence/~14M
 credential/514SGMD
+credentialism/1M
 credenza/1SM
 credibility/~1IM
 credible/~5I
@@ -21532,6 +21536,7 @@ downmarket/54
 downplay/4DSG
 downpour/14MS
 downrange/5
+downrank/4SDG
 downright/~5
 downriver/~5
 downsample/SMG
@@ -30949,7 +30954,7 @@ lawn/~14MS
 lawnmower/1SM
 lawrencium/1M
 lawsuit/~1MS
-lawyer/~14SM
+lawyer/~14SMDG
 lax/~15TRYP
 laxative/51MS
 laxity/1M
@@ -34576,6 +34581,7 @@ nether/~541
 nethermost/5
 netherworld/1M
 netiquette/1S
+netizen/1MS
 netted/~4
 netter/1S
 netting/~14M
@@ -36900,6 +36906,7 @@ particularity/1SM
 particularization/1M
 particularize/4DSG
 particulate/~51SM
+partier/1MS
 parting/~14MS
 partisan/~15SM
 partisanship/~1M
@@ -38550,7 +38557,7 @@ porphyry/~1M
 porpoise/14MGDS
 porridge/~1M
 porringer/1SM
-port/~154CAEGDS
+port/~154CEGDS
 port's/A
 portability/~1M
 portable/~51MS
@@ -40939,6 +40946,7 @@ replicate/~415DSGNX
 replication/~1M
 replicator/1S
 repo/~14SM
+report/1MS4DGR
 reportage/1M
 reported/~4Y
 reportorial/5
@@ -51902,6 +51910,7 @@ front-line/5
 full-scale/5
 Greco-Roman/5
 ground-based/5
+gung ho/5
 hard code/4SDG
 heavy-handed/5
 high-quality/5
@@ -51922,10 +51931,12 @@ lead-up/1MS
 left-wing/5
 live action/1
 load-bearing/5
+long-term/5
 low-budget/5
 low-profile/5
 man child/1M
 mind-blowing/5
+mind game/1MS
 mock up/4
 mock-up/1MS
 neo-Nazi/15SM
@@ -51953,7 +51964,9 @@ so-called/5
 socio-political/5
 spot on/5
 stand-up/51
+tech-savvy/5
 third-party/5
+two-thirds/1
 uh-oh
 un-American/5
 user-friendly/5
