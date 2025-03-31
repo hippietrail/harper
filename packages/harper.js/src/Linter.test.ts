@@ -209,7 +209,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		expect(applied).toBe('This is a test.');
 
 		const summary = await linter.summarizeStats();
-    expect(summary).toBeTypeOf('object');
+		expect(summary).toBeTypeOf('object');
 	});
 
 	test(`${linterName} can save and restore stat records`, async () => {

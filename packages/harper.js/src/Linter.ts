@@ -82,7 +82,7 @@ export default interface Linter {
 	 * You may optionally pass in a start and/or end time.
 	 *
 	 * If so, the summary with only include data from a _after_ the start time but _before_ the end time. */
-	summarizeStats(start?: bigint, end?: bigint): Promise<Record<string, number>>;
+	summarizeStats(start?: bigint, end?: bigint): Promise<any>;
 
 	/** Generate a statistics log file you can save to permanent storage. */
 	generateStatsFile(): Promise<string>;

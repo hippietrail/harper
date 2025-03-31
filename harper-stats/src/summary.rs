@@ -1,8 +1,9 @@
 use std::{collections::HashMap, fmt::Display};
 
 use harper_core::linting::{LintGroupConfig, LintKind};
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, Serialize, Deserialize)]
 pub struct Summary {
     pub lint_counts: HashMap<LintKind, u32>,
     pub total_applied: u32,

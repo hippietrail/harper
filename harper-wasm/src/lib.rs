@@ -1,6 +1,5 @@
 #![doc = include_str!("../README.md")]
 
-use std::collections::HashMap;
 use std::convert::Into;
 use std::io::Cursor;
 use std::sync::Arc;
@@ -14,6 +13,7 @@ use harper_core::{
 };
 use harper_stats::{Record, RecordKind, Stats};
 use serde::{Deserialize, Serialize};
+use serde_wasm_bindgen::Serializer;
 use wasm_bindgen::JsValue;
 use wasm_bindgen::prelude::wasm_bindgen;
 
@@ -179,20 +179,15 @@ impl Linter {
             operable_copy.records.retain(|i| i.when < end_time);
         }
 
-        serde_wasm_bindgen::to_value(
-            &operable_copy
-                .summarize()
-                .lint_counts
-                .iter()
-                .map(|(key, value)| (key.to_string_key(), *value))
-                .collect::<HashMap<_, _>>(),
-        )
-        .unwrap()
+        operable_copy
+            .summarize()
+            .serialize(&Serializer::json_compatible())
+            .unwrap()
     }
 
     /// Get a Record containing the descriptions of all the linting rules.
     pub fn get_lint_descriptions_as_object(&self) -> JsValue {
-        let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+        let serializer = Serializer::json_compatible();
         self.lint_group
             .all_descriptions()
             .serialize(&serializer)
@@ -201,7 +196,7 @@ impl Linter {
 
     pub fn get_lint_config_as_object(&self) -> JsValue {
         // Important for downstream JSON serialization
-        let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+        let serializer = Serializer::json_compatible();
 
         self.lint_group.config.serialize(&serializer).unwrap()
     }
@@ -470,7 +465,7 @@ pub fn get_default_lint_config() -> JsValue {
         LintGroup::new_curated(MutableDictionary::new().into(), Dialect::American.into()).config;
 
     // Important for downstream JSON serialization
-    let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+    let serializer = Serializer::json_compatible();
 
     config.serialize(&serializer).unwrap()
 }

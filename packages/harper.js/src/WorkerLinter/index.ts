@@ -149,7 +149,7 @@ export default class WorkerLinter implements Linter {
 		return this.rpc('setDialect', [dialect]);
 	}
 
-	summarizeStats(start?: bigint, end?: bigint): Promise<Record<string, number>> {
+	summarizeStats(start?: bigint, end?: bigint): Promise<any> {
 		return this.rpc('summarizeStats', [start, end]);
 	}
 
