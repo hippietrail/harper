@@ -507,7 +507,7 @@ Antarctic/52M
 Antarctica/2M
 Antares/2M
 Anthony/2M
-Anthropocene/2
+Anthropocene/2M     # geological period
 Antichrist/2SM
 Antietam/2M
 Antifa/21M
@@ -815,7 +815,7 @@ Azerbaijan/2M
 Azerbaijani/125MS
 Azores/2M
 Azov/2M
-Aztec/125SM
+Aztec/125SM        # ancient civilization
 Aztecan/51M
 Aztlan/2M
 B/12MNT
@@ -3197,7 +3197,7 @@ Enrico/2M
 Enrique/M
 Enron/1M
 Enterprise/2M
-Eocene/52M
+Eocene/52M          # geological period
 Epcot/2M
 Ephesian/51MS
 Ephesus/2M
@@ -4556,23 +4556,23 @@ Hollywood/2514M
 Holman/2M
 Holmes/2M
 Holocaust/24M
-Holocene/52M
+Holocene/52M        # geological period
 Holst/M
 Holstein/21SM
 Holt/2M
 Homer/2M
 Homeric/5M
 Hon/5
-Honda/2MS
+Honda/2MS           # company
 Honduran/15MS
 Honduras/2M
 Honecker/M
 Honeywell/2M
 Hong/2
-Honiara/2M
+Honiara/2M          # capital of Vanuatu
 Honolulu/2M
 Honorable/5
-Honshu/2M
+Honshu/2M           # island
 Hood/2M
 Hooke/2RM
 Hooker/2M
@@ -5102,7 +5102,7 @@ Jody/21M
 Joe/21M
 Joel/2M
 Joey/2M
-Jogjakarta/M
+Jogjakarta/M        # city
 Johann/2M
 Johanna/2M
 Johannes/12M
@@ -5192,13 +5192,13 @@ Jun/2M
 June/2SM
 Juneau/2M
 Jung/2M
-Jungfrau/2M
+Jungfrau/2M         # mountain
 Jungian/51M
 Junior/2SM
 Junker/1SM
 Juno/2M
 Jupiter/21M
-Jurassic/52M
+Jurassic/52M        # geological period
 Jurua/M
 Justice/12M
 Justin/2M
@@ -5207,11 +5207,11 @@ Justinian/25M
 Jutland/2M
 Juvenal/2M
 K/1SMNGJ
-KB/12M
+KB/12M              # kilobyte, cf. Kb
 KC/21
-KFC/2M
+KFC/2M              # company
 KGB/21M
-KIA/15
+KIA/15              # killed in action
 KKK/2M
 KO/14M
 KP/1
@@ -5219,28 +5219,28 @@ KS/241
 KY/2
 Kaaba/2M
 Kabul/2M
-Kafka/2M
+Kafka/2M            # franz -
 Kafkaesque/5M
-Kagoshima/2M
+Kagoshima/2M        # city
 Kahlua/1M
 Kahului/2M
 Kaifeng/2M
 Kailua/M
 Kaiser/12MS
 Kaitlin/2M
-Kalahari/2M
+Kalahari/2M         # desert
 Kalamazoo/21M
 Kalashnikov/2M
 Kalb/M
 Kalevala/2M
-Kalgoorlie/2M
+Kalgoorlie/2M       # city
 Kali/2M
-Kalmyk/512M
+Kalmyk/512M         # ethnicity
 Kama/2M
 Kamchatka/2M
 Kamehameha/2M
 Kampala/2M
-Kampuchea/2M
+Kampuchea/2M        # old name of Cambodia
 Kan/2SM
 Kanchenjunga/2M
 Kandahar/2M
@@ -5248,12 +5248,12 @@ Kandinsky/M
 Kane/2M
 Kaneohe/2M
 Kankakee/2M
-Kannada/1M
+Kannada/1M          # language
 Kano/2M
 Kanpur/2M
 Kansan/51MS
 Kansas/2M
-Kant/2M
+Kant/2M             # immanuel -
 Kantian/51M
 Kaohsiung/2M
 Kaposi/2M
@@ -5271,15 +5271,15 @@ Karin/2M
 Karina/2M
 Karl/2M
 Karla/2M
-Karloff/M
+Karloff/M           # boris -
 Karo/12M
 Karol/M
 Karroo/2M
 Karyn/2M
 Kasai/M
 Kasey/2M
-Kashmir/21SM
-Kasparov/2M
+Kashmir/21SM        # region
+Kasparov/2M         # gary -
 Kate/2M
 Katelyn/2M
 Katharine/2M
@@ -5299,12 +5299,12 @@ Katniss/M
 Katowice/2M
 Katrina/2M
 Katy/21M
-Kauai/2M
+Kauai/2M            # island
 Kaufman/2M
 Kaunas/2M
 Kaunda/M
-Kawabata/M
-Kawasaki/2MS
+Kawabata/M          # author
+Kawasaki/2MS        # company
 Kay/21M
 Kaye/2M
 Kayla/2M
@@ -5313,7 +5313,7 @@ Kazakhs/1
 Kazakhstan/2M
 Kazan/2M
 Kazantzakis/M
-Kb/1M
+Kb/1M               # kilobit, cf. KB
 Keaton/2M
 Keats/2M
 Keck/2M
@@ -5330,6 +5330,8 @@ Kellogg/2M
 Kelly/2M
 Kelsey/2M
 Kelvin/21M
+Kemalism/2M
+Kemalist/1MS
 Kemerovo/2M
 Kemp/2M
 Kempis/M
@@ -6803,7 +6805,7 @@ Minsky/2M
 Mintaka/2M
 Minuit/M
 Minuteman/M
-Miocene/52M
+Miocene/52M        # geological period
 Mir/2M
 Mira/2M
 Mirabeau/M
@@ -6832,18 +6834,18 @@ Mitchell/2M
 Mitford/2M
 Mithra/2M
 Mithridates/2M
-Mitsubishi/1MS
-Mitterrand/M
+Mitsubishi/1MS      # car company
+Mitterrand/M        # president
 Mitty/M
 Mitzi/2M
-Mixtec/152M
+Mixtec/152M        # ethnicity
 Mizar/2M
 Mk/1
 Mlle/1
 Mme/1S
-Mn/1M
+Mn/1M               # manganese
 Mnemosyne/2M
-Mo/2M
+Mo/2M               # molybdenum
 Mobil/2M
 Mobile/2M
 Mobutu/M
@@ -6851,7 +6853,7 @@ Modesto/2M
 Modigliani/M
 Moe/2M
 Moet/M
-Mogadishu/2M
+Mogadishu/2M        # capital of Somalia
 Mogul/12MS
 Mohacs/M
 Mohamed/2M
@@ -6879,21 +6881,21 @@ Molly/21M
 Molnar/2M
 Moloch/2M
 Molokai/2M
-Molotov/214M
+Molotov/214M        # minister
 Moluccas/2M
 Mombasa/2M
-Mon/12SM
+Mon/12SM            # city
 Mona/2M
 Monacan/51
 Monaco/2M
-Mondale/M
+Mondale/M           # surname
 Monday/1SM
 Mondrian/M
 Monegasque/15SM
 Monera/2M
 Monessen/2M
 Monet/2M
-MongoDB/M
+MongoDB/M           # trademark
 Mongol/152SM
 Mongolia/2M
 Mongolian/51SM
@@ -6935,7 +6937,7 @@ Montreal/2M
 Montserrat/2M
 Monty/2M
 Moody/2M
-Moog/21M
+Moog/21M            # company
 Moon/2M
 Mooney/2M
 Moor/12SM
@@ -6980,7 +6982,7 @@ Moses/2M
 Mosley/2M
 Moss/2M
 Mosul/2M
-Motorola/1M
+Motorola/1M         # company
 Motown/21M
 Motrin/M
 Mott/2M
@@ -6995,16 +6997,16 @@ Mowgli/M
 Mozambican/51SM
 Mozambique/21M
 Mozart/12M
-Mozilla/M
+Mozilla/M           # company
 Mr/1SM
 Ms/1S
 Msgr
 Mt/1
 Muawiya/M
-Mubarak/2M
+Mubarak/2M          # president
 Mueller/2M
 Muenster/MS
-Mugabe/2M
+Mugabe/2M           # president
 Muhammad/2M
 Muhammadan/15MS
 Muhammadanism/2SM
@@ -7019,7 +7021,7 @@ Mullins/2M
 Mulroney/2M
 Multan/2M
 Multics/2
-Mumbai/2M
+Mumbai/2M           # city
 Mumford/2M
 Munch/2M
 Munchhausen/M
@@ -7038,7 +7040,7 @@ Murfreesboro/2M
 Muriel/2M
 Murillo/M
 Murine/M
-Murmansk/2M
+Murmansk/2M         # city
 Murphy/214M
 Murray/2M
 Murrieta/2M
@@ -7056,12 +7058,12 @@ Muslim/15MS
 Mussolini/25M
 Mussorgsky/M
 Mutsuhito/M
-Muzak/214M
+Muzak/214M          # trademark
 MySQL/M
-MySpace/1M
+MySpace/1M          # social media
 Myanmar/2M
 Mycenae/2M
-Mycenaean/512M
+Mycenaean/512M      # ancient civilization
 Myers/2M
 Mylar/2MS
 Myles/2M
@@ -7070,18 +7072,18 @@ Myrdal/2M
 Myrna/2M
 Myron/2M
 Myrtle/2M
-Mysore/2M
+Mysore/2M           # old name of karnataka
 Myst/M
 N/1MD
-N'Djamena/2
+N'Djamena/2         # capital of Chad
 NAACP/2M
 NAFTA/2M            # trade agreement
 NASA/2M
 NASCAR/2M
-NASDAQ/2M
+NASDAQ/2M           # stock exchange
 NATO/2M             # North Atlantic Treaty Organization
 NB/512
-NBA/2M
+NBA/2M              # sports organization
 NBC/215M
 NBS
 NC/215
@@ -7094,10 +7096,10 @@ NEH/2
 NES/1M              # game console
 NF/251
 NFC/21              # near-field communication
-NFL/21M
+NFL/21M             # sports organization
 NGO/1MS             # non-government organization
 NH/2145
-NHL/12M
+NHL/12M             # sports organization
 NIH/25              # National Institutes of Health
 NIMBY/15            # not in my backyard
 NJ/25
@@ -7118,6 +7120,7 @@ NSF/21
 NSFW/5              # not safe for work
 NSX/1M              # car
 NT/21
+NTFS/1M             # file system
 NTSC/1M             # television standard
 NV/215
 NVIDIA/M            # FIXME! elsewhere we have Nvidia
@@ -7126,10 +7129,10 @@ NW/21M
 NWT/2
 NY/2
 NYC/2
-NYSE/2
-NZ/12
-Na/2M
-Nabisco/M
+NYSE/2              # stock exchange
+NZ/2M               # New Zealand
+Na/2M               # sodium
+Nabisco/M           # company
 Nabokov/M
 Nader/2M
 Nadia/2M
@@ -7167,7 +7170,7 @@ Napier/2M
 Naples/2M
 Napoleon/21MS
 Napoleonic/5M
-Napster/1M
+Napster/1M          # old music sharing service
 Narcissus/2M
 Narmada/2M
 Narnia/2M
@@ -7246,19 +7249,19 @@ Nepalese/521M
 Nepali/512MS
 Neptune/2M
 Nereid/2M
-Nerf/M
+Nerf/M              # brand
 Nero/21M
 Neruda/M
-Nescafe/2M
+Nescafe/2M          # brand
 Nesselrode/2M
-Nestle/2M
+Nestle/2M           # company
 Nestor/21M
 Nestorius/M
-Netanyahu/2M
-Netflix/4M
+Netanyahu/2M        # surname, Israeli politician
+Netflix/4M          # media company
 Netherlander/1SM
 Netherlands/251M
-Netscape/M
+Netscape/M          # old browser & company
 Nettie/2M
 Netzahualcoyotl/M
 Nev/2M
@@ -7297,7 +7300,7 @@ Nichole/2M
 Nichols/2M
 Nicholson/2M
 Nick/2M
-Nickelodeon/1M
+Nickelodeon/1M     # media company
 Nicklaus/M
 Nickolas/2M
 Nicobar/51M
@@ -7305,30 +7308,30 @@ Nicodemus/24M
 Nicola/2SM
 Nicolas/2M
 Nicole/2M
-Nicosia/2M
+Nicosia/2M          # capital of Cyprus
 Niebuhr/2M
 Nielsen/2M
 Nietzsche/2M
 Nieves/2M
 Nigel/21M
-Niger/2M
+Niger/2M            # country
 Nigeria/2M
 Nigerian/15MS
 Nigerien/15M
 Nightingale/2M
 Nijinsky/M
-Nike/21M
+Nike/21M            # company
 Nikita/2M
-Nikkei/15M
+Nikkei/15M          # stock market index
 Nikki/2M
 Nikolai/2M
-Nikon/M
-Nile/2M
+Nikon/M             # company
+Nile/2M             # river
 Nimitz/2M
 Nimrod/21M
 Nina/21M
-Nineveh/2M
-Nintendo/21M
+Nineveh/2M          # ancient city
+Nintendo/21M        # company
 Niobe/21M
 Nippon/2M
 Nipponese/521M
@@ -7336,22 +7339,22 @@ Nirenberg/M
 Nirvana/M
 Nisan/2M
 Nisei/1M
-Nissan/12MS
+Nissan/12MS         # company
 Nita/M
 Nivea/M
 Nixon/21M
 Nkrumah/M
 No/12SM
-NoDoz/M
+NoDoz/M             # trademark
 Noah/21M
-Nobel/21M
+Nobel/21M           # prize
 Nobelist/1MS
 Noble/2M
 Noe/2M
 Noel/2SM
 Noelle/2M
 Noemi/2M
-Nokia/21M
+Nokia/21M           # company
 Nola/2M
 Nolan/2M
 Nome/2M
@@ -7409,15 +7412,15 @@ Np/M
 Nubia/2M
 Nubian/15M
 Nukualofa/2M
-Nukuʻalofa/2M
+Nukuʻalofa/2M       # capital of Tonga
 Numbers/2M
 Nunavut/2M
 Nunez/2M
 Nunki/2M
-Nuremberg/2M
-Nureyev/2M
-NutraSweet/M
-NyQuil/M
+Nuremberg/2M        # city
+Nureyev/2M          # rudolf -
+NutraSweet/M        # trademark
+NyQuil/M            # trademark
 Nyasa/M
 Nyerere/2M
 O/1+52SM
@@ -7435,40 +7438,40 @@ O'Rourke/2M
 O'Toole/2M
 OAS/12M
 OB/15
-OCR/214
+OCR/214             # optical character recognition
 OD/14SM
 OE/2154
-OECD/2M
-OED/2
-OEM/51MS
+OECD/2M             # organization
+OED/2               # dictionary
+OEM/51MS            # original equipment manufacturer
 OH/21
-OHSA/M
+OHSA/M              # law
 OJ/15
 OK/1452SMDG
 OMB/2M
-OPEC/2M
+OPEC/2M             # organization
 OR/712
 OS/251M
-OSHA/2M
+OSHA/2M             # agency
 OSes/1
 OT/125
 OTB/5
-OTC/512
-OTOH/
-Oahu/2M
+OTC/512             # over the counter
+OTOH/               # on the other hand
+Oahu/2M             # island
 Oakland/2M
 Oakley/2M
 Oates/2M
-Oaxaca/21M
-Ob/2M
+Oaxaca/21M          # city, state
+Ob/2M               # obamium
 Obadiah/2M
-Obama/2M
+Obama/2M            # president
 Obamacare/2
 Oberlin/2M
 Oberon/2M
 Ocala/2M
-Ocaml/M
-Occam/2M
+Ocaml/M             # programming language
+Occam/2M            # -'s razor
 Occident/2
 Occidental/25MS
 Oceania/2M
@@ -7482,8 +7485,10 @@ Octavio/M
 October/214SM
 Odell/2M
 Oder/2M
+Odesa/2M
 Odessa/2M
 Odets/M
+Odia/21M            # language, previously Oriya
 Odin/2M
 Odis/M
 Odom/2M
@@ -7506,8 +7511,8 @@ Ojibwa/2SM
 Okayama/2
 Okeechobee/2M
 Okefenokee/2M
-Okhotsk/2M
-Okinawa/2M
+Okhotsk/2M          # city
+Okinawa/2M          # island, prefecture
 Okinawan/512
 Okla/2
 Oklahoma/2M
@@ -7524,15 +7529,15 @@ Olduvai/2M
 Olen/M
 Olenek/2M
 Olga/2M
-Oligocene/52M
+Oligocene/52M       # geological period
 Olin/2M
 Olive/2MR
 Oliver/25M
-Olivetti/M
+Olivetti/M          # computer company
 Olivia/2M
 Olivier/M
 Ollie/2M
-Olmec/1M
+Olmec/1M            # ancient civilization
 Olmsted/2M
 Olsen/2M
 Olson/2M
@@ -7542,21 +7547,21 @@ Olympian/51MS
 Olympic/51SM
 Olympics/21M
 Olympus/2M
-Omaha/12MS
+Omaha/12MS          # city
 Oman/2M
 Omani/15MS
 Omar/2M
 Omayyad/51M
 Omdurman/2M
 Omnipotent/2
-Omsk/2M
+Omsk/2M             # city
 Onassis/M
 Oneal/M
 Onega/2M
-Onegin/M
+Onegin/M            # eugene -
 Oneida/12MS
-Onion/1M
-Ono/2M
+Onion/1M            # media company
+Ono/2M              # yoko -
 Onondaga/12MS
 Onsager/M
 Ont/2
@@ -7564,15 +7569,15 @@ Ontarian/51
 Ontario/2M
 Oort/2M
 Opal/2M
-Opel/M
-OpenOffice/M
+Opel/M              # car company
+OpenOffice/M        # product
 Ophelia/2M
 Ophiuchus/2M
 Oppenheimer/21M
 Opposition
 Oprah/24M
 Ora/2M
-Oracle/2M
+Oracle/2M           # company
 Oran/2M
 Orange/25M
 Oranjestad/2M
@@ -7592,9 +7597,9 @@ Orientalism/1
 Orin/21M
 Orinoco/2M
 Orion/2M
-Oriya/21M
+Oriya/21M           # old name of odiya language
 Orizaba/2M
-Orkney/2M
+Orkney/2M           # island
 Orlando/2M
 Orleans/21M
 Orlon/1MS
@@ -7609,9 +7614,9 @@ Orval/M
 Orville/2M
 Orwell/2M
 Orwellian/5M
-Os/1M
+Os/1M               # osmium
 Osage/2MS
-Osaka/2M
+Osaka/2M            # city
 Osbert/M
 Osborn/2M
 Osborne/2M
@@ -7651,52 +7656,52 @@ Ozarks/12M
 Ozymandias/1M
 Ozzie/215M
 P/152MN
-PA/215M
-PAC/12M
-PARC/S
-PASCAL
-PBS/12M
+PA/215M             # Pennsylvania
+PAC/12M             # political action committee
+PARC/S              # xerox
+PASCAL              # cf. pascal, Pascal
+PBS/12M             # organization
 PBX/1
 PC/5124SM
-PCB/1MS
-PCMCIA/2
-PCP/1M
+PCB/1MS             # printed circuit board
+PCMCIA/2            # standard
+PCP/1M              # drug
 PD/12
-PDF/1S
+PDF/1S              # document format
 PDQ/
 PDT/21
 PE/21
-PED/1MS
-PET/12M
+PED/1MS             # performance-enhancing drug
+PET/12M             # early computer
 PFC/1
 PG/512
-PGP/12
-PHP/12M
-PIN/1
+PGP/12              # encryption
+PHP/12M             # programming language
+PIN/1               # personal identification number
 PJ's
 PLA/2M              # china's army
-PLO/21M
-PM/14SMDG
+PLO/21M             # organization
+PM/14SMDG           # prime minister; private message
 PMS/1245M
-PNG/2M
+PNG/2M              # Papua New Guinea; image format
 PO/15
-POV/1SM
-POW/1MS
+POV/1SM             # point of view
+POW/1MS             # prisoner of war
 PP/12
 PPS/1
-PR/21
-PRC/21M
+PR/21               # public relations
+PRC/21M             # mainland China
 PRO/1
 PS/215M
 PST/21M
-PSU/MS
+PSU/MS              # power supply unit
 PT/125
 PTA/14M
 PTO/21
-PVC/1M
+PVC/1M              # plastic
 PW/21
 PX/1
-Pa/1M
+Pa/1M               # protactinium
 Paar/2M
 Pablo/2M
 Pablum/2M
@@ -7704,8 +7709,8 @@ Pabst/2M
 Pace/2M
 Pacheco/2M
 Pacific/215M
-Pacino/2M
-Packard/2M
+Pacino/2M           # al -
+Packard/2M          # old car company
 Padang/2
 Paderewski/2M
 Padilla/2M
@@ -7719,11 +7724,11 @@ Paiute/1SM
 Pakistan/2M
 Pakistani/15SM
 Palembang/2M
-Paleocene/52M
+Paleocene/52M       # geological period
 Paleogene/52M
-Paleolithic/25M
-Paleozoic/52M
-Palermo/2M
+Paleolithic/25M     # geological period
+Paleozoic/52M       # geological period
+Palermo/2M          # city
 Palestine/2M
 Palestinian/51SM
 Palestrina/M
@@ -7744,7 +7749,7 @@ Pampers/1M
 Pan/21M
 Panama/21SM
 Panamanian/15MS
-Panasonic/2M
+Panasonic/2M        # company
 Pandora/2M
 Pangaea/2M
 Pankhurst/2M
@@ -7787,7 +7792,7 @@ Parthenon/2M
 Parthia/2M
 Pasadena/2M
 Pascagoula/2M
-Pascal/2SM
+Pascal/2SM          # cf. pascal, PASCAL
 Pasco/2M
 Pasquale/2M
 Passion/2SM
@@ -7822,10 +7827,10 @@ Pavlov/24M
 Pavlova/21M
 Pavlovian/5M
 Pawnee/251SM
-PayPal/214M
+PayPal/214M         # company
 Payne/2M
-Pb/M
-Pd/M
+Pb/M                # lead
+Pd/M                # palladium
 Peabody/2M
 Peace/21M
 Peale/2M
@@ -7864,15 +7869,15 @@ Penny/2M
 Pennzoil/M
 Pensacola/21M
 Pentagon/2M
-Pentateuch/2M
-Pentax/M
+Pentateuch/2M       # part of the Old Testament
+Pentax/M            # camera company
 Pentecost/2SM
 Pentecostal/51MS
 Pentecostalism/1
-Pentium/1SM
+Pentium/1SM         # cpu brand
 Peoria/21M
 Pepin/2M
-Pepsi/21M
+Pepsi/21M           # drink brand
 Pepys/2M
 Pequot/12M
 Percheron/1M
@@ -7914,12 +7919,12 @@ Petersen/2M
 Peterson/2M
 Petra/2M
 Petrarch/2M
-Petrograd/2M
+Petrograd/2M        # old name of St. Petersburg, cf. Leningrad
 Petty/2M
-Peugeot/21M
+Peugeot/21M         # car company
 Pfc
 Pfizer/2M
-PhD/1MS
+PhD/1MS             # degree
 Phaedra/2M
 Phaethon/2M
 Phanerozoic/52M
@@ -7957,23 +7962,23 @@ Photostatted
 Photostatting
 Phrygia/2M
 Phyllis/2M
-Piaf/2M
+Piaf/2M             # Edith -
 Piaget/2M
 Pianola/M
-Picasso/2M
+Picasso/2M          # Pablo -
 Piccadilly/2M
 Pickering/2M
 Pickett/2M
 Pickford/2M
 Pickwick/2M
-Pict/1M
+Pict/1M             # ancient culture
 Piedmont/2M
 Pierce/2M
 Pierre/2M
 Pierrot/2M
 Pike/21M
-Pilate/2MS
-Pilates/1M
+Pilate/2MS          # Pontius -
+Pilates/1M          # exercise
 Pilcomayo/2M
 Pilgrim/12SM
 Pillsbury/2M
@@ -7982,14 +7987,14 @@ Pincus/2M
 Pindar/2M
 Pinkerton/21M
 Pinocchio/21M
-Pinochet/2M
+Pinochet/2M         # General -
 Pinter/2M
-Pinterest/21M
-Pinyin/21
+Pinterest/21M       # social media
+Pinyin/21           # romanization
 Pippin/2M
 Piraeus/2M
 Pirandello/M
-Pisa/2M
+Pisa/2M             # city
 Pisces/21M
 Pisistratus/2M
 Pissaro/M
@@ -7999,10 +8004,10 @@ Pittman/2M
 Pitts/2M
 Pittsburgh/2M
 Pittsfield/2M
-Pius/M
+Pius/M              # pope
 Pizarro/2M
 Pkwy/1
-Pl/
+Pl/                 # platinum
 Planck/21M
 Plano/2
 Plantagenet/12M
@@ -8015,20 +8020,20 @@ Platonism/2M
 Platonist/1M
 Platte/2M
 Plautus/2M
-PlayStation/14M
-Playboy/215M
+PlayStation/14M     # game console
+Playboy/215M        # company
 Playtex/M
 Pleiades/2M
-Pleistocene/52M
+Pleistocene/52M     # geological period
 Plexiglas/2MS
 Pliny/2M
-Pliocene/52SM
+Pliocene/52SM       # geological period
 Plutarch/21M
 Pluto/2M
 Plymouth/21M
 Plymouths/9
-Pm/M
-Po/2M
+Pm/M                # promethium
+Po/2M               # polonium
 Pocahontas/21M
 Pocatello/2M
 Pocono/SM
@@ -9805,8 +9810,8 @@ Tennessee/21M
 Tennyson/2M
 Tennysonian/5
 Tenochtitlan/2M
-TensorFlow/M
-Teotihuacan/2M
+TensorFlow/M        # free software
+Teotihuacan/2M      # archaeological site
 Terence/2M
 Teresa/2M
 Tereshkova/M
@@ -9823,11 +9828,11 @@ Terri/2M
 Terrie/2M
 Terry/2M
 Tertiary/52M
-Tesla/21MS
+Tesla/21MS          # surname, car company
 Tess/2M
 Tessa/2M
 Tessie/2M
-Testarossa/21MS
+Testarossa/21MS     # car model
 Tet/21M
 Tethys/2M
 Tetons/12M
@@ -9835,11 +9840,11 @@ Teuton/15MS
 Teutonic/51M
 Tevet/2M
 Tex/2M
-Texaco/M
+Texaco/M            # company
 Texan/51MS
 Texarkana/2M
 Texas/2M
-Th/12M
+Th/12M              # thorium
 Thackeray/2M
 Thad/2M
 Thaddeus/2M
@@ -9871,24 +9876,24 @@ Theravada/21M
 Theresa/2M
 Therese/M
 Thermopylae/2M
-Thermos/2
+Thermos/2           # trademark
 Theron/2M
 Theseus/2M
 Thespian/15M
 Thespis/M
 Thessalonian/51SM
-Thessaloniki/2M
+Thessaloniki/2M     # city
 Thessaly/2M
 Thieu/M
-Thimbu/21M
-Thimphu/2
+Thimbu/21M          # capital of bhutan
+Thimphu/2           # capital of bhutan
 Thomas/12M
 Thomism/1M
 Thomistic/5M
 Thompson/21M
 Thomson/2M
 Thor/2M
-Thorazine/1M
+Thorazine/1M        # medicine
 Thoreau/2M
 Thornton/2M
 Thoroughbred/1M
@@ -9899,33 +9904,33 @@ Thracian/512M
 Thu/12
 Thucydides/2M
 Thule/2M
-Thunderbird/12MS
+Thunderbird/12MS    # car model
 Thur/1S
 Thurber/2M
 Thurman/2M
 Thurmond/2M
 Thursday/1SM
 Thutmose/2M
-Ti/M
+Ti/M                # titanium
 Tia/2M
 Tianjin/2M
 Tiber/2M
 Tiberius/2M
 Tibet/2M
 Tibetan/51MS
-Ticketmaster/M
+Ticketmaster/M      # company
 Ticonderoga/2M
 Tide/M
 Tienanmen/2M
 Tiffany/21M
 Tigris/2M
-Tijuana/2M
+Tijuana/2M          # city
 Tillich/M
 Tillman/2M
 Tilsit/1M
 Tim/21M
-Timbuktu/2M
-Timex/M
+Timbuktu/2M         # city
+Timex/M             # company
 Timmy/2M
 Timon/2M
 Timor/2M
@@ -9949,15 +9954,15 @@ Tishri/2M
 Titan/12SM
 Titania/2M
 Titanic/521M
-Titian/2M
-Titicaca/2M
-Tito/2M
+Titian/2M           # painter
+Titicaca/2M         # lake
+Tito/2M             # president
 Titus/2M
 Titusville/2M
-Tl/M
+Tl/M                # thallium
 Tlaloc/2M
 Tlingit/125M
-Tm/1M
+Tm/1M               # thulium
 Tobago/2M
 Tobit/21M
 Toby/21M
@@ -9967,15 +9972,15 @@ Tod/2M
 Todd/2M
 Togo/2M
 Togolese/51M
-Tojo/21M
+Tojo/21M            # general
 Tokay/M
-Tokugawa/2M
+Tokugawa/2M         # period
 Tokyo/2M
 Tokyoite/51
 Toledo/2MS
-Tolkien/2M
-Tolstoy/2M
-Toltec/1M
+Tolkien/2M          # author
+Tolstoy/2M          # author
+Toltec/1M           # ancient civilization
 Tolyatti/2M
 Tom/21M
 Tomas/M
@@ -9984,7 +9989,7 @@ Tomlin/2M
 Tommie/21M
 Tommy/21M
 Tompkins/2M
-Tomsk/2M
+Tomsk/2M            # city
 Tonga/2M
 Tongan/15MS
 Toni/2M
@@ -10002,37 +10007,37 @@ Torrance/2M
 Torrens/2M
 Torres/2M
 Torricelli/2M
-Tórshavn/2M
+Tórshavn/2M         # capital of the Faroe Islands
 Tortola/2M
 Tortuga/2M
-Torvalds/2M
-Tory/152SM
+Torvalds/2M         # linus -
+Tory/152SM          # party
 Tosca/1M
 Toscanini/M
-Toshiba/1M
+Toshiba/1M          # company
 Toto/12M
 Toulouse/2M
 Townes/2M
 Townsend/2M
-Townsville/2M
+Townsville/2M       # city
 Toynbee/M
 Toyoda/2M
-Toyota/21MS
+Toyota/21MS         # car company
 Tracey/2M
 Traci/2M
 Tracie/2M
 Tracy/2M
 Trafalgar/2M
 Trailways/M
-Trajan/2M
-Tran/2M
-Transcaucasia/2M
+Trajan/2M           # emperor
+Tran/2M             # surname
+Transcaucasia/2M    # region
 Transvaal/2M
-Transylvania/2M
+Transylvania/2M     # region
 Transylvanian/51M
 Trappist/15SM
 Travis/2M
-Travolta/2M
+Travolta/2M         # john -
 Treasury/21SM
 Treblinka/2M
 Trekkie/1M
@@ -10043,7 +10048,7 @@ Trevino/2M
 Trevor/2M
 Trey/2M
 Triangulum/2M
-Triassic/52M
+Triassic/52M        # geologic period
 Tricia/2M
 Trident/2M
 Trieste/2M
@@ -10064,7 +10069,7 @@ Trojan/15MS
 Trollope/2M
 Trondheim/2M
 Tropicana/M
-Trotsky/2M
+Trotsky/2M          # leon -
 Troy/2M
 Troyes/2
 Truckee/2M
@@ -10085,14 +10090,14 @@ Tsiolkovsky/2M
 Tsitsihar/2M
 Tsongkhapa/M
 Tswana/12M
-Tu/12M
+Tu/12M              # former symbol for thulium, now Tm
 Tuamotu/5M
 Tuareg/12M
 Tubman/2M
 Tucker/2M
 Tucson/2M
 Tucuman/M
-Tudor/15SM
+Tudor/15SM          # period
 Tue/12S
 Tues/1M
 Tuesday/1MS
@@ -10108,17 +10113,17 @@ Tunisia/2M
 Tunisian/15MS
 Tunney/2M
 Tupi/12M
-Tupperware/1M
+Tupperware/1M       # company
 Tupungato/2M
 Turgenev/M
-Turin/2M
+Turin/2M            # city
 Turing/2M
 Turk/152SM
 Turkestan/2M
 Turkey/215M
 Turkic/52MS
 Turkish/25M
-Türkiye/2M
+Türkiye/2M          # english name of Turkey since 2021
 Turkmenistan/2M
 Turlock/2M
 Turnbull/2M
@@ -10130,49 +10135,49 @@ Tuscany/2M
 Tuscarora/12MS
 Tuscon/M
 Tuskegee/21M
-Tussaud/M
+Tussaud/M           # madame -
 Tut/2M
 Tutankhamen/2M
-Tutsi/1M
+Tutsi/1M            # ethnicity
 Tutu/2M
 Tuvalu/2M
 Tuvaluan/152
-Twain/2M
+Twain/2M            # mark -
 Tweed/2M
 Tweedledee/M
 Tweedledum/M
 Twila/2M
 Twinkies/1M
-Twitter/214M
+Twitter/214M        # company, now x
 Twizzlers/1M
 Twp
 Ty/2M
-Tycho/2M
-Tylenol/21M
+Tycho/2M            # -brae
+Tylenol/21M         # medicine
 Tyler/2M
 Tyndale/2M
 Tyndall/2M
-TypeScript/14MS
+TypeScript/14MS     # programming language
 Tyre/2M
 Tyree/2M
 Tyrolean/51
 Tyrone/21M
 Tyson/2M
 U/15+2M
-UAE/2M
+UAE/2M              # United Arab Emirates
 UAR/2
 UAW/2
 UBS/2M
-UCLA/2M
-UFC/2M
+UCLA/2M             # university
+UFC/2M              # combat sport promotion
 UFO/1SM
-UHF/152M
+UHF/152M            # frequency band
 UI/1SM
 UK/2M
 UL/1452
 UN/2M
-UNESCO/2M
-UNICEF/2M
+UNESCO/2M           # organization
+UNICEF/2M           # organization
 UNIX/2M
 UPC/1
 UPI/21M
@@ -10181,9 +10186,10 @@ URL/1S
 US/215M
 USA/21M
 USAF/2
-USAID/2M
+USAID/2M            # agency
 USB/21MS
 USCG/2
+USCIS/2             # immigration agency
 USD/1
 USDA/2M
 USIA/2
@@ -10912,7 +10918,7 @@ Zanuck/M
 Zanzibar/2M
 Zapata/2M
 Zaporozhye/2M
-Zapotec/125M
+Zapotec/125M        # ethnicity
 Zappa/2M
 Zara/2M
 Zarathustra/2M
@@ -10920,10 +10926,10 @@ Zealand/2M
 Zebedee/2M
 Zechariah/2M
 Zedekiah/2M
-Zedong/M
+Zedong/M            # mao -
 Zeffirelli/M
 Zeke/2M
-Zelenskyy/2M
+Zelenskyy/2M        # president
 Zelig/1M
 Zelma/2M
 Zen/215M
@@ -10937,13 +10943,13 @@ Zeus/2M
 Zhdanov/2
 Zhejiang/2M
 Zhengzhou/2M
-Zhivago/2M
+Zhivago/2M          # dr -
 Zhukov/2M
 Zibo/2M
 Ziegfeld/M
 Ziegler/2M
 Ziggy/2M
-Zika/21
+Zika/21             # virus
 Zilog/2M
 Zimbabwe/2M
 Zimbabwean/15SM
@@ -10952,9 +10958,10 @@ Zinfandel/M
 Zion/2SM
 Zionism/1SM
 Zionist/15SM
-Ziploc/1M
-Zn/M
+Ziploc/1M           # trademark
+Zn/M                # zinc
 Zoe/2M
+Zoë/2M
 Zola/2M
 Zollverein/1M
 Zoloft/2M
@@ -10965,7 +10972,7 @@ Zoroastrian/15MS
 Zoroastrianism/2SM
 Zorro/21M
 Zosma/2M
-Zr/M
+Zr/M                # zirconium
 Zsigmondy/M
 Zubenelgenubi/2M
 Zubeneschamali/2M
@@ -11163,6 +11170,8 @@ acanthus/1MS
 accede/~4GDS
 accelerate/~45GNXDS
 acceleration/~1M
+accelerationism/1M
+accelerationist/1SM
 accelerator/~1SM
 accelerometer/1SM
 accent/~14MDSG
@@ -13822,7 +13831,7 @@ base/~145CDSLTG
 base's
 baseball/~1SM
 baseboard/1MS
-baseless/5
+baseless/5Y
 baseline/~14MS
 basely/j
 baseman/~1M
@@ -14479,6 +14488,7 @@ biotech/~1
 biotechnological/5
 biotechnology/~1M
 biotin/~1M
+bioweapon/1MS
 bipartisan/~5
 bipartisanship/1M
 bipartite/~5
@@ -28908,6 +28918,7 @@ incarceration/~1M
 incarnadine/514DSG
 incarnate/~54AXGNDS
 incarnation/~1AM
+incel/1MS
 incendiary/~51SM
 incense/~14MGDS
 incentive/~1MES
@@ -32926,7 +32937,7 @@ metal/~154SMD
 metalanguage/1MS
 metalled/54!@
 metallic/~51
-metallize/4ZGDRS
+metallize/4ZGDRS    # ll vs l not clearly US/UK difference, few dictionaries include -ise spellings
 metallurgic/5
 metallurgical/~5
 metallurgist/1MS
@@ -36921,7 +36932,7 @@ parturition/1M
 partway/
 party/~145GDSM
 parvenu/15MS
-pascal/~1MS
+pascal/~1MS         # cf. Pascal, PASCAL
 paschal/~5
 pasha/~1SM
 pass/~41M
@@ -44330,6 +44341,7 @@ soiled/45U
 soiree/1SM
 sojourn/~14ZGMDRS
 sojourner/1M
+soju/1MS
 sol/~1SM
 solace/~14DSMG
 solar/~51
@@ -51908,6 +51920,7 @@ front-line/5
 front man/1M
 front-line/5
 full-scale/5
+gold-plated/5
 Greco-Roman/5
 ground-based/5
 gung ho/5
