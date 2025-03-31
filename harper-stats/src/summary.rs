@@ -2,8 +2,10 @@ use std::{collections::HashMap, fmt::Display};
 
 use harper_core::linting::{LintGroupConfig, LintKind};
 
+#[derive(Debug, Default)]
 pub struct Summary {
     pub lint_counts: HashMap<LintKind, u32>,
+    pub total_applied: u32,
     pub final_config: LintGroupConfig,
     // The most common misspelled words.
     pub misspelled: HashMap<String, u32>,
@@ -11,11 +13,7 @@ pub struct Summary {
 
 impl Summary {
     pub fn new() -> Self {
-        Self {
-            lint_counts: HashMap::new(),
-            final_config: LintGroupConfig::default(),
-            misspelled: HashMap::new(),
-        }
+        Self::default()
     }
 
     /// Increment the count for a particular lint kind.
@@ -24,6 +22,7 @@ impl Summary {
             .entry(kind)
             .and_modify(|counter| *counter += 1)
             .or_insert(1);
+        self.total_applied += 1;
     }
 
     /// Increment the count for a particular misspelled word.
@@ -38,12 +37,6 @@ impl Summary {
     /// Get the count for a particular lint kind.
     pub fn get_count(&self, kind: LintKind) -> u32 {
         self.lint_counts.get(&kind).copied().unwrap_or(0)
-    }
-}
-
-impl Default for Summary {
-    fn default() -> Self {
-        Self::new()
     }
 }
 
