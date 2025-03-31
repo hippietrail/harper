@@ -344,10 +344,18 @@ impl LintGroup {
         insert_pattern_rule!(Hedging, true);
         insert_pattern_rule!(ExpandTimeShorthands, true);
         insert_pattern_rule!(ModalOf, true);
-        insert_struct_rule!(InflectedVerbAfterTo, true);
 
-        out.add("SpellCheck", Box::new(SpellCheck::new(dictionary, dialect)));
+        out.add(
+            "SpellCheck",
+            Box::new(SpellCheck::new(dictionary.clone(), dialect)),
+        );
         out.config.set_rule_enabled("SpellCheck", true);
+
+        out.add(
+            "InflectedVerbAfterTo",
+            Box::new(InflectedVerbAfterTo::new(dictionary.clone(), dialect)),
+        );
+        out.config.set_rule_enabled("InflectedVerbAfterTo", true);
 
         out
     }
