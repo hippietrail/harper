@@ -168,10 +168,19 @@ impl Linter {
         Ok(())
     }
 
-    pub fn summarize_stats(&self) -> JsValue {
+    pub fn summarize_stats(&self, start_time: Option<i64>, end_time: Option<i64>) -> JsValue {
+        let mut operable_copy = self.stats.clone();
+
+        if let Some(start_time) = start_time {
+            operable_copy.records.retain(|i| i.when > start_time);
+        }
+
+        if let Some(end_time) = end_time {
+            operable_copy.records.retain(|i| i.when < end_time);
+        }
+
         serde_wasm_bindgen::to_value(
-            &self
-                .stats
+            &operable_copy
                 .summarize()
                 .lint_counts
                 .iter()

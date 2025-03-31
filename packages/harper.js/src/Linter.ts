@@ -78,8 +78,11 @@ export default interface Linter {
 	/** Get the dialect of English this linter was constructed for. */
 	setDialect(dialect: Dialect): Promise<void>;
 
-	/** Summarize the linter's usage statistics. */
-	summarizeStats(): Promise<Record<string, number>>;
+	/** Summarize the linter's usage statistics.
+	 * You may optionally pass in a start and/or end time.
+	 *
+	 * If so, the summary with only include data from a _after_ the start time but _before_ the end time. */
+	summarizeStats(start?: bigint, end?: bigint): Promise<Record<string, number>>;
 
 	/** Generate a statistics log file you can save to permanent storage. */
 	generateStatsFile(): Promise<string>;

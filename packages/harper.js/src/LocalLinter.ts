@@ -143,9 +143,9 @@ export default class LocalLinter implements Linter {
 		return Promise.resolve();
 	}
 
-	async summarizeStats(): Promise<Record<string, number>> {
+	async summarizeStats(start?: bigint, end?: bigint): Promise<Record<string, number>> {
 		const inner = await this.inner;
-		return inner.summarize_stats();
+		return inner.summarize_stats(start, end);
 	}
 
 	async generateStatsFile(): Promise<string> {
