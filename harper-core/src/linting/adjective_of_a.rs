@@ -31,6 +31,7 @@ impl Linter for AdjectiveOfA {
                 ['f', 'r', 'o', 'n', 't'] | ['F', 'r', 'o', 'n', 't'] => true,
                 ['k', 'i', 'n', 'd'] | ['K', 'i', 'n', 'd'] => true,
                 ['m', 'e', 'a', 'n', 'i', 'n', 'g'] | ['M', 'e', 'a', 'n', 'i', 'n', 'g'] => true,
+                ['o', 'n', 'e'] | ['O', 'n', 'e'] => true,
                 ['p', 'a', 'r', 't'] | ['P', 'a', 'r', 't'] => true,
                 ['s', 'h', 'a', 'd', 'o', 'w'] | ['S', 'h', 'a', 'd', 'o', 'w'] => true,
                 ['s', 'h', 'o', 'r', 't'] | ['S', 'h', 'o', 'r', 't'] => true,
