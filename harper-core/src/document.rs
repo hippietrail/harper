@@ -37,6 +37,18 @@ impl Document {
             .collect()
     }
 
+    /// Locate all the tokens that intersect a provided span and convert them to [`FatToken`]s.
+    ///
+    /// Desperately needs optimization.
+    pub fn fat_tokens_intersecting(&self, span: Span) -> Vec<FatToken> {
+        let indices = self.token_indices_intersecting(span);
+
+        indices
+            .into_iter()
+            .map(|i| self.tokens[i].to_fat(&self.source))
+            .collect()
+    }
+
     /// Lexes and parses text to produce a document using a provided language
     /// parser and dictionary.
     pub fn new(text: &str, parser: &impl Parser, dictionary: &impl Dictionary) -> Self {

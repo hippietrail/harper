@@ -5,6 +5,8 @@ use harper_core::linting::{LintGroupConfig, LintKind};
 pub struct Summary {
     pub lint_counts: HashMap<LintKind, u32>,
     pub final_config: LintGroupConfig,
+    // The most common misspelled words.
+    pub misspelled: HashMap<String, u32>,
 }
 
 impl Summary {
@@ -12,6 +14,7 @@ impl Summary {
         Self {
             lint_counts: HashMap::new(),
             final_config: LintGroupConfig::default(),
+            misspelled: HashMap::new(),
         }
     }
 
@@ -21,6 +24,15 @@ impl Summary {
             .entry(kind)
             .and_modify(|counter| *counter += 1)
             .or_insert(1);
+    }
+
+    /// Increment the count for a particular misspelled word.
+    pub fn inc_misspelled_count(&mut self, word: impl AsRef<str>) {
+        if let Some(counter) = self.misspelled.get_mut(word.as_ref()) {
+            *counter += 1
+        } else {
+            self.misspelled.insert(word.as_ref().to_owned(), 1);
+        }
     }
 
     /// Get the count for a particular lint kind.
@@ -37,7 +49,25 @@ impl Default for Summary {
 
 impl Display for Summary {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        writeln!(f, "`LintKind` counts")?;
+        writeln!(f, "=================")?;
+
         for (kind, count) in &self.lint_counts {
+            writeln!(f, "{kind}\t{count}")?;
+        }
+
+        writeln!(f, "Misspelling counts")?;
+        writeln!(f, "=================")?;
+
+        let mut misspelled: Vec<_> = self
+            .misspelled
+            .iter()
+            .map(|(a, b)| (a.clone(), *b))
+            .collect();
+
+        misspelled.sort_by_key(|(_a, b)| u32::MAX - b);
+
+        for (kind, count) in &misspelled {
             writeln!(f, "{kind}\t{count}")?;
         }
 

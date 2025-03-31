@@ -1,4 +1,3 @@
-use harper_stats::RecordKind;
 use std::collections::HashMap;
 use std::fs::OpenOptions;
 use std::io::{BufWriter, Write};
@@ -8,7 +7,7 @@ use std::sync::Arc;
 use anyhow::{Context, Result, anyhow};
 use futures::future::join;
 use harper_comments::CommentParser;
-use harper_core::linting::{LintGroup, LintGroupConfig, LintKind};
+use harper_core::linting::{LintGroup, LintGroupConfig};
 use harper_core::parsers::{CollapseIdentifiers, IsolateEnglish, Markdown, Parser, PlainEnglish};
 use harper_core::{
     Dialect, Dictionary, Document, FstDictionary, MergedDictionary, MutableDictionary, WordMetadata,
@@ -538,12 +537,12 @@ impl LanguageServer for Backend {
 
         match params.command.as_str() {
             "HarperRecordLint" => {
-                let Some(kind) = LintKind::new_from_str(&first) else {
-                    error!("Unable to deserialize LintKind.");
+                let Ok(kind) = serde_json::from_str(&first) else {
+                    error!("Unable to deserialize RecordKind.");
                     return Ok(None);
                 };
 
-                let record = Record::now(RecordKind::Lint(kind));
+                let record = Record::now(kind);
 
                 let mut stats = self.stats.write().await;
                 stats.records.push(record);

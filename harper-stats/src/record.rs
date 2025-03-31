@@ -1,4 +1,7 @@
-use harper_core::linting::{LintGroupConfig, LintKind};
+use harper_core::{
+    linting::{Lint, LintGroupConfig, LintKind},
+    Document, FatToken,
+};
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
@@ -23,13 +26,28 @@ impl Record {
 
 #[derive(Debug, Deserialize, Serialize, Clone, Eq, PartialEq)]
 pub enum RecordKind {
-    Lint(LintKind),
+    Lint {
+        kind: LintKind,
+        context: Vec<FatToken>,
+    },
     LintConfigUpdate(LintGroupConfig),
+}
+
+impl RecordKind {
+    pub fn from_lint(lint: &Lint, doc: &Document) -> Self {
+        Self::Lint {
+            kind: lint.lint_kind,
+            context: doc.fat_tokens_intersecting(lint.span),
+        }
+    }
 }
 
 #[cfg(test)]
 mod tests {
-    use harper_core::linting::{LintGroupConfig, LintKind};
+    use harper_core::{
+        linting::{LintGroupConfig, LintKind},
+        Document,
+    };
     use quickcheck::Arbitrary;
 
     use super::{Record, RecordKind};
@@ -48,20 +66,28 @@ mod tests {
         fn arbitrary(g: &mut quickcheck::Gen) -> Self {
             let lcu = Self::LintConfigUpdate(arbitrary_lintconfig(g));
 
-            g.choose(&[
-                Self::Lint(LintKind::Spelling),
-                Self::Lint(LintKind::Capitalization),
-                Self::Lint(LintKind::Style),
-                Self::Lint(LintKind::Formatting),
-                Self::Lint(LintKind::Repetition),
-                Self::Lint(LintKind::Enhancement),
-                Self::Lint(LintKind::Readability),
-                Self::Lint(LintKind::WordChoice),
-                Self::Lint(LintKind::Miscellaneous),
-                lcu,
-            ])
-            .unwrap()
-            .clone()
+            let context = Document::new_plain_english_curated(&String::arbitrary(g))
+                .fat_tokens()
+                .collect();
+
+            let kind = g
+                .choose(&[
+                    LintKind::Spelling,
+                    LintKind::Capitalization,
+                    LintKind::Style,
+                    LintKind::Formatting,
+                    LintKind::Repetition,
+                    LintKind::Enhancement,
+                    LintKind::Readability,
+                    LintKind::WordChoice,
+                    LintKind::Miscellaneous,
+                ])
+                .unwrap()
+                .clone();
+
+            g.choose(&[RecordKind::Lint { kind, context }, lcu])
+                .unwrap()
+                .clone()
         }
     }
 

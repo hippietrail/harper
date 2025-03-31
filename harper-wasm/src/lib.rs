@@ -299,9 +299,15 @@ impl Linter {
     ) -> Result<String, String> {
         let mut source = lint.source.clone();
 
+        let doc = Document::new_from_vec(
+            source.clone().into(),
+            &lint.language.create_parser(),
+            &self.dictionary,
+        );
+
         self.stats
             .records
-            .push(Record::now(RecordKind::Lint(lint.inner.lint_kind)));
+            .push(Record::now(RecordKind::from_lint(&lint.inner, &doc)));
 
         suggestion.inner.apply(lint.inner.span, &mut source);
 

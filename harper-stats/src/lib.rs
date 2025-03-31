@@ -4,6 +4,7 @@ mod summary;
 use std::io::{self, Read, Write};
 use std::io::{BufRead, BufReader};
 
+use harper_core::{CharStringExt, TokenKind};
 pub use record::Record;
 pub use record::RecordKind;
 use serde::Serialize;
@@ -29,7 +30,15 @@ impl Stats {
 
         for record in &self.records {
             match &record.kind {
-                RecordKind::Lint(lint_kind) => summary.inc_lint_count(*lint_kind),
+                RecordKind::Lint { kind, context } => {
+                    summary.inc_lint_count(*kind);
+
+                    for tok in context {
+                        if let TokenKind::Word(None) = tok.kind {
+                            summary.inc_misspelled_count(tok.content.to_string());
+                        }
+                    }
+                }
                 RecordKind::LintConfigUpdate(lint_group_config) => {
                     summary.final_config = lint_group_config.clone();
                 }
