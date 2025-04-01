@@ -5,6 +5,34 @@ use crate::{Document, Span, TokenStringExt};
 #[derive(Debug, Clone, Copy, Default)]
 pub struct AdjectiveOfA;
 
+const FALSE_POSITIVES: &[&str] = &[
+    // Different valid constructions.
+    "all",
+    "full",
+    "inside",
+    "much",
+    "out",
+    // The word is used more as a noun in this context.
+    // (using .kind.is_likely_homograph() here is too strict)
+    "bottom",
+    "front",
+    "kind",
+    "left",
+    "meaning",
+    "one",
+    "part",
+    "shadow",
+    "short",
+    "something",
+];
+
+fn is_false_positive(chars: &[char]) -> bool {
+    let word = chars.iter().collect::<String>();
+    FALSE_POSITIVES
+        .iter()
+        .any(|&false_pos| word.eq_ignore_ascii_case(false_pos))
+}
+
 impl Linter for AdjectiveOfA {
     fn lint(&mut self, document: &Document) -> Vec<Lint> {
         let mut lints = Vec::new();
@@ -18,21 +46,10 @@ impl Linter for AdjectiveOfA {
             let adj_chars: &[char] = document.get_span_content(&adjective.span);
 
             // Rule out false positives
-
-            if match adj_chars {
-                // "much of a" is a different and valid construction.
-                ['m', 'u', 'c', 'h'] | ['M', 'u', 'c', 'h'] => true,
-                // The word is used more as a noun in this context.
-                // (using .kind.is_likely_homograph() here is too strict)
-                ['f', 'r', 'o', 'n', 't'] | ['F', 'r', 'o', 'n', 't'] => true,
-                ['k', 'i', 'n', 'd'] | ['K', 'i', 'n', 'd'] => true,
-                ['m', 'e', 'a', 'n', 'i', 'n', 'g'] | ['M', 'e', 'a', 'n', 'i', 'n', 'g'] => true,
-                ['p', 'a', 'r', 't'] | ['P', 'a', 'r', 't'] => true,
-                // TODO: consider "more of a" and "less of a"
-                _ => false,
-            } {
+            if is_false_positive(adj_chars) {
                 continue;
             }
+
             // Rule out comparatives and superlatives.
 
             // Pros:
@@ -181,11 +198,75 @@ mod tests {
     }
 
     #[test]
-    fn dont_flag_false_positive_upper() {
+    fn dont_flag_part_uppercase() {
         assert_lint_count(
             "Quarkus Extension as Part of a Project inside a Monorepo?",
             AdjectiveOfA,
             0,
         );
+    }
+
+    #[test]
+    fn dont_flag_inside() {
+        assert_lint_count(
+            "Michael and Brock sat inside of a diner in Brandon",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_out() {
+        assert_lint_count(
+            "not only would he potentially be out of a job and back to sort of poverty",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_full() {
+        assert_lint_count(
+            "fortunately I happen to have this Tupperware full of an unceremoniously disassembled LED Mac Mini",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_something() {
+        assert_lint_count(
+            "Well its popularity seems to be taking something of a dip right now.",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_short() {
+        assert_lint_count(
+            "I found one Youtube short of an indonesian girl.",
+            AdjectiveOfA,
+            0,
+        )
+    }
+
+    #[test]
+    fn dont_flag_bottom() {
+        assert_lint_count(
+            "When leaves are just like coming out individually from the bottom of a fruit.",
+            AdjectiveOfA,
+            0,
+        )
+    }
+
+    #[test]
+    fn dont_flag_left() {
+        assert_lint_count("and what is left of a 12vt coil", AdjectiveOfA, 0)
+    }
+
+    #[test]
+    fn dont_flag_full_uppercase() {
+        assert_lint_count("Full of a bunch varnish like we get.", AdjectiveOfA, 0);
     }
 }
