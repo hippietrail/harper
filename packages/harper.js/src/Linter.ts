@@ -1,4 +1,5 @@
 import type { Dialect, Lint, Suggestion } from 'harper-wasm';
+import type Summary from './Summary';
 import type { BinaryModule } from './binary';
 import type { LintConfig, LintOptions } from './main';
 
@@ -81,8 +82,8 @@ export default interface Linter {
 	/** Summarize the linter's usage statistics.
 	 * You may optionally pass in a start and/or end time.
 	 *
-	 * If so, the summary with only include data from a _after_ the start time but _before_ the end time. */
-	summarizeStats(start?: bigint, end?: bigint): Promise<any>;
+	 * If so, the summary with only include data from _after_ the start time but _before_ the end time. */
+	summarizeStats(start?: bigint, end?: bigint): Promise<Summary>;
 
 	/** Generate a statistics log file you can save to permanent storage. */
 	generateStatsFile(): Promise<string>;
