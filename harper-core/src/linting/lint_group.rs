@@ -11,6 +11,7 @@ use hashbrown::HashMap;
 use lru::LruCache;
 use serde::{Deserialize, Serialize};
 
+use super::adjective_of_a::AdjectiveOfA;
 use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::back_in_the_day::BackInTheDay;
@@ -28,6 +29,7 @@ use super::hedging::Hedging;
 use super::hereby::Hereby;
 use super::hop_hope::HopHope;
 use super::hyphenate_number_day::HyphenateNumberDay;
+use super::inflected_verb_after_to::InflectedVerbAfterTo;
 use super::left_right_hand::LeftRightHand;
 use super::lets_confusion::LetsConfusion;
 use super::likewise::Likewise;
@@ -290,6 +292,7 @@ impl LintGroup {
         out.merge_from(&mut closed_compounds::lint_group());
 
         // Add all the more complex rules to the group.
+        insert_struct_rule!(AdjectiveOfA, true);
         insert_pattern_rule!(BackInTheDay, true);
         insert_struct_rule!(WordPressDotcom, true);
         insert_pattern_rule!(OutOfDate, true);
@@ -342,8 +345,17 @@ impl LintGroup {
         insert_pattern_rule!(ExpandTimeShorthands, true);
         insert_pattern_rule!(ModalOf, true);
 
-        out.add("SpellCheck", Box::new(SpellCheck::new(dictionary, dialect)));
+        out.add(
+            "SpellCheck",
+            Box::new(SpellCheck::new(dictionary.clone(), dialect)),
+        );
         out.config.set_rule_enabled("SpellCheck", true);
+
+        out.add(
+            "InflectedVerbAfterTo",
+            Box::new(InflectedVerbAfterTo::new(dictionary.clone(), dialect)),
+        );
+        out.config.set_rule_enabled("InflectedVerbAfterTo", true);
 
         out
     }
