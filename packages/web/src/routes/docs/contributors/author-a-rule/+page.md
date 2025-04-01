@@ -53,28 +53,21 @@ All you have to do is add a line to `harper-core/src/linting/phrase_corrections.
 
 This method also covers more complex cases, like if one of the words contains capitalization or the phrase is split by a line break.
 
-Similarly, if you just want Harper to enforce proper capitalization of a multi-token proper noun (like "Tumblr Blaze") you just need to add an entry to `harper-core/src/linting/proper_noun_capitalization_linters.rs`.
+Similarly, if you just want Harper to enforce proper capitalization of a multi-token proper noun (like "Tumblr Blaze") you just need to add an entry to `harper-core/proper_noun_rules.json`.
 
-```rust
-group.add(
-    "TumblrNames",
-    Box::new(ProperNounCapitalizationLinter::new(
-        SequencePattern::default()
-            .t_aco("Tumblr")
-            .then_whitespace()
-            .then((EitherPattern::new(vec![
-                Box::new(SequencePattern::default().t_aco("Blaze")),
-                Box::new(SequencePattern::default().t_aco("Pro")),
-                Box::new(SequencePattern::default().t_aco("Live")),
-                Box::new(SequencePattern::default().t_aco("Ads")),
-                Box::new(SequencePattern::default().t_aco("Communities")),
-                Box::new(SequencePattern::default().t_aco("Shop")),
-                Box::new(SequencePattern::default().t_aco("Dashboard")),
-            ]))),
-        "Ensure proper capitalization of Tumblr-related terms.",
-        dictionary.clone(),
-    )),
-);
+```json
+"TumblrNames": {
+	"canonical": [
+		"Tumblr Blaze",
+		"Tumblr Pro",
+		"Tumblr Live",
+		"Tumblr Ads",
+		"Tumblr Communities",
+		"Tumblr Shop",
+		"Tumblr Dashboard"
+	],
+	"description": "Ensure proper capitalization of Tumblr-related terms."
+},
 ```
 
 If neither of those match the rule you have in mind, continue on to the next section.
@@ -150,6 +143,7 @@ pub struct MyRule {
 
 impl Default for MyRule {
     fn default() -> Self {
+        // Define the grammatical pattern the rule should look for in user text.
         let mut pattern = todo!();
 
         Self {
@@ -159,13 +153,14 @@ impl Default for MyRule {
 }
 
 impl PatternLinter for ThatWhich {
+    /// Pass the pattern to the PatternLinter framework.
     fn pattern(&self) -> &dyn Pattern {
         self.pattern.as_ref()
     }
 
     /// Any series of tokens that match the pattern provided in the `default()` method above will
     /// be provided to this function, which you are required to map into a [`Lint`] object.
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Lint {
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
         unimplemented!();
     }
 
