@@ -1,4 +1,4 @@
-52000
+52100
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -33,13 +33,14 @@ AFDC/2
 AFN/21
 AFT/2
 AI/12SM             # artificial intelligence
-AIDS/15M
+AIDS/15M            # disease
 AK/21
 AL/12
 AM/251M
 AMA/21
 AMD/12M
-ANSI/2S
+AMG/12MS            # car brand
+ANSI/2S             # text encoding
 ANZUS/2M
 AOL/2M
 AP/125M
@@ -7083,7 +7084,7 @@ N/1MD
 N'Djamena/2         # capital of Chad
 NAACP/2M
 NAFTA/2M            # trade agreement
-NASA/2M
+NASA/2M             # space agency
 NASCAR/2M
 NASDAQ/2M           # stock exchange
 NATO/2M             # North Atlantic Treaty Organization
@@ -7095,8 +7096,9 @@ NC/215
 NCAA/2M
 NCO/1
 ND/215              # North Dakota
+NDA/1SM             # non-disclosure agreement
 NE/215M
-NEC/2M
+NEC/2M              # electronics company
 NEH/2
 NES/1M              # game console
 NF/251
@@ -13208,6 +13210,7 @@ attractant/1MS
 attraction/~1MS
 attractive/~5UY
 attractiveness/~1M
+attractor/1MS
 attribute/~14DSMGNVBX
 attributed/~45U
 attribution/~1M
@@ -18042,8 +18045,10 @@ committer/1S
 committing/~41A
 commode/1EIS
 commode's
-commodification/1
+commodification/1SM
+commodify/4DSG
 commodious/5Y
+commoditize/4DSG
 commodity/~1SM
 commodore/~1SM
 common/~514UPRYT
@@ -21442,6 +21447,7 @@ doodler/1M
 doohickey/1SM
 doolally/5
 doom/~14MDGS
+doomer/1MS
 doomsayer/1MS
 doomsday/~15M
 doomster/1S
@@ -23937,6 +23943,7 @@ feathery/51TR
 feature/~14DSMG
 featureful/5
 featureless/5
+featurette/1MS
 febrile/5
 fecal/~5
 feces/~1M
@@ -26968,6 +26975,7 @@ hallway/~1SM
 halo/~14MDGS
 halogen/~1SM
 halon/1
+halophile/1SM
 halt/~415MDRZGS
 halter/14GMD
 halterneck/1S
@@ -32605,6 +32613,8 @@ maxima/~1
 maximal/~51Y
 maximisation/1M!
 maximise/4GDS!
+maximalism/1M
+maximalist/15MS
 maximization/1M
 maximize/~4GDS
 maximum/~15SM
@@ -49043,6 +49053,7 @@ undersea/~5S
 underseal/1SMDG
 undersecretary/~1SM
 undersell/4GS
+underserve/4DSG
 undersexed/5
 undershirt/1SM
 undershoot/41SG
@@ -51948,6 +51959,7 @@ door to door/j
 door-to-door/S
 double-decker/5
 easy peasy/5
+end user/1MS
 energy-efficient/5
 et al./~
 far right/1MS
@@ -52008,6 +52020,7 @@ right-wing/5
 run-up/1MS
 sci-fi/1M
 self-obsessed/5
+short-lived/5
 short-term/5j
 shout-out/1S
 single-handedly/j
