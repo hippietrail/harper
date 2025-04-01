@@ -9,9 +9,7 @@ import LinterProvider from './LinterProvider';
 function Sidebar() {
 	return (
 		<>
-			<PluginSidebarMoreMenuItem target="harper-sidebar" icon={Logo}>
-				Harper
-			</PluginSidebarMoreMenuItem>
+			<PluginSidebarMoreMenuItem target="harper-sidebar">Harper</PluginSidebarMoreMenuItem>
 			<PluginSidebar name="harper-sidebar" title="Harper" icon={Logo}>
 				<LinterProvider>
 					<SidebarControl />
