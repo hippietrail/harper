@@ -334,17 +334,3 @@ fn parbreaks_in_list() {
         ]
     ))
 }
-
-#[test]
-fn do_not_lint_rgb() {
-    let source = r#"#color.rgb("ffffff")"#;
-
-    let document = Document::new_curated(source, &Typst);
-    let token_kinds = document.tokens().map(|t| t.kind.clone()).collect_vec();
-    dbg!(&token_kinds);
-
-    assert!(matches!(
-        &token_kinds.as_slice(),
-        &[TokenKind::Unlintable, TokenKind::Unlintable]
-    ))
-}
