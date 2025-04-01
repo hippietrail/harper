@@ -20,6 +20,7 @@ const FALSE_POSITIVES: &[&str] = &[
     "kind",
     "left",
     "meaning",
+    "middle",
     "one",
     "part",
     "shadow",
@@ -275,6 +276,15 @@ mod tests {
     fn dont_flag_head() {
         assert_lint_count(
             "You need to get out if you're the head of an education department and you're not using AI",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_middle() {
+        assert_lint_count(
+            "just to get to that part in the middle of a blizzard",
             AdjectiveOfA,
             0,
         );
