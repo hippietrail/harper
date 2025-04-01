@@ -4223,6 +4223,7 @@ Hamilcar/2M
 Hamill/2M
 Hamilton/21M
 Hamiltonian/51M
+Hamish/2M
 Hamitic/52M
 Hamlet/2M
 Hamlin/2M
@@ -13651,7 +13652,7 @@ ballistics/1M
 balloon/~14SGMD
 balloonist/1MS
 ballot/~14SMDG
-ballpark/~154MS
+ballpark/~154MSDG
 ballplayer/1MS
 ballpoint/1MS
 ballroom/~14MS
@@ -18768,6 +18769,7 @@ convinced/~54U
 convincing/~541UY
 convivial/5Y
 conviviality/1M
+convo/1MS
 convoke/4DSG
 convoluted/~54
 convolution/~1MS
@@ -19055,7 +19057,7 @@ counselled/4!@
 counselling/14!@
 counsellor/1SM!@
 counselor/~1MS
-count/~415EASMDG
+count/~41EASMDG
 countable/~51U
 countably/j
 countdown/~14MS
@@ -19110,6 +19112,8 @@ counterstroke/1SM
 counterstruck/4
 countersunk/45
 countertenor/1MS
+counterterrorism/1M
+counterterrorist/1SM
 countertop/1MS
 countervail/4GSD
 counterweight/14MS
@@ -22300,7 +22304,8 @@ electrician/1MS
 electricity/~1M
 electrification/~1M
 electrifier/1M
-electrify/4ZGNDRS
+electrify/4ZNDRS
+electrifying/541Y
 electrocardiogram/1MS
 electrocardiograph/1M
 electrocardiographs/1
@@ -26790,6 +26795,7 @@ gunshot/~1MS
 gunslinger/~1SM
 gunsmith/1M
 gunsmiths/1
+gunsmoke/1M
 gunwale/1MS
 guppy/1SM
 gurgle/41MGDS
@@ -29657,7 +29663,7 @@ interoffice/54
 interoperability/~1
 interoperable/5
 interoperate/4S
-interpenetrate/4DSGN
+interpenetrate/4DSGNX
 interpersonal/~5
 interplanetary/~5
 interplay/~14M
@@ -29793,7 +29799,7 @@ inventory/~14DSMG
 inverse/~514SMY
 invert/~415SMDRZG
 inverter/1M
-invest/~41ASDGL
+invest/~41ASDGLB
 investigate/~4NVDSXG
 investigation/~1M
 investigator/~1SM
@@ -32074,7 +32080,7 @@ maelstrom/1SM
 maestro/~1SM
 mafia/~1SM
 mafiosi/1
-mafioso/1M
+mafioso/1MS
 mag/~14SM
 magazine/~1SM
 mage/~1MS
@@ -34144,6 +34150,7 @@ multiplicative/~51
 multiplicity/~1SM
 multiplier/~1M
 multiply/~41NZGDRSX
+multipolarity/1M
 multiprocessing/1
 multiprocessor/1SM
 multipurpose/~5
@@ -36368,6 +36375,7 @@ overpaid/4
 overparticular/5
 overpass/~14MS
 overpay/4GS
+overperform/4GDS
 overplay/4GDS
 overpopulate/4GNDS
 overpopulation/1M
@@ -37150,7 +37158,7 @@ payoff/~1MS
 payola/1M
 payout/~1MS
 payphone/1S
-payroll/~14SM
+payroll/~14SMDG
 payslip/1SM
 paywall/14SM
 payware/1
@@ -40613,7 +40621,7 @@ recuse/4DSG
 recycle/4SDGRB
 red/~51PSM
 redact/4SDGU
-redaction/1M
+redaction/1MS
 redactor/1SM
 redbird/1SM
 redbreast/1MS
@@ -45875,6 +45883,7 @@ sublime/~451YTGDRS
 subliminal/~51Y
 sublimity/1M
 sublingual/51
+submachine/41MS
 submarginal/5
 submarine/~514MZRS
 submariner/1M
@@ -46197,6 +46206,7 @@ superfine/5
 superfluity/1M
 superfluous/~5YP
 superfluousness/1M
+superfood/1MS
 superfund/~1MS
 superglue/14
 supergrass/1S
@@ -48891,6 +48901,7 @@ unaccountably/j
 unadventurous/5
 unaesthetic/5
 unaffordable/5
+unalive/145MSDG
 unalterably/j
 unambitious/5
 unanimity/1M
@@ -51698,7 +51709,10 @@ Cypher/21M
 DATETIME/1MS            # dictionaries prefer: datetime
 DBMS/12SM               # database management system
 DKIM/1SM
-DM/1MS                  # direct message
+DM/1MS4                 # direct message
+DM'd/4
+DMed/4
+DMing/4
 DNS/2SM                 # domain name system
 DOM/1SM                 # document object model
 DSL/1SM                 # domain-specific language
@@ -51938,6 +51952,8 @@ scatterplot/14SMG   # dictionaries prefer: scatter plot
 scrollbar/1SM       # dictionaries prefer: scroll bar
 sioyek/SM           # !! please check and comment !!
 stacktrace/SM1      # dictionaries prefer: stack trace
+stand down/4
+stand-down/1MS
 standup/SM          # dictionaries prefer: stand-up
 whitespace/~1SM     # dictionaries prefer: white space
 wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
@@ -51975,10 +51991,13 @@ gold-plated/5
 Greco-Roman/5
 ground-based/5
 gung ho/5
+H-1B/1MS
+happy-go-lucky/5
 hard code/4SDG
 heavy-handed/5
 high-quality/5
-H-1B/1MS
+high frequency/1MS
+high-frequency/5
 high-level/5
 high-profile/5
 high-rise/1MS
@@ -52007,6 +52026,8 @@ neo-Nazi/15SM
 off-road/1MS
 off-roader/1MS
 okey-dokey/1MS
+off the books
+off-the-books/5
 on-off/5
 once-in-a-lifetime/5
 one-handed/5
@@ -52030,6 +52051,10 @@ so-called/5
 socio-political/5
 spot on/5
 stand-up/51
+stay behind/4
+stay-behind/1MS
+surface-to-air/5
+tax-exempt/5
 tech-savvy/5
 third-party/5
 two-thirds/1
