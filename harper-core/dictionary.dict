@@ -16628,6 +16628,7 @@ centre/14MGDS!@
 centreboard/1SM!@
 centrefold/1SM!@
 centrepiece/1SM!@
+centric/~5
 centrifugal/~51Y
 centrifuge/~14DSMG
 centripetal/5Y
@@ -18544,6 +18545,7 @@ conspiracy/~14SM
 conspirator/~1MS
 conspiratorial/5Y
 conspire/~4GD
+const/~15MS
 constable/~14SM
 constabulary/~51SM
 constancy/1IM
@@ -19572,6 +19574,7 @@ cryosurgery/1M
 crypt/~1SM
 cryptanalysis/~1
 cryptic/~51Q
+crypto/~M1S
 cryptocurrency/1SM
 cryptogram/1SM
 cryptographer/1SM
@@ -19790,6 +19793,7 @@ cyberbully/14SMG
 cybercafe/1S
 cybernetic/5S
 cybernetics/1M
+cyberphysical/5Y
 cyberpunk/1SM
 cybersecurity/M
 cybersex/14
@@ -20469,6 +20473,7 @@ deploy/~41ALGDS
 deployment/~1AM
 deployments/~1
 deponent/51MS
+deportable/5
 deportation/~1MS
 deportee/1MS
 deporter/1MS
@@ -20669,6 +20674,7 @@ detrimental/~51Y
 detritus/~1M
 deuce/~1SM
 deuterium/~1M
+dev/~1MS
 devastate/4GNDS
 devastating/~54Y
 devastation/~1M
@@ -21980,6 +21986,7 @@ dystopia/1
 dystopian/~5
 dz/14
 e/~18FDST
+e.g./~1
 e'en/
 e'er/
 eBay/24M
@@ -23077,7 +23084,7 @@ estrous/5
 estrus/1MS
 estuary/~1SM
 eta/~1SM
-etc/~
+etc./~              # most dictionary only list it with the final dot
 etch/41DRSZGJ
 etcher/1M
 etching/~14M
@@ -28445,12 +28452,13 @@ hysteric/51SM
 hysterical/~5Y
 hysterics/1M
 i/~8
+i.e./~
 iMac/1MS
 iOS/2M
 iPad/1MS
 iPhone/1MS
 iPod/1MS
-iTunes/MS
+iTunes/1M
 iamb/1MS
 iambi/1
 iambic/51SM
@@ -29588,6 +29596,7 @@ interference/~14MS
 interferon/1M
 interfile/4GDS
 intergalactic/5
+intergenerational/5
 intergovernmental/~5
 interim/~51M
 interior/~51SM
@@ -31997,6 +32006,7 @@ lyricist/~1SM
 lysosomal/5
 lysosomes/1
 m/~514KAS
+mRNA/1M
 ma/~1SMH
 ma'am/14
 mac/~1SGMD
@@ -32024,6 +32034,7 @@ macho/~51M
 mackerel/~1SM
 mackinaw/1SM
 mackintosh/~1MS
+macOS/2SM
 macrame/14M
 macro/~51SM
 macroaggregate/1M
@@ -49365,6 +49376,7 @@ untrustworthy/5
 untruth/1M
 unutterable/51
 unutterably/j
+unvaccinated/5
 unwarrantable/5
 unwary/5T
 unwavering/5
@@ -50200,6 +50212,7 @@ voyageur/1SM
 voyeur/1MS
 voyeurism/1M
 voyeuristic/5
+vs./~               # versus
 vtable/1MS
 vulcanisation/1M!
 vulcanise/4GDS!
@@ -51654,7 +51667,7 @@ Alexandre/2SM
 AlphaFold/2M            # Google DeepMind project
 Ambien/1SM              # insomnia treatment
 Anker/SM
-Archytas/SM
+Archytas/SM             # !! please check and comment !! we also have archytas
 Automattic/SM           # WordPress company
 Automattician/SM
 BRICS/                  # intergovernmental organization
@@ -51883,7 +51896,7 @@ WebKit/2M
 WebRTC/2M
 WebSocket/SM
 WhatsApp/124MG      # messaging app
-Wikilink/MS1        # FIXME! elsewhere we have wikilink
+Wikilink/MS1        # !! please check and comment !! elsewhere we have wikilink
 Wireguard/SM
 WooCommerce/2M
 Xbox/12MS
@@ -51897,55 +51910,44 @@ Zuckerberg/2MS      # surname, Facebook founder
 a11n/1
 a12s/9
 a8c/SM
-archytas/SM
+archytas/SM         # !! please check and comment !! we also have Archytas
 backend/1SM         # dictionaries prefer: back end
 baz/~               # cf. foo, bar
-centric/~SM
-config/14SM
-const/~S
-crypto/~M
-cyberphysical/51Y
-dedup/1M
-dedupe/14SMDG
-dev/~1MS
-dotfile/~1S
-e.g./~1
-etc./~
+config/14SM         # not marked as a verb since "configed" and "configing" look wrong
+dedup/1M            # not well covered by dictionaries. wiktionary has only singular noun. cf. dedupe
+dedupe/14SMDG       # not well covered by dictionaries. wiktionary has noun and verb. cf. dedup
+dotfile/~1SM        # not well covered by dictionaries.
 filesystem/~SM      # dictionaries prefer: file system
 frontend/1SM        # dictionaries prefer: front end
-gRPC/2SM
-glymph/SM
+gRPC/2SM            # framework
+glymph/SM           # !! please check and comment !!
 gzip/4S             # GNU compression utility
 gzipped/4
 gzipping/4
 hardcode/4GDS       # dictionaries prefer: hard code
 hotwire/4BG         # dictionaries prefer: hot-wire
-i.e./~
-intergenerational/5
-labriola/SM
-macOS/2SM
-maximalist/1MS
-merchantability/1
+labriola/SM         # !! please check and comment !! - should be uppercase surname?
+Molex/12MS          # Molex connector
 olds/~              # common in phrasing such as "twenty year olds"
-pandoc/SM           # FIXME! elsewhere we have Pandoc
-pre/~+14
+pandoc/SM           # !! please check and comment !! elsewhere we have Pandoc
+pre/~+14            # !! please check and comment !! dictionaries only list prefix pre-
 raytracer/1         # dictionaries prefer: ray tracer
-royale/~15SM
-s.t./~
+royale/~15SM        # !! please check and comment !! dictionaries only list noun sense type of custard
+s.t./~              # !! please check and comment !!
 scatterplot/14SMG   # dictionaries prefer: scatter plot
 scrollbar/1SM       # dictionaries prefer: scroll bar
-sioyek/SM
+sioyek/SM           # !! please check and comment !!
 stacktrace/SM1      # dictionaries prefer: stack trace
 standup/SM          # dictionaries prefer: stand-up
-vs./~
 whitespace/~1SM     # dictionaries prefer: white space
-wikilink/~1SM       # FIXME! elsewhere we have Wikilink
+wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
 
 # Experimental multi-word entries
 # Harper may not recognize these as words in documents
 # But it will be able to include them in suggestions
 
 add-on/1MS
+ad nauseam/j
 beck and call/1
 bench-warmer/1MS
 blue-collar/5
