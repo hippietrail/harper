@@ -1,4 +1,4 @@
-52100
+52120
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -1643,7 +1643,9 @@ CGI/124             # computer graphics interface; common gateway interface
 CIA/215M            # agency
 CID/12
 CLI/1MS
-CNC/1               # computer numerical control
+CNC/14M             # computer numerical control
+CNC'd/4             # past
+CNCing/14           # present, gerund
 CNN/21M
 CNS/1M
 CO/214M
@@ -3385,6 +3387,7 @@ FY/1
 FYI/
 Faberge/M
 Fabian/512MS
+FaceTime/124
 Facebook/214M
 Faeroe/2M
 Fafnir/2M
@@ -4448,6 +4451,7 @@ Hershey/2M
 Hertz/21M
 Hertzsprung/2M
 Herzegovina/2M
+Herz/2M             # company
 Herzl/2M
 Heshvan/2M
 Hesiod/2M
@@ -4465,8 +4469,8 @@ Heyerdahl/M
 Heywood/2M
 Hezbollah/2M
 Hezekiah/2M
-Hf/M
-Hg/M
+Hf/M                # hafnium
+Hg/M                # mercury
 Hialeah/2M
 Hiawatha/2M
 Hibernia/2M
@@ -8810,6 +8814,7 @@ SWAT/1
 Saab/21M            # car brand
 Saar/2M
 Saarinen/M
+SaaS/1M             # software as a service
 Saatchi/2M
 Sabbath/1M
 Sabbaths/1
@@ -9723,6 +9728,7 @@ Taklamakan/2M
 Talbot/2M
 Taliban/21M
 Taliesin/2M
+Talladega/2M
 Tallahassee/2M
 Tallchief/M
 Talley/2M
@@ -10495,6 +10501,7 @@ Vuitton/2M
 Vulcan/21M
 Vulg
 Vulgate/2SM
+W12/1SM
 WA/21
 WAC/21
 WASP/1M
@@ -14442,7 +14449,7 @@ bimonthly/~51SM
 bin/~14SM
 binary/~51SM
 binaural/~5
-bind/~41AUGS
+bind/~41AUGSB
 bind's
 binder/~1MS
 bindery/1SM
@@ -14550,7 +14557,7 @@ bismuth/~1M
 bison/~1M
 bisque/154M
 bistro/14MS
-bit/~145CSMG
+bit/~14CSMG
 bitch/~14GMDS
 bitchily/j
 bitchiness/1M
@@ -15705,7 +15712,7 @@ burnish/41ZGMDRS
 burnisher/1M
 burnoose/1MS
 burnout/1MS
-burnt/~45
+burnt/~45U
 burp/14MDGS
 burqa/1SM!@
 burr/~14MDGS
@@ -18176,7 +18183,7 @@ compo/~1S
 component/~15SM
 comport/41LSGD
 comportment/1M
-compose/~4AECGSD
+compose/~4AECGSDB
 composedly/j
 composer/~1MS
 composite/~514MYGNXDS
@@ -20989,6 +20996,7 @@ direct/~54ASDGVT
 directer/51
 direction/~1IM
 directional/~51Y
+directionality/1M
 directionless/5
 directions/~1
 directive/~51SM
@@ -21995,6 +22003,7 @@ e'en/
 e'er/
 eBay/24M
 eMusic/M
+eSIM/1MS
 ea/~1
 each/~-
 eager/~541PTRY
@@ -25084,6 +25093,8 @@ fraction/~14ISM
 fractional/~51Y
 fractious/5YP
 fractiousness/1M
+fractoluminescence/1M
+fractoluminescent/5
 fracture/~14MGDS
 frag/14S
 fragile/~51RT
@@ -29751,7 +29762,7 @@ intricate/~54Y
 intrigue/~14DRSMZG
 intriguer/1M
 intriguing/~541Y
-intrinsic/~51
+intrinsic/~51MS
 intrinsically/~j
 intro/~14SM
 introduce/~4AGDS
@@ -32711,6 +32722,8 @@ mechanistic/~5
 mechanistically/j
 mechanization/~1M
 mechanize/4DSG
+mechanoluminescence/1M
+mechanoluminescent/5
 mechatronics/1M
 med/~1SM
 medal/~14SM
@@ -33976,6 +33989,7 @@ motorman/1M
 motormen/9
 motormouth/14M
 motormouths/14
+motorsport/1MS
 motorway/~1SM
 mottle/41GDS
 motto/~14M
@@ -37806,6 +37820,7 @@ photojournalism/1M
 photojournalist/~1SM
 photometer/14MS
 photon/~1MS
+photopolymer/M1S
 photosensitive/5
 photoshop/4S
 photoshopped/4
@@ -38808,6 +38823,7 @@ practised/54U!@
 practitioner/~1SM
 praetor/1SM
 praetorian/~51
+pragma/1MS
 pragmatic/~51MS
 pragmatical/5Y
 pragmatism/~1M
@@ -39566,7 +39582,7 @@ prowler/1M
 proximal/~5
 proximate/51
 proximity/~1M
-proxy/~514SM
+proxy/~514SMD
 prude/15MS
 prudence/~1M
 prudent/~5Y
@@ -40432,6 +40448,7 @@ react/~41V
 reactance/1
 reactant/1SM
 reactionary/~51SM
+reactively/j
 reactivity/~1
 read/~41ZGMRBJS
 readability/~1SM
@@ -42164,6 +42181,7 @@ satisfied/~45U
 satisfy/~4EDSG
 satisfying/~54U
 satisfyingly/j
+satnav/1MS
 satori/1M
 satrap/1SM
 satsuma/~1S
@@ -44508,6 +44526,8 @@ sonic/~5
 sonnet/~14SM
 sonny/~1SM
 sonogram/14SM
+sonoluminescence/1M
+sonoluminescent/5
 sonority/1M
 sonorous/5YP
 sonorousness/1M
@@ -46246,6 +46266,9 @@ superscribe/4GDS
 superscript/154MS
 superscription/1M
 supersede/41GDS
+superset/1MS4
+supersetted/4
+supersetting/145
 supersize/45GDS
 supersonic/~51
 superspreader/1SM
@@ -46604,6 +46627,7 @@ syndication/~1M
 syndrome/~1SM
 synergism/1M
 synergistic/5
+synergize/4SDG
 synergy/~1SM
 synfuel/1MS
 synod/~1SM
@@ -48234,6 +48258,8 @@ transparency/~1SM
 transparent/~5Y
 transphobia/1M
 transphobic/5
+transpile/4SDG
+transpiler/1MS
 transpiration/1M
 transpire/4DSG
 transplant/~41MDGS
@@ -48372,6 +48398,8 @@ tribesman/1M
 tribesmen/~9
 tribeswoman/1M
 tribeswomen/9
+triboluminescence/1M
+triboluminescent/5
 tribulation/1SM
 tribunal/~1SM
 tribune/~1MS
@@ -49910,8 +49938,7 @@ viably/j
 viaduct/~1SM
 vial/14MS
 viand/1SM
-vibe/~14MS
-vibes/14M
+vibe/~14MSDG
 vibraharp/1SM
 vibrancy/1M
 vibrant/~51Y
@@ -51724,6 +51751,7 @@ EV/1SM                  # electric vehicle
 ElasticSearch/SM
 Elon/2M
 Erdoğan/2M              # surname, Turkish politician
+ESLint/2M
 Ethereum/2M             # digital currency
 Evo/2MS
 FIDO/12SM
@@ -51822,6 +51850,7 @@ Neo4J/21M
 Neovim/M            # code editor
 Nikolay/SM
 NoSQL/1
+Node.js/2M          # official spelling has dot
 NumPy/21M
 Nvidia/2M           # FIXME! elsewhere we have NVIDIA
 O'Reilly/2SM
@@ -51874,6 +51903,7 @@ Soros/2M            # financier George Soros
 Spotify/2M
 StackExchange/SM
 StackOverflow/M
+Svelte/2M           # js framework
 Systemd/SM          # Linux system software
 TCP/52SM            # internet protocol
 TODO                # FIXME! elsewhere in Harper we refer to Todo and to-do
@@ -51882,7 +51912,7 @@ TSMC/2M             # Taiwanese Semiconductor Manufacturing Company
 TUI/12SM            # text user interface
 Tandy/2M            # surname, given name, old computer company
 TechCrunch/SM
-ThinkPad/2SM        # pc
+ThinkPad/2SM        # pc brand
 TikTok/SM
 Todo                # FIXME! elsewhere in Harper we refer to TODO and to-do
 Trocla/SM
@@ -51942,6 +51972,7 @@ hardcode/4GDS       # dictionaries prefer: hard code
 hotwire/4BG         # dictionaries prefer: hot-wire
 labriola/SM         # !! please check and comment !! - should be uppercase surname?
 Molex/12MS          # Molex connector
+npm/2M              # node package manager
 olds/~              # common in phrasing such as "twenty year olds"
 pandoc/SM           # !! please check and comment !! elsewhere we have Pandoc
 pre/~+14            # !! please check and comment !! dictionaries only list prefix pre-
@@ -51952,8 +51983,6 @@ scatterplot/14SMG   # dictionaries prefer: scatter plot
 scrollbar/1SM       # dictionaries prefer: scroll bar
 sioyek/SM           # !! please check and comment !!
 stacktrace/SM1      # dictionaries prefer: stack trace
-stand down/4
-stand-down/1MS
 standup/SM          # dictionaries prefer: stand-up
 whitespace/~1SM     # dictionaries prefer: white space
 wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
@@ -51970,6 +51999,7 @@ blue-collar/5
 boot up/4
 built-in/1MS5
 built-up/5
+cost-effective/5
 cross section/1MS
 cross-threaded/5
 de facto/51M
@@ -52009,6 +52039,7 @@ in situ/5j
 jaw-droppingly/5
 kick start/4SDG
 knock-on effect/1MS
+kung fu/1M
 laid-back/5
 lead-up/1MS
 left-wing/5
@@ -52016,6 +52047,7 @@ live action/1
 load-bearing/5
 long-term/5
 low-budget/5
+low-cost/5
 low-profile/5
 man child/1M
 mind-blowing/5
@@ -52050,19 +52082,27 @@ single-handedly/j
 so-called/5
 socio-political/5
 spot on/5
+stand down/4
+stand-down/1MS
 stand-up/51
 stay behind/4
 stay-behind/1MS
 surface-to-air/5
+suss out/4
+sussed out/4
+susses out/4
+sussing out/4
 tax-exempt/5
 tech-savvy/5
 third-party/5
 two-thirds/1
+uh-huh
 uh-oh
 un-American/5
 user-friendly/5
 UTF-8/1M
 walkie-talkie/1MS
+web dev/1MS
 web page/~1SM
 welch plug/1SM
 well-known/5
