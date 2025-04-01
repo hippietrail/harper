@@ -1,5 +1,5 @@
 <script lang="ts">
-import LintChart from '$lib/LintChart.svelte';
+import LintKindChart from '$lib/LintKindChart.svelte';
 import {
 	Table,
 	TableBody,
@@ -38,7 +38,7 @@ $effect(() => {
 
   {#if summary.lint_counts}
     <h2>Most Common Kinds of Corrections</h2>
-    <LintChart lintCounts={summary.lint_counts}/>
+    <LintKindChart lintCounts={summary.lint_counts}/>
   {/if}
 
   {#if summary.total_applied}
