@@ -16,6 +16,7 @@ const FALSE_POSITIVES: &[&str] = &[
     // (using .kind.is_likely_homograph() here is too strict)
     "bottom",
     "front",
+    "head",
     "kind",
     "left",
     "meaning",
@@ -268,5 +269,14 @@ mod tests {
     #[test]
     fn dont_flag_full_uppercase() {
         assert_lint_count("Full of a bunch varnish like we get.", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_head() {
+        assert_lint_count(
+            "You need to get out if you're the head of an education department and you're not using AI",
+            AdjectiveOfA,
+            0,
+        );
     }
 }
