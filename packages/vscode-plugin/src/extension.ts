@@ -2,9 +2,10 @@ import type { ExtensionContext } from 'vscode';
 import type { Executable, LanguageClientOptions } from 'vscode-languageclient/node';
 
 import { Uri, commands, window, workspace } from 'vscode';
+import { StatusBarAlignment, type StatusBarItem } from 'vscode';
 import { LanguageClient, ResponseError, TransportKind } from 'vscode-languageclient/node';
 
-// There's no publicly available extension manifest type except for the internal one from VSCode's
+// There's no publicly available extension manifest type except for the internal one from VS Code's
 // codebase. So, we declare our own with only the fields we need and have. See:
 // https://stackoverflow.com/a/78536803
 type ExtensionManifest = {
@@ -14,7 +15,44 @@ type ExtensionManifest = {
 
 let client: LanguageClient | undefined;
 const serverOptions: Executable = { command: '', transport: TransportKind.stdio };
-const clientOptions: LanguageClientOptions = {};
+const clientOptions: LanguageClientOptions = {
+	middleware: {
+		workspace: {
+			async configuration(params, token, next) {
+				const response = await next(params, token);
+
+				if (response instanceof ResponseError) {
+					return response;
+				}
+
+				return [{ 'harper-ls': response[0].harper }];
+			},
+		},
+		executeCommand(command, args, next) {
+			if (
+				['HarperAddToUserDict', 'HarperAddToFileDict'].includes(command) &&
+				args.find((a) => typeof a === 'string' && a.startsWith('untitled:'))
+			) {
+				window
+					.showInformationMessage(
+						'Save the file to add words to the dictionary.',
+						'Save File',
+						'Dismiss',
+					)
+					.then((selected) => {
+						if (selected === 'Save File') {
+							commands.executeCommand('workbench.action.files.save');
+						}
+					});
+				return;
+			}
+
+			next(command, args);
+		},
+	},
+};
+
+let dialectStatusBarItem: StatusBarItem | undefined;
 
 export async function activate(context: ExtensionContext): Promise<void> {
 	serverOptions.command = getExecutablePath(context);
@@ -64,6 +102,22 @@ export async function activate(context: ExtensionContext): Promise<void> {
 	);
 
 	await startLanguageServer();
+
+	// <= 100 is between Copilot and Notifications.
+	// 101..102 is between the magnifying glass and encoding
+	// >= 103 is left of the magnifying glass
+	dialectStatusBarItem = window.createStatusBarItem(StatusBarAlignment.Right, 101);
+	context.subscriptions.push(dialectStatusBarItem);
+
+	context.subscriptions.push(
+		workspace.onDidChangeConfiguration(async (event) => {
+			if (event.affectsConfiguration('harper.dialect')) {
+				updateDialectStatusBar();
+			}
+		}),
+	);
+
+	updateDialectStatusBar();
 }
 
 function getExecutablePath(context: ExtensionContext): string {
@@ -96,19 +150,6 @@ async function startLanguageServer(): Promise<void> {
 
 	try {
 		client = new LanguageClient('harper', 'Harper', serverOptions, clientOptions);
-
-		client.middleware.workspace = {
-			async configuration(params, token, next) {
-				const response = await next(params, token);
-
-				if (response instanceof ResponseError) {
-					return response;
-				}
-
-				return [{ 'harper-ls': response[0].harper }];
-			},
-		};
-
 		await client.start();
 	} catch (error) {
 		showError('Failed to start harper-ls', error);
@@ -136,10 +177,33 @@ function showError(message: string, error: Error | unknown): void {
 	});
 }
 
+function updateDialectStatusBar(): void {
+	if (!dialectStatusBarItem) return;
+
+	const dialect = workspace.getConfiguration('harper').get<string>('dialect', '');
+	if (dialect === '') return;
+
+	const flagAndCode = getFlagAndCode(dialect);
+	if (!flagAndCode) return;
+
+	dialectStatusBarItem.text = flagAndCode.join(' ');
+	dialectStatusBarItem.show();
+	console.log(`** dialect set to ${dialect} **`, dialect);
+}
+
 export function deactivate(): Thenable<void> | undefined {
 	if (!client) {
 		return undefined;
 	}
 
 	return client.stop();
+}
+
+function getFlagAndCode(dialect: string): string[] | undefined {
+	return {
+		American: ['🇺🇸', 'US'],
+		Australian: ['🇦🇺', 'AU'],
+		British: ['🇬🇧', 'GB'],
+		Canadian: ['🇨🇦', 'CA'],
+	}[dialect];
 }

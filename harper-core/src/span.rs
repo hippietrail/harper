@@ -5,6 +5,8 @@ use serde::{Deserialize, Serialize};
 use crate::CharStringExt;
 
 /// A window in a [`char`] sequence.
+///
+/// Although specific to `harper.js`, [this page may clear up any questions you have](https://writewithharper.com/docs/harperjs/spans).
 #[derive(Debug, Clone, Copy, Serialize, Deserialize, Default, PartialEq, Eq)]
 pub struct Span {
     pub start: usize,

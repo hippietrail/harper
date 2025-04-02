@@ -37,6 +37,7 @@ RUN pnpm build
 FROM node:${NODE_VERSION}
 
 COPY --from=node-build /usr/build/packages/web/build /usr/build/packages/web/build
+COPY --from=node-build /usr/build/packages/web/package.json /usr/build/packages/web/package.json
 
 WORKDIR /usr/build/packages/web/build
 
