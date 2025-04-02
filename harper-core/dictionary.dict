@@ -1642,11 +1642,11 @@ CFO/12              # financial officer
 CGI/124             # computer graphics interface; common gateway interface
 CIA/215M            # agency
 CID/12
-CLI/1MS
+CLI/1MS             # command line interface
 CNC/14M             # computer numerical control
 CNC'd/4             # past
 CNCing/14           # present, gerund
-CNN/21M
+CNN/21M             # media company
 CNS/1M
 CO/214M
 CO₂/1
@@ -1655,14 +1655,15 @@ COD/21
 COL/21
 COLA/12
 COVID/1             # virus
-CPA/1M              
+CPA/1M
 CPI/12M
 CPO/1
-CPR/12M
+CPR/12M             # cardiac pulmonary resuscitation
 CPU/1MS
 CRT/1SM             # cathode ray tube
 CSS/12M
 CST/21M
+CSV/1M              # data file format
 CT/2145M
 CUDA/21M            # computing architecture
 CV/125              # curriculum vitae
@@ -31470,6 +31471,7 @@ linemen/9
 linen/~15SM
 linens/1M
 liner/~14M
+linerless/5
 linesman/1M
 linesmen/9
 lineup/~1MS
@@ -45709,6 +45711,7 @@ string/~14MDRSZG
 stringency/1M
 stringent/~5Y
 stringer/~1M
+stringify/4DSG
 stringiness/1M
 stringy/5PTR
 strip/~14GSMD
@@ -47557,6 +47560,7 @@ thrummed/45
 thrumming/41
 thrush/~1MS
 thrust/~14GSM
+thruster/1MS
 thruway/~1MS
 thud/14MS
 thudded/4
@@ -51782,6 +51786,7 @@ Hasan/2SM           # surname, given name
 Hiera/SM
 Holmdel/SM
 IMAP/2SM            # internet message access protocol
+IPC/1M              # interprocess communication
 IPCC/2M
 IPv4/2SM
 IntelliJ/SM
@@ -51999,6 +52004,7 @@ blue-collar/5
 boot up/4
 built-in/1MS5
 built-up/5
+command line/1MS
 cost-effective/5
 cross section/1MS
 cross-threaded/5
@@ -52016,6 +52022,8 @@ feature-length/5
 front-line/5
 front man/1M
 front-line/5
+full on/5j
+full-on/5j
 full-scale/5
 gold-plated/5
 Greco-Roman/5
@@ -52025,6 +52033,7 @@ H-1B/1MS
 happy-go-lucky/5
 hard code/4SDG
 heavy-handed/5
+hi-tech/15
 high-quality/5
 high frequency/1MS
 high-frequency/5
@@ -52032,9 +52041,11 @@ high-level/5
 high-profile/5
 high-rise/1MS
 high-speed/5
+high tech/1M
 hissy fit/1MS
 holy moley
 holy moly
+in-memory/5
 in situ/5j
 jaw-droppingly/5
 kick start/4SDG
