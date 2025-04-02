@@ -1,4 +1,4 @@
-52120
+52170
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -35,6 +35,7 @@ AFT/2
 AI/12SM             # artificial intelligence
 AIDS/15M            # disease
 AK/21
+AKP/2M              # political party
 AL/12
 AM/251M
 AMA/21
@@ -420,7 +421,7 @@ Anasazi/1M
 Anastasia/2M
 Anatole/2M
 Anatolia/2M
-Anatolian/512M
+Anatolian/512MS
 Anaxagoras/2M
 Anchorage/2M
 Andalusia/2M
@@ -504,6 +505,7 @@ Anselm/2M
 Anselmo/2M
 Anshan/2M
 Antaeus/2M
+Antalya/2M
 Antananarivo/2M
 Antarctic/52M
 Antarctica/2M
@@ -2982,6 +2984,7 @@ Dutch/5214M
 Dutchman/12M
 Dutchmen/9M
 Dutchwoman/1
+Dutton/2MS
 Duvalier/M
 Dvina/M
 Dvorak/25M
@@ -3319,6 +3322,7 @@ Eurodollar/1SM
 Europa/2M
 Europe/2M
 European/51MS
+Europeanism/1M
 Eurotrash/1M
 Eurydice/2M
 Eustachian/5M
@@ -4747,6 +4751,7 @@ Iberian/512M
 Ibiza/2M
 Iblis/2M
 Ibo/21M
+Ibrahim/2M
 Ibsen/2M
 Icahn/M
 Icarus/2M
@@ -4881,7 +4886,7 @@ Islam/2MS
 Islamabad/2M
 Islamic/51M
 Islamism/1M
-Islamist/15M
+Islamist/15MS
 Islamophobia/1
 Islamophobic/5
 Ismael/2M
@@ -5320,7 +5325,7 @@ Kay/21M
 Kaye/2M
 Kayla/2M
 Kazakh/152M
-Kazakhs/1
+Kazakhs/9
 Kazakhstan/2M
 Kazan/2M
 Kazantzakis/M
@@ -5557,7 +5562,7 @@ Kuibyshev/M
 Kulthumm/M
 Kunming/2M
 Kuomintang/2M
-Kurd/1M
+Kurd/1MS
 Kurdish/51M
 Kurdistan/2M
 Kurosawa/2M
@@ -7651,6 +7656,7 @@ Otis/2M
 Ottawa/21SM
 Otto/2M
 Ottoman/15M
+Ottomanism/1M
 Ouagadougou/2M
 Ouija/1MS
 Ouranos/M
@@ -7990,6 +7996,7 @@ Piedmont/2M
 Pierce/2M
 Pierre/2M
 Pierrot/2M
+Pikachu/2MS
 Pike/21M
 Pilate/2MS          # Pontius -
 Pilates/1M          # exercise
@@ -8094,6 +8101,7 @@ Ponce/2M
 Pontchartrain/M
 Pontiac/21MS
 Pontianak/2M
+Pontic/52M
 Ponzi/2MS
 Pooh/2M
 Poole/2M
@@ -8168,6 +8176,7 @@ Prince/12M
 Princeton/2M
 Principe/2M
 Priscilla/2M
+Pristina/2M         # capital of Kosovo
 Prius/1MS
 Private/1
 Procrustean/5M
@@ -9435,6 +9444,7 @@ Spenserian/51M
 Sperry/2M
 Sphinx/2M
 Spica/2M
+Spider-Man/2M
 Spielberg/2M
 Spillane/2M
 Spinoza/2M
@@ -10098,6 +10108,7 @@ Trujillo/2M
 Truman/2M
 Trumbull/2M
 Trump/2MS
+Trumper/1MS
 Trumpian/5
 Trumpism/2M
 Trumpist/15SM
@@ -10477,6 +10488,7 @@ Vivian/2M
 Vivienne/2M
 Vlad/2M
 Vladimir/2M
+Vladislav/2M
 Vladivostok/2M
 Vlaminck/M
 Vlasic/M
@@ -13160,6 +13172,7 @@ atom/~1SM
 atomic/~51Q
 atomise/4ZGDRS!
 atomiser/1M!
+atomistic/5
 atomize/4ZGDRS
 atomizer/1M
 atonal/5Y
@@ -24347,7 +24360,7 @@ firmness/1M
 firmware/~1M
 first/~514SMY
 firstborn/~15SM
-firsthand/~5
+firsthand/~5j
 firth/~1M
 firths/1
 fiscal/~51MYS
@@ -28397,6 +28410,7 @@ hymnbook/1SM
 hype/~145MGDRS
 hyperactive/5
 hyperactivity/~1M
+hyperaggressive/5
 hyperbola/1SM
 hyperbole/~1M
 hyperbolic/~5Q
@@ -35207,6 +35221,7 @@ nonvocational/5
 nonvolatile/5
 nonvoter/1MS
 nonvoting/5
+nonwestern/51MS
 nonwhite/51MS
 nonworking/5
 nonyielding/5
@@ -35808,6 +35823,7 @@ ontological/~5
 ontology/~1M
 onus/1MS
 onward/~54
+onwards/j
 onyx/~15MS
 oodles/1M
 ooh/14GD
@@ -37766,7 +37782,7 @@ phlox/1M
 phobia/1MS
 phobic/51MS
 phoebe/~1MS
-phoenix/~14MS
+phoenix/~14MSDG
 phone/~14DSMG
 phonecard/1S
 phoneme/~1MS
@@ -39062,7 +39078,7 @@ preschooler/1M
 prescience/1M
 prescient/5Y
 prescribe/~4DSG
-prescript/15SVM
+prescript/15SVMD
 prescription/~15SM
 prescriptive/5Y
 preseason/~14SM
@@ -50934,6 +50950,7 @@ widemouthed/5
 widen/~4SDRZG
 widener/1M
 wideness/1M
+widescale/5
 widescreen/~15MS
 widespread/~5
 widget/1S
@@ -51996,14 +52013,18 @@ wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
 # Harper may not recognize these as words in documents
 # But it will be able to include them in suggestions
 
-add-on/1MS
 ad nauseam/j
+add-on/1MS
+back to back/j
+back-to-back/5
 beck and call/1
 bench-warmer/1MS
 blue-collar/5
 boot up/4
 built-in/1MS5
 built-up/5
+car bomb/1MS
+car-bomb/4
 command line/1MS
 cost-effective/5
 cross section/1MS
@@ -52016,12 +52037,15 @@ easy peasy/5
 end user/1MS
 energy-efficient/5
 et al./~
+fact check/1S
+fact-check/4SDG
+fact-checking/1M
 far right/1MS
 far-right/5
 feature-length/5
+first-hand/j
 front-line/5
 front man/1M
-front-line/5
 full on/5j
 full-on/5j
 full-scale/5
@@ -52057,6 +52081,7 @@ left-wing/5
 live action/1
 load-bearing/5
 long-term/5
+longer-term/5
 low-budget/5
 low-cost/5
 low-profile/5
@@ -52065,22 +52090,26 @@ mind-blowing/5
 mind game/1MS
 mock up/4
 mock-up/1MS
+nail biter/1MS
 neo-Nazi/15SM
+non-Western/5
+of course/j
 off-road/1MS
 off-roader/1MS
-okey-dokey/1MS
-off the books
 off-the-books/5
+okey-dokey/1MS
 on-off/5
 once-in-a-lifetime/5
 one-handed/5
 one-man/5
 one-off/5
+one-to-one/15
 one-way/5
 out-and-out/5
 Pan Am/1M
 Pax Americana/2M
 per capita/5j
+pick-me-up/1MS
 plan B/M
 right-wing/5
 run-up/1MS
@@ -52088,10 +52117,15 @@ sci-fi/1M
 self-obsessed/5
 short-lived/5
 short-term/5j
+shoulder to shoulder/j
+shoulder-to-shoulder/j
 shout-out/1S
+sign on/4
+sign-on/1MS
 single-handedly/j
 so-called/5
 socio-political/5
+sound wave/1MS
 spot on/5
 stand down/4
 stand-down/1MS
@@ -52119,6 +52153,8 @@ welch plug/1SM
 well-known/5
 Wi-Fi/1M
 working-class/15MS
+write off/4
+write-off/1MS
 
 # New entries may be added below this line
 # If you're not confident in using the affix annotations, add missing words here
