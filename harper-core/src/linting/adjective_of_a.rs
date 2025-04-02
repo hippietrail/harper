@@ -8,12 +8,14 @@ pub struct AdjectiveOfA;
 const FALSE_POSITIVES: &[&str] = &[
     // Different valid constructions.
     "all",
+    "emblematic",
     "full",
     "inside",
     "much",
     "out",
     // The word is used more as a noun in this context.
     // (using .kind.is_likely_homograph() here is too strict)
+    "back",
     "bottom",
     "chance",
     "front",
@@ -25,9 +27,12 @@ const FALSE_POSITIVES: &[&str] = &[
     "one",
     "part",
     "potential",
+    "precision",
+    // for "rid" I removed the `5` flag in `dictionary.dict``
     "shadow",
     "short",
     "something",
+    "sound",
 ];
 
 fn is_false_positive(chars: &[char]) -> bool {
@@ -330,6 +335,57 @@ mod tests {
         // Can be an adjective in e.g. "a potential candidate"
         assert_lint_count(
             "People that are happy to accept it for the potential of a reward.",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_sound() {
+        // Can be an adjective in e.g. "sound advice"
+        assert_lint_count(
+            "the sound of an approaching Krampus",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_rid() {
+        // I removed the `5` flag from `rid` in `dictionary.dict`
+        // because dictionaries say the sense is archaic.
+        assert_lint_count(
+            "I need to get rid of a problem",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_precision() {
+        // Can be an adjective in e.g. "a precision instrument"
+        assert_lint_count(
+            "a man whose crew cut has the precision of a targeted drone strike",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_back() {
+        // Can be an adjective in e.g. "back door"
+        assert_lint_count(
+            "a man whose crew cut has the back of a targeted drone strike",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_emblematic() {
+        // "emblematic of" is correct idiomatic usage
+        assert_lint_count(
+            "... situation was emblematic of a publication that ...",
             AdjectiveOfA,
             0,
         );
