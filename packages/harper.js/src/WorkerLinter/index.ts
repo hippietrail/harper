@@ -69,8 +69,8 @@ export default class WorkerLinter implements Linter {
 		return this.rpc('lint', [text, options]);
 	}
 
-	applySuggestion(lint: Lint, suggestion: Suggestion): Promise<string> {
-		return this.rpc('applySuggestion', [lint, suggestion]);
+	applySuggestion(text: string, lint: Lint, suggestion: Suggestion): Promise<string> {
+		return this.rpc('applySuggestion', [text, lint, suggestion]);
 	}
 
 	isLikelyEnglish(text: string): Promise<boolean> {
@@ -117,8 +117,8 @@ export default class WorkerLinter implements Linter {
 		return JSON.parse(await this.getDefaultLintConfigAsJSON()) as LintConfig;
 	}
 
-	ignoreLint(lint: Lint): Promise<void> {
-		return this.rpc('ignoreLint', [lint]);
+	ignoreLint(source: string, lint: Lint): Promise<void> {
+		return this.rpc('ignoreLint', [source, lint]);
 	}
 
 	exportIgnoredLints(): Promise<string> {

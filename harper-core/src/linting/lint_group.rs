@@ -18,6 +18,7 @@ use super::back_in_the_day::BackInTheDay;
 use super::boring_words::BoringWords;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::chock_full::ChockFull;
+use super::comma_fixes::CommaFixes;
 use super::compound_nouns::CompoundNouns;
 use super::confident::Confident;
 use super::correct_number_suffix::CorrectNumberSuffix;
@@ -25,6 +26,7 @@ use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
 use super::expand_time_shorthands::ExpandTimeShorthands;
+use super::for_noun::ForNoun;
 use super::hedging::Hedging;
 use super::hereby::Hereby;
 use super::hop_hope::HopHope;
@@ -327,6 +329,7 @@ impl LintGroup {
         insert_struct_rule!(AvoidCurses, true);
         insert_pattern_rule!(TerminatingConjunctions, true);
         insert_struct_rule!(EllipsisLength, true);
+        insert_struct_rule!(CommaFixes, true);
         insert_pattern_rule!(DotInitialisms, true);
         insert_pattern_rule!(BoringWords, false);
         insert_pattern_rule!(UseGenitive, false);
@@ -347,6 +350,7 @@ impl LintGroup {
         insert_pattern_rule!(Hedging, true);
         insert_pattern_rule!(ExpandTimeShorthands, true);
         insert_pattern_rule!(ModalOf, true);
+        insert_pattern_rule!(ForNoun, true);
 
         out.add(
             "SpellCheck",
