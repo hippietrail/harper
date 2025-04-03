@@ -1,6 +1,7 @@
 #![doc = include_str!("../README.md")]
 
 use std::convert::Into;
+use std::io::Cursor;
 use std::sync::Arc;
 
 use harper_core::language_detection::is_doc_likely_english;
@@ -10,14 +11,13 @@ use harper_core::{
     CharString, Dictionary, Document, FstDictionary, IgnoredLints, Lrc, MergedDictionary,
     MutableDictionary, WordMetadata, remove_overlaps,
 };
+use harper_stats::{Record, RecordKind, Stats};
 use serde::{Deserialize, Serialize};
+use serde_wasm_bindgen::Serializer;
 use wasm_bindgen::JsValue;
 use wasm_bindgen::prelude::wasm_bindgen;
 
 /// Setup the WebAssembly module's logging.
-///
-///
-/// painful.
 #[wasm_bindgen(start)]
 pub fn setup() {
     console_error_panic_hook::set_once();
@@ -92,6 +92,7 @@ pub struct Linter {
     dictionary: Arc<MergedDictionary>,
     ignored_lints: IgnoredLints,
     dialect: Dialect,
+    stats: Stats,
 }
 
 #[wasm_bindgen]
@@ -109,6 +110,7 @@ impl Linter {
             dictionary,
             ignored_lints: IgnoredLints::default(),
             dialect,
+            stats: Stats::default(),
         }
     }
 
@@ -166,9 +168,26 @@ impl Linter {
         Ok(())
     }
 
+    pub fn summarize_stats(&self, start_time: Option<i64>, end_time: Option<i64>) -> JsValue {
+        let mut operable_copy = self.stats.clone();
+
+        if let Some(start_time) = start_time {
+            operable_copy.records.retain(|i| i.when > start_time);
+        }
+
+        if let Some(end_time) = end_time {
+            operable_copy.records.retain(|i| i.when < end_time);
+        }
+
+        operable_copy
+            .summarize()
+            .serialize(&Serializer::json_compatible())
+            .unwrap()
+    }
+
     /// Get a Record containing the descriptions of all the linting rules.
     pub fn get_lint_descriptions_as_object(&self) -> JsValue {
-        let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+        let serializer = Serializer::json_compatible();
         self.lint_group
             .all_descriptions()
             .serialize(&serializer)
@@ -177,7 +196,7 @@ impl Linter {
 
     pub fn get_lint_config_as_object(&self) -> JsValue {
         // Important for downstream JSON serialization
-        let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+        let serializer = Serializer::json_compatible();
 
         self.lint_group.config.serialize(&serializer).unwrap()
     }
@@ -274,25 +293,52 @@ impl Linter {
     pub fn get_dialect(&self) -> Dialect {
         self.dialect
     }
+
+    /// Apply a suggestion from a given lint.
+    /// This action will be logged to the Linter's statistics.
+    pub fn apply_suggestion(
+        &mut self,
+        lint: &Lint,
+        suggestion: &Suggestion,
+    ) -> Result<String, String> {
+        let mut source = lint.source.clone();
+
+        let doc = Document::new_from_vec(
+            source.clone().into(),
+            &lint.language.create_parser(),
+            &self.dictionary,
+        );
+
+        self.stats
+            .records
+            .push(Record::now(RecordKind::from_lint(&lint.inner, &doc)));
+
+        suggestion.inner.apply(lint.inner.span, &mut source);
+
+        Ok(source.iter().collect())
+    }
+
+    pub fn generate_stats_file(&self) -> String {
+        let mut output = Vec::new();
+        self.stats.write(&mut output).unwrap();
+
+        String::from_utf8(output).unwrap()
+    }
+
+    pub fn import_stats_file(&mut self, file: String) -> Result<(), String> {
+        let data = file.as_bytes();
+        let mut read = Cursor::new(data);
+
+        let mut new_stats = Stats::read(&mut read).map_err(|err| err.to_string())?;
+        self.stats.records.append(&mut new_stats.records);
+
+        Ok(())
+    }
 }
 
 #[wasm_bindgen]
 pub fn to_title_case(text: String) -> String {
     harper_core::make_title_case_str(&text, &PlainEnglish, &FstDictionary::curated())
-}
-
-#[wasm_bindgen]
-pub fn apply_suggestion(
-    text: String,
-    span: Span,
-    suggestion: &Suggestion,
-) -> Result<String, String> {
-    let mut source: Vec<_> = text.chars().collect();
-    let span: harper_core::Span = span.into();
-
-    suggestion.inner.apply(span, &mut source);
-
-    Ok(source.iter().collect())
 }
 
 /// A suggestion to fix a Lint.
@@ -419,7 +465,7 @@ pub fn get_default_lint_config() -> JsValue {
         LintGroup::new_curated(MutableDictionary::new().into(), Dialect::American.into()).config;
 
     // Important for downstream JSON serialization
-    let serializer = serde_wasm_bindgen::Serializer::json_compatible();
+    let serializer = Serializer::json_compatible();
 
     config.serialize(&serializer).unwrap()
 }
