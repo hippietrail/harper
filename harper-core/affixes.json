@@ -53,7 +53,10 @@
 					"condition": "."
 				}
 			],
-			"target_metadata": {},
+			"target_metadata": {
+				"adjective": {},
+				"adverb": {}
+			},
 			"base_metadata": {}
 		},
 		"U": {
