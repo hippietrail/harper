@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper",
 	"description": "The grammar checker for developers",
-	"version": "0.27.0",
+	"version": "0.28.0",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -401,6 +401,12 @@
 					"default": true,
 					"description": "Ensures `chock-full` is correctly hyphenated."
 				},
+				"harper.linters.CommaFixes": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Fix common comma errors such as no space after, erroneous space before, etc., Asian commas instead of English commas, etc."
+				},
 				"harper.linters.CompoundNouns": {
 					"scope": "resource",
 					"type": "boolean",
@@ -593,11 +599,23 @@
 					"default": true,
 					"description": "Ensures the correct use of `fetal position`, avoiding confusion with `feeble position`, which is not a standard phrase."
 				},
+				"harper.linters.ForALongTime": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Eliminates the incorrect merging in `for along time`."
+				},
 				"harper.linters.ForAllIntentsAndPurposes": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
 					"description": "Corrects `for all intensive purposes` to `for all intents and purposes`, ensuring the phrase conveys its intended meaning."
+				},
+				"harper.linters.ForNoun": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the archaic or mistaken `fro` to `for` when followed by a noun."
 				},
 				"harper.linters.FreeRein": {
 					"scope": "resource",
@@ -665,6 +683,12 @@
 					"default": true,
 					"description": "Flags the unnecessary use of `of` after `had` and suggests the correct forms."
 				},
+				"harper.linters.HalfAnHour": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Fixes the eggcorn `half an our` to the accepted `half an hour`."
+				},
 				"harper.linters.Haphazard": {
 					"scope": "resource",
 					"type": "boolean",
@@ -707,6 +731,12 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `however`."
 				},
+				"harper.linters.HumanBeings": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Eliminates the incorrect possessive/plural usage like `human's beings` or `humans beings`."
+				},
 				"harper.linters.HumanLife": {
 					"scope": "resource",
 					"type": "boolean",
@@ -730,6 +760,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Fixes the incorrect spacing in `I a m` to properly form `I am`."
+				},
+				"harper.linters.InAWhile": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the missing article in `in while` or `in awhile`, forming `in a while`."
 				},
 				"harper.linters.InAndOfItself": {
 					"scope": "resource",
@@ -761,6 +797,12 @@
 					"default": true,
 					"description": "Corrects `in one foul swoop` to `in one fell swoop`, preserving the phrase’s original meaning of sudden and complete action."
 				},
+				"harper.linters.InQuiteAWhile": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects `in quite awhile` => `in quite a while` by inserting the missing article."
+				},
 				"harper.linters.InThe": {
 					"scope": "resource",
 					"type": "boolean",
@@ -785,11 +827,17 @@
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `instead`."
 				},
+				"harper.linters.InsteadOf": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the archaic or mistaken separation `in stead of` to `instead of` in everyday usage."
+				},
 				"harper.linters.Intact": {
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Looks for incorrect spacing inside the closed compound `intact`."
+					"description": "Prevents the erroneous spacing in `in tact`; `intact` is the single correct word."
 				},
 				"harper.linters.Into": {
 					"scope": "resource",
@@ -814,6 +862,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `itself`."
+				},
+				"harper.linters.IveGotTo": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the slip `I've go to` to the idiomatic `I've got to`."
 				},
 				"harper.linters.JawDropping": {
 					"scope": "resource",
@@ -1055,6 +1109,12 @@
 					"default": true,
 					"description": "Corrects `no to` to `not to`, ensuring proper negation."
 				},
+				"harper.linters.NotablePlaces": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of notable places that are significant regional centers, travel destinations, or have international importance."
+				},
 				"harper.linters.Nothing": {
 					"scope": "resource",
 					"type": "boolean",
@@ -1240,6 +1300,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Looks for incorrect spacing inside the closed compound `proofread`."
+				},
+				"harper.linters.ProperNouns": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Ensure proper capitalization of proper nouns."
 				},
 				"harper.linters.RealTrouper": {
 					"scope": "resource",
