@@ -35,7 +35,7 @@ impl Stats {
 
                     for tok in context {
                         if let TokenKind::Word(None) = tok.kind {
-                            summary.inc_misspelled_count(tok.content.to_string());
+                            summary.inc_misspelled_count(&tok.content);
                         }
                     }
                 }
