@@ -23,12 +23,9 @@ It records specific events, along with some contextual information (like which w
 The `stats.txt` file is formatted into lines (so it is easy to open in append-mode), each containing a JSON object.
 
 ```
-{"kind":{"Lint":{"kind":"Capitalization","context":[{"content":["i"],"kind":{"kind":"Word","value":{"noun":null,"pronoun":{"is_plural":false,"is_possessive":null,"person":null,"case":null},"verb":null,"adjective":null,"adverb":null,"conjunction":null,"swear":null,"dialect":null,"determiner":false,"preposition":false,"common":true,"derived_from":null}}}]}},"when":1743428384,"uuid":"b095c60b-6ae0-4c82-bcb8-c7de737d6509"}
-{"kind":{"Lint":{"kind":"Spelling","context":[{"content":["m","i","s","p","e","l","l"],"kind":{"kind":"Word","value":null}}]}},"when":1743428388,"uuid":"70850697-a3f1-4eb6-94c8-be0be6d5b16b"}
-{"kind":{"Lint":{"kind":"Spelling","context":[{"content":["t","h","i","g","s"],"kind":{"kind":"Word","value":null}}]}},"when":1743428392,"uuid":"c0ff601a-f285-4f6d-9c47-1536213bee3f"}
-{"kind":{"Lint":{"kind":"Spelling","context":[{"content":["t","h","i","g","s"],"kind":{"kind":"Word","value":null}}]}},"when":1743428397,"uuid":"c49a67c2-4d03-460a-b450-1ae9b20f243c"}
-{"kind":{"Lint":{"kind":"Spelling","context":[{"content":["m","i","s","p","e","l","l","e","d"],"kind":{"kind":"Word","value":null}}]}},"when":1743429129,"uuid":"6ee7634e-dc8d-489b-9e13-f3b7dcd50741"}
-{"kind":{"Lint":{"kind":"Miscellaneous","context":[{"content":["a"],"kind":{"kind":"Word","value":{"noun":null,"pronoun":null,"verb":null,"adjective":null,"adverb":null,"conjunction":null,"swear":null,"dialect":null,"determiner":true,"preposition":true,"common":true,"derived_from":null}}}]}},"when":1743525210,"uuid":"cbb2ca64-2073-4714-a346-628bb31cfc65"}
+{"kind":{"Lint":{"kind":"Spelling","context":[{"content":"mispelled","kind":{"kind":"Word","value":null}}]}},"when":1743696274,"uuid":"39d29bd0-5eb1-4bad-89ee-5a48531a4cbe"}
+{"kind":{"Lint":{"kind":"Spelling","context":[{"content":"isnt","kind":{"kind":"Word","value":null}}]}},"when":1743696281,"uuid":"22e1ca15-e583-49c5-9da3-bc7e625d9682"}
+{"kind":{"Lint":{"kind":"Spelling","context":[{"content":"Teasting","kind":{"kind":"Word","value":null}}]}},"when":1743696288,"uuid":"bd955190-a4d9-4f3e-b7df-d4bf6f12a415"}
 ```
 
 In `harper-ls` it is written to the Harper `data` directory.

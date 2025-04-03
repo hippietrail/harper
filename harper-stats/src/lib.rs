@@ -4,7 +4,7 @@ mod summary;
 use std::io::{self, Read, Write};
 use std::io::{BufRead, BufReader};
 
-use harper_core::{CharStringExt, TokenKind};
+use harper_core::TokenKind;
 pub use record::Record;
 pub use record::RecordKind;
 use serde::Serialize;

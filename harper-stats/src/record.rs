@@ -1,6 +1,6 @@
 use harper_core::{
     linting::{Lint, LintGroupConfig, LintKind},
-    Document, FatToken,
+    Document, FatStringToken,
 };
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
@@ -28,7 +28,7 @@ impl Record {
 pub enum RecordKind {
     Lint {
         kind: LintKind,
-        context: Vec<FatToken>,
+        context: Vec<FatStringToken>,
     },
     LintConfigUpdate(LintGroupConfig),
 }
@@ -37,7 +37,11 @@ impl RecordKind {
     pub fn from_lint(lint: &Lint, doc: &Document) -> Self {
         Self::Lint {
             kind: lint.lint_kind,
-            context: doc.fat_tokens_intersecting(lint.span),
+            context: doc
+                .fat_tokens_intersecting(lint.span)
+                .into_iter()
+                .map(|t| t.into())
+                .collect(),
         }
     }
 }
@@ -67,10 +71,10 @@ mod tests {
             let lcu = Self::LintConfigUpdate(arbitrary_lintconfig(g));
 
             let context = Document::new_plain_english_curated(&String::arbitrary(g))
-                .fat_tokens()
+                .fat_string_tokens()
                 .collect();
 
-            let kind = g
+            let kind = *g
                 .choose(&[
                     LintKind::Spelling,
                     LintKind::Capitalization,
@@ -82,8 +86,7 @@ mod tests {
                     LintKind::WordChoice,
                     LintKind::Miscellaneous,
                 ])
-                .unwrap()
-                .clone();
+                .unwrap();
 
             g.choose(&[RecordKind::Lint { kind, context }, lcu])
                 .unwrap()

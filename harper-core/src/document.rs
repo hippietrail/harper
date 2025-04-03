@@ -10,7 +10,9 @@ use crate::patterns::{
 };
 use crate::punctuation::Punctuation;
 use crate::vec_ext::VecExt;
-use crate::{Dictionary, FatToken, FstDictionary, Lrc, Token, TokenKind, TokenStringExt};
+use crate::{
+    Dictionary, FatStringToken, FatToken, FstDictionary, Lrc, Token, TokenKind, TokenStringExt,
+};
 use crate::{NumberSuffix, Span};
 
 /// A document containing some amount of lexed and parsed English text.
@@ -255,6 +257,11 @@ impl Document {
     /// Get an iterator over all the tokens contained in the document.
     pub fn fat_tokens(&self) -> impl Iterator<Item = FatToken> + '_ {
         self.tokens().map(|token| token.to_fat(&self.source))
+    }
+
+    /// Get an iterator over all the tokens contained in the document.
+    pub fn fat_string_tokens(&self) -> impl Iterator<Item = FatStringToken> + '_ {
+        self.fat_tokens().map(|t| t.into())
     }
 
     pub fn get_span_content(&self, span: &Span) -> &[char] {
