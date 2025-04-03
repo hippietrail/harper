@@ -5,7 +5,7 @@ title: Local Statistics
 Harper keeps track of certain aspects of your writing.
 Things like:
 
-- What words to misspell most often?
+- What words are misspelled most often?
 - How often do you accept Harper's suggestions?
 - How much do you write?
 

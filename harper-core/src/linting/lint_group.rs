@@ -438,11 +438,9 @@ impl Linter for LintGroup {
 mod tests {
     use std::sync::Arc;
 
-    use quickcheck::Arbitrary;
-
     use crate::{Dialect, Document, FstDictionary, MutableDictionary, linting::Linter};
 
-    use super::{LintGroup, LintGroupConfig};
+    use super::LintGroup;
 
     #[test]
     fn can_get_all_descriptions() {
