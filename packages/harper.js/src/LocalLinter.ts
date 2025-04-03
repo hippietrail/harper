@@ -38,9 +38,9 @@ export default class LocalLinter implements Linter {
 		return lints;
 	}
 
-	async applySuggestion(lint: Lint, suggestion: Suggestion): Promise<string> {
+	async applySuggestion(text: string, lint: Lint, suggestion: Suggestion): Promise<string> {
 		const inner = await this.inner;
-		return inner.apply_suggestion(lint, suggestion);
+		return inner.apply_suggestion(text, lint, suggestion);
 	}
 
 	async isLikelyEnglish(text: string): Promise<boolean> {
@@ -95,9 +95,9 @@ export default class LocalLinter implements Linter {
 		return inner.get_lint_descriptions_as_json();
 	}
 
-	async ignoreLint(lint: Lint): Promise<void> {
+	async ignoreLint(source: string, lint: Lint): Promise<void> {
 		const inner = await this.inner;
-		inner.ignore_lint(lint);
+		inner.ignore_lint(source, lint);
 	}
 
 	async exportIgnoredLints(): Promise<string> {

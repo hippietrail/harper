@@ -199,8 +199,6 @@ export default class HarperPlugin extends Plugin {
 
 				const lints = await this.harper.lint(text);
 
-				console.log(lints);
-
 				return lints.map((lint) => {
 					const span = lint.span();
 
