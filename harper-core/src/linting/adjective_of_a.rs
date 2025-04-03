@@ -8,15 +8,20 @@ pub struct AdjectiveOfA;
 const FALSE_POSITIVES: &[&str] = &[
     // Different valid constructions.
     "all",
+    "emblematic",
     "full",
     "inside",
     "much",
     "out",
     // The word is used more as a noun in this context.
     // (using .kind.is_likely_homograph() here is too strict)
+    "back",
+    "bit",
     "bottom",
     "chance",
+    "dream",
     "front",
+    "half",
     "head",
     "kind",
     "left",
@@ -25,9 +30,12 @@ const FALSE_POSITIVES: &[&str] = &[
     "one",
     "part",
     "potential",
+    "precision",
+    // for "rid" I removed the `5` flag in `dictionary.dict``
     "shadow",
     "short",
     "something",
+    "sound",
 ];
 
 fn is_false_positive(chars: &[char]) -> bool {
@@ -333,5 +341,66 @@ mod tests {
             AdjectiveOfA,
             0,
         );
+    }
+
+    #[test]
+    fn dont_flag_sound() {
+        // Can be an adjective in e.g. "sound advice"
+        assert_lint_count("the sound of an approaching Krampus", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_rid() {
+        // I removed the `5` flag from `rid` in `dictionary.dict`
+        // because dictionaries say the sense is archaic.
+        assert_lint_count("I need to get rid of a problem", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_precision() {
+        // Can be an adjective in e.g. "a precision instrument"
+        assert_lint_count(
+            "a man whose crew cut has the precision of a targeted drone strike",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_back() {
+        // Can be an adjective in e.g. "back door"
+        assert_lint_count(
+            "a man whose crew cut has the back of a targeted drone strike",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_emblematic() {
+        // "emblematic of" is correct idiomatic usage
+        assert_lint_count(
+            "... situation was emblematic of a publication that ...",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_half() {
+        // Can be an adjective in e.g. "half man, half machine"
+        assert_lint_count("And now I only have half of a CyberTruck", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_bit() {
+        // Technically also an adj as in "that guy's bit - he'll turn into a zombie"
+        assert_lint_count("we ran into a bit of an issue", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_dream() {
+        // Can be an adjective in e.g. "we built our dream house"
+        assert_lint_count("When the dream of a united Europe began", AdjectiveOfA, 0);
     }
 }
