@@ -91,6 +91,14 @@ export default defineConfig({
 									to: '/docs/harperjs/linting',
 								},
 								{
+									title: 'Spans',
+									to: '/docs/harperjs/spans',
+								},
+								{
+									title: 'Configure Rules',
+									to: '/docs/harperjs/configurerules',
+								},
+								{
 									title: 'Node.js',
 									to: '/docs/harperjs/node',
 								},
@@ -142,6 +150,10 @@ export default defineConfig({
 								{
 									title: 'Reviewing Pull Requests',
 									to: '/docs/contributors/review',
+								},
+								{
+									title: 'FAQ',
+									to: '/docs/contributors/faq',
 								},
 							],
 						},

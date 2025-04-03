@@ -2,6 +2,7 @@
 //!
 //! See the [`Linter`] trait and the [documentation for authoring a rule](https://writewithharper.com/docs/contributors/author-a-rule) for more information.
 
+mod adjective_of_a;
 mod an_a;
 mod avoid_curses;
 mod back_in_the_day;
@@ -23,6 +24,7 @@ mod hedging;
 mod hereby;
 mod hop_hope;
 mod hyphenate_number_day;
+mod inflected_verb_after_to;
 mod left_right_hand;
 mod lets_confusion;
 mod likewise;
@@ -67,6 +69,7 @@ mod whereas;
 mod wordpress_dotcom;
 mod wrong_quotes;
 
+pub use adjective_of_a::AdjectiveOfA;
 pub use an_a::AnA;
 pub use avoid_curses::AvoidCurses;
 pub use back_in_the_day::BackInTheDay;
@@ -86,6 +89,7 @@ pub use hedging::Hedging;
 pub use hereby::Hereby;
 pub use hop_hope::HopHope;
 pub use hyphenate_number_day::HyphenateNumberDay;
+pub use inflected_verb_after_to::InflectedVerbAfterTo;
 pub use left_right_hand::LeftRightHand;
 pub use lets_confusion::LetsConfusion;
 pub use likewise::Likewise;

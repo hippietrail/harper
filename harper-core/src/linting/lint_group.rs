@@ -11,6 +11,7 @@ use hashbrown::HashMap;
 use lru::LruCache;
 use serde::{Deserialize, Serialize};
 
+use super::adjective_of_a::AdjectiveOfA;
 use super::an_a::AnA;
 use super::avoid_curses::AvoidCurses;
 use super::back_in_the_day::BackInTheDay;
@@ -29,6 +30,7 @@ use super::hedging::Hedging;
 use super::hereby::Hereby;
 use super::hop_hope::HopHope;
 use super::hyphenate_number_day::HyphenateNumberDay;
+use super::inflected_verb_after_to::InflectedVerbAfterTo;
 use super::left_right_hand::LeftRightHand;
 use super::lets_confusion::LetsConfusion;
 use super::likewise::Likewise;
@@ -72,7 +74,8 @@ use crate::{Dictionary, MutableDictionary};
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 #[serde(transparent)]
 pub struct LintGroupConfig {
-    inner: HashMap<String, Option<bool>>,
+    /// A `BTreeMap` so that the config has a stable ordering when written to disk.
+    inner: BTreeMap<String, Option<bool>>,
 }
 
 #[cached]
@@ -94,7 +97,7 @@ impl LintGroupConfig {
     }
 
     pub fn set_rule_enabled_if_unset(&mut self, key: impl AsRef<str>, val: bool) {
-        if self.inner.get(key.as_ref()).is_none() {
+        if !self.inner.contains_key(key.as_ref()) {
             self.set_rule_enabled(key.as_ref().to_string(), val);
         }
     }
@@ -116,13 +119,15 @@ impl LintGroupConfig {
     ///
     /// Conflicting keys will be overridden by the value in the other group.
     pub fn merge_from(&mut self, other: &mut LintGroupConfig) {
-        for (key, val) in other.inner.drain() {
+        for (key, val) in other.inner.iter() {
             if val.is_none() {
                 continue;
             }
 
-            self.inner.insert(key, val);
+            self.inner.insert(key.to_string(), *val);
         }
+
+        other.clear();
     }
 
     /// Fill the group with the values for the curated lint group.
@@ -291,6 +296,7 @@ impl LintGroup {
         out.merge_from(&mut closed_compounds::lint_group());
 
         // Add all the more complex rules to the group.
+        insert_struct_rule!(AdjectiveOfA, true);
         insert_pattern_rule!(BackInTheDay, true);
         insert_struct_rule!(WordPressDotcom, true);
         insert_pattern_rule!(OutOfDate, true);
@@ -344,8 +350,17 @@ impl LintGroup {
         insert_pattern_rule!(ExpandTimeShorthands, true);
         insert_pattern_rule!(ModalOf, true);
 
-        out.add("SpellCheck", Box::new(SpellCheck::new(dictionary, dialect)));
+        out.add(
+            "SpellCheck",
+            Box::new(SpellCheck::new(dictionary.clone(), dialect)),
+        );
         out.config.set_rule_enabled("SpellCheck", true);
+
+        out.add(
+            "InflectedVerbAfterTo",
+            Box::new(InflectedVerbAfterTo::new(dictionary.clone(), dialect)),
+        );
+        out.config.set_rule_enabled("InflectedVerbAfterTo", true);
 
         out
     }

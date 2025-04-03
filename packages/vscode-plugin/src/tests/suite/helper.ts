@@ -11,6 +11,12 @@ import {
 	workspace,
 } from 'vscode';
 
+export async function closeAll(): Promise<void> {
+	for (const tabGroup of window.tabGroups.all) {
+		await window.tabGroups.close(tabGroup);
+	}
+}
+
 export async function activateHarper(): Promise<Extension<void>> {
 	const harper = extensions.getExtension('elijah-potter.harper')!;
 
@@ -32,6 +38,11 @@ export async function openUntitled(text: string): Promise<Uri> {
 	const editor = await window.showTextDocument(document);
 	await editor.edit((editBuilder) => editBuilder.insert(new Position(0, 0), text));
 	return document.uri;
+}
+
+export async function setTextDocumentLanguage(uri: Uri, languageId: string): Promise<void> {
+	const document = await workspace.openTextDocument(uri);
+	languages.setTextDocumentLanguage(document, languageId);
 }
 
 export function getActualDiagnostics(resource: Uri): Diagnostic[] {
@@ -69,6 +80,19 @@ export function createRange(
 	return new Range(new Position(startRow, startColumn), new Position(endRow, endColumn));
 }
 
-export function sleep(duration: number): Promise<void> {
+// The numbers used in these functions are what works when running tests in GitHub CI.
+export async function waitForHarperToActivate() {
+	await sleep(500);
+}
+export async function waitForUpdatesFromOpenedFile() {
+	await sleep(75);
+}
+export async function waitForUpdatesFromConfigChange() {
+	await sleep(300);
+}
+export async function waitForUpdatesFromDeletedFile() {
+	await sleep(450);
+}
+function sleep(duration: number): Promise<void> {
 	return new Promise((resolve) => setTimeout(resolve, duration));
 }

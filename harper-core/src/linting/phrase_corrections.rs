@@ -28,7 +28,7 @@ pub fn lint_group() -> LintGroup {
     add_exact_mappings!(group, {
         // The name of the rule
         "ChangeTack" => (
-            // The exact phrase to look for.
+            // The exact phrase(s) to look for.
             ["change tact", "change tacks", "change tacts"],
             // The corrections to provide.
             ["change tack"],
@@ -571,12 +571,6 @@ pub fn lint_group() -> LintGroup {
             "Use the hyphenated form for `well-being`.",
             "Ensures `well-being` is correctly hyphenated."
         ),
-        "PerformThis" => (
-            ["performing this"],
-            ["perform this"],
-            "Use `perform this` for correct verb usage.",
-            "Corrects `performing this` to `perform this` for proper verb usage."
-        ),
         "SimpleGrammatical" => (
             ["simply grammatical"],
             ["simple grammatical"],
@@ -643,11 +637,57 @@ pub fn lint_group() -> LintGroup {
             "Use `day and age` for referring to the present time.",
             "Corrects the eggcorn `day in age` to `day and age`, which properly means the current era or time period."
         ),
+        "GuineaBissau" => (
+            // Note: this lint matches any case but cannot correct wrong case
+            // Note: It can only correct the hyphenation
+            // Note: See linting/matcher.rs for case corrections
+            // Note: $input must already be the correct case
+            // Note: do not add other case variants here
+            ["Guinea Bissau"],
+            ["Guinea-Bissau"],
+            "The official spelling is hyphenated.",
+            "Checks for the correct official name of the African country."
+        ),
+        "PortAuPrince" => (
+            // Note: this lint matches any case but cannot correct wrong case
+            // Note: It can only correct the hyphenation
+            // Note: See linting/matcher.rs for case corrections
+            // Note: $input must already be the correct case
+            // Note: do not add other case variants here
+            ["Port au Prince"],
+            ["Port-au-Prince"],
+            "The official spelling is hyphenated.",
+            "Checks for the correct official name of the capital of Haiti."
+        ),
+        "PortoNovo" => (
+            // Note: this lint matches any case but cannot correct wrong case
+            // Note: It can only correct the hyphenation
+            // Note: See linting/matcher.rs for case corrections
+            // Note: $input must already be the correct case
+            // Note: do not add other case variants here
+            ["Porto Novo"],
+            ["Porto-Novo"],
+            "The official spelling is hyphenated.",
+            "Checks for the correct official name of the capital of Benin."
+        ),
         "NerveRacking" => (
             ["nerve racking", "nerve wracking", "nerve wrecking", "nerve-wracking", "nerve-wrecking"],
             ["nerve-racking"],
             "Use `nerve-racking` for something that causes anxiety or tension.",
             "Corrects common misspellings and missing hyphen in `nerve-racking`."
+        ),
+        // Avoid suggestions resulting in "a entire ...."
+        "AWholeEntire" => (
+            ["a whole entire"],
+            ["a whole", "an entire"],
+            "Avoid redundancy. Use either `whole` or `entire` for referring to the complete amount or extent.",
+            "Corrects the redundancy in `whole entire` to `whole` or `entire`."
+        ),
+        "WholeEntire" => (
+            ["whole entire"],
+            ["whole", "entire"],
+            "Avoid redundancy. Use either `whole` or `entire` for referring to the complete amount or extent.",
+            "Corrects the redundancy in `whole entire` to `whole` or `entire`."
         ),
         "InDetail" => (
             ["in details"],
@@ -762,6 +802,36 @@ pub fn lint_group() -> LintGroup {
             ["each and every one"],
             "Use `each and every one` for referring to a group of people or things.",
             "Corrects `each and everyone` to `each and every one`."
+        ),
+        "AnAnother" => (
+            ["an another", "a another"],
+            ["another"],
+            "Use `another` on its own.",
+            "Corrects `an another` and `a another`."
+        ),
+        "AnotherAn" => (
+            ["another an"],
+            ["another"],
+            "Use `another` on its own.",
+            "Corrects `another an` to `another`."
+        ),
+        "AnotherOnes" => (
+            ["another ones"],
+            ["another one", "another one's", "other ones"],
+            "`another` is singular but `ones` is plural. Or maybe you meant the possessive `one's`.",
+            "Corrects `another ones`."
+        ),
+        "AnotherThings" => (
+            ["another things"],
+            ["another thing", "other things"],
+            "`another` is singular but `things` is plural.",
+            "Corrects `another things`."
+        ),
+        "TheAnother" => (
+            ["the another"],
+            ["the other", "another"],
+            "Use `the other` or `another`, not both.",
+            "Corrects `the another`."
         ),
     });
 
@@ -1068,6 +1138,10 @@ mod tests {
     }
 
     #[test]
+    fn guinea_bissau_missing_hyphen_only() {
+        assert_suggestion_result("Guinea Bissau", lint_group(), "Guinea-Bissau");
+    }
+
     fn detect_nerve_wracking_hyphen() {
         assert_suggestion_result(
             "We've gone through several major changes / upgrades to atlantis, and it's always a little bit nerve-wracking because if we mess something up we ...",
@@ -1113,6 +1187,48 @@ mod tests {
     }
 
     #[test]
+    fn detect_atomic_whole_entire() {
+        assert_suggestion_result("whole entire", lint_group(), "whole");
+    }
+
+    #[test]
+    fn correct_atomic_a_whole_entire_to_a_whole() {
+        assert_suggestion_result("a whole entire", lint_group(), "a whole");
+    }
+
+    #[test]
+    fn correct_atomic_a_whole_entire_to_an_entire() {
+        assert_nth_suggestion_result("a whole entire", lint_group(), "an entire", 1);
+    }
+
+    #[test]
+    fn correct_real_world_whole_entire() {
+        assert_suggestion_result(
+            "[FR] support use system dns in whole entire app",
+            lint_group(),
+            "[FR] support use system dns in whole app",
+        );
+    }
+
+    #[test]
+    fn correct_real_world_a_whole_entire_to_a_whole() {
+        assert_suggestion_result(
+            "Start mapping a whole entire new planet using NASA’s MOLA.",
+            lint_group(),
+            "Start mapping a whole new planet using NASA’s MOLA.",
+        );
+    }
+
+    #[test]
+    fn correct_real_world_a_whole_entire_to_an_entire() {
+        assert_nth_suggestion_result(
+            "I am not sure I can pass in a whole entire query via the include.",
+            lint_group(),
+            "I am not sure I can pass in an entire query via the include.",
+            1,
+        );
+    }
+
     fn in_detail_atomic() {
         assert_suggestion_result("in details", lint_group(), "in detail");
     }
@@ -1389,6 +1505,62 @@ mod tests {
             "I have modified each and everyone of them to keep only the best of the best!",
             lint_group(),
             "I have modified each and every one of them to keep only the best of the best!",
+        );
+    }
+
+    #[test]
+    fn correct_an_another() {
+        assert_suggestion_result(
+            "Render shader to use it as texture in an another shader.",
+            lint_group(),
+            "Render shader to use it as texture in another shader.",
+        );
+    }
+
+    #[test]
+    fn correct_a_another() {
+        assert_suggestion_result(
+            "Audit login is a another package for laravel framework.",
+            lint_group(),
+            "Audit login is another package for laravel framework.",
+        );
+    }
+
+    #[test]
+    fn correct_another_an() {
+        assert_suggestion_result(
+            "Yet another an atomic deployment tool.",
+            lint_group(),
+            "Yet another atomic deployment tool.",
+        );
+    }
+
+    #[test]
+    fn correct_another_ones() {
+        assert_nth_suggestion_result(
+            "Change list params of a resource, another ones change too",
+            lint_group(),
+            "Change list params of a resource, other ones change too",
+            2,
+        );
+    }
+
+    #[test]
+    fn correct_another_things() {
+        assert_nth_suggestion_result(
+            "Another things to fix in the Mask editor",
+            lint_group(),
+            "Other things to fix in the Mask editor",
+            1,
+        );
+    }
+
+    #[test]
+    fn correct_the_another() {
+        assert_suggestion_result(
+            "Another possible cause is simply that the application does not have file creation permissions on the another machine.",
+            lint_group(),
+            "Another possible cause is simply that the application does not have file creation permissions on the other machine.",
         );
     }
 }

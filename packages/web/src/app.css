@@ -103,7 +103,6 @@ textarea {
 
 .header {
 	padding-top: 6px;
-	mask-image: linear-gradient(to bottom, black 50%, transparent);
 }
 
 th[align="center"] {

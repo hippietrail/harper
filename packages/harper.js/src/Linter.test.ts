@@ -210,12 +210,11 @@ test('Linters have the same JSON config format', async () => {
 	for (const Linter of Object.values(linters)) {
 		const linter = new Linter({ binary });
 
-		configs.push(await linter.getLintConfig());
+		configs.push(await linter.getLintConfigAsJSON());
 	}
 
 	for (const config of configs) {
-		// The keys of stringified configs would be unstable, so we'll just check the object.
 		expect(config).toEqual(configs[0]);
-		expect(config).toBeTypeOf('object');
+		expect(config).toBeTypeOf('string');
 	}
 });
