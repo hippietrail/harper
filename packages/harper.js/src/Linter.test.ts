@@ -137,7 +137,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 
 		expect(firstRound.length).toBeGreaterThanOrEqual(1);
 
-		await linter.ignoreLint(firstRound[0]);
+		await linter.ignoreLint(source, firstRound[0]);
 
 		const secondRound = await linter.lint(source);
 
@@ -152,7 +152,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		const firstLints = await firstLinter.lint(source);
 
 		for (const lint of firstLints) {
-			await firstLinter.ignoreLint(lint);
+			await firstLinter.ignoreLint(source, lint);
 		}
 
 		const exported = await firstLinter.exportIgnoredLints();
@@ -204,7 +204,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 
 		expect(sug).not.toBeNull();
 
-		const applied = await linter.applySuggestion(lint, sug);
+		const applied = await linter.applySuggestion(source, lint, sug);
 
 		expect(applied).toBe('This is a test.');
 
@@ -228,7 +228,7 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 
 		expect(sug).not.toBeNull();
 
-		const applied = await linter.applySuggestion(lint, sug);
+		const applied = await linter.applySuggestion(source, lint, sug);
 
 		expect(applied).toBe('This is a test.');
 

@@ -13,8 +13,8 @@ export default interface Linter {
 	/** Lint the provided text. */
 	lint(text: string, options?: LintOptions): Promise<Lint[]>;
 
-	/** Apply a suggestion from a lint, returning the changed text. */
-	applySuggestion(lint: Lint, suggestion: Suggestion): Promise<string>;
+	/** Apply a suggestion from a lint to text, returning the changed text. */
+	applySuggestion(text: string, lint: Lint, suggestion: Suggestion): Promise<string>;
 
 	/** Determine if the provided text is likely to be intended to be English.
 	 * The algorithm can be described as "proof of concept" and as such does not work terribly well.*/
@@ -54,7 +54,7 @@ export default interface Linter {
 	toTitleCase(text: string): Promise<string>;
 
 	/** Ignore future instances of a lint from a previous linting run in future invocations. */
-	ignoreLint(lint: Lint): Promise<void>;
+	ignoreLint(source: string, lint: Lint): Promise<void>;
 
 	/** Export the ignored lints to a JSON list of privacy-respecting hashes. */
 	exportIgnoredLints(): Promise<string>;

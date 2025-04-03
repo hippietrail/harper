@@ -208,9 +208,11 @@ impl Linter {
         Ok(())
     }
 
-    pub fn ignore_lint(&mut self, lint: Lint) {
+    pub fn ignore_lint(&mut self, source_text: String, lint: Lint) {
+        let source: Vec<_> = source_text.chars().collect();
+
         let document = Document::new_from_vec(
-            lint.source.into(),
+            source.into(),
             &lint.language.create_parser(),
             &self.dictionary,
         );
@@ -240,7 +242,10 @@ impl Linter {
 
         lints
             .into_iter()
-            .map(|l| Lint::new(l, source.to_vec(), language))
+            .map(|l| {
+                let problem_text = l.span.get_content_string(&source);
+                Lint::new(l, problem_text, language)
+            })
             .collect()
     }
 
@@ -298,10 +303,11 @@ impl Linter {
     /// This action will be logged to the Linter's statistics.
     pub fn apply_suggestion(
         &mut self,
+        source_text: String,
         lint: &Lint,
         suggestion: &Suggestion,
     ) -> Result<String, String> {
-        let mut source = lint.source.clone();
+        let mut source: Vec<_> = source_text.chars().collect();
 
         let doc = Document::new_from_vec(
             source.clone().into(),
@@ -393,7 +399,8 @@ impl Suggestion {
 #[wasm_bindgen]
 pub struct Lint {
     inner: harper_core::linting::Lint,
-    source: Vec<char>,
+    /// The problematic text that produced this lint.
+    problem_text: String,
     language: Language,
 }
 
@@ -401,19 +408,19 @@ pub struct Lint {
 impl Lint {
     pub(crate) fn new(
         inner: harper_core::linting::Lint,
-        source: Vec<char>,
+        problem_text: String,
         language: Language,
     ) -> Self {
         Self {
             inner,
-            source,
+            problem_text,
             language,
         }
     }
 
     /// Get the content of the source material pointed to by [`Self::span`]
     pub fn get_problem_text(&self) -> String {
-        self.inner.span.get_content_string(&self.source)
+        self.problem_text.clone()
     }
 
     /// Get a string representing the general category of the lint.
