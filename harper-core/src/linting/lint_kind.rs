@@ -19,6 +19,7 @@ pub enum LintKind {
     WordChoice,
     #[default]
     Miscellaneous,
+    Punctuation,
 }
 
 impl LintKind {
@@ -49,6 +50,7 @@ impl LintKind {
             LintKind::Enhancement => "Enhancement",
             LintKind::WordChoice => "WordChoice",
             LintKind::Style => "Style",
+            LintKind::Punctuation => "Punctuation",
         }
         .to_owned()
     }
@@ -66,6 +68,7 @@ impl Display for LintKind {
             LintKind::Enhancement => "Enhancement",
             LintKind::WordChoice => "Word Choice",
             LintKind::Style => "Style",
+            LintKind::Punctuation => "Punctuation",
         };
 
         write!(f, "{}", s)

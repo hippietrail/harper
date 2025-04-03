@@ -54,7 +54,7 @@ export default class RichText {
 				height: targetRect.height,
 				lint,
 				applySuggestion: async (sug: Suggestion) => {
-					const fixed = await linter.applySuggestion(lint, sug);
+					const fixed = await linter.applySuggestion(text, lint, sug);
 
 					this.editContent(fixed);
 				},
