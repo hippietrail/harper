@@ -73,7 +73,8 @@ use crate::{Dictionary, MutableDictionary};
 #[derive(Debug, Serialize, Deserialize, Default, Clone)]
 #[serde(transparent)]
 pub struct LintGroupConfig {
-    inner: HashMap<String, Option<bool>>,
+    /// A `BTreeMap` so that the config has a stable ordering when written to disk.
+    inner: BTreeMap<String, Option<bool>>,
 }
 
 #[cached]
@@ -95,7 +96,7 @@ impl LintGroupConfig {
     }
 
     pub fn set_rule_enabled_if_unset(&mut self, key: impl AsRef<str>, val: bool) {
-        if self.inner.get(key.as_ref()).is_none() {
+        if !self.inner.contains_key(key.as_ref()) {
             self.set_rule_enabled(key.as_ref().to_string(), val);
         }
     }
@@ -117,13 +118,15 @@ impl LintGroupConfig {
     ///
     /// Conflicting keys will be overridden by the value in the other group.
     pub fn merge_from(&mut self, other: &mut LintGroupConfig) {
-        for (key, val) in other.inner.drain() {
+        for (key, val) in other.inner.iter() {
             if val.is_none() {
                 continue;
             }
 
-            self.inner.insert(key, val);
+            self.inner.insert(key.to_string(), *val);
         }
+
+        other.clear();
     }
 
     /// Fill the group with the values for the curated lint group.
