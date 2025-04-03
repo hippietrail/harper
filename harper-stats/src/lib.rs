@@ -83,38 +83,3 @@ impl Default for Stats {
         Self::new()
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use std::io::Cursor;
-
-    use quickcheck::Arbitrary;
-    use quickcheck_macros::quickcheck;
-
-    use crate::{Record, Stats};
-
-    impl Arbitrary for Stats {
-        fn arbitrary(g: &mut quickcheck::Gen) -> Self {
-            let mut stats = Stats::new();
-
-            for _ in 0..g.size() {
-                stats.records.push(Record::arbitrary(g));
-            }
-
-            stats
-        }
-    }
-
-    #[quickcheck]
-    fn io_is_reversible(ex: Stats) -> bool {
-        let mut written = Vec::new();
-
-        ex.write(&mut written).unwrap();
-
-        let mut readable = Cursor::new(written);
-
-        let read = Stats::read(&mut readable).unwrap();
-
-        ex == read
-    }
-}

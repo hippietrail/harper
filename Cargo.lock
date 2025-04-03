@@ -856,8 +856,6 @@ version = "0.27.0"
 dependencies = [
  "chrono",
  "harper-core",
- "quickcheck",
- "quickcheck_macros",
  "serde",
  "serde_json",
  "uuid",
