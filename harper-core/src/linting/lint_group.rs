@@ -57,6 +57,7 @@ use super::spaces::Spaces;
 use super::spell_check::SpellCheck;
 use super::spelled_numbers::SpelledNumbers;
 use super::that_which::ThatWhich;
+use super::the_how_why::TheHowWhy;
 use super::then_than::ThenThan;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
@@ -342,6 +343,7 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion, true);
         insert_pattern_rule!(DespiteOf, true);
         insert_pattern_rule!(ChockFull, true);
+        insert_struct_rule!(TheHowWhy, true);
         insert_struct_rule!(WidelyAccepted, true);
         insert_pattern_rule!(Confident, true);
         insert_pattern_rule!(Oxymorons, true);
