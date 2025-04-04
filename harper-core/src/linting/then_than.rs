@@ -19,7 +19,7 @@ impl ThenThan {
                     // Comparative form of adjective
                     Box::new(
                         SequencePattern::default()
-                            .then(WordSet::new(&["other"]).or(Box::new(
+                            .then(AnyCapitalization::of("other").or(Box::new(
                                 |tok: &Token, source: &[char]| {
                                     is_comparative_adjective(tok, source)
                                 },
