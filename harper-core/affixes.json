@@ -721,7 +721,8 @@
 			}
 		},
 		"*": {
-			"#": "singular third-person pronoun property",
+			"#": "singular third-person subject pronoun property",
+			"//": "so we can do verb agreement",
 			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
