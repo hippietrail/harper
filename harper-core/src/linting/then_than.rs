@@ -53,13 +53,13 @@ fn is_comparative_adjective(tok: &Token, source: &[char]) -> bool {
     tok.kind
         .is_adjective()
         .then(|| tok.span.get_content(source))
-        .map_or(false, |src| {
+        .is_some_and(|src| {
             // Regular comparative form?
             src.ends_with(&['e', 'r'])
                 // Irregular comparatives.
-                || src == &['l', 'e', 's', 's']
-                || src == &['m', 'o', 'r', 'e']
-                || src == &['w', 'o', 'r', 's', 'e']
+                || src == ['l', 'e', 's', 's']
+                || src == ['m', 'o', 'r', 'e']
+                || src == ['w', 'o', 'r', 's', 'e']
         })
 }
 
