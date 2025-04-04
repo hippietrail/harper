@@ -17,7 +17,7 @@ impl Default for PossessiveYour {
                 .then(|tok: &Token, source: &[char]| {
                     tok.kind.is_nominal()
                         && !tok.kind.is_likely_homograph()
-                        && tok.span.get_content(source) != &['g', 'u', 'y', 's']
+                        && tok.span.get_content(source) != ['g', 'u', 'y', 's']
                 });
 
         Self {
