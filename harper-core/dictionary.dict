@@ -1,4 +1,4 @@
-52170
+52200
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -1645,6 +1645,7 @@ CGI/124             # computer graphics interface; common gateway interface
 CIA/215M            # agency
 CID/12
 CLI/1MS             # command line interface
+CNBC/2M
 CNC/14M             # computer numerical control
 CNC'd/4             # past
 CNCing/14           # present, gerund
@@ -2535,22 +2536,23 @@ DHS/2
 DI/1
 DIY/5
 DJ/142
-DMA/1M
+DMA/1M              # direct memory access
 DMCA/24
 DMD/1M
 DMV/1M
-DMZ/1
+DMZ/1               # demilitarized zone
 DNA/142M
-DOA/5
+DOA/5               # dead on arrival
 DOB/12
 DOD/1
-DOE/142
-DOJ/1M
-DOS/12M
+DOE/142             # department of energy
+DOJ/2M              # department of justice
+DOS/12M             # disk operating system
 DOT/21
 DP/142SM
-DPRK/2M
+DPRK/2M             # north korea
 DPT/1
+DSP/1MS             # digital signal processor
 DST/1
 DTP/1
 DUI/1
@@ -7136,6 +7138,7 @@ NSA/521M            # FIXME! elsewhere we have N.S.A.
 NSC/21
 NSF/21
 NSFW/5              # not safe for work
+NSW/2M              # New South Wales
 NSX/1M              # car
 NT/21
 NTFS/1M             # file system
@@ -7684,6 +7687,7 @@ PBS/12M             # organization
 PBX/1
 PC/5124SM
 PCB/1MS             # printed circuit board
+PCM/1M
 PCMCIA/2            # standard
 PCP/1M              # drug
 PD/12
@@ -8197,13 +8201,13 @@ Protestant/15MS
 Protestantism/1SM
 Proteus/2M
 Proudhon/M
-Proust/2M
+Proust/2M           # Marcel -
 Provencal/2MS
 Provence/2M
 Proverbs/2
 Providence/2SM
 Provo/21M
-Prozac/2MS
+Prozac/2MS          # drug
 Prudence/2M
 Prudential/M
 Pruitt/2M
@@ -8214,18 +8218,18 @@ Pryor/2M
 Psalms/2M
 Psalter/MS
 Psyche/2M
-Pt/M
+Pt/M                # platinum
 Ptah/2M
 Ptolemaic/5M
 Ptolemy/2SM
-Pu/2M
+Pu/2M               # plutonium
 Puccini/2M
 Puck/2M
 Puckett/2M
 Puebla/2M
 Pueblo/2M
 Puerto/2
-Puget/2M
+Puget/2M            # - Sound
 Pugh/2M
 Pulaski/2M
 Pulitzer/12M
@@ -8242,7 +8246,7 @@ Purina/M
 Puritan/15M
 Puritanism/1MS
 Purus/M
-Pusan/2M
+Pusan/2M            # old spelling of Busan
 Pusey/2M
 Pushkin/2M
 Pushtu/2M
@@ -8251,37 +8255,37 @@ Putinism/1MS
 Putnam/2M
 Puzo/M
 Pvt
-PyTorch/M
 Pygmalion/21M
 Pygmy/SM
 Pyle/2M
 Pym/2M
-Pynchon/2M
+Pynchon/2M          # Thomas -
 Pyongyang/2M
 Pyotr/2M
 Pyrenees/2M
-Pyrex/21MS
+Pyrex/21MS          # trademark
 Pyrrhic/5M
 Pythagoras/2M
 Pythagorean/15M
 Pythias/1M
-Python/21M
+Python/21M          # programming language
 Q/12
 QA/1
 QB/12
 QC/21
 QED/1
+QLD/2M              # Queensland
 QM/1
 QWERTY/15
 Qaddafi/2M
-Qantas/2M
+Qantas/2M           # airline
 Qatar/2M
 Qatari/15MS
 Qingdao/2M
 Qinghai/2M
 Qiqihar/2M
 Qom/2M
-Quaalude/21M
+Quaalude/21M        # drug
 Quaker/1MS
 Quakerism/1SM
 Qualcomm/M
@@ -9061,6 +9065,7 @@ Scythia/2M
 Scythian/512M
 Se/MH
 Seaborg/2M
+Seagate/2M          # hard drive company
 Seagram/2M
 Sean/2M
 Sears/2M
@@ -13170,9 +13175,11 @@ atmospherics/1M
 atoll/~1MS
 atom/~1SM
 atomic/~51Q
+atomisation/1MS!
 atomise/4ZGDRS!
 atomiser/1M!
 atomistic/5
+atomization/1MS!
 atomize/4ZGDRS
 atomizer/1M
 atonal/5Y
@@ -14741,6 +14748,7 @@ bloatware/1
 blob/~14SM
 blobbed/4
 blobbing/41
+blobby/5
 bloc/~1SM
 block/~14UGDS
 block's
@@ -19998,6 +20006,7 @@ datum/~14M
 daub/14SZGMDR
 dauber/1M
 daughter/~1SMY
+daughterboard/1MS
 daunt/4GDS
 daunting/~514Y
 dauntless/~5YP
@@ -20107,8 +20116,11 @@ decaffeinate/4DSG
 decagon/1MS
 decal/14MS
 decampment/1M
+decap/4S
 decapitate/4XGNDS
 decapitator/1MS
+decapped/45
+decapping/41
 decarbonize/4DSG
 decathlete/1S
 decathlon/1SM
@@ -20535,6 +20547,7 @@ derailleur/1SM
 derailment/~1SM
 derangement/1M
 derby/~1SM
+dereference/~14MGDS
 derelict/~514MS
 dereliction/1M
 deride/4GDS
@@ -21590,6 +21603,7 @@ downhearted/5PY
 downheartedness/1M
 downhill/~514MS
 download/~14MDBSG
+downloader/1MS
 downmarket/54
 downplay/4DSG
 downpour/14MS
@@ -21940,7 +21954,7 @@ durability/~1M
 durable/~51
 durably/j
 durance/1M
-duration/~1M
+duration/~1MS
 duress/~14M
 during/~+4
 durst/4
@@ -28414,6 +28428,7 @@ hyperaggressive/5
 hyperbola/1SM
 hyperbole/~1M
 hyperbolic/~5Q
+hyperconservative/5
 hypercritical/5Y
 hypercube/1
 hyperfixation/1M
@@ -29490,7 +29505,7 @@ instalment/1MS!@
 instance/~14GD
 instant/~154MRYS
 instantaneous/~5Y
-instantiate/4DSGN
+instantiate/4DSGNX
 instar/~14
 instate/4AGDS
 instead/~
@@ -29628,7 +29643,7 @@ interference/~14MS
 interferon/1M
 interfile/4GDS
 intergalactic/5
-intergenerational/5
+intergenerational/5Y
 intergovernmental/~5
 interim/~51M
 interior/~51SM
@@ -30744,6 +30759,7 @@ labelling/41A!@
 labia/1
 labial/~51SM
 labile/5
+lability/1M
 labium/1M
 labor/~14SMDRZG
 laboratory/~1SM
@@ -30959,7 +30975,7 @@ late/~51YTRP
 latecomer/1MS
 latency/~1M
 lateness/1M
-latent/~51
+latent/~51Y
 lateral/~514MDYSG
 latest/~51M
 latex/~1M
@@ -34148,7 +34164,7 @@ multiculturalism/~1M
 multidimensional/51
 multidisciplinary/~5
 multiethnic/5
-multifaceted/~5
+multifaceted/~5YP
 multifamily/51
 multifarious/5PY
 multifariousness/1M
@@ -34454,6 +34470,7 @@ nastiness/1M
 nasturtium/1SM
 nasty/~51PTR
 natal/~5
+natalism/1KM
 natch/1
 nation/~1MS
 national/~51MYS
@@ -34916,6 +34933,10 @@ nomad/~15SM
 nomadic/~5
 nomenclature/~1MS
 nominal/~51Y
+nominalisation/1M!
+nominalise/4SDG!
+nominalization/1M
+nominalize/4SDG
 nominate/~45ACGNVDS
 nomination/~1CSM
 nomination's/A
@@ -36823,7 +36844,7 @@ parachutist/~1MS
 parade/~14MZGDRS
 parader/1M
 paradigm/~1SM
-paradigmatic/51
+paradigmatic/51Q
 paradisaical/5
 paradise/~14SM
 paradox/~1MS
@@ -37035,6 +37056,7 @@ passion/~14EM
 passionate/~514EY
 passionflower/1SM
 passionless/5
+passivation/1M
 passive/~51PMYS
 passiveness/1M
 passivisation/1!
@@ -40180,7 +40202,7 @@ radiate/~451DSGNX
 radiation/~1M
 radiative/~5
 radiator/~1SM
-radical/~51SMY
+radical/~51SMYP
 radicalisation/1M!
 radicalise/4DSG!
 radicalism/~1M
@@ -41047,6 +41069,8 @@ replicate/~415DSGNX
 replication/~1M
 replicator/1S
 repo/~14SM
+repoliticise/4DSG!
+repoliticize/4DSG
 report/1MS4DGR
 reportage/1M
 reported/~4Y
@@ -41105,6 +41129,7 @@ requital/1M
 requite/41DRSZG
 requited/4U
 requiter/1M
+reradicalize/4DSG
 reread/41SG
 rerecord/14GDS
 rerunning/4
@@ -41612,6 +41637,7 @@ rockstar/1SM
 rocky/~5TRP
 rococo/~15M
 rod/~14SM
+rodder/1MS
 rode/~41
 rodent/~15MS
 rodeo/~14MS
@@ -42273,6 +42299,7 @@ scaffold/~14SMG
 scaffolding/~14M
 scag/14S
 scagged/4
+scalable/5U
 scalability/1
 scalar/~51S
 scalawag/1MS
@@ -45730,13 +45757,13 @@ stringer/~1M
 stringify/4DSG
 stringiness/1M
 stringy/5PTR
-strip/~14GSMD
+strip/~14SMD
 stripe/~14MS
 stripey/51
 stripling/1MS
 stripped/~54
 stripper/~1MS
-stripping/~41
+stripping/~41M
 striptease/14MZGDRS
 stripteaser/1M
 stripy/5
@@ -48275,7 +48302,7 @@ transoceanic/5
 transom/1SM
 transpacific/5
 transparency/~1SM
-transparent/~5Y
+transparent/~5YU
 transphobia/1M
 transphobic/5
 transpile/4SDG
@@ -49025,6 +49052,7 @@ uncut/~5
 undaunted/5Y
 undead/51
 undecided/~514SM
+undefine/4GDS
 undemonstrative/5Y
 undeniably/j
 under/~+51
@@ -50563,6 +50591,7 @@ wavelike/5
 waver/41ZGMDR
 waverer/1M
 wavering/514Y
+wavetable/1MS
 waviness/1M
 wavy/~51PRT
 wax/~154GMDNS
@@ -51723,6 +51752,7 @@ AOC/2M                  # US politician Alexandria Ocasio-Cortez
 Akismet/2M
 Alexa/2M                # voice assistant    
 Alexandre/2SM
+AliExpress/2M
 AlphaFold/2M            # Google DeepMind project
 Ambien/1SM              # insomnia treatment
 Anker/SM
@@ -51741,6 +51771,7 @@ CCP/2S                  # Chinese Communist Party
 CEO/1SM                 # chief executive officer
 CERN/2M                 # intergovernmental organization
 CI/1SM                  # continuous integration
+CISC/1M                 # cpu architecture
 CMake/SM                # build tool
 CMOS/1
 CQL/1
@@ -51751,6 +51782,7 @@ ChatGPT/2M              # OpenAI product
 Codeberg/21M            # GitHub alternative
 Colemak/15M
 CommonMark/M
+CompUSA                 # retailer
 Corretto/SM
 Crowdsignal/2M
 Cypher/21M
@@ -51779,6 +51811,7 @@ FIDO/12SM
 FPGA/1SM                # field-programmable gate array
 FPM/SM
 Firestore/M
+FireWire/MS             # trademark
 Foddy/SM
 Frankl/SM
 GLFW/2M
@@ -51888,7 +51921,7 @@ PDP/1SM             # old computer
 PII/1SM
 PKCS/SM
 PRQL/1
-PTSD/1SM
+PTSD/1SM            # post-traumatic stress disorder
 PWA/21SM
 Pandoc/M1           # FIXME! elsewhere we have pandoc
 Parth/SM
@@ -51897,10 +51930,12 @@ Polldaddy/2M
 Postfix/SM
 PowerShell/SM       # Microsoft product
 PromQL/SM
-QUERTY/SM           # keyboard layout
+PyTorch/M2          # framework
+QUERTY/SM           # !! mistake for QWERTY? !!
 QUIC/2SM
 Qin/2SM
 RDBMS/12SM          # relational database management system
+RISC/1M             # cpu architecture
 RFID/21M            # radio frequency identification
 ROM/1SM             # read-only memory
 RPC/21SM            # remote procedure call
@@ -51937,6 +51972,7 @@ TechCrunch/SM
 ThinkPad/2SM        # pc brand
 TikTok/SM
 Todo                # FIXME! elsewhere in Harper we refer to TODO and to-do
+Toronado/2MS        # car brand
 Trocla/SM
 TrueNAS/SM
 Tumblr/2M
@@ -52044,6 +52080,7 @@ far right/1MS
 far-right/5
 feature-length/5
 first-hand/j
+flash point/1MS
 front-line/5
 front man/1M
 full on/5j
@@ -52054,6 +52091,7 @@ Greco-Roman/5
 ground-based/5
 gung ho/5
 H-1B/1MS
+hand-drawn/5
 happy-go-lucky/5
 hard code/4SDG
 heavy-handed/5
@@ -52062,6 +52100,7 @@ high-quality/5
 high frequency/1MS
 high-frequency/5
 high-level/5
+high-pitched/5
 high-profile/5
 high-rise/1MS
 high-speed/5
@@ -52086,12 +52125,14 @@ low-budget/5
 low-cost/5
 low-profile/5
 man child/1M
+man-made/5
 mind-blowing/5
 mind game/1MS
 mock up/4
 mock-up/1MS
 nail biter/1MS
 neo-Nazi/15SM
+no-op/1MS           # no operation
 non-Western/5
 of course/j
 off-road/1MS
@@ -52111,10 +52152,13 @@ Pax Americana/2M
 per capita/5j
 pick-me-up/1MS
 plan B/M
+post-truth/14M
+rack-mounted/5
 right-wing/5
 run-up/1MS
 sci-fi/1M
 self-obsessed/5
+shark-infested/5
 short-lived/5
 short-term/5j
 shoulder to shoulder/j
@@ -52140,6 +52184,7 @@ sussing out/4
 tax-exempt/5
 tech-savvy/5
 third-party/5
+to-do/1MS
 two-thirds/1
 uh-huh
 uh-oh
