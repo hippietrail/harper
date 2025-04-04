@@ -18,7 +18,6 @@
             buildInputs = [
               just
               bash
-              cargo
               rustup
               pnpm
               nodejs
