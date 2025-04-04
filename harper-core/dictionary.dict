@@ -9575,6 +9575,7 @@ Styron/2M
 Styx/2M
 Suarez/2M
 Subaru/2MS
+Subsahara/2M
 Sucre/2M
 Sucrets/M
 Sudan/2M
@@ -16657,7 +16658,9 @@ centralizer/1MS
 centre/14MGDS!@
 centreboard/1SM!@
 centrefold/1SM!@
+centreleft/1MS!@
 centrepiece/1SM!@
+centreright/1MS!@
 centric/~5
 centrifugal/~51Y
 centrifuge/~14DSMG
@@ -17001,6 +17004,7 @@ chickenshit/51S6
 chickpea/1SM
 chickweed/1M
 chicle/1M
+chiclet/1MS
 chicness/1M
 chicory/1SM
 chide/4GDS
@@ -52061,11 +52065,14 @@ built-in/1MS5
 built-up/5
 car bomb/1MS
 car-bomb/4
+centre-left/5!@
+centre-right/5!@
 command line/1MS
 cost-effective/5
 cross section/1MS
 cross-threaded/5
 de facto/51M
+death knell/1MS
 door to door/j
 door-to-door/S
 double-decker/5
@@ -52196,6 +52203,7 @@ web dev/1MS
 web page/~1SM
 welch plug/1SM
 well-known/5
+well-made/5
 Wi-Fi/1M
 working-class/15MS
 write off/4
