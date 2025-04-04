@@ -24,7 +24,7 @@ else
     parallel '
         BASE=$(basename {} .md)
         pandoc {} -o html/$BASE.html
-        perl -pi -e "s/\"\\K([^\\"]+)\\.md(?=\")/\\1.html/g" html/$BASE.html
+        perl -pi -e `s/\"\\K([^\\"]+)\\.md(?=\")/\\1.html/g` html/$BASE.html
         echo "<link rel=\"stylesheet\" href=\"https://unpkg.com/mvp.css\">" >> "html/$BASE.html"
     ' ::: ./markdown/*.md
 fi
