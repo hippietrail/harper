@@ -65,7 +65,6 @@ use super::use_genitive::UseGenitive;
 use super::was_aloud::WasAloud;
 use super::whereas::Whereas;
 use super::wordpress_dotcom::WordPressDotcom;
-use super::wrong_quotes::WrongQuotes;
 use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
 use super::{Lint, PatternLinter};
 use crate::linting::dashes::Dashes;
@@ -319,7 +318,6 @@ impl LintGroup {
         insert_struct_rule!(AnA, true);
         insert_struct_rule!(SentenceCapitalization, true);
         insert_struct_rule!(UnclosedQuotes, true);
-        insert_struct_rule!(WrongQuotes, false);
         insert_struct_rule!(LongSentences, true);
         insert_struct_rule!(RepeatedWords, true);
         insert_struct_rule!(Spaces, true);
