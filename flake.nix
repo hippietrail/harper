@@ -19,6 +19,7 @@
               just
               bash
               rustup
+              gcc
               pnpm
               nodejs
               wasm-pack
