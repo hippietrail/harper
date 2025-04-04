@@ -37,7 +37,6 @@ use super::lets_confusion::LetsConfusion;
 use super::likewise::Likewise;
 use super::linking_verbs::LinkingVerbs;
 use super::long_sentences::LongSentences;
-use super::matcher::Matcher;
 use super::merge_words::MergeWords;
 use super::modal_of::ModalOf;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
@@ -320,7 +319,6 @@ impl LintGroup {
         insert_struct_rule!(LongSentences, true);
         insert_struct_rule!(RepeatedWords, true);
         insert_struct_rule!(Spaces, true);
-        insert_struct_rule!(Matcher, true);
         insert_struct_rule!(CorrectNumberSuffix, true);
         insert_struct_rule!(NumberSuffixCapitalization, true);
         insert_pattern_rule!(MultipleSequentialPronouns, true);
