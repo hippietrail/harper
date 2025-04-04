@@ -62,6 +62,7 @@ use super::unclosed_quotes::UnclosedQuotes;
 use super::use_genitive::UseGenitive;
 use super::was_aloud::WasAloud;
 use super::whereas::Whereas;
+use super::widely_accepted::WidelyAccepted;
 use super::wordpress_dotcom::WordPressDotcom;
 use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
 use super::{Lint, PatternLinter};
@@ -341,6 +342,7 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion, true);
         insert_pattern_rule!(DespiteOf, true);
         insert_pattern_rule!(ChockFull, true);
+        insert_struct_rule!(WidelyAccepted, true);
         insert_pattern_rule!(Confident, true);
         insert_pattern_rule!(Oxymorons, true);
         insert_pattern_rule!(Hedging, true);

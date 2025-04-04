@@ -65,6 +65,7 @@ mod unclosed_quotes;
 mod use_genitive;
 mod was_aloud;
 mod whereas;
+mod widely_accepted;
 mod wordpress_dotcom;
 
 pub use adjective_of_a::AdjectiveOfA;
@@ -126,6 +127,7 @@ pub use unclosed_quotes::UnclosedQuotes;
 pub use use_genitive::UseGenitive;
 pub use was_aloud::WasAloud;
 pub use whereas::Whereas;
+pub use widely_accepted::WidelyAccepted;
 pub use wordpress_dotcom::WordPressDotcom;
 
 use crate::{Document, LSend};
