@@ -61,15 +61,15 @@ impl MultipleSequentialPronouns {
     }
 
     fn is_subject_pronoun(&self, word: &str) -> bool {
-        self.subject_pronouns.contains(&word)
+        self.subject_pronouns.contains(word)
     }
 
     fn is_object_pronoun(&self, word: &str) -> bool {
-        self.object_pronouns.contains(&word)
+        self.object_pronouns.contains(word)
     }
 
     fn is_possessive_adjective(&self, word: &str) -> bool {
-        self.possessive_adjectives.contains(&word)
+        self.possessive_adjectives.contains(word)
     }
 }
 
