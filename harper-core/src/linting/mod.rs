@@ -82,6 +82,7 @@ pub use compound_nouns::CompoundNouns;
 pub use confident::Confident;
 pub use correct_number_suffix::CorrectNumberSuffix;
 pub use currency_placement::CurrencyPlacement;
+pub use dashes::Dashes;
 pub use despite_of::DespiteOf;
 pub use dot_initialisms::DotInitialisms;
 pub use ellipsis_length::EllipsisLength;

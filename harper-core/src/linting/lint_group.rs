@@ -68,6 +68,7 @@ use super::wordpress_dotcom::WordPressDotcom;
 use super::wrong_quotes::WrongQuotes;
 use super::{CurrencyPlacement, Linter, NoOxfordComma, OxfordComma};
 use super::{Lint, PatternLinter};
+use crate::linting::dashes::Dashes;
 use crate::linting::{closed_compounds, phrase_corrections};
 use crate::{CharString, Dialect, Document, TokenStringExt};
 use crate::{Dictionary, MutableDictionary};
@@ -299,6 +300,7 @@ impl LintGroup {
         // Add all the more complex rules to the group.
         insert_struct_rule!(AdjectiveOfA, true);
         insert_pattern_rule!(BackInTheDay, true);
+        insert_pattern_rule!(Dashes, true);
         insert_struct_rule!(WordPressDotcom, true);
         insert_pattern_rule!(OutOfDate, true);
         insert_pattern_rule!(ThenThan, true);
