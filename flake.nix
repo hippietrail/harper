@@ -18,6 +18,7 @@
             buildInputs = [
               just
               bash
+              parallel
               rustup
               gcc
               pnpm
