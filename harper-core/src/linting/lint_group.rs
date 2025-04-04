@@ -57,7 +57,6 @@ use super::somewhat_something::SomewhatSomething;
 use super::spaces::Spaces;
 use super::spell_check::SpellCheck;
 use super::spelled_numbers::SpelledNumbers;
-use super::terminating_conjunctions::TerminatingConjunctions;
 use super::that_which::ThatWhich;
 use super::then_than::ThenThan;
 use super::unclosed_quotes::UnclosedQuotes;
@@ -327,7 +326,6 @@ impl LintGroup {
         insert_pattern_rule!(MultipleSequentialPronouns, true);
         insert_struct_rule!(LinkingVerbs, false);
         insert_struct_rule!(AvoidCurses, true);
-        insert_pattern_rule!(TerminatingConjunctions, true);
         insert_struct_rule!(EllipsisLength, true);
         insert_struct_rule!(CommaFixes, true);
         insert_pattern_rule!(DotInitialisms, true);
