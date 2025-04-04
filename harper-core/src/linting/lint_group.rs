@@ -46,7 +46,6 @@ use super::out_of_date::OutOfDate;
 use super::oxymorons::Oxymorons;
 use super::pattern_linter::run_on_chunk;
 use super::pique_interest::PiqueInterest;
-use super::plural_conjugate::PluralConjugate;
 use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
 use super::proper_noun_capitalization_linters;
@@ -334,7 +333,6 @@ impl LintGroup {
         insert_pattern_rule!(ThatWhich, true);
         insert_struct_rule!(CapitalizePersonalPronouns, true);
         insert_struct_rule!(MergeWords, true);
-        insert_pattern_rule!(PluralConjugate, false);
         insert_struct_rule!(OxfordComma, true);
         insert_struct_rule!(NoOxfordComma, false);
         insert_struct_rule!(PronounContraction, true);
