@@ -8,22 +8,34 @@ pub struct AdjectiveOfA;
 const FALSE_POSITIVES: &[&str] = &[
     // Different valid constructions.
     "all",
+    "emblematic",
     "full",
     "inside",
     "much",
     "out",
     // The word is used more as a noun in this context.
     // (using .kind.is_likely_homograph() here is too strict)
+    "back",
+    "bit",
     "bottom",
+    "chance",
+    "dream",
     "front",
+    "half",
+    "head",
     "kind",
     "left",
     "meaning",
+    "middle",
     "one",
     "part",
+    "potential",
+    "precision",
+    // for "rid" I removed the `5` flag in `dictionary.dict``
     "shadow",
     "short",
     "something",
+    "sound",
 ];
 
 fn is_false_positive(chars: &[char]) -> bool {
@@ -172,6 +184,7 @@ mod tests {
 
     #[test]
     fn dont_flag_kind() {
+        // Adjective as in "a kind person" vs noun as in "A kind of person"
         assert_lint_count(
             "Log.txt file automatic creation in PWD is kind of an anti-feature",
             AdjectiveOfA,
@@ -181,6 +194,7 @@ mod tests {
 
     #[test]
     fn dont_flag_part() {
+        // Can be an adjective in e.g. "He is just part owner"
         assert_lint_count(
             "cannot delete a food that is no longer part of a recipe",
             AdjectiveOfA,
@@ -190,6 +204,7 @@ mod tests {
 
     #[test]
     fn dont_flag_much() {
+        // "much of" is correct idiomatic usage
         assert_lint_count(
             "How much of a performance impact when switching from rails to rails-api ?",
             AdjectiveOfA,
@@ -199,6 +214,7 @@ mod tests {
 
     #[test]
     fn dont_flag_part_uppercase() {
+        // Can be an adjective in e.g. "Part man, part machine"
         assert_lint_count(
             "Quarkus Extension as Part of a Project inside a Monorepo?",
             AdjectiveOfA,
@@ -207,7 +223,18 @@ mod tests {
     }
 
     #[test]
+    fn dont_flag_all_of() {
+        // "all of" is correct idiomatic usage
+        assert_lint_count(
+            "This repository is deprecated. All of its content and history has been moved.",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
     fn dont_flag_inside() {
+        // "inside of" is idiomatic usage
         assert_lint_count(
             "Michael and Brock sat inside of a diner in Brandon",
             AdjectiveOfA,
@@ -217,6 +244,7 @@ mod tests {
 
     #[test]
     fn dont_flag_out() {
+        // "out of" is correct idiomatic usage
         assert_lint_count(
             "not only would he potentially be out of a job and back to sort of poverty",
             AdjectiveOfA,
@@ -226,6 +254,7 @@ mod tests {
 
     #[test]
     fn dont_flag_full() {
+        // "full of" is correct idiomatic usage
         assert_lint_count(
             "fortunately I happen to have this Tupperware full of an unceremoniously disassembled LED Mac Mini",
             AdjectiveOfA,
@@ -235,6 +264,7 @@ mod tests {
 
     #[test]
     fn dont_flag_something() {
+        // Can be a noun in e.g. "a certain something"
         assert_lint_count(
             "Well its popularity seems to be taking something of a dip right now.",
             AdjectiveOfA,
@@ -244,6 +274,7 @@ mod tests {
 
     #[test]
     fn dont_flag_short() {
+        // Can be a noun in e.g. "use a multimeter to find the short"
         assert_lint_count(
             "I found one Youtube short of an indonesian girl.",
             AdjectiveOfA,
@@ -253,6 +284,7 @@ mod tests {
 
     #[test]
     fn dont_flag_bottom() {
+        // Can be an adjective in e.g. "bottom bunk"
         assert_lint_count(
             "When leaves are just like coming out individually from the bottom of a fruit.",
             AdjectiveOfA,
@@ -262,11 +294,113 @@ mod tests {
 
     #[test]
     fn dont_flag_left() {
+        // Can be an adjective in e.g. "left hand"
         assert_lint_count("and what is left of a 12vt coil", AdjectiveOfA, 0)
     }
 
     #[test]
     fn dont_flag_full_uppercase() {
         assert_lint_count("Full of a bunch varnish like we get.", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_head() {
+        // Can be an adjective in e.g. "the head cook"
+        assert_lint_count(
+            "You need to get out if you're the head of an education department and you're not using AI",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_middle() {
+        // Can be an adjective in e.g. "middle child"
+        assert_lint_count(
+            "just to get to that part in the middle of a blizzard",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_chance() {
+        // Can be an adjective in e.g. "a chance encounter"
+        assert_lint_count(
+            "products that you overpay for because there are subtle details in the terms and conditions that reduce the size or chance of a payout.",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_potential() {
+        // Can be an adjective in e.g. "a potential candidate"
+        assert_lint_count(
+            "People that are happy to accept it for the potential of a reward.",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_sound() {
+        // Can be an adjective in e.g. "sound advice"
+        assert_lint_count("the sound of an approaching Krampus", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_rid() {
+        // I removed the `5` flag from `rid` in `dictionary.dict`
+        // because dictionaries say the sense is archaic.
+        assert_lint_count("I need to get rid of a problem", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_precision() {
+        // Can be an adjective in e.g. "a precision instrument"
+        assert_lint_count(
+            "a man whose crew cut has the precision of a targeted drone strike",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_back() {
+        // Can be an adjective in e.g. "back door"
+        assert_lint_count(
+            "a man whose crew cut has the back of a targeted drone strike",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_emblematic() {
+        // "emblematic of" is correct idiomatic usage
+        assert_lint_count(
+            "... situation was emblematic of a publication that ...",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_half() {
+        // Can be an adjective in e.g. "half man, half machine"
+        assert_lint_count("And now I only have half of a CyberTruck", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_bit() {
+        // Technically also an adj as in "that guy's bit - he'll turn into a zombie"
+        assert_lint_count("we ran into a bit of an issue", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_dream() {
+        // Can be an adjective in e.g. "we built our dream house"
+        assert_lint_count("When the dream of a united Europe began", AdjectiveOfA, 0);
     }
 }
