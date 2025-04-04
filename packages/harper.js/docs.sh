@@ -8,6 +8,7 @@ pnpm api-documenter markdown -i temp
 rm -r html || true
 mkdir html || true
 
+echo Rendering HTML...
 # Check if parallel is available
 if ! command -v parallel &> /dev/null; then
     echo "parallel not found, falling back to sequential processing"
@@ -19,7 +20,6 @@ if ! command -v parallel &> /dev/null; then
         echo '<link rel="stylesheet" href="https://unpkg.com/mvp.css">' >> html/$BASE.html
     done
 else
-    echo Rendering HTML...
     parallel '
         BASE=$(basename {} .md)
         pandoc {} -o html/$BASE.html
