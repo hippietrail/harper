@@ -3,12 +3,26 @@ use itertools::Itertools;
 use super::Suggestion;
 use super::{Lint, LintKind, Linter};
 use crate::document::Document;
-use crate::{Token, TokenKind, TokenStringExt};
+use crate::{Dialect, Dictionary, Token, TokenKind, TokenStringExt};
 
-#[derive(Debug, Clone, Copy, Default)]
-pub struct SentenceCapitalization;
+pub struct SentenceCapitalization<T>
+where
+    T: Dictionary,
+{
+    dictionary: T,
+    dialect: Dialect,
+}
 
-impl Linter for SentenceCapitalization {
+impl<T: Dictionary> SentenceCapitalization<T> {
+    pub fn new(dictionary: T, dialect: Dialect) -> Self {
+        Self {
+            dictionary,
+            dialect,
+        }
+    }
+}
+
+impl<T: Dictionary> Linter for SentenceCapitalization<T> {
     /// A linter that checks to make sure the first word of each sentence is
     /// capitalized.
     fn lint(&mut self, document: &Document) -> Vec<Lint> {
@@ -42,6 +56,31 @@ impl Linter for SentenceCapitalization {
 
                     if let Some(first_letter) = letters.first() {
                         if first_letter.is_alphabetic() && !first_letter.is_uppercase() {
+                            // If the word is marked as a proper noun in the dictionary but
+                            // starts with a lowercase letter, it's probably a trademark like iMac or macOS
+                            // TODO: Look up the word in the dictionary.
+                            // TODO: If it contains any capital letters, treat it as a trademark
+                            // TODO: such as iMac or macOS
+                            let spelling = self.dictionary.get_correct_capitalization_of(letters);
+                            if let Some(spelling) = spelling {
+                                // If the first letter is lower and either, it's got a proper noun attribute
+                                // or also contains any uppercase letters (before a hyphen, space, apostrophe, or non-letter)
+                                // then we regard it as a trademark that can remain lowercase at the start of a sentence.
+                                if first_word.kind.is_proper_noun() {
+                                    continue;
+                                }
+
+                                // Check the first word of the lexeme (stop at the first hyphen, space, or apostrophe)
+                                let mut rest_of_first_word_letters = letters
+                                    .iter()
+                                    .skip(1)
+                                    .take_while(|c| !c.is_whitespace() && **c != '-' && **c != '\'');
+
+                                if rest_of_first_word_letters.any(|c| c.is_uppercase()) {
+                                    continue;
+                                }
+                            }
+
                             lints.push(Lint {
                                 span: first_word.span.with_len(1),
                                 lint_kind: LintKind::Capitalization,
@@ -87,6 +126,8 @@ fn is_full_sentence(toks: &[Token]) -> bool {
 
 #[cfg(test)]
 mod tests {
+    use crate::{Dialect, FstDictionary};
+
     use super::super::tests::assert_lint_count;
     use super::SentenceCapitalization;
 
@@ -94,7 +135,7 @@ mod tests {
     fn catches_basic() {
         assert_lint_count(
             "there is no way she is not guilty.",
-            SentenceCapitalization,
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
             1,
         )
     }
@@ -103,7 +144,7 @@ mod tests {
     fn no_period() {
         assert_lint_count(
             "there is no way she is not guilty",
-            SentenceCapitalization,
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
             1,
         )
     }
@@ -112,7 +153,7 @@ mod tests {
     fn two_sentence() {
         assert_lint_count(
             "i have complete conviction in this. she is absolutely guilty",
-            SentenceCapitalization,
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
             2,
         )
     }
@@ -121,7 +162,7 @@ mod tests {
     fn start_with_number() {
         assert_lint_count(
             "53 is the length of the longest word.",
-            SentenceCapitalization,
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
             0,
         );
     }
@@ -130,7 +171,7 @@ mod tests {
     fn ignores_unlintable() {
         assert_lint_count(
             "[`misspelled_word`] is assumed to be quite small (n < 100). ",
-            SentenceCapitalization,
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
             0,
         )
     }
@@ -139,7 +180,7 @@ mod tests {
     fn unfazed_unlintable() {
         assert_lint_count(
             "the linter should not be affected by `this` unlintable.",
-            SentenceCapitalization,
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
             1,
         )
     }
@@ -148,7 +189,7 @@ mod tests {
     fn unfazed_ellipsis() {
         assert_lint_count(
             "the linter should not be affected by... that ellipsis.",
-            SentenceCapitalization,
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
             1,
         )
     }
@@ -157,13 +198,34 @@ mod tests {
     fn unfazed_comma() {
         assert_lint_count(
             "the linter should not be affected by, that comma.",
-            SentenceCapitalization,
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
             1,
         )
     }
 
     #[test]
     fn issue_228_allows_labels() {
-        assert_lint_count("python lsp (fork of pyright)", SentenceCapitalization, 0)
+        assert_lint_count(
+            "python lsp (fork of pyright)",
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
+            0,
+        )
+    }
+
+    #[test]
+    fn allow_camel_case_trademarks() {
+        assert_lint_count(
+            "macOS 16 could be called something like Redwood or Shasta",
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
+            0,
+        )
+    }
+
+    #[test]
+    fn uppercase_unamerican_at_start() {
+        assert_lint_count("un-American starts with a lowercase letter and contains an uppercase letter, but is not a proper noun or trademark.",
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
+            1,
+        )
     }
 }
