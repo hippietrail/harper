@@ -927,7 +927,7 @@ pub fn lint_group() -> LintGroup {
             ["cuz"],
             ["because"],
             "Use `because` instead of informal `cuz`",
-            "Expands the informal abbreviation `cuz` to the full word `because` for formailty."
+            "Expands the informal abbreviation `cuz` to the full word `because` for formality."
         )
     });
 
