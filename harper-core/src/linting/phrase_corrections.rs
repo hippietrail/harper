@@ -1761,4 +1761,13 @@ mod tests {
             "Another possible cause is simply that the application does not have file creation permissions on the other machine.",
         );
     }
+
+    #[test]
+    fn expand_cuz() {
+        assert_suggestion_result(
+            "Stick around cuz I got a surprise for you at the end.",
+            lint_group(),
+            "Stick around because I got a surprise for you at the end.",
+        );
+    }
 }
