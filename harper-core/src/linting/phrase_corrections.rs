@@ -923,6 +923,12 @@ pub fn lint_group() -> LintGroup {
             "Use `without` instead of `w/o`",
             "Expands the abbreviation `w/o` to the full word `without` for clarity."
         ),
+        "ExpandBecause" => (
+            ["cuz"],
+            ["because"],
+            "Use `because` instead of informal `cuz`",
+            "Expands the informal abbreviation `cuz` to the full word `because` for formailty."
+        )
     });
 
     group.set_all_rules_to(Some(true));
