@@ -1,4 +1,4 @@
-52300
+52350
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -171,6 +171,7 @@ Afrikaner/1SM
 Afro/1SM
 Afrocentric/5
 Afrocentrism/1M
+Afrofuturism/1M
 Ag/1M
 Agamemnon/2M
 Agana/2
@@ -1382,14 +1383,14 @@ Bowell/2M
 Bowen/2M
 Bowers/2M
 Bowery/25M
-Bowie/21M
+Bowie/21M           # david -
 Bowman/2M
 Boyd/2M
 Boyer/2M
 Boyle/2M
-Br/15MT
+Br/15MT             # bromine
 Brad/2MY
-Bradbury/21M
+Bradbury/21M        # ray =
 Braddock/2M
 Bradenton/2M
 Bradford/21M
@@ -12728,6 +12729,7 @@ apprenticeship/~1MS
 apprise/4GDS
 apprize/4GDS
 approach/~41GBMDS
+approachability/1M
 approachable/5UI
 approbation/~1EM
 approbations/1
@@ -19121,6 +19123,7 @@ counterblast/1S
 counterclaim/14GSMD
 counterclockwise/~5
 counterculture/~1SM
+countercultural/5Y
 countered/~4
 counterespionage/1M
 counterexample/1S
@@ -19963,7 +19966,7 @@ dampness/1M
 damsel/1MS
 damselfly/1SM
 damson/15MS
-dance/~14MZGDRS
+dance/~14MZGDRSB
 dancer/~1M
 dancing/~14M
 dandelion/15SM
@@ -23522,6 +23525,7 @@ experiential/~5
 experiment/~14MDRSZG
 experimental/~51Y
 experimentation/~1M
+experimentalist/1MS
 experimenter/1M
 expert/~51SPMY
 expertise/~14M
@@ -27825,6 +27829,7 @@ hitchhike/41DRSMZG
 hitchhiker/1M
 hither/5
 hitherto/~
+hitmaker/1MS
 hitman/~1M
 hitmen/9M
 hitter/~1SM
@@ -30784,6 +30789,7 @@ label/~14ASDGR
 label's
 labeled/~54U
 labelled/54UA!@
+labelless/5
 labelling/41A!@
 labia/1
 labial/~51SM
@@ -33123,6 +33129,7 @@ metricise/4GDS!
 metricize/4GDS
 metro/~15SM
 metronome/1MS
+metronomic/5
 metropolis/~1MS
 metropolitan/~15
 mettle/15M
@@ -34021,6 +34028,7 @@ motherhood/~1M
 motherland/~1MS
 motherless/5
 motherliness/1M
+mothership/1MS
 moths/~14
 motif/~1SM
 motile/51S
@@ -36003,6 +36011,7 @@ orchestra/~1MS
 orchestral/~51
 orchestrate/4DSXGN
 orchestration/~1M
+orchestrator/1MS
 orchid/~15SM
 ordain/4SDLG
 ordainment/1M
@@ -49494,6 +49503,7 @@ unsporting/5
 unstable/~54
 unsteady/54TRP
 unstinting/5Y
+unstoppably/j
 unstrapping/4
 unsubscriber/1MS
 unsubstantial/5
@@ -50285,6 +50295,7 @@ vociferate/4DSGN
 vociferation/1M
 vociferous/5YP
 vociferousness/1M
+vocoder/1MS
 vodka/~1SM
 vogue/~14SM
 voguish/5
@@ -52121,6 +52132,7 @@ wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
 
 ad nauseam/j
 add-on/1MS
+avant-garde/1M5
 back to back/j
 back-to-back/5
 beck and call/1
@@ -52139,6 +52151,8 @@ command line/1MS
 cost-effective/5
 cross section/1MS
 cross-threaded/5
+cutting edge/1MS
+cutting-edge/5
 de facto/51M
 death knell/1MS
 deja vu/1
@@ -52151,6 +52165,7 @@ easy peasy/5
 end user/1MS
 energy-efficient/5
 et al./~
+ever-present/5
 fact check/1S
 fact-check/4SDG
 fact-checking/1M
@@ -52203,6 +52218,7 @@ kick start/4SDG
 knock-on effect/1MS
 kung fu/1M
 laid-back/5
+lead off/1M4
 lead-up/1MS
 left-wing/5
 live action/1
@@ -52232,6 +52248,8 @@ off-road/1MS
 off-roader/1MS
 off-the-books/5
 okey-dokey/1MS
+Old World/2M
+old-world/5
 on-off/5
 once-in-a-lifetime/5
 one-handed/5
