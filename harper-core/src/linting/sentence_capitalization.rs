@@ -1,5 +1,3 @@
-use itertools::Itertools;
-
 use super::Suggestion;
 use super::{Lint, LintKind, Linter};
 use crate::document::Document;
@@ -52,31 +50,25 @@ impl<T: Dictionary> Linter for SentenceCapitalization<T> {
                         continue;
                     }
 
-                    let letters = document.get_span_content(&first_word.span);
+                    let word_chars = document.get_span_content(&first_word.span);
 
-                    if let Some(first_letter) = letters.first() {
-                        if first_letter.is_alphabetic() && !first_letter.is_uppercase() {
-                            // If the word is marked as a proper noun in the dictionary but
-                            // starts with a lowercase letter, it's probably a trademark like iMac or macOS
-                            // TODO: Look up the word in the dictionary.
-                            // TODO: If it contains any capital letters, treat it as a trademark
-                            // TODO: such as iMac or macOS
-                            let spelling = self.dictionary.get_correct_capitalization_of(letters);
-                            if let Some(spelling) = spelling {
-                                // If the first letter is lower and either, it's got a proper noun attribute
-                                // or also contains any uppercase letters (before a hyphen, space, apostrophe, or non-letter)
-                                // then we regard it as a trademark that can remain lowercase at the start of a sentence.
+                    if let Some(first_char) = word_chars.first() {
+                        if first_char.is_alphabetic() && !first_char.is_uppercase() {
+                            if let Some(canonical_spelling) =
+                                self.dictionary.get_correct_capitalization_of(word_chars)
+                            {
+                                // Skip if it's a proper noun or contains uppercase letters before a separator
                                 if first_word.kind.is_proper_noun() {
                                     continue;
                                 }
 
-                                // Check the first word of the lexeme (stop at the first hyphen, space, or apostrophe)
-                                let mut rest_of_first_word_letters = letters
+                                // Check for uppercase letters in the rest of the word before any separators
+                                if canonical_spelling
                                     .iter()
                                     .skip(1)
-                                    .take_while(|c| !c.is_whitespace() && **c != '-' && **c != '\'');
-
-                                if rest_of_first_word_letters.any(|c| c.is_uppercase()) {
+                                    .take_while(|&c| !c.is_whitespace() && *c != '-' && *c != '\'')
+                                    .any(|&c| c.is_uppercase())
+                                {
                                     continue;
                                 }
                             }
@@ -85,12 +77,12 @@ impl<T: Dictionary> Linter for SentenceCapitalization<T> {
                                 span: first_word.span.with_len(1),
                                 lint_kind: LintKind::Capitalization,
                                 suggestions: vec![Suggestion::ReplaceWith(
-                                    first_letter.to_uppercase().collect_vec(),
+                                    [first_char.to_ascii_uppercase()].to_vec(),
                                 )],
                                 priority: 31,
                                 message: "This sentence does not start with a capital letter"
                                     .to_string(),
-                            })
+                            });
                         }
                     }
                 }
@@ -214,6 +206,7 @@ mod tests {
 
     #[test]
     fn allow_camel_case_trademarks() {
+        // Some words are marked as proper nouns in `dictionary.dict` but are lower camel case.
         assert_lint_count(
             "macOS 16 could be called something like Redwood or Shasta",
             SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
@@ -221,11 +214,38 @@ mod tests {
         )
     }
 
+    // TODO: This can't work because currently hyphens are not included in tokenized words
+    // TODO: although they are now permitted in `dictionary.dict`
+    // #[test]
+    // fn uppercase_unamerican_at_start() {
+    //     assert_lint_count("un-American starts with a lowercase letter and contains an uppercase letter, but is not a proper noun or trademark.",
+    //         SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
+    //         1,
+    //     )
+    // }
+
     #[test]
-    fn uppercase_unamerican_at_start() {
-        assert_lint_count("un-American starts with a lowercase letter and contains an uppercase letter, but is not a proper noun or trademark.",
+    fn allow_lowercase_proper_nouns() {
+        // A very few words are marked as proper nouns even though they're all lowercase.
+        // https://css-tricks.com/start-sentence-npm/
+        assert_lint_count(
+            concat!(
+                "npm is the world's largest software registry. Open source developers from every ",
+                "continent use npm to share and borrow packages, and many organizations use npm to ",
+                "manage private development as well."
+            ),
             SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
-            1,
+            0,
+        )
+    }
+
+    #[test]
+    fn allow_lower_camel_case_non_proper_nouns() {
+        // A very few words are not considered proper nouns but still start with a lowercase letter that shouldn't be uppercased at the start of a sentence.
+        assert_lint_count(
+            "mRNA is synthesized from the coding sequence of a gene during the transcriptional process.",
+            SentenceCapitalization::new(FstDictionary::curated(), Dialect::American),
+            0,
         )
     }
 }
