@@ -99,6 +99,11 @@ impl PatternLinter for MultipleSequentialPronouns {
                 return None;
             }
 
+            // The same applies to uppercase before a subject pronoun
+            if first_word_raw == "US" && self.is_subject_pronoun(&second_word) {
+                return None;
+            }
+
             suggestions.push(Suggestion::ReplaceWith(
                 matched_tokens[0].span.get_content(source).to_vec(),
             ));
@@ -204,6 +209,15 @@ mod tests {
     fn dont_flag_my_us_your_us() {
         assert_lint_count(
             "My US passport looks different from your US passport.",
+            MultipleSequentialPronouns::new(),
+            0,
+        )
+    }
+
+    #[test]
+    fn dont_flag_subject_after_usa() {
+        assert_lint_count(
+            "And if it’s manufactured in the US it may have more automation.",
             MultipleSequentialPronouns::new(),
             0,
         )
