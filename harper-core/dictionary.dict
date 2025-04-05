@@ -4819,6 +4819,8 @@ Inglewood/2
 Ingram/2M
 Ingres/M
 Ingrid/2M
+Ingush/12MS5
+Ingushetia/2M
 Innocent/2M
 Innsbruck/2
 Inonu/M
@@ -4901,6 +4903,7 @@ Israelite/15M
 Issac/2M
 Issachar/2M
 Istanbul/2M
+Istanbulite/1MS5
 Isuzu/21M
 It/21
 Itaipu/2M
@@ -7077,6 +7080,7 @@ Muskogee/12M
 Muslim/15MS
 Mussolini/25M
 Mussorgsky/M
+Mustafa/2M
 Mutsuhito/M
 Muzak/214M          # trademark
 MySQL/M
@@ -9449,6 +9453,7 @@ Spenglerian/5M
 Spenser/2M
 Spenserian/51M
 Sperry/2M
+Spetsnaz/9          # plural only
 Sphinx/2M
 Spica/2M
 Spider-Man/2M
@@ -10152,6 +10157,7 @@ Tunney/2M
 Tupi/12M
 Tupperware/1M       # company
 Tupungato/2M
+Turanism/1M
 Turgenev/M
 Turin/2M            # city
 Turing/2M
@@ -13369,6 +13375,7 @@ autonomy/~1M
 autopilot/14SM
 autoplay/14SMDG
 autopsy/~14GDSM
+autoregressive/5
 autorun/14GM
 autosuggestion/1
 autoworker/1MS
@@ -25817,11 +25824,13 @@ genera/~1
 general/~514SMY
 generalisation/1MS!
 generalise/4GDS!
+generaliser/1MS!
 generalissimo/1MS
 generalist/1MS
 generality/~1SM
 generalization/~1MS
 generalize/~4GDS
+generalizer/1MS
 generalship/1M
 generate/~4CAVNGSD
 generation/~1ACM
@@ -29136,6 +29145,7 @@ indie/~51S
 indigence/1M
 indigenous/~5
 indigent/51SMY
+indignance/1M
 indignant/5Y
 indignation/~1M
 indigo/~15M
@@ -29364,11 +29374,11 @@ iniquitous/5Y
 iniquity/1SM
 init/4S
 initial/~514SGMDY
-initialisation/1!
+initialisation/1MS!
 initialise/4DSG!
 initialised/4AU!
 initialism/~1MS
-initialization/~1
+initialization/~1MS
 initialize/4DSG
 initialized/4AU
 initialled/4!@
@@ -34141,6 +34151,7 @@ muffin/14MS
 muffle/14ZGDRS
 muffler/1M
 mufti/~1SM
+muftiate/1SM
 mug/~145SM
 mugful/1MS
 mugged/4
@@ -36387,6 +36398,9 @@ overextend/4DGS
 overfed/54
 overfeed/4GS
 overfill/41DGS
+overfit/4S          # one or two past forms?
+overfitted/45       # is 'overfit' also a past form?
+overfitting/14M
 overflew/4
 overflight/1MS
 overflow/~14MDSG
@@ -39416,6 +39430,7 @@ prognostic/51MS
 prognosticate/4XGNDS
 prognostication/1M
 prognosticator/1MS
+progovernment/5
 program/~14CAS
 programmable/~51MS
 programmatic/5
@@ -48975,6 +48990,7 @@ ultimo/~51
 ultra/~51SM
 ultraconservative/51SM
 ultrahigh/5
+ultraist/1SM
 ultralight/~51SM
 ultramarine/51M
 ultramodern/5
@@ -50785,6 +50801,7 @@ western/~51SZMR
 westerner/1M
 westernisation/1M!
 westernise/4GDS!
+westernism/1M
 westernization/1M
 westernize/4GDS
 westernmost/~5
@@ -51838,10 +51855,11 @@ Elon/2M
 Erdoğan/2M              # surname, Turkish politician
 ESLint/2M
 Ethereum/2M             # digital currency
-Evo/2MS
+Evo/2MS                 # car model
 FIDO/12SM
 FPGA/1SM                # field-programmable gate array
 FPM/SM
+FSD/1M                  # full self-driving
 Firestore/M
 FireWire/MS             # trademark
 Foddy/SM
@@ -52108,6 +52126,8 @@ cross section/1MS
 cross-threaded/5
 de facto/51M
 death knell/1MS
+deja vu/1
+déjà vu/1
 door to door/j
 door-to-door/S
 double-decker/5
@@ -52118,6 +52138,7 @@ et al./~
 fact check/1S
 fact-check/4SDG
 fact-checking/1M
+fail-safe/1MS5
 far right/1MS
 far-right/5
 feature-length/5
@@ -52135,7 +52156,9 @@ gung ho/5
 H-1B/1MS
 half-life/1M
 half-lives/9
+ham-fisted/5
 hand-drawn/5
+hands-off/5
 happy-go-lucky/5
 hard code/4SDG
 hard right/1M
@@ -52170,6 +52193,7 @@ long-term/5
 longer-term/5R
 low-budget/5
 low-cost/5
+low-maintenance/5
 low-profile/5
 made up/4
 made-up/5
