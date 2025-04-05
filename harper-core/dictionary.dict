@@ -20678,6 +20678,7 @@ destruction/~1M
 destructive/~5PY
 destructiveness/1M
 destructor/1MS
+destructure/4SDG
 desuetude/1M
 desultorily/j
 desultory/5
@@ -35429,7 +35430,7 @@ nugatory/5
 nugget/~14SM
 nuisance/~1MS
 nuke/~14MGDS
-null/~154SDG
+null/~154SDGB
 nullification/1M
 nullify/4NDSG
 nullity/1M
@@ -52044,7 +52045,8 @@ Viktor/SM
 VirtualBox/21MS
 Vite/SM
 WAL/21SM
-WASM/M              # see WebAssembly
+WASI/MS
+WASM/MS             # see WebAssembly
 Waymo/2M
 WebAssembly/M       # see WASM
 WebGPU/SM
@@ -52178,6 +52180,7 @@ high tech/1M
 hissy fit/1MS
 holy moley
 holy moly
+ice cream/1MS
 in-memory/5
 in situ/5j
 jaw-droppingly/5
