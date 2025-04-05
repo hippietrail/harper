@@ -21,6 +21,7 @@ const FALSE_POSITIVES: &[&str] = &[
     "bit",
     "bottom",
     "chance",
+    "derivative",
     "dream",
     "front",
     "half",
@@ -426,5 +427,15 @@ mod tests {
             AdjectiveOfA,
             0,
         );
+    }
+
+    #[test]
+    fn dont_flag_derivative() {
+        // Adj: "a derivative story", Noun: "stocks and derivatives"
+        assert_lint_count(
+            "Techniques for evaluating the *partial derivative of a function",
+            AdjectiveOfA,
+            0,
+        )
     }
 }
