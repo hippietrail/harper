@@ -1606,6 +1606,7 @@ Burt/2M
 Burton/2M
 Burundi/2M
 Burundian/15MS
+Busan/2M
 Busch/2M
 Bush/2M
 Bushido/M
@@ -11817,6 +11818,7 @@ airborne/~51
 airbox/1SM
 airbrush/14MDSG
 airbus/~1MS
+aircon/1M
 aircraft/~1M
 aircraftman/1
 aircraftmen/9
@@ -20882,6 +20884,7 @@ dido/~1M
 didoes/1
 didst/4
 die/~41DSM
+diehard/1MS5
 dielectric/~15MS
 diereses/1
 dieresis/1M
@@ -23992,7 +23995,7 @@ fayre/51!@
 faze/4GDS
 fazed/54U
 fealty/1M
-fear/~145MDGS
+fear/~14MDGS        # removed 5 adjective flag since it's rare and dialectal
 fearful/~5YP
 fearfulness/1M
 fearless/~5PY
@@ -25222,6 +25225,7 @@ freeman/~1M
 freemasonry/~1M
 freemen/9
 freephone/14
+freerun/1MS
 freesia/1S
 freestanding/5
 freestone/1SM
@@ -30599,6 +30603,7 @@ kilovolt/1S
 kilowatt/1SM
 kilt/41MDRS
 kilter/1M
+kimchi/1M
 kimono/~1MS
 kin/~154M
 kinase/~1
@@ -45667,6 +45672,7 @@ storeroom/1SM
 storey/1MS!@
 stork/~1SM
 storm/~14GSMD
+stormfront/1MS
 stormily/j
 storminess/1M
 stormtrooper/1SM
@@ -49448,6 +49454,7 @@ unrepentant/5
 unreported/5
 unrepresentative/5
 unrest/~1M
+unrestored/5
 unrevealing/5
 unripe/5TR
 unroll/4GDS
@@ -51857,6 +51864,7 @@ Erdoğan/2M              # surname, Turkish politician
 ESLint/2M
 Ethereum/2M             # digital currency
 Evo/2MS                 # car model
+Expedia/2M
 FIDO/12SM
 FPGA/1SM                # field-programmable gate array
 FPM/SM
@@ -51968,6 +51976,7 @@ OpenPGP/SM
 OpenSearch/SM
 P2/MS
 P2P/21M
+PCH/2M              # highway
 PDP/1SM             # old computer
 PII/1SM
 PKCS/SM
@@ -52091,6 +52100,10 @@ npm/2M              # node package manager
 olds/~              # common in phrasing such as "twenty year olds"
 pandoc/SM           # !! please check and comment !! elsewhere we have Pandoc
 pre/~+14            # !! please check and comment !! dictionaries only list prefix pre-
+Q1
+Q2
+Q3
+Q4
 raytracer/1         # dictionaries prefer: ray tracer
 royale/~15SM        # !! please check and comment !! dictionaries only list noun sense type of custard
 s.t./~              # !! please check and comment !!
@@ -52130,6 +52143,7 @@ de facto/51M
 death knell/1MS
 deja vu/1
 déjà vu/1
+die hard/4
 door to door/j
 door-to-door/S
 double-decker/5
@@ -52146,6 +52160,7 @@ far-right/5
 feature-length/5
 first-hand/j
 flash point/1MS
+four-speed/1MS
 front-line/5
 front man/1M
 full on/5j
@@ -52196,12 +52211,14 @@ long-term/5
 longer-term/5R
 low-budget/5
 low-cost/5
+low-end/5
 low-maintenance/5
 low-profile/5
 made up/4
 made-up/5
 man child/1M
 man-made/5
+middle-sized/5
 mind-blowing/5
 mind game/1MS
 mock up/4
@@ -52262,6 +52279,8 @@ sussing out/4
 tax-exempt/5
 tech-savvy/5
 third-party/5
+tit for tat/1
+tit-for-tat/5
 to-do/1MS
 trade in/4
 trade-in/1MS
