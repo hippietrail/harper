@@ -1,4 +1,4 @@
-52250
+52300
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -6122,38 +6122,39 @@ MBA/1M
 MC/142
 MCI/21M
 MD/215M
+MDF/1M              # medium-density fiberboard
 MDT/12
 ME/21
 MEGO/S
 MFA/21M
-MGM/21M
+MGM/21M             # movie company
 MHz/
 MI/21M
-MI6/2M
+MI6/2M              # agency
 MIA/512
 MIDI/21M
-MIPS/12
+MIPS/12             # cpu
 MIRV/1
-MIT/2M
+MIT/2M              # a university
 MLK/2M              # Martin Luther King
 MM/12
-MMA/1M
+MMA/1M              # mixed martial arts
 MN/21
 MO/215
 MOOC/1
 MOSFET/1MS          # transistor
-MP/125M
+MP/125M             # military police; member of parliament
 MP3/1SM
 MPEG/21
-MRI/14M
+MRI/14M             # magnetic resonance imaging
 MS/12M
-MSG/12M
+MSG/12M             # flavour enhancer
 MSRP/1SM
 MST/214M
 MSW/1
 MT/512M
 MTV/2M
-MVP/1M
+MVP/1M              # most valuable player
 MW/12
 Maalox/M
 Mabel/2M
@@ -8387,6 +8388,7 @@ Ramos/2M
 Ramsay/2M
 Ramses/2M
 Ramsey/2M
+Ramstein/2M         # air base
 Rand/12M
 Randal/2M
 Randall/2M
@@ -10838,6 +10840,7 @@ Xerxes/2M
 Xhosa/1M
 Xi'an/2M
 Xian/215SM
+Xiaomi/2M
 Xiaoping/M
 Ximenes/M
 Xingu/21M
@@ -17439,6 +17442,7 @@ claw/~14CSGD
 claw's
 clay/~14M
 clayey/5
+claymation/1M
 clayier/5
 clayiest/5
 clean/~514BJPZTGDRYS
@@ -19207,6 +19211,7 @@ cover/~154AEUGDS
 cover's
 coverage/~1M
 coverall/1MS
+coverglass/1M
 covering's
 coverings/~1
 coverlet/1MS
@@ -20288,7 +20293,7 @@ defined/~54U
 definer/1MS
 definite/~51IYVP
 definiteness/1IM
-definition/~1AM
+definition/~1AMQ
 definitions/~1
 definitive/~51Y
 deflate/4GNDS
@@ -21407,6 +21412,7 @@ doge/~1MS
 dogeared/54
 dogfight/14SM
 dogfish/1MS
+dogfood/1MS4DG
 dogged/~45PY
 doggedness/1M
 doggerel/51M
@@ -21635,6 +21641,7 @@ downtown/~51M
 downtrend/14MS
 downtrodden/54
 downturn/~14MS
+downvote/14MSDG
 downward/~5S
 downwind/
 downy/51RT
@@ -25434,8 +25441,8 @@ fundamentalist/~1SM
 funded/~45U
 funder/1MS
 funding/~41M
+fundraise/4SDG
 fundraiser/~1MS
-fundraising/~15
 funeral/~15MS
 funerary/~5
 funereal/5Y
@@ -31758,6 +31765,7 @@ logit/1MS
 logjam/14SM
 logo/~1MS
 logoff/1SM
+logographic/5
 logon/14SM
 logotype/1SM
 logout/1SM
@@ -33147,6 +33155,7 @@ microfiche/14M
 microfilm/~14GMDS
 microfinance/1
 microfloppies/1
+microgram/1MS
 microgroove/1SM
 microlight/1MS
 microloan/1MS
@@ -33440,6 +33449,10 @@ miscegenation/1M
 miscellaneous/~5Y
 miscellany/~1SM
 mischance/14SM
+mischaracterisation/1MS!@
+mischaracterise/4GDS!@
+mischaracterization/1MS
+mischaracterize/4GDS
 mischief/~14M
 mischievous/~5YP
 mischievousness/1M
@@ -33948,6 +33961,7 @@ morphine/~1M
 morphing/41M
 morphological/~5
 morphology/~1M
+morphosyntax/1M
 morphs/~14
 morrow/~14MS
 morsel/14MS
@@ -34181,7 +34195,7 @@ multigenerational/5
 multigrain/5
 multilanguage/5
 multilateral/~51Y
-multilayered/5
+multilayer/5D
 multilevel/5
 multilingual/~51
 multilingualism/1M
@@ -34421,6 +34435,8 @@ namesake/~14SM
 namespace/~14GSMD
 nanny/~14SM
 nanobot/1S
+nanocurie/1MS
+nanogram/1SM
 nanometer/1S
 nanometre/1S!@
 nanoprocessor/1SM
@@ -36403,6 +36419,7 @@ overindulge/4GDS
 overindulgence/1M
 overindulgent/5
 overinflated/45
+overinvest/4GDSL
 overjoy/41GSD
 overkill/~14M
 overladen/54
@@ -39683,6 +39700,7 @@ psychodrama/1MS
 psychogenic/5
 psychokinesis/1
 psychokinetic/51
+psycholinguistics/1M
 psychological/~5Y
 psychologist/~1MS
 psychology/~1SM
@@ -40065,7 +40083,7 @@ quencher/1M
 quenchless/5
 querulous/5YP
 querulousness/1M
-query/~14DSMG
+query/~14DSMGB
 ques/1
 quesadilla/1MS
 quest/~14IFAMS
@@ -41031,6 +41049,7 @@ reorg/14MDSG
 rep/~14SM
 repaint/41GDS
 repair/~41BZR
+repairability/1M
 repairer/1M
 repairman/1M
 repairmen/9
@@ -43465,6 +43484,7 @@ shortchange/4DSG
 shortcoming/1MS
 shortcrust/5
 shortcut/~14MS
+shortcutting/14M
 shorten/~4JGD
 shortening/~14M
 shortfall/1MS
@@ -47344,6 +47364,7 @@ tetrahedral/~5
 tetrahedron/~1MS
 tetrameter/1SM
 text/~14FMS
+textbased/5
 textbook/~15SM
 texted/4
 textile/~15MS
@@ -47942,6 +47963,7 @@ tool's
 toolbar/~1SM
 toolbox/~1MS
 toolkit/~1
+toolless/5
 toolmaker/1MS
 tooltip/1MS
 toot/14MDRZGS
@@ -47949,6 +47971,7 @@ tooter/1M
 tooth/~14MD
 toothache/1MS
 toothbrush/14MS
+toothfish/1MS
 toothily/j
 toothless/5
 toothpaste/1SM
@@ -48155,6 +48178,7 @@ tradesmen/9
 tradespeople/9M
 tradeswoman/1M
 tradeswomen/9
+tradie/1MS
 trading/~451M
 tradition/~14MS
 traditional/~51Y
@@ -51055,6 +51079,7 @@ wince/14DSMG
 winch/~14MDSG
 wind/~14UASG
 wind's
+windage/1M
 windbag/14SM
 windblown/5
 windbreak/1SZMR
@@ -51959,6 +51984,8 @@ SQLAlchemy/1
 SVG/21s             # scalable vector graphics
 SVGA/1              # super VGA
 Sharman/2SM
+Shibuya/2M
+Shinjuku/2M
 Simplenote/2M
 Sioyek/M1
 Siri/2M             # voice assistant
@@ -51974,6 +52001,7 @@ TCP/52SM            # internet protocol
 TODO                # FIXME! elsewhere in Harper we refer to Todo and to-do
 TOML/1M             # configuration file format
 TSMC/2M             # Taiwanese Semiconductor Manufacturing Company
+TSR/1MS             # terminate and stay resident
 TUI/12SM            # text user interface
 Tandy/2M            # surname, given name, old computer company
 TechCrunch/SM
@@ -52011,6 +52039,7 @@ Wireguard/SM
 WooCommerce/2M
 Xbox/12MS
 Xorg/21MS
+Y2K/M               # year 2000
 YAML/2SM            # markup language
 Yazi/21MS
 YubiKey/SM
@@ -52065,6 +52094,8 @@ beck and call/1
 bench-warmer/1MS
 blue-collar/5
 boot up/4
+break out/4
+breaks out/4
 built-in/1MS5
 built-up/5
 car bomb/1MS
@@ -52102,15 +52133,20 @@ Greco-Roman/5
 ground-based/5
 gung ho/5
 H-1B/1MS
+half-life/1M
+half-lives/9
 hand-drawn/5
 happy-go-lucky/5
 hard code/4SDG
+hard right/1M
+hard-right/5
 heavy-handed/5
 hi-tech/15
 high-quality/5
 high frequency/1MS
 high-frequency/5
 high-level/5
+high-paying/5
 high-pitched/5
 high-profile/5
 high-rise/1MS
@@ -52131,10 +52167,12 @@ left-wing/5
 live action/1
 load-bearing/5
 long-term/5
-longer-term/5
+longer-term/5R
 low-budget/5
 low-cost/5
 low-profile/5
+made up/4
+made-up/5
 man child/1M
 man-made/5
 mind-blowing/5
@@ -52157,8 +52195,9 @@ one-man/5
 one-off/5
 one-to-one/15
 one-way/5
+OS X/2M             # before macOS
 out-and-out/5
-Pan Am/1M
+Pan Am/1M           # old airline
 Pax Americana/2M
 per capita/5j
 pick-me-up/1MS
@@ -52178,6 +52217,7 @@ shout-out/1S
 sign on/4
 sign-on/1MS
 single-handedly/j
+six-pack/1MS
 so-called/5
 socio-political/5
 sound wave/1MS
@@ -52205,11 +52245,14 @@ un-American/5
 user-friendly/5
 UTF-8/1M
 walkie-talkie/1MS
+Wayback Machine/2M
+weapons-grade/5
 web dev/1MS
 web page/~1SM
 welch plug/1SM
 well-known/5
 well-made/5
+well-received/5
 Wi-Fi/1M
 working-class/15MS
 write off/4
