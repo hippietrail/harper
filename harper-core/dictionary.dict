@@ -1,4 +1,4 @@
-52350
+52370
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -42,10 +42,10 @@ AMA/21
 AMD/12M
 AMG/12MS            # car brand
 ANSI/2S             # text encoding
-ANZUS/2M
-AOL/2M
+ANZUS/2M            # alliance
+AOL/2M              # old internet company
 AP/125M
-APB/1
+APB/1               # all-points bulletin
 APC/125
 API/1SM             # application programming interface, cf. ABI
 APO/1
@@ -54,16 +54,17 @@ AR/512
 ARC/125
 ASAP/               # as soon as possible
 ASCII/2SM
-ASIO/2M
+ASIO/2M             # agency
 ASML/2M             # company
 ASL/2M              # American Sign Language
-ASPCA/2
-AST/1MS
+ASPCA/2             
+AST/1MS             # abstract syntax tree
 ATM/1MS             # automated teller machine
 ATP/21M
+ATX/1M              # old motherboard std
 ATV/21              # all-terrain vehicle
 AV/512
-AVI/2
+AVI/2               # media format
 AWACS/1M
 AWOL/51M            # absent without leave
 AWS/21M
@@ -1285,6 +1286,7 @@ Blu
 Blucher/21M
 Bluebeard/21M
 Bluetooth/24M
+Blumenthal/2M
 Blvd
 Blythe/2M
 Boadicea/2
@@ -2278,14 +2280,14 @@ Commonwealth/2
 Communion/2SM
 Communism/1
 Communist/15SM
-Como/2M
+Como/2M             # laku
 Comoran/51
-Comoros/2M
+Comoros/2M          # country
 Compaq/M
-Compton/2M
+Compton/2M          # company
 CompuServe/M
 Comte/M
-Conakry/2M
+Conakry/2M          # capital of Guinea
 Conan/2M
 Concepcion/2M
 Concetta/M
@@ -2297,7 +2299,8 @@ Conestoga/21M
 Confederacy/2M
 Confederate/51MS
 Confucian/51SM
-Confucianism/1MS
+Confucianism/1M
+Confucianist/1MS
 Confucius/2M
 Cong/2M
 Congo/21M
@@ -3101,6 +3104,7 @@ Egyptology/1M
 Ehrenberg/2M
 Ehrlich/2M
 Eichmann/1M
+Eid/2MS             # festival
 Eiffel/2M
 Eileen/2M
 Einstein/21MS
@@ -3328,6 +3332,7 @@ Europe/2M
 European/51MS
 Europeanism/1M
 Eurotrash/1M
+Eurozone/2M
 Eurydice/2M
 Eustachian/5M
 Eustis/2M
@@ -3690,28 +3695,29 @@ GAO/2
 GATT/2M
 GB/12M
 GCC/2M
-GDP/1M
+GDP/1M              # gross domestic product
 GE/215M
 GED/1
+GFC/1M              # global financial crisis
 GHQ/1M
 GHz/
 GI/514
-GIF/14
+GIF/14              # file format
 GIGO/
-GM/1245M
-GMAT/2
+GM/1245M            # car company
+GMAT/2              # global
 GMO/15
 GMT/21M
 GNP/1M
 GNU/2M
-GOP/21M
+GOP/21M             # political party
 GP/152M
-GPA/1
+GPA/1               # grade point average
 GPO/21
-GPS/214
+GPS/214             # global positioning system
 GPU/1SM
 GSA/21
-GST/1M
+GST/1M              # goods and services tax
 GTE/2M
 GTO/1SM
 GU/1
@@ -6136,7 +6142,7 @@ MGM/21M             # movie company
 MHz/
 MI/21M
 MI6/2M              # agency
-MIA/512
+MIA/512             # missing in action
 MIDI/21M
 MIPS/12             # cpu
 MIRV/1
@@ -8395,6 +8401,7 @@ Ramsay/2M
 Ramses/2M
 Ramsey/2M
 Ramstein/2M         # air base
+Rammstein/2M        # band
 Rand/12M
 Randal/2M
 Randall/2M
@@ -8791,23 +8798,23 @@ SBA/12
 SC/512M
 SCSI/2M             # computing standard
 SD/21
-SDI/12
+SDI/12              # strategic defense initiative
 SE/125M
 SEATO/2
-SEC/21M
-SEO/1M
-SF/125
+SEC/21M             # security and exchange commisson
+SEO/1M              # search engine optimization
+SF/125              # san francisco
 SGI/2M              # computer company
-SGML/2M
-SIDS/12M
+SGML/2M             # mark-up language
+SIDS/12M            # syndrome
 SJ/21
 SJW/1
 SK/412
-SLR/1
+SLR/1               # single-lens reflex; self-loading rifle
 SNES/1MS            # game console
 SO/18S
 SOB/1M
-SOP/21M
+SOP/21M             # sum-of-parts
 SOS/1M
 SOSes/1
 SPCA/2
@@ -13361,6 +13368,7 @@ autograph/~154MDG
 autographs/14
 autoimmune/~5
 autoimmunity/1M
+autoload/4SDG
 automaker/~1SM
 automata/~1SM
 automate/4GNDS
@@ -14651,8 +14659,7 @@ blackmail/~14MDRSZG
 blackmailer/1M
 blackness/~1M
 blackout/~14SM
-blacksmith/~14M
-blacksmiths/1
+blacksmith/~14MSG
 blacksnake/14SM
 blackthorn/1SM
 blacktop/14SM
@@ -16172,7 +16179,8 @@ capably/Ij
 capacious/5PY
 capaciousness/1M
 capacitance/~1M
-capacities/~1
+capacities/~9
+capacitive/5Y
 capacitor/~1SM
 capacity/~15IM
 caparison/14MDGS
@@ -17691,7 +17699,7 @@ coattail/14SM
 coauthor/~14MDGS
 coax/415DRSZG
 coaxer/1M
-coaxial/~51
+coaxial/~51Y
 coaxing/415Y
 cob/14SM
 cobalt/~1M
@@ -19977,7 +19985,7 @@ dandruff/14M
 dandy/~15TRSM
 dang/~451SZGDR
 danger/~14M
-dangerous/~5Y
+dangerous/~5YP
 dangle/41ZGDRS
 dangler/1M
 danish/~1MS
@@ -20122,6 +20130,7 @@ debit/145D
 debonair/51PY
 debonairness/1M
 debouch/14GDS
+debounce/4DSG
 debridement/1
 debris/~1M
 debt/~1SM
@@ -20736,6 +20745,7 @@ detritus/~1M
 deuce/~1SM
 deuterium/~1M
 dev/~1MS
+devaluate/4DSGN
 devastate/4GNDS
 devastating/~54Y
 devastation/~1M
@@ -23476,6 +23486,7 @@ exotica/1Q
 exoticism/1M
 exp/~
 expand/~4BGSD
+expandability/1M
 expanse/~1XMNVS
 expansible/5
 expansion/~1M
@@ -27130,6 +27141,7 @@ handsomeness/1M
 handspring/1MS
 handstand/14SM
 handsy/51RT
+handwave/1MS4DG
 handwork/14M
 handwoven/5
 handwriting/~14M
@@ -27928,6 +27940,7 @@ home/~145MYZGDRS
 homebody/1SM
 homeboy/18SM
 homebrew/1SM4DG
+homebuilt/5
 homecoming/~1SM
 homecooked/5
 homegrown/~5
@@ -30045,12 +30058,13 @@ isometric/~51SQ
 isometrics/1M
 isomorphic/~5
 isomorphism/~1
+isopropyl/1MS
 isosceles/~5
 isotherm/1SM
 isotope/~14SM
 isotopic/~5
 isotropic/~5
-issuance/~1M
+issuance/~1MS
 issue/~14ADSMG
 issuer/~1MS
 isthmian/~51
@@ -33169,7 +33183,7 @@ microcontroller/1MS
 microcosm/1MS
 microcosmic/5
 microdot/14SM
-microeconomics/1M
+microeconomic/5QS
 microelectronic/51S
 microelectronics/~1M
 microfarad/1MS
@@ -33574,6 +33588,7 @@ misremember/4GDS
 misreport/41MDGS
 misrepresent/4GDS
 misrepresentation/~1MS
+misrepresentative/5
 misrule/14MGDS
 miss/~41EDSGV
 miss's
@@ -35845,6 +35860,7 @@ omit/~4S
 omitted/~4
 omitting/~41
 omnibus/~154MS
+omnidirectional/5
 omnipotence/1M
 omnipotent/51Y
 omnipresence/1M
@@ -35895,8 +35911,7 @@ onward/~54
 onwards/j
 onyx/~15MS
 oodles/1M
-ooh/14GD
-oohs/41
+ooh/14GDS
 oomph/14
 oops/~14
 oopsy/1MS
@@ -36447,7 +36462,7 @@ overhype/4SGD
 overindulge/4GDS
 overindulgence/1M
 overindulgent/5
-overinflated/45
+overinflate/4SDG
 overinvest/4GDSL
 overjoy/41GSD
 overkill/~14M
@@ -36471,6 +36486,7 @@ overly/~5SG
 overmanned/45
 overmanning/4
 overmaster/4SDG
+overmatch/4SDG
 overmodest/5
 overmuch/51S
 overnice/5
@@ -36482,6 +36498,7 @@ overparticular/5
 overpass/~14MS
 overpay/4GS
 overperform/4GDS
+overperformance/1MS
 overplay/4GDS
 overpopulate/4GNDS
 overpopulation/1M
@@ -36504,6 +36521,7 @@ overreach/41GDS
 overreact/4SDG
 overreaction/1SM
 overrefined/45
+overregulate/4DSGN
 overreliance/1M
 overrepresent/4GDS
 overrepresentation/1M
@@ -36545,6 +36563,7 @@ overspecialization/1M
 overspecialize/4GDS
 overspend/41SG
 overspent/45
+overspill/1MS4DG
 overspray/14SMDG
 overspread/4GS
 overstaffed/4
@@ -40889,6 +40908,7 @@ registrant/~1MS
 registrar/~1MS
 registration/~1SM
 registry/~1SM
+reglue/4SDG
 regnant/51
 regolith/1SM
 regress/14MDSGV
@@ -41325,6 +41345,9 @@ retake/~41G
 retaliate/4DSGNVX
 retaliation/~1M
 retaliatory/5
+retap/4S
+retapped/4
+retapping/4
 retard/14SMDRZG
 retardant/51SM
 retardation/1M
@@ -43591,6 +43614,7 @@ shrimp/~14MDRSZG
 shrine/~14MS
 shrink/~41MSBG
 shrinkage/1M
+shrinker/1MS
 shrinkflation/1M
 shrive/4GDS
 shrivel/4SGD
@@ -43748,7 +43772,7 @@ silicosis/1M
 silk/~14MNS
 silkily/j
 silkiness/1M
-silkscreen/14SM
+silkscreen/14SMD    # past form used re pcb's
 silkworm/~1MS
 silky/~51TRP
 sill/~15MS
@@ -46926,6 +46950,7 @@ tank/~14ZGMDRS
 tankard/1MS
 tanker/~14M
 tankful/1MS
+tankie/1MS
 tankless/5
 tanned/54U
 tanner/~15SM
@@ -46942,7 +46967,7 @@ tantalization/1M
 tantalize/4ZGDRS
 tantalizer/1M
 tantalizing/541Y
-tantalum/~1M
+tantalum/~1MS       # plural can be used for capacitors
 tantamount/541
 tantra/~1M
 tantrum/14SM
@@ -47544,7 +47569,7 @@ thingamajig/1SM
 thingumabob/1S
 thingummy/1S
 thingy/185S
-think/~41SRBZG
+think/~41SRBZGM     # `M` for 's as in What do you think's going on?
 thinkable/5U
 thinker/~1M
 thinking's
@@ -49459,6 +49484,7 @@ unrelenting/5Y
 unrelieved/5Y
 unremarkable/~5
 unremitting/5Y
+unrepairable/5
 unrepentant/5
 unreported/5
 unrepresentative/5
@@ -51926,6 +51952,7 @@ Kagi/SM
 Kahneman/SM
 KanBan/M1
 Kia/21MS            # automobile brand
+KiCad/2M            # software
 Kubernetes/2SM
 LADAR
 LEGO/1SM            # official trademark form of Lego
@@ -52078,6 +52105,7 @@ Wikilink/MS1        # !! please check and comment !! elsewhere we have wikilink
 Wireguard/SM
 WooCommerce/2M
 Xbox/12MS
+XLR/1M              # connector
 Xorg/21MS
 Y2K/M               # year 2000
 YAML/2SM            # markup language
@@ -52132,6 +52160,7 @@ wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
 
 ad nauseam/j
 add-on/1MS
+air-cooled/5
 avant-garde/1M5
 back to back/j
 back-to-back/5
@@ -52148,7 +52177,9 @@ car-bomb/4
 centre-left/5!@
 centre-right/5!@
 command line/1MS
+cost cutting/1M
 cost-effective/5
+cotter pin/1MS
 cross section/1MS
 cross-threaded/5
 cutting edge/1MS
@@ -52174,6 +52205,8 @@ far right/1MS
 far-right/5
 feature-length/5
 first-hand/j
+first person/1M
+first-person/5
 flash point/1MS
 four-speed/1MS
 front-line/5
@@ -52255,6 +52288,7 @@ once-in-a-lifetime/5
 one-handed/5
 one-man/5
 one-off/5
+one-tenth/1
 one-to-one/15
 one-way/5
 OS X/2M             # before macOS
@@ -52282,6 +52316,7 @@ single-handedly/j
 six-pack/1MS
 so-called/5
 socio-political/5
+solid-state/5
 sound wave/1MS
 spot on/5
 stand down/4
@@ -52294,15 +52329,19 @@ suss out/4
 sussed out/4
 susses out/4
 sussing out/4
+ta-da
 tax-exempt/5
 tech-savvy/5
 third-party/5
+time-consuming/5Y
 tit for tat/1
 tit-for-tat/5
 to-do/1MS
 trade in/4
 trade-in/1MS
 two-thirds/1
+type checking/1M
+type-check/4SDG
 uh-huh
 uh-oh
 un-American/5
@@ -52317,6 +52356,7 @@ welch plug/1SM
 well-known/5
 well-made/5
 well-received/5
+well-respected/5
 Wi-Fi/1M
 working-class/15MS
 write off/4
