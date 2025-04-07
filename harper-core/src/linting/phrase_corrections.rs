@@ -923,6 +923,13 @@ pub fn lint_group() -> LintGroup {
             "Use `without` instead of `w/o`",
             "Expands the abbreviation `w/o` to the full word `without` for clarity."
         ),
+        "WellKept" => (
+            ["highly-kept", "highly kept"],
+            // There may be other good alternatives such as closely-guarded or tightly-held
+            ["well-kept"],
+            "`Highly-kept` is not standard. To describe secrets, `well-kept` is the most used phrase.",
+            "Flags `highly-kept` and recommends `well-kept` as an alternative."
+        ),
         "ExpandBecause" => (
             ["cuz"],
             ["because"],
@@ -1774,11 +1781,30 @@ mod tests {
         );
     }
 
+    #[test]
+    fn correct_highly_kept_space() {
+        assert_suggestion_result(
+            "I assure you that frequency/angle dependence is a highly kept secret.",
+            lint_group(),
+            "I assure you that frequency/angle dependence is a well-kept secret.",
+        );
+    }
+
+    #[test]
     fn expand_cuz() {
         assert_suggestion_result(
             "Stick around cuz I got a surprise for you at the end.",
             lint_group(),
             "Stick around because I got a surprise for you at the end.",
+        );
+    }
+
+    #[test]
+    fn correct_highly_kept_no_hyphen() {
+        assert_suggestion_result(
+            "Well, Kushina's giving birth was already a highly-kept secret so it makes sense to operate with only the completely necessary personnel.",
+            lint_group(),
+            "Well, Kushina's giving birth was already a well-kept secret so it makes sense to operate with only the completely necessary personnel.",
         );
     }
 
