@@ -9,6 +9,7 @@ const FALSE_POSITIVES: &[&str] = &[
     // Different valid constructions.
     "all",
     "emblematic",
+    "equivalent",
     "full",
     "inside",
     // "more" is tricky but it often seems correct and idiomatic.
@@ -437,5 +438,14 @@ mod tests {
             AdjectiveOfA,
             0,
         )
+    }
+
+    #[test]
+    fn dont_flag_equivalent() {
+        assert_lint_count(
+            "Rust's equivalent of a switch statement is a match expression",
+            AdjectiveOfA,
+            0,
+        );
     }
 }
