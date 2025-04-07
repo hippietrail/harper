@@ -923,6 +923,12 @@ pub fn lint_group() -> LintGroup {
             "Use `without` instead of `w/o`",
             "Expands the abbreviation `w/o` to the full word `without` for clarity."
         ),
+        "TrialAndError" => (
+            ["trail and error"],
+            ["trial and error"],
+            "You misspelled `trial`.",
+            "Corrects `trail` to `trial` in `trial and error`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1753,6 +1759,15 @@ mod tests {
             "Another possible cause is simply that the application does not have file creation permissions on the another machine.",
             lint_group(),
             "Another possible cause is simply that the application does not have file creation permissions on the other machine.",
+        );
+    }
+
+    #[test]
+    fn correct_trail_and_error() {
+        assert_suggestion_result(
+            "It was produced through trail and error.",
+            lint_group(),
+            "It was produced through trial and error.",
         );
     }
 }
