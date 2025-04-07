@@ -923,6 +923,13 @@ pub fn lint_group() -> LintGroup {
             "Use `without` instead of `w/o`",
             "Expands the abbreviation `w/o` to the full word `without` for clarity."
         ),
+        "WellKept" => (
+            ["highly-kept", "highly kept"],
+            // There may be other good alternatives such as closely-guarded or tightly-held
+            ["well-kept"],
+            "`Highly-kept` is not stanard. To describe secrets, `well-kept` is the most used phrase.",
+            "Flags `highly-kept` and recommends `well-kept` as an alternative."
+        )
     });
 
     group.set_all_rules_to(Some(true));
@@ -1753,6 +1760,24 @@ mod tests {
             "Another possible cause is simply that the application does not have file creation permissions on the another machine.",
             lint_group(),
             "Another possible cause is simply that the application does not have file creation permissions on the other machine.",
+        );
+    }
+
+    #[test]
+    fn correct_highly_kept_space() {
+        assert_suggestion_result(
+            "I assure you that frequency/angle dependence is a highly kept secret.",
+            lint_group(),
+            "I assure you that frequency/angle dependence is a well-kept secret.",
+        );
+    }
+
+    #[test]
+    fn correct_highly_kept_no_hyphen() {
+        assert_suggestion_result(
+            "Well, Kushina's giving birth was already a highly-kept secret so it makes sense to operate with only the completely necessary personnel.",
+            lint_group(),
+            "Well, Kushina's giving birth was already a well-kept secret so it makes sense to operate with only the completely necessary personnel.",
         );
     }
 }
