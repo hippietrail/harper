@@ -7242,10 +7242,10 @@ Nazareth/2M
 Nazca/2M
 Nazi/152SM
 Nazism/1MS
-Nb/M
-Nd/M
+Nb/M                # niobium
+Nd/M                # neodymium
 Ndjamena/M
-Ne/M
+Ne/M                # neon
 NeWS
 NeWSes
 Neal/2M
@@ -44632,7 +44632,8 @@ somerset/~14SM
 somersetted/4
 somersetting/4
 something/~8541SM
-sometime/~5S
+sometime/~5
+sometimes/j
 someway/
 someways/j
 somewhat/~81S
