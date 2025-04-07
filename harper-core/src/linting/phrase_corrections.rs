@@ -935,6 +935,12 @@ pub fn lint_group() -> LintGroup {
             "`at face value is more idiomatic and more common.",
             "Corrects `on face value` to the more usual `at face value`."
         ),
+        "TrialAndError" => (
+            ["trail and error"],
+            ["trial and error"],
+            "You misspelled `trial`.",
+            "Corrects `trail` to `trial` in `trial and error`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1768,7 +1774,6 @@ mod tests {
         );
     }
 
-    #[test]
     fn expand_cuz() {
         assert_suggestion_result(
             "Stick around cuz I got a surprise for you at the end.",
@@ -1783,6 +1788,15 @@ mod tests {
             "Obviously what you want is possible and on face value it's a trivial change on our end.",
             lint_group(),
             "Obviously what you want is possible and at face value it's a trivial change on our end.",
+        );
+    }
+
+    #[test]
+    fn correct_trail_and_error() {
+        assert_suggestion_result(
+            "It was produced through trail and error.",
+            lint_group(),
+            "It was produced through trial and error.",
         );
     }
 }
