@@ -111,6 +111,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 	// 100 is just to the right of programming language - perfect!
 	// 101 is left of line/column
 	dialectStatusBarItem = window.createStatusBarItem(StatusBarAlignment.Right, 100);
+	dialectStatusBarItem.tooltip = 'Harper English dialect';
 	context.subscriptions.push(dialectStatusBarItem);
 
 	context.subscriptions.push(
@@ -190,7 +191,7 @@ function updateDialectStatusBar(): void {
 	const flagAndCode = getFlagAndCode(dialect);
 	if (!flagAndCode) return;
 
-	dialectStatusBarItem.text = flagAndCode.join(' ');
+	dialectStatusBarItem.text = `$(harper-logo) ${flagAndCode.join(' ')}`;
 	dialectStatusBarItem.show();
 	console.log(`** dialect set to ${dialect} **`, dialect);
 }
