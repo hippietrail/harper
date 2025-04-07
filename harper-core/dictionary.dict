@@ -7726,6 +7726,7 @@ PO/15
 POV/1SM             # point of view
 POW/1MS             # prisoner of war
 PP/12
+PPE/1M              # personal protective equipment
 PPS/1
 PR/21               # public relations
 PRC/21M             # mainland China
@@ -15668,6 +15669,7 @@ bullseye/~1
 bullshit/~154MS6
 bullshitted/46
 bullshitter/1SM6
+bullshittery/1M6
 bullshitting/46
 bullwhip/14S
 bully/~145DSMG
@@ -16406,7 +16408,7 @@ caryatid/1MS
 casaba/1MS
 cascade/~14DSMG
 cascara/1SM
-case/~145LDSJMG
+case/~14LDSJMG      # removed `5` adj. rare poker sense only
 casebook/~15S
 cased/45U
 caseharden/4DGS
@@ -25983,7 +25985,7 @@ gesundheit/
 get/~41S
 getaway/~15SM
 getter/1SM
-getting/~41
+getting/~41M        # `M` for getting's contraction
 getup/1M
 gewgaw/15SM
 geyser/14SM
@@ -36346,6 +36348,7 @@ overaggressive/5
 overall/~51SM
 overalls/1M
 overambitious/5
+overanalyze/4SDG
 overanxious/5
 overarching/~451
 overarm/514GSD
@@ -52170,6 +52173,7 @@ wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
 ad nauseam/j
 add-on/1MS
 air-cooled/5
+anti-Semitism/1M
 avant-garde/1M5
 back to back/j
 back-to-back/5
@@ -52300,6 +52304,8 @@ one-off/5
 one-tenth/1
 one-to-one/15
 one-way/5
+open source/1M
+open-source/54SDG
 OS X/2M             # before macOS
 out-and-out/5
 Pan Am/1M           # old airline
@@ -52307,6 +52313,7 @@ Pax Americana/2M
 per capita/5j
 pick-me-up/1MS
 plan B/M
+quid pro quo/1M
 post-truth/14M
 rack-mounted/5
 right-hand/5
@@ -52314,6 +52321,7 @@ right-wing/5
 run-up/1MS
 sci-fi/1M
 sea lane/1MS
+self-driving/1M5
 self-obsessed/5
 shark-infested/5
 short-lived/5
