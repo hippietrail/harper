@@ -2373,6 +2373,7 @@ Corneille/M
 Cornelia/2M
 Cornelius/2M
 Cornell/2M
+Corniche/1MS
 Corning/2M
 Cornish/512MS
 Cornwall/2M
@@ -18215,6 +18216,7 @@ complete/~451PYTGNXDRS
 completed/~45U
 completeness/~1IM
 completion/~1M
+completionist/51MS
 complex/~514MSY
 complexion/~14MDS
 complexional/5
@@ -18950,6 +18952,7 @@ cornflakes/1M
 cornflour/1
 cornflower/15SM
 cornice/~14MS
+corniche/1MS
 cornily/j
 corniness/1M
 cornmeal/1M
@@ -36980,6 +36983,7 @@ parasitical/5Y
 parasitism/1M
 parasitize/4DSG
 parasitoid/1MS
+parasocial/5
 parasol/14MS
 parasympathetic/~51S
 parathion/1M
@@ -41291,6 +41295,7 @@ resplendence/1M
 resplendent/5Y
 respond/~41SGD
 respondent/15SM
+responder/1MS
 response/~1MS
 responsibility/~1SM
 responsible/~51
@@ -44916,6 +44921,7 @@ speediness/1M
 speeding/~451M
 speedo/1MS
 speedometer/1MS
+speedrun/14MS
 speedster/1SM
 speedup/1MS
 speedway/~1SM
@@ -46536,8 +46542,7 @@ suspicious/~5Y
 suss/154DSG
 sustain/~41SDBG
 sustainability/~1
-sustainable/~51U
-sustainably/j
+sustainable/~51UY
 sustenance/1M
 sutler/1MS
 suttee/1
@@ -49315,6 +49320,7 @@ unexcited/5
 unexciting/5
 unexpected/~51YP
 unexpectedness/1M
+unexplainable/5
 unexploded/5
 unfailing/5Y
 unfair/~54PTRY
@@ -49537,6 +49543,7 @@ unsubtle/5
 unsuitable/~5
 unsure/~5
 unsuspecting/~5Y
+unsustainable/5Y
 unsymmetrical/5
 untactful/5
 unterminated/5
@@ -52151,6 +52158,7 @@ scrollbar/1SM       # dictionaries prefer: scroll bar
 sioyek/SM           # !! please check and comment !!
 stacktrace/SM1      # dictionaries prefer: stack trace
 standup/SM          # dictionaries prefer: stand-up
+vid/1MS             # video
 whitespace/~1SM     # dictionaries prefer: white space
 wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
 
@@ -52300,9 +52308,11 @@ pick-me-up/1MS
 plan B/M
 post-truth/14M
 rack-mounted/5
+right-hand/5
 right-wing/5
 run-up/1MS
 sci-fi/1M
+sea lane/1MS
 self-obsessed/5
 shark-infested/5
 short-lived/5
@@ -52333,6 +52343,9 @@ ta-da
 tax-exempt/5
 tech-savvy/5
 third-party/5
+thought out/4
+thought-out/5
+thought-provoking/5
 time-consuming/5Y
 tit for tat/1
 tit-for-tat/5
@@ -52357,6 +52370,7 @@ well-known/5
 well-made/5
 well-received/5
 well-respected/5
+well-used/5
 Wi-Fi/1M
 working-class/15MS
 write off/4
