@@ -929,7 +929,19 @@ pub fn lint_group() -> LintGroup {
             ["well-kept"],
             "`Highly-kept` is not standard. To describe secrets, `well-kept` is the most used phrase.",
             "Flags `highly-kept` and recommends `well-kept` as an alternative."
-        )
+        ),
+        "ExpandBecause" => (
+            ["cuz"],
+            ["because"],
+            "Use `because` instead of informal `cuz`",
+            "Expands the informal abbreviation `cuz` to the full word `because` for formality."
+        ),
+        "AtFaceValue" => (
+            ["on face value"],
+            ["at face value"],
+            "`at face value is more idiomatic and more common.",
+            "Corrects `on face value` to the more usual `at face value`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1769,6 +1781,15 @@ mod tests {
             "I assure you that frequency/angle dependence is a highly kept secret.",
             lint_group(),
             "I assure you that frequency/angle dependence is a well-kept secret.",
+          );
+    }
+  
+    #[test]
+    fn expand_cuz() {
+        assert_suggestion_result(
+            "Stick around cuz I got a surprise for you at the end.",
+            lint_group(),
+            "Stick around because I got a surprise for you at the end.",
         );
     }
 
@@ -1778,6 +1799,15 @@ mod tests {
             "Well, Kushina's giving birth was already a highly-kept secret so it makes sense to operate with only the completely necessary personnel.",
             lint_group(),
             "Well, Kushina's giving birth was already a well-kept secret so it makes sense to operate with only the completely necessary personnel.",
+      );
+    }
+  
+    #[test]
+    fn correct_on_face_value() {
+        assert_suggestion_result(
+            "Obviously what you want is possible and on face value it's a trivial change on our end.",
+            lint_group(),
+            "Obviously what you want is possible and at face value it's a trivial change on our end.",
         );
     }
 }
