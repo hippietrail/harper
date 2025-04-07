@@ -1781,9 +1781,9 @@ mod tests {
             "I assure you that frequency/angle dependence is a highly kept secret.",
             lint_group(),
             "I assure you that frequency/angle dependence is a well-kept secret.",
-          );
+        );
     }
-  
+
     #[test]
     fn expand_cuz() {
         assert_suggestion_result(
@@ -1799,9 +1799,9 @@ mod tests {
             "Well, Kushina's giving birth was already a highly-kept secret so it makes sense to operate with only the completely necessary personnel.",
             lint_group(),
             "Well, Kushina's giving birth was already a well-kept secret so it makes sense to operate with only the completely necessary personnel.",
-      );
+        );
     }
-  
+
     #[test]
     fn correct_on_face_value() {
         assert_suggestion_result(
