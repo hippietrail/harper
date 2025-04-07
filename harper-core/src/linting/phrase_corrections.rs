@@ -935,12 +935,6 @@ pub fn lint_group() -> LintGroup {
             "Vocabulary enhancement: use `excellent` instead of `very good`",
             "Provides a stronger word choice by replacing `very good` with `excellent` for clarity and emphasis."
         ),
-        "AnyQuestions" => (
-            ["any question"],
-            ["any questions"],
-            "Count agreement: use `Any questions` instead of `Any question`",
-            "Changes the singular to the plural form in a standard request for feedback or clarification."
-        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1825,24 +1819,6 @@ mod tests {
             "He radiated a sense of very goodness in his charitable acts.",
             lint_group(),
             0,
-        );
-    }
-
-    #[test]
-    fn any_questions_clean() {
-        assert_lint_count(
-            "Does anyone have any questions before we conclude the meeting?",
-            lint_group(),
-            0,
-        );
-    }
-
-    #[test]
-    fn any_questions_incorrect() {
-        assert_suggestion_result(
-            "Any question before we finish?",
-            lint_group(),
-            "Any questions before we finish?",
         );
     }
 }
