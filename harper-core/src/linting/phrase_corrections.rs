@@ -927,7 +927,7 @@ pub fn lint_group() -> LintGroup {
             ["highly-kept", "highly kept"],
             // There may be other good alternatives such as closely-guarded or tightly-held
             ["well-kept"],
-            "`Highly-kept` is not stanard. To describe secrets, `well-kept` is the most used phrase.",
+            "`Highly-kept` is not standard. To describe secrets, `well-kept` is the most used phrase.",
             "Flags `highly-kept` and recommends `well-kept` as an alternative."
         )
     });
