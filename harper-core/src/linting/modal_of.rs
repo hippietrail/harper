@@ -289,4 +289,18 @@ mod tests {
     fn doesnt_catch_to_take_on_the_full_might_of_nato() {
         assert_lint_count("To take on the full might of NATO.", ModalOf::default(), 0);
     }
+
+    #[test]
+    fn doesnt_catch_mixed_case_of_course() {
+        assert_lint_count(
+            "... for now you could of Course put ...",
+            ModalOf::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn catches_mixed_case_could_of_put() {
+        assert_lint_count("... for now you could of Put ...", ModalOf::default(), 1);
+    }
 }
