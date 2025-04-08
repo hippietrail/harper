@@ -58,7 +58,8 @@ Additionally, you can also configure things like which linters to use or how you
                             :codeActions (:ForceStable :json-false)
                             :markdown (:IgnoreLinkTitle :json-false)
                             :diagnosticSeverity "hint"
-                            :isolateEnglish :json-false)))
+                            :isolateEnglish :json-false
+                            :dialect "American")))
 ```
 
 :::note
@@ -66,6 +67,17 @@ This example only contains some of the available linters, check out our [rules p
 :::
 
 For more information on what each of these configs do, you can head over to the [configuration section](./language-server#Configuration) of our `harper-ls` documentation.
+
+## Common Config Changes
+
+Programmers often find certain rules have too much of a hair-trigger.
+The below config is a simple cut-and-paste that gives you much fewer false-positives.
+
+```elisp title=init.el
+(setq-default eglot-workspace-configuration
+              '(:harper-ls (:linters (:SpellCheck :json-false
+                                      :SentenceCapitalization :json-false))))
+```
 
 ## Additional Links
 
