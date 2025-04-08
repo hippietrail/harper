@@ -22,6 +22,7 @@ const FALSE_POSITIVES: &[&str] = &[
     "bit",
     "bottom",
     "chance",
+    "clockwork",
     "derivative",
     "dream",
     "front",
@@ -444,6 +445,15 @@ mod tests {
     fn dont_flag_equivalent() {
         assert_lint_count(
             "Rust's equivalent of a switch statement is a match expression",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_clockwork() {
+        assert_lint_count(
+            "so something's wrong in this clockwork of a thing and I'm not going to bother taking this apart",
             AdjectiveOfA,
             0,
         );
