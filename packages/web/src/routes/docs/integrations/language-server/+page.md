@@ -121,6 +121,37 @@ We _do_ take pull requests or issues for adding words to the static dictionary. 
 | `HarperAddToUserDict`  | Adds the selected word to the user dictionary              | `Add "containes" to the global dictionary.` |
 | `HarperAddToFileDict`  | Adds the selected word to a file-local dictionary          | `Add "containes" to the file dictionary.`   |
 
+## Ignore Comments
+
+`harper-ls` supports skipping comment blocks that contain any of following:
+
+- `harper:ignore`
+- `harper: ignore`
+- `spellcheck:ignore`
+- `spellcheck: ignore`
+
+So "spellcheckd" and other spelling or grammar errors will not be flagged in any of the following comments:
+
+```js
+// harper:ignore this line will not be spellcheckd
+function sample() {
+	// harper: ignore
+	// This line and any other line after it
+	// will also not be spellcheckd
+
+	// including this this one
+}
+```
+
+For CSpell compatibility, we also support these ignore comments:
+
+- `cSpell:ignore`
+- `cSpell: ignore`
+- `spell-checker:ignore`
+- `spell-checker: ignore`
+- `spellchecker:ignore`
+- `spellchecker: ignore`
+
 ## Configuration
 
 `harper-ls` expects a JSON object with a `harper-ls` key that contains your configs:
