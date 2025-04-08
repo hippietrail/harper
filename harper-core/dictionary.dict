@@ -1,4 +1,4 @@
-52370
+52430
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -2103,6 +2103,7 @@ Chișinău/2M
 Chloe/2M
 Choctaw/251SM
 Chomsky/2M
+Chomskyite/1MS5
 Chongqing/2M
 Chopin/2M
 Chopra/2M
@@ -2130,7 +2131,7 @@ Christoper/M
 Christopher/2M
 Chromebook/1MS
 Chronicles/2
-Chrysler/21M
+Chrysler/21MS
 Chrysostom/2M
 Chrystal/2M
 Chuck/21M
@@ -3025,6 +3026,7 @@ EMT/1
 ENE/15M
 EOE/1
 EPA/21M             # agency
+EPROM/1SM           # electrically erasable programmable read-only memory
 ER/21
 ERA/12              # equal rights amendment
 ESE/15M
@@ -4747,7 +4749,7 @@ ISIS/2
 ISO/21+M            # standards organization
 ISP/1
 ISS/12
-IT/15
+IT/1                # removed `5`. nouns can qualify nouns. makes `it` an adjective which interferes with heuristics
 IUD/1
 IV/51SM
 IVF/1
@@ -4913,7 +4915,7 @@ Issac/2M
 Issachar/2M
 Istanbul/2M
 Istanbulite/1MS5
-Isuzu/21M
+Isuzu/21M           # car brand
 It/21
 Itaipu/2M
 Ital/1
@@ -5407,6 +5409,7 @@ Kewpie/M
 Key/2M
 Keynes/2M
 Keynesian/51M
+Keynesianism/1M
 Khabarovsk/2M
 Khachaturian/2M
 Khalid/2M
@@ -8354,14 +8357,14 @@ RIP/21
 RISC/1
 RN/12M
 RNA/1M
-RNG/1MS
+RNG/1MS             # random number generator
 ROFL/4
-ROM/21M
+ROM/1SM             # read-only memory
 ROTC/2M
 RP/124
 RPM/1MS
 RR/124
-RSA/1M
+RSA/1M              # encryption standard
 RSFSR/2
 RSI/1
 RSV/21
@@ -11398,6 +11401,7 @@ acting/~541M
 actinium/1M
 action/~154ASM
 actionable/~51
+actioner/1MS
 activate/~4ICANGSD
 activation/~1ICAM
 activator/1MS
@@ -11936,6 +11940,7 @@ alien/~154BGMDS
 alienable/5IU
 alienate/514DSGN
 alienation/~1M
+alienator/1MS
 alienist/1SM
 alight/~45GDS
 align/~4ALGDS
@@ -13327,6 +13332,7 @@ auspiciousness/1M
 austere/~5RYT
 austerity/~1SM
 austral/~51
+auteur/1MS
 auth/14
 authentic/~5IU
 authentically/j
@@ -14034,6 +14040,7 @@ bearishness/1M
 bearlike/5
 bearskin/1MS
 beast/~145MS
+beastie/1MS
 beastliness/1M
 beastly/5TPRM
 beat/~145SZGBMNRJ
@@ -14534,7 +14541,7 @@ biologist/~1MS
 biology/~1M
 biomarker/1MS
 biomass/~1M
-biomedical/~51
+biomedical/~51Y
 biometric/5
 biometrics/1
 bionic/~5SQ
@@ -15160,6 +15167,7 @@ both/~87
 bother/~41SMDG
 botheration/1
 bothered/~54U
+botherer/1MS
 bothersome/5
 botlike/5
 botnet/1SM
@@ -19155,6 +19163,7 @@ countermeasure/1SM
 countermelody/1S
 countermen/19
 countermove/14S
+counternarrative/1MS
 counteroffensive/~15SM
 counteroffer/14SM
 counterpane/1SM
@@ -21639,6 +21648,7 @@ downdraught/1M!
 downer/1M
 downfall/~14SMN
 downfield/5
+downforce/1M
 downgrade/14DSMG
 downhearted/5PY
 downheartedness/1M
@@ -22097,7 +22107,7 @@ earned/~4U
 earner/1M
 earnest/~145SMYP
 earnestness/1M
-earnings/~1M
+earnings/~9
 earphone/1MS
 earpiece/1S
 earplug/14SM
@@ -22731,6 +22741,7 @@ endorser/1M
 endoscope/1MS
 endoscopic/5
 endoscopy/1M
+endoskeleton/1MS
 endothelial/~5
 endothermic/5
 endotracheal/5
@@ -24899,6 +24910,7 @@ footsore/5
 footstep/1MS
 footstool/1SM
 footwear/~1M
+footwell/1MS
 footwork/~1M
 footy/15
 fop/1SM
@@ -25327,6 +25339,7 @@ frilly/5TR
 fringe/~154IDSG
 fringe's
 frippery/1SM
+frisbee/1MS
 frisk/514SDG
 friskily/j
 friskiness/1M
@@ -30580,8 +30593,8 @@ kibosh/14M
 kick/~41MDRSZG
 kickback/~1SM
 kickball/1M
+kickbox/4GDS
 kickboxer/1MS
-kickboxing/~1
 kicker/~1M
 kickoff/~1MS
 kickstand/1MS
@@ -32675,6 +32688,10 @@ matey/51S
 mathematical/~5Y
 mathematician/~1SM
 mathematics/~1M
+mathematisation/1M!
+mathematise/4DSG!
+mathematization/1M
+mathematize/4SDG
 maths/14!
 matinee/14SM
 mating/~514M
@@ -34154,7 +34171,7 @@ mt/~51
 mtg/1
 mtge/1
 mu/~1SM
-much/~58M
+much/~58MP
 mucilage/1M
 mucilaginous/5
 muck/14MDSG
@@ -35151,6 +35168,7 @@ noninclusive/5
 nonindependent/5
 nonindustrial/5
 noninfectious/5
+noninfinite/5Y
 noninflammatory/5
 noninflationary/5
 noninflected/5
@@ -35984,7 +36002,7 @@ opprobrious/5Y
 opprobrium/1M
 opt/~4SGD
 optic/~51MS
-optical/~51Y
+optical/~51YMS
 optician/1SM
 optics/~1M
 optima/1
@@ -38824,6 +38842,7 @@ postdoctoral/~51
 poster/~14M
 posterior/~51SM
 posterity/~1M
+postgrad/1MS5
 postgraduate/~15SM
 posthaste/1
 posthumous/~5Y
@@ -41148,6 +41167,7 @@ replete/514PDSGN
 repleteness/1M
 repletion/1M
 replica/~1SM
+replicant/1MS
 replicate/~415DSGNX
 replication/~1M
 replicator/1S
@@ -41352,6 +41372,7 @@ retainer/1M
 retake/~41G
 retaliate/4DSGNVX
 retaliation/~1M
+retaliator/1MS
 retaliatory/5
 retap/4S
 retapped/4
@@ -43324,6 +43345,7 @@ shapeless/5YP
 shapelessness/1M
 shapeliness/1M
 shapely/5PTR
+shapeshift/4DSG
 shard/~14MSG
 share/~14MZGDRSA
 shareable/51
@@ -43512,6 +43534,7 @@ shoetree/1MS
 shogun/~1MS
 shogunate/~1M
 shone/~4
+shonky/5
 shoo/48GDS
 shook/~145
 shoot/~41ZGMRSJ
@@ -47084,7 +47107,7 @@ tawdry/15RTP
 tawny/~541TRM
 tax/~14BZGMDRS
 taxa/~1
-taxation/~1M
+taxation/~1MS
 taxer/1M
 taxi/~14GMDS
 taxicab/14SM
@@ -47355,7 +47378,9 @@ terminable/5IC
 terminal/~154MYS
 terminate/~45DSGNX
 termination/~1CSM
-terminator/~1S
+terminative/51MS
+terminator/~1SM
+terminatory/5
 termini/~1
 terminological/5Y
 terminology/~1SM
@@ -52046,7 +52071,6 @@ Qin/2SM
 RDBMS/12SM          # relational database management system
 RISC/1M             # cpu architecture
 RFID/21M            # radio frequency identification
-ROM/1SM             # read-only memory
 RPC/21SM            # remote procedure call
 RTX/1SM
 Raytheon/2M
@@ -52145,6 +52169,7 @@ gzipping/4
 hardcode/4GDS       # dictionaries prefer: hard code
 hotwire/4BG         # dictionaries prefer: hot-wire
 labriola/SM         # !! please check and comment !! - should be uppercase surname?
+memecoin/1MS
 Molex/12MS          # Molex connector
 npm/2M              # node package manager
 olds/~              # common in phrasing such as "twenty year olds"
@@ -52173,7 +52198,13 @@ wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
 ad nauseam/j
 add-on/1MS
 air-cooled/5
+all-new/5
+anti-Semitic/5
+anti-Semite/1MS
 anti-Semitism/1M
+anti-vaccine/5
+anti-vax/5
+anti-vaxxer/1MS
 avant-garde/1M5
 back to back/j
 back-to-back/5
@@ -52274,12 +52305,14 @@ longer-term/5R
 low-budget/5
 low-cost/5
 low-end/5
+low-income/5
 low-maintenance/5
 low-profile/5
 made up/4
 made-up/5
 man child/1M
 man-made/5
+Mercedes-Benz/2M
 middle-sized/5
 mind-blowing/5
 mind game/1MS
@@ -52313,6 +52346,7 @@ Pax Americana/2M
 per capita/5j
 pick-me-up/1MS
 plan B/M
+pre-COVID/5
 quid pro quo/1M
 post-truth/14M
 rack-mounted/5
@@ -52322,6 +52356,7 @@ run-up/1MS
 sci-fi/1M
 sea lane/1MS
 self-driving/1M5
+self-fund/4SDG
 self-obsessed/5
 shark-infested/5
 short-lived/5
@@ -52341,6 +52376,7 @@ spot on/5
 stand down/4
 stand-down/1MS
 stand-up/51
+standard-bearer/1MS
 stay behind/4
 stay-behind/1MS
 surface-to-air/5
