@@ -33,7 +33,7 @@ if command -v parallel &> /dev/null; then
         pandoc -s \
             -V pagetitle="${base#"harper.js."} - Harper" \
             -V description-meta="API reference documentation for harper.js" \
-            -V css="https://unpkg.com/mvp.css" \
+            -V document-css="true" \
             -L "./temp/md_to_html.lua" \
             -o "html/${base}.html" {}
     ' ::: ./markdown/*.md
@@ -44,7 +44,7 @@ else
 		pandoc -s \
 			-V pagetitle="${base#"harper.js."} - Harper" \
 			-V description-meta="API reference documentation for harper.js" \
-			-V css="https://unpkg.com/mvp.css" \
+			-V document-css="true" \
 			-L "./temp/md_to_html.lua" \
 			-o "html/${base}.html" "$file"
 	done
