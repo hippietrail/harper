@@ -2669,7 +2669,8 @@ Dayton/2M
 Daytona/2M
 DeGeneres/2M
 DeKalb/2M
-DeLorean/2MS
+DeLorean/2MS        # car brand
+DeSoto/12MS         # car brand
 Deadhead/1M
 Dean/2M
 Deana/M
@@ -7701,6 +7702,7 @@ PA/215M             # Pennsylvania
 PAC/12M             # political action committee
 PARC/S              # xerox
 PASCAL              # cf. pascal, Pascal
+PB/1MS              # personal best; peanut butter
 PBS/12M             # organization
 PBX/1
 PC/5124SM
@@ -27388,6 +27390,7 @@ headbang/4SDG
 headbanger/1S
 headbanging/145
 headboard/1SM
+headbolt/1MS
 headbutt/14DSG
 headcase/1S
 headcheese/1
@@ -27601,6 +27604,7 @@ hematological/5
 hematologist/1MS
 hematology/1M
 heme/~1M
+hemi/1MS
 hemiplegia/1
 hemisphere/~1SM
 hemispheric/5
@@ -41362,6 +41366,7 @@ restricted/~45U
 restriction/~1MS
 restrictive/~51YP
 restrictiveness/1M
+restrictor/1MS
 restring/4SG
 restroom/1SM
 restructuring/~41SM
@@ -42005,6 +42010,7 @@ rune/~1MS
 rung/~145MS
 runic/~5
 runlet/1SM
+runnable/5
 runnel/14SM
 runner/~1SM
 running/~451+M
@@ -49577,9 +49583,11 @@ unspectacular/5
 unsporting/5
 unstable/~54
 unsteady/54TRP
+unstick/4SG
 unstinting/5Y
 unstoppably/j
 unstrapping/4
+unstuck/4
 unsubscriber/1MS
 unsubstantial/5
 unsubtle/5
@@ -52209,6 +52217,7 @@ stacktrace/SM1      # dictionaries prefer: stack trace
 standup/SM          # dictionaries prefer: stand-up
 ULA/1MS             # uncommitted logic array
 vid/1MS             # video
+WD40/1M
 whitespace/~1SM     # dictionaries prefer: white space
 wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
 
@@ -52302,6 +52311,7 @@ happy-go-lucky/5
 hard code/4SDG
 hard right/1M
 hard-right/5
+heavy-duty/5
 heavy-handed/5
 hi-tech/15
 high-quality/5
