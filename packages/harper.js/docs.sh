@@ -19,29 +19,34 @@ if [[ -d "$harperjs_docs_dir" ]]; then
 fi
 mkdir -p "$harperjs_docs_dir" || true
 
+cat <<- PANDOC_FILTER > "./temp/md_to_html.lua"
+	function Link(elem)
+	  elem.target = string.gsub(elem.target, "%.md$", ".html")
+	  return elem
+	end
+PANDOC_FILTER
+
 echo "Rendering HTML..."
 if command -v parallel &> /dev/null; then
 	parallel '
         base=$(basename {} .md)
-        title="${base#"harper.js."}"
         pandoc -s \
-            -V pagetitle="${title} - Harper" \
+            -V pagetitle="${base#"harper.js."} - Harper" \
             -V description-meta="API reference documentation for harper.js" \
             -V css="https://unpkg.com/mvp.css" \
+            -L "./temp/md_to_html.lua" \
             -o "html/${base}.html" {}
-        perl -pi -e '\''s/"\K([^"]+)\.md(?=")/\1.html/g'\'' "html/${base}.html"
     ' ::: ./markdown/*.md
 else
 	echo "parallel not found, falling back to sequential processing"
 	for file in ./markdown/*.md; do
 		base=$(basename "$file" .md)
-		title="${base#"harper.js."}"
 		pandoc -s \
-			-V pagetitle="${title} - Harper" \
+			-V pagetitle="${base#"harper.js."} - Harper" \
 			-V description-meta="API reference documentation for harper.js" \
 			-V css="https://unpkg.com/mvp.css" \
+			-L "./temp/md_to_html.lua" \
 			-o "html/${base}.html" "$file"
-		perl -pi -e 's/"\K([^"]+)\.md(?=")/\1.html/g' "html/${base}.html"
 	done
 fi
 mv -f "$html_dir" "${harperjs_docs_dir}/ref"
