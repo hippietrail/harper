@@ -1,4 +1,4 @@
-52430
+52450
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -3674,11 +3674,12 @@ Fuentes/2M
 Fugger/M
 Fuji/2M
 Fujian/25M
-Fujitsu/M
+Fujitsu/M           # Disinhibited
 Fujiwara/2M
 Fujiyama/2M
 Fukuoka/2M
-Fukuyama/2M
+Fukuyama/2M         # francis -
+Fukuyaman/5
 Fulani/2M
 Fulbright/2M
 Fuller/2M
@@ -4946,7 +4947,7 @@ JCS/2
 JD/12
 JDM
 JFK/214M
-JIT/1MS
+JIT/1MS4DG          # cf. jit
 JP/12
 JPEG/214
 JV/1
@@ -10938,7 +10939,7 @@ Yorktown/2M
 Yoruba/12M
 Yosemite/2M
 Yossarian/M
-YouTube/214M
+YouTube/214MG
 YouTuber/1SM
 Young/2M
 Youngstown/2M
@@ -15620,7 +15621,7 @@ buffer/~154SMDG
 buffet/~14SMDGJ
 buffoon/14SM
 buffoonery/1M
-buffoonish/5
+buffoonish/5P
 bug/~14CS
 bug's
 bugaboo/1SM
@@ -18457,6 +18458,7 @@ conflagration/1MS
 conflate/451XDSGN
 conflation/1M
 conflict/~14SGMD
+conflictive/5
 confluence/~1MS
 confluent/51
 conform/~4ZB
@@ -21203,6 +21205,7 @@ disinfection/1M
 disinform/4SDG
 disinterested/~5PY
 disinterestedness/1M
+disinhibit/4SDG
 disjointed/~5YP
 disjointedness/1M
 disjunctive/51
@@ -23198,12 +23201,14 @@ ethnic/~51SMQ
 ethnicity/~1MS
 ethnocentric/5
 ethnocentrism/1M
+ethnocultural/5
 ethnographer/1S
 ethnographic/~5Q
 ethnography/~1
 ethnological/5Y
 ethnologist/1SM
 ethnology/~1M
+ethnonationalism/1M
 ethological/5
 ethologist/1MS
 ethology/1M
@@ -28689,6 +28694,7 @@ illegibly/j
 illegitimacy/~1M
 illegitimate/~514Y
 illiberal/51Y
+illiberalism/1M
 illiberality/1M
 illicit/~51YP
 illicitness/1M
@@ -30289,6 +30295,9 @@ jinn/1
 jinni/1M
 jinrikisha/1SM
 jinx/14MDSG
+jit/4S
+jitted/4
+jitting/4
 jitney/~1SM
 jitterbug/14MS
 jitterbugged/4
@@ -32143,7 +32152,7 @@ maceration/1M
 mach/~M
 machete/14SM
 machinate/4GNDSX
-machination/1M
+machination/1MS
 machine/~14DSMGB
 machinery/~1M
 machinist/1MS
@@ -34561,7 +34570,7 @@ nation/~1MS
 national/~51MYS
 nationalisation/1SM!
 nationalise/4CDSG!
-nationalism/~1M
+nationalism/~1MS
 nationalist/~51SM
 nationalistic/~5Q
 nationality/~1SM
@@ -35692,7 +35701,7 @@ obtuseness/1M
 obverse/~51SM
 obviate/415DSGN
 obviation/1M
-obvious/~5PY
+obvious/~5PYU
 obviousness/1M
 ocarina/1MS
 occasion/~14GMDS
@@ -35849,6 +35858,7 @@ oink/14MDSG
 ointment/~1SM
 okapi/1SM
 okay/~145MSG
+okayish/5
 okra/1MS
 old/~51TMNRP
 oldie/1SM
@@ -40863,7 +40873,7 @@ reflate/4XDSGN
 reflationary/5
 reflect/~4GVSD
 reflection/~1MS
-reflective/~5Y
+reflective/~5YP
 reflectivity/~1
 reflector/~1MS
 reflexive/~51SMY
@@ -43810,7 +43820,7 @@ silky/~51TRP
 sill/~15MS
 silliness/1M
 silly/~51TRSMP
-silo/~14MS
+silo/~14MSDG
 silovik/1MS
 siloviki/9
 silt/~14GMDS
@@ -47732,7 +47742,7 @@ thuggery/1M
 thuggish/5
 thulium/1M
 thumb/~14SMDG
-thumbnail/~14SM
+thumbnail/~14SMDG
 thumbprint/1SM
 thumbscrew/1SM
 thumbtack/14SM
@@ -49341,6 +49351,7 @@ unemployed/~5M
 unending/5
 unenterprising/5
 unequal/~51DY
+unerase/4SDG
 unerring/5Y
 unessential/5
 unevaluated/5
@@ -51890,6 +51901,7 @@ Anker/SM
 Archytas/SM             # !! please check and comment !! we also have archytas
 Automattic/SM           # WordPress company
 Automattician/SM
+BLM/1M
 BRICS/                  # intergovernmental organization
 BYD/2MS                 # Chinese automobile manufacturer
 Bachiyski/SM
@@ -52088,6 +52100,7 @@ SVGA/1              # super VGA
 Sharman/2SM
 Shibuya/2M
 Shinjuku/2M
+Shopify/2M          # company
 Simplenote/2M
 Sioyek/M1
 Siri/2M             # voice assistant
@@ -52157,6 +52170,7 @@ archytas/SM         # !! please check and comment !! we also have Archytas
 backend/1SM         # dictionaries prefer: back end
 baz/~               # cf. foo, bar
 config/14SM         # not marked as a verb since "configed" and "configing" look wrong
+corpo/1MS
 dedup/1M            # not well covered by dictionaries. wiktionary has only singular noun. cf. dedupe
 dedupe/14SMDG       # not well covered by dictionaries. wiktionary has noun and verb. cf. dedup
 dotfile/~1SM        # not well covered by dictionaries.
@@ -52221,6 +52235,7 @@ car bomb/1MS
 car-bomb/4
 centre-left/5!@
 centre-right/5!@
+clear-sighted/5
 command line/1MS
 cost cutting/1M
 cost-effective/5
@@ -52335,6 +52350,8 @@ once-in-a-lifetime/5
 one-handed/5
 one-man/5
 one-off/5
+one shot/1
+one-shot/514
 one-tenth/1
 one-to-one/15
 one-way/5
@@ -52344,6 +52361,8 @@ OS X/2M             # before macOS
 out-and-out/5
 Pan Am/1M           # old airline
 Pax Americana/2M
+peer review/1MSDG
+peer-reviewed/5
 per capita/5j
 pick-me-up/1MS
 plan B/M
@@ -52359,6 +52378,7 @@ sea lane/1MS
 self-driving/1M5
 self-fund/4SDG
 self-obsessed/5
+self-tapping/5
 shark-infested/5
 short-lived/5
 short-term/5j
