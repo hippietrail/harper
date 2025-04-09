@@ -1,4 +1,4 @@
-52450
+52500
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -14529,6 +14529,7 @@ biohazard/1MS
 bioethics/~1M
 biofeedback/1M
 biofilm/1MS
+bioinformatics/1M
 biog/1
 biographer/~1SM
 biographic/5
@@ -17596,7 +17597,7 @@ cloister/~14SMDG
 cloistral/5
 clomp/14SDG
 clonal/5
-clone/~14DSMG
+clone/~14DSMGB
 clonidine/1
 clonk/14SMDG
 clop/14MS
@@ -18816,7 +18817,7 @@ conventionality/1UM
 conventionalize/4GDS
 conventioneer/1S
 convergence/~1MS
-convergent/~51
+convergent/~51Y
 conversant/51
 conversation/~14MS
 conversational/~5Y
@@ -26581,10 +26582,10 @@ gravitation/~1M
 gravitational/~5
 gravity/~1M
 gravy/~14SM
-gray/~541MDRTGSP
-graybeard/1SM
-grayish/5
-grayness/1M
+gray/~541MDRTGSP<
+graybeard/1SM<
+grayish/5<
+grayness/1M<
 graze/14DRSMZG
 grazer/1M
 grease/~14DRSMZG
@@ -47051,6 +47052,7 @@ taro/~1MS
 tarot/~1MS
 tarp/14MS
 tarpaulin/14MS
+tarpit/1MS
 tarpon/1MS
 tarragon/1SM
 tarred/4
@@ -52085,6 +52087,7 @@ RDBMS/12SM          # relational database management system
 RISC/1M             # cpu architecture
 RFID/21M            # radio frequency identification
 RPC/21SM            # remote procedure call
+RPG/1MS             # role-playing game
 RTX/1SM
 Raytheon/2M
 Reddit/2M
@@ -52173,6 +52176,7 @@ config/14SM         # not marked as a verb since "configed" and "configing" look
 corpo/1MS
 dedup/1M            # not well covered by dictionaries. wiktionary has only singular noun. cf. dedupe
 dedupe/14SMDG       # not well covered by dictionaries. wiktionary has noun and verb. cf. dedup
+DEI
 dotfile/~1SM        # not well covered by dictionaries.
 filesystem/~SM      # dictionaries prefer: file system
 frontend/1SM        # dictionaries prefer: front end
@@ -52186,6 +52190,7 @@ hotwire/4BG         # dictionaries prefer: hot-wire
 labriola/SM         # !! please check and comment !! - should be uppercase surname?
 memecoin/1MS
 Molex/12MS          # Molex connector
+NMI/1MS             # non-maskable interrupt
 npm/2M              # node package manager
 olds/~              # common in phrasing such as "twenty year olds"
 pandoc/SM           # !! please check and comment !! elsewhere we have Pandoc
@@ -52202,6 +52207,7 @@ scrollbar/1SM       # dictionaries prefer: scroll bar
 sioyek/SM           # !! please check and comment !!
 stacktrace/SM1      # dictionaries prefer: stack trace
 standup/SM          # dictionaries prefer: stand-up
+ULA/1MS             # uncommitted logic array
 vid/1MS             # video
 whitespace/~1SM     # dictionaries prefer: white space
 wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
@@ -52244,11 +52250,15 @@ cross section/1MS
 cross-threaded/5
 cutting edge/1MS
 cutting-edge/5
+de-extinct/4GD
+di-extinction/1MS
 de facto/51M
 death knell/1MS
 deja vu/1
 déjà vu/1
 die hard/4
+dire wolf/1M
+dire wolves/9
 door to door/j
 door-to-door/S
 double-decker/5
@@ -52275,7 +52285,11 @@ full on/5j
 full-on/5j
 full-scale/5
 gold-plated/5
+gray wolf/1M<
+gray wolves/9<
 Greco-Roman/5
+grey wolf/1M!@
+grey wolves/9!@
 ground-based/5
 gung ho/5
 H-1B/1MS
@@ -52364,12 +52378,15 @@ Pax Americana/2M
 peer review/1MSDG
 peer-reviewed/5
 per capita/5j
+Petri dish/1MS
 pick-me-up/1MS
 plan B/M
 pre-COVID/5
 quid pro quo/1M
 post-truth/14M
 rack-mounted/5
+red wolf/1M
+red wolves/9
 right-hand/5
 right-wing/5
 run-up/1MS
@@ -52438,6 +52455,7 @@ well-received/5
 well-respected/5
 well-used/5
 Wi-Fi/1M
+wishy-washy/5
 working-class/15MS
 write off/4
 write-off/1MS
