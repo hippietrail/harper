@@ -23,17 +23,25 @@ echo "Rendering HTML..."
 if command -v parallel &> /dev/null; then
 	parallel '
         base=$(basename {} .md)
-        pandoc {} -o "html/${base}.html"
+        title="${base#"harper.js."}"
+        pandoc -s \
+            -V pagetitle="${title} - Harper" \
+            -V description-meta="API reference documentation for harper.js" \
+            -V css="https://unpkg.com/mvp.css" \
+            -o "html/${base}.html" {}
         perl -pi -e '\''s/"\K([^"]+)\.md(?=")/\1.html/g'\'' "html/${base}.html"
-        echo '\''<link rel="stylesheet" href="https://unpkg.com/mvp.css">'\'' >> "html/${base}.html"
     ' ::: ./markdown/*.md
 else
 	echo "parallel not found, falling back to sequential processing"
 	for file in ./markdown/*.md; do
 		base=$(basename "$file" .md)
-		pandoc "$file" -o "html/${base}.html"
+		title="${base#"harper.js."}"
+		pandoc -s \
+			-V pagetitle="${title} - Harper" \
+			-V description-meta="API reference documentation for harper.js" \
+			-V css="https://unpkg.com/mvp.css" \
+			-o "html/${base}.html" "$file"
 		perl -pi -e 's/"\K([^"]+)\.md(?=")/\1.html/g' "html/${base}.html"
-		echo '<link rel="stylesheet" href="https://unpkg.com/mvp.css">' >> "html/${base}.html"
 	done
 fi
 mv -f "$html_dir" "${harperjs_docs_dir}/ref"
