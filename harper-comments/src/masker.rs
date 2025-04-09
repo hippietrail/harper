@@ -25,8 +25,6 @@ impl CommentMasker {
                     || text.contains("spell-checker: ignore")
                     || text.contains("spellcheck:ignore")
                     || text.contains("spellcheck: ignore")
-                    || text.contains("cSpell:ignore")
-                    || text.contains("cSpell: ignore")
                     || text.contains("harper:ignore")
                     || text.contains("harper: ignore")
                     || text.starts_with("#!")
