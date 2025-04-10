@@ -21,7 +21,7 @@ use super::chock_full::ChockFull;
 use super::comma_fixes::CommaFixes;
 use super::compound_nouns::CompoundNouns;
 use super::confident::Confident;
-use super::correct_number_suffix::CorrectNumberSuffix;
+use super::correct_ordinal_suffix::CorrectOrdinalSuffix;
 use super::despite_of::DespiteOf;
 use super::dot_initialisms::DotInitialisms;
 use super::ellipsis_length::EllipsisLength;
@@ -319,7 +319,7 @@ impl LintGroup {
         insert_struct_rule!(LongSentences, true);
         insert_struct_rule!(RepeatedWords, true);
         insert_struct_rule!(Spaces, true);
-        insert_struct_rule!(CorrectNumberSuffix, true);
+        insert_struct_rule!(CorrectOrdinalSuffix, true);
         insert_struct_rule!(NumberSuffixCapitalization, true);
         insert_pattern_rule!(MultipleSequentialPronouns, true);
         insert_struct_rule!(LinkingVerbs, false);
