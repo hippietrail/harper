@@ -222,4 +222,13 @@ mod tests {
             0,
         )
     }
+
+    #[test]
+    fn dont_flag_case_insensitive_cost_him_his_life() {
+        assert_lint_count(
+            "to the point where it very well likely cost Him his life",
+            MultipleSequentialPronouns::new(),
+            0,
+        )
+    }
 }
