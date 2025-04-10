@@ -11,7 +11,7 @@ impl Linter for CorrectOrdinalSuffix {
         let mut output = Vec::new();
 
         for number_tok in document.iter_numbers() {
-            let Some(suffix_span) = Span::new_with_len(number_tok.span.end, 2).pulled_by(2) else {
+            let Some(_suffix_span) = Span::new_with_len(number_tok.span.end, 2).pulled_by(2) else {
                 continue;
             };
 
