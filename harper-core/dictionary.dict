@@ -1674,7 +1674,7 @@ CSV/1M              # data file format
 CT/2145M
 CUDA/21M            # computing architecture
 CV/125              # curriculum vitae
-CVS/12M
+CVS/12M             # version control
 CZ/1
 Ca/M                # calcium
 Cabernet/M
@@ -8844,7 +8844,7 @@ STI/1M              # sexually transmitted infection; cf. STD, VD
 STOL/1
 SUSE/M
 SUV/1MS             # vehicle type
-SVN/2M
+SVN/2M              # version control
 SW/2154M
 SWAK/
 SWAT/1
@@ -14262,6 +14262,7 @@ bemusement/1M
 bench/~14GMDS
 benchmark/~14MSGD
 bend/~41BSZGMR
+bendability/1M
 bender/~1M
 bendy/51TR
 beneath/~+
@@ -52180,6 +52181,7 @@ a8c/SM
 archytas/SM         # !! please check and comment !! we also have Archytas
 backend/1SM         # dictionaries prefer: back end
 baz/~               # cf. foo, bar
+BitKeeper/1M        # version control
 config/14SM         # not marked as a verb since "configed" and "configing" look wrong
 corpo/1MS
 dedup/1M            # not well covered by dictionaries. wiktionary has only singular noun. cf. dedupe
@@ -52209,13 +52211,16 @@ Q3
 Q4
 raytracer/1         # dictionaries prefer: ray tracer
 royale/~15SM        # !! please check and comment !! dictionaries only list noun sense type of custard
+SCM/1M              # source code management
 s.t./~              # !! please check and comment !!
 scatterplot/14SMG   # dictionaries prefer: scatter plot
 scrollbar/1SM       # dictionaries prefer: scroll bar
 sioyek/SM           # !! please check and comment !!
 stacktrace/SM1      # dictionaries prefer: stack trace
 standup/SM          # dictionaries prefer: stand-up
+Subversion/1M       # version control
 ULA/1MS             # uncommitted logic array
+VCS/1M              # version control system
 vid/1MS             # video
 WD40/1M
 whitespace/~1SM     # dictionaries prefer: white space
