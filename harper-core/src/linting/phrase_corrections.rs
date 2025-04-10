@@ -153,9 +153,9 @@ pub fn lint_group() -> LintGroup {
         ),
         "ThatThis" => (
             ["the this"],
-            ["that this"],
-            "Did you mean `that this`?",
-            "Fixes `the this` to the correct phrase `that this`."
+            ["that this", "this"],
+            "Did you mean `that this` or just `this`?",
+            "Fixes `the this` to either `that this` or just `this`."
         ),
         "CondenseAllThe" => (
             ["all of the"],
@@ -1823,6 +1823,16 @@ mod tests {
             "It was produced through trail and error.",
             lint_group(),
             "It was produced through trial and error.",
+        );
+    }
+
+    #[test]
+    fn correct_the_this_to_this() {
+        assert_nth_suggestion_result(
+            "see how the this outside lip here is really pulling because that suspension wants to flatten out",
+            lint_group(),
+            "see how this outside lip here is really pulling because that suspension wants to flatten out",
+            1,
         );
     }
 }
