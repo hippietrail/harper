@@ -842,6 +842,7 @@ BITNET/2
 BJJ/1M
 BLT/1SM
 BM/124M
+BMX/1MS
 BMW/214MS
 BO/124
 BP/215M
@@ -23621,7 +23622,7 @@ explosiveness/1M
 expo/~1MS
 exponent/~1MS
 exponential/~51YMS
-exponentiation/1
+exponentiate/4XGNDS
 export/~514BSZGMDR
 exportation/1M
 exporter/~1M
@@ -26698,6 +26699,7 @@ gripe/41SM
 griper/1M
 grippe/1MZGDR
 gripper/1M
+grippy/5
 grisliness/1M
 grisly/51RTP
 grist/~14MY
@@ -33850,7 +33852,7 @@ molt/41MDNRSZG
 molten/54!@
 molter/1M
 molybdenum/1M
-mom/~14SM
+mom/~14SM<@
 moment/~1MS
 momenta/1
 momentarily/j
@@ -33859,7 +33861,7 @@ momentary/5P
 momentous/5PY
 momentousness/1M
 momentum/~1M
-mommy/~145SM
+mommy/~145SM<@
 monad/1
 monarch/~1M
 monarchic/5
@@ -34334,7 +34336,7 @@ multivariate/51
 multiverse/~1SM
 multivitamin/15MS
 multiyear/5
-mum/~154
+mum/~154MS!
 mumble/~41MZGDRS
 mumbler/1M
 mumbletypeg/1M
@@ -34342,7 +34344,7 @@ mummer/14MS
 mummery/1M
 mummification/1M
 mummify/4GNDS
-mummy/~14SM
+mummy/~14SM!
 mumps/14M
 mun/~418
 munch/~41GDSR
@@ -41310,7 +41312,7 @@ reshipping/41
 residence/~1SM
 residency/~1SM
 resident/~15MS
-residential/~51
+residential/~51Y
 residua/1
 residual/~51MS
 residue/~1SM
@@ -51969,7 +51971,7 @@ CERN/2M                 # intergovernmental organization
 CI/1SM                  # continuous integration
 CISC/1M                 # cpu architecture
 CMake/SM                # build tool
-CMOS/1
+CMOS/1                  # microchip process
 CQL/1
 CRDT/1SM
 CRM/12SM
@@ -52393,6 +52395,7 @@ kick start/4SDG
 knock-on effect/1MS
 kung fu/1M
 laid-back/5
+large-scale/5
 lead off/1M4
 lead-up/1MS
 left-wing/5
