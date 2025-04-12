@@ -1,4 +1,4 @@
-52550
+52560
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -1448,6 +1448,7 @@ Brennan/2M
 Brenner/2M
 Brent/2M
 Brenton/2M
+Bresenham/2M
 Brest/2M
 Bret/2M
 Breton/125M
@@ -7729,6 +7730,7 @@ PHP/12M             # programming language
 PIN/1               # personal identification number
 PJ's
 PLA/2M              # china's army
+PLC/1MS             # public limited company; programmable logic controller
 PLO/21M             # organization
 PM/14SMDG           # prime minister; private message
 PMS/1245M
@@ -10235,6 +10237,7 @@ Tyson/2M
 U/M                 # removed `1`noun `5`adj. `2`proper noun `+`prep., was interfering with linter heuristics. I only know this as an abbreviation for university
 UAE/2M              # United Arab Emirates
 UAR/2
+UART/1MS            # electronics
 UAW/2
 UBS/2M
 UCLA/2M             # university
@@ -14634,6 +14637,7 @@ bite/~41RSMZ
 biter/1M
 biting/~415Y
 bitmap/1S
+bitplane/1MS
 bitstream/SM
 bitten/~4
 bitter/~514PMRYTS
@@ -14784,6 +14788,7 @@ blithe/5PYTR
 blitheness/1M
 blither/415G
 blithesome/5
+blitter/1MS
 blitz/~14GMDS
 blitzkrieg/1MS
 blivet/1S
@@ -17129,6 +17134,7 @@ chipper/514MS
 chippie/1
 chipping/~41S
 chippy/154S
+chipset/1MS
 chirography/1M
 chiropodist/1MS
 chiropody/1M
@@ -17985,6 +17991,7 @@ coloration/~1EM<
 coloratura/15MS<
 colorblind/5P<
 colorblindness/1M<
+colorburst/1M<
 colored/~514U<
 colored's/<
 coloreds/1<
@@ -18009,6 +18016,7 @@ colourant/1SM!@
 colouration/1EM!
 colourblind/5P!@
 colourblindness/1M!@
+colourburst/1M!@
 coloured/514U!@
 coloureds/1!@
 colourfast/5P!@
@@ -21873,6 +21881,7 @@ droop/415GSMD
 droopiness/1M
 droopy/5TPR
 drop/~14MS
+dropbox/1MS
 dropkick/~14MS
 droplet/1SM
 dropout/1SM
@@ -25926,6 +25935,7 @@ genitals/~1M
 genitive/~51MS
 genitourinary/5
 genius/~15MSP
+genlock/1MS4DG
 genned/4
 genning/4
 genocidal/~5
@@ -33496,6 +33506,7 @@ minstrelsy/1M
 mint/~145MDRSZG
 mintage/1M
 minter/1M
+minterm/1MS
 minty/5RTP
 minuend/1MS
 minuet/~14SM
@@ -40294,7 +40305,7 @@ quoit/14SMDG
 quondam/5
 quorate/15I
 quorum/~1SM
-quot/B
+quot/B              # !! is this due to HTML entity &quot;?
 quota/~1SM
 quotability/1M
 quotation/~1SM
@@ -40302,8 +40313,8 @@ quote/~14UDSG
 quote's
 quotidian/51
 quotient/~1SM
-qwerty/5
-r/~4S
+qwerty/5            # dictionaries prefer QWERTY
+r/~4S               # !! 'r' is a verb??
 rabbet/14GMDS
 rabbi/~1SM
 rabbinate/1M
@@ -41825,6 +41836,7 @@ rollerskating/14M
 rollick/4SDG
 rollicking/415M
 rollmop/1S
+rolloff/1MS
 rollover/~14SM
 romaine/~1MS
 roman/~51M
@@ -42320,7 +42332,7 @@ sanitize/4ZGDRS
 sanity/~1IM
 sank/~4
 sans/~+51
-sanserif/15
+sanserif/15         # dictionaries prefer: sans serif
 sap/~14SM
 sapience/1M
 sapiens/~1
@@ -42764,7 +42776,8 @@ scrod/14M
 scrofula/1M
 scrofulous/5
 scrog/1S
-scroll/~14GSMDR
+scroll/~14GSMD
+scroller/1MS
 scrooge/~14MS
 scrota/1
 scrotal/5
@@ -51956,6 +51969,7 @@ Archytas/SM             # !! please check and comment !! we also have archytas
 ATF/1M                  # automatic transmission fluid
 Automattic/SM           # WordPress company
 Automattician/SM
+BCPL/1M                 # old programming language
 BLM/1M
 BRICS/                  # intergovernmental organization
 BYD/2MS                 # Chinese automobile manufacturer
@@ -52249,6 +52263,7 @@ memecoin/1MS
 Molex/12MS          # Molex connector
 NMI/1MS             # non-maskable interrupt
 npm/2M              # node package manager
+OG/1MS
 olds/~              # common in phrasing such as "twenty year olds"
 pandoc/SM           # !! please check and comment !! elsewhere we have Pandoc
 pre/~+14            # !! please check and comment !! dictionaries only list prefix pre-
@@ -52281,6 +52296,7 @@ ad nauseam/j
 add-on/1MS
 air-cooled/5
 all-new/5
+all-nighter/1MS
 all-woman/5
 anti-Semitic/5
 anti-Semite/1MS
@@ -52301,6 +52317,7 @@ built-in/1MS5
 built-up/5
 car bomb/1MS
 car-bomb/4
+CD-ROM/1MS
 centre-left/5!@
 centre-right/5!@
 clear-sighted/5
@@ -52396,6 +52413,7 @@ knock-on effect/1MS
 kung fu/1M
 laid-back/5
 large-scale/5
+last-ditch/5
 lead off/1M4
 lead-up/1MS
 left-wing/5
@@ -52465,6 +52483,7 @@ red wolves/9
 right-hand/5
 right-wing/5
 run-up/1MS
+sans serif/1M5
 sci-fi/1M
 sea lane/1MS
 self-driving/1M5
