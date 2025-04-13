@@ -1,4 +1,4 @@
-52560
+52580
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -2064,6 +2064,7 @@ Chester/21M
 Chesterfield/21M
 Chesterton/2M
 Chevalier/M
+Chev/12MS
 Cheviot/1M
 Chevrolet/12MS
 Chevron/2M
@@ -16505,7 +16506,7 @@ catalyse/4GDS!
 catalyses/14
 catalysis/~1M
 catalyst/~1MS
-catalytic/~5M
+catalytic/~5
 catalyze/4GDS
 catamaran/1SM
 catapult/~14GMDS
@@ -51959,6 +51960,7 @@ zymurgy/1M
 3D/5                    # not sure how well "words" starting with numbers are handled
 ACM/1M
 AGI/MS                  # artificial general intelligence
+AMC/12MS                # old car brand
 AOC/2M                  # US politician Alexandria Ocasio-Cortez
 Akismet/2M
 Alexa/2M                # voice assistant
