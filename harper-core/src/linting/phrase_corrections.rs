@@ -948,6 +948,30 @@ pub fn lint_group() -> LintGroup {
             "You misspelled `trial`.",
             "Corrects `trail` to `trial` in `trial and error`."
         ),
+        "HomeInOn" => (
+            ["hone in on"],
+            ["home in on"],
+            "Use `home in on` rather than `hone in on`",
+            "Corrects `hone in on` to `home in on`."
+        ),
+        "HomesInOn" => (
+            ["hones in on"],
+            ["homes in on"],
+            "Use `home in on` rather than `hone in on`",
+            "Corrects `hone in on` to `home in on`."
+        ),
+        "HomedInOn" => (
+            ["honed in on"],
+            ["homed in on"],
+            "Use `home in on` rather than `hone in on`",
+            "Corrects `hone in on` to `home in on`."
+        ),
+        "HomingInOn" => (
+            ["honing in on"],
+            ["homing in on"],
+            "Use `home in on` rather than `hone in on`",
+            "Corrects `hone in on` to `home in on`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -1823,6 +1847,42 @@ mod tests {
             "It was produced through trail and error.",
             lint_group(),
             "It was produced through trial and error.",
+        );
+    }
+
+    #[test]
+    fn correct_hone_in_on() {
+        assert_suggestion_result(
+            "This way you can use an object detector algorithm to hone in on subjects and tell sam to only focus in certain areas when looking to extend ...",
+            lint_group(),
+            "This way you can use an object detector algorithm to home in on subjects and tell sam to only focus in certain areas when looking to extend ...",
+        );
+    }
+
+    #[test]
+    fn correct_honing_in_on() {
+        assert_suggestion_result(
+            "I think I understand the syntax limitation you're honing in on.",
+            lint_group(),
+            "I think I understand the syntax limitation you're homing in on.",
+        );
+    }
+
+    #[test]
+    fn correct_hones_in_on() {
+        assert_suggestion_result(
+            "[FEATURE] Add a magnet that hones in on mobs",
+            lint_group(),
+            "[FEATURE] Add a magnet that homes in on mobs",
+        );
+    }
+
+    #[test]
+    fn correct_honed_in_on() {
+        assert_suggestion_result(
+            "But it took me quite a bit of faffing about checking things out before I honed in on the session as the problem and tried to dump out the ...",
+            lint_group(),
+            "But it took me quite a bit of faffing about checking things out before I homed in on the session as the problem and tried to dump out the ...",
         );
     }
 }
