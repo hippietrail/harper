@@ -41,6 +41,7 @@ mod modal_of;
 mod multiple_sequential_pronouns;
 mod no_oxford_comma;
 mod nobody;
+mod nonstandard_forms;
 mod number_suffix_capitalization;
 mod out_of_date;
 mod oxford_comma;
@@ -105,6 +106,7 @@ pub use modal_of::ModalOf;
 pub use multiple_sequential_pronouns::MultipleSequentialPronouns;
 pub use no_oxford_comma::NoOxfordComma;
 pub use nobody::Nobody;
+pub use nonstandard_forms::NonstandardForms;
 pub use number_suffix_capitalization::NumberSuffixCapitalization;
 pub use out_of_date::OutOfDate;
 pub use oxford_comma::OxfordComma;
@@ -153,6 +155,7 @@ mod tests {
 
     #[track_caller]
     pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
+        eprintln!("assert_lint_count->new_markdown_default_curated");
         let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
         dbg!(&lints);
@@ -168,6 +171,7 @@ mod tests {
     /// [`Lint`]s.
     #[track_caller]
     pub fn assert_suggestion_count(text: &str, mut linter: impl Linter, count: usize) {
+        eprintln!("assert_suggestion_count->new_markdown_default_curated");
         let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
         assert_eq!(
@@ -194,6 +198,7 @@ mod tests {
         loop {
             iter_count += 1;
 
+            eprintln!("assert_nth_suggestion_result->new_from_vec");
             let test = Document::new_from_vec(
                 text_chars.clone().into(),
                 &PlainEnglish,

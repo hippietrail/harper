@@ -41,6 +41,7 @@ use super::merge_words::MergeWords;
 use super::modal_of::ModalOf;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
+use super::nonstandard_forms::NonstandardForms;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::out_of_date::OutOfDate;
 use super::oxymorons::Oxymorons;
@@ -348,6 +349,7 @@ impl LintGroup {
         insert_pattern_rule!(ExpandTimeShorthands, true);
         insert_pattern_rule!(ModalOf, true);
         insert_pattern_rule!(ForNoun, true);
+        // insert_struct_rule!(NonstandardForms, true);
 
         out.add(
             "SpellCheck",
@@ -366,6 +368,12 @@ impl LintGroup {
             Box::new(SentenceCapitalization::new(dictionary.clone(), dialect)),
         );
         out.config.set_rule_enabled("SentenceCapitalization", true);
+
+        out.add(
+            "NonstandardForms",
+            Box::new(NonstandardForms::new(dictionary.clone(), dialect)),
+        );
+        out.config.set_rule_enabled("NonstandardForms", true);
 
         out
     }
@@ -469,6 +477,7 @@ mod tests {
             .collect();
 
         for (key, value) in pairs {
+            eprintln!("lint_descriptions_are_clean->new_markdown_default_curated");
             let doc = Document::new_markdown_default_curated(&value);
             eprintln!("{key}: {value}");
 
