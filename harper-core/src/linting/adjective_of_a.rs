@@ -26,6 +26,7 @@ const FALSE_POSITIVES: &[&str] = &[
     "clockwork",
     "derivative",
     "dream",
+    "eighth",
     "front",
     "half",
     "head",
@@ -464,6 +465,15 @@ mod tests {
     fn dont_flag_up() {
         assert_lint_count(
             "Yeah gas is made up of a bunch of teenytiny particles all moving around.",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_eighth() {
+        assert_lint_count(
+            "It's about an eighth of an inch or whatever",
             AdjectiveOfA,
             0,
         );
