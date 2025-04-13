@@ -1029,6 +1029,7 @@ Baywatch/M
 Be/MH
 Beach/2M
 Beadle/2M
+Beamer/1MS          # nickname for BMW
 Bean/2M
 Beard/2M
 Beardmore/2M
@@ -9256,7 +9257,7 @@ Sheri/2M
 Sheridan/2M
 Sherlock/24M
 Sherman/21M
-Sherpa/12M
+Sherpa/12MS         # ethnicity, language, surname
 Sherri/2M
 Sherrie/M
 Sherry/2M
@@ -27591,6 +27592,7 @@ hegira/1SM
 heifer/1SM
 height/~1XSMN
 heighten/4DG
+heightwise/5j
 heinous/5YP
 heinousness/1M
 heir/~14MS
@@ -33119,6 +33121,7 @@ mesomorph/1M
 mesomorphs/1
 meson/1SM
 mesosphere/1SM
+mesothelioma/1M
 mesquite/1SM
 mess/~14MDSG
 message/~14MGDS
@@ -38388,6 +38391,7 @@ plastic/~15SM
 plasticise/4DSG!
 plasticity/~1M
 plasticize/4DSG
+plasticked/5
 plasticky/5
 plastique/1
 plat/~145XGMDNS
@@ -41240,6 +41244,9 @@ replicator/1S
 repo/~14SM
 repoliticise/4DSG!
 repoliticize/4DSG
+repop/14MS
+repopped/4D
+repopping/4G
 report/1MS4DGR
 reportage/1M
 reported/~4Y
@@ -41638,6 +41645,7 @@ riderless/5
 ridership/~1M
 ridge/~14MGDS
 ridgepole/1SM
+ridgetop/1MS
 ridgy/5
 ridicule/~415MGDS
 ridiculous/~5YP
@@ -46365,16 +46373,18 @@ summarization/1MS
 summarize/~4GDS
 summarizer/1MS
 summary/~51SM
-summat/8
+summat/
 summation/~1FMS
 summed/~4
 summer/~14MDSG
 summerhouse/1SM
 summertime/~1M
 summery/51
-summing/~418
-summit/~148MS
+summing/~41
+summit/~14MSDG
 summitry/1M
+summitted/4
+summitting/4
 summon/~41DRSZG
 summoner/1M
 summons/~14GMDS
@@ -48707,6 +48717,7 @@ trinitrotoluene/1M
 trinity/~1SM
 trinket/14SM
 trio/~1MS
+triode/1MS
 trip/~145MYS
 tripartite/~5
 tripe/~1M
@@ -49399,6 +49410,7 @@ underwrote/4
 undesirable/~51MS
 undiagnosed/5
 undies/14M
+undisputedly/j
 undo/~415
 undoubted/5Y
 undramatic/5
@@ -49579,6 +49591,7 @@ unpin/4S
 unpleasing/5
 unpolitical/5
 unpopular/~5
+unpowered/5
 unpractical/5
 unprecedented/~5Y
 unprofessional/51Y
@@ -50606,6 +50619,7 @@ walkies/1
 walking/~451M
 walkout/14SM
 walkover/1MS
+walkthrough/1MS
 walkway/~1SM
 wall/~14MDGS
 wallaby/~1SM
@@ -52092,6 +52106,7 @@ Lenovo/2M           # computer manufacturer
 Levenshtein/M       # surname, mathematician
 LiDAR/1             # FIXME! elsewhere we have LIDAR
 LinkedIn/2M
+Loctite/2M          # product
 Logotherapy/SM
 Longreads/2M
 Lua/SM              # programming language
@@ -52286,9 +52301,10 @@ stacktrace/SM1      # dictionaries prefer: stack trace
 standup/SM          # dictionaries prefer: stand-up
 Subversion/1M       # version control
 ULA/1MS             # uncommitted logic array
+VFD/1MS             # vacuum fluorescent display
 VCS/1M              # version control system
 vid/1MS             # video
-WD40/1M
+WD40/1M             
 whitespace/~1SM     # dictionaries prefer: white space
 wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
 
@@ -52302,6 +52318,7 @@ air-cooled/5
 all-new/5
 all-nighter/1MS
 all-woman/5
+anarcho-punk/15MS
 anti-Semitic/5
 anti-Semite/1MS
 anti-Semitism/1M
@@ -52313,6 +52330,7 @@ back to back/j
 back-to-back/5
 beck and call/1
 bench-warmer/1MS
+blue-blooded/5
 blue-collar/5
 boot up/4
 break out/4
@@ -52325,6 +52343,10 @@ CD-ROM/1MS
 centre-left/5!@
 centre-right/5!@
 clear-sighted/5
+color code/14MDSG<
+color coded/5<
+colour code/14MDSG!@
+colour coded/5!@
 command line/1MS
 cost cutting/1M
 cost-effective/5
@@ -52380,6 +52402,7 @@ ground-based/5
 gung ho/5
 H-1B/1MS
 habeas corpus/1
+half-cocked/5
 half-life/1M
 half-lives/9
 ham-fisted/5
@@ -52482,6 +52505,8 @@ pre-COVID/5
 quid pro quo/1M
 post-truth/14M
 rack-mounted/5
+real time/1M
+real-time/5
 red wolf/1M
 red wolves/9
 right-hand/5
@@ -52495,6 +52520,8 @@ self-fund/4SDG
 self-obsessed/5
 self-tapping/5
 shark-infested/5
+short circuit/1MS4SDG
+short-circuit/3SDG
 short-lived/5
 short-term/5j
 shoulder to shoulder/j
@@ -52540,11 +52567,15 @@ trade-in/1MS
 two-thirds/1
 type checking/1M
 type-check/4SDG
+type-in/1MS
 uh-huh
 uh-oh
 un-American/5
 user-friendly/5
 UTF-8/1M
+von Neumann/2
+walk through/4
+walk-through/5
 walkie-talkie/1MS
 Wayback Machine/2M
 weapons-grade/5
