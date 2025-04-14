@@ -14861,6 +14861,7 @@ blotter/1MS
 blotting/41
 blotto/514
 blouse/~14MGDS
+bloviate/4SDG
 blow/~415SZGMR
 blowback/~1MS
 blower/~1M
@@ -28743,6 +28744,7 @@ illiberality/1M
 illicit/~51YP
 illicitness/1M
 illimitable/5
+illiquid/5
 illiteracy/1M
 illiterate/~51MYS
 illness/~1MS
@@ -30883,12 +30885,12 @@ labial/~51SM
 labile/5
 lability/1M
 labium/1M
-labor/~14SMDRZG
+labor/~14SMDRZG<
 laboratory/~1SM
-laborer/~1M
+laborer/~1M<
 laborious/5PY
 laboriousness/1M
-laborsaving/5
+laborsaving/5<
 labour/14ZGSMDR!@
 labourer/1M!@
 laboursaving/5!@
@@ -39099,6 +39101,10 @@ precocity/1M
 precognition/1M
 precognitive/51
 precolonial/51
+precomputability/1M
+precomputation/1MS
+precomputational/5Y
+precompute/4GDSB
 preconceive/4GDS
 preconception/15SM
 precondition/14MDGS
@@ -52197,8 +52203,6 @@ Siri/2M             # voice assistant
 Snapchat/SM
 Soros/2M            # financier George Soros
 Spotify/2M
-StackExchange/SM
-StackOverflow/M
 Stellantis/2M       # car company
 Svelte/2M           # js framework
 Systemd/SM          # Linux system software
@@ -52438,6 +52442,8 @@ jaw-droppingly/5
 kick start/4SDG
 knock-on effect/1MS
 kung fu/1M
+labor-intensive/5
+labour-intensive/5!@
 laid-back/5
 large-scale/5
 last-ditch/5
@@ -52507,6 +52513,7 @@ post-truth/14M
 rack-mounted/5
 real time/1M
 real-time/5
+red-eye/1M
 red wolf/1M
 red wolves/9
 right-hand/5
@@ -52537,6 +52544,9 @@ solid-state/5
 sound wave/1MS
 spot on/5
 spring-load/4SDG
+Stack Exchange/2M
+stack overflow/1SM
+Stack Overflow/2M
 stand down/4
 stand-down/1MS
 stand-up/51

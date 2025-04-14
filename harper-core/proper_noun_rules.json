@@ -531,5 +531,9 @@
 	"ProperNouns": {
 		"canonical": ["Pax Americana"],
 		"description": "Ensure proper capitalization of proper nouns."
+	},
+	"CompaniesProductsAndTrademarks": {
+		"canonical": ["Stack Exchange", "Stack Overflow"],
+		"description": "Ensure proper capitalization of companies, products, and trademarks."
 	}
 }
