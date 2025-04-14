@@ -935,6 +935,13 @@ pub fn lint_group() -> LintGroup {
             "Vocabulary enhancement: use `excellent` instead of `very good`",
             "Provides a stronger word choice by replacing `very good` with `excellent` for clarity and emphasis."
         ),
+        "WellKept" => (
+            ["highly-kept", "highly kept"],
+            // There may be other good alternatives such as closely-guarded or tightly-held
+            ["well-kept"],
+            "`Highly-kept` is not standard. To describe secrets, `well-kept` is the most used phrase.",
+            "Flags `highly-kept` and recommends `well-kept` as an alternative."
+        ),
         "ExpandBecause" => (
             ["cuz"],
             ["because"],
@@ -946,6 +953,12 @@ pub fn lint_group() -> LintGroup {
             ["at face value"],
             "`at face value is more idiomatic and more common.",
             "Corrects `on face value` to the more usual `at face value`."
+        ),
+        "TrialAndError" => (
+            ["trail and error"],
+            ["trial and error"],
+            "You misspelled `trial`.",
+            "Corrects `trail` to `trial` in `trial and error`."
         ),
     });
 
@@ -1799,6 +1812,15 @@ mod tests {
     }
 
     #[test]
+    fn correct_highly_kept_space() {
+        assert_suggestion_result(
+            "I assure you that frequency/angle dependence is a highly kept secret.",
+            lint_group(),
+            "I assure you that frequency/angle dependence is a well-kept secret.",
+        );
+    }
+
+    #[test]
     fn expand_cuz() {
         assert_suggestion_result(
             "Stick around cuz I got a surprise for you at the end.",
@@ -1844,11 +1866,29 @@ mod tests {
     }
 
     #[test]
+    fn correct_highly_kept_no_hyphen() {
+        assert_suggestion_result(
+            "Well, Kushina's giving birth was already a highly-kept secret so it makes sense to operate with only the completely necessary personnel.",
+            lint_group(),
+            "Well, Kushina's giving birth was already a well-kept secret so it makes sense to operate with only the completely necessary personnel.",
+        );
+    }
+
+    #[test]
     fn correct_on_face_value() {
         assert_suggestion_result(
             "Obviously what you want is possible and on face value it's a trivial change on our end.",
             lint_group(),
             "Obviously what you want is possible and at face value it's a trivial change on our end.",
+        );
+    }
+
+    #[test]
+    fn correct_trail_and_error() {
+        assert_suggestion_result(
+            "It was produced through trail and error.",
+            lint_group(),
+            "It was produced through trial and error.",
         );
     }
 }
