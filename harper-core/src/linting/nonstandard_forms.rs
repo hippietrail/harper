@@ -125,19 +125,6 @@ impl<T: Dictionary> Linter for NonstandardForms<T> {
             self.past(&mut lints, word, &word_str);
             self.negative(&mut lints, word, &word_str);
             self.plural(&mut lints, word, &word_str);
-
-            let sug = "suggles!";
-            let msg = "meggles!";
-            let suggestions = vec![Suggestion::ReplaceWith(sug.chars().collect())];
-            let message = msg.to_owned();
-
-            lints.push(Lint {
-                span: word.span,
-                lint_kind: LintKind::WordChoice,
-                suggestions,
-                message,
-                ..Default::default()
-            });
         }
 
         lints
