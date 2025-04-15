@@ -830,14 +830,26 @@ pub fn lint_group() -> LintGroup {
         "InAWhile" => (
             ["in awhile", "in while"],
             ["in a while"],
-            "When describing a timeframe, use `in a while` for clarity.",
+            "When describing a timeframe, use `a while`.",
             "Corrects the missing article in `in while` or `in awhile`, forming `in a while`."
         ),
-        "InQuiteAWhile" => (
-            ["in quite awhile"],
-            ["in quite a while"],
-            "Add `a` to form `in quite a while`, clarifying the duration.",
-            "Corrects `in quite awhile` => `in quite a while` by inserting the missing article."
+        "QuiteAWhile" => (
+            ["quite awhile"],
+            ["quite a while"],
+            "Add `a` to form `quite a while`, clarifying the duration.",
+            "Corrects `quite awhile` => `quite a while` by inserting the missing article."
+        ),
+        "ForAWhile" => (
+            ["for awhile", "for while"],
+            ["for a while"],
+            "When describing a timeframe, use `a while`.",
+            "Corrects the missing article in `for while` or `for awhile`, forming `for a while`."
+        ),
+        "AfterAWhile" => (
+            ["after awhile", "after while"],
+            ["after a while"],
+            "When describafterg a timeframe, use `a while`.",
+            "Corrects the missing article after `after while` or `after awhile`, forming `after a while`."
         ),
         "HumanBeings" => (
             ["human's beings", "humans beings"],
@@ -983,6 +995,18 @@ pub fn lint_group() -> LintGroup {
             ["homing in on"],
             "Use `home in on` rather than `hone in on`",
             "Corrects `hone in on` to `home in on`."
+        ),
+        "Unless" => (
+            ["unless if"],
+            ["unless"],
+            "Use `unless` on its own.",
+            "Corrects `unless if` to `unless`."
+        ),
+        "SufficeItToSay" => (
+            ["suffice to say"],
+            ["suffice it to say"],
+            "`Suffice it to say` is more standard and more common variant.",
+            "Corrects `suffice to say` to `suffice it to say`."
         ),
     });
 
@@ -1949,6 +1973,60 @@ mod tests {
             "But it took me quite a bit of faffing about checking things out before I honed in on the session as the problem and tried to dump out the ...",
             lint_group(),
             "But it took me quite a bit of faffing about checking things out before I homed in on the session as the problem and tried to dump out the ...",
+        );
+    }
+
+    #[test]
+    fn correct_unless_if() {
+        assert_suggestion_result(
+            "Simplex does not interpret the following invite link as an invite link unless if it has https:// in front of it.",
+            lint_group(),
+            "Simplex does not interpret the following invite link as an invite link unless it has https:// in front of it.",
+        );
+    }
+
+    #[test]
+    fn suffice_it_to_say() {
+        assert_suggestion_result(
+            "I don't fully grok the bug, but suffice to say it is not an RCD issue.",
+            lint_group(),
+            "I don't fully grok the bug, but suffice it to say it is not an RCD issue.",
+        );
+    }
+
+    #[test]
+    fn correct_for_awhile() {
+        assert_suggestion_result(
+            "Video Element Error: MEDA_ERR_DECODE when chrome is left open for awhile",
+            lint_group(),
+            "Video Element Error: MEDA_ERR_DECODE when chrome is left open for a while",
+        );
+    }
+
+    #[test]
+    fn correct_after_awhile() {
+        assert_suggestion_result(
+            "Links on portal stop working after awhile, requiring page refresh.",
+            lint_group(),
+            "Links on portal stop working after a while, requiring page refresh.",
+        );
+    }
+
+    #[test]
+    fn correct_after_while() {
+        assert_suggestion_result(
+            "bromite Crashes on all sites after while.",
+            lint_group(),
+            "bromite Crashes on all sites after a while.",
+        );
+    }
+
+    #[test]
+    fn correct_for_while() {
+        assert_suggestion_result(
+            "Build flutter releases in github actions for production only android for while.",
+            lint_group(),
+            "Build flutter releases in github actions for production only android for a while.",
         );
     }
 }
