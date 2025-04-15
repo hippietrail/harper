@@ -1,4 +1,4 @@
-52580
+52650
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -25,6 +25,7 @@ ADD/1
 ADHD/1              # attention deficit hyperactivity disorder
 ADM/12
 ADP/1M
+AES/1               # advanced encryption standard
 AF/15
 AFAIK/              # as far as I know
 AFB/1
@@ -2957,6 +2958,7 @@ Dubai/2M
 Dubcek/M
 Dubhe/2M
 Dublin/2M
+Dubliner/1MS
 Dubrovnik/2M
 Dubuque/2M
 Duchamp/2M
@@ -3335,6 +3337,7 @@ Eur/52
 Eurasia/2M
 Eurasian/51MS
 Euripides/2M
+Eurocentrist/1MS
 Eurodollar/1SM
 Europa/2M
 Europe/2M
@@ -3418,6 +3421,7 @@ Fagin/1M
 Fahd/M
 Fahrenheit/5M
 Fairbanks/2M
+Fairchild/2M        # surname, electronics
 Fairfield/2M
 Fairhope/M
 Faisal/2M
@@ -6640,6 +6644,7 @@ Medicare/2SM
 Medici/2M
 Medina/2M
 Mediterranean/521MS
+Medjugorje/2M
 Medusa/2M
 Meg/21M
 Megan/2M
@@ -7497,6 +7502,7 @@ OH/21
 OHSA/M              # law
 OJ/15
 OK/1452SMDG
+OLED/1M             # organic light-emitting diode
 OMB/2M
 OPEC/2M             # organization
 OR/712
@@ -9366,6 +9372,7 @@ Slashdot/M
 Slater/2M
 Slav/15SM
 Slavic/51M
+Slavoj/2M           # given name; - Zizek
 Slavonic/25M
 Slidell/2M
 Slinky/1M
@@ -9519,6 +9526,7 @@ Stafford/21M
 StairMaster/M
 Stalin/2M
 Stalingrad/2M
+Stalinism/1M
 Stalinist/51M
 Stallone/2M
 Stamford/2M
@@ -10152,7 +10160,7 @@ Truman/2M
 Trumbull/2M
 Trump/2MS
 Trumper/1MS
-Trumpian/5
+Trumpian/51MS
 Trumpism/2M
 Trumpist/15SM
 Trumpy/15RTSP
@@ -11027,7 +11035,7 @@ Ziegfeld/M
 Ziegler/2M
 Ziggy/2M
 Zika/21             # virus
-Zilog/2M
+Zilog/2M            # semiconductor company
 Zimbabwe/2M
 Zimbabwean/15SM
 Zimmerman/2M
@@ -11036,6 +11044,7 @@ Zion/2SM
 Zionism/1SM
 Zionist/15SM
 Ziploc/1M           # trademark
+Žižek/2M            # slavoj -
 Zn/M                # zinc
 Zoe/2M
 Zoë/2M
@@ -13118,6 +13127,7 @@ assignor/1MS
 assimilate/~41DSGN
 assimilated/~4U
 assimilation/~1M
+assimilationist/1MS
 assist/~41GVMDS
 assistance/~1M
 assistant/~51SM
@@ -15236,6 +15246,7 @@ bouquet/1SM
 bourbon/~1SM
 bourgeois/~514M
 bourgeoisie/~1M
+bourgeoisification/1M
 boustrophedon/51
 bout/~14+MS
 boutique/~1SM
@@ -16354,6 +16365,7 @@ cargoes/~1
 carhop/14MS
 caribou/~1SM
 caricature/~154MGDS
+caricaturisation/1MS
 caricaturist/1SM
 caries/~14M
 carillon/~14SM
@@ -16811,6 +16823,7 @@ chamberlain/~1MS
 chambermaid/1MS
 chambray/1M
 chameleon/~15SM
+chamfer/1MS4DG
 chamois/154M
 chamomile/1MS
 champ/~14ZGMDS
@@ -22546,6 +22559,7 @@ emanation/1M
 emancipate/45DSGN
 emancipation/~1M
 emancipator/1MS
+emancipatory/5
 emasculate/45GNDS
 emasculation/1M
 embalm/4SZGDR
@@ -23789,6 +23803,7 @@ eyestrain/1M
 eyeteeth/9
 eyetooth/1M
 eyewash/14M
+eyewear/1M
 eyewitness/~14MS
 f/~1CIAVTR
 fMRI/1
@@ -27983,7 +27998,7 @@ holding/~14M
 holdout/1SM
 holdover/1SM
 holdup/1MS
-hole/~145MGDS
+hole/~14MGDS
 holey/5
 holiday/~14SMDG
 holidaymaker/1S
@@ -30449,6 +30464,7 @@ joyless/5PY
 joylessness/1M
 joyous/~5YP
 joyousness/1M
+joypad/1MS
 joyridden/4
 joyride/14RSMZG
 joyrider/1M
@@ -32307,6 +32323,7 @@ maharajahs/1
 maharani/1SM
 maharishi/1SM
 mahatma/~1SM
+mahjong/1M
 mahogany/~15SM
 mahout/14MS
 maid/~1MNSX
@@ -35670,10 +35687,13 @@ objectify/4NGDS
 objection/~1SMB
 objectionable/~5U
 objectionably/j
+objectivation/1M
 objective/~51SMYP
 objectiveness/1M
+objectivize/4DSG
 objectivism/~1M
 objectivity/~1M
+objectivization/1M
 objector/~1MS
 objurgate/4XGNDS
 objurgation/1M
@@ -36259,6 +36279,7 @@ oughtn't/m
 ounce/~1MS
 our/~-
 ours/~8
+ourself/8
 ourselves/~8
 oust/~4ZGDRS
 ouster/~14M
@@ -46147,6 +46168,7 @@ subject/~514GVMDS
 subjection/1M
 subjective/~51Y
 subjectivity/~1M
+subjectivization/1M
 subjoin/41GDS
 subjugate/45GNDS
 subjugation/~1M
@@ -48795,6 +48817,8 @@ trope/14SM
 trophy/~14SM
 tropic/~15MS
 tropical/~51Y
+tropicalization/1M
+tropicalize/4SDG
 tropics/~1M
 tropism/1SM
 troposphere/1SM
@@ -50874,7 +50898,7 @@ weaponize/4GDS
 weaponless/5
 weaponry/~1M
 wear/~41MRBJSZG
-wearable/51U
+wearable/51UMS
 wearer/~1M
 wearied/4U
 wearily/j
@@ -52056,6 +52080,7 @@ Ethereum/2M             # digital currency
 Evo/2MS                 # car model
 Expedia/2M
 FIDO/12SM
+FIFA/1M                 # football/soccer association
 FPGA/1SM                # field-programmable gate array
 FPM/SM
 FSD/1M                  # full self-driving
@@ -52346,6 +52371,7 @@ beck and call/1
 bench-warmer/1MS
 blue-blooded/5
 blue-collar/5
+bona fide/j5
 boot up/4
 break out/4
 breaks out/4
@@ -52520,6 +52546,8 @@ peer review/1MSDG
 peer-reviewed/5
 per capita/5j
 Petri dish/1MS
+petty bourgeois/1M
+petty bourgeoisie/1M
 pick-me-up/1MS
 plan B/M
 pre-COVID/5
@@ -52537,8 +52565,10 @@ run-up/1MS
 sans serif/1M5
 sci-fi/1M
 sea lane/1MS
+self-awareness/1M
 self-driving/1M5
 self-fund/4SDG
+self-indulgent/5
 self-obsessed/5
 self-tapping/5
 shark-infested/5
@@ -52587,17 +52617,20 @@ tit-for-tat/5
 tl;dr/
 to-do/1MS
 tom yam/1M
+top-end/5
 trade in/4
 trade-in/1MS
 two-thirds/1
 type checking/1M
 type-check/4SDG
 type-in/1MS
+U-turn/14MSDG
 uh-huh
 uh-oh
 un-American/5
 user-friendly/5
 UTF-8/1M
+voice-over/1MS
 von Neumann/2
 walk through/4
 walk-through/5

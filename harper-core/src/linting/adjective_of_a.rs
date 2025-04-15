@@ -11,6 +11,7 @@ const FALSE_POSITIVES: &[&str] = &[
     "emblematic",
     "equivalent",
     "full",
+    "fun",
     "inside",
     "more",
     "much",
@@ -483,6 +484,15 @@ mod tests {
     fn dont_flag_shy() {
         assert_lint_count(
             "... or just shy of a third of the country's total trade deficit.",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_fun() {
+        assert_lint_count(
+            "Remember that $4,000 Hermes horse bag I was making fun of a little while ago.",
             AdjectiveOfA,
             0,
         );
