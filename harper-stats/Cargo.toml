@@ -2,6 +2,10 @@
 name = "harper-stats"
 version = "0.29.0"
 edition = "2021"
+description = "The language checker for developers."
+license = "Apache-2.0"
+readme = "README.md"
+repository = "https://github.com/automattic/harper"
 
 [dependencies]
 serde = { version = "1.0.217", features = ["derive"] }
