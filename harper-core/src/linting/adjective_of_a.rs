@@ -12,11 +12,11 @@ const FALSE_POSITIVES: &[&str] = &[
     "equivalent",
     "full",
     "inside",
-    "up",
-    // "more" is tricky but it often seems correct and idiomatic.
     "more",
     "much",
     "out",
+    "shy",
+    "up",
     // The word is used more as a noun in this context.
     // (using .kind.is_likely_homograph() here is too strict)
     "back",
@@ -474,6 +474,15 @@ mod tests {
     fn dont_flag_eighth() {
         assert_lint_count(
             "It's about an eighth of an inch or whatever",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_shy() {
+        assert_lint_count(
+            "... or just shy of a third of the country's total trade deficit.",
             AdjectiveOfA,
             0,
         );
