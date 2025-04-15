@@ -1,4 +1,4 @@
-52650
+52700
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -74,6 +74,7 @@ AZT/1M              # drug
 Aachen/2M
 Aaliyah/2M
 Aaron/21M
+Abarth/2MS
 Abbas/2M
 Abbasid/15M
 Abbott/2M
@@ -1464,6 +1465,7 @@ Briana/2M
 Brianna/2M
 Brice/2M
 Bridalveil/M
+Bridgehampton/2M
 Bridgeport/2M
 Bridger/2M
 Bridges/2M
@@ -2961,6 +2963,7 @@ Dublin/2M
 Dubliner/1MS
 Dubrovnik/2M
 Dubuque/2M
+Ducati/2MS
 Duchamp/2M
 Dudley/21M
 Duffy/2M
@@ -3137,6 +3140,7 @@ Eldon/2M
 Eleanor/2M
 Eleazar/2M
 Electra/2M
+Electrolux/2MS
 Elena/2M
 Elgar/2M
 Eli/21M
@@ -3732,8 +3736,10 @@ GPS/214             # global positioning system
 GPU/1SM
 GSA/21
 GST/1M              # goods and services tax
+GT/1MS              # grand touring/tourer
 GTE/2M
 GTO/1SM
+GTS/1SM
 GU/1
 GUI/21M
 Ga/21M
@@ -6251,7 +6257,7 @@ Magog/2M
 Magoo/M
 Magritte/M
 Magsaysay/2M
-Magus
+Magus/1M
 Magyar/215SM
 Mahabharata/2M
 Maharashtra/2M
@@ -6259,6 +6265,7 @@ Mahavira/M
 Mahayana/2M
 Mahayanist/1M
 Mahdi/2M
+Maher/2MS
 Mahfouz/M
 Mahican/1SM
 Mahler/2M
@@ -7439,7 +7446,7 @@ Northrop/2M
 Northrup/2M
 Norths/2
 Northwest/SM
-Norton/21M
+Norton/21MS
 Norw
 Norway/21M
 Norwegian/15SM
@@ -9329,6 +9336,7 @@ Silas/2M
 Silesia/2M
 Silurian/512SM
 Silva/2M
+Silverstone/2M
 Silvia/2M
 Simenon/M
 Simmental/21M
@@ -11007,7 +11015,7 @@ Zapotec/125M        # ethnicity
 Zappa/2M
 Zara/2M
 Zarathustra/2M
-Zealand/2M
+Zealand/2MR
 Zebedee/2M
 Zechariah/2M
 Zedekiah/2M
@@ -12076,6 +12084,7 @@ alphanumerical/51Y
 alpine/~51S
 already/~
 alright/~5
+alrighty
 also/~
 alt/~15S
 altar/~1MS
@@ -15541,6 +15550,7 @@ brokenhearted/5Y
 brokenness/1M
 broker/~514SMDG
 brokerage/~1MS
+broligarchy/1M
 brolly/1S
 bromide/~1SM
 bromidic/5
@@ -18384,9 +18394,11 @@ conch/14M
 conchie/1S
 conchs/1
 concierge/1MS
+conciliary/5Q
 conciliate/4DSGN
 conciliation/1AM
 conciliator/1SM
+conciliatoriness/1M
 conciliatory/5
 concise/~54RPYTN
 conciseness/1M
@@ -28346,6 +28358,7 @@ hub/~12SM
 hubbub/14SM
 hubby/15SM
 hubcap/1SM
+hubless/5
 hubris/1M
 huckleberry/~14SM
 huckster/14SGMD
@@ -38639,6 +38652,7 @@ pointed/~45Y
 pointer/~1M
 pointillism/1M
 pointillist/51SM
+pointillistic/5Q
 pointless/~5PY
 pointlessness/1M
 pointy/51TR
@@ -41104,8 +41118,8 @@ rejoinder/14SM
 rejuvenate/4DSGN
 rejuvenation/1M
 rel/~+
-relate/~4DRSBXZGNV
-relatedness/1M
+relate/~4RSBXZGNV
+related/5YP
 relater/1M
 relation/~1M
 relational/~5
@@ -48275,6 +48289,7 @@ totalitarian/~51SM
 totalitarianism/~1M
 totality/~1SM
 totalizator/1SM
+totalize/4SDG
 totalled/45!@
 totalling/4!@
 tote/14MS
@@ -52414,6 +52429,7 @@ energy-efficient/5
 et al./~
 even-numbered/5
 ever-present/5
+ex-friend/1MS
 fact check/1S
 fact-check/4SDG
 fact-checking/1M
@@ -52451,6 +52467,7 @@ hand-drawn/5
 hands-off/5
 happy-go-lucky/5
 hard code/4SDG
+hard-pressed/5
 hard right/1M
 hard-right/5
 heavy-duty/5
@@ -52566,6 +52583,7 @@ sans serif/1M5
 sci-fi/1M
 sea lane/1MS
 self-awareness/1M
+self-deception/1M
 self-driving/1M5
 self-fund/4SDG
 self-indulgent/5
