@@ -1014,6 +1014,24 @@ pub fn lint_group() -> LintGroup {
             "`Things are avoided `like the plague` not `like a plague`.",
             "Corrects `like a plague` to `like the plague`."
         ),
+        "HaveGone" => (
+            ["have went"],
+            ["have gone"],
+            "`Have gone` is the correct form.",
+            "Corrects `have went` to `have gone`."
+        ),
+        "HadGone" => (
+            ["had went"],
+            ["had gone"],
+            "`Had gone` is the correct form.",
+            "Corrects `had went` to `had gone`."
+        ),
+        "HavingGone" => (
+            ["having went"],
+            ["having gone"],
+            "`Having gone` is the correct form.",
+            "Corrects `having went` to `having gone`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -2042,6 +2060,33 @@ mod tests {
             "Below is the worst example of them all (avoid such coding like a plague):",
             lint_group(),
             "Below is the worst example of them all (avoid such coding like the plague):",
+        );
+    }
+
+    #[test]
+    fn correct_have_went() {
+        assert_suggestion_result(
+            "I have went into the btle.py file and added a print statement in _connect()",
+            lint_group(),
+            "I have gone into the btle.py file and added a print statement in _connect()",
+        );
+    }
+
+    #[test]
+    fn correct_had_went() {
+        assert_suggestion_result(
+            "Not sure if TroLoos had went from Tasmota->minimal->Tasmota, or directly Minimal->Tasmota, but going ESPHome->Minimal->Tasmota is not possible",
+            lint_group(),
+            "Not sure if TroLoos had gone from Tasmota->minimal->Tasmota, or directly Minimal->Tasmota, but going ESPHome->Minimal->Tasmota is not possible",
+        );
+    }
+
+    #[test]
+    fn correct_having_went() {
+        assert_suggestion_result(
+            "Having went through the setup guidelines and picking react starter, running npm run watch results in an error",
+            lint_group(),
+            "Having gone through the setup guidelines and picking react starter, running npm run watch results in an error",
         );
     }
 }
