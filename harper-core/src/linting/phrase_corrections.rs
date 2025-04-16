@@ -1032,6 +1032,12 @@ pub fn lint_group() -> LintGroup {
             "`Having gone` is the correct form.",
             "Corrects `having went` to `having gone`."
         ),
+        "HasGone" => (
+            ["has went"],
+            ["has gone"],
+            "`Has gone` is the correct form.",
+            "Corrects `has went` to `has gone`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -2087,6 +2093,15 @@ mod tests {
             "Having went through the setup guidelines and picking react starter, running npm run watch results in an error",
             lint_group(),
             "Having gone through the setup guidelines and picking react starter, running npm run watch results in an error",
+        );
+    }
+
+    #[test]
+    fn correct_has_went() {
+        assert_suggestion_result(
+            "I would like to report that the package request which you are loading has went into maintenance mode.",
+            lint_group(),
+            "I would like to report that the package request which you are loading has gone into maintenance mode.",
         );
     }
 }
