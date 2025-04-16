@@ -5,3 +5,12 @@
 !CHANGELOG.md
 !bin
 !icon.png
+
+# Ignore build files
+build/
+
+# Ignore test files
+tests/
+
+# Include media directory
+!media/
