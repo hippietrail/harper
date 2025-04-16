@@ -1008,6 +1008,12 @@ pub fn lint_group() -> LintGroup {
             "`Suffice it to say` is more standard and more common variant.",
             "Corrects `suffice to say` to `suffice it to say`."
         ),
+        "LikeThePlague" => (
+            ["like a plague"],
+            ["like the plague"],
+            "`Things are avoided `like the plague` not `like a plague`.",
+            "Corrects `like a plague` to `like the plague`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -2027,6 +2033,15 @@ mod tests {
             "Build flutter releases in github actions for production only android for while.",
             lint_group(),
             "Build flutter releases in github actions for production only android for a while.",
+        );
+    }
+
+    #[test]
+    fn correct_like_a_plague() {
+        assert_suggestion_result(
+            "Below is the worst example of them all (avoid such coding like a plague):",
+            lint_group(),
+            "Below is the worst example of them all (avoid such coding like the plague):",
         );
     }
 }
