@@ -57,14 +57,14 @@ ARC/125
 ASAP/               # as soon as possible
 ASCII/2SM
 ASIO/2M             # agency
-ASML/2M             # company
 ASL/2M              # American Sign Language
+ASML/2M             # company
 ASPCA/2
 AST/1MS             # abstract syntax tree
 ATM/1MS             # automated teller machine
 ATP/21M
-ATX/1M              # old motherboard std
 ATV/21              # all-terrain vehicle
+ATX/1M              # old motherboard std
 AV/512
 AVI/2               # media format
 AWACS/1M
@@ -845,8 +845,8 @@ BITNET/2
 BJJ/1M
 BLT/1SM
 BM/124M
-BMX/1MS
 BMW/214MS
+BMX/1MS
 BO/124
 BP/215M
 BPOE/2
@@ -1664,12 +1664,12 @@ CNCing/14           # present, gerund
 CNN/21M             # media company
 CNS/1M
 CO/214M
-CO₂/1
 COBOL/2SM           # programming language
 COD/21
 COL/21
 COLA/12
 COVID/1             # virus
+CO₂/1
 CPA/1M
 CPI/12M
 CPO/1
@@ -2068,8 +2068,8 @@ Cheshire/2M
 Chester/21M
 Chesterfield/21M
 Chesterton/2M
-Chevalier/M
 Chev/12MS
+Chevalier/M
 Cheviot/1M
 Chevrolet/12MS
 Chevron/2M
@@ -2106,9 +2106,9 @@ Chirico/2M
 Chiron/2M
 Chisholm/2M
 Chisinau/2M
+Chișinău/2M
 Chittagong/2M
 Chivas/M
-Chișinău/2M
 Chloe/2M
 Choctaw/251SM
 Chomsky/2M
@@ -4486,8 +4486,8 @@ Hershel/2M
 Hershey/2M
 Hertz/21M
 Hertzsprung/2M
-Herzegovina/2M
 Herz/2M             # company
+Herzegovina/2M
 Herzl/2M
 Heshvan/2M
 Hesiod/2M
@@ -8429,6 +8429,7 @@ Ramayana/2M
 Rambo/21M
 Ramirez/2M
 Ramiro/M
+Rammstein/2M        # band
 Ramon/M
 Ramona/2M
 Ramos/2M
@@ -8436,7 +8437,6 @@ Ramsay/2M
 Ramses/2M
 Ramsey/2M
 Ramstein/2M         # air base
-Rammstein/2M        # band
 Rand/12M
 Randal/2M
 Randall/2M
@@ -8875,10 +8875,10 @@ SVN/2M              # version control
 SW/2154M
 SWAK/
 SWAT/1
+SaaS/1M             # software as a service
 Saab/21M            # car brand
 Saar/2M
 Saarinen/M
-SaaS/1M             # software as a service
 Saatchi/2M
 Sabbath/1M
 Sabbaths/1
@@ -14565,17 +14565,17 @@ biochemistry/~1M
 biodegradability/1M
 biodegrade/4DSGB
 biodiversity/~1M
-biohazard/1MS
 bioethics/~1M
 biofeedback/1M
 biofilm/1MS
-bioinformatics/1M
 biog/1
 biographer/~1SM
 biographic/5
 biographical/~5Y
 biography/~14SM
 biohazard/1MS
+biohazard/1MS
+bioinformatics/1M
 biol/1
 biologic/51
 biological/~51Y
@@ -15463,9 +15463,9 @@ brickbat/14SM
 brickie/1S
 bricklayer/1MS
 bricklaying/1M
-bricolage/1M
 brickwork/~1M
 brickyard/~1S
+bricolage/1M
 bridal/~15SM
 bride/~14SM
 bridegroom/~1SM
@@ -17532,9 +17532,9 @@ claw/~14CSGD
 claw's
 clay/~14M
 clayey/5
-claymation/1M
 clayier/5
 clayiest/5
+claymation/1M
 clean/~514BJPZTGDRYS
 cleaner/~15M
 cleaning/~41M
@@ -19210,8 +19210,8 @@ counterbalance/14MGDS
 counterblast/1S
 counterclaim/14GSMD
 counterclockwise/~5
-counterculture/~1SM
 countercultural/5Y
+counterculture/~1SM
 countered/~4
 counterespionage/1M
 counterexample/1S
@@ -21271,9 +21271,9 @@ disillusionment/~1M
 disinfectant/51MS
 disinfection/1M
 disinform/4SDG
+disinhibit/4SDG
 disinterested/~5PY
 disinterestedness/1M
-disinhibit/4SDG
 disjointed/~5YP
 disjointedness/1M
 disjunctive/51
@@ -22152,9 +22152,9 @@ dystopia/1
 dystopian/~5
 dz/14
 e/~18FDST
-e.g./~1
 e'en/
 e'er/
+e.g./~1
 eBay/24M
 eMusic/M
 eSIM/1MS
@@ -23630,8 +23630,8 @@ experiencing/~41
 experiential/~5
 experiment/~14MDRSZG
 experimental/~51Y
-experimentation/~1M
 experimentalist/1MS
+experimentation/~1M
 experimenter/1M
 expert/~51SPMY
 expertise/~14M
@@ -30388,15 +30388,15 @@ jinni/1M
 jinrikisha/1SM
 jinx/14MDSG
 jit/4S
-jitted/4
-jitting/4
 jitney/~1SM
+jitted/4
 jitterbug/14MS
 jitterbugged/4
 jitterbugger/1M
 jitterbugging/4
 jitters/14M
 jittery/5RT
+jitting/4
 jive/~41MGDS
 job/~14SM
 jobbed/4
@@ -32232,6 +32232,7 @@ mRNA/1M
 ma/~1SMH
 ma'am/14
 mac/~1SGMD
+macOS/2SM
 macabre/~5
 macadam/14M
 macadamia/1SM
@@ -32256,7 +32257,6 @@ macho/~51M
 mackerel/~1SM
 mackinaw/1SM
 mackintosh/~1MS
-macOS/2SM
 macrame/14M
 macro/~51SM
 macroaggregate/1M
@@ -32849,10 +32849,10 @@ maxillary/~51
 maxim/~1SM
 maxima/~1
 maximal/~51Y
-maximisation/1M!
-maximise/4GDS!
 maximalism/1M
 maximalist/15MS
+maximisation/1M!
+maximise/4GDS!
 maximization/1M
 maximize/~4GDS
 maximum/~15SM
@@ -35718,10 +35718,10 @@ objectionably/j
 objectivation/1M
 objective/~51SMYP
 objectiveness/1M
-objectivize/4DSG
 objectivism/~1M
 objectivity/~1M
 objectivization/1M
+objectivize/4DSG
 objector/~1MS
 objurgate/4XGNDS
 objurgation/1M
@@ -40857,8 +40857,8 @@ recon/~14S
 reconcile/~4GDSB
 reconciliation/~1S
 recondite/514SM
-reconfigure/4GDS
 reconfiguration/1
+reconfigure/4GDS
 reconfigure/4D
 reconnaissance/~1MS
 reconnoiter/41DGS
@@ -42552,8 +42552,8 @@ scaffold/~14SMG
 scaffolding/~14M
 scag/14S
 scagged/4
-scalable/5U
 scalability/1
+scalable/5U
 scalar/~51S
 scalawag/1MS
 scald/415MDSG
@@ -46142,12 +46142,12 @@ style/~14ADSG
 style's
 stylesheet/1SM
 styli/1
+stylisation/SM!
+stylise/4DSG!
 stylise/4DSG!
 stylish/~5PY
 stylishness/1M
 stylist/~1SM
-stylisation/SM!
-stylise/4DSG!
 stylistic/~5SQ
 stylization/SM
 stylize/4DSG
@@ -52060,6 +52060,7 @@ ACM/1M
 AGI/MS                  # artificial general intelligence
 AMC/12MS                # old car brand
 AOC/2M                  # US politician Alexandria Ocasio-Cortez
+ATF/1M                  # automatic transmission fluid
 Akismet/2M
 Alexa/2M                # voice assistant
 Alexandre/2SM
@@ -52068,7 +52069,6 @@ AlphaFold/2M            # Google DeepMind project
 Ambien/1SM              # insomnia treatment
 Anker/SM
 Archytas/SM             # !! please check and comment !! we also have archytas
-ATF/1M                  # automatic transmission fluid
 Automattic/SM           # WordPress company
 Automattician/SM
 BCPL/1M                 # old programming language
@@ -52078,6 +52078,7 @@ BYD/2MS                 # Chinese automobile manufacturer
 Bachiyski/SM
 Bezos/2                 # Surname, Amazon founder
 Bing/2M                 # Microsoft product
+BitKeeper/1M        # version control
 BlasterHacks/SM
 BurpSuite/21MS
 C++/2SM                 # programming language
@@ -52086,8 +52087,8 @@ CEO/1SM                 # chief executive officer
 CERN/2M                 # intergovernmental organization
 CI/1SM                  # continuous integration
 CISC/1M                 # cpu architecture
-CMake/SM                # build tool
 CMOS/1                  # microchip process
+CMake/SM                # build tool
 CQL/1
 CRDT/1SM
 CRM/12SM
@@ -52102,6 +52103,7 @@ Crowdsignal/2M
 Cypher/21M
 DATETIME/1MS            # dictionaries prefer: datetime
 DBMS/12SM               # database management system
+DEI
 DKIM/1SM
 DM/1MS4                 # direct message
 DM'd/4
@@ -52115,11 +52117,11 @@ DevOps/SM
 Dreamcast/2MS           # game console
 EGR/                    # exhaust gas recirculation
 EMR/12SM
+ESLint/2M
 EV/1SM                  # electric vehicle
 ElasticSearch/SM
 Elon/2M
 Erdoğan/2M              # surname, Turkish politician
-ESLint/2M
 Ethereum/2M             # digital currency
 Evo/2MS                 # car model
 Expedia/2M
@@ -52128,8 +52130,9 @@ FIFA/1M                 # football/soccer association
 FPGA/1SM                # field-programmable gate array
 FPM/SM
 FSD/1M                  # full self-driving
-Firestore/M
+Famicom/12MS        # game console
 FireWire/MS             # trademark
+Firestore/M
 Foddy/SM
 Frankl/SM
 GLFW/2M
@@ -52173,8 +52176,8 @@ KSQL/1
 Kagi/SM
 Kahneman/SM
 KanBan/M1
-Kia/21MS            # automobile brand
 KiCad/2M            # software
+Kia/21MS            # automobile brand
 Kubernetes/2SM
 LADAR
 LEGO/1SM            # official trademark form of Lego
@@ -52208,6 +52211,7 @@ Minecraft/2M
 Minhaj/2SM
 Minix/2M            # old hobby operating system
 Mockito/SM
+Molex/12MS          # Molex connector
 Mullenweg/M
 Munin/SM
 N.S.A./2SM          # FIXME! elsewhere we have NSA
@@ -52217,6 +52221,7 @@ N3/2M
 N4/2M
 N5/2M
 NLP/M
+NMI/1MS             # non-maskable interrupt
 NPC/SM
 NPM/SM
 NYTimes/SM
@@ -52230,6 +52235,7 @@ NumPy/21M
 Nvidia/2M           # FIXME! elsewhere we have NVIDIA
 O'Reilly/2SM
 OAuth/M             # open authentication
+OG/1MS
 ORM/12S             # object-relational mapping
 OpenGL/SM           # open graphics library
 OpenMetrics/SM
@@ -52252,12 +52258,16 @@ Postfix/SM
 PowerShell/SM       # Microsoft product
 PromQL/SM
 PyTorch/M2          # framework
+Q1
+Q2
+Q3
+Q4
 QUERTY/SM           # !! mistake for QWERTY? !!
 QUIC/2SM
 Qin/2SM
 RDBMS/12SM          # relational database management system
-RISC/1M             # cpu architecture
 RFID/21M            # radio frequency identification
+RISC/1M             # cpu architecture
 RPC/21SM            # remote procedure call
 RPG/1MS             # role-playing game
 RTX/1SM
@@ -52265,6 +52275,7 @@ Raytheon/2M
 Reddit/2M
 Rivian/SM           # ev company
 Roumania/2M         # pre-WWII spelling
+SCM/1M              # source code management
 SDK/1SM             # software development kit
 SIMD/1SM            # single instruction, multiple data
 SLA/1SM
@@ -52283,6 +52294,7 @@ Snapchat/SM
 Soros/2M            # financier George Soros
 Spotify/2M
 Stellantis/2M       # car company
+Subversion/1M       # version control
 Svelte/2M           # js framework
 Systemd/SM          # Linux system software
 TCP/52SM            # internet protocol
@@ -52302,9 +52314,12 @@ TrueNAS/SM
 Tumblr/2M
 Typst/SM
 UDP/12SM
+ULA/1MS             # uncommitted logic array
 URI/1SM             # uniform resource identifier
 VAG/2M              # car company
 VARCHAR/1MS
+VCS/1M              # version control system
+VFD/1MS             # vacuum fluorescent display
 VMware/21MS
 VPN/1SM             # virtual private network
 VR/2M
@@ -52317,6 +52332,7 @@ Vite/SM
 WAL/21SM
 WASI/MS
 WASM/MS             # see WebAssembly
+WD40/1M
 Waymo/2M
 WebAssembly/M       # see WASM
 WebGPU/SM
@@ -52327,8 +52343,8 @@ WhatsApp/124MG      # messaging app
 Wikilink/MS1        # !! please check and comment !! elsewhere we have wikilink
 Wireguard/SM
 WooCommerce/2M
-Xbox/12MS
 XLR/1M              # connector
+Xbox/12MS
 Xorg/21MS
 Y2K/M               # year 2000
 YAML/2SM            # markup language
@@ -52343,14 +52359,11 @@ a8c/SM
 archytas/SM         # !! please check and comment !! we also have Archytas
 backend/1SM         # dictionaries prefer: back end
 baz/~               # cf. foo, bar
-BitKeeper/1M        # version control
 config/14SM         # not marked as a verb since "configed" and "configing" look wrong
 corpo/1MS
 dedup/1M            # not well covered by dictionaries. wiktionary has only singular noun. cf. dedupe
 dedupe/14SMDG       # not well covered by dictionaries. wiktionary has noun and verb. cf. dedup
-DEI
 dotfile/~1SM        # not well covered by dictionaries.
-Famicom/12MS        # game console
 filesystem/~SM      # dictionaries prefer: file system
 frontend/1SM        # dictionaries prefer: front end
 gRPC/2SM            # framework
@@ -52363,20 +52376,12 @@ hotwire/4BG         # dictionaries prefer: hot-wire
 labriola/SM         # !! please check and comment !! - should be uppercase surname?
 manip/1MS           # gamer slang manipulation
 memecoin/1MS
-Molex/12MS          # Molex connector
-NMI/1MS             # non-maskable interrupt
 npm/2M              # node package manager
-OG/1MS
 olds/~              # common in phrasing such as "twenty year olds"
 pandoc/SM           # !! please check and comment !! elsewhere we have Pandoc
 pre/~+14            # !! please check and comment !! dictionaries only list prefix pre-
-Q1
-Q2
-Q3
-Q4
 raytracer/1         # dictionaries prefer: ray tracer
 royale/~15SM        # !! please check and comment !! dictionaries only list noun sense type of custard
-SCM/1M              # source code management
 s.t./~              # !! please check and comment !!
 scatterplot/14SMG   # dictionaries prefer: scatter plot
 scrollbar/1SM       # dictionaries prefer: scroll bar
@@ -52384,12 +52389,7 @@ sioyek/SM           # !! please check and comment !!
 stacktrace/SM1      # dictionaries prefer: stack trace
 standup/SM          # dictionaries prefer: stand-up
 strat/1MS           # gamer slang strategy
-Subversion/1M       # version control
-ULA/1MS             # uncommitted logic array
-VFD/1MS             # vacuum fluorescent display
-VCS/1M              # version control system
 vid/1MS             # video
-WD40/1M             
 whitespace/~1SM     # dictionaries prefer: white space
 wikilink/~1SM       # !! please check and comment !! elsewhere we have Wikilink
 
