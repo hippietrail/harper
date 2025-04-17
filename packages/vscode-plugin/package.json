@@ -1,6 +1,6 @@
 {
 	"name": "harper",
-	"displayName": "Harper",
+	"displayName": "Harper - Grammar / Spell Checking",
 	"description": "The grammar checker for developers",
 	"version": "0.29.1",
 	"private": true,
