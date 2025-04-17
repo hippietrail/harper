@@ -1044,6 +1044,12 @@ pub fn lint_group() -> LintGroup {
             "`Case in point` is the correct form of the phrase.",
             "Corrects `case and point` to `case in point`."
         ),
+        "AsWell" => (
+            ["aswell"],
+            ["as well"],
+            "`as well` should be written as two words.",
+            "Corrects `aswell` to `as well`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -2117,6 +2123,15 @@ mod tests {
             "They are just not as high of a priority as other tasks that user's are requesting for, a case and point is I have never ran into this issue.",
             lint_group(),
             "They are just not as high of a priority as other tasks that user's are requesting for, a case in point is I have never ran into this issue.",
+        );
+    }
+
+    #[test]
+    fn correct_aswell() {
+        assert_suggestion_result(
+            "'wejoy' is a tool to read physical joystick devices, aswell as keyboards, create virtual joystick devices and output keyboard presses on a Linux system.",
+            lint_group(),
+            "'wejoy' is a tool to read physical joystick devices, as well as keyboards, create virtual joystick devices and output keyboard presses on a Linux system.",
         );
     }
 }
