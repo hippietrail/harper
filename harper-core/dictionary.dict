@@ -1,4 +1,4 @@
-52700
+52720
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -16,6 +16,7 @@ ABI/1MS             # application binary interface, cf. API
 ABM/21SM
 ABS/12
 AC/152M
+ACL/1MS             # anterior cruciate ligament
 ACLU/2M
 ACT/21
 ACTH/1M
@@ -6157,6 +6158,7 @@ MBA/1M
 MC/142
 MCI/21M
 MD/215M
+MD5/1M
 MDF/1M              # medium-density fiberboard
 MDT/12
 ME/21
@@ -12525,6 +12527,7 @@ antiabortion/5
 antiabortionist/1MS
 antiaircraft/51
 antibacterial/51MS
+antiballistic/5
 antibiotic/~15MS
 antibody/~1SM
 antic/514MS
@@ -12872,7 +12875,7 @@ architect/~14SMDG
 architectonic/51S
 architectonics/1M
 architectural/~5Y
-architecture/~1MS
+architecture/~1MSA
 architrave/1SM
 archival/~51
 archive/~14DSMG
@@ -21756,6 +21759,7 @@ dowry/~14SM
 dowse/41DRSZG
 dowser/1M
 doxology/1SM
+doxx/4DSG
 doyen/1SM
 doyenne/1MS
 doz/1XGDNS
@@ -22448,9 +22452,10 @@ elderberry/1SM
 eldercare/1M
 eldest/~51
 eldritch/~5
-elect/~145ASDGV
+elect/~145ASGV
 elect's
 electable/51
+elected/451MS
 election/~1AMS
 electioneer/4DGS
 elective/~51MS
@@ -27707,6 +27712,7 @@ henchman/~1M
 henchmen/~9
 henna/154SMDG
 henpeck/41GSD
+hentai/1MS
 hep/~154
 heparin/1M
 hepatic/~51
@@ -28128,14 +28134,14 @@ honeysuckle/1SM
 honk/41MDRSZG
 honker/1M
 honky/~1SM
-honor/~14ESGMDB
-honorableness/1M
-honorably/Ej
+honor/~14ESGMDB<
+honorableness/1M<
+honorably/Ej<
 honorarily/j
 honorarium/1MS
 honorary/~51
-honoree/1SM
-honorer/1SM
+honoree/1SM<
+honorer/1SM<
 honorific/~15MS
 honour/14EMDSBG!@
 honourableness/1M!@
@@ -29522,7 +29528,7 @@ initiative/~51SM
 initiator/~1MS
 initiatory/51
 initio
-inject/~4SDG
+inject/~4SDGB
 injection/~1SM
 injector/1SM
 injunctive/15
@@ -29928,6 +29934,7 @@ intimation/1M
 intimidate/~4GNDS
 intimidating/~45YU
 intimidation/~1M
+intimidator/1MS
 intonation/~1SM
 intoxicant/15SM
 intoxicate/45DSGN
@@ -34500,6 +34507,7 @@ mutate/4XGNVDS
 mutation/~1M
 mutational/5
 mute/~514MYTGDRSPB
+mutedness/1M
 muteness/1M
 mutilate/45DSGNX
 mutilation/~1MS
@@ -39343,7 +39351,7 @@ preshrink/4GS
 preshrunk/4
 preside/~4GDS
 presidency/~1SM
-president/~154MS
+president/~14MS     # removed `5` adj. sense archaic, interferes with heuristics
 presidential/~5
 presidium/~1M
 presort/4DGS
@@ -41535,6 +41543,7 @@ retrace/41GDS
 retract/~41DBG
 retractile/5
 retraction/~1S
+retrade/4SDG
 retrain/41DGS
 retread/41D
 retrenchment/1MS
@@ -45581,7 +45590,7 @@ stat/~514MS
 state/~14DRSMYGNLX
 statecraft/~1M
 stated/~45U
-stateful/5Y
+stateful/5YP
 statehood/~1M
 statehouse/1MS
 stateless/5P
@@ -49741,6 +49750,7 @@ unsuspecting/~5Y
 unsustainable/5Y
 unsymmetrical/5
 untactful/5
+untaxed/5
 unterminated/5
 unthinkably/j
 unthinking/54Y
@@ -52391,6 +52401,7 @@ air-cooled/5
 all-new/5
 all-nighter/1MS
 all-woman/5
+alma mater/1M
 anarcho-punk/15MS
 anti-Semitic/5
 anti-Semite/1MS
@@ -52490,6 +52501,7 @@ hard code/4SDG
 hard-pressed/5
 hard right/1M
 hard-right/5
+head-scratcher/1MS
 heavy-duty/5
 heavy-handed/5
 hi-tech/15
@@ -52553,6 +52565,8 @@ nail biter/1MS
 neo-Nazi/15SM
 no-op/1MS           # no operation
 non-Western/5
+not-for-profit/51MS
+object-oriented/5
 odd-numbered/5
 of course/j
 off-limits/5
@@ -52577,6 +52591,7 @@ open source/1M
 open-source/54SDG
 OS X/2M             # before macOS
 out-and-out/5
+out of date
 Pan Am/1M           # old airline
 Pax Americana/2M
 peer review/1MSDG
@@ -52588,9 +52603,11 @@ petty bourgeoisie/1M
 pick-me-up/1MS
 plan B/M
 pre-COVID/5
+pro-democracy/5
 quid pro quo/1M
 post-truth/14M
 rack-mounted/5
+re-enable/4DSG
 real time/1M
 real-time/5
 red-eye/1M
@@ -52599,6 +52616,8 @@ red wolves/9
 right-hand/5
 right-wing/5
 run-up/1MS
+same sex/1M
+same-sex/5
 sans serif/1M5
 sci-fi/1M
 sea lane/1MS
@@ -52651,6 +52670,8 @@ thought out/4
 thought-out/5
 thought-provoking/5
 time-consuming/5Y
+time-honored/5<
+time-honoured/5!@
 tit for tat/1
 tit-for-tat/5
 tl;dr/
@@ -52674,6 +52695,7 @@ von Neumann/2
 walk through/4
 walk-through/5
 walkie-talkie/1MS
+Wall Streeter/1MS
 Wayback Machine/2M
 weapons-grade/5
 web dev/1MS
