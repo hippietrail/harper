@@ -1038,6 +1038,12 @@ pub fn lint_group() -> LintGroup {
             "`Has gone` is the correct form.",
             "Corrects `has went` to `has gone`."
         ),
+        "CaseInPoint" => (
+            ["case and point"],
+            ["case in point"],
+            "`Case in point` is the correct form of the phrase.",
+            "Corrects `case and point` to `case in point`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -2102,6 +2108,15 @@ mod tests {
             "I would like to report that the package request which you are loading has went into maintenance mode.",
             lint_group(),
             "I would like to report that the package request which you are loading has gone into maintenance mode.",
+        );
+    }
+
+    #[test]
+    fn correct_case_and_point_spaced() {
+        assert_suggestion_result(
+            "They are just not as high of a priority as other tasks that user's are requesting for, a case and point is I have never ran into this issue.",
+            lint_group(),
+            "They are just not as high of a priority as other tasks that user's are requesting for, a case in point is I have never ran into this issue.",
         );
     }
 }
