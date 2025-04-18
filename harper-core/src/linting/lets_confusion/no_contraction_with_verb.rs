@@ -1,7 +1,7 @@
 use crate::{
     Token,
     linting::{Lint, LintKind, Suggestion},
-    patterns::{Pattern, SequencePattern, WordSet},
+    patterns::{EitherPattern, Pattern, SequencePattern, WordSet},
 };
 
 use crate::linting::PatternLinter;
@@ -17,38 +17,53 @@ pub struct NoContractionWithVerb {
 
 impl Default for NoContractionWithVerb {
     fn default() -> Self {
-        let pattern = SequencePattern::default()
+        let let_ws = SequencePattern::default()
             .then(WordSet::new(&["lets", "let"]))
+            .then_whitespace();
+
+        // Word is only a verb, and not the gerund/past participle form.
+        let non_ing_verb = SequencePattern::default().then(|tok: &Token, source: &[char]| {
+            let Some(Some(meta)) = tok.kind.as_word() else {
+                return false;
+            };
+
+            if !meta.is_verb() || meta.is_noun() || meta.is_adjective() {
+                return false;
+            }
+
+            let tok_chars = tok.span.get_content(source);
+
+            // If it ends with 'ing' and is at least 5 chars long, it could be a gerund or past participle
+            // TODO: replace with metadata check when affix system supports verb forms
+            if tok_chars.len() < 5 {
+                return true;
+            }
+
+            let is_ing_form = tok_chars
+                .iter()
+                .skip(tok_chars.len() - 3)
+                .map(|&c| c.to_ascii_lowercase())
+                .collect::<Vec<_>>()
+                .ends_with(&['i', 'n', 'g']);
+
+            !is_ing_form
+        });
+
+        // Ambiguous word is a verb determined by heuristic of following word's part of speech
+        let verb_due_to_following_pos = SequencePattern::default()
+            .then(|tok: &Token, _source: &[char]| tok.kind.is_verb() || tok.kind.is_noun())
             .then_whitespace()
-            .then(|tok: &Token, source: &[char]| {
-                let Some(Some(meta)) = tok.kind.as_word() else {
-                    return false;
-                };
-
-                if !meta.is_verb() || meta.is_noun() || meta.is_adjective() {
-                    return false;
-                }
-
-                let tok_chars = tok.span.get_content(source);
-
-                // If it ends with 'ing' and is at least 5 chars long, it could be a gerund or past participle
-                // TODO: replace with metadata check when affix system supports verb forms
-                if tok_chars.len() < 5 {
-                    return true;
-                }
-
-                let is_ing_form = tok_chars
-                    .iter()
-                    .skip(tok_chars.len() - 3)
-                    .map(|&c| c.to_ascii_lowercase())
-                    .collect::<Vec<_>>()
-                    .ends_with(&['i', 'n', 'g']);
-
-                !is_ing_form
+            .then(|tok: &Token, _source: &[char]| {
+                tok.kind.is_determiner() || tok.kind.is_pronoun()
             });
 
+        let let_then_verb = let_ws.then(EitherPattern::new(vec![
+            Box::new(non_ing_verb),
+            Box::new(verb_due_to_following_pos),
+        ]));
+
         Self {
-            pattern: Box::new(pattern),
+            pattern: Box::new(let_then_verb),
         }
     }
 }
@@ -69,13 +84,13 @@ impl PatternLinter for NoContractionWithVerb {
                 Suggestion::replace_with_match_case_str("let's", template),
                 Suggestion::replace_with_match_case_str("let us", template),
             ],
-            message: "It seems you forgot to include a subject here.".to_owned(),
+            message: "To suggest an action, use 'let's' or 'let us'.".to_owned(),
             priority: 31,
         })
     }
 
     fn description(&self) -> &'static str {
-        "Make sure you include a subject when giving permission to it."
+        "Checks for `lets` meaning `permits` when the context is about suggesting an action."
     }
 }
 
@@ -157,6 +172,28 @@ mod tests {
             "Let processed response be a new structure analogous to server auction response.",
             NoContractionWithVerb::default(),
             0,
+        );
+    }
+
+    // Disambiguated noun/verb by following determiner
+
+    #[test]
+    fn corrects_lets_make_this() {
+        assert_suggestion_result(
+            "Lets make this joke repo into one of the best.",
+            NoContractionWithVerb::default(),
+            "Let's make this joke repo into one of the best.",
+        );
+    }
+
+    // Disambiguated verb by following pronoun
+
+    #[test]
+    fn corrects_lets_mock_them() {
+        assert_suggestion_result(
+            "Then lets mock them using Module._load based mocker.",
+            NoContractionWithVerb::default(),
+            "Then let's mock them using Module._load based mocker.",
         );
     }
 }
