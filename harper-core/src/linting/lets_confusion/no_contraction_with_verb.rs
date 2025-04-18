@@ -131,7 +131,11 @@ mod tests {
 
     #[test]
     fn dont_flag_lets_play() {
-        assert_lint_count("Sometimes the umpire lets play continue", NoContractionWithVerb::default(), 0);
+        assert_lint_count(
+            "Sometimes the umpire lets play continue",
+            NoContractionWithVerb::default(),
+            0,
+        );
     }
 
     // False positives where verb is a gerund/past participle
