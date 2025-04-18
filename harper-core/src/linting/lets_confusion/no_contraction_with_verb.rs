@@ -54,7 +54,7 @@ impl Default for NoContractionWithVerb {
             .then(|tok: &Token, _source: &[char]| tok.kind.is_verb() || tok.kind.is_noun())
             .then_whitespace()
             .then(|tok: &Token, _source: &[char]| {
-                tok.kind.is_determiner() || tok.kind.is_pronoun()
+                tok.kind.is_determiner() || tok.kind.is_pronoun() || tok.kind.is_conjunction()
             });
 
         let let_then_verb = let_ws.then(EitherPattern::new(vec![

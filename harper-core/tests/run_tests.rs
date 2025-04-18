@@ -48,8 +48,7 @@ create_test!(issue_195.md, 0, Dialect::American);
 create_test!(issue_118.md, 0, Dialect::American);
 create_test!(lots_of_latin.md, 0, Dialect::American);
 create_test!(pr_504.md, 1, Dialect::American);
-// 452.md is based on a verb which is also a noun, breaking a heuristic that detects false positives
-//create_test!(pr_452.md, 2, Dialect::American);
+create_test!(pr_452.md, 2, Dialect::American);
 create_test!(hex_basic_clean.md, 0, Dialect::American);
 create_test!(hex_basic_dirty.md, 1, Dialect::American);
 create_test!(misc_closed_compound_clean.md, 0, Dialect::American);
