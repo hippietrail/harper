@@ -15,6 +15,7 @@ const FALSE_POSITIVES: &[&str] = &[
     "inside",
     "more",
     "much",
+    "off",
     "out",
     "shy",
     "up",
@@ -493,6 +494,17 @@ mod tests {
     fn dont_flag_fun() {
         assert_lint_count(
             "Remember that $4,000 Hermes horse bag I was making fun of a little while ago.",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_off() {
+        // Can be an adjective in e.g. "The TV is off".
+        // This should be in a different lint that handles based on/off/off of.
+        assert_lint_count(
+            "can't identify a person based off of an IP from 10 years ago",
             AdjectiveOfA,
             0,
         );
