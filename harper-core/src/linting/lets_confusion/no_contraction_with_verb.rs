@@ -21,7 +21,7 @@ impl Default for NoContractionWithVerb {
             .then(WordSet::new(&["lets", "let"]))
             .then_whitespace();
 
-        // Word is only a verb, and not the gerund/past participle form.
+        // Word is only a verb, and not the gerund/present participle form.
         let non_ing_verb = SequencePattern::default().then(|tok: &Token, source: &[char]| {
             let Some(Some(meta)) = tok.kind.as_word() else {
                 return false;

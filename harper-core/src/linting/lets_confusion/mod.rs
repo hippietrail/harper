@@ -37,22 +37,12 @@ mod tests {
         assert_suggestion_result("let's me do", LetsConfusion::default(), "lets me do");
     }
 
-    // "push" is also a noun so in a context like "He always lets push come to shove".
-    // #[test]
-    // fn from_harper_docs() {
-    //     assert_suggestion_result(
-    //         "Often the longest and the shortest words are the most helpful, so lets push them first.",
-    //         LetsConfusion::default(),
-    //         "Often the longest and the shortest words are the most helpful, so let's push them first.",
-    //     );
-    // }
-
     #[test]
-    fn like_the_one_from_harper_docs() {
+    fn from_harper_docs() {
         assert_suggestion_result(
-            "Often the longest and the shortest words are the most helpful, so lets prioritize them.",
+            "Often the longest and the shortest words are the most helpful, so lets push them first.",
             LetsConfusion::default(),
-            "Often the longest and the shortest words are the most helpful, so let's prioritize them.",
+            "Often the longest and the shortest words are the most helpful, so let's push them first.",
         );
     }
 
