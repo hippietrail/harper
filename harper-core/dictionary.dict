@@ -6295,6 +6295,7 @@ Malabar/21M
 Malabo/2M
 Malacca/21M
 Malachi/2M
+Malaga/2M
 Malagasy/15M
 Malamud/2M
 Malaprop/M
@@ -7759,7 +7760,7 @@ POW/1MS             # prisoner of war
 PP/12
 PPE/1M              # personal protective equipment
 PPS/1
-PR/21               # public relations
+PR/1MS              # public relations; pull request
 PRC/21M             # mainland China
 PRO/1
 PS/215M
@@ -17832,6 +17833,7 @@ coddle/41DSG
 code/~14CZGDRS
 code's
 codebase/1S
+codec/1MS
 codefendant/1SM
 codeine/1M
 codependency/1M
@@ -19903,6 +19905,7 @@ customer/~1M
 customhouse/1SM
 customisation/1M!
 customise/4DSG!
+customizability/1M
 customizable/5
 customization/~1M
 customize/4DSG
@@ -21406,6 +21409,7 @@ distributor's
 distributorship/1S
 district/~145AS
 district's
+distro/1MS
 disturb/~41ZGSDR
 disturbance/~1SM
 disturbed/~54U
@@ -23659,6 +23663,7 @@ explication/1M
 explicit/~51PY
 explicitness/1M
 explode/~4GDS
+exploder/1MS
 exploit/~14ZGBMDRS
 exploitation/~1M
 exploitative/~5
@@ -24472,6 +24477,7 @@ finned/~54
 finny/5
 fintech/1M
 fir/~1ZGSJMDRH
+firable/5
 fire/~154MS
 firearm/~1SM
 fireball/~154MS
@@ -34245,6 +34251,7 @@ mournful/5YP
 mournfulness/1M
 mourning/~41M
 mouse/~14DRSMZG
+mouseless/5
 mouser/1M
 mousetrap/14SM
 mousetrapped/4
@@ -36142,7 +36149,7 @@ optometry/1M
 opulence/1M
 opulent/5Y
 opus/~1MS
-or/~715+
+or/~71+             # removed `5` adjective, rare heraldic usage, interferes with linter heuristics
 oracle/~14SM
 oracular/5
 oral/~51MYS
@@ -40732,6 +40739,7 @@ readership/~1SM
 readily/~j
 readiness/~1M
 reading/~41M
+readme/1MS
 readmitted/4
 readout/1SM
 ready/~541DRSTGP
@@ -49596,6 +49604,7 @@ unintended/~5
 uninteresting/5
 uninterrupted/~5Y
 uninterruptible/5
+unintuitive/~51PY
 uninvested/5
 uninviting/5
 union/~145ASM
@@ -52377,6 +52386,7 @@ gzipped/4
 gzipping/4
 hardcode/4GDS       # dictionaries prefer: hard code
 hotwire/4BG         # dictionaries prefer: hot-wire
+jQuery/2M
 labriola/SM         # !! please check and comment !! - should be uppercase surname?
 manip/1MS           # gamer slang manipulation
 memecoin/1MS
@@ -52529,6 +52539,7 @@ hissy fit/1MS
 holy moley
 holy moly
 ice cream/1MS
+in-depth/5
 in-memory/5
 in situ/5j
 jaw-droppingly/5
