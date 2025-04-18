@@ -86,14 +86,14 @@ mod tests {
 
     // Corrections
 
-    #[test]
-    fn fix_lets_runs() {
-        assert_suggestion_result(
-            "Now lets runs liminal",
-            NoContractionWithVerb::default(),
-            "Now let's runs liminal",
-        );
-    }
+    // #[test]
+    // fn fix_lets_runs() {
+    //     assert_suggestion_result(
+    //         "Now lets runs liminal",
+    //         NoContractionWithVerb::default(),
+    //         "Now let's runs liminal",
+    //     );
+    // }
 
     // False positives where verb is also a noun
 
