@@ -12119,6 +12119,8 @@ alumnae/9
 alumni/~9
 alumnus/~1M
 alveolar/~51S
+alveoli/9
+alveolus/1M
 always/~
 am/~4N
 amalgam/~14SM
@@ -13418,6 +13420,7 @@ autographs/14
 autoimmune/~5
 autoimmunity/1M
 autoload/4SDG
+automagical/5
 automaker/~1SM
 automata/~1SM
 automate/4GNDS
@@ -16326,6 +16329,8 @@ carborundum/1M
 carboy/14MS
 carbuncle/1SM
 carbuncular/5
+carburet/4SD
+carburetted/4
 carburetor/~1SM
 carburettor/1MS!@
 carby/1MS
@@ -19936,6 +19941,7 @@ cwt/1
 cyan/~15M
 cyanide/~14M
 cyanobacteria/~1
+cyanosis/1M
 cyber/~5
 cyberattack/14SDGM
 cyberbully/14SMG
@@ -24634,6 +24640,7 @@ flapjack/1MS
 flapped/45
 flapper/1SM
 flapping/514
+flappy/5
 flare/~14DSMG
 flareup/1SM
 flash/~415ZTGMDRS
@@ -26474,6 +26481,7 @@ goop/14M
 goose/~14DSMG
 gooseberry/1SM
 goosebumps/1M
+gooseneck/1MS
 goosestep/4S
 goosestepped/4
 goosestepping/4
@@ -27376,7 +27384,7 @@ harrow/~14SMDG
 harrumph/14GD
 harrumphs/14
 harry/~41DRSZG
-harsh/~54RYTP
+harsh/~54RYTPSDG
 harshness/1M
 hart/~1MS
 harvest/~14SMDRZG
@@ -29245,6 +29253,7 @@ incubus/~1MS
 inculcate/4DSGN
 inculcation/1M
 inculpate/4DSG
+inculpatory/5
 incumbency/1SM
 incumbent/~51SM
 incunabula/1
@@ -30681,6 +30690,7 @@ keyboard/~14ZGSMDR
 keyboarder/1M
 keyboardist/~1SM
 keycap/1SM
+keychain/1MS
 keyhole/~14MS
 keymap/1SM
 keynote/~14MZGDRS
@@ -44088,6 +44098,7 @@ sitarist/1MS
 sitcom/~1SM
 site/~14MGDS
 sitemap/1SM
+sitewide/5j
 sitter/1SM
 sitting/~145SM
 situ/~1
@@ -44696,6 +44707,7 @@ socialization/~1M
 socialize/4DSG
 societal/~5
 society/~1SM
+sociocultural/5
 socioeconomic/~5Q
 sociological/~5Y
 sociologist/~1SM
@@ -46215,6 +46227,7 @@ subheading/1M
 subhuman/51MS
 subj/1
 subject/~514GVMDS
+subjecthood/1M
 subjection/1M
 subjective/~51Y
 subjectivity/~1M
@@ -46350,6 +46363,7 @@ subversive/~51SPMY
 subversiveness/1M
 subvert/~41SDG
 subway/~14MS
+subwoofer/1MS
 subzero/5
 succeed/~4GDS
 success/~1VMS
@@ -47764,8 +47778,9 @@ thieve/4DSG
 thievery/1M
 thieving/451M
 thievish/5
-thigh/~1MS
+thigh/~1M           # `S` here results in the wrong `thighes` instead of `thighs`
 thighbone/1MS
+thighs/9
 thimble/14MS
 thimbleful/1SM
 thin/~514YSP
@@ -48654,6 +48669,7 @@ traveling/~415M
 travelled/54!@
 traveller/1SM!@
 travelling/415MS!@
+travelog/1MS<
 travelogue/~1MS
 traversal/1SM
 traverse/~145DSMG
@@ -51107,7 +51123,7 @@ what/~81MS
 whataboutism/1M
 whatchamacallit/1MS
 whatever/~851M
-whatnot/1M
+whatnot/1MS
 whatshername/8
 whatshisname/1
 whatsit/1S
@@ -51449,7 +51465,7 @@ wire/~14AGDS
 wire's
 wired/~54S
 wirehair/1MS
-wireless/~514MS
+wireless/~514MSY
 wiretap/14MS
 wiretapped/45
 wiretapper/1SM
@@ -52456,6 +52472,7 @@ cost-effective/5
 cotter pin/1MS
 cross section/1MS
 cross-threaded/5
+custom-built/5
 custom-made/5
 cut scene/1MS
 cutting edge/1MS
@@ -52473,6 +52490,7 @@ door to door/j
 door-to-door/S
 double-decker/5
 easy peasy/5
+editor in chief/1
 end user/1MS
 energy-efficient/5
 et al./~
@@ -52638,12 +52656,14 @@ red wolf/1M
 red wolves/9
 right-hand/5
 right-wing/5
+rock face/1MS
 run-up/1MS
 same sex/1M
 same-sex/5
 sans serif/1M5
 sci-fi/1M
 sea lane/1MS
+second-degree/5
 self-awareness/1M
 self-deception/1M
 self-driving/1M5
@@ -52729,6 +52749,7 @@ well-known/5
 well-made/5
 well-received/5
 well-respected/5
+well-trodden/5
 well-used/5
 Wi-Fi/1M
 wishy-washy/5
