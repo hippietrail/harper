@@ -23,6 +23,7 @@ const FALSE_POSITIVES: &[&str] = &[
     // (using .kind.is_likely_homograph() here is too strict)
     "back",
     "bit",
+    "borderline",
     "bottom",
     "chance",
     "clockwork",
@@ -505,6 +506,15 @@ mod tests {
         // This should be in a different lint that handles based on/off/off of.
         assert_lint_count(
             "can't identify a person based off of an IP from 10 years ago",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_borderline_of() {
+        assert_lint_count(
+            "it's very very on the borderline of a rock pop ballad",
             AdjectiveOfA,
             0,
         );

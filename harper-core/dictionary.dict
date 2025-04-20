@@ -1,4 +1,4 @@
-52720
+52800
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -5659,6 +5659,7 @@ Lacey/2M
 Lachesis/21M
 Lactobacillus/2
 Lacy/2M
+Lada/12MS
 Ladoga/2M
 Ladonna/M
 Lady/12M
@@ -6619,6 +6620,7 @@ McIntyre/2M
 McJob/1
 McKay/2M
 McKee/2M
+McKenna/21M
 McKenzie/21M
 McKinley/2M
 McKinney/2M
@@ -13441,6 +13443,7 @@ autoplay/14SMDG
 autopsy/~14GDSM
 autoregressive/5
 autorun/14GM
+autostereogram/1MS
 autosuggestion/1
 autoworker/1MS
 autumn/~14SM
@@ -15562,6 +15565,7 @@ broker/~514SMDG
 brokerage/~1MS
 broligarchy/1M
 brolly/1S
+bromance/1MS
 bromide/~1SM
 bromidic/5
 bromine/~1M
@@ -19446,6 +19450,7 @@ cravenness/1M
 craving/~14M
 craw/14MS
 crawdad/1SM
+crawfish/1M
 crawl/~41SMDRZG
 crawler/~1M
 crawlspace/1SM
@@ -19781,6 +19786,8 @@ culpable/5I
 culpably/j
 culprit/~1SM
 cult/~15MS
+cultish/5
+cultishness/1M
 cultism/1M
 cultist/1MS
 cultivable/5
@@ -20920,6 +20927,7 @@ dialing/~41S
 dialled/4A!
 dialling/41S!
 dialog/~14
+dialogic/5
 dialogue/~14SM
 dialyses/1
 dialysis/~1M
@@ -23251,6 +23259,7 @@ essential/~51IMS
 essentially/~j
 establish/~4AESDGL
 establishment/~1AEM
+establishmentarianism/1M
 establishments/~1
 estate/~154SM
 esteem/~14ESMDG
@@ -24415,6 +24424,7 @@ filly/~1SM
 film/~14MDGS
 filminess/1M
 filmmaker/~1SM
+filmmaking/1M
 filmstrip/1MS
 filmy/5TPR
 filo/1
@@ -25813,6 +25823,7 @@ garb/~14MDGS
 garbage/~145M
 garbageman/1
 garbagemen/9
+garbagey/5
 garbanzo/1SM
 garble/41DSG
 garcon/1SM
@@ -27579,6 +27590,7 @@ heartlessness/1M
 heartrending/5Y
 heartsick/5P
 heartsickness/1M
+heartstopping/5
 heartstrings/1M
 heartthrob/1MS
 heartwarming/5
@@ -33713,6 +33725,7 @@ misled/~4
 mismanage/4LGDS
 mismanagement/~1M
 mismatch/~41GMDS
+mismeasure/4GDS
 misname/14GDS
 misnomer/14MS
 misogamist/1MS
@@ -34616,6 +34629,7 @@ naivete/1M
 naivety/1M
 naked/~54PY
 nakedness/1M
+namaste
 name/~14AGDS
 name's
 nameable/5U
@@ -36579,6 +36593,7 @@ overemphasize/4GDS
 overenthusiastic/5
 overestimate/41MGNDS
 overestimation/1M
+overexaggerate/4GDS
 overexcite/4DSG
 overexercise/41GDS
 overexert/4SDG
@@ -37725,7 +37740,7 @@ perforce/4
 perform/~4SDRZG
 performance/~1SM
 performant/5
-performative/51
+performative/51Y
 performed/~4U
 performer/~1M
 perfume/~14DRSMZG
@@ -38081,6 +38096,7 @@ phosphorous/51
 phosphorus/~1M
 phosphorylation/~1
 photo/~14SGMD
+photobomb/14MSDG
 photocell/1MS
 photocopier/1M
 photocopy/14DRSMZG
@@ -38984,7 +39000,7 @@ postconsonantal/5
 postdate/451DSG
 postdoc/1MS
 postdoctoral/~51
-poster/~14M
+poster/~14MDG
 posterior/~51SM
 posterity/~1M
 postgrad/1MS5
@@ -39899,6 +39915,7 @@ pseudonym/~1SM
 pseudonymous/~5
 pseudorandom/5P
 pseudoscience/~1MS
+pseudoscientific/5
 pseudy/5
 pshaw/4MS
 psi/~1SM
@@ -40957,7 +40974,7 @@ redialling/4!
 redirection/1
 redistrict/4GD
 redivide/4GDS
-redlining/14M
+redline/14MDG
 redneck/1SM
 redness/~1M
 redo/41G
@@ -41378,6 +41395,7 @@ repulsion/~1M
 repulsive/~5YP
 repulsiveness/1M
 repurchase/41GDS
+repurposing/41M
 reputability/1M
 reputably/Ej
 reputation/~1MS
@@ -41419,6 +41437,8 @@ reservist/1SM
 reservoir/~14SM
 resetting/41
 reshipping/41
+reshoot/1M4GS
+reshot/4
 residence/~1SM
 residency/~1SM
 resident/~15MS
@@ -43225,6 +43245,8 @@ sender/~1M
 sendoff/1MS
 senescence/1M
 senescent/5
+senes
+sensemaking/1M
 senile/51
 senility/1M
 senior/~51SM
@@ -45669,6 +45691,7 @@ steady/~541TGPDRSM
 steak/~14SM
 steakhouse/1SM
 steal/~41SMHG
+stealer/1MS
 stealth/~145M
 stealthily/j
 stealthiness/1M
@@ -45740,6 +45763,7 @@ steppingstone/1SM
 stepsister/1MS
 stepson/~1MS
 stereo/~154SM
+stereogram/1MS
 stereophonic/5
 stereoscope/1MS
 stereoscopic/~5
@@ -45771,7 +45795,7 @@ steward/~14GMDS
 stewardess/1MS
 stewardship/~1M
 stick/~145SMRZG
-sticker/~145M
+sticker/~145MDG
 stickily/j
 stickiness/1M
 stickleback/1SM
@@ -48481,7 +48505,7 @@ tragicomic/5
 trail/~41ZGSMDR
 trailblazer/1MS
 trailblazing/54M
-trailer/~14M
+trailer/~14MSDG
 train/~14ZGSMDRB
 trained/~54U
 trainee/~1SM
@@ -49463,6 +49487,7 @@ underpinned/4
 underpinning/41MS
 underplay/14DGS
 underpopulated/5
+underprepared/5
 underprivileged/~51
 underproduction/1M
 underrate/41GDS
@@ -49742,6 +49767,7 @@ unsaleable/51
 unsavory/5
 unsavoury/5!@
 unscathed/5
+unsee/4S
 unseeing/5Y
 unseemly/5T
 unseen/~541M
@@ -52447,6 +52473,7 @@ avant-garde/1M5
 back to back/j
 back-to-back/5
 beck and call/1
+bell-pull/1MS
 bench-warmer/1MS
 blue-blooded/5
 blue-collar/5
@@ -52507,6 +52534,8 @@ feature-length/5
 first-hand/j
 first person/1M
 first-person/5
+first time/1MS
+first-time/5
 flash point/1MS
 four-speed/1MS
 front-line/5
@@ -52558,6 +52587,7 @@ higher-up/1MS
 hissy fit/1MS
 holy moley
 holy moly
+Humpty Dumpty/2M
 ice cream/1MS
 in-depth/5
 in-memory/5
@@ -52603,7 +52633,9 @@ mind game/1MS
 mock up/4
 mock-up/1MS
 nail biter/1MS
+nano-farad/1MS
 neo-Nazi/15SM
+neo-Nazism/1M
 no-op/1MS           # no operation
 non-Western/5
 not-for-profit/51MS
@@ -52613,6 +52645,7 @@ of course/j
 off-limits/5
 off-road/1MS
 off-roader/1MS
+off-roading/1M
 off-the-books/5
 okey-dokey/1MS
 old-timey/5
@@ -52695,6 +52728,7 @@ Stack Overflow/2M
 stack overflow/1SM
 stand down/4
 stand-down/1MS
+stand-in/1MS
 stand-up/51
 standard-bearer/1MS
 stay behind/4
@@ -52757,6 +52791,7 @@ working-class/15MS
 write off/4
 write-off/1MS
 write-up/1MS
+year-over-year/5
 
 # New entries may be added below this line
 # If you're not confident in using the affix annotations, add missing words here
