@@ -714,8 +714,8 @@ Astoria/2M
 Astrakhan/21M
 AstroTurf/1M
 Asturias/2M
-Asuncion/2M
 Asunción/2M
+Asuncion/2M
 Aswan/2M
 Atacama/2M
 Atahualpa/M
@@ -1312,8 +1312,8 @@ Boeotian/512M
 Boer/12SM
 Boethius/2M
 Bogart/2M
-Bogota/2M
 Bogotá/2M
+Bogota/2M
 Bohemia/21M
 Bohemian/152SM
 Bohr/2M
@@ -2105,8 +2105,8 @@ Chiquita/M
 Chirico/2M
 Chiron/2M
 Chisholm/2M
-Chisinau/2M
 Chișinău/2M
+Chisinau/2M
 Chittagong/2M
 Chivas/M
 Chloe/2M
@@ -2502,8 +2502,8 @@ Cummings/2M
 Cunard/2M
 Cunningham/2M
 Cupid/2M
-Curacao/2M
 Curaçao/2M
+Curacao/2M
 Curie/2M
 Curitiba/2M
 Currier/2M
@@ -6004,8 +6004,8 @@ Lollobrigida/2M
 Lombard/125M
 Lombardi/2M
 Lombardy/2M
-Lome/2M
 Lomé/2M
+Lome/2M
 Lompoc/2M
 Lon/2M
 London/2MRZ
@@ -6313,8 +6313,8 @@ Maldive/MS
 Maldives/29M
 Maldivian/15MS
 Maldonado/2M
-Male/2M
 Malé/2M
+Male/2M
 Mali/21M
 Malian/15SM
 Malibu/2M
@@ -7461,8 +7461,8 @@ Nosferatu/1M
 Nostradamus/21M
 Nottingham/2M
 Nouakchott/2M
-Noumea/2M
 Nouméa/2M
+Noumea/2M
 Nov/2M
 Nova/21M
 Novartis/M
@@ -8547,8 +8547,8 @@ Reverend/1M
 Revlon/2M
 Rex/2M
 Reyes/2M
-Reykjavik/2M
 Reykjavík/2M
+Reykjavik/2M
 Reyna/M
 Reynaldo/M
 Reynolds/2M
@@ -10937,8 +10937,8 @@ Yangtze/2M
 Yank/1SM
 Yankee/14SM
 Yaobang/M
-Yaounde/2M
 Yaoundé/2M
+Yaounde/2M
 Yaqui/12M
 Yaren/2
 Yaroslavl/2M
@@ -11060,8 +11060,8 @@ Zionist/15SM
 Ziploc/1M           # trademark
 Žižek/2M            # slavoj -
 Zn/M                # zinc
-Zoe/2M
 Zoë/2M
+Zoe/2M
 Zola/2M
 Zollverein/1M
 Zoloft/2M
@@ -14751,8 +14751,8 @@ blankness/1M
 blare/41MGDS
 blaringly/j
 blarney/14SMDG
-blase/5
 blasé/5
+blase/5
 blaspheme/41ZGDRS
 blasphemer/1M
 blasphemous/~5Y
@@ -16334,8 +16334,8 @@ carboy/14MS
 carbuncle/1SM
 carbuncular/5
 carburet/4SD
-carburetted/4
 carburetor/~1SM
+carburetted/4
 carburettor/1MS!@
 carby/1MS
 carcass/~1MS
@@ -17589,8 +17589,8 @@ clever/~5PTRY
 cleverness/1M
 clevis/1MS
 clew/14SGMD
-cliche/14MDSG
 cliché/~14MSG
+cliche/14MDSG
 clichéd/45
 click/~14BZGMDRS
 clickbait/14
@@ -34623,8 +34623,8 @@ naiad/1SM
 naif/51MS
 nail/~14MDSG
 nailbrush/14MS
-naive/~51RYT
 naïve/~51
+naive/~51RYT
 naivete/1M
 naivety/1M
 naked/~54PY
@@ -38281,8 +38281,8 @@ pimple/14DSM
 pimply/5RT
 pin/~14SM
 pinafore/14MS
-pinata/14MS
 piñata/14MS
+pinata/14MS
 pinball/~14M
 pincer/14MS
 pinch/~41GMDS
@@ -41538,8 +41538,8 @@ restroom/1SM
 restructuring/~41SM
 result/~41GSMD
 resultant/~51SM
-resume/~41DSMG
 resumé/1SM
+resume/~41DSMG
 resumption/~1MS
 resupply/~41DSG
 resurgence/~1MS
@@ -43243,10 +43243,9 @@ senatorial/~5
 send/~41ZGRS
 sender/~1M
 sendoff/1MS
+senes
 senescence/1M
 senescent/5
-senes
-sensemaking/1M
 senile/51
 senility/1M
 senior/~51SM
@@ -43265,6 +43264,7 @@ sense/~14MGDS
 sensei/1MS
 senseless/5PY
 senselessness/1M
+sensemaking/1M
 sensibilities/~1
 sensibility/~1IM
 sensible/~51P
@@ -52508,8 +52508,8 @@ de-extinct/4GD
 de-extinction/1MS
 de facto/51M
 death knell/1MS
-deja vu/1
 déjà vu/1
+deja vu/1
 die hard/4
 dire wolf/1M
 dire wolves/9
