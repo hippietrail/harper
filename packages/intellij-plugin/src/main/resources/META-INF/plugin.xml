@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<idea-plugin>
+    <id>com.harper.intellij</id>
+    <name>Harper - Grammar / Spell Checking</name>
+    <version>0.29.1</version>
+    <vendor email="support@harper.com" url="https://harper.com">Harper</vendor>
+
+    <depends>com.intellij.modules.lang</depends>
+    <depends>com.intellij.modules.platform</depends>
+
+    <application-components>
+        <component>
+            <implementation-class>com.harper.HarperApplicationComponent</implementation-class>
+        </component>
+    </application-components>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <applicationService serviceImplementation="com.harper.services.HarperService"/>
+        <editorFactoryListener implementation="com.harper.HarperEditorFactoryListener"/>
+        
+        <!-- Language support -->
+        <fileTypeFactory implementation="com.harper.HarperFileTypeFactory"/>
+        
+        <!-- Add more language support as needed -->
+    </extensions>
+
+    <actions>
+        <action id="Harper.RestartLanguageServer" class="com.harper.actions.RestartLanguageServerAction" text="Restart Harper Language Server" description="Restart the Harper Language Server">
+            <keyboard-shortcut keymap="Default" first-keystroke="ctrl alt R"/>
+        </action>
+    </actions>
+</idea-plugin>
