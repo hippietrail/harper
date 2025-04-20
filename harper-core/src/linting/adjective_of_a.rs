@@ -35,18 +35,22 @@ const FALSE_POSITIVES: &[&str] = &[
     "head",
     "kind",
     "left",
+    "light",
     "meaning",
     "middle",
+    "multiple",
     "one",
     "part",
     "potential",
     "precision",
+    "red",
     // for "rid" I removed the `5` flag in `dictionary.dict``
     "shadow",
     "side",
     "short",
     "something",
     "sound",
+    "top",
 ];
 
 fn is_false_positive(chars: &[char]) -> bool {
@@ -518,5 +522,29 @@ mod tests {
             AdjectiveOfA,
             0,
         );
+    }
+
+    #[test]
+    fn dont_flag_light() {
+        assert_lint_count("The light of a star.", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_multiple() {
+        assert_lint_count(
+            "The image needs to be a multiple of a certain size.",
+            AdjectiveOfA,
+            0,
+        );
+    }
+
+    #[test]
+    fn dont_flag_red() {
+        assert_lint_count("The red of a drop of blood.", AdjectiveOfA, 0);
+    }
+
+    #[test]
+    fn dont_flag_top() {
+        assert_lint_count("The top of a hill.", AdjectiveOfA, 0);
     }
 }
