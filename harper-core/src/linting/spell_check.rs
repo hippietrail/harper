@@ -189,4 +189,40 @@ mod tests {
             0,
         );
     }
+
+    #[test]
+    fn australian_verandah() {
+        assert_lint_count(
+            "Our house has a verandah.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::Australian),
+            0,
+        );
+    }
+
+    #[test]
+    fn australian_verandah_in_american_dialect() {
+        assert_lint_count(
+            "Our house has a verandah.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+            1,
+        );
+    }
+
+    #[test]
+    fn austrlaian_verandah_in_british_dialect() {
+        assert_lint_count(
+            "Our house has a verandah.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::British),
+            1,
+        );
+    }
+
+    #[test]
+    fn australian_verandah_in_canadian_dialect() {
+        assert_lint_count(
+            "Our house has a verandah.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::Canadian),
+            1,
+        );
+    }
 }
