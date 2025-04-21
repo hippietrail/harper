@@ -164,11 +164,29 @@ mod tests {
     }
 
     #[test]
-    fn canadian_yogourt_in_australian_dialect() {
+    fn canadian_words_in_australian_dialect() {
         assert_lint_count(
-            "Do you like yogourt?",
+            "Does your mom like yogourt?",
             SpellCheck::new(FstDictionary::curated(), Dialect::Australian),
+            2,
+        );
+    }
+
+    #[test]
+    fn australian_words_in_canadian_dialect() {
+        assert_lint_count(
+            "We mine bauxite to make aluminium.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::Canadian),
             1,
+        );
+    }
+
+    #[test]
+    fn mum_and_mummy_not_just_commonwealth() {
+        assert_lint_count(
+            "Mum's the word about that Egyptian mummy.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+            0,
         );
     }
 }
