@@ -18933,7 +18933,7 @@ cooktop/1SM
 cookware/1SM
 cool/~514MDRYZTGPS
 coolant/~1SM
-cooler/~15M
+cooler/~15MS
 coolie/1SM
 coolish/5
 coolness/1M
@@ -23219,6 +23219,7 @@ escritoire/1MS
 escrow/14SM
 escudo/1SM
 escutcheon/~1SM
+esky/1MS_           # Australian genericised brand name of a cooler
 esophageal/~5
 esophagi/1
 esophagus/~1M
@@ -38162,7 +38163,7 @@ picket/~14ZGMDRS
 pickings/1M
 pickle/~14MGDS
 pickpocket/14SM
-pickup/~14MS
+pickup/~1MS         # removed `4` verb which applies to `pick up`
 picky/51PTR
 picnic/~14MS
 picnicked/4
@@ -49934,6 +49935,7 @@ usurp/4SDRZG
 usurpation/1M
 usurper/~1M
 usury/~1M
+ute/1SM_            # Australian pickup truck
 utensil/1SM
 uteri/1
 uterine/~51

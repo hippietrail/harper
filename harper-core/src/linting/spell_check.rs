@@ -270,4 +270,22 @@ mod tests {
     //         0,
     //     )
     // }
+
+    #[test]
+    fn australian_words_flagged_for_american_english() {
+        assert_lint_count(
+            "There's an esky full of beers in the back of the ute.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+            2,
+        );
+    }
+
+    #[test]
+    fn american_words_not_flagged_for_australian_english() {
+        assert_lint_count(
+            "In general, utes have unibody construction while pickups have frames.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::Australian),
+            0,
+        );
+    }
 }
