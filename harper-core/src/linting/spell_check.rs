@@ -162,4 +162,13 @@ mod tests {
             1,
         );
     }
+
+    #[test]
+    fn canadian_yogourt_in_australian_dialect() {
+        assert_lint_count(
+            "Do you like yogourt?",
+            SpellCheck::new(FstDictionary::curated(), Dialect::Australian),
+            1,
+        );
+    }
 }
