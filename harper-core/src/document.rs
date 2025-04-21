@@ -249,6 +249,14 @@ impl Document {
         self.tokens.get(index)
     }
 
+    /// Get a token at a signed offset from a base index, or None if out of bounds.
+    pub fn get_token_offset(&self, base: usize, offset: isize) -> Option<&Token> {
+        match base.checked_add_signed(offset) {
+            None => None,
+            Some(idx) => self.get_token(idx),
+        }
+    }
+
     /// Get an iterator over all the tokens contained in the document.
     pub fn tokens(&self) -> impl Iterator<Item = &Token> + '_ {
         self.tokens.iter()
