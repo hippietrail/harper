@@ -27,7 +27,7 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
             let Some(space) = document.get_token(pi + 1) else {
                 continue;
             };
-            let Some(word) = document.get_token(pi + 2) else {
+            let Some(main_word) = document.get_token(pi + 2) else {
                 continue;
             };
             let followed_by_noun = document
@@ -40,7 +40,7 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
                     }
                 })
                 .map_or(false, |next_token| next_token.kind.is_noun());
-            if !space.kind.is_whitespace() || !word.kind.is_word() {
+            if !space.kind.is_whitespace() || !main_word.kind.is_word() {
                 continue;
             }
             let prep_to = document.get_span_content(&prep.span);
@@ -48,7 +48,7 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
                 continue;
             }
 
-            let chars = document.get_span_content(&word.span);
+            let chars = document.get_span_content(&main_word.span);
 
             if chars.len() < 4 {
                 continue;
@@ -58,7 +58,7 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
                 if let Some(metadata) = self.dictionary.get_word_metadata(stem) {
                     if metadata.is_verb() && !metadata.is_noun() {
                         lints.push(Lint {
-                            span: Span::new(prep.span.start, word.span.end),
+                            span: Span::new(prep.span.start, main_word.span.end),
                             lint_kind: LintKind::WordChoice,
                             message: "The base form of the verb is needed here.".to_string(),
                             suggestions: vec![Suggestion::ReplaceWith(
