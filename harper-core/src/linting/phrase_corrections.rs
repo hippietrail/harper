@@ -1050,6 +1050,30 @@ pub fn lint_group() -> LintGroup {
             "`as well` should be written as two words.",
             "Corrects `aswell` to `as well`."
         ),
+        "HasPassed" => (
+            ["has past"],
+            ["has passed"],
+            "Did you mean the verb `passed`?",
+            "Suggests `past` for `passed` in case a verb was intended."
+        ),
+        "HavePassed" => (
+            ["have past"],
+            ["have passed"],
+            "Did you mean the verb `passed`?",
+            "Suggests `past` for `passed` in case a verb was intended."
+        ),
+        "HadPassed" => (
+            ["had past"],
+            ["had passed"],
+            "Did you mean the verb `passed`?",
+            "Suggests `past` for `passed` in case a verb was intended."
+        ),
+        "HavingPassed" => (
+            ["having past"],
+            ["having passed"],
+            "Did you mean the verb `passed`?",
+            "Suggests `past` for `passed` in case a verb was intended."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -2132,6 +2156,42 @@ mod tests {
             "'wejoy' is a tool to read physical joystick devices, aswell as keyboards, create virtual joystick devices and output keyboard presses on a Linux system.",
             lint_group(),
             "'wejoy' is a tool to read physical joystick devices, as well as keyboards, create virtual joystick devices and output keyboard presses on a Linux system.",
+        );
+    }
+
+    #[test]
+    fn correct_has_past() {
+        assert_suggestion_result(
+            "Track the amount of time that has past since a point in time.",
+            lint_group(),
+            "Track the amount of time that has passed since a point in time.",
+        );
+    }
+
+    #[test]
+    fn correct_have_past() {
+        assert_suggestion_result(
+            "Another 14+ days have past, any updates on this?",
+            lint_group(),
+            "Another 14+ days have passed, any updates on this?",
+        );
+    }
+
+    #[test]
+    fn correct_had_past() {
+        assert_suggestion_result(
+            "Few days had past, so im starting to thinks there is a problem in my local version.",
+            lint_group(),
+            "Few days had passed, so im starting to thinks there is a problem in my local version.",
+        );
+    }
+
+    #[test]
+    fn correct_having_past() {
+        assert_suggestion_result(
+            "Return to computer, with enough time having past for the computer to go to full sleep.",
+            lint_group(),
+            "Return to computer, with enough time having passed for the computer to go to full sleep.",
         );
     }
 }
