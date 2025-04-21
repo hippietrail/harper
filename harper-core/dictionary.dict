@@ -5653,6 +5653,8 @@ LVN/1
 La/21SM
 Lab/12
 Laban/2M
+Labor/2M_           # the australian political party doesn't use the normal australian spelling of 'labour'
+Labour/2M!          # the uk political party does use the normal british spelling of 'labour'
 Labrador/21SM
 Labradorean/51
 Lacey/2M
@@ -50189,7 +50191,8 @@ venturousness/1M
 venue/~1ASM
 veracious/5Y
 veracity/~1M
-veranda/1SM
+veranda/1SM!@<
+verandah/1SM_
 verapamil/1
 verb/~14KMS
 verbal/~514MYS

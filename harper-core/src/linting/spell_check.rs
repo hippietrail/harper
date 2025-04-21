@@ -225,4 +225,49 @@ mod tests {
             1,
         );
     }
+
+    #[test]
+    fn mixing_australian_and_canadian_dialects() {
+        assert_lint_count(
+            "In summer we sit on the verandah and eat yogourt.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::Australian),
+            1,
+        );
+    }
+
+    #[test]
+    fn mixing_canadian_and_australian_dialects() {
+        assert_lint_count(
+            "In summer we sit on the verandah and eat yogourt.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::Canadian),
+            1,
+        );
+    }
+
+    #[test]
+    fn australian_and_canadian_spellings_that_are_not_american() {
+        assert_lint_count(
+            "In summer we sit on the verandah and eat yogourt.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+            2,
+        );
+    }
+
+    #[test]
+    fn australian_and_canadian_spellings_that_are_not_british() {
+        assert_lint_count(
+            "In summer we sit on the verandah and eat yogourt.",
+            SpellCheck::new(FstDictionary::curated(), Dialect::British),
+            2,
+        );
+    }
+
+    // #[test]
+    // fn australian_labour_vs_labor() {
+    //     assert_lint_count(
+    //         "In Australia we write 'labour' but the political party is the 'Labor Party'.",
+    //         SpellCheck::new(FstDictionary::curated(), Dialect::Australian),
+    //         0,
+    //     )
+    // }
 }
