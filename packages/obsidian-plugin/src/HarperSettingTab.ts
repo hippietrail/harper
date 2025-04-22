@@ -51,6 +51,7 @@ export class HarperSettingTab extends PluginSettingTab {
 				.onChange(async (value) => {
 					this.settings.dialect = Number.parseInt(value);
 					await this.plugin.initializeFromSettings(this.settings);
+					this.plugin.updateStatusBar();
 				});
 		});
 

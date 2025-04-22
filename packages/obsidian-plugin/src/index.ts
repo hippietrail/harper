@@ -1,7 +1,7 @@
 import type { Extension } from '@codemirror/state';
 import type { LintConfig, Linter, Suggestion } from 'harper.js';
 import {
-	type Dialect,
+	Dialect,
 	LocalLinter,
 	SuggestionKind,
 	WorkerLinter,
@@ -39,6 +39,7 @@ export default class HarperPlugin extends Plugin {
 	private harper: Linter;
 	private editorExtensions: Extension[];
 	private delay: number;
+	private statusBarItem: HTMLElement | null = null;
 
 	constructor(app: App, manifest: PluginManifest) {
 		super(app, manifest);
@@ -128,13 +129,44 @@ export default class HarperPlugin extends Plugin {
 	}
 
 	private setupStatusBar() {
+		// Remove the old status bar item
+		if (this.statusBarItem) {
+			this.statusBarItem.remove();
+		}
+
 		/** @type HTMLElement */
 		const statusBarItem = this.addStatusBarItem();
 		statusBarItem.className += ' mod-clickable';
+		this.statusBarItem = statusBarItem;
 
 		const button = document.createElement('span');
-		button.style = 'width:24px';
-		button.innerHTML = logoSvg;
+		button.style.display = 'flex';
+		button.style.alignItems = 'center';
+
+		const logo = document.createElement('span');
+		logo.style.width = '24px';
+		logo.innerHTML = logoSvg;
+
+		button.appendChild(logo);
+
+		this.harper.getDialect().then((dialectNum) => {
+			if (dialectNum !== undefined) {
+				const code = {
+					American: 'US',
+					Australian: 'AU',
+					British: 'GB',
+					Canadian: 'CA',
+				}[Dialect[dialectNum]];
+				if (code !== undefined) {
+					const dialect = document.createElement('span');
+					dialect.innerHTML += `${code
+						.split('')
+						.map((c) => String.fromCodePoint(c.charCodeAt(0) + 127397))
+						.join('')}${code}`;
+					button.appendChild(dialect);
+				}
+			}
+		});
 
 		button.addEventListener('click', (event) => {
 			const menu = new Menu();
@@ -268,6 +300,11 @@ export default class HarperPlugin extends Plugin {
 				delay: this.delay,
 			},
 		);
+	}
+
+	updateStatusBar() {
+		console.log('Updating status bar');
+		this.setupStatusBar();
 	}
 }
 
