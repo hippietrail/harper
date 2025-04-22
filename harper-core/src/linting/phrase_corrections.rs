@@ -1093,6 +1093,12 @@ pub fn lint_group() -> LintGroup {
             "Use the full verb “want” after negation: “don't want” or “do not want.”",
             "In English, negation still requires the complete verb form (“want”), so avoid truncating it to “wan.”"
         ),
+        "CursingThroughVeins" => (
+            ["cursing through veins"],
+            ["coursing through veins"],
+            "In this idiom, blood “courses” (flows) through veins, not “curses”.",
+            "In English idioms, “to course” means to flow rapidly—so avoid the eggcorn “cursing through veins.”"
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -2289,5 +2295,32 @@ mod tests {
     #[test]
     fn does_not_flag_already_correct() {
         assert_lint_count("I don't want to leave.", lint_group(), 0);
+    }
+
+    #[test]
+    fn detect_cursing_through_veins_atomic() {
+        assert_suggestion_result(
+            "cursing through veins",
+            lint_group(),
+            "coursing through veins",
+        );
+    }
+
+    #[test]
+    fn detect_cursing_through_veins_real_world() {
+        assert_suggestion_result(
+            "It felt like the drugs were cursing through veins.",
+            lint_group(),
+            "It felt like the drugs were coursing through veins.",
+        );
+    }
+
+    #[test]
+    fn does_not_flag_other_contexts() {
+        assert_lint_count(
+            "He was cursing through the entire meeting.",
+            lint_group(),
+            0,
+        );
     }
 }
