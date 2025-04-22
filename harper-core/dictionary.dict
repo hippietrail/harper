@@ -51053,7 +51053,7 @@ welterweight/~51SM
 wen/~178M
 wench/14MS
 wend/41DSG
-went/~41
+went/~4             # removed `1` noun, archaic sense, interferes with linter heuristics
 wept/4
 were/~41
 weren't/4

@@ -6,7 +6,11 @@ use super::{Lint, LintKind, Linter, Suggestion};
 /// Returns None if the next/previous token is not a word or does not exist.
 fn getword<'a>(document: &'a Document, base: usize, offset: isize) -> Option<&'a Token> {
     // Look for whitespace at the expected offset
-    if !document.get_token_offset(base, offset)?.kind.is_whitespace() {
+    if !document
+        .get_token_offset(base, offset)?
+        .kind
+        .is_whitespace()
+    {
         return None;
     }
     // Now look beyond the whitespace for a word token
@@ -36,11 +40,8 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
     fn lint(&mut self, document: &Document) -> Vec<Lint> {
         let mut lints = Vec::new();
         for pi in document.iter_preposition_indices() {
-            // eprintln!("*** pi = {} ***", pi);
             let prep_span = document.get_token(pi).unwrap().span;
-            // eprintln!("*** prep_span = {:?} ***", prep_span);
             let prep_to = document.get_span_content(&prep_span);
-            // eprintln!("*** prep_to = {:?} ***", prep_to);
             if prep_to != ['t', 'o'] && prep_to != ['T', 'o'] {
                 continue;
             }
@@ -51,39 +52,26 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
 
             let chars = document.get_span_content(&main_word.span);
 
-            eprintln!("*** main_word chars = {:?} ***", chars);
-
             // Must end with -ed, -es, -s, or -ing
-            let has_potential_inflected_verb_ending = (chars.ends_with(&['e', 'd']) && chars.len() >= 5) ||   // baked
+            let has_applicable_ending = (chars.ends_with(&['e', 'd']) && chars.len() >= 5) ||   // baked
                 (chars.ends_with(&['e', 's']) && chars.len() >= 4) ||   // does
-                (chars.ends_with(&['i', 'n', 'g']) && chars.len() >= 5) ||   // doing
+                (chars.ends_with(&['i', 'n', 'g']) && chars.len() >= 5) ||   // going
                 (chars.ends_with(&['s']) && chars.len() >= 4); // runs
 
-            if !has_potential_inflected_verb_ending {
-                eprintln!("*** doesn't look like an inflected verb ***");
+            if !has_applicable_ending {
+                // eprintln!(
+                //     "*** '{}' doesn't look like an inflected verb ***",
+                //     chars.iter().collect::<String>()
+                // );
                 continue;
             }
 
-            eprintln!(
-                "*** \"TO {}\" ***",
-                document
-                    .get_span_content(&main_word.span)
-                    .iter()
-                    .collect::<String>(),
-            );
-
             // eprintln!(
-            //     "*** \"TO {}\"{} ***\n",
+            //     "*** \"TO {}\" ***",
             //     document
             //         .get_span_content(&main_word.span)
             //         .iter()
             //         .collect::<String>(),
-            //     match (metadata.is_verb(), metadata.is_noun()) {
-            //         (true, true) => ".v.n",
-            //         (true, false) => ".v",
-            //         (false, true) => ".n",
-            //         (false, false) => "",
-            //     }
             // );
 
             let mut push_lint = |prep_span: &Span, main_word_span: &Span, stem: &[char]| {
@@ -103,11 +91,54 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
                 });
             };
 
-            let mut check_stem = |stem: &[char]| {
-                if let Some(metadata) = self.dictionary.get_word_metadata(stem) {
+            // outputs a string made up of the word with appended parts of speech
+            let annotate_word = |word: &[char]| -> String {
+                let mut str = word.iter().collect::<String>();
+                if let Some(wmd) = self.dictionary.get_word_metadata(word) {
+                    // .is_noun and .is_verb -> .n and .v
+                    let tags = [
+                        ("n", wmd.is_noun()),
+                        ("v", wmd.is_verb()),
+                        ("adj", wmd.is_adjective()),
+                        ("adv", wmd.is_adverb()),
+                        ("prep", wmd.preposition),
+                        ("conj", wmd.is_conjunction()),
+                        ("det", wmd.determiner),
+                    ]
+                    .into_iter()
+                    .filter_map(|(tag, is_tagged)| is_tagged.then(|| format!(".{}", tag)))
+                    .collect::<Vec<_>>();
+                    str.push_str(&tags.join(""));
+                }
+                str
+            };
 
-                    if metadata.is_verb() && !metadata.is_noun() {
-                        push_lint(&prep_span, &main_word.span, &stem);
+            let mut check_stem = |stem: &[char]| {
+                if let Some(stem_metadata) = self.dictionary.get_word_metadata(stem) {
+                    let pw_text = getword(document, pi, -1)
+                        .map(|pw| document.get_span_content(&pw.span))
+                        .unwrap_or_default();
+                    let nw_text = getword(document, pi, 3)
+                        .map(|nw| document.get_span_content(&nw.span))
+                        .unwrap_or_default();
+                    eprintln!(
+                        "*** {} \x1b[1m{} {}\x1b[0m{}{}\" {} ***\n",
+                        annotate_word(&pw_text),
+                        prep_to.iter().collect::<String>(),
+                        document
+                            .get_span_content(&main_word.span)
+                            .iter()
+                            .collect::<String>(),
+                        stem_metadata.is_verb().then(|| ".v").unwrap_or_default(),
+                        stem_metadata.is_noun().then(|| ".n").unwrap_or_default(),
+                        annotate_word(&nw_text),
+                    );
+
+                    if stem_metadata.is_verb() {
+                        // heuristics go here
+                        if !stem_metadata.is_noun() {
+                            push_lint(&prep_span, &main_word.span, &stem);
+                        }
                     }
                 }
             };
@@ -151,7 +182,7 @@ mod tests {
     #[test]
     fn dont_flag_to_check_both_verb_and_noun() {
         assert_lint_count(
-            "to check",
+            "from cash to check",
             InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
             0,
         );
@@ -160,7 +191,7 @@ mod tests {
     #[test]
     fn dont_flag_to_checks_both_verb_and_noun() {
         assert_lint_count(
-            "to checks",
+            "from cash to checks",
             InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
             0,
         );
@@ -178,13 +209,18 @@ mod tests {
     // -ing forms can act as nouns, current heuristics cannot distinguish
     #[test]
     fn flag_to_checking() {
-        assert_lint_count("to checking", InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American), 1);
+        assert_lint_count(
+            "from savings account to checking",
+            InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
+            0,
+        );
     }
 
+    // -ed forms can act as adjectives, current heuristics cannot distinguish
     #[test]
     fn dont_flag_check_ed() {
         assert_lint_count(
-            "to checked",
+            "from unchecked to checked",
             InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
             0,
         );
@@ -193,7 +229,7 @@ mod tests {
     #[test]
     fn dont_flag_noun_belief_s() {
         assert_lint_count(
-            "to beliefs",
+            "from hopes to beliefs",
             InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
             0,
         );
@@ -202,15 +238,15 @@ mod tests {
     #[test]
     fn dont_flag_noun_meat_s() {
         assert_lint_count(
-            "to meats",
+            "from vegetables to meats",
             InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
             0,
         );
     }
 
-    // can't check yet. 'capture' is noun as well as verb. "to nouns" is good English. we can't disambiguate verbs from nouns.
     #[test]
     fn check_993_suggestions() {
+        // "captures" is a verb because "to" is part of "attempt to"
         assert_suggestion_result(
             "A location-agnostic structure that attempts to captures the context and content that a Lint occurred.",
             InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
@@ -220,6 +256,7 @@ mod tests {
 
     #[test]
     fn dont_flag_embarrass_not_in_dictionary() {
+        // "embarrass" is not inflected, it just ends with -s
         assert_lint_count(
             "Second I'm going to embarrass you for a.",
             InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
@@ -229,6 +266,7 @@ mod tests {
 
     #[test]
     fn corrects_exist_s() {
+        // "exists" is a verb because "to" is part of "expect to"
         assert_suggestion_result(
             "A valid solution is expected to exists.",
             InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
@@ -236,9 +274,9 @@ mod tests {
         );
     }
 
-    // can't check yet. 'catch' is noun as well as verb. "to nouns" is good English. we can't disambiguate verbs from nouns.
     #[test]
     fn corrects_es_ending() {
+        // "catches" is a verb because "to" is part of "need (it) to"
         assert_suggestion_result(
             "I need it to catches every exception.",
             InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
@@ -328,6 +366,24 @@ mod tests {
             "High-profile legal battles, including Apple's refusal to unlock a terrorist's iPhone for the FBI in 2016, Microsoft's resistance to handing over user data stored overseas, and the ongoing Apple vs. United Kingdom case over access to encrypted iCloud backups, highlight the tensions and stakes involved in balancing privacy rights and security demands.",
             InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
             0,
+        );
+    }
+
+    #[test]
+    fn flag_to_going() {
+        assert_lint_count(
+            "to going",
+            InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
+            1,
+        );
+    }
+
+    #[test]
+    fn flag_to_coming() {
+        assert_lint_count(
+            "to coming",
+            InflectedVerbAfterTo::new(FstDictionary::curated(), Dialect::American),
+            1,
         );
     }
 }
