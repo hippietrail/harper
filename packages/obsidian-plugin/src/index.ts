@@ -162,7 +162,7 @@ export default class HarperPlugin extends Plugin {
 		this.dialectSpan = dialect;
 
 		this.harper.getDialect().then((dialectNum) => {
-			dialect.innerHTML = this.getDialectStatus(dialectNum);
+			this.updateStatusBar(dialectNum);
 			button.appendChild(dialect);
 		});
 
