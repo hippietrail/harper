@@ -42,7 +42,7 @@ For Harper, this looks exactly as you'd expect:
 
 The workflow for quickly iterating on the plugin looks something like this:
 
-1. Compile and start watching for changes with `just dev-obsidian`.
+1. Compile and start watching for changes with `just setup && cd packages/obsidian-plugin && pnpm dev`.
    This will continously rebuild `main.js` anytime you make a change to a file in the `packages/obsidian-plugin` directory.
 2. Copy the `manifest.json` from the skeletal repo to the dedicated plugin directory shown above.
 3. Create a symbolic link to the `main.js` produced by step 1 in the dedicated plugin directory above.
