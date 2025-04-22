@@ -1093,7 +1093,7 @@ pub fn lint_group() -> LintGroup {
             "Use the full verb “want” after negation: “don't want” or “do not want.”",
             "In English, negation still requires the complete verb form (“want”), so avoid truncating it to “wan.”"
         ),
-        "CursingThroughVeins" => (
+        "CoursingThroughVeins" => (
             ["cursing through veins"],
             ["coursing through veins"],
             "In this idiom, blood “courses” (flows) through veins, not “curses”.",
