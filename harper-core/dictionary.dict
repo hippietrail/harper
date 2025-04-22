@@ -1,4 +1,4 @@
-52720
+52800
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -714,8 +714,8 @@ Astoria/2M
 Astrakhan/21M
 AstroTurf/1M
 Asturias/2M
-Asuncion/2M
 Asunción/2M
+Asuncion/2M
 Aswan/2M
 Atacama/2M
 Atahualpa/M
@@ -1312,8 +1312,8 @@ Boeotian/512M
 Boer/12SM
 Boethius/2M
 Bogart/2M
-Bogota/2M
 Bogotá/2M
+Bogota/2M
 Bohemia/21M
 Bohemian/152SM
 Bohr/2M
@@ -2105,8 +2105,8 @@ Chiquita/M
 Chirico/2M
 Chiron/2M
 Chisholm/2M
-Chisinau/2M
 Chișinău/2M
+Chisinau/2M
 Chittagong/2M
 Chivas/M
 Chloe/2M
@@ -2502,8 +2502,8 @@ Cummings/2M
 Cunard/2M
 Cunningham/2M
 Cupid/2M
-Curacao/2M
 Curaçao/2M
+Curacao/2M
 Curie/2M
 Curitiba/2M
 Currier/2M
@@ -5661,6 +5661,7 @@ Lacey/2M
 Lachesis/21M
 Lactobacillus/2
 Lacy/2M
+Lada/12MS
 Ladoga/2M
 Ladonna/M
 Lady/12M
@@ -6005,8 +6006,8 @@ Lollobrigida/2M
 Lombard/125M
 Lombardi/2M
 Lombardy/2M
-Lome/2M
 Lomé/2M
+Lome/2M
 Lompoc/2M
 Lon/2M
 London/2MRZ
@@ -6297,6 +6298,7 @@ Malabar/21M
 Malabo/2M
 Malacca/21M
 Malachi/2M
+Malaga/2M
 Malagasy/15M
 Malamud/2M
 Malaprop/M
@@ -6313,8 +6315,8 @@ Maldive/MS
 Maldives/29M
 Maldivian/15MS
 Maldonado/2M
-Male/2M
 Malé/2M
+Male/2M
 Mali/21M
 Malian/15SM
 Malibu/2M
@@ -6620,6 +6622,7 @@ McIntyre/2M
 McJob/1
 McKay/2M
 McKee/2M
+McKenna/21M
 McKenzie/21M
 McKinley/2M
 McKinney/2M
@@ -7460,8 +7463,8 @@ Nosferatu/1M
 Nostradamus/21M
 Nottingham/2M
 Nouakchott/2M
-Noumea/2M
 Nouméa/2M
+Noumea/2M
 Nov/2M
 Nova/21M
 Novartis/M
@@ -7761,7 +7764,7 @@ POW/1MS             # prisoner of war
 PP/12
 PPE/1M              # personal protective equipment
 PPS/1
-PR/21               # public relations
+PR/1MS              # public relations; pull request
 PRC/21M             # mainland China
 PRO/1
 PS/215M
@@ -8546,8 +8549,8 @@ Reverend/1M
 Revlon/2M
 Rex/2M
 Reyes/2M
-Reykjavik/2M
 Reykjavík/2M
+Reykjavik/2M
 Reyna/M
 Reynaldo/M
 Reynolds/2M
@@ -10936,8 +10939,8 @@ Yangtze/2M
 Yank/1SM
 Yankee/14SM
 Yaobang/M
-Yaounde/2M
 Yaoundé/2M
+Yaounde/2M
 Yaqui/12M
 Yaren/2
 Yaroslavl/2M
@@ -11059,8 +11062,8 @@ Zionist/15SM
 Ziploc/1M           # trademark
 Žižek/2M            # slavoj -
 Zn/M                # zinc
-Zoe/2M
 Zoë/2M
+Zoe/2M
 Zola/2M
 Zollverein/1M
 Zoloft/2M
@@ -12120,6 +12123,8 @@ alumnae/9
 alumni/~9
 alumnus/~1M
 alveolar/~51S
+alveoli/9
+alveolus/1M
 always/~
 am/~4N
 amalgam/~14SM
@@ -13419,6 +13424,7 @@ autographs/14
 autoimmune/~5
 autoimmunity/1M
 autoload/4SDG
+automagical/5
 automaker/~1SM
 automata/~1SM
 automate/4GNDS
@@ -13439,6 +13445,7 @@ autoplay/14SMDG
 autopsy/~14GDSM
 autoregressive/5
 autorun/14GM
+autostereogram/1MS
 autosuggestion/1
 autoworker/1MS
 autumn/~14SM
@@ -14746,8 +14753,8 @@ blankness/1M
 blare/41MGDS
 blaringly/j
 blarney/14SMDG
-blase/5
 blasé/5
+blase/5
 blaspheme/41ZGDRS
 blasphemer/1M
 blasphemous/~5Y
@@ -15560,6 +15567,7 @@ broker/~514SMDG
 brokerage/~1MS
 broligarchy/1M
 brolly/1S
+bromance/1MS
 bromide/~1SM
 bromidic/5
 bromine/~1M
@@ -16327,7 +16335,9 @@ carborundum/1M
 carboy/14MS
 carbuncle/1SM
 carbuncular/5
+carburet/4SD
 carburetor/~1SM
+carburetted/4
 carburettor/1MS!@_
 carby/1MS
 carcass/~1MS
@@ -17581,8 +17591,8 @@ clever/~5PTRY
 cleverness/1M
 clevis/1MS
 clew/14SGMD
-cliche/14MDSG
 cliché/~14MSG
+cliche/14MDSG
 clichéd/45
 click/~14BZGMDRS
 clickbait/14
@@ -17834,6 +17844,7 @@ coddle/41DSG
 code/~14CZGDRS
 code's
 codebase/1S
+codec/1MS
 codefendant/1SM
 codeine/1M
 codependency/1M
@@ -19441,6 +19452,7 @@ cravenness/1M
 craving/~14M
 craw/14MS
 crawdad/1SM
+crawfish/1M
 crawl/~41SMDRZG
 crawler/~1M
 crawlspace/1SM
@@ -19776,6 +19788,8 @@ culpable/5I
 culpably/j
 culprit/~1SM
 cult/~15MS
+cultish/5
+cultishness/1M
 cultism/1M
 cultist/1MS
 cultivable/5
@@ -19905,6 +19919,7 @@ customer/~1M
 customhouse/1SM
 customisation/1M!_
 customise/4DSG!_
+customizability/1M
 customizable/5
 customization/~1M
 customize/4DSG
@@ -19935,6 +19950,7 @@ cwt/1
 cyan/~15M
 cyanide/~14M
 cyanobacteria/~1
+cyanosis/1M
 cyber/~5
 cyberattack/14SDGM
 cyberbully/14SMG
@@ -20913,6 +20929,7 @@ dialing/~41S
 dialled/4A!_
 dialling/41S!_
 dialog/~14
+dialogic/5
 dialogue/~14SM
 dialyses/1
 dialysis/~1M
@@ -21408,6 +21425,7 @@ distributor's
 distributorship/1S
 district/~145AS
 district's
+distro/1MS
 disturb/~41ZGSDR
 disturbance/~1SM
 disturbed/~54U
@@ -23244,6 +23262,7 @@ essential/~51IMS
 essentially/~j
 establish/~4AESDGL
 establishment/~1AEM
+establishmentarianism/1M
 establishments/~1
 estate/~154SM
 esteem/~14ESMDG
@@ -23662,6 +23681,7 @@ explication/1M
 explicit/~51PY
 explicitness/1M
 explode/~4GDS
+exploder/1MS
 exploit/~14ZGBMDRS
 exploitation/~1M
 exploitative/~5
@@ -23974,7 +23994,7 @@ fanciful/~5YP
 fancifulness/1M
 fancily/j
 fanciness/1M
-fancy/~154DRSMZTGP
+fancy/~154DRSMZTGPU
 fancywork/1M
 fandango/~14MS
 fandom/~1
@@ -24407,6 +24427,7 @@ filly/~1SM
 film/~14MDGS
 filminess/1M
 filmmaker/~1SM
+filmmaking/1M
 filmstrip/1MS
 filmy/5TPR
 filo/1
@@ -24475,6 +24496,7 @@ finned/~54
 finny/5
 fintech/1M
 fir/~1ZGSJMDRH
+firable/5
 fire/~154MS
 firearm/~1SM
 fireball/~154MS
@@ -24631,6 +24653,7 @@ flapjack/1MS
 flapped/45
 flapper/1SM
 flapping/514
+flappy/5
 flare/~14DSMG
 flareup/1SM
 flash/~415ZTGMDRS
@@ -25803,6 +25826,7 @@ garb/~14MDGS
 garbage/~145M
 garbageman/1
 garbagemen/9
+garbagey/5
 garbanzo/1SM
 garble/41DSG
 garcon/1SM
@@ -26471,6 +26495,7 @@ goop/14M
 goose/~14DSMG
 gooseberry/1SM
 goosebumps/1M
+gooseneck/1MS
 goosestep/4S
 goosestepped/4
 goosestepping/4
@@ -27373,7 +27398,7 @@ harrow/~14SMDG
 harrumph/14GD
 harrumphs/14
 harry/~41DRSZG
-harsh/~54RYTP
+harsh/~54RYTPSDG
 harshness/1M
 hart/~1MS
 harvest/~14SMDRZG
@@ -27568,6 +27593,7 @@ heartlessness/1M
 heartrending/5Y
 heartsick/5P
 heartsickness/1M
+heartstopping/5
 heartstrings/1M
 heartthrob/1MS
 heartwarming/5
@@ -29242,6 +29268,7 @@ incubus/~1MS
 inculcate/4DSGN
 inculcation/1M
 inculpate/4DSG
+inculpatory/5
 incumbency/1SM
 incumbent/~51SM
 incunabula/1
@@ -30678,6 +30705,7 @@ keyboard/~14ZGSMDR
 keyboarder/1M
 keyboardist/~1SM
 keycap/1SM
+keychain/1MS
 keyhole/~14MS
 keymap/1SM
 keynote/~14MZGDRS
@@ -33700,6 +33728,7 @@ misled/~4
 mismanage/4LGDS
 mismanagement/~1M
 mismatch/~41GMDS
+mismeasure/4GDS
 misname/14GDS
 misnomer/14MS
 misogamist/1MS
@@ -34248,6 +34277,7 @@ mournful/5YP
 mournfulness/1M
 mourning/~41M
 mouse/~14DRSMZG
+mouseless/5
 mouser/1M
 mousetrap/14SM
 mousetrapped/4
@@ -34596,12 +34626,13 @@ naiad/1SM
 naif/51MS
 nail/~14MDSG
 nailbrush/14MS
-naive/~51RYT
 naïve/~51
+naive/~51RYT
 naivete/1M
 naivety/1M
 naked/~54PY
 nakedness/1M
+namaste
 name/~14AGDS
 name's
 nameable/5U
@@ -36145,7 +36176,7 @@ optometry/1M
 opulence/1M
 opulent/5Y
 opus/~1MS
-or/~715+
+or/~71+             # removed `5` adjective, rare heraldic usage, interferes with linter heuristics
 oracle/~14SM
 oracular/5
 oral/~51MYS
@@ -36565,6 +36596,7 @@ overemphasize/4GDS
 overenthusiastic/5
 overestimate/41MGNDS
 overestimation/1M
+overexaggerate/4GDS
 overexcite/4DSG
 overexercise/41GDS
 overexert/4SDG
@@ -36800,6 +36832,7 @@ oxidize/4ZGDRS
 oxidizer/~1M
 oxtail/1S
 oxyacetylene/15M
+oxycodone/1M
 oxygen/~1M
 oxygenate/4DSGN
 oxygenation/1M
@@ -37710,7 +37743,7 @@ perforce/4
 perform/~4SDRZG
 performance/~1SM
 performant/5
-performative/51
+performative/51Y
 performed/~4U
 performer/~1M
 perfume/~14DRSMZG
@@ -38066,6 +38099,7 @@ phosphorous/51
 phosphorus/~1M
 phosphorylation/~1
 photo/~14SGMD
+photobomb/14MSDG
 photocell/1MS
 photocopier/1M
 photocopy/14DRSMZG
@@ -38250,8 +38284,8 @@ pimple/14DSM
 pimply/5RT
 pin/~14SM
 pinafore/14MS
-pinata/14MS
 piñata/14MS
+pinata/14MS
 pinball/~14M
 pincer/14MS
 pinch/~41GMDS
@@ -38969,7 +39003,7 @@ postconsonantal/5
 postdate/451DSG
 postdoc/1MS
 postdoctoral/~51
-poster/~14M
+poster/~14MDG
 posterior/~51SM
 posterity/~1M
 postgrad/1MS5
@@ -39884,6 +39918,7 @@ pseudonym/~1SM
 pseudonymous/~5
 pseudorandom/5P
 pseudoscience/~1MS
+pseudoscientific/5
 pseudy/5
 pshaw/4MS
 psi/~1SM
@@ -40735,6 +40770,7 @@ readership/~1SM
 readily/~j
 readiness/~1M
 reading/~41M
+readme/1MS
 readmitted/4
 readout/1SM
 ready/~541DRSTGP
@@ -40941,7 +40977,7 @@ redialling/4!_
 redirection/1
 redistrict/4GD
 redivide/4GDS
-redlining/14M
+redline/14MDG
 redneck/1SM
 redness/~1M
 redo/41G
@@ -41362,6 +41398,7 @@ repulsion/~1M
 repulsive/~5YP
 repulsiveness/1M
 repurchase/41GDS
+repurposing/41M
 reputability/1M
 reputably/Ej
 reputation/~1MS
@@ -41403,6 +41440,8 @@ reservist/1SM
 reservoir/~14SM
 resetting/41
 reshipping/41
+reshoot/1M4GS
+reshot/4
 residence/~1SM
 residency/~1SM
 resident/~15MS
@@ -41502,8 +41541,8 @@ restroom/1SM
 restructuring/~41SM
 result/~41GSMD
 resultant/~51SM
-resume/~41DSMG
 resumé/1SM
+resume/~41DSMG
 resumption/~1MS
 resupply/~41DSG
 resurgence/~1MS
@@ -43206,6 +43245,7 @@ senatorial/~5
 send/~41ZGRS
 sender/~1M
 sendoff/1MS
+senes
 senescence/1M
 senescent/5
 senile/51
@@ -43226,6 +43266,7 @@ sense/~14MGDS
 sensei/1MS
 senseless/5PY
 senselessness/1M
+sensemaking/1M
 sensibilities/~1
 sensibility/~1IM
 sensible/~51P
@@ -44081,6 +44122,7 @@ sitarist/1MS
 sitcom/~1SM
 site/~14MGDS
 sitemap/1SM
+sitewide/5j
 sitter/1SM
 sitting/~145SM
 situ/~1
@@ -44689,6 +44731,7 @@ socialization/~1M
 socialize/4DSG
 societal/~5
 society/~1SM
+sociocultural/5
 socioeconomic/~5Q
 sociological/~5Y
 sociologist/~1SM
@@ -45650,6 +45693,7 @@ steady/~541TGPDRSM
 steak/~14SM
 steakhouse/1SM
 steal/~41SMHG
+stealer/1MS
 stealth/~145M
 stealthily/j
 stealthiness/1M
@@ -45721,6 +45765,7 @@ steppingstone/1SM
 stepsister/1MS
 stepson/~1MS
 stereo/~154SM
+stereogram/1MS
 stereophonic/5
 stereoscope/1MS
 stereoscopic/~5
@@ -45752,7 +45797,7 @@ steward/~14GMDS
 stewardess/1MS
 stewardship/~1M
 stick/~145SMRZG
-sticker/~145M
+sticker/~145MDG
 stickily/j
 stickiness/1M
 stickleback/1SM
@@ -46208,6 +46253,7 @@ subheading/1M
 subhuman/51MS
 subj/1
 subject/~514GVMDS
+subjecthood/1M
 subjection/1M
 subjective/~51Y
 subjectivity/~1M
@@ -46343,6 +46389,7 @@ subversive/~51SPMY
 subversiveness/1M
 subvert/~41SDG
 subway/~14MS
+subwoofer/1MS
 subzero/5
 succeed/~4GDS
 success/~1VMS
@@ -47757,8 +47804,9 @@ thieve/4DSG
 thievery/1M
 thieving/451M
 thievish/5
-thigh/~1MS
+thigh/~1M           # `S` here results in the wrong `thighes` instead of `thighs`
 thighbone/1MS
+thighs/9
 thimble/14MS
 thimbleful/1SM
 thin/~514YSP
@@ -48459,7 +48507,7 @@ tragicomic/5
 trail/~41ZGSMDR
 trailblazer/1MS
 trailblazing/54M
-trailer/~14M
+trailer/~14MSDG
 train/~14ZGSMDRB
 trained/~54U
 trainee/~1SM
@@ -48647,6 +48695,7 @@ traveling/~415M
 travelled/54!@_
 traveller/1SM!@_
 travelling/415MS!@_
+travelog/1MS<
 travelogue/~1MS
 traversal/1SM
 traverse/~145DSMG
@@ -49319,6 +49368,7 @@ uncleanly/5Tj
 unclear/~54DRT
 unclipped/5
 uncomfortable/~5
+uncomment/4SDG
 uncommon/~5T
 uncompelling/5
 uncomplaining/5Y
@@ -49439,6 +49489,7 @@ underpinned/4
 underpinning/41MS
 underplay/14DGS
 underpopulated/5
+underprepared/5
 underprivileged/~51
 underproduction/1M
 underrate/41GDS
@@ -49598,6 +49649,7 @@ unintended/~5
 uninteresting/5
 uninterrupted/~5Y
 uninterruptible/5
+unintuitive/~51PY
 uninvested/5
 uninviting/5
 union/~145ASM
@@ -49717,6 +49769,7 @@ unsaleable/51
 unsavory/5
 unsavoury/5!@_
 unscathed/5
+unsee/4S
 unseeing/5Y
 unseemly/5T
 unseen/~541M
@@ -51100,7 +51153,7 @@ what/~81MS
 whataboutism/1M
 whatchamacallit/1MS
 whatever/~851M
-whatnot/1M
+whatnot/1MS
 whatshername/8
 whatshisname/1
 whatsit/1S
@@ -51442,7 +51495,7 @@ wire/~14AGDS
 wire's
 wired/~54S
 wirehair/1MS
-wireless/~514MS
+wireless/~514MSY
 wiretap/14MS
 wiretapped/45
 wiretapper/1SM
@@ -52381,6 +52434,7 @@ gzipped/4
 gzipping/4
 hardcode/4GDS       # dictionaries prefer: hard code
 hotwire/4BG         # dictionaries prefer: hot-wire
+jQuery/2M
 labriola/SM         # !! please check and comment !! - should be uppercase surname?
 manip/1MS           # gamer slang manipulation
 memecoin/1MS
@@ -52423,6 +52477,7 @@ avant-garde/1M5
 back to back/j
 back-to-back/5
 beck and call/1
+bell-pull/1MS
 bench-warmer/1MS
 blue-blooded/5
 blue-collar/5
@@ -52448,6 +52503,7 @@ cost-effective/5
 cotter pin/1MS
 cross section/1MS
 cross-threaded/5
+custom-built/5
 custom-made/5
 cut scene/1MS
 cutting edge/1MS
@@ -52456,8 +52512,8 @@ de-extinct/4GD
 de-extinction/1MS
 de facto/51M
 death knell/1MS
-deja vu/1
 déjà vu/1
+deja vu/1
 die hard/4
 dire wolf/1M
 dire wolves/9
@@ -52465,6 +52521,7 @@ door to door/j
 door-to-door/S
 double-decker/5
 easy peasy/5
+editor in chief/1
 end user/1MS
 energy-efficient/5
 et al./~
@@ -52481,6 +52538,8 @@ feature-length/5
 first-hand/j
 first person/1M
 first-person/5
+first time/1MS
+first-time/5
 flash point/1MS
 four-speed/1MS
 front-line/5
@@ -52532,10 +52591,15 @@ higher-up/1MS
 hissy fit/1MS
 holy moley
 holy moly
+Humpty Dumpty/2M
 ice cream/1MS
+in-depth/5
 in-memory/5
 in situ/5j
 jaw-droppingly/5
+jury-rig/4S
+jury-rigged/4
+jury-rigging/4
 kick start/4SDG
 knock-on effect/1MS
 kung fu/1M
@@ -52573,7 +52637,9 @@ mind game/1MS
 mock up/4
 mock-up/1MS
 nail biter/1MS
+nano-farad/1MS
 neo-Nazi/15SM
+neo-Nazism/1M
 no-op/1MS           # no operation
 non-Western/5
 not-for-profit/51MS
@@ -52583,6 +52649,7 @@ of course/j
 off-limits/5
 off-road/1MS
 off-roader/1MS
+off-roading/1M
 off-the-books/5
 okey-dokey/1MS
 old-timey/5
@@ -52626,12 +52693,14 @@ red wolf/1M
 red wolves/9
 right-hand/5
 right-wing/5
+rock face/1MS
 run-up/1MS
 same sex/1M
 same-sex/5
 sans serif/1M5
 sci-fi/1M
 sea lane/1MS
+second-degree/5
 self-awareness/1M
 self-deception/1M
 self-driving/1M5
@@ -52663,6 +52732,7 @@ Stack Overflow/2M
 stack overflow/1SM
 stand down/4
 stand-down/1MS
+stand-in/1MS
 stand-up/51
 standard-bearer/1MS
 stay behind/4
@@ -52717,12 +52787,15 @@ well-known/5
 well-made/5
 well-received/5
 well-respected/5
+well-trodden/5
 well-used/5
 Wi-Fi/1M
 wishy-washy/5
 working-class/15MS
 write off/4
 write-off/1MS
+write-up/1MS
+year-over-year/5
 
 # New entries may be added below this line
 # If you're not confident in using the affix annotations, add missing words here
