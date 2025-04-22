@@ -32610,9 +32610,9 @@ mantis/~1MS
 mantissa/1SM
 mantle/~14EGDS
 mantle's
-mantoes/1!@_
 mantra/~1MS
 manual/~15MYS
+manufacturability/1M
 manufacture/~14DRSMZGA
 manufacturer/~1M
 manufacturing/~154MA
@@ -32674,6 +32674,7 @@ marital/~5Y
 maritime/~5
 marjoram/1M
 mark/~14AMDSG
+makrdown/1MS
 marked/~54U
 markedly/~j
 marker/~14MS
@@ -52425,6 +52426,7 @@ corpo/1MS
 dedup/1M            # not well covered by dictionaries. wiktionary has only singular noun. cf. dedupe
 dedupe/14SMDG       # not well covered by dictionaries. wiktionary has noun and verb. cf. dedup
 dotfile/~1SM        # not well covered by dictionaries.
+eVTOL/1MS
 filesystem/~SM      # dictionaries prefer: file system
 frontend/1SM        # dictionaries prefer: front end
 gRPC/2SM            # framework
