@@ -1087,6 +1087,12 @@ pub fn lint_group() -> LintGroup {
             "`In case` should be written as two words.",
             "Corrects `incase` to `in case`."
         ),
+        "DoNotWant" => (
+            ["don't wan", "do not wan"],
+            ["don't want", "do not want"],
+            "Use the full verb “want” after negation: “don't want” or “do not want.”",
+            "In English, negation still requires the complete verb form (“want”), so avoid truncating it to “wan.”"
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -2260,5 +2266,28 @@ mod tests {
             lint_group(),
             "CAPD worst-case scenario cloud simulator for naughty clouds.",
         );
+    }
+
+    #[test]
+    fn corrects_dont_wan() {
+        assert_suggestion_result(
+            "I don't wan to pay for this.",
+            lint_group(),
+            "I don't want to pay for this.",
+        );
+    }
+
+    #[test]
+    fn corrects_mixed_case() {
+        assert_suggestion_result(
+            "Don't Wan that option.",
+            lint_group(),
+            "Don't Want that option.",
+        );
+    }
+
+    #[test]
+    fn does_not_flag_already_correct() {
+        assert_lint_count("I don't want to leave.", lint_group(), 0);
     }
 }
