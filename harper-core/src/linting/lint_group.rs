@@ -48,6 +48,7 @@ use super::pattern_linter::run_on_chunk;
 use super::pique_interest::PiqueInterest;
 use super::possessive_your::PossessiveYour;
 use super::pronoun_contraction::PronounContraction;
+use super::pronoun_knew::PronounKnew;
 use super::proper_noun_capitalization_linters;
 use super::repeated_words::RepeatedWords;
 use super::sentence_capitalization::SentenceCapitalization;
@@ -340,6 +341,7 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion, true);
         insert_pattern_rule!(DespiteOf, true);
         insert_pattern_rule!(ChockFull, true);
+        insert_struct_rule!(PronounKnew, true);
         insert_struct_rule!(TheHowWhy, true);
         insert_struct_rule!(WidelyAccepted, true);
         insert_pattern_rule!(Confident, true);
