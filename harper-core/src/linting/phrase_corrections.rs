@@ -1097,7 +1097,13 @@ pub fn lint_group() -> LintGroup {
             ["cursing through veins"],
             ["coursing through veins"],
             "In this idiom, blood “courses” (flows) through veins, not “curses”.",
-            "In English idioms, “to course” means to flow rapidly—so avoid the eggcorn “cursing through veins.”"
+            "In English idioms, “to course” means to flow rapidly—so avoid the eggcorn `cursing through veins.`"
+        ),
+        "BestRegards" => (
+            ["beat regards"],
+            ["best regards"],
+            "Use `best regards` to convey sincere well wishes in a closing.",
+            "In valedictions, `best` expresses your highest regard—avoid the typo `beat regards`."
         ),
     });
 
