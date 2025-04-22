@@ -39,7 +39,7 @@ export default class HarperPlugin extends Plugin {
 	private harper: Linter;
 	private editorExtensions: Extension[];
 	private delay: number;
-	private statusBarItem: HTMLElement | null = null;
+	private dialectSpan: HTMLSpanElement | null = null;
 
 	constructor(app: App, manifest: PluginManifest) {
 		super(app, manifest);
@@ -128,16 +128,26 @@ export default class HarperPlugin extends Plugin {
 		return await this.harper.getLintDescriptions();
 	}
 
-	private setupStatusBar() {
-		// Remove the old status bar item
-		if (this.statusBarItem) {
-			this.statusBarItem.remove();
+	private getDialectStatus(dialectNum: Dialect): string {
+		const code = {
+			American: 'US',
+			British: 'GB',
+			Australian: 'AU',
+			Canadian: 'CA',
+		}[Dialect[dialectNum]];
+		if (code === undefined) {
+			return '';
 		}
+		return `${code
+			.split('')
+			.map((c) => String.fromCodePoint(c.charCodeAt(0) + 127397))
+			.join('')}${code}`;
+	}
 
+	private setupStatusBar() {
 		/** @type HTMLElement */
 		const statusBarItem = this.addStatusBarItem();
 		statusBarItem.className += ' mod-clickable';
-		this.statusBarItem = statusBarItem;
 
 		const button = document.createElement('span');
 		button.style.display = 'flex';
@@ -146,26 +156,14 @@ export default class HarperPlugin extends Plugin {
 		const logo = document.createElement('span');
 		logo.style.width = '24px';
 		logo.innerHTML = logoSvg;
-
 		button.appendChild(logo);
 
+		const dialect = document.createElement('span');
+		this.dialectSpan = dialect;
+
 		this.harper.getDialect().then((dialectNum) => {
-			if (dialectNum !== undefined) {
-				const code = {
-					American: 'US',
-					Australian: 'AU',
-					British: 'GB',
-					Canadian: 'CA',
-				}[Dialect[dialectNum]];
-				if (code !== undefined) {
-					const dialect = document.createElement('span');
-					dialect.innerHTML += `${code
-						.split('')
-						.map((c) => String.fromCodePoint(c.charCodeAt(0) + 127397))
-						.join('')}${code}`;
-					button.appendChild(dialect);
-				}
-			}
+			dialect.innerHTML = this.getDialectStatus(dialectNum);
+			button.appendChild(dialect);
 		});
 
 		button.addEventListener('click', (event) => {
@@ -302,9 +300,10 @@ export default class HarperPlugin extends Plugin {
 		);
 	}
 
-	updateStatusBar() {
-		console.log('Updating status bar');
-		this.setupStatusBar();
+	updateStatusBar(dialect: Dialect) {
+		if (this.dialectSpan != null) {
+			this.dialectSpan.innerHTML = this.getDialectStatus(dialect);
+		}
 	}
 }
 
