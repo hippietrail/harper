@@ -743,6 +743,13 @@ pub fn lint_group() -> LintGroup {
             "Use `worse` for comparing. (`Worst` is for the extreme case)",
             "Corrects `worst and worst` to `worse and worse` for proper comparative usage."
         ),
+        "WorseCaseScenario" => (
+            ["worse case scenario", "worse-case scenario", "worse-case-scenario",
+             "worst case scenario",                        "worst-case-scenario"],
+            ["worst-case scenario"],
+            "Use `worst` for referring to the worst possible scenario. (`Worse` is for comparing)",
+            "Corrects `worst-case scenario` when the hyphen is missing or `worse` is used instead of `worst`."
+        ),
         "WorseThan" => (
             ["worst than"],
             ["worse than"],
@@ -2192,6 +2199,51 @@ mod tests {
             "Return to computer, with enough time having past for the computer to go to full sleep.",
             lint_group(),
             "Return to computer, with enough time having passed for the computer to go to full sleep.",
+        );
+    }
+
+    #[test]
+    fn correct_worse_case_space() {
+        assert_suggestion_result(
+            "In the worse case scenario, remote code execution could be achieved.",
+            lint_group(),
+            "In the worst-case scenario, remote code execution could be achieved.",
+        );
+    }
+
+    #[test]
+    fn correct_worse_case_hyphen() {
+        assert_suggestion_result(
+            "Basically I want my pods to get the original client IP address... or at least have X-Forwarded-For header, in a worse-case scenario.",
+            lint_group(),
+            "Basically I want my pods to get the original client IP address... or at least have X-Forwarded-For header, in a worst-case scenario.",
+        );
+    }
+
+    #[test]
+    fn correct_worse_case_two_hyphens() {
+        assert_suggestion_result(
+            "In a worse-case-scenario, the scenario class code and the results being analysed, become out of sync, and so the wrong labels are applied.",
+            lint_group(),
+            "In a worst-case scenario, the scenario class code and the results being analysed, become out of sync, and so the wrong labels are applied.",
+        );
+    }
+
+    #[test]
+    fn correct_worst_case_space() {
+        assert_suggestion_result(
+            "The worst case scenario can be calculated without looking at streams of data.",
+            lint_group(),
+            "The worst-case scenario can be calculated without looking at streams of data.",
+        );
+    }
+
+    #[test]
+    fn correct_worst_case_two_hyphens() {
+        assert_suggestion_result(
+            "CAPD worst-case-scenario cloud simulator for naughty clouds.",
+            lint_group(),
+            "CAPD worst-case scenario cloud simulator for naughty clouds.",
         );
     }
 }
