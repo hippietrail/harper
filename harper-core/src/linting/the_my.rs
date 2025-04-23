@@ -46,18 +46,6 @@ impl PatternLinter for TheMy {
 
         let first_word_string: String = first_word.to_string();
 
-        // figure out which of the words is "the" given that it can be in any case and we can't call .to_ascii_lowercase on a &[char]
-        // let possessive = match first_word {
-        //     ['t', 'h', 'e'] => second_word,
-        //     ['T', 'h', 'e'] => second_word,
-        //     ['t', 'H', 'e'] => second_word,
-        //     ['T', 'H', 'e'] => second_word,
-        //     ['t', 'h', 'E'] => second_word,
-        //     ['T', 'h', 'E'] => second_word,
-        //     ['t', 'H', 'E'] => second_word,
-        //     ['T', 'H', 'E'] => second_word,
-        //     _ => first_word,
-        // };
         let possessive = if first_word_string.eq_ignore_ascii_case("the") {
             second_word
         } else {
