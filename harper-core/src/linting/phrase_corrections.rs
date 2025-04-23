@@ -1093,6 +1093,12 @@ pub fn lint_group() -> LintGroup {
             "In client-server contexts, use `server-side` rather than `server's side`.",
             "Corrects `server's side` to `server-side`, which is usual in `client-server contexts`."
         ),
+        "InCase" => (
+            ["incase"],
+            ["in case"],
+            "`In case` should be written as two words.",
+            "Corrects `incase` to `in case`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -2211,6 +2217,15 @@ mod tests {
             "Return to computer, with enough time having past for the computer to go to full sleep.",
             lint_group(),
             "Return to computer, with enough time having passed for the computer to go to full sleep.",
+        );
+    }
+
+    #[test]
+    fn correct_in_case() {
+        assert_suggestion_result(
+            "Support for enum variable incase of reusable enum class",
+            lint_group(),
+            "Support for enum variable in case of reusable enum class",
         );
     }
 
