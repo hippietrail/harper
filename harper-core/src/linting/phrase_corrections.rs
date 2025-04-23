@@ -1121,7 +1121,7 @@ pub fn lint_group() -> LintGroup {
             ["very cold", "really cold", "extremely cold"],
             ["freezing"],
             "A more vivid adjective would better capture extreme cold.",
-            "Encourages vivid writing by suggesting “freezing” instead of weaker expressions like “very cold.”"
+            "Encourages vivid writing by suggesting `freezing` instead of weaker expressions like `very cold.`"
         ),
     });
 
