@@ -1,0 +1,51 @@
+-: determiner property
+:: plural pronoun property
+!: GB property
+@: CA property
+*: singular third-person pronoun property
++: preposition property
+<: American property
+~: common word property
+1: singular noun property
+2: proper noun property
+3: linking verb property
+4: verb property
+5: adjective property
+6: swear word property
+7: conjunction property
+8: pronoun property
+9: plural noun property
+A: 're-' prefix
+B: '-able' suffix
+C: 'de-' prefix
+c: comparative property
+D: '-(e)d' suffix
+E: 'dis-' prefix
+F: 'con-' prefix
+f: first-person property
+G: '-ing' suffix
+H: '-ieth' suffix
+I: 'in-' prefix
+J: '-ings' suffix
+j: adverb property
+K: 'pro-' prefix
+L: '-ment' suffix
+M: -'s possessive suffix; contraction of 'has' and 'is
+m: auxiliary verb property
+N: nominalization suffixes: -ion, -ication, -en
+n: second-person property
+O: '-ful' suffix
+o: object case property
+P: '-(i)ness' suffix
+Q: '-ally' suffix
+R: '-(i)er' suffix
+S: '-(i)(e)s' plural suffix
+s: subject case property
+T: '-(i)est' suffix
+t: third-person property
+U: 'un-' prefix
+u: superlative property
+V: '-ive' suffix
+X: '-ions', '-ications', '-ens' suffixes
+Y: '-ly' suffix
+Z: '-(i)(e)rs' suffix

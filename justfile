@@ -473,3 +473,16 @@ newest-dict-changes *numCommits:
       });
     });
   });
+
+# Test using harper.js with Bun
+harperjsbun test_string:
+  #! /usr/bin/env bun
+  const hjs = require('{{justfile_directory()}}/packages/harper.js/');
+
+  const linter: hjs.LocalLinter = new hjs.LocalLinter({ binary: hjs.binary });
+  const lints = await linter.lint('{{test_string}}');
+  console.log(lints.map(lint => {
+    console.log(Object.keys(lint));
+    return lint.message();
+  }));
+
