@@ -71,13 +71,13 @@ impl PatternLinter for TheMy {
             span,
             lint_kind: LintKind::Repetition,
             suggestions,
-            message: "Avoid using 'the' before a possessive adjective (e.g., 'the my'). This is usually redundant or ungrammatical in English.".to_owned(),
+            message: "Use either the definite article 'the' or the possessive. Using both together is ungrammatical in English.".to_owned(),
             priority: 127,
         })
     }
 
     fn description(&self) -> &'static str {
-        "Flags 'the my', 'the your', etc. when the possessive adjective is lowercase, as this is almost always redundant or ungrammatical."
+        "Flags the definite article used together with a possessive."
     }
 }
 
