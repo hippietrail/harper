@@ -43,6 +43,7 @@ use super::modal_of::ModalOf;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nobody::Nobody;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::of_course::OfCourse;
 use super::out_of_date::OutOfDate;
 use super::oxymorons::Oxymorons;
 use super::pattern_linter::run_on_chunk;
@@ -342,6 +343,7 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion, true);
         insert_pattern_rule!(DespiteOf, true);
         insert_pattern_rule!(ChockFull, true);
+        insert_struct_rule!(OfCourse, true);
         insert_struct_rule!(FirstAidKit, true);
         insert_struct_rule!(PronounKnew, true);
         insert_struct_rule!(TheHowWhy, true);
