@@ -1105,6 +1105,12 @@ pub fn lint_group() -> LintGroup {
             "Use `best regards` to convey sincere well wishes in a closing.",
             "In valedictions, `best` expresses your highest regard—avoid the typo `beat regards`."
         ),
+        "Freezing" => (
+            ["very cold", "really cold", "extremely cold"],
+            ["freezing"],
+            "A more vivid adjective would better capture extreme cold.",
+            "Encourages vivid writing by suggesting “freezing” instead of weaker expressions like “very cold.”"
+        ),
     });
 
     group.set_all_rules_to(Some(true));
