@@ -30,7 +30,7 @@ impl PatternLinter for OfCourse {
     fn match_to_lint(&self, matched: &[Token], source: &[char]) -> Option<Lint> {
         // Skip if the word before “of” is “kind” or “sort” → “kind of curse” is valid.
         if let Some(of_idx) = matched.first().map(|t| t.span.start) {
-            if let Some(prev) = source.get(..of_idx).and_then(|src| {
+            match source.get(..of_idx).map(|src| {
                 // Walk backwards over whitespace to find the preceding word token.
                 let mut i = of_idx.saturating_sub(1);
                 while i > 0 && src[i].is_whitespace() {
@@ -42,12 +42,15 @@ impl PatternLinter for OfCourse {
                     .rposition(|c| c.is_whitespace())
                     .map(|p| p + 1)
                     .unwrap_or(0);
-                Some(src[start..=i].iter().collect::<String>())
+                src[start..=i].iter().collect::<String>()
             }) {
-                let lower = prev.to_ascii_lowercase();
-                if lower == "kind" || lower == "sort" {
-                    return None;
+                Some(prev) => {
+                    let lower = prev.to_ascii_lowercase();
+                    if lower == "kind" || lower == "sort" {
+                        return None;
+                    }
                 }
+                _ => (),
             }
         }
 

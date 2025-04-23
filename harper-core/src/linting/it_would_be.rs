@@ -1,10 +1,9 @@
 use crate::{
     Token,
     linting::{Lint, LintKind, PatternLinter, Suggestion},
-    patterns::{EitherPattern, OwnedPatternExt, Pattern, SequencePattern, WordSet},
+    patterns::{OwnedPatternExt, Pattern, SequencePattern, WordSet},
 };
 
-/// Corrects “I might not be a shame …” → “it might not be a shame …”
 pub struct ItWouldBe {
     pattern: Box<dyn Pattern>,
 }
@@ -29,8 +28,6 @@ impl Default for ItWouldBe {
             "challenge",
         ]);
 
-        /* ─────────────── pattern builder ─────────────── */
-        // helper fn to build the four concrete branches (±not, ±adj)
         let branch = |has_not: bool, has_adj: bool| {
             let mut p = SequencePattern::default()
                 .then(head_verbs.clone())
@@ -52,7 +49,6 @@ impl Default for ItWouldBe {
             p.then_whitespace().then(tail_nouns.clone())
         };
 
-        // Assemble the 4 branches with EitherPattern
         let combined = branch(false, false)
             .or(Box::new(branch(false, true)))
             .or(Box::new(branch(true, false)))
@@ -69,7 +65,7 @@ impl PatternLinter for ItWouldBe {
         self.pattern.as_ref()
     }
 
-    fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
+    fn match_to_lint(&self, toks: &[Token], _src: &[char]) -> Option<Lint> {
         let pronoun = &toks[2];
         let span = pronoun.span;
 
