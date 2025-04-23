@@ -76,7 +76,8 @@ impl PatternLinter for ItIs {
                 "it's".chars().collect(),
                 text,
             )],
-            message: "Did you mean `it's` (short for “it is”) instead of `its`?".to_string(),
+            message: "Consider using 'it's' (it is) instead of 'its' (possessive form)."
+                .to_string(),
             priority: 31,
         })
     }
