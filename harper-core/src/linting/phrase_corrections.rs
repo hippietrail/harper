@@ -1123,6 +1123,12 @@ pub fn lint_group() -> LintGroup {
             "A more vivid adjective would better capture extreme cold.",
             "Encourages vivid writing by suggesting `freezing` instead of weaker expressions like `very cold.`"
         ),
+        "Starving" => (
+            ["very hungry", "really hungry", "extremely hungry"],
+            ["starving"],
+            "A more vivid adjective would better convey intense hunger.",
+            "Encourages vivid writing by suggesting “starving” instead of weaker expressions like “very hungry.”"
+        ),
     });
 
     group.set_all_rules_to(Some(true));
