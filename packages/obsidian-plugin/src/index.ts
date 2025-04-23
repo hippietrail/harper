@@ -225,7 +225,6 @@ export default class HarperPlugin extends Plugin {
 			async (view) => {
 				const text = view.state.doc.sliceString(-1);
 				const chars = toArray(text);
-				console.log(text);
 
 				const lints = await this.harper.lint(text);
 
