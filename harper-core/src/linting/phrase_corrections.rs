@@ -1081,6 +1081,18 @@ pub fn lint_group() -> LintGroup {
             "Did you mean the verb `passed`?",
             "Suggests `past` for `passed` in case a verb was intended."
         ),
+        "ClientSide" => (
+            ["client's side"],
+            ["client-side"],
+            "In client-server contexts, use `client-side` rather than `client's side`.",
+            "Corrects `client's side` to `client-side`, which is usual in `client-server contexts`."
+        ),
+        "ServerSide" => (
+            ["server's side"],
+            ["server-side"],
+            "In client-server contexts, use `server-side` rather than `server's side`.",
+            "Corrects `server's side` to `server-side`, which is usual in `client-server contexts`."
+        ),
         "InCase" => (
             ["incase"],
             ["in case"],
@@ -2296,6 +2308,15 @@ mod tests {
     }
 
     #[test]
+    fn correct_clients_side() {
+        assert_suggestion_result(
+            "I want to debug this server-side as I cannot find out why the connection is being refused from the client's side.",
+            lint_group(),
+            "I want to debug this server-side as I cannot find out why the connection is being refused from the client-side.",
+        );
+    }
+
+    #[test]
     fn corrects_mixed_case() {
         assert_suggestion_result(
             "Don't Wan that option.",
@@ -2333,6 +2354,15 @@ mod tests {
             "He was cursing through the entire meeting.",
             lint_group(),
             0,
+        );
+    }
+
+    #[test]
+    fn correct_servers_side() {
+        assert_suggestion_result(
+            "A client-server model where the client can execute commands in a terminal on the server's side",
+            lint_group(),
+            "A client-server model where the client can execute commands in a terminal on the server-side",
         );
     }
 }
