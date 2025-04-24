@@ -1,15 +1,15 @@
 use crate::Token;
 
-use super::{Pattern, SequencePattern, WordSet};
+use super::{Pattern, WordSet};
 
 pub struct IndefiniteArticle {
-    inner: SequencePattern,
+    inner: WordSet,
 }
 
 impl Default for IndefiniteArticle {
     fn default() -> Self {
         Self {
-            inner: SequencePattern::default().then(WordSet::new(&["a", "an"])),
+            inner: WordSet::new(&["a", "an"]),
         }
     }
 }
