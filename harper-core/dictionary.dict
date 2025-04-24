@@ -12273,7 +12273,7 @@ amusing/~45Y
 amygdala/1
 amylase/1M
 amyloid/15
-an/~-7+CS
+an/~-+CS            # removed `7` conjunction: archaic
 anabolism/1M
 anachronism/1SM
 anachronistic/5Q
@@ -15888,7 +15888,7 @@ busy/~514DRSTGP
 busybody/14SM
 busyness/1M
 busywork/1M
-but/~+714ACS
+but/~+71ACS         # removed `4` verb: archaic
 butane/1M
 butch/~514MRSZ
 butcher/~145MDG
@@ -15976,6 +15976,7 @@ cabriolet/1SM
 cabstand/1SM
 cacao/1MS
 cache/~14MGDS
+cacheable/5
 cachepot/1SM
 cachet/14MS
 cackle/14MZGDRS
@@ -24660,7 +24661,7 @@ flapping/514
 flappy/5
 flare/~14DSMG
 flareup/1SM
-flash/~415ZTGMDRS
+flash/~415ZTGMDRSB
 flashback/~14SM
 flashbulb/1SM
 flashcard/1SM
@@ -25497,6 +25498,7 @@ frontierswoman/1
 frontierswomen/9
 frontispiece/14MS
 frontline/1SM
+frontside/5
 frontward/5S
 frosh/14M
 frost/~14CSDG
@@ -36188,7 +36190,7 @@ optometry/1M
 opulence/1M
 opulent/5Y
 opus/~1MS
-or/~71+             # removed `5` adjective, rare heraldic usage, interferes with linter heuristics
+or/~71              # removed `5` adjective, rare heraldic usage; `+` preposition: archaic
 oracle/~14SM
 oracular/5
 oral/~51MYS
@@ -41049,6 +41051,7 @@ refinement/~1SM
 refiner/1SM
 refinery/~1S
 refitting/41
+reflash/4DSG1M
 reflate/4XDSGN
 reflationary/5
 reflect/~4GVSD
@@ -47709,7 +47712,7 @@ thatch/14MDRSZG
 thatcher/~1M
 thatching/14M
 thaw/~41MDGS
-the/~-+J
+the/~-J             # removed `+` preposition: archaic
 theater/~1SM
 theatergoer/1SM
 theatre/1SM!@_
@@ -49431,6 +49434,7 @@ undercharge/41MGDS
 underclass/1MS
 underclassman/1M
 underclassmen/9
+underclock/4SDG
 underclothes/1M
 underclothing/1M
 undercoat/14GJSMD
@@ -52135,6 +52139,7 @@ ACM/1M
 AGI/MS              # artificial general intelligence
 AMC/12MS            # old car brand
 AOC/2M              # US politician Alexandria Ocasio-Cortez
+ASUS/2M
 ATF/1M              # automatic transmission fluid
 Akismet/2M
 Alexa/2M            # voice assistant
@@ -52236,6 +52241,7 @@ IMAP/2SM            # internet message access protocol
 IPC/1M              # interprocess communication
 IPCC/2M
 IPv4/2SM
+ISA/12MS            # instruction set architecture; industry standard architecture
 IntelliJ/SM
 IntelliSense/2M
 JNI/2M              # Java Native Interface
@@ -52274,6 +52280,7 @@ Loctite/2M          # product
 Logotherapy/SM
 Longreads/2M
 Lua/SM              # programming language
+MMX/1M              # multimedia extension
 MPC/21M
 MSNBC/2M            # media company
 MTA/1SM
@@ -52433,6 +52440,9 @@ a11n/1
 a12s/9
 a8c/SM
 archytas/SM         # !! please check and comment !! we also have Archytas
+autoconfig/1M
+autoconfiguration/1M
+autoconfigure/4SDG
 backend/1SM         # dictionaries prefer: back end
 baz/~               # cf. foo, bar
 config/14SM         # not marked as a verb since "configed" and "configing" look wrong
