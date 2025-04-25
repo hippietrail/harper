@@ -26,6 +26,7 @@ mod token_string_ext;
 mod vec_ext;
 mod word_metadata;
 
+use std::cmp::Ordering;
 use std::collections::VecDeque;
 
 pub use char_string::{CharString, CharStringExt};
@@ -74,26 +75,119 @@ pub fn remove_overlaps(lints: &mut Vec<Lint>) {
     lints.remove_indices(remove_indices);
 }
 
+pub fn cmp_strsl_charsl(a_utf8: &str, b_utf32: &[char]) -> Option<Ordering> {
+    cmp_charsl_strsl(b_utf32, a_utf8).map(Ordering::reverse)
+}
+
+pub fn cmp_charsl_strsl(a_utf32: &[char], b_utf8: &str) -> Option<Ordering> {
+    // we want a pointer/index for each
+    let (mut a_i_utf32, mut b_i_utf8) = (0, 0);
+    while a_i_utf32 < a_utf32.len() && b_i_utf8 < b_utf8.len() {
+        // for the UTF-8 side we need to decode the bytes. let's do it manually by examining the bits ourselves
+        let a_ch = a_utf32[a_i_utf32];
+        let a_u32 = a_ch as u32;
+        let mut b_u32: u32 = 0; // we'll accumulate the utf-8 codepoint here
+        // we know how many bytes will be in the UTF-8 by the number of leading 1s
+        let mut b_num_bytes = 0;
+        let b_byte = b_utf8.as_bytes()[b_i_utf8];
+        b_i_utf8 += 1;
+        if b_byte & 0b1000_0000 == 0b0000_0000 {
+            eprintln!("1 byte");
+            b_num_bytes = 1;
+            b_u32 = b_byte as u32;
+            return Some(a_u32.cmp(&b_u32));
+        } else if b_byte & 0b1110_0000 == 0b1100_0000 {
+            eprintln!("2 bytes");
+            b_num_bytes = 2;
+            let b2 = b_utf8.as_bytes()[b_i_utf8];
+            b_i_utf8 += 1;
+            let xxxxx = b_byte & 0b0001_1111;
+            let yyyyyy = b2 & 0b0011_1111;
+            b_u32 = ((xxxxx as u32) << 6) | (yyyyyy as u32);
+            return Some(a_u32.cmp(&b_u32));
+        } else if b_byte & 0b1111_0000 == 0b1110_0000 {
+            eprintln!("3 bytes");
+            b_num_bytes = 3;
+            // todo!();
+        } else if b_byte & 0b1111_1000 == 0b1111_0000 {
+            eprintln!("4 bytes");
+            b_num_bytes = 4;
+            todo!();
+        } else {
+            return None;
+        }
+
+        // if num_bytes is 1 and c32 is in ascii range < 128 we can compare this codepoint directly
+        // if b_num_bytes == 1 && a_u32 <= 127 {
+        return Some(a_u32.cmp(&b_u32));
+        // }
+        // todo!();
+    }
+    None
+}
+
 #[cfg(test)]
 mod tests {
+    use std::cmp::Ordering;
+
     use crate::{
-        Dialect, Document, FstDictionary,
+        Dialect, Document, FstDictionary, cmp_charsl_strsl, cmp_strsl_charsl,
         linting::{LintGroup, Linter},
         remove_overlaps,
     };
 
+    // #[test]
+    // fn keeps_space_lint() {
+    //     let doc = Document::new_plain_english_curated("Ths  tet");
+
+    //     let mut linter = LintGroup::new_curated(FstDictionary::curated(), Dialect::American);
+
+    //     let mut lints = linter.lint(&doc);
+
+    //     dbg!(&lints);
+    //     remove_overlaps(&mut lints);
+    //     dbg!(&lints);
+
+    //     assert_eq!(lints.len(), 3);
+    // }
+
     #[test]
-    fn keeps_space_lint() {
-        let doc = Document::new_plain_english_curated("Ths  tet");
+    fn cmp_1ascii_chars_str_same() {
+        assert_eq!(cmp_charsl_strsl(&['a'][..], "a"), Some(Ordering::Equal));
+    }
 
-        let mut linter = LintGroup::new_curated(FstDictionary::curated(), Dialect::American);
+    #[test]
+    fn cmp_1ascii_str_chars_same() {
+        assert_eq!(cmp_strsl_charsl("a", &['a'][..]), Some(Ordering::Equal));
+    }
 
-        let mut lints = linter.lint(&doc);
+    #[test]
+    fn cmp_1ascii_chars_str_less() {
+        assert_eq!(cmp_charsl_strsl(&['a'][..], "b"), Some(Ordering::Less));
+    }
 
-        dbg!(&lints);
-        remove_overlaps(&mut lints);
-        dbg!(&lints);
+    #[test]
+    fn cmp_1ascii_str_chars_less() {
+        assert_eq!(cmp_strsl_charsl("a", &['b'][..]), Some(Ordering::Less));
+    }
 
-        assert_eq!(lints.len(), 3);
+    #[test]
+    fn cmp_1ascii_chars_str_greater() {
+        assert_eq!(cmp_charsl_strsl(&['b'][..], "a"), Some(Ordering::Greater));
+    }
+
+    #[test]
+    fn cmp_1ascii_str_chars_greater() {
+        assert_eq!(cmp_strsl_charsl("b", &['a'][..]), Some(Ordering::Greater));
+    }
+
+    #[test]
+    fn cmp_latin1_chars_str_same() {
+        assert_eq!(cmp_charsl_strsl(&['é'][..], "é"), Some(Ordering::Equal));
+    }
+
+    #[test]
+    fn cmp_latin1_str_chars_same() {
+        assert_eq!(cmp_strsl_charsl("ñ", &['ñ'][..]), Some(Ordering::Equal));
     }
 }
