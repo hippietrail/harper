@@ -1129,6 +1129,12 @@ pub fn lint_group() -> LintGroup {
             "A more vivid adjective would better convey intense hunger.",
             "Encourages vivid writing by suggesting `starving` instead of weaker expressions like `very hungry.`"
         ),
+        "Abandonware" => (
+            ["abandonedware"],
+            ["abandonware"],
+            "The correct term is `abandonware`?",
+            "Corrects `abandonedware` to `abandonware`."
+        ),
     });
 
     group.set_all_rules_to(Some(true));
@@ -2369,6 +2375,15 @@ mod tests {
             "A client-server model where the client can execute commands in a terminal on the server's side",
             lint_group(),
             "A client-server model where the client can execute commands in a terminal on the server-side",
+        );
+    }
+
+    #[test]
+    fn correct_abandonedware() {
+        assert_suggestion_result(
+            "Abandonedware is abandoned. Do not bother submitting issues about the empty page bug. Author moved to greener pastures",
+            lint_group(),
+            "Abandonware is abandoned. Do not bother submitting issues about the empty page bug. Author moved to greener pastures",
         );
     }
 }
