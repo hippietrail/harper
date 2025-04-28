@@ -1129,6 +1129,12 @@ pub fn lint_group() -> LintGroup {
             "A more vivid adjective would better convey intense hunger.",
             "Encourages vivid writing by suggesting `starving` instead of weaker expressions like `very hungry.`"
         ),
+        "LastDitch" => (
+            ["last ditch", "last ditched", "last-ditched"],
+            ["last-ditch"],
+            "In this idiom, `ditch` is a noun and a hyphen is needed.",
+            "Corrects wrong variations of the idiomatic adjective `last-ditch`."
+        ),
         "InvestIn" => (
             ["invest into"],
             ["invest in"],
@@ -2403,11 +2409,29 @@ mod tests {
     }
 
     #[test]
+    fn correct_last_ditched() {
+        assert_suggestion_result(
+            "I was actually just trying that as a last ditched attempt to get it working, previously those ...",
+            lint_group(),
+            "I was actually just trying that as a last-ditch attempt to get it working, previously those ...",
+        );
+    }
+
+    #[test]
     fn corrects_invested_into() {
         assert_suggestion_result(
             "it's all automatically invested into a collection of loans that match the criteria that ...",
             lint_group(),
             "it's all automatically invested in a collection of loans that match the criteria that ...",
+        );
+    }
+
+    #[test]
+    fn correct_last_ditch_space() {
+        assert_suggestion_result(
+            "There are unique use cases and is meant to be a last ditch option.",
+            lint_group(),
+            "There are unique use cases and is meant to be a last-ditch option.",
         );
     }
 
