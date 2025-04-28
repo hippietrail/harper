@@ -6,12 +6,12 @@ This directory contains a simple C example demonstrating how to use the Harper R
 
 1. First, build the Rust library:
 ```bash
-cargo build
+cargo build --release
 ```
 
 2. Then compile the C example:
 ```bash
-cc src/florb.c -L target/debug -lharper_c -o florb
+cc src/florb.c -L target/release -lharper_c -o florb
 ```
 
 ## Running
@@ -32,18 +32,26 @@ The example (`src/florb.c`) demonstrates basic usage of the Harper library:
 
 ## API Reference
 
-The C API is defined in `src/harper.h`:
+The C API is defined in [src/harper.h](cci:7://file:///Users/hippietrail/harper/harper-c/src/harper.h:0:0-0:0):
 
-- `harper_version()`: Get the library version number
 - `harper_create_document(text)`: Create a new document from text
 - `harper_free_document(doc)`: Free a document
 - `harper_get_document_text(doc)`: Get the full text of a document
 - `harper_get_token_count(doc)`: Get the number of tokens in a document
 - `harper_get_token_text(doc, index)`: Get the text of a specific token
+- `harper_create_lint_group()`: Create a new lint group
+- `harper_free_lint_group(lint_group)`: Free a lint group
+- `harper_get_lints(doc, lint_group, count)`: Get all lints for a document
+- `harper_free_lints(lints, count)`: Free an array of lints
+- `harper_get_lint_message(lint)`: Get the message for a lint
+- `harper_get_lint_start(lint)`: Get the start position of a lint
+- `harper_get_lint_end(lint)`: Get the end position of a lint
 
 ## Memory Management
 
 - Documents created with `harper_create_document` must be freed with `harper_free_document`
+- Lint groups created with `harper_create_lint_group` must be freed with `harper_free_lint_group`
+- Lints created with `harper_get_lints` must be freed with `harper_free_lints`
 - Strings returned by `harper_get_document_text` and `harper_get_token_text` must be freed with `free()`
 
 ## Error Handling
