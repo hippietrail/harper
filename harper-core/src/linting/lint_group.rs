@@ -32,6 +32,7 @@ use super::hedging::Hedging;
 use super::hereby::Hereby;
 use super::hop_hope::HopHope;
 use super::hyphenate_number_day::HyphenateNumberDay;
+use super::in_front::InFront;
 use super::inflected_verb_after_to::InflectedVerbAfterTo;
 use super::left_right_hand::LeftRightHand;
 use super::lets_confusion::LetsConfusion;
@@ -356,6 +357,7 @@ impl LintGroup {
         insert_pattern_rule!(ExpandTimeShorthands, true);
         insert_pattern_rule!(ModalOf, true);
         insert_pattern_rule!(ForNoun, true);
+        insert_struct_rule!(InFront, true);
 
         out.add(
             "SpellCheck",
