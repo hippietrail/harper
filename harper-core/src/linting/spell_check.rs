@@ -295,7 +295,16 @@ mod tests {
         );
     }
 
-    // Unit tests for specific spell check corrections
+    #[test]
+    fn abandonware_correction() {
+        assert_suggestion_result(
+            "abanonedware",
+            SpellCheck::new(FstDictionary::curated(), Dialect::Australian),
+            "abandonware",
+        );
+    }
+
+    // Unit tests for specific spellcheck corrections
 
     #[test]
     fn corrects_abandonedware_1131_1166() {
