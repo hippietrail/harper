@@ -5,8 +5,6 @@
 //!
 //! See the page about [`SequencePattern`] for a concrete example of their use.
 
-use std::num::NonZeroUsize;
-
 use crate::{Document, Span, Token};
 
 mod all;
@@ -57,7 +55,7 @@ pub trait Pattern {
     /// Check if the pattern matches at the start of the given token slice.
     ///
     /// Returns the length of the match if successful, or `None` if not.
-    fn matches(&self, tokens: &[Token], source: &[char]) -> Option<NonZeroUsize>;
+    fn matches(&self, tokens: &[Token], source: &[char]) -> Option<usize>;
 }
 #[cfg(feature = "concurrent")]
 #[blanket(derive(Arc))]
@@ -65,7 +63,7 @@ pub trait Pattern: Send + Sync {
     /// Check if the pattern matches at the start of the given token slice.
     ///
     /// Returns the length of the match if successful, or `None` if not.
-    fn matches(&self, tokens: &[Token], source: &[char]) -> Option<NonZeroUsize>;
+    fn matches(&self, tokens: &[Token], source: &[char]) -> Option<usize>;
 }
 
 pub trait PatternExt {
@@ -81,6 +79,9 @@ impl<P> PatternExt for P
 where
     P: Pattern + ?Sized,
 {
+    fn find_all_matches(&self, tokens: &[Token], source: &[char]) -> Vec<Span> {
+        self.iter_matches(tokens, source).collect()
+    }
     fn iter_matches(&self, tokens: &[Token], source: &[char]) -> impl Iterator<Item = Span> {
         MatchIter::new(self, tokens, source)
     }
@@ -117,8 +118,8 @@ where
                 .pattern
                 .matches(&self.tokens[self.index..], self.source)
             {
-                let span = Span::new_with_len(self.index, len.get());
-                self.index += len.get();
+                let span = Span::new_with_len(self.index, len);
+                self.index += len.max(1);
                 return Some(span);
             } else {
                 self.index += 1;
@@ -148,8 +149,12 @@ where
     F: Fn(&Token, &[char]) -> bool,
     F: Send + Sync,
 {
-    fn matches(&self, tokens: &[Token], source: &[char]) -> Option<NonZeroUsize> {
-        NonZeroUsize::new(if self(tokens.first()?, source) { 1 } else { 0 })
+    fn matches(&self, tokens: &[Token], source: &[char]) -> Option<usize> {
+        if self(tokens.first()?, source) {
+            Some(1)
+        } else {
+            None
+        }
     }
 }
 
@@ -159,7 +164,11 @@ where
     F: Fn(&Token, &[char]) -> bool,
 {
     fn matches(&self, tokens: &[Token], source: &[char]) -> Option<NonZeroUsize> {
-        NonZeroUsize::new(if self(tokens.first()?, source) { 1 } else { 0 })
+        if self(tokens.first()?, source) {
+            Some(1)
+        } else {
+            None
+        }
     }
 }
 
