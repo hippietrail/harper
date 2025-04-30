@@ -1,29 +1,55 @@
 use crate::{
     Lrc, Token,
-    patterns::{EitherPattern, Pattern, SequencePattern},
+    patterns::{EitherPattern, Pattern, SequencePattern, WordSet},
 };
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
+use hashbrown::HashMap;
 
 pub struct InFront {
     pattern: Box<dyn Pattern>,
+    compound_to_phrase: HashMap<String, String>,
 }
 
 impl Default for InFront {
     fn default() -> Self {
-        let infront = Lrc::new(SequencePattern::default().t_aco("infront"));
+        let phrases = [
+            "a lot",
+            "a while",
+            "as well",
+            "at least",
+            "each other",
+            "in case",
+            "in front",
+        ];
+        let mut compound_to_phrase = HashMap::new();
+        for phrase in phrases {
+            compound_to_phrase.insert(
+                phrase
+                    .split_whitespace()
+                    .map(|s| s.to_lowercase())
+                    .collect::<String>(),
+                phrase.to_string(),
+            );
+        }
+
+        let mut compound_wordset = WordSet::default();
+        for compound in compound_to_phrase.keys().cloned().collect::<Vec<_>>() {
+            compound_wordset.add(&compound);
+        }
+        let compound = Lrc::new(SequencePattern::default().then(compound_wordset));
 
         let with_prev = SequencePattern::default()
             .then_anything()
-            .then(infront.clone());
+            .then(compound.clone());
 
         let with_next = SequencePattern::default()
-            .then(infront.clone())
+            .then(compound.clone())
             .then_anything();
 
         let with_prev_and_next = SequencePattern::default()
             .then_anything()
-            .then(infront.clone())
+            .then(compound.clone())
             .then_anything();
 
         Self {
@@ -31,8 +57,9 @@ impl Default for InFront {
                 Box::new(with_prev_and_next),
                 Box::new(with_prev),
                 Box::new(with_next),
-                Box::new(infront),
+                Box::new(compound),
             ])),
+            compound_to_phrase,
         }
     }
 }
@@ -43,90 +70,92 @@ impl PatternLinter for InFront {
     }
 
     fn match_to_lint(&self, matched_toks: &[Token], source_chars: &[char]) -> Option<Lint> {
-        let infront_idx = get_infront_idx(matched_toks, source_chars);
-        let infront_span = matched_toks[infront_idx].span;
-        let infront_chars = infront_span.get_content(source_chars);
+        // Because we don't have anything like regex captures we need to find which token matched which compound
+        let index = self
+            .compound_to_phrase
+            .keys()
+            .find_map(|compound| get_compound_idx(matched_toks, source_chars, compound))?;
+
+        let span = matched_toks[index].span;
+        let compound_string = span.get_content(source_chars).iter().collect::<String>();
 
         // Ignore if there's a hyphen immediately on either side
         if (0..matched_toks.len())
-            .filter(|&i| i != infront_idx)
+            .filter(|&i| i != index)
             .any(|i| matched_toks[i].kind.is_hyphen())
         {
             return None;
         }
 
         // Ignore trademarks etc. like InFront, inFront
-        if (infront_chars[0] == 'i' || infront_chars[0] == 'I')
-            && infront_chars[1..] == ['n', 'F', 'r', 'o', 'n', 't']
+        let phrase = self
+            .compound_to_phrase
+            .get(&compound_string.to_lowercase())?;
+        if compound_string
+            .chars()
+            .nth(phrase.find(' ')?)?
+            .is_uppercase()
         {
             return None;
         }
 
-        let template = infront_span.get_content(source_chars);
-
         Some(Lint {
-            span: infront_span,
+            span,
             lint_kind: LintKind::WordChoice,
-            suggestions: vec![Suggestion::replace_with_match_case_str(
-                "in front", template,
+            suggestions: vec![Suggestion::replace_with_match_case(
+                phrase.chars().collect(),
+                span.get_content(source_chars),
             )],
-            message: "`In front` should be written as two words.".to_string(),
+            message: format!("`{}` should be written as two words.", phrase),
             priority: 127,
         })
     }
 
     fn description(&self) -> &str {
-        "Corrects `infront`, which should be written as two words."
+        "Corrects compound words that should be written as two words."
     }
 }
 
-fn get_infront_idx(toks: &[Token], src: &[char]) -> usize {
-    const LEN: usize = "infront".len();
+fn get_compound_idx(toks: &[Token], src: &[char], compound: &str) -> Option<usize> {
+    let len = compound.len();
+    let tok_count = toks.len();
 
-    if toks.len() != 1 && toks.len() != 2 && toks.len() != 3 {
-        unreachable!();
+    match tok_count {
+        1 => Some(0),
+        3 => Some(1),
+        2 => {
+            let [tok0, tok1] = toks else { return None };
+            let [len0, len1] = [tok0.span.len(), tok1.span.len()];
+
+            if len0 == len && len1 != len {
+                Some(0)
+            } else if len1 == len && len0 != len {
+                Some(1)
+            } else if tok0.kind.is_word() && !tok1.kind.is_word() {
+                Some(0)
+            } else if !tok0.kind.is_word() && tok1.kind.is_word() {
+                Some(1)
+            } else {
+                Some(
+                    !tok0
+                        .span
+                        .get_content(src)
+                        .iter()
+                        .collect::<String>()
+                        .eq_ignore_ascii_case(compound) as usize,
+                )
+            }
+        }
+        _ => None,
     }
-
-    // we matched some lettercase variant of `infront` on its own
-    if toks.len() == 1 {
-        return 0;
-    }
-
-    // we matched `infront` with a non-hyphen token on one side
-    if toks.len() == 3 {
-        return 1;
-    }
-
-    // we matched a non-hyphen token on one side of `infront`
-    let len0 = toks[0].span.len();
-    let len1 = toks[1].span.len();
-
-    if len0 == LEN && len1 != LEN {
-        return 0;
-    } else if len1 == LEN && len0 != LEN {
-        return 1;
-    }
-
-    // both tokens the right length, check kind
-    if toks[0].kind.is_word() && !toks[1].kind.is_word() {
-        return 0;
-    } else if !toks[0].kind.is_word() && toks[1].kind.is_word() {
-        return 1;
-    }
-
-    // both tokens: words the right length, check the chars
-    !toks[0]
-        .span
-        .get_content(src)
-        .iter()
-        .collect::<String>()
-        .eq_ignore_ascii_case("infront") as usize
 }
 
 #[cfg(test)]
 mod tests {
     use super::InFront;
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
+
+    // In front
 
     #[test]
     fn corrects_lone_infront() {
@@ -204,5 +233,173 @@ mod tests {
     #[test]
     fn even_repeated_infront_works() {
         assert_suggestion_result("infront infront", InFront::default(), "in front in front");
+    }
+
+    // A lot
+
+    #[test]
+    fn correct_alot_atomic() {
+        assert_suggestion_result("Alot", InFront::default(), "A lot");
+    }
+
+    // A while
+
+    #[test]
+    fn correct_awhile_atomic() {
+        assert_suggestion_result("Awhile", InFront::default(), "A while");
+    }
+
+    #[test]
+    fn test_in_quite_a_while() {
+        assert_suggestion_result(
+            "I haven’t seen him in quite awhile.",
+            InFront::default(),
+            "I haven’t seen him in quite a while.",
+        );
+    }
+
+    #[test]
+    fn test_in_a_while() {
+        assert_suggestion_result(
+            "I haven't checked in awhile.",
+            InFront::default(),
+            "I haven't checked in a while.",
+        );
+    }
+
+    #[test]
+    fn correct_for_awhile() {
+        assert_suggestion_result(
+            "Video Element Error: MEDA_ERR_DECODE when chrome is left open for awhile",
+            InFront::default(),
+            "Video Element Error: MEDA_ERR_DECODE when chrome is left open for a while",
+        );
+    }
+
+    #[test]
+    fn correct_after_awhile() {
+        assert_suggestion_result(
+            "Links on portal stop working after awhile, requiring page refresh.",
+            InFront::default(),
+            "Links on portal stop working after a while, requiring page refresh.",
+        );
+    }
+
+    // As well
+
+    #[test]
+    fn correct_aswell_atomic() {
+        assert_suggestion_result("Aswell", InFront::default(), "As well");
+    }
+
+    #[test]
+    fn corrects_as_keyboards_aswell() {
+        assert_suggestion_result(
+            "Tool to read physical joystick devices, keyboards aswell, and create virtual joystick devices and output keyboard presses on a Linux system.",
+            InFront::default(),
+            "Tool to read physical joystick devices, keyboards as well, and create virtual joystick devices and output keyboard presses on a Linux system.",
+        );
+    }
+
+    #[test]
+    fn corrects_aswell_as() {
+        assert_suggestion_result(
+            "When UseAcrylic is true in Focused aswell as Unfocused Apearance , changing enableUnfocusedAcrylic at runtime doesn't work",
+            InFront::default(),
+            "When UseAcrylic is true in Focused as well as Unfocused Apearance , changing enableUnfocusedAcrylic at runtime doesn't work",
+        );
+    }
+
+    #[test]
+    fn corrects_toml_aswell() {
+        assert_suggestion_result(
+            "format Cargo.toml aswell #5893 - rust-lang/rustfmt",
+            InFront::default(),
+            "format Cargo.toml as well #5893 - rust-lang/rustfmt",
+        );
+    }
+
+    #[test]
+    fn correct_aswell() {
+        assert_suggestion_result(
+            "'wejoy' is a tool to read physical joystick devices, aswell as keyboards, create virtual joystick devices and output keyboard presses on a Linux system.",
+            InFront::default(),
+            "'wejoy' is a tool to read physical joystick devices, as well as keyboards, create virtual joystick devices and output keyboard presses on a Linux system.",
+        );
+    }
+
+    // At least
+
+    #[test]
+    fn correct_atleast_atomic() {
+        assert_suggestion_result("Atleast", InFront::default(), "At least");
+    }
+
+    #[test]
+    fn ignore_atleast_pascalcase() {
+        assert_lint_count(
+            "I want to understand if we are using AtLeast correctly.",
+            InFront::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn ignore_atleast_camelcase() {
+        assert_lint_count(
+            "verfiy with atLeast = 0 should pass even if the mocked function is never called.",
+            InFront::default(),
+            0,
+        );
+    }
+
+    #[test]
+    fn correct_atleast() {
+        assert_suggestion_result(
+            "Mar 22, 2562 BE — constructor - expected atleast one input #250.",
+            InFront::default(),
+            "Mar 22, 2562 BE — constructor - expected at least one input #250.",
+        );
+    }
+
+    // Each other
+
+    #[test]
+    fn correct_eachother_atomic() {
+        assert_suggestion_result("Eachother", InFront::default(), "Each other");
+    }
+
+    #[test]
+    fn correct_eachother() {
+        assert_suggestion_result(
+            "Script parsing fails when two scenes reference eachother",
+            InFront::default(),
+            "Script parsing fails when two scenes reference each other",
+        );
+    }
+
+    // In case
+
+    #[test]
+    fn correct_incase_atomic() {
+        assert_suggestion_result("Incase", InFront::default(), "In case");
+    }
+
+    #[test]
+    fn correct_in_case() {
+        assert_suggestion_result(
+            "Support for enum variable incase of reusable enum class",
+            InFront::default(),
+            "Support for enum variable in case of reusable enum class",
+        );
+    }
+
+    #[test]
+    fn ignore_incase_pascalcase() {
+        assert_lint_count(
+            "InCase save your secrets for a friend, so they can use in case it in case you went \"missing\".",
+            InFront::default(),
+            0,
+        );
     }
 }
