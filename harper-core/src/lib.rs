@@ -35,7 +35,7 @@ pub use fat_token::{FatStringToken, FatToken};
 pub use ignored_lints::IgnoredLints;
 use linting::Lint;
 pub use mask::{Mask, Masker};
-pub use number::{Number, NumberSuffix};
+pub use number::{Number, OrdinalSuffix};
 pub use punctuation::{Punctuation, Quote};
 pub use span::Span;
 pub use spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary, WordId};
@@ -46,7 +46,8 @@ pub use token_kind::TokenKind;
 pub use token_string_ext::TokenStringExt;
 pub use vec_ext::VecExt;
 pub use word_metadata::{
-    AdverbData, ConjunctionData, Dialect, NounData, PronounData, Tense, VerbData, WordMetadata,
+    AdverbData, ConjunctionData, Degree, Dialect, NounData, PronounData, Tense, VerbData,
+    WordMetadata,
 };
 
 /// Return harper-core version
