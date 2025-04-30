@@ -115,12 +115,12 @@ fn get_infront_idx(toks: &[Token], src: &[char]) -> usize {
     }
 
     // both tokens: words the right length, check the chars
-    return !toks[0]
+    !toks[0]
         .span
         .get_content(src)
         .iter()
         .collect::<String>()
-        .eq_ignore_ascii_case("infront") as usize;
+        .eq_ignore_ascii_case("infront") as usize
 }
 
 #[cfg(test)]
