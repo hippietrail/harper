@@ -1,5 +1,3 @@
-use std::num::NonZeroUsize;
-
 use crate::{Document, Token, TokenKind};
 
 use super::{Pattern, SequencePattern, Word, within_edit_distance::WithinEditDistance};
@@ -59,7 +57,7 @@ impl SimilarToPhrase {
 }
 
 impl Pattern for SimilarToPhrase {
-    fn matches(&self, tokens: &[Token], source: &[char]) -> Option<NonZeroUsize> {
+    fn matches(&self, tokens: &[Token], source: &[char]) -> Option<usize> {
         if self.phrase.matches(tokens, source).is_some() {
             return None;
         }
