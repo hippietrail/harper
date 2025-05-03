@@ -87,7 +87,7 @@ pub struct LintGroupConfig {
 #[cached]
 fn curated_config() -> LintGroupConfig {
     // The Dictionary and Dialect do not matter, we're just after the config.
-    let group = LintGroup::new_curated(MutableDictionary::new().into(), Dialect::American);
+    let group = LintGroup::new_curated_en_us(MutableDictionary::new().into());
     group.config
 }
 
@@ -384,6 +384,10 @@ impl LintGroup {
         out
     }
 
+    pub fn new_curated_en_us(dictionary: Arc<impl Dictionary + 'static>) -> Self {
+        Self::new_curated(dictionary, Dialect::American)
+    }
+
     /// Create a new curated group with all config values cleared out.
     pub fn new_curated_empty_config(
         dictionary: Arc<impl Dictionary + 'static>,
@@ -468,14 +472,13 @@ mod tests {
 
     #[test]
     fn can_get_all_descriptions() {
-        let group =
-            LintGroup::new_curated(Arc::new(MutableDictionary::default()), Dialect::American);
+        let group = LintGroup::new_curated_en_us(Arc::new(MutableDictionary::default()));
         group.all_descriptions();
     }
 
     #[test]
     fn lint_descriptions_are_clean() {
-        let mut group = LintGroup::new_curated(FstDictionary::curated(), Dialect::American);
+        let mut group = LintGroup::new_curated_en_us(FstDictionary::curated());
         let pairs: Vec<_> = group
             .all_descriptions()
             .into_iter()

@@ -10,9 +10,9 @@ fn parse_essay(c: &mut Criterion) {
     });
 }
 
-fn lint_essay(c: &mut Criterion) {
+fn lint_essay_en_us(c: &mut Criterion) {
     let dictionary = FstDictionary::curated();
-    let mut lint_set = LintGroup::new_curated(dictionary, Dialect::American);
+    let mut lint_set = LintGroup::new_curated_en_us(dictionary);
     let document = Document::new_markdown_default_curated(black_box(ESSAY));
 
     c.bench_function("lint_essay", |b| {
@@ -20,11 +20,11 @@ fn lint_essay(c: &mut Criterion) {
     });
 }
 
-fn lint_essay_uncached(c: &mut Criterion) {
+fn lint_essay_en_us_uncached(c: &mut Criterion) {
     c.bench_function("lint_essay_uncached", |b| {
         b.iter(|| {
             let dictionary = FstDictionary::curated();
-            let mut lint_set = LintGroup::new_curated(dictionary.clone(), Dialect::American);
+            let mut lint_set = LintGroup::new_curated_en_us(dictionary.clone());
             let document = Document::new_markdown_default(black_box(ESSAY), &dictionary);
             lint_set.lint(&document)
         })
@@ -33,8 +33,8 @@ fn lint_essay_uncached(c: &mut Criterion) {
 
 pub fn criterion_benchmark(c: &mut Criterion) {
     parse_essay(c);
-    lint_essay(c);
-    lint_essay_uncached(c);
+    lint_essay_en_us(c);
+    lint_essay_en_us_uncached(c);
 }
 
 criterion_group!(benches, criterion_benchmark);
