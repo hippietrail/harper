@@ -18,6 +18,10 @@ impl<T: Dictionary> SentenceCapitalization<T> {
             dialect,
         }
     }
+
+    pub fn new_en_us() -> Self {
+        Self::new(FstDictionary::curated(), Dialect::American)
+    }
 }
 
 impl<T: Dictionary> Linter for SentenceCapitalization<T> {

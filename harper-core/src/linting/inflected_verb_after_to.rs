@@ -17,6 +17,10 @@ impl<T: Dictionary> InflectedVerbAfterTo<T> {
             dialect,
         }
     }
+
+    pub fn new_en_us() -> Self {
+        Self::new(FstDictionary::curated(), Dialect::American)
+    }
 }
 
 impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
