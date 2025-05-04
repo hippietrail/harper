@@ -366,3 +366,26 @@ pub enum Dialect {
     Australian,
     British,
 }
+
+// Associate ISO 3166 country code and emoji flag with each dialect
+impl Dialect {
+    pub fn code(&self) -> &'static str {
+        match self {
+            Dialect::American => "US",
+            Dialect::Canadian => "CA",
+            Dialect::Australian => "AU",
+            Dialect::British => "GB",
+        }
+    }
+
+    pub fn flag(&self) -> String {
+        let mut chars = self.code().chars();
+        let letter1 = chars.next().unwrap();
+        let letter2 = chars.next().unwrap();
+
+        let emoji1 = char::from_u32(letter1 as u32 + 127397).unwrap();
+        let emoji2 = char::from_u32(letter2 as u32 + 127397).unwrap();
+
+        format!("{}{}", emoji1, emoji2)
+    }
+}
