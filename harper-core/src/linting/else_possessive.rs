@@ -38,7 +38,7 @@ impl PatternLinter for ElsePossessive {
     }
 
     fn match_to_lint(&self, toks: &[Token], _src: &[char]) -> Option<Lint> {
-        let offender = toks.last()?;
+        let offender = toks.get(2)?;
         Some(Lint {
             span: offender.span,
             lint_kind: LintKind::Miscellaneous,

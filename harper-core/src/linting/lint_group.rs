@@ -60,6 +60,7 @@ use super::pronoun_contraction::PronounContraction;
 use super::pronoun_knew::PronounKnew;
 use super::proper_noun_capitalization_linters;
 use super::repeated_words::RepeatedWords;
+use super::save_to_safe::SaveToSafe;
 use super::sentence_capitalization::SentenceCapitalization;
 use super::somewhat_something::SomewhatSomething;
 use super::spaces::Spaces;
@@ -315,6 +316,7 @@ impl LintGroup {
         insert_pattern_rule!(BoringWords, false);
         insert_struct_rule!(CapitalizePersonalPronouns, true);
         insert_pattern_rule!(ChockFull, true);
+        insert_struct_rule!(SaveToSafe, true);
         insert_struct_rule!(NailOnTheHead, true);
         insert_struct_rule!(NominalWants, true);
         insert_struct_rule!(ElsePossessive, true);

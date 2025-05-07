@@ -64,6 +64,7 @@ mod pronoun_contraction;
 mod pronoun_knew;
 mod proper_noun_capitalization_linters;
 mod repeated_words;
+mod save_to_safe;
 mod sentence_capitalization;
 mod somewhat_something;
 mod spaces;
@@ -134,6 +135,7 @@ pub use pique_interest::PiqueInterest;
 pub use possessive_your::PossessiveYour;
 pub use pronoun_contraction::PronounContraction;
 pub use repeated_words::RepeatedWords;
+pub use save_to_safe::SaveToSafe;
 pub use sentence_capitalization::SentenceCapitalization;
 pub use somewhat_something::SomewhatSomething;
 pub use spaces::Spaces;
@@ -267,8 +269,6 @@ mod tests {
         let mut iter_count = 0;
 
         loop {
-            iter_count += 1;
-
             let test = Document::new_from_vec(
                 text_chars.clone().into(),
                 &PlainEnglish,
@@ -288,6 +288,8 @@ mod tests {
             } else {
                 break;
             }
+
+            iter_count += 1;
 
             if iter_count == 100 {
                 break;
