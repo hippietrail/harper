@@ -1190,11 +1190,29 @@ pub fn lint_group() -> LintGroup {
             "`Invest` is traditionally followed by 'in,' not `into.`"
         ),
         "OnceInAWhile" => (
-            ["once a while"],
+            ["once a while", "once and a while"],
             ["once in a while"],
             "The correct idiom is `once in a while`.",
-            "Corrects `once a while`, which requires the word `in`."
+            "Corrects two common malapropisms of `once in a while`."
         ),
+        "GildedAge" => (
+            ["guilded age"],
+            ["Gilded Age"],
+            "The period of economic prosperity is called the `Gilded Age`.",
+            "If referring to the period of economic prosperity, the correct term is `Gilded Age`."
+        ),
+        "DefiniteArticle" => (
+            ["definitive article"],
+            ["definite article"],
+            "The correct term for `the` is `definite article`.",
+            "The name of the word `the` is `definite article`."
+        ),
+        "DefiniteArticles" => (
+            ["definitive articles"],
+            ["definite articles"],
+            "The correct term for `the` is `definite article`.",
+            "The name of the word `the` is `definite article`."
+        )
     });
 
     group.set_all_rules_to(Some(true));
@@ -2552,6 +2570,63 @@ mod tests {
             "For me it is a SMB mount I have on the client device that I sync only once a while for a backup into the cloud.",
             lint_group(),
             "For me it is a SMB mount I have on the client device that I sync only once in a while for a backup into the cloud.",
+        );
+    }
+
+    #[test]
+    #[ignore = "There's a bug when changing the length of title case phrases.\nI believe there's a fix coming in a PR. Uncomment when fixed."]
+    fn corrects_gilded_age_capitalized() {
+        assert_suggestion_result(
+            "It is especially a reflection of the socio-economic patterns in the Guilded Age.",
+            lint_group(),
+            "It is especially a reflection of the socio-economic patterns in the Gilded Age.",
+        );
+    }
+
+    #[test]
+    #[ignore = "Currently the correct spelling is suggested but the case is not changed.\nThis may also be fixed in the coming PR mentioned above."]
+    fn corrects_gilded_age_lowercase() {
+        assert_suggestion_result(
+            "It is especially a reflection of the socio-economic patterns in the guilded age.",
+            lint_group(),
+            "It is especially a reflection of the socio-economic patterns in the Gilded Age.",
+        );
+    }
+
+    #[test]
+    fn corrects_once_and_a_while() {
+        assert_suggestion_result(
+            "Every once and a while all the links on my page seem to stop working.",
+            lint_group(),
+            "Every once in a while all the links on my page seem to stop working.",
+        );
+    }
+
+    #[test]
+    fn corrects_definite_article() {
+        assert_suggestion_result(
+            "As for format of outputs: the spec defines the field as using the singular definitive article \"the\"",
+            lint_group(),
+            "As for format of outputs: the spec defines the field as using the singular definite article \"the\"",
+        );
+    }
+
+    #[test]
+    #[ignore = "Title case capitalization problem causes this one to fail too."]
+    fn corrects_definite_articles_title_case() {
+        assert_suggestion_result(
+            "01 Definitive Articles: De or Het. Before starting more complicated topics in Dutch grammar, you should be aware of the articles.",
+            lint_group(),
+            "01 Definite Articles: De or Het. Before starting more complicated topics in Dutch grammar, you should be aware of the articles.",
+        );
+    }
+
+    #[test]
+    fn corrects_definite_articles_lowercase() {
+        assert_suggestion_result(
+            ".. definitive articles -та /-ta/ and -те /-te/ (postfixed in Bulgarian).",
+            lint_group(),
+            ".. definite articles -та /-ta/ and -те /-te/ (postfixed in Bulgarian).",
         );
     }
 }
