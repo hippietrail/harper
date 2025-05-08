@@ -19,9 +19,7 @@ impl Default for ElsePossessive {
             "everyone",
             "nobody",
         ])
-        .or(Box::new(
-            SequencePattern::aco("no").then_whitespace().t_aco("one"),
-        ));
+        .or(SequencePattern::aco("no").then_whitespace().t_aco("one"));
 
         let pattern = SequencePattern::default()
             .then(pronouns)

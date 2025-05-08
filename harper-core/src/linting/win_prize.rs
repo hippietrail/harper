@@ -19,12 +19,10 @@ impl Default for WinPrize {
             .then_determiner()
             .then_whitespace()
             .then(miss.clone())
-            .or(Box::new(
-                SequencePattern::default()
-                    .then(verbs)
-                    .then_whitespace()
-                    .then(miss),
-            ));
+            .or(SequencePattern::default()
+                .then(verbs)
+                .then_whitespace()
+                .then(miss));
 
         Self {
             pattern: Box::new(pattern),
