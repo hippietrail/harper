@@ -1,7 +1,7 @@
 use crate::{
     Token,
     linting::{Lint, LintKind, PatternLinter, Suggestion},
-    patterns::{Pattern, SequencePattern, WordSet},
+    patterns::{OwnedPatternExt, Pattern, SequencePattern, WordSet},
 };
 
 pub struct ElsePossessive {
@@ -18,8 +18,10 @@ impl Default for ElsePossessive {
             "everybody",
             "everyone",
             "nobody",
-            "noone",
-        ]);
+        ])
+        .or(Box::new(
+            SequencePattern::aco("no").then_whitespace().t_aco("one"),
+        ));
 
         let pattern = SequencePattern::default()
             .then(pronouns)
@@ -38,7 +40,7 @@ impl PatternLinter for ElsePossessive {
     }
 
     fn match_to_lint(&self, toks: &[Token], _src: &[char]) -> Option<Lint> {
-        let offender = toks.get(2)?;
+        let offender = toks.last()?;
         Some(Lint {
             span: offender.span,
             lint_kind: LintKind::Miscellaneous,
@@ -57,6 +59,15 @@ impl PatternLinter for ElsePossessive {
 mod tests {
     use super::ElsePossessive;
     use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
+
+    #[test]
+    fn fixes_no_one_elses() {
+        assert_suggestion_result(
+            "It's no one elses problem.",
+            ElsePossessive::default(),
+            "It's no one else's problem.",
+        );
+    }
 
     #[test]
     fn fixes_someone_elses() {
