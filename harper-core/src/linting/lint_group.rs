@@ -36,6 +36,7 @@ use super::hop_hope::HopHope;
 use super::how_to::HowTo;
 use super::hyphenate_number_day::HyphenateNumberDay;
 use super::inflected_verb_after_to::InflectedVerbAfterTo;
+use super::its_contraction::ItsContraction;
 use super::left_right_hand::LeftRightHand;
 use super::lets_confusion::LetsConfusion;
 use super::likewise::Likewise;
@@ -322,6 +323,7 @@ impl LintGroup {
         insert_struct_rule!(ElsePossessive, true);
         insert_pattern_rule!(WinPrize, true);
         insert_pattern_rule!(AskNoPreposition, true);
+        insert_pattern_rule!(ItsContraction, true);
         insert_struct_rule!(CommaFixes, true);
         insert_struct_rule!(CompoundNouns, true);
         insert_pattern_rule!(Confident, true);
