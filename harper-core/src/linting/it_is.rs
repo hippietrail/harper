@@ -122,15 +122,16 @@ mod tests {
         assert_lint_count("Its team lead is excellent.", "en", ItIs::default(), 0);
     }
 
-    // This case fails, but I think that's acceptable.
-    // #[test]
-    // fn does_not_flag_non_adjective() {
-    //     assert_lint_count(
-    //         "The cat chased its tail around the room.",
-    //         ItIs::default(),
-    //         0,
-    //     );
-    // }
+    #[test]
+    #[ignore = "This case fails, but I think that's acceptable"]
+    fn does_not_flag_non_adjective() {
+        assert_lint_count(
+            "The cat chased its tail around the room.",
+            "en",
+            ItIs::default(),
+            0,
+        );
+    }
 
     #[test]
     fn does_not_flag_already_correct() {

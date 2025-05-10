@@ -5,6 +5,9 @@ use crate::{
 
 use super::{Lint, LintKind, PatternLinter, Suggestion};
 
+const EN_DASH: char = '–';
+const EM_DASH: char = '—';
+
 pub struct Dashes {
     pattern: Box<dyn Pattern>,
 }
@@ -12,12 +15,12 @@ pub struct Dashes {
 impl Default for Dashes {
     fn default() -> Self {
         let en_dash = SequencePattern::default().then_hyphen().then_hyphen();
-        let em_dash = SequencePattern::default()
+        let em_dash_or_longer = SequencePattern::default()
             .then_hyphen()
             .then_hyphen()
-            .then_hyphen();
+            .then_one_or_more_hyphens();
 
-        let pattern = EitherPattern::new(vec![Box::new(em_dash), Box::new(en_dash)]);
+        let pattern = EitherPattern::new(vec![Box::new(em_dash_or_longer), Box::new(en_dash)]);
 
         Self {
             pattern: Box::new(pattern),
@@ -38,23 +41,24 @@ impl PatternLinter for Dashes {
             2 => Some(Lint {
                 span,
                 lint_kind,
-                suggestions: vec![Suggestion::ReplaceWith(vec!['–'])],
+                suggestions: vec![Suggestion::ReplaceWith(vec![EN_DASH])],
                 message: "A sequence of hyphens is not an en dash.".to_owned(),
                 priority: 63,
             }),
             3 => Some(Lint {
                 span,
                 lint_kind,
-                suggestions: vec![Suggestion::ReplaceWith(vec!['—'])],
+                suggestions: vec![Suggestion::ReplaceWith(vec![EM_DASH])],
                 message: "A sequence of hyphens is not an em dash.".to_owned(),
                 priority: 63,
             }),
+            4.. => None, // Ignore longer hyphen sequences.
             _ => panic!("Received unexpected number of tokens."),
         }
     }
 
     fn description(&self) -> &'static str {
-        "Rather than outright using an em dash or en dash, authors often use a sequence of hyphens, expecting them to be condensed.\nThis rule does so."
+        "Rather than outright using an em dash or en dash, authors often use a sequence of hyphens, expecting them to be condensed. Use two hyphens to denote an en dash and three to denote an em dash."
     }
 }
 
@@ -63,6 +67,7 @@ mod tests {
     use crate::linting::tests::{assert_suggestion_count, assert_suggestion_result};
 
     use super::Dashes;
+    use super::{EM_DASH, EN_DASH};
 
     #[test]
     fn catches_en_dash() {
@@ -70,7 +75,7 @@ mod tests {
             "pre--Industrial Revolution",
             "en",
             Dashes::default(),
-            "pre–Industrial Revolution",
+            &format!("pre{EN_DASH}Industrial Revolution"),
         );
     }
 
@@ -80,12 +85,17 @@ mod tests {
             "'There is no box' --- Scott",
             "en",
             Dashes::default(),
-            "'There is no box' — Scott",
+            &format!("'There is no box' {EM_DASH} Scott"),
         );
     }
 
     #[test]
     fn no_overlaps() {
         assert_suggestion_count("'There is no box' --- Scott", "en", Dashes::default(), 1);
+    }
+
+    #[test]
+    fn no_lint_for_long_hyphen_sequences() {
+        assert_suggestion_count("'There is no box' ------ Scott", "en", Dashes::default(), 0);
     }
 }

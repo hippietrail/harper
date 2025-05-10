@@ -38,7 +38,7 @@ mod tests {
             "I HoP we can find a solution.",
             "en",
             HopHope::default(),
-            "I HoPe we can find a solution.",
+            "I HoPE we can find a solution.",
         );
     }
 
@@ -88,7 +88,7 @@ mod tests {
             "She HoPeD on a train to get home.",
             "en",
             HopHope::default(),
-            "She HoPpEd on a train to get home.",
+            "She HoPpED on a train to get home.",
         );
     }
 }

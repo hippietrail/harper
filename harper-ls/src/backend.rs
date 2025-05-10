@@ -334,7 +334,12 @@ impl Backend {
                     ));
                 }
 
-                doc_state.document = Document::new(text, &parser, doc_state.dict.as_ref().unwrap());
+                // doc_state.document = Document::new(text, &parser, doc_state.dict.as_ref().unwrap());
+                // Don't lint on large documents.
+                // This should eventually be configurable, but that isn't necessary yet.
+                if text.len() < 120_000 {
+                    doc_state.document = Document::new(text, &parser, doc_state.dict.as_ref().unwrap());
+                }
             }
         }
 

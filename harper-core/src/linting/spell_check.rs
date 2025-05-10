@@ -131,10 +131,14 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
 mod tests {
     use crate::{
         Dialect, FstDictionary,
-        linting::tests::{assert_lint_count, assert_suggestion_result},
+        linting::tests::{
+            assert_lint_count, assert_suggestion_result, assert_top3_suggestion_result,
+        },
     };
 
     use super::SpellCheck;
+
+    // Capitalization tests
 
     #[test]
     fn america_capitalized() {
@@ -145,6 +149,8 @@ mod tests {
             "The word America should be capitalized.",
         );
     }
+
+    // Dialect tests
 
     #[test]
     fn harper_automattic_capitalized() {
@@ -276,15 +282,16 @@ mod tests {
         );
     }
 
-    // #[test]
-    // fn australian_labour_vs_labor() {
-    //     assert_lint_count(
-    //         "In Australia we write 'labour' but the political party is the 'Labor Party'.",
-    //         "en",
-    //         SpellCheck::new(FstDictionary::curated("en"), Dialect::Australian),
-    //         0,
-    //     )
-    // }
+    #[test]
+    #[ignore = "This test is broken due to the metadata dialect field not being a collection"]
+    fn australian_labour_vs_labor() {
+        assert_lint_count(
+            "In Australia we write 'labour' but the political party is the 'Labor Party'.",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::Australian),
+            0,
+        )
+    }
 
     #[test]
     fn australian_words_flagged_for_american_english() {
@@ -302,6 +309,111 @@ mod tests {
             "In general, utes have unibody construction while pickups have frames.",
             "en",
             SpellCheck::new(FstDictionary::curated("en"), Dialect::Australian),
+            0,
+        );
+    }
+
+    #[test]
+    fn abandonware_correction() {
+        assert_suggestion_result(
+            "abanonedware",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::Australian),
+            "abandonware",
+        );
+    }
+
+    // Unit tests for specific spellcheck corrections
+
+    #[test]
+    fn corrects_abandonedware_1131_1166() {
+        // assert_suggestion_result(
+        assert_top3_suggestion_result(
+            "Abandonedware is abandoned. Do not bother submitting issues about the empty page bug. Author moved to greener pastures",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::American),
+            "Abandonware is abandoned. Do not bother submitting issues about the empty page bug. Author moved to greener pastures",
+        );
+    }
+
+    #[test]
+    fn afterwards_not_us() {
+        assert_lint_count(
+            "afterwards",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::American),
+            1,
+        );
+    }
+
+    #[test]
+    fn afterward_is_us() {
+        assert_lint_count(
+            "afterward",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::American),
+            0,
+        );
+    }
+
+    #[test]
+    fn afterward_not_au() {
+        assert_lint_count(
+            "afterward",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::Australian),
+            1,
+        );
+    }
+
+    #[ignore = "Dialect Metadata field currently only allows a single dialect"]
+    #[test]
+    fn afterwards_is_au() {
+        assert_lint_count(
+            "afterwards",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::Australian),
+            0,
+        );
+    }
+
+    #[test]
+    fn afterward_not_ca() {
+        assert_lint_count(
+            "afterward",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::Canadian),
+            1,
+        );
+    }
+
+    #[ignore = "Dialect Metadata field currently only allows a single dialect"]
+    #[test]
+    fn afterwards_is_ca() {
+        assert_lint_count(
+            "afterwards",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::Canadian),
+            0,
+        );
+    }
+
+    #[test]
+    fn afterward_not_uk() {
+        assert_lint_count(
+            "afterward",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::British),
+            1,
+        );
+    }
+
+    #[test]
+    fn afterwards_is_uk() {
+        assert_lint_count(
+            "afterwards",
+            "en",
+            SpellCheck::new(FstDictionary::curated("en"), Dialect::British),
             0,
         );
     }
