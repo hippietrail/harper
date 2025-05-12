@@ -736,7 +736,7 @@
 			"kind": "property",
 			"cross_product": true,
 			"replacements": [],
-			"target_metadata": {},
+			"target": [],
 			"base_metadata": {
 				"pronoun": {
 					"is_plural": true,
