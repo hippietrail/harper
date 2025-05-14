@@ -10764,6 +10764,7 @@ Wigner/2M
 Wii/1M
 Wikileaks
 Wikipedia/214M
+Wiktionary/2MS
 Wilberforce/2M
 Wilbert/2M
 Wilbur/2M
@@ -12803,6 +12804,7 @@ appropriate/~54PYGNXDS
 appropriated/~45U
 appropriateness/~1IM
 appropriation/~1M
+appropriative/5
 appropriator/1SM
 approval/~1EM
 approvals/1
@@ -13616,6 +13618,8 @@ backhoe/14MS
 backing/~154M
 backlash/~14MS
 backless/5
+backlight/14MSG
+backlit/45
 backlog/~14MS
 backlogged/45
 backlogging/4
@@ -18256,6 +18260,7 @@ companionably/j
 companionship/~1M
 companionway/1MS
 company/~14SM
+companywide/5
 comparability/1M
 comparable/~51I
 comparably/Ij
@@ -20745,6 +20750,7 @@ descry/4GDS
 desecrate/45DSGN
 desecration/1M
 deselection/1
+deserialization/1MS
 deserialize/4SGD
 desert/~154SDRZGM
 deserter/1M
@@ -21038,6 +21044,7 @@ differential/~51SM
 differentiate/~41DSGN
 differentiated/~45U
 differentiation/~1M
+differentiator/1MS
 difficult/~54Y
 difficulty/~1SM
 diffidence/1M
@@ -22799,8 +22806,9 @@ enclave/~14MS
 enclose/~4GDS
 enclosed/~54U
 enclosure/~1SM
-encode/~41DRSZG
+encode/~41DRSZ
 encoder/~1M
+encoding/1MS
 encomium/1MS
 encompass/~4GDS
 encore/~14DSMG
@@ -26723,6 +26731,7 @@ gray/~541MDRTGSP<
 graybeard/1SM<
 grayish/5<
 grayness/1M<
+grayscale/1M5<
 graze/14DRSMZG
 grazer/1M
 grease/~14DRSMZG
@@ -26773,6 +26782,7 @@ grey/541PMDRTGS!@_
 greyhound/~14SM
 greyish/5!@_
 greyness/1M!@_
+greyscale/1M5!@_
 gribble/15S
 grid/~14MS
 griddle/14SM
@@ -28358,6 +28368,7 @@ hotplate/1SM
 hotpot/1S
 hots/14M
 hotshot/514MS
+hotspot/1MS
 hotted/4
 hotter/~514
 hottest/~5
@@ -33572,7 +33583,7 @@ mincemeat/1M
 mincer/1M
 mind/~14ADRSZG
 mind's
-mindbogglingly/j
+mindboggling/5Y<
 minded/~54P
 mindfuck/1SM6
 mindful/~51YP
@@ -34459,7 +34470,9 @@ multimeter/1SM
 multimillionaire/1SM
 multinational/~51SM
 multipart/5
+multipartite
 multiparty/5
+multiphonics/1M
 multiplanetary/5
 multiplayer/~51M
 multiple/~51MS
@@ -37298,6 +37311,7 @@ parricide/1MS
 parring/4
 parrot/~14GMDS
 parry/~41GDSM
+parsable/5
 parse/~41DRSGT
 parsec/1MS
 parser/~1SM
@@ -41554,6 +41568,7 @@ respectful/~5EY
 respectfulness/1M
 respective/~5Y
 respell/4SGD
+respin/1MS4GD
 respiration/~1M
 respirator/~1SM
 respiratory/~5
@@ -42761,8 +42776,8 @@ schedule/~14ADSG
 schedule's
 scheduled/~451U
 scheduler/~1S
-schema/~1
-schemata/1
+schema/~1MS
+schemata/9
 schematic/~51SM
 schematically/j
 schematise/4GDS!_
@@ -47028,6 +47043,7 @@ symbolism/~1M
 symbolization/1M
 symbolize/~4DSG
 symbology/1
+symlink/1MS4DG
 symmetric/~5
 symmetrical/~5Y
 symmetry/~1SM
@@ -48336,6 +48352,7 @@ tool/~14ADGS
 tool's
 toolbar/~1SM
 toolbox/~1MS
+toolchain/1MS
 toolkit/~1
 toolless/5
 toolmaker/1MS
@@ -50287,7 +50304,7 @@ venation/1M
 vend/41DGS
 vendetta/~1SM
 vendible/51
-vendor/~14MS
+vendor/~14MSDG
 veneer/14MDGS
 venerability/1M
 venerable/~5
@@ -52257,6 +52274,7 @@ DNS/2SM             # domain name system
 DOM/1SM             # document object model
 DRM/1M              # digital rights management
 DSL/1SM             # domain-specific language
+DX/1M               # developer experience
 DeepMind/2M
 DevOps/SM
 DirectX/2M
@@ -52271,6 +52289,7 @@ Erdoğan/2M          # surname, Turkish politician
 Ethereum/2M         # digital currency
 Evo/2MS             # car model
 Expedia/2M
+FAT32/1M            # file system
 FIDO/12SM
 FIFA/1M             # football/soccer association
 FPGA/1SM            # field-programmable gate array
@@ -52313,6 +52332,7 @@ ISA/12MS            # instruction set architecture; industry standard architectu
 IntelliJ/SM
 IntelliSense/2M
 JNI/2M              # Java Native Interface
+JS/1M               # JavaScript
 JSDoc/SM
 JSON/2M             # data format
 JVM/SM              # Java virtual machine
@@ -52476,6 +52496,7 @@ Typst/SM
 UDP/12SM            # internet protocol
 ULA/1MS             # uncommitted logic array
 URI/1SM             # uniform resource identifier
+UX/1M               # user experience
 VAG/2M              # car company
 VARCHAR/1MS
 VCS/1M              # version control system
@@ -52495,6 +52516,7 @@ WAL/21SM
 WASI/MS
 WASM/MS             # see WebAssembly
 WD40/1M
+WIP/1M              # work in progress
 WSL/M2              # windows subsystem for linux
 Waymo/2M
 WebAssembly/M       # see WASM
@@ -52619,6 +52641,8 @@ cost-effective/5
 cotter pin/1MS
 cross section/1MS
 cross-threaded/5
+cul-de-sac/1MS
+culs-de-sac/9
 custom-built/5
 custom-made/5
 cut scene/1MS
@@ -52637,6 +52661,7 @@ dire wolves/9
 door to door/j
 door-to-door/S
 double-decker/5
+e-book/1MS
 easy peasy/5
 editor in chief/1
 end user/1MS
@@ -52651,6 +52676,7 @@ fact-checking/1M
 fail-safe/1MS5
 far right/1MS
 far-right/5
+fast track/1MS4DG
 feature-length/5
 first-hand/j
 first person/1M
@@ -52749,6 +52775,7 @@ low-income/5
 low-level/5
 low-maintenance/5
 low-profile/5
+low-quality/5
 lower-income/5
 made up/4
 made-up/5
@@ -52760,6 +52787,7 @@ Mar-a-Lago/2M
 Mercedes-Benz/2M
 middle-sized/5
 mind-blowing/5
+mind-boggling/5Y!@_
 mind game/1MS
 mock up/4
 mock-up/1MS
@@ -52777,6 +52805,7 @@ object-oriented/5
 odd-numbered/5
 of course/j
 off-limits/5
+off-ramp/1MS
 off-road/1MS
 off-roader/1MS
 off-roading/1M
@@ -52827,6 +52856,7 @@ red wolf/1M
 red wolves/9
 right-hand/5
 right-wing/5
+road map/1MS
 rock face/1MS
 run-up/1MS
 same sex/1M
@@ -52887,6 +52917,7 @@ thought-out/5
 thought-provoking/5
 three-quarters/1
 time-consuming/5Y
+time frame/1MS
 time-honored/5<
 time-honoured/5!@_
 tit for tat/1
@@ -52907,7 +52938,9 @@ uh-huh
 uh-oh
 un-American/5
 user-friendly/5
+UTF-16/1M
 UTF-8/1M
+UTF-32/1M
 voice-over/1MS
 von Neumann/2
 walk through/4
@@ -52920,6 +52953,7 @@ web dev/1MS
 web page/~1SM
 welch plug/1SM
 well-adjusted/5
+well-established/5
 well-known/5
 well-made/5
 well-received/5
