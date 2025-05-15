@@ -18260,7 +18260,7 @@ companionably/j
 companionship/~1M
 companionway/1MS
 company/~14SM
-companywide/5
+companywide/5       # in Wiktionary and https://seeds.sproutsocial.com/writing/grammar-and-mechanics/
 comparability/1M
 comparable/~51I
 comparably/Ij
@@ -52574,6 +52574,7 @@ olds/~              # common in phrasing such as "twenty year olds"
 pandoc/SM           # !! please check and comment !! elsewhere we have Pandoc
 pre/~+14            # !! please check and comment !! dictionaries only list prefix pre-
 raytracer/1         # dictionaries prefer: ray tracer
+roadmap/1MS         # overtook "road map" c. 2000 but not in dictionaries yet
 royale/~15SM        # !! please check and comment !! dictionaries only list noun sense type of custard
 s.t./~              # !! please check and comment !!
 scatterplot/14SMG   # dictionaries prefer: scatter plot
@@ -52637,6 +52638,7 @@ color coded/5<
 colour code/14MDSG!@_
 colour coded/5!@_
 command line/1MS
+company-wide        # in Cambridge and OED dictionaries
 cost cutting/1M
 cost-effective/5
 cotter pin/1MS
@@ -52857,7 +52859,7 @@ red wolf/1M
 red wolves/9
 right-hand/5
 right-wing/5
-road map/1MS
+road map/1MS        # standard in all dictionaries but overtaken by "roadmap" c. 2000
 rock face/1MS
 run-up/1MS
 same sex/1M
