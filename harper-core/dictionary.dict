@@ -52352,6 +52352,7 @@ Kubernetes/2SM
 LADAR
 LEGO/1SM            # official trademark form of Lego
 LIDAR/1             # FIXME! elsewhere we have LiDAR
+LLM/1MS             # large language model
 LLVM/1M             # compiler system
 LSP/1MS             # language server protocol
 LTS/1SM
