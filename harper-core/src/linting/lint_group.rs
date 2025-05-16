@@ -13,6 +13,7 @@ use serde::{Deserialize, Serialize};
 
 use super::adjective_of_a::AdjectiveOfA;
 use super::an_a::AnA;
+use super::apostrophe_plurals::ApostrophePlurals;
 use super::ask_no_preposition::AskNoPreposition;
 use super::avoid_curses::AvoidCurses;
 use super::back_in_the_day::BackInTheDay;
@@ -328,6 +329,7 @@ impl LintGroup {
         // Add all the more complex rules to the group.
         insert_struct_rule!(AdjectiveOfA, true);
         insert_struct_rule!(AnA, true);
+        insert_struct_rule!(ApostrophePlurals, true);
         insert_struct_rule!(AvoidCurses, true);
         insert_pattern_rule!(BackInTheDay, true);
         insert_pattern_rule!(BoringWords, false);

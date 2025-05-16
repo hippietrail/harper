@@ -4,6 +4,7 @@
 
 mod adjective_of_a;
 mod an_a;
+mod apostrophe_plurals;
 mod ask_no_preposition;
 mod avoid_curses;
 mod back_in_the_day;
@@ -88,6 +89,7 @@ mod wordpress_dotcom;
 
 pub use adjective_of_a::AdjectiveOfA;
 pub use an_a::AnA;
+pub use apostrophe_plurals::ApostrophePlurals;
 pub use ask_no_preposition::AskNoPreposition;
 pub use avoid_curses::AvoidCurses;
 pub use back_in_the_day::BackInTheDay;
