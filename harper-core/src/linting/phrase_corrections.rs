@@ -350,6 +350,7 @@ pub fn lint_group() -> LintGroup {
             "Changes `bed rap` to the proper idiom `bad rap`."
         ),
         "OfCourse" => (
+            // See also linting/of_course.rs
             ["off course", "o course"],
             ["Of course"],
             "Did you mean `of course`?",

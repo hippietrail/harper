@@ -4,6 +4,8 @@ use crate::{
     patterns::{SequencePattern, WordSet},
 };
 
+// See also linting/phrase_corrections.rs / "OfCourse"
+
 pub struct OfCourse {
     pattern: Box<dyn crate::patterns::Pattern>,
 }
@@ -28,7 +30,7 @@ impl PatternLinter for OfCourse {
     }
 
     fn match_to_lint(&self, matched: &[Token], source: &[char]) -> Option<Lint> {
-        // Skip if the word before “of” is “kind” or “sort” → “kind of curse” is valid.
+        // Skip if the word before “of” is “kind”, “sort”, or "type" → “kind of curse” is valid.
         if let Some(of_idx) = matched.first().map(|t| t.span.start) {
             if let Some(prev) = source.get(..of_idx).map(|src| {
                 // Walk backwards over whitespace to find the preceding word token.
@@ -45,7 +47,7 @@ impl PatternLinter for OfCourse {
                 src[start..=i].iter().collect::<String>()
             }) {
                 let lower = prev.to_ascii_lowercase();
-                if lower == "kind" || lower == "sort" {
+                if lower == "kind" || lower == "sort" || lower == "type" {
                     return None;
                 }
             }
@@ -108,5 +110,10 @@ mod tests {
             OfCourse::default(),
             0,
         );
+    }
+
+    #[test]
+    fn ignores_type_of_curse() {
+        assert_lint_count("Of course there is more than one type of curse!", OfCourse::default(), 0);
     }
 }
