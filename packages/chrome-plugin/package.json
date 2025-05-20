@@ -1,7 +1,7 @@
 {
 	"name": "chrome-plugin",
 	"displayName": "chrome-plugin",
-	"version": "0.36.0",
+	"version": "0.37.0",
 	"author": "no one",
 	"description": "A private grammar checker for 21st Century English",
 	"type": "module",
@@ -32,6 +32,7 @@
 		"flowbite-svelte-icons": "^2.1.1",
 		"gulp": "^5.0.0",
 		"gulp-zip": "^6.0.0",
+		"http-server": "^14.1.1",
 		"prettier": "^3.1.0",
 		"prettier-plugin-svelte": "^3.2.6",
 		"rollup-plugin-copy": "^3.5.0",
