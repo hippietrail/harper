@@ -26,6 +26,21 @@ pub fn lint_group() -> LintGroup {
     }
 
     add_exact_mappings!(group, {
+        "ConvenienceStore" => (
+            ["convenient store"],
+            ["convenience store"],
+            "For a small local store selling everday items and open for long hours, `convenience store` is the correct term.",
+            "Corrects `convenient store` to `convenience store`."
+        ),
+        "ConvenienceStores" => (
+            ["convenient stores"],
+            ["convenience stores"],
+            "For a small local store selling everday items and open for long hours, `convenience store` is the correct term.",
+            "Corrects `convenient store` to `convenience store`."
+        ),
+    });
+
+    add_exact_mappings!(group, {
         // The name of the rule
         "ChangeTack" => (
             // The exact phrase(s) to look for.

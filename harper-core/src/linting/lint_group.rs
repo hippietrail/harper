@@ -81,6 +81,7 @@ use super::win_prize::WinPrize;
 use super::wordpress_dotcom::WordPressDotcom;
 use super::{CurrencyPlacement, HtmlDescriptionLinter, Linter, NoOxfordComma, OxfordComma};
 use super::{Lint, PatternLinter};
+use crate::linting::convenience_store;
 use crate::linting::dashes::Dashes;
 use crate::linting::open_compounds::OpenCompounds;
 use crate::linting::{closed_compounds, phrase_corrections};
@@ -324,6 +325,8 @@ impl LintGroup {
             dictionary.clone(),
         ));
         out.merge_from(&mut closed_compounds::lint_group());
+
+        out.merge_from(&mut convenience_store::lint_group());
 
         // Add all the more complex rules to the group.
         insert_struct_rule!(AdjectiveOfA, true);

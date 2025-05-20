@@ -14,6 +14,7 @@ mod closed_compounds;
 mod comma_fixes;
 mod compound_nouns;
 mod confident;
+mod convenience_store;
 mod correct_number_suffix;
 mod currency_placement;
 mod dashes;
