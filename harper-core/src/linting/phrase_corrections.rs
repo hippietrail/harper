@@ -892,11 +892,6 @@ pub fn lint_group() -> LintGroup {
             ["that challenged"],
             "Did you mean `that challenged`?",
             "Changes `the challenged` to `that challenged` to fix the misspelling."),
-        "ThatChallenged" => (
-            ["the challenged"],
-            ["that challenged"],
-            "Use `that challenged` for correct relative clause.",
-            "Corrects `the challenged` to `that challenged` for proper relative clause usage."),
         "ThatThis" => (
             ["the this"],
             ["that this"],
