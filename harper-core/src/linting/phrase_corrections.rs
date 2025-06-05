@@ -13,7 +13,7 @@ pub fn lint_group() -> LintGroup {
                 $group.add_pattern_linter(
                     $name,
                     Box::new(
-                        MapPhraseLinter::new_exact_phrases(
+                        MapPhraseLinter::new_fixed_phrases(
                             $input,
                             $corrections,
                             $hint,
@@ -698,6 +698,12 @@ pub fn lint_group() -> LintGroup {
             "Use singular `in more detail` for referring to a detailed description.",
             "Correct unidiomatic plural `in more details` to `in more detail`."
         ),
+        "InNeedOf" => (
+            ["in need for"],
+            ["in need of"],
+            "Use `in need of` for when something is required or necessary.",
+            "Corrects `in need for` to `in need of`."
+        ),
         "InOneFellSwoop" => (
             ["in one foul swoop"],
             ["in one fell swoop"],
@@ -1250,10 +1256,15 @@ pub fn lint_group() -> LintGroup {
             "Corrects `worst than` to `worse than` for proper comparative usage."
         ),
         "WorseCaseScenario" => (
-            ["worse case scenario", "worse-case scenario", "worse-case-scenario",
-                "worst case scenario",                        "worst-case-scenario"],
+            ["worse case scenario", "worse-case scenario", "worse-case-scenario"],
             ["worst-case scenario"],
             "Use `worst` for referring to the worst possible scenario. (`Worse` is for comparing)",
+            "Corrects `worst-case scenario` when the hyphen is missing or `worse` is used instead of `worst`."
+        ),
+        "WorstCaseScenario" => (
+            ["worst case scenario", "worst-case-scenario"],
+            ["worst-case scenario"],
+            "Hyphenate `worst-case`.",
             "Corrects `worst-case scenario` when the hyphen is missing or `worse` is used instead of `worst`."
         ),
         "WorstEver" => (
@@ -2233,6 +2244,16 @@ mod tests {
             "Document the interface in more details · Issue #3 · owlbarn ...",
             lint_group(),
             "Document the interface in more detail · Issue #3 · owlbarn ...",
+        );
+    }
+
+    // InNeedOf
+    #[test]
+    fn corrects_in_need_of() {
+        assert_suggestion_result(
+            "In need for a native control for map symbols (map legend) #5203.",
+            lint_group(),
+            "In need of a native control for map symbols (map legend) #5203.",
         );
     }
 
