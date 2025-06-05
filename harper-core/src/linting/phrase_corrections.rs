@@ -1190,9 +1190,9 @@ pub fn lint_group() -> LintGroup {
             "Flags `highly-kept` and recommends `well-kept` as an alternative."
         ),
         "WhatHeLooksLike" => (
-        ["how he looks like"],
-        ["how he looks", "what he looks like"],
-        "Don't use both `how` and `like` together to express similarity.",
+            ["how he looks like"],
+            ["how he looks", "what he looks like"],
+            "Don't use both `how` and `like` together to express similarity.",
             "Corrects `how ... looks like` to `how ... looks` or `what ... looks like`."
         ),
         "WhatItLooksLike" => (
@@ -1257,9 +1257,9 @@ pub fn lint_group() -> LintGroup {
             "Corrects `worst-case scenario` when the hyphen is missing or `worse` is used instead of `worst`."
         ),
         "WorstEver" => (
-        ["worse ever"],
-        ["worst ever"],
-        "Use `worst` for the extreme case. (`Worse` is for comparing)",
+            ["worse ever"],
+            ["worst ever"],
+            "Use `worst` for the extreme case. (`Worse` is for comparing)",
             "Corrects `worse ever` to `worst ever` for proper comparative usage."
         ),
     });
