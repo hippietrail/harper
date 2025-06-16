@@ -39,7 +39,7 @@ Message: |
       11 | ## Article. I.
          |             ^~ Did you mean to spell `I.` this way?
 Suggest:
-  - Replace with: “Id”
+  - Replace with: “Ix”
   - Replace with: “IC”
   - Replace with: “IE”
 
@@ -201,6 +201,16 @@ Message: |
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
       94 | the people fill the vacancies by election as the legislature may direct.
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ This sentence is 109 words long.
+
+
+
+Lint:    WordChoice (63 priority)
+Message: |
+      89 | third Class at the Expiration of the sixth Year, so that one third may be
+         |                                                                    ^~~~~~ Did you mean the closed compound noun “maybe”?
+      90 | chosen every second Year; and when vacancies happen in the representation of
+Suggest:
+  - Replace with: “maybe”
 
 
 
@@ -1538,6 +1548,16 @@ Message: |
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      661 | such debts, obligations and claims shall be held illegal and void.
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ This sentence is 51 words long.
+
+
+
+Lint:    WordChoice (63 priority)
+Message: |
+     658 | questioned. But neither the United States nor any State shall assume or pay any
+     659 | debt or obligation incurred in aid of insurrection or rebellion against the
+         | ^~~~~~~ Did you mean the closed compound noun “debtor”?
+Suggest:
+  - Replace with: “debtor”
 
 
 
