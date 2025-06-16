@@ -35,13 +35,13 @@ impl MapPhraseLinter {
     }
 
     pub fn new_exact_phrases(
-        phrase: impl IntoIterator<Item = impl AsRef<str>>,
-        correct_forms: impl IntoIterator<Item = impl ToString>,
+        wrong_ones: impl IntoIterator<Item = impl AsRef<str>>,
+        fixed_ones: impl IntoIterator<Item = impl ToString>,
         message: impl ToString,
         description: impl ToString,
     ) -> Self {
         let patterns = EitherPattern::new(
-            phrase
+            wrong_ones
                 .into_iter()
                 .map(|p| {
                     let pattern: Box<dyn Pattern> = Box::new(ExactPhrase::from_phrase(p.as_ref()));
@@ -50,7 +50,7 @@ impl MapPhraseLinter {
                 .collect(),
         );
 
-        Self::new(Box::new(patterns), correct_forms, message, description)
+        Self::new(Box::new(patterns), fixed_ones, message, description)
     }
 
     pub fn new_exact_phrase(

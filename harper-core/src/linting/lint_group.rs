@@ -87,7 +87,7 @@ use super::{CurrencyPlacement, HtmlDescriptionLinter, Linter, NoOxfordComma, Oxf
 use super::{Lint, PatternLinter};
 use crate::linting::dashes::Dashes;
 use crate::linting::open_compounds::OpenCompounds;
-use crate::linting::{closed_compounds, phrase_corrections};
+use crate::linting::{closed_compounds, flexible_phrase_correction, phrase_corrections};
 use crate::{CharString, Dialect, Document, TokenStringExt};
 use crate::{Dictionary, MutableDictionary};
 
@@ -239,6 +239,13 @@ impl LintGroup {
         if self.contains_key(&name) {
             false
         } else {
+            let fruits = [
+                "🍒", "🥥", "🍈", "🍇", "🍈", "🥝", "🍋", "🥭", "🍊", "🍑", "🍐", "🍍", "🍎", "🍓",
+                "🍅", "🍉", "🍏",
+            ];
+            let hash = self.hasher_builder.hash_one(name.as_ref());
+            let fruit = fruits[(hash % fruits.len() as u64) as usize];
+            // eprintln!("{}{} {}", fruit, fruit, name.as_ref());
             self.pattern_linters
                 .insert(name.as_ref().to_string(), Box::new(linter));
             true
@@ -329,6 +336,7 @@ impl LintGroup {
         }
 
         out.merge_from(&mut phrase_corrections::lint_group());
+        out.merge_from(&mut flexible_phrase_correction::lint_group());
         out.merge_from(&mut proper_noun_capitalization_linters::lint_group(
             dictionary.clone(),
         ));
@@ -497,7 +505,7 @@ impl Linter for LintGroup {
     }
 
     fn description(&self) -> &str {
-        "A collection of linters that can be run as one."
+        todo!() //"A collection of linters that can be run as one."
     }
 }
 

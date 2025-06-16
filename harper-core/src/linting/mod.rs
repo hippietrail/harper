@@ -26,6 +26,7 @@ mod else_possessive;
 mod everyday;
 mod expand_time_shorthands;
 mod first_aid_kit;
+mod flexible_phrase_correction;
 mod for_noun;
 mod hedging;
 mod hereby;
