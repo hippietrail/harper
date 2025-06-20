@@ -9,10 +9,11 @@ use cached::proc_macro::cached;
 use foldhash::quality::RandomState;
 use hashbrown::HashMap;
 use lru::LruCache;
-use serde::{Deserialize, Serialize};
+use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use super::a_part::APart;
 use super::adjective_of_a::AdjectiveOfA;
+use super::am_in_the_morning::AmInTheMorning;
 use super::amounts_for::AmountsFor;
 use super::an_a::AnA;
 use super::ask_no_preposition::AskNoPreposition;
@@ -95,13 +96,30 @@ use crate::linting::{closed_compounds, initialisms, phrase_corrections};
 use crate::{CharString, Dialect, Document, TokenStringExt};
 use crate::{Dictionary, MutableDictionary};
 
+fn ser_ordered<S>(map: &HashMap<String, Option<bool>>, ser: S) -> Result<S::Ok, S::Error>
+where
+    S: Serializer,
+{
+    let ordered: BTreeMap<_, _> = map.iter().map(|(k, v)| (k.clone(), *v)).collect();
+    ordered.serialize(ser)
+}
+
+fn de_hashbrown<'de, D>(de: D) -> Result<HashMap<String, Option<bool>>, D::Error>
+where
+    D: Deserializer<'de>,
+{
+    let ordered: BTreeMap<String, Option<bool>> = BTreeMap::deserialize(de)?;
+    Ok(ordered.into_iter().collect())
+}
+
 /// The configuration for a [`LintGroup`].
 /// Each child linter can be enabled, disabled, or set to a curated value.
 #[derive(Debug, Serialize, Deserialize, Default, Clone, PartialEq, Eq)]
 #[serde(transparent)]
 pub struct LintGroupConfig {
-    /// A `BTreeMap` so that the config has a stable ordering when written to disk.
-    inner: BTreeMap<String, Option<bool>>,
+    /// We do this shenanigans with the [`BTreeMap`] to keep the serialized format consistent.
+    #[serde(serialize_with = "ser_ordered", deserialize_with = "de_hashbrown")]
+    inner: HashMap<String, Option<bool>>,
 }
 
 #[cached]
@@ -342,6 +360,7 @@ impl LintGroup {
         // Add all the more complex rules to the group.
         insert_pattern_rule!(APart, true);
         insert_struct_rule!(AdjectiveOfA, true);
+        insert_struct_rule!(AmInTheMorning, true);
         insert_pattern_rule!(AmountsFor, true);
         insert_struct_rule!(AnA, true);
         insert_pattern_rule!(AskNoPreposition, true);
