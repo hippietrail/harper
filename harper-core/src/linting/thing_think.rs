@@ -1,218 +1,403 @@
 use crate::{
-    CharStringExt,
-    Document,
-    TokenKind,
-    TokenStringExt, // Add TokenStringExt
-    linting::{Lint, Linter},
+    Token,
+    expr::{Expr, FixedPhrase, LongestMatchOf, SequenceExpr},
+    linting::{ExprLinter, Lint, LintKind, Suggestion},
+    patterns::WordSet,
 };
 
-use std::fmt;
-
-#[derive(Debug)]
-struct LineData {
-    prev_chars: String,
-    prev_pos: String,
-    target: String,
-    next_chars: String,
-    next_pos: String,
+/// Corrects the typo "thing" for "think".
+pub struct ThingThink {
+    expr: Box<dyn Expr>,
 }
 
-impl LineData {
-    fn new(
-        prev_chars: &[char],
-        prev_pos: String,
-        target: &[char],
-        next_chars: &[char],
-        next_pos: String,
-    ) -> Self {
+impl Default for ThingThink {
+    fn default() -> Self {
+        let subject_pronouns = WordSet::new(&["I", "you", "we", "they"]);
+        let indefinite_pronouns = LongestMatchOf::new(vec![
+            Box::new(WordSet::new(&[
+                "anybody",
+                "anyone",
+                "everybody",
+                "everyone",
+            ])),
+            // "Any one thing", "every one thing", "any body thing" cause false positives.
+            Box::new(FixedPhrase::from_phrase("every body")),
+        ]);
+        let pronoun = LongestMatchOf::new(vec![
+            Box::new(subject_pronouns),
+            Box::new(indefinite_pronouns),
+        ]);
+
+        let verb_to = SequenceExpr::default()
+            .then(WordSet::new(&[
+                "have", "had", "has", "having", "need", "needed", "needs", "needing", "want",
+                "wanted", "wants", "wanting", "try", "tried", "tries", "trying",
+            ]))
+            .t_ws()
+            .t_aco("to");
+
+        let modal = WordSet::new(&[
+            "can",
+            "cannot",
+            "can't",
+            "could",
+            "couldn't",
+            "may",
+            "might",
+            "mightn't",
+            "must",
+            "mustn't",
+            "shall",
+            "shan't",
+            "should",
+            "shouldn't",
+            "will",
+            "won't",
+        ]);
+
+        let adverb_of_frequency =
+            WordSet::new(&["always", "sometimes", "often", "usually", "never"]);
+
+        let pre_context = LongestMatchOf::new(vec![
+            Box::new(pronoun),
+            Box::new(verb_to),
+            Box::new(modal),
+            Box::new(adverb_of_frequency),
+        ]);
+
+        let pattern = SequenceExpr::default()
+            .then(pre_context)
+            .t_ws()
+            .t_aco("thing");
+
         Self {
-            prev_chars: prev_chars.iter().collect(),
-            prev_pos,
-            target: target.iter().collect(),
-            next_chars: next_chars.iter().collect(),
-            next_pos,
+            expr: Box::new(pattern),
         }
     }
 }
 
-impl fmt::Display for LineData {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
-        let left_side = format!("| {}.{} |", self.prev_chars, self.prev_pos);
-        let right_side = format!("| {}.{} |", self.next_chars, self.next_pos);
-        let target = format!(" {} ", self.target);
-
-        // Calculate the width of each part
-        let left_width = left_side.chars().count();
-        let target_width = target.chars().count();
-        let right_width = right_side.chars().count();
-
-        // Calculate the total width needed (left + target + right)
-        let total_width = left_width + target_width + right_width;
-
-        // Calculate the center position of the target
-        let target_center = left_width + target_width / 2;
-        let desired_center = 40; // Adjust this value to set the center column
-
-        // Calculate the padding needed to center the target
-        let padding = if target_center < desired_center {
-            desired_center - target_center
-        } else {
-            0
-        };
-
-        // Build the line with proper padding
-        write!(
-            f,
-            "{:padding$}{} {}{}",
-            "",
-            left_side,
-            target,
-            right_side,
-            padding = padding,
-        )
+impl ExprLinter for ThingThink {
+    fn expr(&self) -> &dyn Expr {
+        self.expr.as_ref()
     }
-}
 
-#[derive(Debug, Clone, Copy, Default)]
-pub struct ThingThink;
+    fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
+        let thing_span = toks.last()?.span;
 
-impl Linter for ThingThink {
-    fn lint(&mut self, doc: &Document) -> Vec<Lint> {
-        // Changed back to &mut self
-        let mut lines = Vec::new();
-
-        // First pass: collect all lines
-        for sentoks in doc.iter_sentences() {
-            sentoks.iter_noun_indices().for_each(|ii| {
-                let chars = &sentoks[ii].span.get_content(doc.get_source());
-                if chars.eq_ignore_ascii_case_chars(&['t', 'h', 'i', 'n', 'g']) {
-                    let mut prev_chars = &['x'][..];
-                    let mut next_chars = &['x'][..];
-                    let mut prev_pos = String::new();
-                    let mut next_pos = String::new();
-
-                    if let Some(prev_word) = doc.get_next_word_from_offset(ii, -1) {
-                        prev_chars = &prev_word.span.get_content(doc.get_source());
-                        prev_pos = getpos(&prev_word.kind);
-                    }
-                    if let Some(next_word) = doc.get_next_word_from_offset(ii, 1) {
-                        next_chars = &next_word.span.get_content(doc.get_source());
-                        next_pos = getpos(&next_word.kind);
-                    }
-
-                    lines.push(LineData::new(
-                        prev_chars, prev_pos, chars, next_chars, next_pos,
-                    ));
-                }
-            });
-        }
-
-        // Print aligned output
-        for line in &lines {
-            eprintln!("{}", line);
-        }
-
-        Vec::new()
+        Some(Lint {
+            span: thing_span,
+            lint_kind: LintKind::Typo,
+            suggestions: vec![Suggestion::replace_with_match_case(
+                ['t', 'h', 'i', 'n', 'k'].to_vec(),
+                thing_span.get_content(src),
+            )],
+            message: "Did you mean `think`?".to_owned(),
+            priority: 31,
+        })
     }
 
     fn description(&self) -> &'static str {
-        "This linter checks for [thing](cci:1://file:///Users/hippietrail/harper-the-second/harper/harper-core/src/linting/thing_think.rs:145:4-202:5) mistakenly used as the verb [think](cci:1://file:///Users/hippietrail/harper-the-second/harper/harper-core/src/linting/thing_think.rs:145:4-202:5)"
-    }
-}
-
-fn getpos(prev_word: &TokenKind) -> String {
-    let checks = [
-        ("N", TokenKind::is_noun as fn(&TokenKind) -> bool),
-        ("V", TokenKind::is_verb),
-        ("J", TokenKind::is_adjective),
-        ("R", TokenKind::is_adverb),
-        ("D", TokenKind::is_determiner),
-        ("I", TokenKind::is_pronoun),
-        ("P", TokenKind::is_preposition),
-        ("C", TokenKind::is_conjunction),
-    ];
-
-    let pos: String = checks
-        .iter()
-        .filter_map(|(flag, check_fn)| {
-            if check_fn(prev_word) {
-                Some(*flag)
-            } else {
-                None
-            }
-        })
-        .collect();
-
-    match pos.len() {
-        0 => "?".to_string(),
-        1 => pos,
-        _ => format!("[{pos}]"),
+        "Corrects the typo `thing` when it should be `think`."
     }
 }
 
 #[cfg(test)]
 mod tests {
-    use crate::{
-        Document,
-        linting::{Linter, ThingThink},
-    };
+    use crate::linting::{ThingThink, tests::assert_suggestion_result};
+
+    // Pronouns
 
     #[test]
-    #[ignore = "this is actually a tool, not a test"]
-    fn test_thing_think() {
-        let text = r#"
-Whad do you thing about tinygo?
-bcz i thing hugging face embeddings and models are very complex
-one should always thing of whether the efforts are better targeted to the improvement
-terraform will always thing it has changed
-As I always thing in 'sets of devices of the same kind'
-which information we thing to be missing
-So far we really like it featurewise and we thing it is really ...
-On second thought, I thing my ROIs are off
-One thing that I sometimes thing would be nice is if I could make different instances
-But when I think about composition, I often thing about Bartok. And when I think about performance, I often thing about Coltrane.
-When working with workflows on many forms I often thing I need to do the same over and over
-Sub builders don't always thing about ...
-otherwise without it I thing I would have to pass it as parameter
-I thing documentation is not enough and I have to do a lot of things with Superset.
-The exe file dosen't work allways, because antivirus can thing it is a virus.
-I thing lowering fog density and lowed detail spread somewhat mitigates the issue
-I thing something going wrong with permission.
-... they thing something is a good idea.
-I thing it's faster to just type the date
-I thing something like “Controversial topics” would be much ...
-Only thing i can thing of is 'Number' or 'Number of Bits', but that doesn't look right
-Trying to thing about it a bit more, its the same issue with all the initial props.
-Here I'm trying to thing about the following questions:
-Fix comparison of config.xml strings that would sometimes thing XMLs were different in cases when they were not.
-I thing this is not the correct thread to this discussion but to have a library that supports your request ...
-I thing it could be related with the way stardist ...
-Reason I thing this is useful is when I tried scramble on my vapor hosted site, it would fail.
-When I thing about it again, after writing this, Yii3 does not feel like Yii anymore
-I thing Addons are the solution, with addons you can include
-I thing idea of these panels is nonsense anyway.
-I always thing that less is more
-It's good practice to always thing in the context of the data
-I thing you are doing same way
-I thing my issue is the combination of several technologies:
-I thing I found a way to achieve it, not the best one, but it should work.
-I always thing the orthographic view in Cura looks weird.
-I always thing that ebook2audiobookxtts means the old version
-I always thing listening to and including the voices of those you are. trying to help is necessary.
-        "#;
-        for (i, line) in text.lines().enumerate() {
-            let line = line.trim();
-            if line.is_empty() {
-                continue;
-            }
+    fn fix_you_thing() {
+        assert_suggestion_result(
+            "Whad do you thing about tinygo?",
+            ThingThink::default(),
+            "Whad do you think about tinygo?",
+        );
+    }
 
-            let doc = Document::new_plain_english_curated(line);
-            let mut linter = ThingThink;
-            let lints = linter.lint(&doc);
+    #[test]
+    fn fix_i_thing() {
+        assert_suggestion_result(
+            "bcz i thing hugging face embeddings and models are very complex",
+            ThingThink::default(),
+            "bcz i think hugging face embeddings and models are very complex",
+        );
+    }
 
-            for lint in lints {
-                eprintln!("  {:?}", lint);
-            }
-        }
+    #[test]
+    fn fix_we_thing() {
+        assert_suggestion_result(
+            "which information we thing to be missing",
+            ThingThink::default(),
+            "which information we think to be missing",
+        );
+    }
+
+    #[test]
+    fn fix_they_thing() {
+        assert_suggestion_result(
+            "they thing something is a good idea",
+            ThingThink::default(),
+            "they think something is a good idea",
+        );
+    }
+
+    #[test]
+    fn fix_everyone_thing() {
+        assert_suggestion_result(
+            "What does everyone thing here?",
+            ThingThink::default(),
+            "What does everyone think here?",
+        );
+    }
+
+    #[test]
+    fn fix_anyone_thing() {
+        assert_suggestion_result(
+            "Can anyone thing of a (reasonable) way to align them such that the 'a's in all 4 words will be in (more or less) the same vertical position?",
+            ThingThink::default(),
+            "Can anyone think of a (reasonable) way to align them such that the 'a's in all 4 words will be in (more or less) the same vertical position?",
+        );
+    }
+
+    #[test]
+    fn fix_anybody_thing() {
+        assert_suggestion_result(
+            "If anybody thing there is an issue in Karma, please re-open.",
+            ThingThink::default(),
+            "If anybody think there is an issue in Karma, please re-open.",
+        );
+    }
+
+    #[test]
+    fn fix_every_body_thing() {
+        assert_suggestion_result(
+            "What does every body thing I should do with my Randy Johnson rookie card.",
+            ThingThink::default(),
+            "What does every body think I should do with my Randy Johnson rookie card.",
+        );
+    }
+
+    // Verb to
+
+    #[test]
+    fn fix_have_to_thing() {
+        assert_suggestion_result(
+            "I always have to thing what button does what action.",
+            ThingThink::default(),
+            "I always have to think what button does what action.",
+        );
+    }
+
+    #[test]
+    fn fix_need_to_thing() {
+        assert_suggestion_result(
+            "No need to thing about the REGEX.",
+            ThingThink::default(),
+            "No need to think about the REGEX.",
+        );
+    }
+
+    #[test]
+    fn fix_want_to_thing() {
+        assert_suggestion_result(
+            "maybe you want to thing of this also as a feature enhancement.",
+            ThingThink::default(),
+            "maybe you want to think of this also as a feature enhancement.",
+        );
+    }
+
+    #[test]
+    fn fix_having_to_thing() {
+        assert_suggestion_result(
+            "it has saved me personally hours in combined time not having to thing about whether something is in seconds or milliseconds",
+            ThingThink::default(),
+            "it has saved me personally hours in combined time not having to think about whether something is in seconds or milliseconds",
+        );
+    }
+
+    #[test]
+    fn fix_needs_to() {
+        assert_suggestion_result(
+            "When implementing any functionality once needs to thing aboiut how it is going to be used.",
+            ThingThink::default(),
+            "When implementing any functionality once needs to think aboiut how it is going to be used.",
+        );
+    }
+
+    #[test]
+    fn fix_needed_to() {
+        assert_suggestion_result(
+            "Even in that case we needed to thing about the syntax so that we wouldn't need to change existing syntax",
+            ThingThink::default(),
+            "Even in that case we needed to think about the syntax so that we wouldn't need to change existing syntax",
+        );
+    }
+
+    #[test]
+    fn fix_had_to() {
+        assert_suggestion_result(
+            "I had to thing in ways of making people more interested in it",
+            ThingThink::default(),
+            "I had to think in ways of making people more interested in it",
+        );
+    }
+
+    #[test]
+    fn fix_trying_to_thing() {
+        assert_suggestion_result(
+            "Here I'm trying to thing about the following questions:",
+            ThingThink::default(),
+            "Here I'm trying to think about the following questions:",
+        );
+    }
+
+    // Modal verbs
+
+    #[test]
+    fn fix_can_thing() {
+        assert_suggestion_result(
+            "The exe file dosen't work allways, because antivirus can thing it is a virus.",
+            ThingThink::default(),
+            "The exe file dosen't work allways, because antivirus can think it is a virus.",
+        );
+    }
+
+    #[test]
+    fn fix_could_thing() {
+        assert_suggestion_result(
+            "\"doesNotReturnSameInstanceWhenCalledMultipleTimes\" is a terrible name, but the only one i could thing of immediately.",
+            ThingThink::default(),
+            "\"doesNotReturnSameInstanceWhenCalledMultipleTimes\" is a terrible name, but the only one i could think of immediately.",
+        );
+    }
+
+    #[test]
+    fn fix_might_thing() {
+        assert_suggestion_result(
+            "Consider what a reader might thing when reading a switch",
+            ThingThink::default(),
+            "Consider what a reader might think when reading a switch",
+        );
+    }
+
+    #[test]
+    fn fix_should_thing() {
+        assert_suggestion_result(
+            "And we should thing to add a flag so the user could decide if internal top level extension functions are ok or not.",
+            ThingThink::default(),
+            "And we should think to add a flag so the user could decide if internal top level extension functions are ok or not.",
+        );
+    }
+
+    #[test]
+    fn fix_may_thing() {
+        assert_suggestion_result(
+            "It is easier than you may thing to run both bands with hostapd.",
+            ThingThink::default(),
+            "It is easier than you may think to run both bands with hostapd.",
+        );
+    }
+
+    #[test]
+    fn fix_cannot_thing() {
+        assert_suggestion_result(
+            "I cannot thing of a simple way to implement compensation of a change in Fnco.",
+            ThingThink::default(),
+            "I cannot think of a simple way to implement compensation of a change in Fnco.",
+        );
+    }
+
+    #[test]
+    fn fix_will_thing() {
+        assert_suggestion_result(
+            "So user will thing that delete operation is fine but its not this code deletes the wrong page and make one extra page which wrong.",
+            ThingThink::default(),
+            "So user will think that delete operation is fine but its not this code deletes the wrong page and make one extra page which wrong.",
+        );
+    }
+
+    #[test]
+    fn fix_cant_thing() {
+        assert_suggestion_result(
+            "can't thing of another place, which could have such effect",
+            ThingThink::default(),
+            "can't think of another place, which could have such effect",
+        );
+    }
+
+    #[test]
+    fn fix_couldnt_thing() {
+        assert_suggestion_result(
+            "I couldn't thing about a better title, but I run into problems since the new dplyr release.",
+            ThingThink::default(),
+            "I couldn't think about a better title, but I run into problems since the new dplyr release.",
+        );
+    }
+
+    #[test]
+    fn fix_shouldnt_thing() {
+        assert_suggestion_result(
+            "When dealing with a multi-tenanted system, users shouldn't thing about 'Databases', they should think about Tenants.",
+            ThingThink::default(),
+            "When dealing with a multi-tenanted system, users shouldn't think about 'Databases', they should think about Tenants.",
+        );
+    }
+
+    #[test]
+    fn fix_wont_thing() {
+        assert_suggestion_result(
+            "I think you need to use an io.Pipe so the Go HTTP Request won't thing the buf has been fulling read.",
+            ThingThink::default(),
+            "I think you need to use an io.Pipe so the Go HTTP Request won't think the buf has been fulling read.",
+        );
+    }
+
+    // Adverb of frequency
+
+    #[test]
+    fn fix_always_thing() {
+        assert_suggestion_result(
+            "one should always thing of whether the efforts are better targeted to the improvement",
+            ThingThink::default(),
+            "one should always think of whether the efforts are better targeted to the improvement",
+        );
+    }
+
+    #[test]
+    fn fix_sometimes_thing() {
+        assert_suggestion_result(
+            "One thing that I sometimes thing would be nice is if I could make different instances",
+            ThingThink::default(),
+            "One thing that I sometimes think would be nice is if I could make different instances",
+        );
+    }
+
+    #[test]
+    fn fix_often_thing() {
+        assert_suggestion_result(
+            "When working with workflows on many forms I often thing I need to do the same over and over",
+            ThingThink::default(),
+            "When working with workflows on many forms I often think I need to do the same over and over",
+        );
+    }
+
+    #[test]
+    fn fix_never_thing() {
+        assert_suggestion_result(
+            "just use UUIDv7 and never thing about those details again",
+            ThingThink::default(),
+            "just use UUIDv7 and never think about those details again",
+        );
+    }
+
+    #[test]
+    fn fix_usually_thing() {
+        assert_suggestion_result(
+            "And the order of that relationship might be reversed from what one might usually thing.",
+            ThingThink::default(),
+            "And the order of that relationship might be reversed from what one might usually think.",
+        );
     }
 }

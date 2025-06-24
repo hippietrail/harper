@@ -429,7 +429,7 @@ impl LintGroup {
         insert_pattern_rule!(TheHowWhy, true);
         insert_struct_rule!(TheMy, true);
         insert_pattern_rule!(ThenThan, true);
-        insert_struct_rule!(ThingThink, true);
+        insert_pattern_rule!(ThingThink, true);
         insert_struct_rule!(ThrowRubbish, true);
         insert_pattern_rule!(Touristic, true);
         insert_struct_rule!(UnclosedQuotes, true);
