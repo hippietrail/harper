@@ -403,7 +403,7 @@ impl LintGroup {
         insert_struct_rule!(HopHope, true);
         insert_struct_rule!(HowTo, true);
         insert_pattern_rule!(HyphenateNumberDay, true);
-        insert_pattern_rule!(ItsContraction, true);
+        insert_struct_rule!(ItsContraction, true);
         insert_pattern_rule!(LeftRightHand, true);
         insert_pattern_rule!(LessWorse, true);
         insert_struct_rule!(LetsConfusion, true);
