@@ -11,6 +11,8 @@ pub struct PronounAfterPreposition {
 
 impl Default for PronounAfterPreposition {
     fn default() -> Self {
+        // TODO: Finish researching which other POSes each of these prepositions also are
+
         // after: wikt: adv, prep, conj, (adj), (noun) - dict: prep
         // because: conj, adv, intj, prep - conj, prep
         // before: wikt: prep, adv, conj, (noun) - dict: prep, conj
@@ -19,31 +21,33 @@ impl Default for PronounAfterPreposition {
         // down: wikt: adv, prep, adj, verb, noun - dict: prep, adj, verb, noun
         // for: wikt: conj, prep, (part) - dict: conj, prep
         // gone: wikt: verb, adj, prep - dict: verb, adj, prep
-        // since:
+        // since: wikt: adv, prep, conj -
         // than:
         // till:
         // until:
         // up:
         // while:
+
+        // This predicat passes all tests, but is it ideal?
         let blacklist_predicate = WordSet::new(&[
             "after", "because", "before", "bet", "but", "down", "for", "gone", "since", "than",
             "till", "until", "up", "while",
         ]);
 
-        let other_pos_predicate = SequenceExpr::default()
-            .then(|tok: &Token, _src: &[char]| {
-                let k = &tok.kind;
-                k.is_adverb() || k.is_conjunction() || k.is_adjective() || k.is_noun()
-            });
+        // These other predicates fail the same tests as each other but maybe it's a better approach?
+        // Failing tests with the other two predicates:
+        //   `fix_she_after_preposition`, `fix_they_after_preposition_all_caps`
 
-        let homograph_predicate = SequenceExpr::default()
-            .then(|tok: &Token, _src: &[char]| tok.kind.is_likely_homograph());
+        // let other_pos_predicate = SequenceExpr::default()
+        //     .then(|tok: &Token, _src: &[char]| {
+        //         let k = &tok.kind;
+        //         k.is_adverb() || k.is_conjunction() || k.is_adjective() || k.is_noun()
+        //     });
+
+        // let homograph_predicate = SequenceExpr::default()
+        //     .then(|tok: &Token, _src: &[char]| tok.kind.is_likely_homograph());
 
         let predicate = blacklist_predicate;
-        // These tests fail with these predicates:
-        //   `fix_she_after_preposition`, `fix_they_after_preposition_all_caps`
-        // let predicate = other_pos_predicate;
-        // let predicate = homograph_predicate;
 
         let expr =
             SequenceExpr::default()
