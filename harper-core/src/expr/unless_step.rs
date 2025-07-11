@@ -21,9 +21,15 @@ where
 
 impl<E: Expr, S: Step> Step for UnlessStep<E, S> {
     fn step(&self, tokens: &[Token], cursor: usize, source: &[char]) -> Option<isize> {
+        eprintln!(
+            "🧅 {}",
+            self.condition.run(cursor, tokens, source).is_none()
+        );
         if self.condition.run(cursor, tokens, source).is_none() {
+            eprintln!("🧅 gonna step");
             self.step.step(tokens, cursor, source)
         } else {
+            eprintln!("🧅 gonna return None");
             None
         }
     }
