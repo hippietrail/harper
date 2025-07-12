@@ -59,7 +59,7 @@ impl Default for PronounAfterPreposition {
 
         let expr = All::new(vec![
             Box::new(expr),
-            Box::new(SequenceExpr::default().if_not_then_step_one(predicate)),
+            Box::new(SequenceExpr::default().then_unless(predicate)),
         ]);
 
         Self {
