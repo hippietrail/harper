@@ -31,6 +31,7 @@ mod spelled_number_expr;
 mod step;
 mod time_unit_expr;
 mod unless_step;
+mod word_sequence_expr;
 mod word_expr_group;
 
 #[cfg(not(feature = "concurrent"))]
@@ -56,6 +57,7 @@ pub use step::Step;
 pub use time_unit_expr::TimeUnitExpr;
 pub use unless_step::UnlessStep;
 pub use word_expr_group::WordExprGroup;
+pub use word_sequence_expr::WordSequenceExpr;
 
 use crate::{Document, LSend, Span, Token};
 
