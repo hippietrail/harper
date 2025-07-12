@@ -48,18 +48,17 @@ impl Linter for Spaces {
                         ..
                     }
                 ]
-            ) {
-                if !is_file_extension(document, sentence, maybe_next_sentence) {
-                    output.push(Lint {
-                        span: sentence[sentence.len() - 2..sentence.len() - 1]
-                            .span()
-                            .unwrap(),
-                        lint_kind: LintKind::Formatting,
-                        suggestions: vec![Suggestion::Remove],
-                        message: "Unnecessary space at the end of the sentence.".to_string(),
-                        priority: 63,
-                    });
-                }
+            ) && !is_file_extension(document, sentence, maybe_next_sentence)
+            {
+                output.push(Lint {
+                    span: sentence[sentence.len() - 2..sentence.len() - 1]
+                        .span()
+                        .unwrap(),
+                    lint_kind: LintKind::Formatting,
+                    suggestions: vec![Suggestion::Remove],
+                    message: "Unnecessary space at the end of the sentence.".to_string(),
+                    priority: 63,
+                });
             }
         }
 
@@ -90,7 +89,7 @@ fn is_file_extension(
         _ => return false,
     };
 
-    let chars = first_token.span.get_content(&document.get_source());
+    let chars = first_token.span.get_content(document.get_source());
     chars.iter().all(|c| c.is_ascii_lowercase()) || chars.iter().all(|c| c.is_ascii_uppercase())
 }
 
