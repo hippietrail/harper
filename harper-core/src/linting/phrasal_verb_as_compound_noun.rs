@@ -2,7 +2,7 @@ use std::sync::Arc;
 
 use super::{Lint, LintKind, Linter, Suggestion};
 use crate::spell::{Dictionary, FstDictionary};
-use crate::{CharStringExt, Document, Span, TokenKind, TokenStringExt};
+use crate::{CharStringExt, Document, Span, TokenStringExt};
 
 /// Detect phrasal verbs written as compound nouns.
 pub struct PhrasalVerbAsCompoundNoun {
@@ -103,10 +103,10 @@ impl Linter for PhrasalVerbAsCompoundNoun {
             // So far we only have a small number of phrasal verbs in the dictionary.
             let (verb_part_is_verb, phrasal_verb_is_verb) = (
                 self.dict
-                    .get_word_metadata(verb_part)
+                    .get_lexeme_metadata(verb_part)
                     .is_some_and(|md| md.verb.is_some()),
                 self.dict
-                    .get_word_metadata_str(&phrasal_verb)
+                    .get_lexeme_metadata_str(&phrasal_verb)
                     .is_some_and(|md| md.verb.is_some()),
             );
 
@@ -161,7 +161,7 @@ impl Linter for PhrasalVerbAsCompoundNoun {
                 }
 
                 // If the previous word is OOV, those are most commonly nouns
-                if let TokenKind::Word(None) = &prev_tok.kind {
+                if prev_tok.kind.is_oov() {
                     continue;
                 }
             }

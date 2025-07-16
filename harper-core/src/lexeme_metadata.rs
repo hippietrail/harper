@@ -12,7 +12,7 @@ use crate::spell::WordId;
 use crate::{Document, TokenKind, TokenStringExt};
 
 #[derive(Debug, Default, Clone, PartialEq, Eq, Serialize, Deserialize, PartialOrd, Hash)]
-pub struct WordMetadata {
+pub struct LexemeMetadata {
     pub noun: Option<NounData>,
     pub pronoun: Option<PronounData>,
     pub verb: Option<VerbData>,
@@ -98,7 +98,7 @@ macro_rules! generate_metadata_queries {
     };
 }
 
-impl WordMetadata {
+impl LexemeMetadata {
     /// Produce a copy of `self` with the known properties of `other` set.
     pub fn or(&self, other: &Self) -> Self {
         macro_rules! merge {
@@ -510,6 +510,8 @@ impl WordMetadata {
         self.is_non_possessive_noun() || self.is_non_possessive_pronoun()
     }
 
+    // Generic lexeme metadata queries
+
     /// Checks whether a word is _definitely_ a swear.
     pub fn is_swear(&self) -> bool {
         matches!(self.swear, Some(true))
@@ -847,11 +849,11 @@ impl DialectFlags {
 
         // Count word dialects.
         document.iter_words().for_each(|w| {
-            if let TokenKind::Word(Some(word_metadata)) = &w.kind {
+            if let TokenKind::Word(Some(lexeme_metadata)) = &w.kind {
                 // If the token is a word, iterate though the dialects in `dialect_counters` and
                 // increment those counters where the word has the respective dialect enabled.
                 dialect_counters.iter_mut().for_each(|(dialect, count)| {
-                    if word_metadata.dialects.is_dialect_enabled(*dialect) {
+                    if lexeme_metadata.dialects.is_dialect_enabled(*dialect) {
                         *count += 1;
                     }
                 });
@@ -884,13 +886,13 @@ impl Default for DialectFlags {
 
 #[cfg(test)]
 mod tests {
-    use crate::WordMetadata;
+    use crate::LexemeMetadata;
     use crate::spell::{Dictionary, FstDictionary};
 
-    // Helper function to get word metadata from the curated dictionary
-    fn md(word: &str) -> WordMetadata {
+    // Helper function to get lexeme metadata from the curated dictionary
+    fn md(word: &str) -> LexemeMetadata {
         FstDictionary::curated()
-            .get_word_metadata_str(word)
+            .get_lexeme_metadata_str(word)
             .unwrap_or_else(|| panic!("Word '{word}' not found in dictionary"))
             .clone()
     }
@@ -921,7 +923,7 @@ mod tests {
     }
 
     mod noun {
-        use crate::word_metadata::tests::md;
+        use crate::lexeme_metadata::tests::md;
 
         #[test]
         fn puppy_is_noun() {
@@ -1074,10 +1076,10 @@ mod tests {
     }
 
     mod pronoun {
-        use crate::word_metadata::tests::md;
+        use crate::lexeme_metadata::tests::md;
 
         mod i_me_myself {
-            use crate::word_metadata::tests::md;
+            use crate::lexeme_metadata::tests::md;
 
             #[test]
             fn i_is_pronoun() {
@@ -1132,7 +1134,7 @@ mod tests {
         }
 
         mod we_us_ourselves {
-            use crate::word_metadata::tests::md;
+            use crate::lexeme_metadata::tests::md;
 
             #[test]
             fn we_is_pronoun() {
@@ -1187,7 +1189,7 @@ mod tests {
         }
 
         mod you_yourself {
-            use crate::word_metadata::tests::md;
+            use crate::lexeme_metadata::tests::md;
 
             #[test]
             fn you_is_pronoun() {
@@ -1232,7 +1234,7 @@ mod tests {
         }
 
         mod he_him_himself {
-            use crate::word_metadata::tests::md;
+            use crate::lexeme_metadata::tests::md;
 
             #[test]
             fn he_is_pronoun() {
@@ -1287,7 +1289,7 @@ mod tests {
         }
 
         mod she_her_herself {
-            use crate::word_metadata::tests::md;
+            use crate::lexeme_metadata::tests::md;
 
             #[test]
             fn she_is_pronoun() {
@@ -1342,7 +1344,7 @@ mod tests {
         }
 
         mod it_itself {
-            use crate::word_metadata::tests::md;
+            use crate::lexeme_metadata::tests::md;
 
             #[test]
             fn it_is_pronoun() {
@@ -1384,7 +1386,7 @@ mod tests {
         }
 
         mod they_them_themselves {
-            use crate::word_metadata::tests::md;
+            use crate::lexeme_metadata::tests::md;
 
             #[test]
             fn they_is_pronoun() {

@@ -254,7 +254,7 @@ pub mod tests {
     use crate::{Document, parsers::PlainEnglish};
 
     #[track_caller]
-    pub fn assert_no_lints(text: &str, mut linter: impl Linter) {
+    pub fn assert_no_lints(text: &str, linter: impl Linter) {
         assert_lint_count(text, linter, 0);
     }
 
