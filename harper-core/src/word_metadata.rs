@@ -543,6 +543,23 @@ impl WordMetadata {
         matches!(self.swear, Some(true))
     }
 
+    /// Orthographic queries
+    pub fn is_lowercase(&self) -> bool {
+        self.orth_info.contains(OrthFlags::LOWERCASE)
+    }
+    pub fn is_titlecase(&self) -> bool {
+        self.orth_info.contains(OrthFlags::TITLECASE)
+    }
+    pub fn is_allcaps(&self) -> bool {
+        self.orth_info.contains(OrthFlags::ALLCAPS)
+    }
+    pub fn is_lower_camel(&self) -> bool {
+        self.orth_info.contains(OrthFlags::LOWER_CAMEL)
+    }
+    pub fn is_upper_camel(&self) -> bool {
+        self.orth_info.contains(OrthFlags::UPPER_CAMEL)
+    }
+
     /// Same thing as [`Self::or`], except in-place rather than a clone.
     pub fn append(&mut self, other: &Self) -> &mut Self {
         *self = self.or(other);
