@@ -1555,7 +1555,7 @@ mod tests {
     }
 
     mod adjective {
-        use crate::{Degree, word_metadata::tests::md};
+        use crate::{Degree, lexeme_metadata::tests::md};
 
         // Getting degrees
 
