@@ -77,7 +77,7 @@ impl ExprLinter for PronounAfterPreposition {
         let subject_span = toks.last()?.span;
         let subject_chars = subject_span.get_content(src);
 
-        eprintln!("🍓 '{}", toks.span()?.get_content_string(src));
+        eprintln!("🍓 '{}'", toks.span()?.get_content_string(src));
 
         let object: &[char] = match subject_chars.to_lower().as_ref() {
             ['i'] => &['m', 'e'],
