@@ -2,7 +2,7 @@ use paste::paste;
 
 use crate::{
     Span, Token, TokenKind,
-    patterns::{AnyPattern, IndefiniteArticle, WhitespacePattern, Word},
+    patterns::{AnyPattern, IndefiniteArticle, WhitespacePattern, Word, WordSet},
 };
 
 use super::{Expr, Optional, Repeating, Step, UnlessStep};
@@ -93,6 +93,11 @@ impl SequenceExpr {
         Self::any_capitalization_of(word)
     }
 
+    /// Match any word from the given set of words, case-insensitive.
+    pub fn word_set(words: &'static [&'static str]) -> Self {
+        Self::default().then_word_set(words)
+    }
+
     // General builder methods
 
     /// Push an [expression](Expr) to the operation list.
@@ -112,6 +117,10 @@ impl SequenceExpr {
     pub fn then_seq(mut self, mut other: Self) -> Self {
         self.exprs.append(&mut other.exprs);
         self
+    }
+
+    pub fn then_word_set(self, words: &'static [&'static str]) -> Self {
+        self.then(WordSet::new(words))
     }
 
     /// Matches any token whose `Kind` exactly matches.
