@@ -2,6 +2,7 @@ use paste::paste;
 
 use crate::{
     Span, Token, TokenKind,
+    expr::{FirstMatchOf, LongestMatchOf},
     patterns::{AnyPattern, IndefiniteArticle, WhitespacePattern, Word, WordSet},
 };
 
@@ -109,6 +110,25 @@ impl SequenceExpr {
     /// Pushes an expression that could move the cursor to the sequence, but does not require it.
     pub fn then_optional(mut self, expr: impl Expr + 'static) -> Self {
         self.exprs.push(Box::new(Optional::new(expr)));
+        self
+    }
+
+    /// Pushes an expression that will match any of the provided expressions.
+    ///
+    /// If more than one of the provided expressions match, this function provides no guarantee
+    /// as to which match will end up being used. If you need to get the longest of multiple
+    /// matches, use [`Self::then_longest_of()`] instead.
+    pub fn then_any_of(mut self, exprs: Vec<Box<dyn Expr>>) -> Self {
+        self.exprs.push(Box::new(FirstMatchOf::new(exprs)));
+        self
+    }
+
+    /// Pushes an expression that will match the longest of the provided expressions.
+    ///
+    /// If you don't need the longest match, prefer using the short-circuiting
+    /// [`Self::then_any_of()`] instead.
+    pub fn then_longest_of(mut self, exprs: Vec<Box<dyn Expr>>) -> Self {
+        self.exprs.push(Box::new(LongestMatchOf::new(exprs)));
         self
     }
 
