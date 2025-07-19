@@ -11416,7 +11416,7 @@ acidulous/J
 acknowledge/~VdSG
 acknowledged/~JVU
 acknowledgement/NgS!@_
-acknowledgment/~NSg
+acknowledgment/~NSg<
 acme/NSg
 acne/Ng
 acolyte/NgS
@@ -18602,6 +18602,7 @@ conformity/~Ng
 confrere/NgS
 confrontation/~NSg
 confrontational/~J
+confusable/JNSg
 confuse/~V>Z
 confused/~VJY
 confusing/~JVY
@@ -21466,9 +21467,12 @@ distaste/~NVSg
 distemper/NVg
 distention/NSg
 distil/VS!_
+distill/VS<
 distillate/NSgnX
-distillation/~Ng
+distillation/~NwgS
+distilled/VJ
 distillery/~NSg
+distilling/VJNm
 distinct/~JViYTvp
 distincter/J
 distinction/~NSg
@@ -30829,6 +30833,7 @@ keyboarder/Ng
 keyboardist/~NSg
 keycap/NSg
 keychain/NgS
+keyframe/NgS
 keygen/NgS
 keyhole/~NVgS
 keymap/NSg
@@ -40523,6 +40528,7 @@ quicklime/NVg
 quickness/Ng
 quicksand/NgS
 quicksilver/~NJVg
+quickstart/NgS
 quickstep/NVgS
 quid/NVgS
 quiescence/Ng
@@ -49030,6 +49036,7 @@ trifler/Ng
 trifocals/Ng
 trig/~JNVg
 trigger/~NVJgdSG
+triggerable/J
 triglyceride/NgS
 trigonometric/~J
 trigonometrical/J
@@ -51267,6 +51274,7 @@ webcam/~NVgS
 webcast/NVSgG
 webfeet/9
 webfoot/Ng
+webhook/NgS
 webinar/NSg
 webisode/NgS
 weblog/NgS
@@ -52367,6 +52375,7 @@ AlphaFold/Og        # Google DeepMind project
 Ambien/NSg          # insomnia treatment
 Anker/Sg
 AngularJS/Og
+Anthropic/Og        # AI company
 Archytas/Sg         # !! please check and comment !! we also have archytas
 Automattic/Sg       # WordPress company
 Automattician/Sg
@@ -52581,6 +52590,7 @@ OAuth/g             # open authentication
 OCaml/gO            # programming language
 OG/NgS
 ORM/NOS             # object-relational mapping
+Ollama/Og           # AI tool
 OpenAI/Og
 OpenBSD/Og          # operating system
 OpenCV/Og
@@ -53293,5 +53303,3 @@ z-axis/Ng
 # If you're not confident in using the affix annotations, add missing words here
 # And they will be reviewed
 # Word added using the `just addnoun` command will be added here
-
-handedly
