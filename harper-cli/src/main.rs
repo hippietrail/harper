@@ -697,7 +697,7 @@ fn main() -> anyhow::Result<()> {
             processed_words.sort_by_key(|(word, _)| word.clone());
             let longest_num = (processed_words.len() - 1).to_string().len();
             for (i, (word, orth)) in processed_words.iter().enumerate() {
-                println!("{:>longest_num$} {word:<longest_word$} : {:?}", i, orth);
+                println!("{i:>longest_num$} {word:<longest_word$} : {:?}", orth);
             }
             Ok(())
         }
