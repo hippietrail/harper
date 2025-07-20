@@ -239,7 +239,6 @@ fn check_orthography(word: &MarkedWord) -> OrthFlags {
     use crate::word_metadata::OrthFlags;
 
     let mut ortho_flags = OrthFlags::default();
-    let mut saw_letter = false;
     let mut all_lower = true;
     let mut all_upper = true;
     let mut first_is_upper = false;
@@ -275,7 +274,6 @@ fn check_orthography(word: &MarkedWord) -> OrthFlags {
         if !c.is_english_lingual() {
             continue;
         }
-        saw_letter = true;
         if c.is_lowercase() {
             all_upper = false;
             if is_first_char {
@@ -310,7 +308,7 @@ fn check_orthography(word: &MarkedWord) -> OrthFlags {
     }
 
     // Set case-related orthography flags
-    if saw_letter {
+    if letter_count > 0 {
         if all_lower {
             ortho_flags |= OrthFlags::LOWERCASE;
         }
@@ -336,6 +334,115 @@ fn check_orthography(word: &MarkedWord) -> OrthFlags {
     }
 
     ortho_flags
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::word_metadata::OrthFlags;
+
+    fn check_orthography_str(s: &str) -> OrthFlags {
+        // let word = MarkedWord::new(s.chars().collect());
+        let word = MarkedWord {
+            letters: s.chars().collect(),
+            attributes: Vec::new(),
+        };
+        check_orthography(&word)
+    }
+
+    #[test]
+    fn test_lowercase() {
+        let flags = check_orthography_str("hello");
+        assert!(flags.contains(OrthFlags::LOWERCASE));
+        assert!(!flags.contains(OrthFlags::TITLECASE));
+        assert!(!flags.contains(OrthFlags::ALLCAPS));
+        assert!(!flags.contains(OrthFlags::LOWER_CAMEL));
+        assert!(!flags.contains(OrthFlags::UPPER_CAMEL));
+
+        // With non-letters
+        let flags = check_orthography_str("hello123");
+        assert!(flags.contains(OrthFlags::LOWERCASE));
+    }
+
+    #[test]
+    fn test_titlecase() {
+        let flags = check_orthography_str("Hello");
+        assert!(!flags.contains(OrthFlags::LOWERCASE));
+        assert!(flags.contains(OrthFlags::TITLECASE));
+        assert!(!flags.contains(OrthFlags::ALLCAPS));
+        assert!(!flags.contains(OrthFlags::LOWER_CAMEL));
+        assert!(!flags.contains(OrthFlags::UPPER_CAMEL));
+
+        // Examples that should be titlecase
+        assert!(check_orthography_str("World").contains(OrthFlags::TITLECASE));
+        assert!(check_orthography_str("Something").contains(OrthFlags::TITLECASE));
+
+        // These examples should NOT be titlecase (they're UPPER_CAMEL)
+        assert!(!check_orthography_str("McDonald").contains(OrthFlags::TITLECASE));
+        assert!(!check_orthography_str("O'Reilly").contains(OrthFlags::TITLECASE));
+
+        // Single character should not be titlecase
+        assert!(!check_orthography_str("A").contains(OrthFlags::TITLECASE));
+    }
+
+    #[test]
+    fn test_allcaps() {
+        let flags = check_orthography_str("HELLO");
+        assert!(!flags.contains(OrthFlags::LOWERCASE));
+        assert!(!flags.contains(OrthFlags::TITLECASE));
+        assert!(flags.contains(OrthFlags::ALLCAPS));
+        assert!(!flags.contains(OrthFlags::LOWER_CAMEL));
+        assert!(!flags.contains(OrthFlags::UPPER_CAMEL));
+
+        // Examples from docs
+        assert!(check_orthography_str("NASA").contains(OrthFlags::ALLCAPS));
+        assert!(check_orthography_str("I").contains(OrthFlags::ALLCAPS));
+    }
+
+    #[test]
+    fn test_lower_camel() {
+        let flags = check_orthography_str("helloWorld");
+        assert!(!flags.contains(OrthFlags::LOWERCASE));
+        assert!(!flags.contains(OrthFlags::TITLECASE));
+        assert!(!flags.contains(OrthFlags::ALLCAPS));
+        assert!(flags.contains(OrthFlags::LOWER_CAMEL));
+        assert!(!flags.contains(OrthFlags::UPPER_CAMEL));
+
+        // Examples from docs
+        assert!(check_orthography_str("getHTTPResponse").contains(OrthFlags::LOWER_CAMEL));
+        assert!(check_orthography_str("eBay").contains(OrthFlags::LOWER_CAMEL));
+
+        // All lowercase should not be lower camel
+        assert!(!check_orthography_str("hello").contains(OrthFlags::LOWER_CAMEL));
+
+        // Starts with uppercase should not be lower camel
+        assert!(!check_orthography_str("HelloWorld").contains(OrthFlags::LOWER_CAMEL));
+    }
+
+    #[test]
+    fn test_upper_camel() {
+        let flags = check_orthography_str("HelloWorld");
+        assert!(!flags.contains(OrthFlags::LOWERCASE));
+        assert!(!flags.contains(OrthFlags::TITLECASE));
+        assert!(!flags.contains(OrthFlags::ALLCAPS));
+        assert!(!flags.contains(OrthFlags::LOWER_CAMEL));
+        assert!(flags.contains(OrthFlags::UPPER_CAMEL));
+
+        // Examples from docs
+        assert!(check_orthography_str("HttpRequest").contains(OrthFlags::UPPER_CAMEL));
+        assert!(check_orthography_str("McDonald").contains(OrthFlags::UPPER_CAMEL));
+        assert!(check_orthography_str("O'Reilly").contains(OrthFlags::UPPER_CAMEL));
+        assert!(check_orthography_str("XMLHttpRequest").contains(OrthFlags::UPPER_CAMEL));
+
+        // Titlecase should not be upper camel
+        assert!(!check_orthography_str("Hello").contains(OrthFlags::UPPER_CAMEL));
+
+        // All caps should not be upper camel
+        assert!(!check_orthography_str("NASA").contains(OrthFlags::UPPER_CAMEL));
+
+        // Needs at least 3 chars
+        assert!(!check_orthography_str("Hi").contains(OrthFlags::UPPER_CAMEL));
+    }
 }
 
 #[derive(Debug, Clone, Serialize, Deserialize)]

@@ -543,19 +543,70 @@ impl WordMetadata {
         matches!(self.swear, Some(true))
     }
 
-    /// Orthographic queries
+    // Orthographic queries
+
+    /// Does the lexeme for this word cover an all-lowercase variant? (e.g., "hello")
+    ///
+    /// This returns true if all letters in the word are lowercase. Words containing
+    /// non-letter characters (like numbers or symbols) are only considered if all
+    /// letter characters are lowercase.
     pub fn is_lowercase(&self) -> bool {
         self.orth_info.contains(OrthFlags::LOWERCASE)
     }
+    /// Does the lexeme for this word cover a titlecase variant? (e.g., "Hello")
+    ///
+    /// This returns true if the word is in titlecase form, which means:
+    /// - The first letter is uppercase
+    /// - All other letters are lowercase
+    /// - The word is at least 2 characters long
+    ///
+    /// Examples: "Hello", "World"
+    ///
+    /// Note: Words with internal capital letters (like "McDonald") or apostrophes (like "O'Reilly")
+    /// are not considered titlecase - they are classified as UPPER_CAMEL instead.
     pub fn is_titlecase(&self) -> bool {
         self.orth_info.contains(OrthFlags::TITLECASE)
     }
+    /// Does the lexeme for this word cover an all-uppercase variant? (e.g., "HELLO")
+    ///
+    /// This returns true if all letters in the word are uppercase. Words containing
+    /// non-letter characters (like numbers or symbols) are only considered if all
+    /// letter characters are uppercase.
+    ///
+    /// Examples: "HELLO", "NASA", "I"
     pub fn is_allcaps(&self) -> bool {
         self.orth_info.contains(OrthFlags::ALLCAPS)
     }
+    /// Does the lexeme for this word cover a lower camel case variant? (e.g., "helloWorld")
+    ///
+    /// This returns true if the word is in lower camel case, which means:
+    /// - The first letter is lowercase
+    /// - There is at least one uppercase letter after the first character
+    /// - The word must be at least 2 characters long
+    ///
+    /// Examples: "helloWorld", "getHTTPResponse", "eBay"
+    ///
+    /// Note: Single words that are all lowercase will return false.
+    /// Words starting with an uppercase letter will return false (those would be UpperCamel).
     pub fn is_lower_camel(&self) -> bool {
         self.orth_info.contains(OrthFlags::LOWER_CAMEL)
     }
+    /// Does the lexeme for this word cover an upper camel case / pascal case variant? (e.g., "HelloWorld")
+    ///
+    /// This returns true if the word is in upper camel case (also known as Pascal case), which means:
+    /// - The first letter is uppercase
+    /// - There is at least one other uppercase letter after the first character
+    /// - There is at least one lowercase letter after the first uppercase letter
+    /// - The word must be at least 3 characters long
+    ///
+    /// Examples:
+    /// - "HelloWorld" (standard Pascal case)
+    /// - "McDonald" (name with internal caps)
+    /// - "O'Reilly" (name with apostrophe and internal caps)
+    /// - "HttpRequest" (initialism followed by word)
+    ///
+    /// Note: Single words that are titlecase (like "Hello") will return false.
+    /// Words that are all uppercase (like "NASA") will also return false.
     pub fn is_upper_camel(&self) -> bool {
         self.orth_info.contains(OrthFlags::UPPER_CAMEL)
     }
@@ -930,21 +981,21 @@ impl Default for DialectFlags {
 
 /// Orthography information.
 pub enum Orthography {
-    // Every char that is a letter is lowercase.
+    /// Every char that is a letter is lowercase.
     Lowercase = 1 << 0,
-    // First char is uppercase, the rest is lowercase (but multi-word?)
+    /// First char is uppercase, the rest is lowercase (but multi-word?)
     Titlecase = 1 << 1,
-    // Every char that is a letter is uppercase (including single-letter uppercase)
+    /// Every char that is a letter is uppercase (including single-letter uppercase)
     AllCaps = 1 << 2,
-    // Starts with a lowercase letter but also contains uppercase letters.
+    /// Starts with a lowercase letter but also contains uppercase letters.
     LowerCamel = 1 << 3,
-    // Starts with an uppercase letter but also contains lowercase letters. (Superset of Titlecase.)
+    /// Starts with an uppercase letter but also contains lowercase letters. (Superset of Titlecase.)
     UpperCamel = 1 << 4,
-    // Contains at least one space.
+    /// Contains at least one space.
     Multiword = 1 << 5,
-    // Contains at least one hyphen.
+    /// Contains at least one hyphen.
     Hyphenated = 1 << 6,
-    // Contains an apostrophe, so it's a possessive or a contraction.
+    /// Contains an apostrophe, so it's a possessive or a contraction.
     Apostrophe = 1 << 7,
 }
 

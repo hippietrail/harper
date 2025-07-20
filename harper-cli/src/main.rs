@@ -676,24 +676,28 @@ fn main() -> anyhow::Result<()> {
                 | OrthFlags::ALLCAPS
                 | OrthFlags::LOWER_CAMEL
                 | OrthFlags::UPPER_CAMEL;
-            let mut count = 0;
+            let mut processed_words = HashMap::new();
+            let mut longest_word = 0;
             for word in dictionary.words_iter() {
                 if let Some(metadata) = dictionary.get_word_metadata(word) {
                     let orth = metadata.orth_info;
                     let bits = orth.bits() & case_bitmask.bits();
-                    // Is more than one flag set?
-                    if bits.wrapping_sub(1) & bits != 0 {
+
+                    if bits.count_ones() > 1 {
+                        longest_word = longest_word.max(word.len());
                         // Mask out all bits except the case-related ones before printing
-                        let masked_orth =
-                            OrthFlags::from_bits_truncate(orth.bits() & case_bitmask.bits());
-                        println!(
-                            "{count} '{}' : {:?}",
-                            word.iter().collect::<String>(),
-                            masked_orth
+                        processed_words.insert(
+                            word.to_string(),
+                            OrthFlags::from_bits_truncate(orth.bits() & case_bitmask.bits()),
                         );
-                        count += 1;
                     }
                 }
+            }
+            let mut processed_words: Vec<_> = processed_words.into_iter().collect();
+            processed_words.sort_by_key(|(word, _)| word.clone());
+            let longest_num = (processed_words.len() - 1).to_string().len();
+            for (i, (word, orth)) in processed_words.iter().enumerate() {
+                println!("{:>longest_num$} {word:<longest_word$} : {:?}", i, orth);
             }
             Ok(())
         }
