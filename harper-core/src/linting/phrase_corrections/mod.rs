@@ -388,6 +388,12 @@ pub fn lint_group() -> LintGroup {
             "A more vivid adjective would better capture extreme cold.",
             "Encourages vivid writing by suggesting `freezing` instead of weaker expressions like `very cold.`"
         ),
+        "FromTheGetGo" => (
+            ["from the get go"],
+            ["from the get-go"],
+            "Use the hyphenated form: `from the get-go`.",
+            "Ensures `from the get-go` is correctly hyphenated, preserving the idiom’s meaning of ‘from the very beginning’."
+        ),
         "GildedAge" => (
             ["guilded age"],
             ["Gilded Age"],
@@ -640,10 +646,11 @@ pub fn lint_group() -> LintGroup {
             "Corrects `no to` to `not to`, ensuring proper negation."
         ),
         "OfCourse" => (
-            ["off course", "o course"],
-            ["Of course"],
+            // See also: `of_course.rs` for "of curse/corse" → "of course" corrections
+            ["off course", "o course", "ofcourse"],
+            ["of course"],
             "Did you mean `of course`?",
-            "Detects the non‐idiomatic phrase `off course` and suggests the correct form `of course`."
+            "Detects the common mistake `off course` and suggests the correct form `of course`."
         ),
         "OffTheCuff" => (
             ["off the cuff"],
@@ -864,12 +871,6 @@ pub fn lint_group() -> LintGroup {
             "Use `the other` or `another`, not both.",
             "Corrects `the another`."
         ),
-        "ThereIsAny" => (
-            ["there any"],
-            ["there is any"],
-            "Insert `is` for correct grammar.",
-            "Replaces `there any` with `there is any`."
-        ),
         "ThoughtProcess" => (
             ["though process"],
             ["thought process"],
@@ -968,12 +969,6 @@ pub fn lint_group() -> LintGroup {
             ["wrought iron"],
             "Prefer the standard term `wrought iron`.",
             "`Wrought iron` is low-carbon, malleable iron used for decorative work; variants like `rod iron` or `rot iron` are phonetic misspellings that may confuse readers."
-        ),
-        "FromTheGetGo" => (
-            ["from the get go"],
-            ["from the get-go"],
-            "Use the hyphenated form: `from the get-go`.",
-            "Ensures `from the get-go` is correctly hyphenated, preserving the idiom’s meaning of ‘from the very beginning’."
         ),
     });
 

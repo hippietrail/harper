@@ -12,6 +12,7 @@ use lru::LruCache;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use super::a_part::APart;
+use super::adjective_double_degree::AdjectiveDoubleDegree;
 use super::adjective_of_a::AdjectiveOfA;
 use super::am_in_the_morning::AmInTheMorning;
 use super::amounts_for::AmountsFor;
@@ -54,6 +55,7 @@ use super::less_worse::LessWorse;
 use super::lets_confusion::LetsConfusion;
 use super::likewise::Likewise;
 use super::long_sentences::LongSentences;
+use super::looking_forward_to::LookingForwardTo;
 use super::merge_words::MergeWords;
 use super::missing_preposition::MissingPreposition;
 use super::modal_of::ModalOf;
@@ -67,6 +69,7 @@ use super::noun_countability::NounCountability;
 use super::noun_instead_of_verb::NounInsteadOfVerb;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::of_course::OfCourse;
+use super::on_floor::OnFloor;
 use super::one_and_the_same::OneAndTheSame;
 use super::open_the_light::OpenTheLight;
 use super::out_of_date::OutOfDate;
@@ -383,6 +386,7 @@ impl LintGroup {
 
         // Add all the more complex rules to the group.
         insert_expr_rule!(APart, true);
+        insert_expr_rule!(AdjectiveDoubleDegree, true);
         insert_struct_rule!(AdjectiveOfA, true);
         insert_struct_rule!(AmInTheMorning, true);
         insert_expr_rule!(AmountsFor, true);
@@ -428,6 +432,7 @@ impl LintGroup {
         insert_struct_rule!(LetsConfusion, true);
         insert_expr_rule!(Likewise, true);
         insert_struct_rule!(LongSentences, true);
+        insert_expr_rule!(LookingForwardTo, true);
         insert_struct_rule!(MergeWords, true);
         insert_expr_rule!(ModalOf, true);
         insert_expr_rule!(MostNumber, true);
@@ -441,6 +446,7 @@ impl LintGroup {
         insert_expr_rule!(NounInsteadOfVerb, true);
         insert_struct_rule!(NumberSuffixCapitalization, true);
         insert_struct_rule!(OfCourse, true);
+        insert_expr_rule!(OnFloor, true);
         insert_expr_rule!(OneAndTheSame, true);
         insert_expr_rule!(OpenTheLight, true);
         insert_expr_rule!(OutOfDate, true);

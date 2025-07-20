@@ -195,6 +195,30 @@ fn baited_breath() {
 // BeenThere
 // -none-
 
+// BeforeHand
+#[test]
+fn corrects_before_hand() {
+    assert_suggestion_result(
+        "Let me know before hand if you will attend.",
+        lint_group(),
+        "Let me know beforehand if you will attend.",
+    );
+}
+
+#[test]
+fn corrects_before_hand_hyphen() {
+    assert_suggestion_result(
+        "I prepared the documents before-hand.",
+        lint_group(),
+        "I prepared the documents beforehand.",
+    );
+}
+
+#[test]
+fn allows_beforehand() {
+    assert_lint_count("We finished the preparations beforehand.", lint_group(), 0);
+}
+
 // BestRegards
 // -none-
 
@@ -870,6 +894,7 @@ fn detect_nerve_racking_no_hyphen() {
 // -none-
 
 // OfCourse
+// See also: tests in `of_course.rs` for "of curse/corse" → "of course" corrections
 #[test]
 fn off_course() {
     assert_suggestion_result(
@@ -885,6 +910,15 @@ fn o_course() {
         "Yes, o course we should do that.",
         lint_group(),
         "Yes, of course we should do that.",
+    );
+}
+
+#[test]
+fn ofcourse() {
+    assert_suggestion_result(
+        "Ofcourse, I like other languages.. uzulla has 183 repositories available.",
+        lint_group(),
+        "Of course, I like other languages.. uzulla has 183 repositories available.",
     );
 }
 
@@ -1325,6 +1359,7 @@ fn thanks_a_lot_clean() {
     assert_lint_count("thanks a lot", lint_group(), 0);
 }
 
+// WroughtIron
 #[test]
 fn corrects_rod_iron() {
     assert_suggestion_result(
@@ -1346,27 +1381,4 @@ fn corrects_rot_iron() {
 #[test]
 fn allows_wrought_iron() {
     assert_lint_count("She specialized in wrought iron artwork.", lint_group(), 0);
-}
-
-#[test]
-fn corrects_before_hand() {
-    assert_suggestion_result(
-        "Let me know before hand if you will attend.",
-        lint_group(),
-        "Let me know beforehand if you will attend.",
-    );
-}
-
-#[test]
-fn corrects_before_hand_hyphen() {
-    assert_suggestion_result(
-        "I prepared the documents before-hand.",
-        lint_group(),
-        "I prepared the documents beforehand.",
-    );
-}
-
-#[test]
-fn allows_beforehand() {
-    assert_lint_count("We finished the preparations beforehand.", lint_group(), 0);
 }
