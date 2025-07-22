@@ -286,6 +286,16 @@ pub fn lint_group() -> LintGroup {
             "Corrects `how ... looks like` to `how ... looks` or `what ... looks like`.",
             LintKind::Grammar
         ),
+        "MakeItSeem" => (
+            &[
+                (&["make it seems"], &["make it seem"]),
+                (&["made it seems", "made it seemed"], &["made it seem"]),
+                (&["makes it seems"], &["makes it seem"]),
+                (&["making it seems"], &["making it seem"]),
+            ],
+            "Don't inflect `seem` in `make it seem`.",
+            "Corrects `make it seems` to `make it seem`."
+        ),
         "RiseTheQuestion" => (
             &[
                 (&["rise the question"], &["raise the question"]),
