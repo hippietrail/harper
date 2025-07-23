@@ -11,6 +11,7 @@ mod fat_token;
 mod ignored_lints;
 pub mod language_detection;
 mod lexeme_metadata;
+pub mod lexeme_metadata_orthography;
 mod lexing;
 pub mod linting;
 mod mask;
