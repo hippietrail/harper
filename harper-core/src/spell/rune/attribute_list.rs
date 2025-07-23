@@ -13,7 +13,7 @@ use super::expansion::{
 };
 use super::word_list::MarkedWord;
 use crate::spell::WordId;
-use crate::word_metadata::OrthFlags;
+use crate::word_metadata_orthography::OrthFlags;
 use crate::{CharString, Span, WordMetadata};
 
 #[derive(Debug, Clone)]
@@ -236,7 +236,7 @@ impl AttributeList {
 /// Gather metadata about the orthography of a word.
 fn check_orthography(word: &MarkedWord) -> OrthFlags {
     use crate::char_ext::CharExt;
-    use crate::word_metadata::OrthFlags;
+    use crate::word_metadata_orthography::OrthFlags;
 
     let mut ortho_flags = OrthFlags::default();
     let mut all_lower = true;
@@ -339,7 +339,7 @@ fn check_orthography(word: &MarkedWord) -> OrthFlags {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::word_metadata::OrthFlags;
+    use crate::word_metadata_orthography::OrthFlags;
 
     fn check_orthography_str(s: &str) -> OrthFlags {
         // let word = MarkedWord::new(s.chars().collect());
