@@ -409,6 +409,16 @@ fn detect_ever_present_real_world() {
     );
 }
 
+// EveryTime
+#[test]
+fn fix_everytime() {
+    assert_suggestion_result(
+        "Init tool everytime a file in a directory is modified",
+        lint_group(),
+        "Init tool every time a file in a directory is modified",
+    );
+}
+
 // Excellent
 #[test]
 fn excellent_clean() {
@@ -1411,4 +1421,13 @@ fn corrects_rot_iron() {
 #[test]
 fn allows_wrought_iron() {
     assert_lint_count("She specialized in wrought iron artwork.", lint_group(), 0);
+}
+
+#[test]
+fn fixes_teh() {
+    assert_suggestion_result(
+        "I adore teh light of the moon.",
+        lint_group(),
+        "I adore the light of the moon.",
+    );
 }
