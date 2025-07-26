@@ -21,7 +21,8 @@ impl Default for ReachOut {
         //     ]);
         let reach_out_expr = SequenceExpr::word_set(inflections_of_reach)
             .then_whitespace()
-            .t_aco("out").then(AnchorEnd);
+            .t_aco("out")
+            .then(AnchorEnd);
 
         Self {
             expr: Box::new(reach_out_expr),
