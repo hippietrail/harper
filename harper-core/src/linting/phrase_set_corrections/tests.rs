@@ -85,6 +85,54 @@ fn correct_servers_side() {
     );
 }
 
+// ConfirmThat
+
+#[test]
+fn correct_conform_that() {
+    assert_suggestion_result(
+        "the WCAG requires every view of the page to conform that we move this",
+        lint_group(),
+        "the WCAG requires every view of the page to confirm that we move this",
+    );
+}
+
+#[test]
+fn corrects_conformed_that() {
+    assert_suggestion_result(
+        "I have conformed that works now.",
+        lint_group(),
+        "I have confirmed that works now.",
+    );
+}
+
+#[test]
+fn corrects_conforms_that() {
+    assert_suggestion_result(
+        "I conformed that with the correct configuration, this is working correctly.",
+        lint_group(),
+        "I confirmed that with the correct configuration, this is working correctly.",
+    );
+}
+
+#[test]
+#[ignore = "False positive not yet handled."]
+fn dont_flag_conforming_that() {
+    assert_lint_count(
+        "is there any example of a case that isn't fully conforming that is supported today?",
+        lint_group(),
+        0,
+    );
+}
+
+#[test]
+fn corrects_conforming_that() {
+    assert_suggestion_result(
+        "Thanks for conforming that this issue is fixed in the latest version.",
+        lint_group(),
+        "Thanks for confirming that this issue is fixed in the latest version.",
+    );
+}
+
 // DefiniteArticle
 
 #[test]
@@ -117,6 +165,223 @@ fn corrects_definite_articles_lowercase() {
 
 // Discuss
 // -none-
+
+// DoesOrDose
+
+// -does not-
+#[test]
+fn corrects_dose_not() {
+    assert_suggestion_result(
+        "It dose not run windows ?",
+        lint_group(),
+        "It does not run windows ?",
+    );
+}
+
+// -dose it true positive-
+#[test]
+#[ignore = "due to false positives this can't be fixed yet"]
+fn corrects_dose_it() {
+    assert_suggestion_result(
+        "dose it support zh_cn ？",
+        lint_group(),
+        "does it support zh_cn ？",
+    );
+}
+
+// -dose it- noun false positives
+
+// it should be noted that (in an excessive dose) (it might have an opposite effect)
+#[test]
+#[ignore = "would be a false positive in a naive implementation"]
+fn dont_flag_excessive_dose_it_might() {
+    assert_lint_count(
+        "it should be noted that in an excessive dose it might have an opposite effect",
+        lint_group(),
+        0,
+    );
+}
+
+// When the person receives (a prescribed second dose) (it is not counted ttwice)
+#[test]
+#[ignore = "would be a false positive in a naive implementation"]
+fn dont_flag_second_dose_it_is_not() {
+    assert_lint_count(
+        "When the person receives a prescribed second dose it is not counted ttwice",
+        lint_group(),
+        0,
+    );
+}
+
+// (At that small a dose) (it was pleasent).
+#[test]
+#[ignore = "would be a false positive in a naive implementation"]
+fn dont_flag_a_dose_it_was() {
+    assert_lint_count("At that small a dose it was pleasent.", lint_group(), 0);
+}
+
+// I do not know (what dose) (it takes) to trip out, but I don't think I could stay awake to find out.
+#[test]
+#[ignore = "would be a false positive in a naive implementation"]
+fn dont_flag_what_dose_it_takes() {
+    assert_lint_count(
+        "I do not know what dose it takes to trip out, but I don't think I could stay awake to find out.",
+        lint_group(),
+        0,
+    );
+}
+
+// -dose it- verb false positives
+
+// And then I have to re-add the salts back to it to dose it back up to drinkable.
+#[test]
+#[ignore = "would be a false positive in a naive implementation"]
+fn dont_flag_to_dose_it() {
+    assert_lint_count(
+        "And then I have to re-add the salts back to it to dose it back up to drinkable.",
+        lint_group(),
+        0,
+    );
+}
+
+// So my conclusion is: don't dose it too high or it actually is dangerous and not pleasant at all
+#[test]
+#[ignore = "would be a false positive in a naive implementation"]
+fn dont_flag_dont_dose_it_too_high() {
+    assert_lint_count(
+        "So my conclusion is: don't dose it too high or it actually is dangerous and not pleasant at all",
+        lint_group(),
+        0,
+    );
+}
+
+// the only solution the other hopefully-dominant-reasonable-adult-human mind can find, is to dose it off, hoping the drowsiness can keep the fear at bay
+#[test]
+#[ignore = "would be a false positive in a naive implementation"]
+fn dont_flag_to_dose_it_off() {
+    assert_lint_count(
+        "the only solution the other hopefully-dominant-reasonable-adult-human mind can find, is to dose it off, hoping the drowsiness can keep the fear at bay",
+        lint_group(),
+        0,
+    );
+}
+
+// -he/she/it does-
+#[test]
+fn corrects_he_does() {
+    assert_suggestion_result(
+        "This validate each and every field of your from with nice dotted red color warring for the user, incase he dose some mistakes.",
+        lint_group(),
+        "This validate each and every field of your from with nice dotted red color warring for the user, incase he does some mistakes.",
+    );
+}
+
+#[test]
+fn corrects_she_does() {
+    assert_suggestion_result(
+        "we wont agree on everything she dose thats what a real person would feel like",
+        lint_group(),
+        "we wont agree on everything she does thats what a real person would feel like",
+    );
+}
+
+// -it does-
+#[test]
+fn corrects_it_dose() {
+    assert_suggestion_result(
+        "it dose work without WEBP enabled",
+        lint_group(),
+        "it does work without WEBP enabled",
+    );
+}
+
+// -someone does-
+#[test]
+fn corrects_someone_dose() {
+    assert_suggestion_result(
+        "Hopefully someone dose, I'm not good at C programing....",
+        lint_group(),
+        "Hopefully someone does, I'm not good at C programing....",
+    );
+}
+
+// -interrogatives-
+#[test]
+fn corrects_how_dose() {
+    assert_suggestion_result(
+        "How dose qsv-copy works?",
+        lint_group(),
+        "How does qsv-copy works?",
+    );
+}
+
+#[test]
+#[ignore = "false positive not yet detected"]
+fn dont_fix_how_dose_false_positive() {
+    assert_lint_count(
+        "Work in progress exploration of how dose modifications throughout a trial can also induce bias in the exposure-response relationships.",
+        lint_group(),
+        0,
+    );
+}
+
+#[test]
+fn corrects_when_dose() {
+    assert_suggestion_result(
+        "When dose reusebale variable sync between device? #2634",
+        lint_group(),
+        "When does reusebale variable sync between device? #2634",
+    );
+}
+
+#[test]
+#[ignore = "false positive not yet detected"]
+fn dont_fix_when_dose_false_positive() {
+    assert_lint_count(
+        "Should we remove the dose when dose has been applied",
+        lint_group(),
+        0,
+    );
+}
+
+#[test]
+fn corrects_where_dose() {
+    assert_suggestion_result(
+        "where dose the password store?",
+        lint_group(),
+        "where does the password store?",
+    );
+}
+
+#[test]
+#[ignore = "false positive not yet detected"]
+fn dont_fix_where_dose_false_positive() {
+    assert_lint_count(
+        "added some better error handling for the weird case where dose files have no dose...",
+        lint_group(),
+        0,
+    );
+}
+
+#[test]
+fn corrects_who_dose() {
+    assert_suggestion_result(
+        "Who dose knows the problem?",
+        lint_group(),
+        "Who does knows the problem?",
+    );
+}
+
+#[test]
+fn corrects_why_dose() {
+    assert_suggestion_result(
+        "why dose the path is random ?",
+        lint_group(),
+        "why does the path is random ?",
+    );
+}
+
+// Note: no false positive detected for 'why does'. Only true positives.
 
 // ExpandDependency
 // -none-
@@ -388,6 +653,15 @@ fn corrects_invests_into() {
         "If a user invests into the protocol first using USDC but afterward changing to DAI, ...",
         lint_group(),
         "If a user invests in the protocol first using USDC but afterward changing to DAI, ...",
+    );
+}
+
+#[test]
+fn corrects_investment_into() {
+    assert_suggestion_result(
+        "A $10,000 investment into the fund made on February 28, 1997 would have grown to a value of $42,650 at the end of the 20-year period.",
+        lint_group(),
+        "A $10,000 investment in the fund made on February 28, 1997 would have grown to a value of $42,650 at the end of the 20-year period.",
     );
 }
 
@@ -1116,5 +1390,95 @@ fn correct_worse_case_two_hyphens() {
         "In a worse-case-scenario, the scenario class code and the results being analysed, become out of sync, and so the wrong labels are applied.",
         lint_group(),
         "In a worst-case scenario, the scenario class code and the results being analysed, become out of sync, and so the wrong labels are applied.",
+    );
+}
+
+// -make it worst-
+#[test]
+fn detect_make_it_worst_atomic() {
+    assert_suggestion_result(
+        "And if you try to access before that, CloudFront will cache the error and it'll make it worst.",
+        lint_group(),
+        "And if you try to access before that, CloudFront will cache the error and it'll make it worse.",
+    );
+}
+
+// -made it worst-
+#[test]
+fn detect_made_it_worst_atomic() {
+    assert_suggestion_result(
+        "However in couple of occasions the refresh made it worst and it showed commit differences that were already commited and pushed to origin.",
+        lint_group(),
+        "However in couple of occasions the refresh made it worse and it showed commit differences that were already commited and pushed to origin.",
+    );
+}
+
+// -makes it worst-
+#[test]
+fn detect_makes_it_worst_atomic() {
+    assert_suggestion_result(
+        "What makes it worst, is if I use the returned SHA to try and update the newly created file I get the same error I show below.",
+        lint_group(),
+        "What makes it worse, is if I use the returned SHA to try and update the newly created file I get the same error I show below.",
+    );
+}
+
+// -making it worst-
+#[test]
+fn detect_making_it_worst_atomic() {
+    assert_suggestion_result(
+        "PLease ai realled need help with this I think I'm making it worst.",
+        lint_group(),
+        "PLease ai realled need help with this I think I'm making it worse.",
+    );
+}
+
+// -make them worst-
+#[test]
+fn detect_make_them_worst_atomic() {
+    assert_suggestion_result(
+        "Not sure if this makes things clearer or make them worst.",
+        lint_group(),
+        "Not sure if this makes things clearer or make them worse.",
+    );
+}
+
+// -made them worst-
+#[test]
+fn detect_made_them_worst_atomic() {
+    assert_suggestion_result(
+        "if not outroght caused them / made them worst",
+        lint_group(),
+        "if not outroght caused them / made them worse",
+    );
+}
+
+// -makes them worst-
+#[test]
+fn detect_makes_them_worst_atomic() {
+    assert_suggestion_result(
+        "(tried ~14 different hyperparameter and data format combos), however, always just makes them worst, they go from \"slightly\" wrong to \"complete nonsense\".",
+        lint_group(),
+        "(tried ~14 different hyperparameter and data format combos), however, always just makes them worse, they go from \"slightly\" wrong to \"complete nonsense\".",
+    );
+}
+
+#[test]
+#[ignore = "This false positive is not handled yet"]
+fn dont_flag_makes_them_worst_case() {
+    assert_lint_count(
+        "Note 1: all hash tables has an Achilles heel that makes them worst case O(N)",
+        lint_group(),
+        0,
+    );
+}
+
+// -making them worst-
+#[test]
+fn detect_making_them_worst_atomic() {
+    assert_suggestion_result(
+        "As for the last part about Apple deliberately making them worst in order for us to buy the 3s",
+        lint_group(),
+        "As for the last part about Apple deliberately making them worse in order for us to buy the 3s",
     );
 }

@@ -33,15 +33,19 @@ mod everyday;
 mod expand_time_shorthands;
 mod expr_linter;
 mod few_units_of_time_ago;
+mod filler_words;
 mod first_aid_kit;
 mod for_noun;
+mod friend_of_me;
 mod have_pronoun;
+mod have_take_a_look;
 mod hedging;
 mod hereby;
 mod hop_hope;
 mod hope_youre;
 mod how_to;
 mod hyphenate_number_day;
+mod i_am_agreement;
 mod in_on_the_cards;
 mod inflected_verb_after_to;
 mod initialism_linter;
@@ -49,6 +53,7 @@ mod initialisms;
 mod it_is;
 mod it_would_be;
 mod its_contraction;
+mod its_possessive;
 mod left_right_hand;
 mod less_worse;
 mod lets_confusion;
@@ -60,6 +65,7 @@ mod long_sentences;
 mod looking_forward_to;
 mod map_phrase_linter;
 mod map_phrase_set_linter;
+mod mass_plurals;
 mod merge_linters;
 mod merge_words;
 mod missing_preposition;
@@ -68,6 +74,7 @@ mod months;
 mod most_number;
 mod multiple_sequential_pronouns;
 mod nail_on_the_head;
+mod no_french_spaces;
 mod no_match_for;
 mod no_oxford_comma;
 mod nobody;
@@ -107,6 +114,7 @@ mod spell_check;
 mod spelled_numbers;
 mod suggestion;
 mod take_serious;
+mod that_than;
 mod that_which;
 mod the_how_why;
 mod the_my;
@@ -153,17 +161,22 @@ pub use everyday::Everyday;
 pub use expand_time_shorthands::ExpandTimeShorthands;
 pub use expr_linter::ExprLinter;
 pub use few_units_of_time_ago::FewUnitsOfTimeAgo;
+pub use filler_words::FillerWords;
 pub use for_noun::ForNoun;
+pub use friend_of_me::FriendOfMe;
 pub use have_pronoun::HavePronoun;
+pub use have_take_a_look::HaveTakeALook;
 pub use hedging::Hedging;
 pub use hereby::Hereby;
 pub use hop_hope::HopHope;
 pub use how_to::HowTo;
 pub use hyphenate_number_day::HyphenateNumberDay;
+pub use i_am_agreement::IAmAgreement;
 pub use in_on_the_cards::InOnTheCards;
 pub use inflected_verb_after_to::InflectedVerbAfterTo;
 pub use initialism_linter::InitialismLinter;
 pub use its_contraction::ItsContraction;
+pub use its_possessive::ItsPossessive;
 pub use left_right_hand::LeftRightHand;
 pub use less_worse::LessWorse;
 pub use lets_confusion::LetsConfusion;
@@ -175,6 +188,7 @@ pub use long_sentences::LongSentences;
 pub use looking_forward_to::LookingForwardTo;
 pub use map_phrase_linter::MapPhraseLinter;
 pub use map_phrase_set_linter::MapPhraseSetLinter;
+pub use mass_plurals::MassPlurals;
 pub use merge_words::MergeWords;
 pub use missing_preposition::MissingPreposition;
 pub use modal_of::ModalOf;
@@ -182,6 +196,7 @@ pub use months::Months;
 pub use most_number::MostNumber;
 pub use multiple_sequential_pronouns::MultipleSequentialPronouns;
 pub use nail_on_the_head::NailOnTheHead;
+pub use no_french_spaces::NoFrenchSpaces;
 pub use no_match_for::NoMatchFor;
 pub use no_oxford_comma::NoOxfordComma;
 pub use nobody::Nobody;
@@ -215,6 +230,7 @@ pub use spell_check::SpellCheck;
 pub use spelled_numbers::SpelledNumbers;
 pub use suggestion::Suggestion;
 pub use take_serious::TakeSerious;
+pub use that_than::ThatThan;
 pub use that_which::ThatWhich;
 pub use the_how_why::TheHowWhy;
 pub use the_my::TheMy;
@@ -265,11 +281,29 @@ where
 
 #[cfg(test)]
 pub mod tests {
+    use crate::{Document, Span, Token, parsers::PlainEnglish};
     use hashbrown::HashSet;
+
+    /// Extension trait for converting spans of tokens back to their original text
+    pub trait SpanVecExt {
+        fn to_strings(&self, doc: &Document) -> Vec<String>;
+    }
+
+    impl SpanVecExt for Vec<Span<Token>> {
+        fn to_strings(&self, doc: &Document) -> Vec<String> {
+            self.iter()
+                .map(|sp| {
+                    doc.get_tokens()[sp.start..sp.end]
+                        .iter()
+                        .map(|tok| doc.get_span_content_str(&tok.span))
+                        .collect::<String>()
+                })
+                .collect()
+        }
+    }
 
     use super::Linter;
     use crate::spell::FstDictionary;
-    use crate::{Document, parsers::PlainEnglish};
 
     #[track_caller]
     pub fn assert_no_lints(text: &str, linter: impl Linter) {

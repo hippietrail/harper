@@ -3,10 +3,11 @@ format:
   cargo fmt  
   pnpm format
 
-# Build the WebAssembly for a specific target (usually either `web` or `bundler`)
+# Build the WebAssembly module
 build-wasm:
-  cd "{{justfile_directory()}}/harper-wasm" && wasm-pack build --target web
-
+  #!/usr/bin/env bash
+  cd "{{justfile_directory()}}/harper-wasm"
+  RUSTFLAGS='--cfg getrandom_backend="wasm_js"' wasm-pack build --target web
 
 # Build `harper.js` with all size optimizations available.
 build-harperjs: build-wasm 
@@ -440,6 +441,9 @@ registerlinter module name:
 
 # Print annotations and their descriptions from annotations.json
 alias printaffixes := printannotations
+alias getannotations := printannotations
+alias listannotations := printannotations
+alias showannotations := printannotations
 
 printannotations:
   #! /usr/bin/env node
@@ -448,12 +452,25 @@ printannotations:
     ...affixesData.affixes || {},
     ...affixesData.properties || {}
   };
-  Object.entries(allEntries).sort((a, b) => a[0].localeCompare(b[0])).forEach(([flag, fields]) => {
+  
+  // Calculate the maximum description length for alignment
+  const entries = Object.entries(allEntries);
+  const maxDescLength = entries.reduce((max, [flag, fields]) => {
+    const description = fields['#'] || '';
+    const lineLength = flag.length + 2 + description.length; // flag + ': ' + description
+    return Math.max(max, lineLength);
+  }, 0);
+  
+  entries.sort((a, b) => a[0].localeCompare(b[0])).forEach(([flag, fields]) => {
     const description = fields['#'] || '';
     const comment = fields['//'] || null;
-    description && console.log(flag + ': ' + description + (comment ? '\t\t// ' + comment : ''));
+    if (description) {
+      const line = `${flag}: ${description}`;
+      const padding = ' '.repeat(Math.max(1, maxDescLength - line.length + 2));
+      console.log(line + (comment ? `${padding}// ${comment}` : ''));
+    }
   });
-
+  
   console.log('Available letters for new flags:', [...Array.from({length: 26}, (_, i) => 
     [String.fromCharCode(65 + i), String.fromCharCode(97 + i)]
   ).flat()].filter(letter => !Object.keys(allEntries).includes(letter)).sort().join(' '));
@@ -573,6 +590,9 @@ newest-dict-changes *numCommits:
       });
     });
   });
+
+getnps a:
+  cargo run --bin harper-cli -- nominal-phrases "{{a}}"
 
 # Suggest annotations for a potential new property annotation
 suggestannotation input:

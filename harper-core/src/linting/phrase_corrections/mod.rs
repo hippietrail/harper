@@ -47,7 +47,7 @@ pub fn lint_group() -> LintGroup {
         "AfterAWhile" => (
             ["after while"],
             ["after a while"],
-            "When describafterg a timeframe, use `a while`.",
+            "When describing a timeframe, use `a while`.",
             "Corrects the missing article in `after while`, forming `after a while`.",
             LintKind::Grammar
         ),
@@ -342,6 +342,13 @@ pub fn lint_group() -> LintGroup {
             "Corrects the missing hyphen in `ever present` to the compound adjective `ever-present`.",
             LintKind::Punctuation
         ),
+        "EveryTime" => (
+            ["everytime"],
+            ["every time"],
+            "`Everytime` as a single word is proscribed. Use `every time` instead.",
+            "Corrects `everytime` to `every time`.",
+            LintKind::Usage
+        ),
         "Excellent" => (
             ["very good"],
             ["excellent"],
@@ -535,13 +542,6 @@ pub fn lint_group() -> LintGroup {
             "Did you mean `I am`?",
             "Fixes the incorrect spacing in `I a m` to properly form `I am`.",
             LintKind::Typo
-        ),
-        "IAmAgreement" => (
-            ["I are"],
-            ["I am"],
-            "The first-person singular pronoun `I` requires the verb form `am`; `are` belongs to second-person or plural contexts.",
-            "Corrects `I are` to `I am`.",
-            LintKind::Agreement
         ),
         "IDo" => (
             ["I does"],
@@ -1141,6 +1141,13 @@ pub fn lint_group() -> LintGroup {
             "`Wrought iron` is low-carbon, malleable iron used for decorative work; variants like `rod iron` or `rot iron` are phonetic misspellings that may confuse readers.",
             LintKind::Eggcorn
         ),
+        "The" => (
+            ["teh"],
+            ["the"],
+            "Did you mean the definite article?",
+            "Fixes especially common misspellings of the word `the`",
+            LintKind::Typo
+        )
     });
 
     group.set_all_rules_to(Some(true));

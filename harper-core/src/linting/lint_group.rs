@@ -39,17 +39,22 @@ use super::everyday::Everyday;
 use super::expand_time_shorthands::ExpandTimeShorthands;
 use super::expr_linter::run_on_chunk;
 use super::few_units_of_time_ago::FewUnitsOfTimeAgo;
+use super::filler_words::FillerWords;
 use super::first_aid_kit::FirstAidKit;
 use super::for_noun::ForNoun;
+use super::friend_of_me::FriendOfMe;
 use super::have_pronoun::HavePronoun;
+use super::have_take_a_look::HaveTakeALook;
 use super::hedging::Hedging;
 use super::hereby::Hereby;
 use super::hop_hope::HopHope;
 use super::how_to::HowTo;
 use super::hyphenate_number_day::HyphenateNumberDay;
+use super::i_am_agreement::IAmAgreement;
 use super::in_on_the_cards::InOnTheCards;
 use super::inflected_verb_after_to::InflectedVerbAfterTo;
 use super::its_contraction::ItsContraction;
+use super::its_possessive::ItsPossessive;
 use super::left_right_hand::LeftRightHand;
 use super::less_worse::LessWorse;
 use super::lets_confusion::LetsConfusion;
@@ -63,6 +68,7 @@ use super::months::Months;
 use super::most_number::MostNumber;
 use super::multiple_sequential_pronouns::MultipleSequentialPronouns;
 use super::nail_on_the_head::NailOnTheHead;
+use super::no_french_spaces::NoFrenchSpaces;
 use super::no_match_for::NoMatchFor;
 use super::nobody::Nobody;
 use super::nominal_wants::NominalWants;
@@ -94,6 +100,7 @@ use super::somewhat_something::SomewhatSomething;
 use super::spaces::Spaces;
 use super::spell_check::SpellCheck;
 use super::spelled_numbers::SpelledNumbers;
+use super::that_than::ThatThan;
 use super::that_which::ThatWhich;
 use super::the_how_why::TheHowWhy;
 use super::the_my::TheMy;
@@ -114,7 +121,9 @@ use super::{CurrencyPlacement, HtmlDescriptionLinter, Linter, NoOxfordComma, Oxf
 use super::{ExprLinter, Lint};
 use crate::linting::dashes::Dashes;
 use crate::linting::open_compounds::OpenCompounds;
-use crate::linting::{closed_compounds, initialisms, phrase_corrections, phrase_set_corrections};
+use crate::linting::{
+    MassPlurals, closed_compounds, initialisms, phrase_corrections, phrase_set_corrections,
+};
 use crate::spell::{Dictionary, MutableDictionary};
 use crate::{CharString, Dialect, Document, TokenStringExt};
 
@@ -385,6 +394,8 @@ impl LintGroup {
         out.merge_from(&mut initialisms::lint_group());
 
         // Add all the more complex rules to the group.
+        // Please maintain alphabetical order.
+        // On *nix you can maintain sort order with `sort -t'(' -k2`
         insert_expr_rule!(APart, true);
         insert_expr_rule!(AdjectiveDoubleDegree, true);
         insert_struct_rule!(AdjectiveOfA, true);
@@ -399,12 +410,7 @@ impl LintGroup {
         insert_expr_rule!(BoringWords, false);
         insert_struct_rule!(CapitalizePersonalPronouns, true);
         insert_expr_rule!(ChockFull, true);
-        insert_expr_rule!(DoubleModal, true);
-        insert_expr_rule!(MissingPreposition, true);
-        insert_struct_rule!(DiscourseMarkers, true);
-        insert_expr_rule!(WayTooAdjective, true);
-        insert_expr_rule!(HavePronoun, true);
-        insert_expr_rule!(PronounInflectionBe, true);
+        insert_struct_rule!(NoFrenchSpaces, true);
         insert_struct_rule!(CommaFixes, true);
         insert_struct_rule!(CompoundNouns, true);
         insert_expr_rule!(Confident, true);
@@ -412,21 +418,27 @@ impl LintGroup {
         insert_struct_rule!(CurrencyPlacement, true);
         insert_expr_rule!(Dashes, true);
         insert_expr_rule!(DespiteOf, true);
+        insert_struct_rule!(DiscourseMarkers, true);
         insert_expr_rule!(DotInitialisms, true);
+        insert_expr_rule!(DoubleModal, true);
         insert_struct_rule!(EllipsisLength, true);
         insert_struct_rule!(ElsePossessive, true);
         insert_struct_rule!(Everyday, true);
         insert_expr_rule!(ExpandTimeShorthands, true);
         insert_expr_rule!(FewUnitsOfTimeAgo, true);
+        insert_expr_rule!(FillerWords, true);
         insert_struct_rule!(FirstAidKit, true);
         insert_struct_rule!(ForNoun, true);
+        insert_expr_rule!(FriendOfMe, true);
+        insert_expr_rule!(HavePronoun, true);
         insert_expr_rule!(Hedging, true);
         insert_expr_rule!(Hereby, true);
-        insert_expr_rule!(OpenCompounds, true);
         insert_struct_rule!(HopHope, true);
         insert_struct_rule!(HowTo, true);
         insert_expr_rule!(HyphenateNumberDay, true);
+        insert_expr_rule!(IAmAgreement, true);
         insert_struct_rule!(ItsContraction, true);
+        insert_struct_rule!(ItsPossessive, true);
         insert_expr_rule!(LeftRightHand, true);
         insert_expr_rule!(LessWorse, true);
         insert_struct_rule!(LetsConfusion, true);
@@ -434,20 +446,22 @@ impl LintGroup {
         insert_struct_rule!(LongSentences, true);
         insert_expr_rule!(LookingForwardTo, true);
         insert_struct_rule!(MergeWords, true);
+        insert_expr_rule!(MissingPreposition, true);
         insert_expr_rule!(ModalOf, true);
         insert_expr_rule!(Months, true);
         insert_expr_rule!(MostNumber, true);
         insert_expr_rule!(MultipleSequentialPronouns, true);
-        insert_expr_rule!(NoMatchFor, true);
         insert_struct_rule!(NailOnTheHead, true);
-        insert_struct_rule!(NominalWants, true);
+        insert_expr_rule!(NoMatchFor, true);
         insert_struct_rule!(NoOxfordComma, false);
         insert_expr_rule!(Nobody, true);
+        insert_struct_rule!(NominalWants, true);
         insert_expr_rule!(NounCountability, true);
         insert_struct_rule!(NumberSuffixCapitalization, true);
         insert_struct_rule!(OfCourse, true);
         insert_expr_rule!(OnFloor, true);
         insert_expr_rule!(OneAndTheSame, true);
+        insert_expr_rule!(OpenCompounds, true);
         insert_expr_rule!(OpenTheLight, true);
         insert_expr_rule!(OutOfDate, true);
         insert_struct_rule!(OxfordComma, true);
@@ -456,16 +470,18 @@ impl LintGroup {
         insert_expr_rule!(PiqueInterest, true);
         insert_expr_rule!(PossessiveYour, true);
         insert_struct_rule!(PronounContraction, true);
+        insert_expr_rule!(PronounInflectionBe, true);
         insert_struct_rule!(PronounKnew, true);
         insert_expr_rule!(RedundantAdditiveAdverbs, true);
         insert_struct_rule!(RepeatedWords, true);
         insert_struct_rule!(SaveToSafe, true);
         insert_expr_rule!(SemicolonApostrophe, true);
-        insert_expr_rule!(SinceDuration, true);
         insert_expr_rule!(ShootOneselfInTheFoot, true);
+        insert_expr_rule!(SinceDuration, true);
         insert_expr_rule!(SomewhatSomething, true);
         insert_struct_rule!(Spaces, true);
         insert_struct_rule!(SpelledNumbers, false);
+        insert_expr_rule!(ThatThan, true);
         insert_expr_rule!(ThatWhich, true);
         insert_expr_rule!(TheHowWhy, true);
         insert_struct_rule!(TheMy, true);
@@ -477,9 +493,9 @@ impl LintGroup {
         insert_expr_rule!(UseGenitive, false);
         insert_expr_rule!(VeryUnique, true);
         insert_expr_rule!(WasAloud, true);
+        insert_expr_rule!(WayTooAdjective, true);
         insert_expr_rule!(Whereas, true);
         insert_expr_rule!(WidelyAccepted, true);
-        insert_struct_rule!(WidelyAccepted, true);
         insert_expr_rule!(WinPrize, true);
         insert_struct_rule!(WordPressDotcom, true);
 
@@ -502,10 +518,16 @@ impl LintGroup {
         out.config.set_rule_enabled("SentenceCapitalization", true);
 
         out.add("PossessiveNoun", PossessiveNoun::new(dictionary.clone()));
-        out.config.set_rule_enabled("PossessiveNoun", true);
+        out.config.set_rule_enabled("PossessiveNoun", false);
 
         out.add("Regionalisms", Regionalisms::new(dialect));
         out.config.set_rule_enabled("Regionalisms", true);
+
+        out.add("HaveTakeALook", HaveTakeALook::new(dialect));
+        out.config.set_rule_enabled("HaveTakeALook", true);
+
+        out.add("MassPlurals", MassPlurals::new(dictionary.clone()));
+        out.config.set_rule_enabled("MassPlurals", true);
 
         out
     }
@@ -589,8 +611,26 @@ mod tests {
     use std::sync::Arc;
 
     use super::LintGroup;
+    use crate::linting::tests::assert_no_lints;
     use crate::spell::{FstDictionary, MutableDictionary};
     use crate::{Dialect, Document, linting::Linter};
+
+    fn test_group() -> LintGroup {
+        LintGroup::new_curated(Arc::new(MutableDictionary::curated()), Dialect::American)
+    }
+
+    #[test]
+    fn clean_interjection() {
+        assert_no_lints(
+            "Although I only saw the need to interject once, I still saw it.",
+            test_group(),
+        );
+    }
+
+    #[test]
+    fn clean_consensus() {
+        assert_no_lints("But there is less consensus on this.", test_group());
+    }
 
     #[test]
     fn can_get_all_descriptions() {

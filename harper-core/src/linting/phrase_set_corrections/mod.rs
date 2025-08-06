@@ -81,6 +81,19 @@ pub fn lint_group() -> LintGroup {
             "Corrects extraneous apostrophe in `client's side` and `server's side`.",
             LintKind::Punctuation
         ),
+        "ConfirmThat" => (
+            &[
+                ("conform that", "confirm that"),
+                ("conformed that", "confirmed that"),
+                ("conforms that", "confirms that"),
+                // Note: false positives in this inflection:
+                // "is there any example of a case that isn't fully conforming that is supported today?"
+                ("conforming that", "confirming that"),
+            ],
+            "Did you mean `confirm` rather than `conform`?",
+            "Corrects `conform` typos to `confirm`.",
+            LintKind::Typo
+        ),
         "DefiniteArticle" => (
             &[
                 ("definitive article", "definite article"),
@@ -101,6 +114,26 @@ pub fn lint_group() -> LintGroup {
             "Removes unnecessary `about` after `discuss`.",
             // or maybe Redundancy?
             LintKind::Usage
+        ),
+        "DoesOrDose" => (
+            &[
+                // Negatives
+                ("dose not", "does not"),
+                // Pronouns
+                ("he dose", "he does"),
+                ("it dose", "it does"),
+                ("she dose", "she does"),
+                ("someone dose", "someone does"),
+                // Interrogatives
+                ("how dose", "how does"),
+                ("when dose", "when does"),
+                ("where dose", "where does"),
+                ("who dose", "who does"),
+                ("why dose", "why does"),
+            ],
+            "This may be a typo for `does`.",
+            "Tries to correct typos of `dose` to `does`.",
+            LintKind::Typo
         ),
         "ExpandArgument" => (
             &[
@@ -197,10 +230,14 @@ pub fn lint_group() -> LintGroup {
         ),
         "InvestIn" => (
             &[
+                // Verb
                 ("invest into", "invest in"),
                 ("invested into", "invested in"),
                 ("investing into", "investing in"),
                 ("invests into", "invests in"),
+                // Noun
+                ("investment into", "investment in"),
+                // Note "investments into" can be correct in some contexts
             ],
             "Traditionally `invest` uses the preposition `in`.",
             "`Invest` is traditionally followed by 'in,' not `into.`",
@@ -331,6 +368,14 @@ pub fn lint_group() -> LintGroup {
                 (&["getting worst"], &["getting worse"]),
                 (&["got worst"], &["got worse"]),
                 (&["gotten worst"], &["gotten worse"]),
+                (&["make it worst"], &["make it worse"]),
+                (&["made it worst"], &["made it worse"]),
+                (&["makes it worst"], &["makes it worse"]),
+                (&["making it worst"], &["making it worse"]),
+                (&["make them worst"], &["make them worse"]),
+                (&["made them worst"], &["made them worse"]),
+                (&["makes them worst"], &["makes them worse"]),
+                (&["making them worst"], &["making them worse"]),
                 (&["much worst"], &["much worse"]),
                 (&["turn for the worst"], &["turn for the worse"]),
                 (&["worst and worst", "worse and worst", "worst and worse"], &["worse and worse"]),

@@ -18,9 +18,12 @@ use harper_core::linting::{LintGroup, Linter};
 use harper_core::parsers::{Markdown, MarkdownOptions, OrgMode, PlainEnglish};
 use harper_core::{
     CharStringExt, Dialect, Document, TokenKind, TokenStringExt, WordMetadata, remove_overlaps,
+    word_metadata_orthography::OrthFlags,
 };
 use harper_literate_haskell::LiterateHaskellParser;
-use harper_pos_utils::{BrillChunker, BrillTagger};
+#[cfg(feature = "training")]
+use harper_pos_utils::{BrillChunker, BrillTagger, BurnChunkerCpu};
+
 use harper_stats::Stats;
 use serde::Serialize;
 
@@ -100,6 +103,7 @@ enum Args {
         /// The document to mine words from.
         file: PathBuf,
     },
+    #[cfg(feature = "training")]
     TrainBrillTagger {
         #[arg(short, long, default_value = "1.0")]
         candidate_selection_chance: f32,
@@ -111,6 +115,7 @@ enum Args {
         #[arg(num_args = 1..)]
         datasets: Vec<PathBuf>,
     },
+    #[cfg(feature = "training")]
     TrainBrillChunker {
         #[arg(short, long, default_value = "1.0")]
         candidate_selection_chance: f32,
@@ -119,6 +124,27 @@ enum Args {
         /// The number of epochs (and patch rules) to train.
         epochs: usize,
         /// Path to a `.conllu` dataset to train on.
+        #[arg(num_args = 1..)]
+        datasets: Vec<PathBuf>,
+    },
+    #[cfg(feature = "training")]
+    TrainBurnChunker {
+        #[arg(short, long)]
+        lr: f64,
+        // The number of embedding dimensions
+        #[arg(long)]
+        dim: usize,
+        /// The path to write the final  model file to.
+        #[arg(short, long)]
+        output: PathBuf,
+        /// The number of epochs to train.
+        #[arg(short, long)]
+        epochs: usize,
+        /// The dropout probability
+        #[arg(long)]
+        dropout: f32,
+        #[arg(short, long)]
+        test_file: PathBuf,
         #[arg(num_args = 1..)]
         datasets: Vec<PathBuf>,
     },
@@ -136,6 +162,9 @@ enum Args {
     /// Emit a decompressed, line-separated list of the compounds in Harper's dictionary.
     /// As long as there's either an open or hyphenated spelling.
     Compounds,
+    /// Emit a decompressed, line-separated list of the words in Harper's dictionary
+    /// which occur in more than one lettercase variant.    
+    CaseVariants,
     /// Provided a sentence or phrase, emit a list of each noun phrase contained within.
     NominalPhrases { input: String },
 }
@@ -472,6 +501,7 @@ fn main() -> anyhow::Result<()> {
             println!("harper-core v{}", harper_core::core_version());
             Ok(())
         }
+        #[cfg(feature = "training")]
         Args::TrainBrillTagger {
             datasets: dataset,
             epochs,
@@ -483,6 +513,7 @@ fn main() -> anyhow::Result<()> {
 
             Ok(())
         }
+        #[cfg(feature = "training")]
         Args::TrainBrillChunker {
             datasets,
             epochs,
@@ -491,6 +522,22 @@ fn main() -> anyhow::Result<()> {
         } => {
             let chunker = BrillChunker::train(&datasets, epochs, candidate_selection_chance);
             fs::write(output, serde_json::to_string_pretty(&chunker)?)?;
+            Ok(())
+        }
+        #[cfg(feature = "training")]
+        Args::TrainBurnChunker {
+            datasets,
+            test_file,
+            epochs,
+            dropout,
+            output,
+            lr,
+            dim: embed_dim,
+        } => {
+            let chunker =
+                BurnChunkerCpu::train_cpu(&datasets, &test_file, embed_dim, dropout, epochs, lr);
+            chunker.save_to(output);
+
             Ok(())
         }
         Args::RenameFlag { old, new, dir } => {
@@ -664,6 +711,37 @@ fn main() -> anyhow::Result<()> {
             }
 
             println!("\nFound {} compound word groups", results.len());
+            Ok(())
+        }
+        Args::CaseVariants => {
+            let case_bitmask = OrthFlags::LOWERCASE
+                | OrthFlags::TITLECASE
+                | OrthFlags::ALLCAPS
+                | OrthFlags::LOWER_CAMEL
+                | OrthFlags::UPPER_CAMEL;
+            let mut processed_words = HashMap::new();
+            let mut longest_word = 0;
+            for word in dictionary.words_iter() {
+                if let Some(metadata) = dictionary.get_word_metadata(word) {
+                    let orth = metadata.orth_info;
+                    let bits = orth.bits() & case_bitmask.bits();
+
+                    if bits.count_ones() > 1 {
+                        longest_word = longest_word.max(word.len());
+                        // Mask out all bits except the case-related ones before printing
+                        processed_words.insert(
+                            word.to_string(),
+                            OrthFlags::from_bits_truncate(orth.bits() & case_bitmask.bits()),
+                        );
+                    }
+                }
+            }
+            let mut processed_words: Vec<_> = processed_words.into_iter().collect();
+            processed_words.sort_by_key(|(word, _)| word.clone());
+            let longest_num = (processed_words.len() - 1).to_string().len();
+            for (i, (word, orth)) in processed_words.iter().enumerate() {
+                println!("{i:>longest_num$} {word:<longest_word$} : {orth:?}");
+            }
             Ok(())
         }
         Args::NominalPhrases { input } => {
