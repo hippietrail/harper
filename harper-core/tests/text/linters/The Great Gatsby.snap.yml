@@ -5,7 +5,7 @@ Message: |
 Suggest:
   - Replace with: “Ft”
   - Replace with: “F”
-  - Replace with: “Ff”
+  - Replace with: “Fl”
 
 
 
@@ -699,18 +699,6 @@ Suggest:
 
 
 
-Lint:    Spelling (63 priority)
-Message: |
-     535 | end of the long couch and she read aloud to him from the Saturday Evening
-     536 | Post—the words, murmurous and uninflected, running together in a soothing tune.
-         |                               ^~~~~~~~~~~ Did you mean to spell `uninflected` this way?
-Suggest:
-  - Replace with: “uninfected”
-  - Replace with: “inflected”
-  - Replace with: “noninflected”
-
-
-
 Lint:    WordChoice (126 priority)
 Message: |
      541 | When we came in she held us silent for a moment with a lifted hand.
@@ -845,9 +833,9 @@ Message: |
      664 | it, you perceive, after a moment, the eyes of Doctor T. J. Eckleburg. The eyes
          |                                                      ^~ Did you mean to spell `T.` this way?
 Suggest:
+  - Replace with: “Tr”
   - Replace with: “T”
   - Replace with: “Tb”
-  - Replace with: “Ti”
 
 
 
@@ -857,8 +845,8 @@ Message: |
          |                                                         ^~ Did you mean to spell `J.` this way?
 Suggest:
   - Replace with: “Jr”
-  - Replace with: “J”
   - Replace with: “Jg”
+  - Replace with: “JD”
 
 
 
@@ -879,9 +867,9 @@ Message: |
      665 | of Doctor T. J. Eckleburg are blue and gigantic—their retinas are one yard high.
          |           ^~ Did you mean to spell `T.` this way?
 Suggest:
+  - Replace with: “Tr”
   - Replace with: “T”
   - Replace with: “Tb”
-  - Replace with: “Ti”
 
 
 
@@ -891,8 +879,8 @@ Message: |
          |              ^~ Did you mean to spell `J.` this way?
 Suggest:
   - Replace with: “Jr”
-  - Replace with: “J”
   - Replace with: “Jg”
+  - Replace with: “JD”
 
 
 
@@ -1078,17 +1066,6 @@ Suggest:
 
 
 
-Lint:    WordChoice (31 priority)
-Message: |
-     731 | nerves of her body were continually smouldering. She smiled slowly and, walking
-     732 | through her husband as if he were a ghost, shook hands with Tom, looking him
-         |                              ^~~~ Use the contraction or separate the words instead.
-Suggest:
-  - Replace with: “we're”
-  - Replace with: “we are”
-
-
-
 Lint:    Spelling (63 priority)
 Message: |
      756 | “Terrible place, isn’t it,” said Tom, exchanging a frown with Doctor Eckleburg.
@@ -1117,9 +1094,9 @@ Message: |
      784 | We backed up to a gray old man who bore an absurd resemblance to John D.
          |                                                                       ^~ Did you mean to spell `D.` this way?
 Suggest:
-  - Replace with: “Dc”
   - Replace with: “D”
   - Replace with: “Db”
+  - Replace with: “Dc”
 
 
 
@@ -1353,17 +1330,6 @@ Message: |
          |                   ^~~~~~~ Did you mean to repeat this word?
 Suggest:
   - Replace with: “was”
-
-
-
-Lint:    WordChoice (31 priority)
-Message: |
-    1077 | janitor and sent him for some celebrated sandwiches, which were a complete
-         |                                                            ^~~~ Use the contraction or separate the words instead.
-    1078 | supper in themselves. I wanted to get out and walk eastward toward the park
-Suggest:
-  - Replace with: “we're”
-  - Replace with: “we are”
 
 
 
@@ -2474,9 +2440,9 @@ Message: |
     1863 | A. Flink, and the Hammerheads, and Beluga the tobacco importer, and Beluga’s
          | ^~ Did you mean to spell `A.` this way?
 Suggest:
-  - Replace with: “Av”
-  - Replace with: “A”
+  - Replace with: “Ax”
   - Replace with: “Ab”
+  - Replace with: “Ac”
 
 
 
@@ -2634,8 +2600,8 @@ Message: |
          |                               ^~ Did you mean to spell `Da` this way?
 Suggest:
   - Replace with: “D”
+  - Replace with: “Dab”
   - Replace with: “Dad”
-  - Replace with: “Dag”
 
 
 
@@ -2693,7 +2659,7 @@ Message: |
 Suggest:
   - Replace with: “D”
   - Replace with: “Db”
-  - Replace with: “Deb”
+  - Replace with: “Dc”
 
 
 
@@ -3751,16 +3717,6 @@ Suggest:
 
 
 
-Lint:    WordChoice (31 priority)
-Message: |
-    2447 | “When I said you were a particular friend of Tom’s, he started to abandon the
-         |                  ^~~~ Use the contraction or separate the words instead.
-Suggest:
-  - Replace with: “we're”
-  - Replace with: “we are”
-
-
-
 Lint:    Spelling (63 priority)
 Message: |
     2455 | hard, limited person, who dealt in universal scepticism, and who leaned back
@@ -4310,16 +4266,6 @@ Suggest:
 
 
 
-Lint:    WordChoice (31 priority)
-Message: |
-    3057 | an outlet for his imagination; they were a satisfactory hint of the unreality of
-         |                                     ^~~~ Use the contraction or separate the words instead.
-Suggest:
-  - Replace with: “we're”
-  - Replace with: “we are”
-
-
-
 Lint:    WordChoice (63 priority)
 Message: |
     3073 | tried to separate him from his money. The none too savory ramifications by which
@@ -4459,16 +4405,6 @@ Message: |
 
 
 
-Lint:    WordChoice (31 priority)
-Message: |
-    3123 | They were a party of three on horseback—Tom and a man named Sloane and a pretty
-         |      ^~~~ Use the contraction or separate the words instead.
-Suggest:
-  - Replace with: “we're”
-  - Replace with: “we are”
-
-
-
 Lint:    Repetition (127 priority)
 Message: |
     3135 | uneasy anyhow until he had given them something, realizing in a vague way that
@@ -4521,17 +4457,6 @@ Message: |
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     3238 | air, a pervading harshness that hadn’t been there before. Or perhaps I had
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ This sentence is 41 words long.
-
-
-
-Lint:    WordChoice (31 priority)
-Message: |
-    3235 | in my memory from Gatsby’s other parties that summer. There were the same
-         |                                                             ^~~~ Use the contraction or separate the words instead.
-    3236 | people, or at least the same sort of people, the same profusion of champagne,
-Suggest:
-  - Replace with: “we're”
-  - Replace with: “we are”
 
 
 
@@ -4710,6 +4635,17 @@ Suggest:
   - Replace with: “incommunicable”
   - Replace with: “communicable”
   - Replace with: “noncommunicable”
+
+
+
+Lint:    WordChoice (54 priority)
+Message: |
+    3495 | It was when curiosity about Gatsby was at its highest that the lights in his
+         |                                           ^~~ Use `it's` (short for `it has` or `it is`) here, not the possessive `its`.
+    3496 | house failed to go on one Saturday night—and, as obscurely as it had begun, his
+Suggest:
+  - Replace with: “it's”
+  - Replace with: “it has”
 
 
 
@@ -5075,9 +5011,9 @@ Message: |
     3874 | while in silence. Then as Doctor T. J. Eckleburg’s faded eyes came into sight
          |                                  ^~ Did you mean to spell `T.` this way?
 Suggest:
+  - Replace with: “Tr”
   - Replace with: “T”
   - Replace with: “Tb”
-  - Replace with: “Ti”
 
 
 
@@ -5087,8 +5023,8 @@ Message: |
          |                                     ^~ Did you mean to spell `J.` this way?
 Suggest:
   - Replace with: “Jr”
-  - Replace with: “J”
   - Replace with: “Jg”
+  - Replace with: “JD”
 
 
 
@@ -5144,9 +5080,9 @@ Message: |
     3948 | behind. Over the ashheaps the giant eyes of Doctor T. J. Eckleburg kept their
          |                                                    ^~ Did you mean to spell `T.` this way?
 Suggest:
+  - Replace with: “Tr”
   - Replace with: “T”
   - Replace with: “Tb”
-  - Replace with: “Ti”
 
 
 
@@ -5156,8 +5092,8 @@ Message: |
          |                                                       ^~ Did you mean to spell `J.` this way?
 Suggest:
   - Replace with: “Jr”
-  - Replace with: “J”
   - Replace with: “Jg”
+  - Replace with: “JD”
 
 
 
@@ -6408,9 +6344,9 @@ Message: |
     5156 | of Doctor T. J. Eckleburg, which had just emerged, pale and enormous, from the
          |           ^~ Did you mean to spell `T.` this way?
 Suggest:
+  - Replace with: “Tr”
   - Replace with: “T”
   - Replace with: “Tb”
-  - Replace with: “Ti”
 
 
 
@@ -6420,8 +6356,8 @@ Message: |
          |              ^~ Did you mean to spell `J.` this way?
 Suggest:
   - Replace with: “Jr”
-  - Replace with: “J”
   - Replace with: “Jg”
+  - Replace with: “JD”
 
 
 
@@ -6904,8 +6840,8 @@ Message: |
          |                                                               ^~ Did you mean to spell `J.` this way?
 Suggest:
   - Replace with: “Jr”
-  - Replace with: “J”
   - Replace with: “Jg”
+  - Replace with: “JD”
 
 
 
@@ -6944,7 +6880,7 @@ Message: |
 Suggest:
   - Replace with: “Ft”
   - Replace with: “F”
-  - Replace with: “Ff”
+  - Replace with: “Fl”
 
 
 
@@ -7383,9 +7319,9 @@ Message: |
     5692 | figures in my more fantastic dreams. I see it as a night scene by El Greco: a
          |                                                                   ^~ Did you mean to spell `El` this way?
 Suggest:
+  - Replace with: “E”
   - Replace with: “Ea”
-  - Replace with: “Ed”
-  - Replace with: “En”
+  - Replace with: “Elm”
 
 
 
