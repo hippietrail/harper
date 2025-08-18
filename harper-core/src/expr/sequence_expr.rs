@@ -2,7 +2,7 @@ use paste::paste;
 
 use crate::{
     CharStringExt, Span, Token, TokenKind,
-    expr::{FirstMatchOf, LongestMatchOf},
+    expr::{FirstMatchOf, FixedPhrase, LongestMatchOf},
     patterns::{AnyPattern, IndefiniteArticle, WhitespacePattern, Word, WordSet},
 };
 
@@ -92,6 +92,11 @@ impl SequenceExpr {
     /// Shorthand for [`Self::any_capitalization_of`].
     pub fn aco(word: &'static str) -> Self {
         Self::any_capitalization_of(word)
+    }
+
+    /// Match the first of multiple expressions.
+    pub fn any_of(self, exprs: Vec<Box<dyn Expr>>) -> Self {
+        self.then_any_of(exprs)
     }
 
     /// Construct a new sequence with a [`WordSet`] at the beginning of the operation list.
@@ -216,6 +221,11 @@ impl SequenceExpr {
         self.then(Word::new_exact(word))
     }
 
+    /// Match a fixed phrase.
+    pub fn then_fixed_phrase(self, phrase: &'static str) -> Self {
+        self.then(FixedPhrase::from_phrase(phrase))
+    }
+
     /// Match any word except the ones in `words`.
     pub fn then_word_except(self, words: &'static [&'static str]) -> Self {
         self.then(move |tok: &Token, src: &[char]| {
@@ -335,6 +345,7 @@ impl SequenceExpr {
     gen_then_from_is!(adjective);
     gen_then_from_is!(positive_adjective);
     gen_then_from_is!(comparative_adjective);
+    gen_then_from_is!(superlative_adjective);
 
     // Adverbs
 
