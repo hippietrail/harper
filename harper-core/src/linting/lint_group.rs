@@ -14,6 +14,7 @@ use serde::{Deserialize, Deserializer, Serialize, Serializer};
 use super::a_part::APart;
 use super::adjective_double_degree::AdjectiveDoubleDegree;
 use super::adjective_of_a::AdjectiveOfA;
+use super::affect_effect::AffectEffect;
 use super::am_in_the_morning::AmInTheMorning;
 use super::amounts_for::AmountsFor;
 use super::an_a::AnA;
@@ -402,6 +403,7 @@ impl LintGroup {
         insert_expr_rule!(APart, true);
         insert_expr_rule!(AdjectiveDoubleDegree, true);
         insert_struct_rule!(AdjectiveOfA, true);
+        insert_expr_rule!(AffectEffect, true);
         insert_struct_rule!(AmInTheMorning, true);
         insert_expr_rule!(AmountsFor, true);
         insert_struct_rule!(AnA, true);
@@ -414,8 +416,6 @@ impl LintGroup {
         insert_expr_rule!(BoringWords, false);
         insert_struct_rule!(CapitalizePersonalPronouns, true);
         insert_expr_rule!(ChockFull, true);
-        insert_expr_rule!(QuantifierNeedsOf, true);
-        insert_struct_rule!(NoFrenchSpaces, true);
         insert_struct_rule!(CommaFixes, true);
         insert_struct_rule!(CompoundNouns, true);
         insert_expr_rule!(Confident, true);
@@ -457,6 +457,7 @@ impl LintGroup {
         insert_expr_rule!(MostNumber, true);
         insert_expr_rule!(MultipleSequentialPronouns, true);
         insert_struct_rule!(NailOnTheHead, true);
+        insert_struct_rule!(NoFrenchSpaces, true);
         insert_expr_rule!(NoMatchFor, true);
         insert_struct_rule!(NoOxfordComma, false);
         insert_expr_rule!(Nobody, true);
@@ -477,6 +478,7 @@ impl LintGroup {
         insert_struct_rule!(PronounContraction, true);
         insert_expr_rule!(PronounInflectionBe, true);
         insert_struct_rule!(PronounKnew, true);
+        insert_expr_rule!(QuantifierNeedsOf, true);
         insert_expr_rule!(RedundantAdditiveAdverbs, true);
         insert_struct_rule!(RepeatedWords, true);
         insert_struct_rule!(SaveToSafe, true);
