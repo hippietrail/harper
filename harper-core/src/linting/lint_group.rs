@@ -403,7 +403,7 @@ impl LintGroup {
         insert_expr_rule!(APart, true);
         insert_expr_rule!(AdjectiveDoubleDegree, true);
         insert_struct_rule!(AdjectiveOfA, true);
-        insert_expr_rule!(AffectEffect, true);
+        insert_struct_rule!(AffectEffect, true);
         insert_struct_rule!(AmInTheMorning, true);
         insert_expr_rule!(AmountsFor, true);
         insert_struct_rule!(AnA, true);

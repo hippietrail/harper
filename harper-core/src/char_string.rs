@@ -29,6 +29,8 @@ pub trait CharStringExt {
     /// Only normalizes the left side to lowercase and avoids allocations.
     fn eq_any_ignore_ascii_case_chars(&self, others: &[&[char]]) -> bool;
 
+    fn eq_any_ignore_ascii_case_str(&self, others: &[&str]) -> bool;
+
     /// Case-insensitive check if the string ends with the given ASCII suffix.
     /// The suffix is assumed to be lowercase.
     fn ends_with_ignore_ascii_case_chars(&self, suffix: &[char]) -> bool;
@@ -91,6 +93,10 @@ impl CharStringExt for [char] {
         others
             .iter()
             .any(|chars| self.eq_ignore_ascii_case_chars(chars))
+    }
+
+    fn eq_any_ignore_ascii_case_str(&self, others: &[&str]) -> bool {
+        others.iter().any(|s| self.eq_ignore_ascii_case_str(s))
     }
 
     fn ends_with_ignore_ascii_case_str(&self, suffix: &str) -> bool {
