@@ -843,6 +843,10 @@ impl TokenStringExt for Document {
         self.tokens.span()
     }
 
+    fn widen_slice(&self, at: usize, by: usize) -> &[Token] {
+        self.tokens.widen_slice(at, by)
+    }
+
     fn iter_linking_verb_indices(&self) -> impl Iterator<Item = usize> + '_ {
         self.tokens.iter_linking_verb_indices()
     }

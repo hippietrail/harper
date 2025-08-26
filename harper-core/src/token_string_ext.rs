@@ -54,6 +54,8 @@ pub trait TokenStringExt {
     /// Grab the span that represents the beginning of the first element and the
     /// end of the last element.
     fn span(&self) -> Option<Span<char>>;
+    /// Get a slice of tokens centered around a given index, with a given width.
+    fn widen_slice(&self, at: usize, by: usize) -> &[Token];
 
     create_decl_for!(adjective);
     create_decl_for!(apostrophe);
@@ -155,6 +157,12 @@ impl TokenStringExt for [Token] {
             itertools::MinMaxResult::OneElement(min) => Some(Span::new(min, min)),
             itertools::MinMaxResult::MinMax(min, max) => Some(Span::new(min, max)),
         }
+    }
+
+    fn widen_slice(&self, at: usize, by: usize) -> &[Token] {
+        let start = at.saturating_sub(by);
+        let end = (at + by + 1).min(self.len());
+        &self[start..end]
     }
 
     fn iter_linking_verb_indices(&self) -> impl Iterator<Item = usize> + '_ {
