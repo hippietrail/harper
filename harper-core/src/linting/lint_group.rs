@@ -38,6 +38,7 @@ use super::double_modal::DoubleModal;
 use super::ellipsis_length::EllipsisLength;
 use super::else_possessive::ElsePossessive;
 use super::everyday::Everyday;
+use super::expand_memory_shorthands::ExpandMemoryShorthands;
 use super::expand_time_shorthands::ExpandTimeShorthands;
 use super::expr_linter::run_on_chunk;
 use super::few_units_of_time_ago::FewUnitsOfTimeAgo;
@@ -410,7 +411,7 @@ impl LintGroup {
         insert_expr_rule!(AnotherThingComing, true);
         insert_expr_rule!(AnotherThinkComing, false);
         insert_expr_rule!(AskNoPreposition, true);
-        insert_struct_rule!(AvoidCurses, true);
+        insert_expr_rule!(AvoidCurses, true);
         insert_expr_rule!(BackInTheDay, true);
         insert_expr_rule!(BestOfAllTime, true);
         insert_expr_rule!(BoringWords, false);
@@ -429,6 +430,7 @@ impl LintGroup {
         insert_struct_rule!(EllipsisLength, true);
         insert_struct_rule!(ElsePossessive, true);
         insert_struct_rule!(Everyday, true);
+        insert_expr_rule!(ExpandMemoryShorthands, true);
         insert_expr_rule!(ExpandTimeShorthands, true);
         insert_expr_rule!(FewUnitsOfTimeAgo, true);
         insert_expr_rule!(FillerWords, true);
