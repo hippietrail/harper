@@ -532,8 +532,6 @@ impl Document {
         self.condense_expr(&Self::LOAN_PHRASES_EXPR.with(|v| v.clone()), |_| {})
     }
 
-    //////
-
     /// Searches for multiple sequential newline tokens and condenses them down
     /// into one.
     fn condense_newlines(&mut self) {
