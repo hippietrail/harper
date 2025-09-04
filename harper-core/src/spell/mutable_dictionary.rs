@@ -30,13 +30,12 @@ pub struct MutableDictionary {
 /// The uncached function that is used to produce the original copy of the
 /// curated dictionary.
 fn uncached_inner_new() -> Arc<MutableDictionary> {
-    Arc::new(
-        MutableDictionary::from_rune_files(
-            include_str!("../../dictionary.dict"),
-            include_str!("../../annotations.json"),
-        )
-        .expect("Curated dictionary should be valid."),
+    MutableDictionary::from_rune_files(
+        include_str!("../../dictionary.dict"),
+        include_str!("../../annotations.json"),
     )
+    .map(Arc::new)
+    .unwrap_or_else(|e| panic!("Failed to load curated dictionary: {}", e))
 }
 
 lazy_static! {
@@ -137,11 +136,11 @@ impl Dictionary for MutableDictionary {
     /// `max_distance` relates to an optimization that allows the search
     /// algorithm to prune large portions of the search.
     fn fuzzy_match(
-        &self,
+        &'_ self,
         word: &[char],
         max_distance: u8,
         max_results: usize,
-    ) -> Vec<FuzzyMatchResult> {
+    ) -> Vec<FuzzyMatchResult<'_>> {
         let misspelled_charslice = word.normalized();
         let misspelled_charslice_lower = misspelled_charslice.to_lower();
 
@@ -192,11 +191,11 @@ impl Dictionary for MutableDictionary {
     }
 
     fn fuzzy_match_str(
-        &self,
+        &'_ self,
         word: &str,
         max_distance: u8,
         max_results: usize,
-    ) -> Vec<FuzzyMatchResult> {
+    ) -> Vec<FuzzyMatchResult<'_>> {
         let word: Vec<_> = word.chars().collect();
         self.fuzzy_match(&word, max_distance, max_results)
     }
@@ -216,10 +215,10 @@ impl Dictionary for MutableDictionary {
     fn contains_exact_word(&self, word: &[char]) -> bool {
         let normalized = word.normalized();
 
-        if let Some(found) = self.word_map.get_with_chars(normalized.as_ref()) {
-            if found.canonical_spelling.as_ref() == normalized.as_ref() {
-                return true;
-            }
+        if let Some(found) = self.word_map.get_with_chars(normalized.as_ref())
+            && found.canonical_spelling.as_ref() == normalized.as_ref()
+        {
+            return true;
         }
 
         false
@@ -412,5 +411,15 @@ mod tests {
         let dict = MutableDictionary::curated();
 
         assert!(!dict.get_word_metadata_str("apart").unwrap().is_noun());
+    }
+
+    #[test]
+    fn is_is_verb_lemma() {
+        let dict = MutableDictionary::curated();
+
+        let is = dict.get_word_metadata_str("be");
+
+        assert!(is.is_some());
+        assert!(is.unwrap().is_verb_lemma());
     }
 }
