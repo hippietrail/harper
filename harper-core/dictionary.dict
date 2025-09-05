@@ -52973,6 +52973,7 @@ Logotherapy/Sg
 Longreads/Og
 LoRA/NwSg           # low-rank adaptation
 Lua/Og              # programming language
+LuaLaTeX/Og
 LuaTeX/Og
 MCP/Ng              # model context protocol
 MMO/NgS             # massively multiplayer online
