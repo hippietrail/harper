@@ -875,11 +875,11 @@
 > doesn’t matter  , ” it       said    , ) and then    all          the party    were    placed along the course ,
 # V       N🅪Sg/V+ . . NPr/ISg+ VPtPp/J . . V/C NSg/J/C NSg/I/J/C/Dq D   NSg/V/J+ NSg/VPt VP/J   P     D   NSg/V+ .
 > here    and there . There was no    “ One        , two , three , and away , ” but     they began running
-# NSg/J/R V/C W?    . +     VPt NPr/P . NSg/I/V/J+ . NSg . NSg   . V/C V/J  . . NSg/C/P IPl+ VPt   Nᴹ/V/J/P
+# NSg/J/R V/C W?    . +     VPt NPr/P . NSg/I/V/J+ . NSg . NSg   . V/C V/J  . . NSg/C/P IPl+ VPt   Nᴹ/Vg/J/P
 > when    they liked , and left    off       when    they liked , so        that         it       was not   easy    to know
 # NSg/I/C IPl+ VP/J  . V/C NPr/V/J NSg/V/J/P NSg/I/C IPl+ VP/J  . NSg/I/J/C NSg/I/C/Ddem NPr/ISg+ VPt NSg/C NSg/V/J P  NSg/VB
-> when    the race    was over    . However , when    they had been    running  half        an   hour or    so        ,
-# NSg/I/C D+  N🅪Sg/V+ VPt NSg/J/P . C       . NSg/I/C IPl+ V   NSg/VPp Nᴹ/V/J/P N🅪Sg/V/J/P+ D/P+ NSg+ NPr/C NSg/I/J/C .
+> when    the race    was over    . However , when    they had been    running   half        an   hour or    so        ,
+# NSg/I/C D+  N🅪Sg/V+ VPt NSg/J/P . C       . NSg/I/C IPl+ V   NSg/VPp Nᴹ/Vg/J/P N🅪Sg/V/J/P+ D/P+ NSg+ NPr/C NSg/I/J/C .
 > and were    quite dry     again , the Dodo suddenly called out         “ The race    is  over    ! ” and
 # V/C NSg/VPt R     NSg/V/J P     . D   NSg  R        VP/J   NSg/V/J/R/P . D   N🅪Sg/V+ VL3 NSg/J/P . . V/C
 > they all          crowded round     it       , panting , and asking  , “ But     who    has won         ? ”
@@ -1534,8 +1534,8 @@
 # NPr+  . Nᴹ/Vg/J  NPr/ISg+ VPt J/R  NSg/V/J/C/P Nᴹ/Vg/J D/P NSg/V/J+ P  N🅪Sg/V P    D/P NSg/V+ . NSg/V+ . V/C
 > expecting every moment to be      trampled under   its     feet , ran     round     the thistle
 # Nᴹ/Vg/J   Dq    NSg+   P  NSg/VXB VP/J     NSg/J/P ISg/D$+ NPl+ . NSg/VPt NSg/V/J/P D   NSg
-> again ; then    the puppy  began a   series of short     charges at    the stick    , running  a
-# P     . NSg/J/C D   NSg/V+ VPt   D/P NSgPl  P  NPr/V/J/P NPl/V3+ NSg/P D   NSg/V/J+ . Nᴹ/V/J/P D/P
+> again ; then    the puppy  began a   series of short     charges at    the stick    , running   a
+# P     . NSg/J/C D   NSg/V+ VPt   D/P NSgPl  P  NPr/V/J/P NPl/V3+ NSg/P D   NSg/V/J+ . Nᴹ/Vg/J/P D/P
 > very little     way    forwards each time      and a   long    way    back    , and barking  hoarsely all
 # J/R  NPr/I/J/Dq NSg/J+ NPl/V3   Dq   N🅪Sg/V/J+ V/C D/P NPr/V/J NSg/J+ NSg/V/J . V/C Nᴹ/Vg/J+ R        NSg/I/J/C/Dq
 > the while     , till      at    last    it       sat         down       a   good    way    off       , panting , with its     tongue
@@ -2122,8 +2122,8 @@
 #
 > For a    minute   or    two she  stood looking at    the house  , and wondering what   to do
 # C/P D/P+ NSg/V/J+ NPr/C NSg ISg+ V     Nᴹ/Vg/J NSg/P D+  NPr/V+ . V/C Nᴹ/Vg/J   NSg/I+ P  NSg/VX
-> next    , when    suddenly a   footman in      livery  came      running  out         of the wood     — ( she
-# NSg/J/P . NSg/I/C R        D/P NSg     NPr/J/P NSg/V/J NSg/VPt/P Nᴹ/V/J/P NSg/V/J/R/P P  D   NPr/V/J+ . . ISg+
+> next    , when    suddenly a   footman in      livery  came      running   out         of the wood     — ( she
+# NSg/J/P . NSg/I/C R        D/P NSg     NPr/J/P NSg/V/J NSg/VPt/P Nᴹ/Vg/J/P NSg/V/J/R/P P  D   NPr/V/J+ . . ISg+
 > considered him  to be      a   footman because he       was in      livery  : otherwise , judging by
 # VP/J       ISg+ P  NSg/VXB D/P NSg     C/P     NPr/ISg+ VPt NPr/J/P NSg/V/J . J         . Nᴹ/Vg/J NSg/J/P
 > his     face   only  , she  would have   called him  a   fish      ) — and rapped loudly at    the door
@@ -3338,8 +3338,8 @@
 # NSg/V+  W?   . D   NSg$    NSg/V   . N🅪Sg/V/J+
 >
 #
-> A   large rose     - tree  stood near      the entrance of the garden   : the roses   growing on  it
-# D/P NSg/J NPr/V/J+ . NSg/V V     NSg/V/J/P D   NSg/V    P  D+  NSg/V/J+ . D+  NPl/V3+ Nᴹ/Vg/J J/P NPr/ISg+
+> A   large rose       - tree  stood near      the entrance of the garden   : the roses   growing on  it
+# D/P NSg/J NPr/VPt/J+ . NSg/V V     NSg/V/J/P D   NSg/V    P  D+  NSg/V/J+ . D+  NPl/V3+ Nᴹ/Vg/J J/P NPr/ISg+
 > were    white    , but     there were    three gardeners at    it       , busily painting   them     red    .
 # NSg/VPt NPr🅪/V/J . NSg/C/P +     NSg/VPt NSg+  +         NSg/P NPr/ISg+ . R      N🅪Sg/Vg/J+ NSg/IPl+ N🅪Sg/J .
 > Alice thought    this   a   very curious thing , and she  went    nearer to watch them     , and
@@ -3398,8 +3398,8 @@
 #
 > Five and Seven said    nothing  , but     looked at    Two . Two began in      a    low      voice  , “ Why
 # NSg  V/C NSg   VPtPp/J NSg/I/J+ . NSg/C/P VP/J   NSg/P NSg . NSg VPt   NPr/J/P D/P+ NSg/V/J+ NSg/V+ . . NSg/V
-> the fact is  , you    see   , Miss  , this   here    ought    to have   been    a   red    rose    - tree   , and we
-# D+  NSg+ VL3 . ISgPl+ NSg/V . NSg/V . I/Ddem NSg/J/R NSg/I/VX P  NSg/VX NSg/VPp D/P N🅪Sg/J NPr/V/J . NSg/V+ . V/C IPl+
+> the fact is  , you    see   , Miss  , this   here    ought    to have   been    a   red    rose      - tree   , and we
+# D+  NSg+ VL3 . ISgPl+ NSg/V . NSg/V . I/Ddem NSg/J/R NSg/I/VX P  NSg/VX NSg/VPp D/P N🅪Sg/J NPr/VPt/J . NSg/V+ . V/C IPl+
 > put   a   white    one        in      by      mistake ; and if    the Queen    was to find  it       out         , we   should
 # NSg/V D/P NPr🅪/V/J NSg/I/V/J+ NPr/J/P NSg/J/P NSg/V+  . V/C NSg/C D+  NPr/V/J+ VPt P  NSg/V NPr/ISg+ NSg/V/J/R/P . IPl+ VX
 > all          have   our heads   cut     off       , you    know   . So        you    see   , Miss  , we’re doing   our best      ,
@@ -3474,8 +3474,8 @@
 #
 > “ And who    are these  ? ” said    the Queen    , pointing to the three gardeners who    were
 # . V/C NPr/I+ V   I/Ddem . . VPtPp/J D+  NPr/V/J+ . Nᴹ/Vg/J  P  D+  NSg+  +         NPr/I+ NSg/VPt
-> lying   round     the rose     - tree   ; for , you    see   , as    they were    lying   on  their faces   , and
-# Nᴹ/Vg/J NSg/V/J/P D   NPr/V/J+ . NSg/V+ . C/P . ISgPl+ NSg/V . NSg/R IPl+ NSg/VPt Nᴹ/Vg/J J/P D$+   NPl/V3+ . V/C
+> lying   round     the rose       - tree   ; for , you    see   , as    they were    lying   on  their faces   , and
+# Nᴹ/Vg/J NSg/V/J/P D   NPr/VPt/J+ . NSg/V+ . C/P . ISgPl+ NSg/V . NSg/R IPl+ NSg/VPt Nᴹ/Vg/J J/P D$+   NPl/V3+ . V/C
 > the pattern  on  their backs   was the same as    the rest  of the pack   , she  could  not
 # D+  NSg/V/J+ J/P D$+   NPl/V3+ VPt D   I/J  NSg/R D   NSg/V P  D+  NSg/V+ . ISg+ NSg/VX NSg/C
 > tell   whether they were    gardeners , or    soldiers , or    courtiers , or    three of her     own
@@ -3524,8 +3524,8 @@
 #
 > “ Leave off       that          ! ” screamed the Queen    . “ You    make  me       giddy   . ” And then    , turning to
 # . NSg/V NSg/V/J/P NSg/I/C/Ddem+ . . VP/J     D+  NPr/V/J+ . . ISgPl+ NSg/V NPr/ISg+ NSg/V/J . . V/C NSg/J/C . Nᴹ/Vg/J P
-> the rose     - tree   , she  went    on  , “ What   have   you    been    doing   here    ? ”
-# D+  NPr/V/J+ . NSg/V+ . ISg+ NSg/VPt J/P . . NSg/I+ NSg/VX ISgPl+ NSg/VPp Nᴹ/Vg/J NSg/J/R . .
+> the rose       - tree   , she  went    on  , “ What   have   you    been    doing   here    ? ”
+# D+  NPr/VPt/J+ . NSg/V+ . ISg+ NSg/VPt J/P . . NSg/I+ NSg/VX ISgPl+ NSg/VPp Nᴹ/Vg/J NSg/J/R . .
 >
 #
 > “ May    it       please your Majesty , ” said    Two , in      a   very humble  tone      , going   down       on  one
@@ -3622,8 +3622,8 @@
 #
 > “ Get   to your places  ! ” shouted the Queen    in      a   voice of thunder , and people began
 # . NSg/V P  D$+  NPl/V3+ . . VP/J    D+  NPr/V/J+ NPr/J/P D/P NSg/V P  NSg/V+  . V/C NPl/V+ VPt
-> running  about in      all           directions , tumbling up        against each other   ; however , they
-# Nᴹ/V/J/P J/P   NPr/J/P NSg/I/J/C/Dq+ NPl+       . Nᴹ/Vg/J  NSg/V/J/P C/P     Dq   NSg/V/J . C       . IPl+
+> running   about in      all           directions , tumbling up        against each other   ; however , they
+# Nᴹ/Vg/J/P J/P   NPr/J/P NSg/I/J/C/Dq+ NPl+       . Nᴹ/Vg/J  NSg/V/J/P C/P     Dq   NSg/V/J . C       . IPl+
 > got settled down       in      a    minute   or    two , and the game     began . Alice thought    she  had
 # V   VP/J    N🅪Sg/V/J/P NPr/J/P D/P+ NSg/V/J+ NPr/C NSg . V/C D+  NSg/V/J+ VPt   . NPr+  N🅪Sg/VPtPp ISg+ V
 > never seen    such  a   curious croquet - ground   in      her     life    ; it       was all          ridges and
@@ -4498,8 +4498,8 @@
 # NSg/V+ . . I/J  NSg/R NSg/C NPr/ISg+ V   D/P+ N🅪Sg/V/J+ NPr/J/P ISg/D$+ NSg/V+ . . VPtPp/J D   ?       . V/C NPr/ISg+ NPr/V/J P
 > work   shaking him  and punching him  in      the back    . At    last    the Mock     Turtle recovered
 # N🅪Sg/V Nᴹ/Vg/J ISg+ V/C Nᴹ/Vg/J  ISg+ NPr/J/P D   NSg/V/J . NSg/P NSg/V/J D+  NSg/V/J+ NSg/V+ VP/J
-> his     voice  , and , with tears   running  down       his     cheeks  , he       went    on  again : —
-# ISg/D$+ NSg/V+ . V/C . P    NPl/V3+ Nᴹ/V/J/P N🅪Sg/V/J/P ISg/D$+ NPl/V3+ . NPr/ISg+ NSg/VPt J/P P     . .
+> his     voice  , and , with tears   running   down       his     cheeks  , he       went    on  again : —
+# ISg/D$+ NSg/V+ . V/C . P    NPl/V3+ Nᴹ/Vg/J/P N🅪Sg/V/J/P ISg/D$+ NPl/V3+ . NPr/ISg+ NSg/VPt J/P P     . .
 >
 #
 > “ You    may    not   have   lived much         under   the sea  — ” ( “ I    haven’t , ” said    Alice ) — “ and
@@ -4754,8 +4754,8 @@
 # NSg/VX NSg/VX VPtPp ISgPl+ NSg/I/C/Ddem+ . .
 >
 #
-> “ If    I’d been    the whiting      , ” said    Alice , whose thoughts were    still   running  on  the
-# . NSg/C W?  NSg/VPp D   N🅪SgPl/Vg/J+ . . VPtPp/J NPr+  . I+    NPl/V3+  NSg/VPt NSg/V/J Nᴹ/V/J/P J/P D
+> “ If    I’d been    the whiting      , ” said    Alice , whose thoughts were    still   running   on  the
+# . NSg/C W?  NSg/VPp D   N🅪SgPl/Vg/J+ . . VPtPp/J NPr+  . I+    NPl/V3+  NSg/VPt NSg/V/J Nᴹ/Vg/J/P J/P D
 > song  , “ I’d have   said    to the porpoise , ‘          Keep  back    , please : we   don’t want  you    with
 # N🅪Sg+ . . W?  NSg/VX VPtPp/J P  D   NSg/V+   . Unlintable NSg/V NSg/V/J . V      . IPl+ V     NSg/V ISgPl+ P
 > us       ! ’ ”
@@ -5510,8 +5510,8 @@
 # . NPr/V . ISg+ NSg/V D$+  NSg/V  . . ISg+ VP/J      NPr/J/P D/P N🅪Sg/I/V P  NSg/J+ NSg/V+ . V/C VPt
 > picking them     up        again as    quickly as    she  could  , for the accident of the goldfish
 # Nᴹ/Vg/J NSg/IPl+ NSg/V/J/P P     NSg/R R       NSg/R ISg+ NSg/VX . C/P D   NSg/J    P  D   NSgPl
-> kept running  in      her     head     , and she  had a   vague   sort  of idea that          they must  be
-# V    Nᴹ/V/J/P NPr/J/P ISg/D$+ NPr/V/J+ . V/C ISg+ V   D/P NSg/V/J NSg/V P  NSg+ NSg/I/C/Ddem+ IPl+ NSg/V NSg/VXB
+> kept running   in      her     head     , and she  had a   vague   sort  of idea that          they must  be
+# V    Nᴹ/Vg/J/P NPr/J/P ISg/D$+ NPr/V/J+ . V/C ISg+ V   D/P NSg/V/J NSg/V P  NSg+ NSg/I/C/Ddem+ IPl+ NSg/V NSg/VXB
 > collected at    once  and put   back    into the jury     - box    , or    they would die   .
 # VP/J      NSg/P NSg/C V/C NSg/V NSg/V/J P    D   NSg/V/J+ . NSg/V+ . NPr/C IPl+ VX    NSg/V .
 >
@@ -5884,8 +5884,8 @@
 # . W?     NSg/I/J+ NSg/C/P D/P NSg/V P  NPl/V3+ . .
 >
 #
-> At    this    the whole  pack   rose    up        into the air     , and came      flying  down       upon her     : she
-# NSg/P I/Ddem+ D+  NSg/J+ NSg/V+ NPr/V/J NSg/V/J/P P    D+  N🅪Sg/V+ . V/C NSg/VPt/P Nᴹ/Vg/J N🅪Sg/V/J/P P    ISg/D$+ . ISg+
+> At    this    the whole  pack   rose      up        into the air     , and came      flying  down       upon her     : she
+# NSg/P I/Ddem+ D+  NSg/J+ NSg/V+ NPr/VPt/J NSg/V/J/P P    D+  N🅪Sg/V+ . V/C NSg/VPt/P Nᴹ/Vg/J N🅪Sg/V/J/P P    ISg/D$+ . ISg+
 > gave a    little      scream , half       of fright  and half       of anger , and tried to beat     them
 # V    D/P+ NPr/I/J/Dq+ NSg/V+ . N🅪Sg/V/J/P P  NSg/V/J V/C N🅪Sg/V/J/P P  Nᴹ/V+ . V/C VP/J  P  N🅪Sg/V/J NSg/IPl+
 > off       , and found herself lying   on  the bank   , with her     head     in      the lap     of her

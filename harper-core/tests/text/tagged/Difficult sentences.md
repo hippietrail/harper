@@ -612,8 +612,8 @@
 # ISg+ VPt Nᴹ/Vg/J P  NSg/V NSg/V/J/R/P P  D+  NSg/V+ NSg/V/C/P D+  NSg/V/J+ VPt NSg/V/J J/P .
 > Climbing up        that          steep    ridge  isn't on  . We'll have   to find  another route  .
 # Nᴹ/Vg/J  NSg/V/J/P NSg/I/C/Ddem+ NSg/V/J+ NSg/V+ NSg/V J/P . W?    NSg/VX P  NSg/V I/D     NSg/V+ .
-> He'd like        to play   the red    next    to the black    spot     , but     that         shot     isn't on  .
-# W?   NSg/V/J/C/P P  N🅪Sg/V D   N🅪Sg/J NSg/J/P P  D   N🅪Sg/V/J NSg/V/J+ . NSg/C/P NSg/I/C/Ddem NSg/V/J+ NSg/V J/P .
+> He'd like        to play   the red    next    to the black    spot     , but     that         shot         isn't on  .
+# W?   NSg/V/J/C/P P  N🅪Sg/V D   N🅪Sg/J NSg/J/P P  D   N🅪Sg/V/J NSg/V/J+ . NSg/C/P NSg/I/C/Ddem NSg/VPtPp/J+ NSg/V J/P .
 > The captain moved two fielders to the on  side     .
 # D+  NSg/V+  VP/J  NSg W?       P  D   J/P NSg/V/J+ .
 > Ponsonby - Smythe hit     a   thumping on  drive   .
@@ -664,8 +664,8 @@
 # +     VL3 D/P V/J   NSg/V  J/P I/Ddem+ NSg/V+ .
 > The painting   hangs  on  the wall   .
 # D+  N🅪Sg/Vg/J+ NPl/V3 J/P D+  NPr/V+ .
-> The fruit   ripened on  the trees   .
-# D+  N🅪Sg/V+ VP/J    J/P D   NPl/V3+ .
+> The fruit   ripened  on  the trees   .
+# D+  N🅪Sg/V+ VPPtPp/J J/P D   NPl/V3+ .
 > Should there be      an  accent on  the " e      " ?
 # VX     +     NSg/VXB D/P NSg/V+ J/P D   . NPr/I+ . .
 > He       wore old   shoes   on  his     feet .
@@ -894,8 +894,8 @@
 # NPr/ISg+ VPt VP/J    P    D+  NSg+    .
 > I’m upset   with my  father .
 # W?  NSg/V/J P    D$+ NPr/V+ .
-> slain with robbers .
-# NSg/V P    NPl     .
+> slain   with robbers .
+# NSg/VPp P    NPl     .
 > cut     with a    knife
 # NSg/V/J P    D/P+ NSg/V+
 > I    water  my  plants  with this    watering can    . This    is  the watering can    I    water  my  plants  with .

@@ -170,8 +170,8 @@
 # D   NSg/V/J NPr/V/J NSg    P  NPr🅪/V/J C/P NSg/V+   N🅪Sg+    VPt D   NPr🅪/V/J NSg
 > developed at    Brown    University by      Henry Kučera and W. Nelson Francis , in      the
 # VP/J      NSg/P NPr🅪/V/J NSg+       NSg/J/P NPr+  ?      V/C ?  NPr+   NPr+    . NPr/J/P D
-> mid      - 1960s . It       consists of about 1 , 000 , 000 words  of running  English   prose text    ,
-# NSg/J/P+ . #d    . NPr/ISg+ NPl/V3   P  J/P   # . #   . #   NPl/V3 P  Nᴹ/V/J/P NPr🅪/V/J+ Nᴹ/V  N🅪Sg/V+ .
+> mid      - 1960s . It       consists of about 1 , 000 , 000 words  of running   English   prose text    ,
+# NSg/J/P+ . #d    . NPr/ISg+ NPl/V3   P  J/P   # . #   . #   NPl/V3 P  Nᴹ/Vg/J/P NPr🅪/V/J+ Nᴹ/V  N🅪Sg/V+ .
 > made up        of 500 samples from randomly chosen publications . Each sample is  2 , 000
 # V    NSg/V/J/P P  #   NPl/V3+ P    R        Nᴹ/V/J NPl+         . Dq+  NSg/V+ VL3 # . #
 > or    more           words   ( ending  at    the first   sentence - end    after 2 , 000 words   , so        that         the

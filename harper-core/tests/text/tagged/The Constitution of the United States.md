@@ -1459,7 +1459,7 @@
 > The powers    not   delegated to the United States    by      the Constitution , nor
 # D+  NPrPl/V3+ NSg/C VP/J      P  D   VP/J   NPrPl/V3+ NSg/J/P D   NPr+         . NSg/C
 > prohibited by      it       to the states    , are reserved to the states    respectively , or    to
-# VP/J       NSg/J/P NPr/ISg+ P  D   NPrPl/V3+ . V   VP/J     P  D   NPrPl/V3+ R            . NPr/C P
+# VP/J       NSg/J/P NPr/ISg+ P  D   NPrPl/V3+ . V   VPPtPp/J P  D   NPrPl/V3+ R            . NPr/C P
 > the people .
 # D   NPl/V+ .
 >

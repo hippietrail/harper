@@ -504,8 +504,8 @@
 # VL3 . . NSg/I+ NPr/VX NSg/VXB VP/J      . . N🅪Sg   P  NSg         VL3 VP/J    J/P Nᴹ/Vg/J
 > fundamental questions about what   can    be      computed and what   amount of resources
 # NSg/J       NPl/V3+   J/P   NSg/I+ NPr/VX NSg/VXB VP/J     V/C NSg/I+ NSg/V  P  NPl/V3+
-> are required to perform those  computations . In      an  effort to answer the first
-# V   VP/J     P  V       I/Ddem NPl          . NPr/J/P D/P NSg/V+ P  NSg/V  D+  NSg/V/J+
+> are required to perform those  computations . In      an  effort  to answer the first
+# V   VP/J     P  V       I/Ddem NPl          . NPr/J/P D/P N🅪Sg/V+ P  NSg/V  D+  NSg/V/J+
 > question , computability theory examines which computational problems are
 # NSg/V+   . Nᴹ            N🅪Sg+  NPl/V3   I/C+  J+            NPl+     V
 > solvable on  various theoretical models of computation . The second   question is
