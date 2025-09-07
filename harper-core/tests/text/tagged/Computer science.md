@@ -367,7 +367,7 @@
 > experimental science  , but     like         astronomy , economics , and  geology , some     of its
 # NSg/J+       N🅪Sg/VB+ . NSg/C/P NSg/VB/J/C/P Nᴹ+       . Nᴹ+       . VB/C NSg     . I/J/R/Dq P  ISg/D$+
 > unique forms  of observation and  experience do      not   fit      a   narrow   stereotype of
-# NSg/J  NPl/V3 P  N🅪Sg        VB/C NSg/VB+    NSg/VXB NSg/C NSg/VB/J D/P NSg/VB/J NSg/VB     P
+# NSg/J  NPl/V3 P  N🅪Sg        VB/C N🅪Sg/VB+   NSg/VXB NSg/C NSg/VB/J D/P NSg/VB/J NSg/VB     P
 > the experimental method  . Nonetheless , they are experiments . Each new       machine
 # D   NSg/J        NSg/VB+ . W?          . IPl+ VB  NPl/V3+     . Dq+  NSg/VB/J+ NSg/VB+
 > that          is  built    is  an   experiment . Actually constructing the machine poses   a

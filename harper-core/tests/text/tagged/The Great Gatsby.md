@@ -3005,7 +3005,7 @@
 > the lower     East   Side     of New      York . That          was comprehensible . But     young     men
 # D   NSg/VB/JC NPr/J+ NSg/VB/J P  NSg/VB/J NPr+ . NSg/I/C/Ddem+ VPt J              . NSg/C/P NPr/VB/J+ NSg+
 > didn’t — at    least in      my  provincial inexperience I    believed they didn’t — drift
-# VB     . NSg/P NSg/J NPr/J/P D$+ NSg/J      NSg/VB       ISg+ VP/J     IPl+ VB     . NSg/VB
+# VB     . NSg/P NSg/J NPr/J/P D$+ NSg/J      Nᴹ           ISg+ VP/J     IPl+ VB     . NSg/VB
 > coolly out          of nowhere and  buy    a   palace  on  Long     Island  Sound      .
 # R      NSg/VB/J/R/P P  NSg/J   VB/C NSg/VB D/P NSg/VB+ J/P NPr/VB/J NSg/VB+ N🅪Sg/VB/J+ .
 >
@@ -7438,8 +7438,8 @@
 # VP/J     . NSg$  NSg/I/J/C/Dq NSg/VB/J P  NSg  . .
 >
 #
-> Her     voice   struggled on  through the heat   , beating against it       , molding  its
-# ISg/D$+ NSg/VB+ VP/J      J/P NSg/J/P D+  Nᴹ/VB+ . Nᴹ/Vg/J C/P     NPr/ISg+ . Nᴹ/Vg/J+ ISg/D$+
+> Her     voice   struggled on  through the heat   , beating against it       , molding    its
+# ISg/D$+ NSg/VB+ VP/J      J/P NSg/J/P D+  Nᴹ/VB+ . Nᴹ/Vg/J C/P     NPr/ISg+ . N🅪Sg/Vg/J+ ISg/D$+
 > senselessness into forms   .
 # Nᴹ            P    NPl/V3+ .
 >
@@ -11439,7 +11439,7 @@
 > “ Nevertheless you    did throw  me       over    , ” said Jordan suddenly . ‘          ‘          You    threw me       over
 # . W?           ISgPl+ VPt NSg/VB NPr/ISg+ NSg/J/P . . VP/J NPr+   R        . Unlintable Unlintable ISgPl+ VB    NPr/ISg+ NSg/J/P
 > on  the telephone . I    don’t give   a   damn     about you    now        , but     it       was a   new      experience
-# J/P D+  NSg/VB+   . ISg+ VB    NSg/VB D/P NSg/VB/J J/P   ISgPl+ NPr/VB/J/C . NSg/C/P NPr/ISg+ VPt D/P NSg/VB/J NSg/VB
+# J/P D+  NSg/VB+   . ISg+ VB    NSg/VB D/P NSg/VB/J J/P   ISgPl+ NPr/VB/J/C . NSg/C/P NPr/ISg+ VPt D/P NSg/VB/J N🅪Sg/VB
 > for me       , and  I    felt      a   little     dizzy    for a   while       . ”
 # C/P NPr/ISg+ . VB/C ISg+ N🅪Sg/VB/J D/P NPr/I/J/Dq NSg/VB/J C/P D/P NSg/VB/C/P+ . .
 >
