@@ -953,13 +953,11 @@ fn normalize_annotation_flags(flag_str: &str) -> String {
     let pron_props = "aso123F";
     let adj_props = "^cuY*.:";
     let det_props = "qM5";
-    let noun_and_verb_props = "S";
-    let verb_and_adj_props = ">";
 
-    // create a special key in the map for the 'unused' flags, using the null byte char as the key
+    // Create a special key in the map for the 'unused' flags, using the null byte char as the key
     pos_map.insert('\0', vec![]);
 
-    // check for ~ because it must be first if present
+    // Check for ~ because it must be first if present
     if char_vec.contains(&'~') {
         pos_order.push('~');
         pos_map.insert('~', vec![]);
@@ -967,11 +965,11 @@ fn normalize_annotation_flags(flag_str: &str) -> String {
 
     char_vec.iter().for_each(|flag| {
         if flag == &'~' {
-            // this will drop any duplicates should they exist
+            // This will drop any duplicates should they exist
             return;
         }
         if pos_tags.contains(*flag) {
-            // this one is a POS tag so if it's not already in the map, add it as a key and push it to the pos_order vec
+            // This one is a POS tag so if it's not already in the map, add it as a key and push it to the pos_order vec
             // but if it is already in the map (a dupe), treat it as a property of the POS and push it onto the value of the key
             if pos_map.contains_key(flag) {
                 // add dupe
@@ -1018,17 +1016,15 @@ fn normalize_annotation_flags(flag_str: &str) -> String {
         } else if det_props.contains(*flag) {
             pos_map.get_mut(&'D').unwrap().push(*flag);
         } else {
-            // this one is not a POS tag so add it to the 'unused' flags
+            // This one is not a POS tag so add it to the 'unused' flags
             pos_map.get_mut(&'\0').unwrap().push(*flag);
         }
     });
 
     let mut result = String::new();
-    // get the pos in order then append it and its values to the result string
+    // Get the pos in order then append it and its values to the result string
     pos_order.iter().for_each(|pos_flag_char| {
         result.push(*pos_flag_char);
-        // result.extend(pos_map.get(pos_flag_char).unwrap());
-        // let props = pos_map.get(pos_flag_char).unwrap();
         if let Some(props) = pos_map.get(pos_flag_char) {
             result.extend(props);
         }
