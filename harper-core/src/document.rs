@@ -478,8 +478,8 @@ impl Document {
                 "ad nauseam",
                 "alma mater",
                 // "avant-garde",
-                "Bézier curve",
                 "bona fide",
+                "contra proferentem",
                 // "cul-de-sac",
                 "de facto",
                 "de jure",
@@ -487,7 +487,6 @@ impl Document {
                 "déjà vu",
                 "deja vu",
                 "en masse",
-                // "foo bar baz",
                 "gung ho",
                 "habeas corpus",
                 "in personam",
@@ -500,6 +499,7 @@ impl Document {
                 "Pax Americana",
                 "per annum",
                 "per capita",
+                "per definitionem",
                 "per diem",
                 "per se",
                 "prima facie",
@@ -507,9 +507,7 @@ impl Document {
                 "quid pro quo",
                 "sui generis",
                 "tai chi",
-                "tom yam",
                 // "vis-à-vis",
-                "",
             ]
             .iter()
             .filter(|phrase| phrase.split_whitespace().count() != 0)
