@@ -76,18 +76,6 @@ Message: |
 
 Lint:    Spelling (63 priority)
 Message: |
-      23 | the intimate revelations of young men, or at least the terms in which they
-      24 | express them, are usually plagiaristic and marred by obvious suppressions.
-         |                           ^~~~~~~~~~~~ Did you mean to spell `plagiaristic` this way?
-Suggest:
-  - Replace with: “plagiarist's”
-  - Replace with: “plagiarist”
-  - Replace with: “plagiarists”
-
-
-
-Lint:    Spelling (63 priority)
-Message: |
       27 | snobbishly repeat, a sense of the fundamental decencies is parcelled out
          |                                                            ^~~~~~~~~ Did you mean `parceled`?
       28 | unequally at birth.
@@ -214,12 +202,10 @@ Message: |
 Lint:    Spelling (63 priority)
 Message: |
       72 | sounded like a great idea. He found the house, a weatherbeaten cardboard
-         |                                                  ^~~~~~~~~~~~~ Did you mean to spell `weatherbeaten` this way?
+         |                                                  ^~~~~~~~~~~~~ Did you mean `weather-beaten`?
       73 | bungalow at eighty a month, but at the last minute the firm ordered him to
 Suggest:
-  - Replace with: “weatherboard”
-  - Replace with: “weatherboards”
-  - Replace with: “weatherization”
+  - Replace with: “weather-beaten”
 
 
 
@@ -392,16 +378,6 @@ Message: |
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      141 | for instance, he’d brought down a string of polo ponies from Lake Forest. It was
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ This sentence is 47 words long.
-
-
-
-Lint:    Spelling (63 priority)
-Message: |
-     145 | particular reason, and then drifted here and there unrestfully wherever people
-         |                                                    ^~~~~~~~~~~ Did you mean `restfully`?
-     146 | played polo and were rich together. This was a permanent move, said Daisy over
-Suggest:
-  - Replace with: “restfully”
 
 
 
@@ -2087,6 +2063,16 @@ Suggest:
   - Replace with: “coup”
   - Replace with: “coupe”
   - Replace with: “coups”
+
+
+
+Lint:    WordChoice (127 priority)
+Message: |
+    1667 | “Don’t ask me,” said Owl Eyes, washing his hands of the whole matter. “I know
+    1668 | very little about driving—next to nothing. It happened, and that’s all I know.”
+         |                                ^~ Use `too` here to mean ‘also’ or an excessive degree.
+Suggest:
+  - Replace with: “too”
 
 
 
@@ -4694,6 +4680,15 @@ Message: |
 
 
 
+Lint:    WordChoice (127 priority)
+Message: |
+    3353 | inhabitants along a short-cut from nothing to nothing. She saw something awful
+         |                                            ^~ Use `too` here to mean ‘also’ or an excessive degree.
+Suggest:
+  - Replace with: “too”
+
+
+
 Lint:    Spelling (63 priority)
 Message: |
     3389 | Daisy began to sing with the music in a husky, rythmic whisper, bringing out a
@@ -6627,6 +6622,24 @@ Message: |
          |                     ^~~~~~~~~~ Did you mean the closed compound noun “workbench”?
 Suggest:
   - Replace with: “workbench”
+
+
+
+Lint:    WordChoice (127 priority)
+Message: |
+    5065 | “Have you got a church you go to sometimes, George? Maybe even if you haven’t
+         |                               ^~ Use `too` here to mean ‘also’ or an excessive degree.
+Suggest:
+  - Replace with: “too”
+
+
+
+Lint:    WordChoice (127 priority)
+Message: |
+    5069 | “Don’t belong to any.”
+         |               ^~ Use `too` here to mean ‘also’ or an excessive degree.
+Suggest:
+  - Replace with: “too”
 
 
 
