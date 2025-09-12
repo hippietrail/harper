@@ -47,6 +47,7 @@ use super::filler_words::FillerWords;
 use super::first_aid_kit::FirstAidKit;
 use super::for_noun::ForNoun;
 use super::friend_of_me::FriendOfMe;
+use super::have_gone::HaveGone;
 use super::have_pronoun::HavePronoun;
 use super::have_take_a_look::HaveTakeALook;
 use super::hedging::Hedging;
@@ -446,6 +447,7 @@ impl LintGroup {
         insert_struct_rule!(FirstAidKit, true);
         insert_struct_rule!(ForNoun, true);
         insert_expr_rule!(FriendOfMe, true);
+        insert_expr_rule!(HaveGone, true);
         insert_expr_rule!(HavePronoun, true);
         insert_expr_rule!(Hedging, true);
         insert_expr_rule!(Hereby, true);
