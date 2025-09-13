@@ -118,7 +118,12 @@ fn format_word_tag(word: &WordMetadata) -> String {
             add_switch(&mut tag, Some(word.is_countable_noun()), "🅪", "ᴹ");
         }
         if word.is_countable_noun() {
-            if word.is_singular_noun() && !word.is_proper_noun() {
+            // Countable nouns are optionally marked in the dictionary. Countable is default if neither it nor mass is marked.
+            // Common nouns are not marked in the dictionary, but being a mass noun implies being a common noun.
+            // We don't want to clutter the output with `Sg` for mass nouns unless they are also countable.
+            // We don't want to clutter the output with `Sg` for proper nouns unless they are also common.
+            // "wood"/"Wood" is a countable and mass common noun and also a proper noun.
+            if word.is_singular_noun() && (!word.is_proper_noun() || word.is_mass_noun()) {
                 tag.push_str("Sg");
             }
             if word.is_plural_noun() {
@@ -148,7 +153,7 @@ fn format_word_tag(word: &WordMetadata) -> String {
         add_bool(&mut tag, "L", verb.is_linking);
         add_bool(&mut tag, "X", verb.is_auxiliary);
         if let Some(forms) = verb.verb_forms {
-            // If Lemma flag is explicity set; or if no verb forms are set Lemma is the default.
+            // If Lemma flag is explicitly set; or if no verb forms are set Lemma is the default.
             match (
                 forms.contains(VerbFormFlags::LEMMA),
                 forms.contains(VerbFormFlags::PAST),

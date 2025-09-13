@@ -112,8 +112,8 @@
 # NPl/V3   P  D   NSg/J  NSg/VB+  . . . D/P+ J+      NSg/VB+ VPt D   NSg      P  D/P VP/J
 > card     system derived from the Jacquard loom   " making  it       infinitely
 # N🅪Sg/VB+ NSg+   VP/J    P    D   NPr      NSg/VB . Nᴹ/Vg/J NPr/ISg+ R
-> programmable . [ note    2 ] In      1843 , during the translation of a   French    article on  the
-# NSg/J        . . NSg/VB+ # . NPr/J/P #    . VB/P   D   N🅪Sg        P  D/P NPr🅪/VB/J NSg/VB+ J/P D
+> programmable . [ note    2 ] In      1843 , during the translation of a   French      article on  the
+# NSg/J        . . NSg/VB+ # . NPr/J/P #    . VB/P   D   N🅪Sg        P  D/P NPr🅪Sg/VB/J NSg/VB+ J/P D
 > Analytical Engine  , Ada  Lovelace wrote , in      one        of the many       notes   she  included , an
 # J          NSg/VB+ . NPr+ NPr      VB    . NPr/J/P NSg/I/VB/J P  D   NSg/I/J/Dq NPl/V3+ ISg+ VP/J     . D/P
 > algorithm to compute the Bernoulli numbers   , which is  considered to be      the first
@@ -160,8 +160,8 @@
 #
 > During the 1940s , with the development of new      and  more            powerful computing
 # VB/P   D+  #d    . P    D   N🅪Sg        P  NSg/VB/J VB/C NPr/I/VB/J/R/Dq J        Nᴹ/Vg/J+
-> machines such  as    the Atanasoff – Berry    computer and  ENIAC , the term      computer came
-# NPl/V3   NSg/I NSg/R D   ?         . NPr🅪/VB+ NSg/VB+  VB/C ?     . D   NSg/VB/J+ NSg/VB+  NSg/VPt/P
+> machines such  as    the Atanasoff – Berry      computer and  ENIAC , the term      computer came
+# NPl/V3   NSg/I NSg/R D   ?         . NPr🅪Sg/VB+ NSg/VB+  VB/C ?     . D   NSg/VB/J+ NSg/VB+  NSg/VPt/P
 > to refer  to the machines rather     than their human    predecessors . As    it       became
 # P  NSg/VB P  D   NPl/V3+  NPr/VB/J/R C/P  D$+   NSg/VB/J NPl+         . NSg/R NPr/ISg+ VPt
 > clear    that         computers could   be      used for more            than just mathematical calculations ,
@@ -258,10 +258,10 @@
 # NSg/VPp VP/J      . NPr/J/P NPr+   . NPl/V3+ VP/J    P    VP/J       NPl          P  D+
 > expression " automatic information " ( e.g. " informazione automatica " in      Italian )
 # N🅪Sg+      . NSg/J+    Nᴹ+         . . NSg  . ?            ?          . NPr/J/P N🅪Sg/J  .
-> or    " information and  mathematics " are often used , e.g. informatique ( French    ) ,
-# NPr/C . Nᴹ          VB/C Nᴹ+         . VB  R     VP/J . NSg  ?            . NPr🅪/VB/J . .
-> Informatik ( German ) , informatica ( Italian , Dutch     ) , informática ( Spanish ,
-# ?          . NPr🅪/J . . ?           . N🅪Sg/J  . NPrᴹ/VB/J . . ?           . NPrᴹ/J  .
+> or    " information and  mathematics " are often used , e.g. informatique ( French      ) ,
+# NPr/C . Nᴹ          VB/C Nᴹ+         . VB  R     VP/J . NSg  ?            . NPr🅪Sg/VB/J . .
+> Informatik ( German   ) , informatica ( Italian , Dutch     ) , informática ( Spanish ,
+# ?          . NPr🅪Sg/J . . ?           . N🅪Sg/J  . NPrᴹ/VB/J . . ?           . NPrᴹ/J  .
 > Portuguese ) , informatika ( Slavic languages and  Hungarian ) or    pliroforiki
 # NPr/J      . . ?           . NSg/J  NPl/V3+   VB/C NSg/J     . NPr/C ?
 > ( π          λ          η          ρ          ο          φ          ο          ρ          ι          κ          ή          , which means  informatics ) in      Greek    . Similar words   have    also been
@@ -306,8 +306,8 @@
 # Nᴹ/Vg/J+  VL3 D/P J            N🅪Sg/VB . NSg/J/R+ NSg/VB+  N🅪Sg/VB+ VPt R
 > influenced by      the work    of mathematicians such  as    Kurt Gödel , Alan Turing , John
 # VP/J       NSg/J/P D   N🅪Sg/VB P  NPl+           NSg/I NSg/R NPr  NPr   . NPr+ NPr    . NPr+
-> von Neumann , Rózsa Péter and  Alonzo Church   and  there continues to be      a   useful
-# ?   ?       . ?     ?     VB/C NPr    NPr🅪/VB+ VB/C R+    NPl/V3    P  NSg/VXB D/P J
+> von Neumann , Rózsa Péter and  Alonzo Church     and  there continues to be      a   useful
+# ?   ?       . ?     ?     VB/C NPr    NPr🅪Sg/VB+ VB/C R+    NPl/V3    P  NSg/VXB D/P J
 > interchange of ideas between the two fields    in      areas such  as    mathematical logic    ,
 # NSg/VB      P  NPl+  NSg/P   D   NSg NPrPl/V3+ NPr/J/P NPl+  NSg/I NSg/R J            Nᴹ/VB/J+ .
 > category theory , domain theory , and  algebra .
@@ -693,7 +693,7 @@
 > interaction between humans and  computer interfaces . HCI has several subfields
 # N🅪Sg        NSg/P   NPl/V3 VB/C NSg/VB+  NPl/V3+    . ?   V3  J/Dq    NPl
 > that         focus    on  the relationship between emotions , social behavior and  brain
-# NSg/I/C/Ddem N🅪Sg/VB+ J/P D   NSg          NSg/P   NPl+     . NSg/J  N🅪Sg/Am  VB/C NPr🅪/VB+
+# NSg/I/C/Ddem N🅪Sg/VB+ J/P D   NSg          NSg/P   NPl+     . NSg/J  N🅪Sg/Am  VB/C NPr🅪Sg/VB+
 > activity with computers .
 # NSg      P    NPl/V3+   .
 >
@@ -724,8 +724,8 @@
 # J+         N🅪Sg+
 >
 #
-> Artificial intelligence ( AI    ) aims   to or    is  required to synthesize
-# J          N🅪Sg         . NPr🅪+ . NPl/V3 P  NPr/C VL3 VP/J     P  VB
+> Artificial intelligence ( AI      ) aims   to or    is  required to synthesize
+# J          N🅪Sg         . NPr🅪Sg+ . NPl/V3 P  NPr/C VL3 VP/J     P  VB
 > goal    - orientated processes such  as    problem - solving , decision - making  ,
 # NSg/VB+ . VP/J       NPl/V3    NSg/I NSg/R NSg/J+  . Nᴹ/Vg/J . NSg/VB+  . Nᴹ/Vg/J .
 > environmental adaptation , learning , and  communication found  in      humans and
@@ -738,8 +738,8 @@
 # N🅪Sg/Vg/J J/P NPl   P  Nᴹ/VB+    NSg/I NSg/R VP/J    Nᴹ+         . J        Nᴹ/VB/J+ .
 > semiotics , electrical engineering , philosophy of mind    , neurophysiology , and
 # Nᴹ        . NSg/J      Nᴹ/Vg/J+    . N🅪Sg/VB    P  NSg/VB+ . ?               . VB/C
-> social intelligence . AI    is  associated in      the popular mind    with robotic
-# NSg/J  N🅪Sg+        . NPr🅪+ VL3 VP/J       NPr/J/P D   NSg/J   NSg/VB+ P    J+
+> social intelligence . AI      is  associated in      the popular mind    with robotic
+# NSg/J  N🅪Sg+        . NPr🅪Sg+ VL3 VP/J       NPr/J/P D   NSg/J   NSg/VB+ P    J+
 > development , but     the main     field  of practical application has been    as    an  embedded
 # N🅪Sg+       . NSg/C/P D   NSg/VB/J NSg/VB P  NSg/J+    NSg+        V3  NSg/VPp NSg/R D/P VP/J
 > component in      areas of software development , which require computational
@@ -834,8 +834,8 @@
 # NPl+  .
 >
 #
-> Historical cryptography is  the art     of writing and  deciphering secret   messages .
-# NSg/J      Nᴹ           VL3 D   NPr🅪/VB P  Nᴹ/Vg/J VB/C Nᴹ/Vg/J     NSg/VB/J NPl/V3+  .
+> Historical cryptography is  the art       of writing and  deciphering secret   messages .
+# NSg/J      Nᴹ           VL3 D   NPr🅪Sg/VB P  Nᴹ/Vg/J VB/C Nᴹ/Vg/J     NSg/VB/J NPl/V3+  .
 > Modern cryptography is  the scientific study  of problems relating to distributed
 # NSg/J  Nᴹ           VL3 D   J          NSg/VB P  NPl+     Nᴹ/Vg/J  P  VP/J
 > computations that          can     be      attacked . Technologies studied in      modern cryptography
@@ -960,12 +960,12 @@
 # NSg/VB+  . NSg/VB/J NSg/VXB I/Ddem+ . NSg/J/C NSg/VXB NSg/I/C/Ddem+ .
 >
 #
-> selection : IF    such  - and  - such  is  the case    , THEN    do      this    , ELSE    do      that          ;
-# N🅪Sg+     . NSg/C NSg/I . VB/C . NSg/I VL3 D   NPr🅪/VB . NSg/J/C NSg/VXB I/Ddem+ . NSg/J/C NSg/VXB NSg/I/C/Ddem+ .
+> selection : IF    such  - and  - such  is  the case      , THEN    do      this    , ELSE    do      that          ;
+# N🅪Sg+     . NSg/C NSg/I . VB/C . NSg/I VL3 D   NPr🅪Sg/VB . NSg/J/C NSg/VXB I/Ddem+ . NSg/J/C NSg/VXB NSg/I/C/Ddem+ .
 >
 #
-> repetition : WHILE      such  - and  - such  is  the case    , DO      this    . The three rules  of
-# NSg/VB+    . NSg/VB/C/P NSg/I . VB/C . NSg/I VL3 D   NPr🅪/VB . NSg/VXB I/Ddem+ . D   NSg   NPl/V3 P
+> repetition : WHILE      such  - and  - such  is  the case      , DO      this    . The three rules  of
+# N🅪Sg/VB+   . NSg/VB/C/P NSg/I . VB/C . NSg/I VL3 D   NPr🅪Sg/VB . NSg/VXB I/Ddem+ . D   NSg   NPl/V3 P
 > Boehm's and  Jacopini's insight can     be      further simplified with the use      of
 # ?       VB/C ?          NSg+    NPr/VXB NSg/VXB VB/JC   VP/J       P    D   N🅪Sg/VB+ P
 > goto ( which means  it       is  more            elementary than structured programming ) .
