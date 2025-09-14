@@ -210,8 +210,8 @@
 # NSg      P  D/P NSg/VB/J+ N🅪Sg/VB+ NPr/J/P NSg/VB+  NPl/V3+  J         P  D   NSg      P
 > Harvard Business School   in      1921 . Louis justifies the name    by      arguing that          , like
 # NPr+    N🅪Sg/J+  N🅪Sg/VB+ NPr/J/P #    . NPr+  V3        D+  NSg/VB+ NSg/J/P Nᴹ/Vg/J NSg/I/C/Ddem+ . NSg/VB/J/C/P
-> management science  , the subject   is  applied and  interdisciplinary in      nature  ,
-# N🅪Sg+      N🅪Sg/VB+ . D+  NSg/VB/J+ VL3 VP/J    VB/C J                 NPr/J/P NSg/VB+ .
+> management science  , the subject   is  applied and  interdisciplinary in      nature   ,
+# N🅪Sg+      N🅪Sg/VB+ . D+  NSg/VB/J+ VL3 VP/J    VB/C J                 NPr/J/P N🅪Sg/VB+ .
 > while      having  the characteristics typical of an  academic discipline . His     efforts ,
 # NSg/VB/C/P Nᴹ/Vg/J D   NPl+            NSg/J   P  D/P NSg/J    NSg/VB+    . ISg/D$+ NPl/V3+ .
 > and  those  of others  such  as    numerical analyst George Forsythe , were    rewarded :
@@ -372,8 +372,8 @@
 # D   NSg/J        NSg/VB+ . R           . IPl+ VB  NPl/V3+     . Dq+  NSg/VB/J+ NSg/VB+
 > that          is  built    is  an   experiment . Actually constructing the machine poses   a
 # NSg/I/C/Ddem+ VL3 NSg/VB/J VL3 D/P+ NSg/VB+    . R        Nᴹ/Vg/J      D+  NSg/VB+ NPl/V3+ D/P+
-> question to nature ; and  we   listen for the answer  by      observing the machine in
-# NSg/VB+  P  NSg/VB . VB/C IPl+ NSg/VB C/P D+  NSg/VB+ NSg/J/P Nᴹ/Vg/J   D   NSg/VB+ NPr/J/P
+> question to nature  ; and  we   listen for the answer  by      observing the machine in
+# NSg/VB+  P  N🅪Sg/VB . VB/C IPl+ NSg/VB C/P D+  NSg/VB+ NSg/J/P Nᴹ/Vg/J   D   NSg/VB+ NPr/J/P
 > operation and  analyzing it       by      all          analytical and  measurement means  available .
 # N🅪Sg+     VB/C Nᴹ/Vg/J   NPr/ISg+ NSg/J/P NSg/I/J/C/Dq J          VB/C N🅪Sg+       NPl/V3 J         .
 >
@@ -384,8 +384,8 @@
 # N🅪Sg/VB+ C/P   NPr/ISg+ NPl/V3 N🅪Sg/VB P  NSg/J     Nᴹ/Vg/J+ P  VB       D   NSg         P
 > programs , but     a    problem remains in      defining the laws    and  theorems of computer
 # NPl/V3+  . NSg/C/P D/P+ NSg/J+  NPl/V3  NPr/J/P Nᴹ/Vg/J  D+  NPl/V3+ VB/C NPl/V3   P  NSg/VB+
-> science  ( if    any    exist ) and  defining the nature of experiments in      computer
-# N🅪Sg/VB+ . NSg/C I/R/Dq VB+   . VB/C Nᴹ/Vg/J  D   NSg/VB P  NPl/V3+     NPr/J/P NSg/VB+
+> science  ( if    any    exist ) and  defining the nature  of experiments in      computer
+# N🅪Sg/VB+ . NSg/C I/R/Dq VB+   . VB/C Nᴹ/Vg/J  D   N🅪Sg/VB P  NPl/V3+     NPr/J/P NSg/VB+
 > science  . Proponents of classifying computer science  as    an  engineering discipline
 # N🅪Sg/VB+ . NPl        P  Nᴹ/Vg/J     NSg/VB+  N🅪Sg/VB+ NSg/R D/P Nᴹ/Vg/J+    NSg/VB+
 > argue that         the reliability of computational systems is  investigated in      the same
@@ -488,8 +488,8 @@
 # J+          NSg/VB+  N🅪Sg/VB+ VL3 J            VB/C NSg/VB/J NPr/J/P NSg/VB+ . NSg/C/P NPr/ISg+
 > derives its     motivation from practical and  everyday computation . It       aims   to
 # NPl/V3  ISg/D$+ N🅪Sg+      P    NSg/J     VB/C NSg/J    NSg         . NPr/ISg+ NPl/V3 P
-> understand the nature of computation and  , as    a   consequence of this
-# VB         D   NSg/VB P  NSg         VB/C . NSg/R D/P NSg/VB      P  I/Ddem
+> understand the nature  of computation and  , as    a   consequence of this
+# VB         D   N🅪Sg/VB P  NSg         VB/C . NSg/R D/P NSg/VB      P  I/Ddem
 > understanding , provide more            efficient methodologies .
 # N🅪Sg/Vg/J+    . VB      NPr/I/VB/J/R/Dq NSg/J     NPl           .
 >
@@ -587,7 +587,7 @@
 > mathematical analysis can     contribute to the reliability and  robustness of a
 # J+           N🅪Sg+    NPr/VXB NSg/VB     P  D+  Nᴹ+         VB/C NSg        P  D/P
 > design   . They form    an  important theoretical underpinning for software
-# N🅪Sg/VB+ . IPl+ N🅪Sg/VB D/P J         J           NSg/VB       C/P Nᴹ+
+# N🅪Sg/VB+ . IPl+ N🅪Sg/VB D/P J         J           NSg/Vg       C/P Nᴹ+
 > engineering , especially where safety  or    security is  involved . Formal methods are
 # Nᴹ/Vg/J+    . R          NSg/C N🅪Sg/VB NPr/C Nᴹ+      VL3 VP/J     . NSg/J+ NPl/V3+ VB
 > a   useful adjunct  to software testing  since they help   avoid errors  and  can     also
@@ -747,7 +747,7 @@
 > understanding . The starting point   in      the late   1940s was Alan Turing's question
 # N🅪Sg/Vg/J+    . D   Nᴹ/Vg/J  NSg/VB+ NPr/J/P D+  NSg/J+ #d    VPt NPr  NSg$     NSg/VB+
 > " Can     computers think  ? " , and  the question remains effectively unanswered ,
-# . NPr/VXB NPl/V3+   NSg/VB . . . VB/C D+  NSg/VB+  NPl/V3  R           VB/J       .
+# . NPr/VXB NPl/V3+   NSg/VB . . . VB/C D+  NSg/VB+  NPl/V3  R           J          .
 > although the Turing test    is  still    used to assess computer output     on  the scale   of
 # C        D   NPr    NSg/VB+ VL3 NSg/VB/J VP/J P  VB     NSg/VB+  N🅪Sg/VBPt+ J/P D   N🅪Sg/VB P
 > human    intelligence . But     the automation of evaluative and  predictive tasks   has
@@ -827,7 +827,7 @@
 > Computer security is  a   branch of computer technology with the objective of
 # NSg/VB+  Nᴹ+      VL3 D/P NPr/VB P  NSg/VB+  N🅪Sg+      P    D   NSg/J     P
 > protecting information from unauthorized access   , disruption , or    modification
-# Nᴹ/Vg/J    Nᴹ+         P    VB/J         N🅪Sg/VB+ . N🅪Sg+      . NPr/C N🅪Sg+
+# Nᴹ/Vg/J    Nᴹ+         P    J            N🅪Sg/VB+ . N🅪Sg+      . NPr/C N🅪Sg+
 > while      maintaining the accessibility and  usability of the system for its     intended
 # NSg/VB/C/P Nᴹ/Vg/J     D   Nᴹ+           VB/C Nᴹ        P  D   NSg+   C/P ISg/D$+ NSg/VP/J
 > users .

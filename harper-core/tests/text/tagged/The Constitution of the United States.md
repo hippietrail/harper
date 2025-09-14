@@ -421,7 +421,7 @@
 >
 #
 > To establish an  uniform  Rule   of Naturalization , and  uniform  Laws    on  the subject
-# P  VB        D/P NSg/VB/J NSg/VB P  NSg            . VB/C NSg/VB/J NPl/V3+ J/P D   NSg/VB/J
+# P  VB        D/P NSg/VB/J NSg/VB P  Nᴹ             . VB/C NSg/VB/J NPl/V3+ J/P D   NSg/VB/J
 > of Bankruptcies throughout the United States    ;
 # P  NPl+         P          D   VP/J   NPrPl/V3+ .
 >
@@ -1216,8 +1216,8 @@
 # Nᴹ/VB/J NSg/VB/J+ . NSg/J/P D/P J         NSg/VB/J P  D   N🅪Sg/VB+ VB/C NSg/VB/J+ C       D   N🅪Sg/VB+
 > shall have    been    committed , which district  shall have    been    previously
 # VXB   NSg/VXB NSg/VPp VB/J      . I/C+  NSg/VB/J+ VXB   NSg/VXB NSg/VPp R
-> ascertained by      law      , and  to be      informed of the nature  and  cause     of the
-# VP/J        NSg/J/P N🅪Sg/VB+ . VB/C P  NSg/VXB VP/J     P  D   NSg/VB+ VB/C N🅪Sg/VB/C P  D
+> ascertained by      law      , and  to be      informed of the nature   and  cause     of the
+# VP/J        NSg/J/P N🅪Sg/VB+ . VB/C P  NSg/VXB VP/J     P  D   N🅪Sg/VB+ VB/C N🅪Sg/VB/C P  D
 > accusation ; to be      confronted with the witnesses against him  ; to have    compulsory
 # NSg        . P  NSg/VXB VP/J       P    D   NPl/V3+   C/P     ISg+ . P  NSg/VXB NSg/J
 > process for obtaining witnesses in      his     favor       , and  to have    the assistance of

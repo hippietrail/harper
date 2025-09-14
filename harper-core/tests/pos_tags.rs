@@ -63,7 +63,9 @@
 //!     or `Comm` for Commonwealth (UK, Australia, and Canada).
 //!   - Swear words are denoted by `B` (for bad).
 //!   - Noun phrase membership is denoted by `+`
-//!
+//!   - For words not in the dictionary or without annotations,
+//!     they are denoted by `K` for "contraction" if they contain an apostrophe,
+//!     or `W?` otherwise.
 //!   The tagger supports uncertainty, so a single word can be e.g. both a
 //!   noun and a verb. This is denoted by a `/` between the tags.
 //!   For example, `N/V/J` means the word is a noun, verb, and/or adjective.
@@ -79,6 +81,7 @@ use std::borrow::Cow;
 
 use harper_core::spell::FstDictionary;
 use harper_core::word_metadata::VerbFormFlags;
+use harper_core::word_metadata_orthography::OrthFlags;
 use harper_core::{Degree, Dialect, Document, TokenKind, WordMetadata};
 
 mod snapshot;
@@ -231,7 +234,11 @@ fn format_word_tag(word: &WordMetadata) -> String {
     }
 
     if tags.is_empty() {
-        String::from("W?")
+        if word.orth_info.contains(OrthFlags::APOSTROPHE) {
+            String::from("K")
+        } else {
+            String::from("W?")
+        }
     } else {
         tags
     }

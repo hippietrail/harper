@@ -241,7 +241,7 @@
 > Corpus ) and  making  a   table  of the probabilities of certain sequences . For
 # NSg+   . VB/C Nᴹ/Vg/J D/P NSg/VB P  D   NPl           P  I/J     NPl/V3+   . C/P
 > example , once  you've seen    an  article such  as    ' the ' , perhaps the next    word    is  a
-# NSg/VB+ . NSg/C W?     NSg/VPp D/P NSg/VB+ NSg/I NSg/R . D   . . NSg/R   D   NSg/J/P NSg/VB+ VL3 D/P
+# NSg/VB+ . NSg/C K      NSg/VPp D/P NSg/VB+ NSg/I NSg/R . D   . . NSg/R   D   NSg/J/P NSg/VB+ VL3 D/P
 > noun    40 % of the time       , an  adjective 40 % , and  a   number      20 % . Knowing    this    , a
 # NSg/VB+ #  . P  D   N🅪Sg/VB/J+ . D/P NSg/VB/J+ #  . . VB/C D/P N🅪Sg/VB/JC+ #  . . NSg/Vg/J/P I/Ddem+ . D/P+
 > program can     decide that          " can     " in      " the can     " is  far      more            likely to be      a   noun   than
@@ -255,7 +255,7 @@
 > More            advanced ( " higher - order  " ) HMMs learn  the probabilities not     only  of pairs
 # NPr/I/VB/J/R/Dq VP/J     . . NSg/JC . NSg/VB . . ?    NSg/VB D   NPl+          NSg/R/C J/R/C P  NPl/V3+
 > but     triples or    even     larger sequences . So        , for example , if    you've just seen    a
-# NSg/C/P NPl/V3  NPr/C NSg/VB/J JC     NPl/V3+   . NSg/I/J/C . C/P NSg/VB+ . NSg/C W?     VB/J NSg/VPp D/P
+# NSg/C/P NPl/V3  NPr/C NSg/VB/J JC     NPl/V3+   . NSg/I/J/C . C/P NSg/VB+ . NSg/C K      VB/J NSg/VPp D/P
 > noun    followed by      a   verb    , the next    item    may     be      very likely a   preposition ,
 # NSg/VB+ VP/J     NSg/J/P D/P NSg/VB+ . D   NSg/J/P NSg/VB+ NPr/VXB NSg/VXB J/R  NSg/J  D/P NSg/VB      .
 > article , or    noun    , but     much         less       likely another verb    .
