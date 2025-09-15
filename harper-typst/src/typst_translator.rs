@@ -152,6 +152,17 @@ impl<'a> TypstTranslator<'a> {
             };
         }
 
+        fn parbreak() -> Option<Vec<Token>> {
+            Some(vec![Token {
+                span: harper_core::Span::EMPTY,
+                kind: TokenKind::ParagraphBreak,
+            }])
+        }
+
+        fn isolate(inner: Option<Vec<Token>>) -> Option<Vec<Token>> {
+            merge![parbreak(), inner, parbreak()]
+        }
+
         // Recurse on each element of an iterator
         let iter_recurse = |exprs: &mut dyn Iterator<Item = Expr>| {
             let mut buf = Vec::new();
@@ -294,7 +305,9 @@ impl<'a> TypstTranslator<'a> {
                         .collect_vec(),
                 )
             }
-            Expr::Content(content_block) => iter_recurse(&mut content_block.body().exprs()),
+            Expr::Content(content_block) => {
+                isolate(iter_recurse(&mut content_block.body().exprs()))
+            }
             Expr::Parenthesized(parenthesized) => recurse!(parenthesized.expr()),
             Expr::Array(array) => Some(
                 array
