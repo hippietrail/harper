@@ -41,6 +41,7 @@ mod filler_words;
 mod first_aid_kit;
 mod for_noun;
 mod friend_of_me;
+mod hard_anchor_test;
 mod have_pronoun;
 mod have_take_a_look;
 mod hedging;
@@ -180,6 +181,7 @@ pub use few_units_of_time_ago::FewUnitsOfTimeAgo;
 pub use filler_words::FillerWords;
 pub use for_noun::ForNoun;
 pub use friend_of_me::FriendOfMe;
+pub use hard_anchor_test::HardAnchorTest;
 pub use have_pronoun::HavePronoun;
 pub use have_take_a_look::HaveTakeALook;
 pub use hedging::Hedging;
@@ -534,6 +536,11 @@ pub mod tests {
                 &PlainEnglish,
                 &FstDictionary::curated(),
             );
+            ////
+            for (i, tok) in test.tokens().enumerate() {
+                eprintln!("{}: '{}'", i, tok.span.get_content_string(&text_chars));
+            }
+            ////
             let lints = linter.lint(&test);
 
             if let Some(lint) = lints.first() {

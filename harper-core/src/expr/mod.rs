@@ -15,6 +15,8 @@
 
 mod all;
 mod anchor_end;
+mod anchor_hard_end;
+mod anchor_hard_start;
 mod anchor_start;
 mod duration_expr;
 mod expr_map;
@@ -40,6 +42,8 @@ use std::sync::Arc;
 
 pub use all::All;
 pub use anchor_end::AnchorEnd;
+pub use anchor_hard_end::AnchorHardEnd;
+pub use anchor_hard_start::AnchorHardStart;
 pub use anchor_start::AnchorStart;
 pub use duration_expr::DurationExpr;
 pub use expr_map::ExprMap;
