@@ -5655,7 +5655,7 @@
 > that         of the feudal silhouette against the sky      , admired the gardens , the
 # NSg/I/C/Ddem P  D   J      NSg/VB+    C/P     D   N🅪Sg/VB+ . VP/J    D   NPl/V3+ . D
 > sparkling odor    of jonquils and  the frothy odor    of hawthorn and  plum       blossoms and
-# Nᴹ/Vg/J   N🅪Sg/Am P  NPl      VB/C D   NSg/J  N🅪Sg/Am P  NSg      VB/C N🅪Sg/VB/J+ NPl/V3   VB/C
+# Nᴹ/Vg/J   N🅪Sg/Am P  NPl      VB/C D   NSg/J  N🅪Sg/Am P  N🅪Sg     VB/C N🅪Sg/VB/J+ NPl/V3   VB/C
 > the pale     gold     odor    of kiss    - me       - at    - the - gate    . It       was strange  to reach  the marble
 # D   NSg/VB/J Nᴹ/VB/J+ N🅪Sg/Am P  NSg/VB+ . NPr/ISg+ . NSg/P . D   . NSg/VB+ . NPr/ISg+ VPt NSg/VB/J P  NSg/VB D+  NSg/VB/J+
 > steps   and  find   no    stir   of bright   dresses in      and  out          the door    , and  hear no    sound
@@ -6103,7 +6103,7 @@
 > fantastic conceits haunted him  in      his     bed        at    night    . A   universe of ineffable
 # NSg/J     NPl/V3   VP/J    ISg+ NPr/J/P ISg/D$+ NSg/VBP/J+ NSg/P N🅪Sg/VB+ . D/P NPr      P  J
 > gaudiness spun itself out          in      his     brain      while      the clock   ticked on  the wash    - stand
-# NSg       VB   ISg+   NSg/VB/J/R/P NPr/J/P ISg/D$+ NPr🅪Sg/VB+ NSg/VB/C/P D   NSg/VB+ VP/J   J/P D   NPr/VB+ . NSg/VB
+# Nᴹ        VB   ISg+   NSg/VB/J/R/P NPr/J/P ISg/D$+ NPr🅪Sg/VB+ NSg/VB/C/P D   NSg/VB+ VP/J   J/P D   NPr/VB+ . NSg/VB
 > and  the moon    soaked with wet      light      his     tangled clothes upon the floor   . Each
 # VB/C D   NPr/VB+ VP/J   P    NSg/VB/J N🅪Sg/VB/J+ ISg/D$+ VP/J    NPl/V3+ P    D   NSg/VB+ . Dq+
 > night    he       added to the pattern  of his     fancies until drowsiness closed down        upon
