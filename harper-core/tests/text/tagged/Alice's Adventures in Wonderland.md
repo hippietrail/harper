@@ -463,7 +463,7 @@
 > Alice took up         the fan    and  gloves  , and  , as    the hall was very hot      , she  kept
 # NPr+  VB   NSg/VB/J/P D   NSg/VB VB/C NPl/V3+ . VB/C . NSg/R D+  NPr+ VPt J/R  NSg/VB/J . ISg+ VP
 > fanning herself all          the time       she  went    on  talking : “ Dear     , dear     ! How   queer
-# NSg/VB  ISg+    NSg/I/J/C/Dq D   N🅪Sg/VB/J+ ISg+ NSg/VPt J/P Nᴹ/Vg/J . . NSg/VB/J . NSg/VB/J . NSg/C NSg/VB/J
+# NSg/Vg  ISg+    NSg/I/J/C/Dq D   N🅪Sg/VB/J+ ISg+ NSg/VPt J/P Nᴹ/Vg/J . . NSg/VB/J . NSg/VB/J . NSg/C NSg/VB/J
 > everything is  to - day     ! And  yesterday things went    on  just as    usual . I       wonder  if
 # NSg/I/VB+  VL3 P  . NPr🅪Sg+ . VB/C NSg+      NPl+   NSg/VPt J/P VB/J NSg/R NSg/J . ISg/#r+ N🅪Sg/VB NSg/C
 > I’ve been    changed in      the night    ? Let     me       think  : was I       the same when    I       got up         this
@@ -554,8 +554,8 @@
 # VB/C ISg+ VP/J    NPr/ISg+ R       . VB/J NPr/J/P N🅪Sg/VB/J+ P  VB    Nᴹ/Vg/J   VB/J NSg        .
 >
 #
-> “ That          was a   narrow   escape ! ” said Alice , a    good      deal      frightened at    the sudden
-# . NSg/I/C/Ddem+ VPt D/P NSg/VB/J NSg/VB . . VP/J NPr+  . D/P+ NPr/VB/J+ NSg/VB/J+ VP/J       NSg/P D+  NSg/J+
+> “ That          was a   narrow   escape  ! ” said Alice , a    good      deal      frightened at    the sudden
+# . NSg/I/C/Ddem+ VPt D/P NSg/VB/J N🅪Sg/VB . . VP/J NPr+  . D/P+ NPr/VB/J+ NSg/VB/J+ VP/J       NSg/P D+  NSg/J+
 > change   , but     very glad     to find   herself still    in      existence ; “ and  now        for the
 # N🅪Sg/VB+ . NSg/C/P J/R  NSg/VB/J P  NSg/VB ISg+    NSg/VB/J NPr/J/P NSg+      . . VB/C NPr/VB/J/C C/P D+
 > garden    ! ” and  she  ran     with all           speed    back     to the little      door    : but     , alas ! the
@@ -1544,8 +1544,8 @@
 # Nᴹ/Vg/J NSg/VB/J/R/P P  ISg/D$+ NSg/VB+ . VB/C ISg/D$+ NSg/J+ NPl/V3+ N🅪Sg/VB/J/P+ NSg/VBP/J .
 >
 #
-> This   seemed to Alice a    good      opportunity for making  her     escape ; so        she  set       off        at
-# I/Ddem VP/J   P  NPr+  D/P+ NPr/VB/J+ N🅪Sg+       C/P Nᴹ/Vg/J ISg/D$+ NSg/VB . NSg/I/J/C ISg+ NPr/VBP/J NSg/VB/J/P NSg/P
+> This   seemed to Alice a    good      opportunity for making  her     escape  ; so        she  set       off        at
+# I/Ddem VP/J   P  NPr+  D/P+ NPr/VB/J+ N🅪Sg+       C/P Nᴹ/Vg/J ISg/D$+ N🅪Sg/VB . NSg/I/J/C ISg+ NPr/VBP/J NSg/VB/J/P NSg/P
 > once  , and  ran     till       she  was quite tired and  out          of breath     , and  till       the puppy’s
 # NSg/C . VB/C NSg/VPt NSg/VB/C/P ISg+ VPt R     VP/J  VB/C NSg/VB/J/R/P P  N🅪Sg/VB/J+ . VB/C NSg/VB/C/P D   NSg$
 > bark     sounded quite faint    in      the distance .
@@ -1555,7 +1555,7 @@
 > “ And  yet      what   a    dear      little      puppy   it       was ! ” said Alice , as    she  leant against a
 # . VB/C NSg/VB/C NSg/I+ D/P+ NSg/VB/J+ NPr/I/J/Dq+ NSg/VB+ NPr/ISg+ VPt . . VP/J NPr+  . NSg/R ISg+ ?     C/P     D/P
 > buttercup to rest   herself , and  fanned herself with one        of the leaves  : “ I       should
-# NSg       P  NSg/VB ISg+    . VB/C VB     ISg+    P    NSg/I/VB/J P  D   NPl/V3+ . . ISg/#r+ VXB
+# NSg       P  NSg/VB ISg+    . VB/C VP     ISg+    P    NSg/I/VB/J P  D   NPl/V3+ . . ISg/#r+ VXB
 > have    liked teaching   it       tricks  very much         , if    — if    I’d only  been    the right    size     to
 # NSg/VXB VP/J  N🅪Sg/Vg/J+ NPr/ISg+ NPl/V3+ J/R  NSg/I/J/R/Dq . NSg/C . NSg/C K   J/R/C NSg/VPp D   NPr/VB/J N🅪Sg/VB+ P
 > do      it       ! Oh     dear     ! I’d nearly forgotten that         I’ve got to grow up         again ! Let     me
@@ -3682,8 +3682,8 @@
 # NPl/VB+ NSg/J/R . D   NSg/J N🅪Sg/VB+ VL3 . NSg/I/C/Ddem+ K       I/R/Dq NSg/I/VB/J+ NPr/VB/J J     . .
 >
 #
-> She  was looking about for some     way   of escape  , and  wondering whether she  could
-# ISg+ VPt Nᴹ/Vg/J J/P   C/P I/J/R/Dq NSg/J P  NSg/VB+ . VB/C Nᴹ/Vg/J   I/C     ISg+ NSg/VXB
+> She  was looking about for some     way   of escape   , and  wondering whether she  could
+# ISg+ VPt Nᴹ/Vg/J J/P   C/P I/J/R/Dq NSg/J P  N🅪Sg/VB+ . VB/C Nᴹ/Vg/J   I/C     ISg+ NSg/VXB
 > get    away without being       seen    , when    she  noticed a   curious appearance in      the air      :
 # NSg/VB VB/J C/P     N🅪Sg/Vg/J/C NSg/VPp . NSg/I/C ISg+ VP/J    D/P J       NSg        NPr/J/P D+  N🅪Sg/VB+ .
 > it       puzzled her     very much         at    first    , but     , after watching it       a    minute    or    two , she
@@ -3828,8 +3828,8 @@
 # VB/C I/C/Dq D   NPl/V3    NSg/VPt NSg/VB/J/R/P P  N🅪Sg/VB+ . . NSg/C/P NPr/ISg+ VB      N🅪Sg/VB+ NSg/I/J/R/Dq . . N🅪Sg/VP
 > Alice , “ as    all          the arches are gone    from this   side     of the ground     . ” So        she  tucked
 # NPr+  . . NSg/R NSg/I/J/C/Dq D   NPl/V3 VB  VPp/J/P P    I/Ddem NSg/VB/J P  D   N🅪Sg/VB/J+ . . NSg/I/J/C ISg+ VP/J
-> it       away under   her     arm       , that         it       might    not     escape again , and  went    back     for a
-# NPr/ISg+ VB/J NSg/J/P ISg/D$+ NSg/VB/J+ . NSg/I/C/Ddem NPr/ISg+ Nᴹ/VXB/J NSg/R/C NSg/VB P     . VB/C NSg/VPt NSg/VB/J C/P D/P
+> it       away under   her     arm       , that         it       might    not     escape  again , and  went    back     for a
+# NPr/ISg+ VB/J NSg/J/P ISg/D$+ NSg/VB/J+ . NSg/I/C/Ddem NPr/ISg+ Nᴹ/VXB/J NSg/R/C N🅪Sg/VB P     . VB/C NSg/VPt NSg/VB/J C/P D/P
 > little     more            conversation with her     friend    .
 # NPr/I/J/Dq NPr/I/VB/J/R/Dq N🅪Sg/VB      P    ISg/D$+ NPr/VB/J+ .
 >

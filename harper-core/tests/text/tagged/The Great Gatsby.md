@@ -4171,7 +4171,7 @@
 >
 #
 > Roaring noon    . In      a    well      - fanned Forty - second   Street    cellar  I       met Gatsby for
-# Nᴹ/Vg/J NSg/VB+ . NPr/J/P D/P+ NSg/VB/J+ . VB     NSg/J . NSg/VB/J NSg/VB/J+ NSg/VB+ ISg/#r+ VB  NPr    C/P
+# Nᴹ/Vg/J NSg/VB+ . NPr/J/P D/P+ NSg/VB/J+ . VP     NSg/J . NSg/VB/J NSg/VB/J+ NSg/VB+ ISg/#r+ VB  NPr    C/P
 > lunch    . Blinking away the brightness of the street    outside   , my  eyes    picked him
 # N🅪Sg/VB+ . Nᴹ/Vg/J  VB/J D   Nᴹ         P  D+  NSg/VB/J+ Nᴹ/VB/J/P . D$+ NPl/V3+ VP/J   ISg+
 > out          obscurely in      the anteroom , talking to another man       .
