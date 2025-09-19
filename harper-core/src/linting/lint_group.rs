@@ -139,7 +139,8 @@ use super::{ExprLinter, Lint};
 use crate::linting::dashes::Dashes;
 use crate::linting::open_compounds::OpenCompounds;
 use crate::linting::{
-    MassPlurals, closed_compounds, initialisms, phrase_corrections, phrase_set_corrections,
+    MassPlurals, NounVerbConfusion, closed_compounds, initialisms, phrase_corrections,
+    phrase_set_corrections,
 };
 use crate::spell::{Dictionary, MutableDictionary};
 use crate::{CharString, Dialect, Document, TokenStringExt};
@@ -480,6 +481,7 @@ impl LintGroup {
         insert_struct_rule!(NoOxfordComma, false);
         insert_expr_rule!(Nobody, true);
         insert_struct_rule!(NominalWants, true);
+        insert_struct_rule!(NounVerbConfusion, true);
         insert_expr_rule!(NounCountability, true);
         insert_struct_rule!(NumberSuffixCapitalization, true);
         insert_struct_rule!(OfCourse, true);
