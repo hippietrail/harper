@@ -8,28 +8,50 @@ use crate::{
 
 /// Maps common irregular verbs between their simple past and past participle forms.
 const IRREGULAR_VERBS: &[(&str, &str)] = &[
+    ("arose", "arisen"),
     ("ate", "eaten"),
+    ("awoke", "awoken"),
+    ("bade", "bidden"),
     ("became", "become"),
     ("began", "begun"),
+    ("bit", "bitten"),
+    ("blew", "blown"),
     ("broke", "broken"),
     ("came", "come"),
+    ("chose", "chosen"),
     ("did", "done"),
     ("drank", "drunk"),
     ("drove", "driven"),
     ("fell", "fallen"),
     ("flew", "flown"),
+    ("forgot", "forgotten"),
+    ("forwent", "forgone"),
     ("gave", "given"),
     ("knew", "known"),
+    ("mistook", "mistaken"),
+    ("overtook", "overtaken"),
+    ("partook", "partaken"),
+    // proved, proved/proven
+    ("ran", "run"),
+    ("rang", "rung"),
+    ("rode", "ridden"),
+    ("rose", "risen"),
     ("sang", "sung"),
     ("sank", "sunken"),
     ("saw", "seen"),
+    ("sewed", "sewn"),
+    ("slew", "slain"),
     ("spoke", "spoken"),
     ("stank", "stunk"),
     ("stole", "stolen"),
     ("swam", "swum"),
+    ("trod", "trodden"),
     ("took", "taken"),
+    // was, been
+    // were, been
     ("went", "gone"),
     ("woke", "woken"),
+    ("wove", "woven"),
     ("wrote", "written"),
 ];
 
@@ -57,7 +79,8 @@ impl Default for SimplePastToPastParticiple {
                             Box::new(InflectionOfBe::default()),
                         ])
                         .t_ws()
-                        .then(simple_past_forms_word_set),
+                        // .then(simple_past_forms_word_set),
+                        .then_verb_simple_past_form(),
                 ),
                 // negative: one known exception
                 Box::new(
