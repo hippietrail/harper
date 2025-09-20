@@ -62,11 +62,6 @@ pub struct SimplePastToPastParticiple {
 
 impl Default for SimplePastToPastParticiple {
     fn default() -> Self {
-        let mut simple_past_forms_word_set = WordSet::default();
-        for (simple_past, _) in IRREGULAR_VERBS {
-            simple_past_forms_word_set.add(simple_past);
-        }
-
         Self {
             expr: Box::new(All::new(vec![
                 // positive: the general case
