@@ -79,7 +79,6 @@ impl Default for SimplePastToPastParticiple {
                             Box::new(InflectionOfBe::default()),
                         ])
                         .t_ws()
-                        // .then(simple_past_forms_word_set),
                         .then_verb_simple_past_form(),
                 ),
                 // negative: one known exception
