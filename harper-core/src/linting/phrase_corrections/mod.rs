@@ -461,13 +461,6 @@ pub fn lint_group() -> LintGroup {
             "Ensures the correct use of `fetal position`, avoiding confusion with `feeble position`, which is not a standard phrase.",
             LintKind::Malapropism
         ),
-        "ForAllIntentsAndPurposes" => (
-            ["for all intensive purposes"],
-            ["for all intents and purposes"],
-            "Use the correct phrase meaning 'in every practical sense'.",
-            "Corrects `for all intensive purposes` to `for all intents and purposes`, ensuring the phrase conveys its intended meaning.",
-            LintKind::Eggcorn
-        ),
         "ForALongTime" => (
             ["for along time"],
             ["for a long time"],
@@ -923,6 +916,13 @@ pub fn lint_group() -> LintGroup {
             "Did you mean `road map`?",
             "Detects when `roadmap` is used instead of `road map`, prompting the correct spacing.",
             LintKind::WordChoice
+        ),
+        "RulesOfThumb" => (
+            ["rule of thumbs", "rule-of-thumbs"],
+            ["rules of thumb"],
+            "The correct plural is `rules of thumb`.",
+            "Corrects pluralizing the wrong noun in `rule of thumb`.",
+            LintKind::Usage
         ),
         "SameAs" => (
             ["same then"],
