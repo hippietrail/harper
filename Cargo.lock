@@ -2280,7 +2280,7 @@ dependencies = [
 
 [[package]]
 name = "harper-brill"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "harper-pos-utils",
  "lazy_static",
@@ -2312,7 +2312,7 @@ dependencies = [
 
 [[package]]
 name = "harper-comments"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "harper-core",
  "harper-html",
@@ -2347,7 +2347,7 @@ dependencies = [
 
 [[package]]
 name = "harper-core"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "ammonia",
  "bitflags 2.9.4",
@@ -2384,7 +2384,7 @@ dependencies = [
 
 [[package]]
 name = "harper-html"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -2395,7 +2395,7 @@ dependencies = [
 
 [[package]]
 name = "harper-literate-haskell"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "harper-comments",
  "harper-core",
@@ -2406,7 +2406,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ls"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -2434,7 +2434,7 @@ dependencies = [
 
 [[package]]
 name = "harper-pos-utils"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "burn",
  "burn-ndarray",
@@ -2453,7 +2453,7 @@ dependencies = [
 
 [[package]]
 name = "harper-stats"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "chrono",
  "harper-core",
@@ -2464,7 +2464,7 @@ dependencies = [
 
 [[package]]
 name = "harper-tree-sitter"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "harper-core",
  "tree-sitter",
@@ -2483,7 +2483,7 @@ dependencies = [
 
 [[package]]
 name = "harper-typst"
-version = "0.64.0"
+version = "0.65.0"
 dependencies = [
  "harper-core",
  "itertools 0.14.0",
