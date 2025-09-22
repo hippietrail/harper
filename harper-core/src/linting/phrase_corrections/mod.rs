@@ -155,13 +155,6 @@ pub fn lint_group() -> LintGroup {
             "Corrects `as of lately` to `as of late`.",
             LintKind::WordChoice
         ),
-        "AsWell" => (
-            ["aswell"],
-            ["as well"],
-            "`as well` should be written as two words.",
-            "Corrects `aswell` to `as well`.",
-            LintKind::BoundaryError
-        ),
         "AtFaceValue" => (
             ["on face value"],
             ["at face value"],
@@ -606,13 +599,6 @@ pub fn lint_group() -> LintGroup {
             "Corrects the missing article in `in while`, forming `in a while`.",
             LintKind::Grammar
         ),
-        "InCase" => (
-            ["incase"],
-            ["in case"],
-            "`In case` should be written as two words.",
-            "Corrects `incase` to `in case`.",
-            LintKind::BoundaryError
-        ),
         "InNeedOf" => (
             ["in need for"],
             ["in need of"],
@@ -1030,11 +1016,11 @@ pub fn lint_group() -> LintGroup {
             LintKind::Usage
         ),
         "ThanksALot" => (
-            ["thanks lot", "thanks alot"],
+            ["thanks lot"],
             ["thanks a lot"],
-            "Prefer the two-word expression `thanks a lot`.",
-            "`Thanks a lot` is the fixed, widely accepted form, while variants like `thanks lot` or `thanks alot` are non-standard and can jar readers.",
-            LintKind::Usage
+            "The indefinite article `a` is required in `thanks a lot`.",
+            "Corrects the missing article in `thanks lot`, forming `thanks a lot`.",
+            LintKind::Grammar
         ),
         "ThatChallenged" => (
             ["the challenged"],
