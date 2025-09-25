@@ -944,23 +944,23 @@ fn file_dict_name(path: &Path) -> PathBuf {
 fn normalize_annotation_flags(flag_str: &str) -> String {
     let char_vec = flag_str.chars().collect::<Vec<_>>();
 
-    let mut pos_order: Vec<char> = Vec::new();
-    let mut pos_map: HashMap<char, Vec<char>> = HashMap::new();
+    let mut pos_order: Vec<String> = Vec::new();
+    let mut pos_map: HashMap<String, Vec<char>> = HashMap::new();
 
     let pos_tags = "NOVJRIPCD";
-    let noun_props = "09gmw";
+    let noun_props = "09gmw♂♀ª";
     let verb_props = "lAbdGtT6h";
     let pron_props = "aso123F";
     let adj_props = "^cuY*.:";
     let det_props = "qM5";
 
-    // Create a special key in the map for the 'unused' flags, using the null byte char as the key
-    pos_map.insert('\0', vec![]);
+    // Create a special key in the map for the 'unused' flags, using the empty string as the key
+    pos_map.insert("".to_string(), vec![]);
 
     // Check for ~ because it must be first if present
     if char_vec.contains(&'~') {
-        pos_order.push('~');
-        pos_map.insert('~', vec![]);
+        pos_order.push("~".to_string());
+        pos_map.insert("~".to_string(), vec![]);
     }
 
     char_vec.iter().for_each(|flag| {
@@ -969,67 +969,114 @@ fn normalize_annotation_flags(flag_str: &str) -> String {
             return;
         }
         if pos_tags.contains(*flag) {
+            let flag_str = flag.to_string();
             // This one is a POS tag so if it's not already in the map, add it as a key and push it to the pos_order vec
             // but if it is already in the map (a dupe), treat it as a property of the POS and push it onto the value of the key
-            if pos_map.contains_key(flag) {
-                // add dupe
-                pos_map.get_mut(flag).unwrap().push(*flag);
+            
+            // If it's 'N' or 'O' it's special and they should be grouped together but in the order they appear
+            if flag_str == "N" {
+                if pos_map.contains_key("N") {
+                    // add dupe
+                    pos_map.get_mut("N").unwrap().push(*flag);
+                } else if pos_map.contains_key("O") {
+                    // Change the "O" key to "ON" and move its properties from "O" to "ON"
+                    let os_old_vec = pos_map.remove("O").unwrap();
+                    pos_map.insert("ON".to_string(), os_old_vec);
+                    // Change the 'O' in pos_order to 'ON'
+                    let i = pos_order.iter().position(|x| x == "O").unwrap();
+                    pos_order[i] = "ON".to_string();
+                } else {
+                    pos_map.insert("N".to_string(), vec![]);
+                    pos_order.push("N".to_string());
+                }
+            } else if flag_str == "O" {
+                if pos_map.contains_key("O") {
+                    // add dupe
+                    pos_map.get_mut("O").unwrap().push(*flag);
+                } else if pos_map.contains_key("N") {
+                    // Change the "N" key to "NO" and move its properties from "N" to "NO"
+                    let ns_old_vec = pos_map.remove("N").unwrap();
+                    pos_map.insert("NO".to_string(), ns_old_vec);
+                    // Change the 'N' in pos_order to 'NO'
+                    let i = pos_order.iter().position(|x| x == "N").unwrap();
+                    pos_order[i] = "NO".to_string();
+                } else {
+                    pos_map.insert("O".to_string(), vec![]);
+                    pos_order.push("O".to_string());
+                }
             } else {
-                pos_map.insert(*flag, vec![]);
-                pos_order.push(*flag);
+                if pos_map.contains_key(&flag_str) {
+                    // add dupe
+                    pos_map.get_mut(&flag_str).unwrap().push(*flag);
+                } else {
+                    pos_map.insert(flag_str, vec![]);
+                    pos_order.push(flag.to_string());
+                }
             }
         } else if noun_props.contains(*flag) {
-            if pos_map.contains_key(&'N') {
-                pos_map.get_mut(&'N').unwrap().push(*flag);
-            } else if pos_map.contains_key(&'O') {
-                pos_map.get_mut(&'O').unwrap().push(*flag);
+            if pos_map.contains_key("N") {
+                pos_map.get_mut("N").unwrap().push(*flag);
+            } else if pos_map.contains_key("O") {
+                pos_map.get_mut("O").unwrap().push(*flag);
             } else {
                 // we got a noun property before we got the 'N' tag, so add it to the unused flags
-                pos_map.get_mut(&'\0').unwrap().push(*flag);
+                pos_map.get_mut("").unwrap().push(*flag);
             }
         } else if verb_props.contains(*flag) {
-            if pos_map.contains_key(&'V') {
-                pos_map.get_mut(&'V').unwrap().push(*flag);
+            if pos_map.contains_key("V") {
+                pos_map.get_mut("V").unwrap().push(*flag);
             } else {
-                pos_order.push(*flag);
+                pos_order.push(flag.to_string());
             }
         } else if *flag == 'S' {
-            if pos_map.contains_key(&'N') {
-                pos_map.get_mut(&'N').unwrap().push(*flag);
-            } else if pos_map.contains_key(&'V') {
-                pos_map.get_mut(&'V').unwrap().push(*flag);
+            if pos_map.contains_key("N") {
+                pos_map.get_mut("N").unwrap().push(*flag);
+            } else if pos_map.contains_key("V") {
+                pos_map.get_mut("V").unwrap().push(*flag);
             } else {
-                pos_order.push(*flag);
+                pos_order.push(flag.to_string());
             }
         } else if *flag == '>' {
-            if pos_map.contains_key(&'V') {
-                pos_map.get_mut(&'V').unwrap().push(*flag);
-            } else if pos_map.contains_key(&'J') {
-                pos_map.get_mut(&'J').unwrap().push(*flag);
+            if pos_map.contains_key("V") {
+                pos_map.get_mut("V").unwrap().push(*flag);
+            } else if pos_map.contains_key("J") {
+                pos_map.get_mut("J").unwrap().push(*flag);
             } else {
-                pos_order.push(*flag);
+                pos_order.push(flag.to_string());
             }
         } else if adj_props.contains(*flag) {
-            pos_map.get_mut(&'J').unwrap().push(*flag);
+            if pos_map.contains_key("J") {
+                pos_map.get_mut("J").unwrap().push(*flag);
+            } else {
+                pos_order.push(flag.to_string());
+            }
         } else if pron_props.contains(*flag) {
-            pos_map.get_mut(&'I').unwrap().push(*flag);
+            if pos_map.contains_key("I") {
+                pos_map.get_mut("I").unwrap().push(*flag);
+            } else {
+                pos_order.push(flag.to_string());
+            }
         } else if det_props.contains(*flag) {
-            pos_map.get_mut(&'D').unwrap().push(*flag);
+            if pos_map.contains_key("D") {
+                pos_map.get_mut("D").unwrap().push(*flag);
+            } else {
+                pos_order.push(flag.to_string());
+            }
         } else {
             // This one is not a POS tag so add it to the 'unused' flags
-            pos_map.get_mut(&'\0').unwrap().push(*flag);
+            pos_map.get_mut("").unwrap().push(*flag);
         }
     });
 
     let mut result = String::new();
     // Get the pos in order then append it and its values to the result string
     pos_order.iter().for_each(|pos_flag_char| {
-        result.push(*pos_flag_char);
+        result.push_str(pos_flag_char);
         if let Some(props) = pos_map.get(pos_flag_char) {
             result.extend(props);
         }
     });
     // finally append the unused flags
-    result.extend(pos_map.get(&'\0').unwrap());
+    result.extend(pos_map.get("").unwrap());
     result
 }
