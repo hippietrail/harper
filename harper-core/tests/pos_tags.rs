@@ -24,11 +24,11 @@
 //!
 //! ## Tags
 //!
-//! Tags are assigned based on the [`TokenKind`] and [`WordMetadata`] of a
+//! Tags are assigned based on the [`TokenKind`] and [`DictWordMetadata`] of a
 //! token.
 //!
 //! - The tag of [`TokenKind::Word`] variants depends on their
-//!   [`WordMetadata`]. If they don't have any metadata, they are denoted by `?`.
+//!   [`DictWordMetadata`]. If they don't have any metadata, they are denoted by `?`.
 //!   Otherwise, the tag is constructed as follows:
 //!
 //!   - Nouns are denoted by `N`.
@@ -44,7 +44,7 @@
 //!     - The `L` suffix means linking verb.
 //!     - The `X` suffix means auxiliary verb.
 //!     - The `B` suffix means base (lemma) form.
-//!     - The `P` suffix means regular past tense & past participle.
+//!     - The `P` suffix means simple past tense & past participle.
 //!     - The `Pr` suffix means progressive form.
 //!     - The `Pt` suffix means simple past tense.
 //!     - The `Pp` suffix means past participle.
@@ -63,6 +63,9 @@
 //!     or `Comm` for Commonwealth (UK, Australia, and Canada).
 //!   - Swear words are denoted by `B` (for bad).
 //!   - Noun phrase membership is denoted by `+`
+//!   - For words not in the dictionary or without annotations,
+//!     they are denoted by `K` for "contraction" if they contain an apostrophe,
+//!     or `W?` otherwise.
 //!
 //!   The tagger supports uncertainty, so a single word can be e.g. both a
 //!   noun and a verb. This is denoted by a `/` between the tags.
@@ -71,18 +74,20 @@
 //! - [`TokenKind::Punctuation`] are denoted by `.`.
 //! - [`TokenKind::Number`] are denoted by `#`.
 //! - [`TokenKind::Decade`] are denoted by `#d`.
+//! - Roman numerals are denoted by `#r`.
 //! - [`TokenKind::Space`], [`TokenKind::Newline`], and
 //!   [`TokenKind::ParagraphBreak`] are ignored.
 //! - All other token kinds are denoted by their variant name.
 use std::borrow::Cow;
 
+use harper_core::dict_word_metadata::VerbFormFlags;
+use harper_core::dict_word_metadata_orthography::OrthFlags;
 use harper_core::spell::FstDictionary;
-use harper_core::word_metadata::VerbFormFlags;
-use harper_core::{Degree, Dialect, Document, TokenKind, WordMetadata};
+use harper_core::{Degree, Dialect, DictWordMetadata, Document, TokenKind};
 
 mod snapshot;
 
-fn format_word_tag(word: &WordMetadata) -> String {
+fn format_word_tag(word: &DictWordMetadata) -> String {
     // These tags are inspired by the Penn Treebank POS tagset
     let mut tags = String::new();
     fn add(t: &str, tags: &mut String) {
@@ -117,7 +122,12 @@ fn format_word_tag(word: &WordMetadata) -> String {
             add_switch(&mut tag, Some(word.is_countable_noun()), "🅪", "ᴹ");
         }
         if word.is_countable_noun() {
-            if word.is_singular_noun() && !word.is_proper_noun() {
+            // Countable nouns are optionally marked in the dictionary. Countable is default if neither it nor mass is marked.
+            // Common nouns are not marked in the dictionary, but being a mass noun implies being a common noun.
+            // We don't want to clutter the output with `Sg` for mass nouns unless they are also countable.
+            // We don't want to clutter the output with `Sg` for proper nouns unless they are also common.
+            // "wood"/"Wood" is a countable and mass common noun and also a proper noun.
+            if word.is_singular_noun() && (!word.is_proper_noun() || word.is_mass_noun()) {
                 tag.push_str("Sg");
             }
             if word.is_plural_noun() {
@@ -147,17 +157,30 @@ fn format_word_tag(word: &WordMetadata) -> String {
         add_bool(&mut tag, "L", verb.is_linking);
         add_bool(&mut tag, "X", verb.is_auxiliary);
         if let Some(forms) = verb.verb_forms {
-            if forms.contains(VerbFormFlags::LEMMA) {
-                tag.push_str("B");
+            // If Lemma flag is explicitly set; or if no verb forms are set Lemma is the default.
+            match (
+                forms.contains(VerbFormFlags::LEMMA),
+                forms.contains(VerbFormFlags::PAST),
+                forms.contains(VerbFormFlags::PAST_PARTICIPLE),
+                forms.contains(VerbFormFlags::PRETERITE),
+                forms.contains(VerbFormFlags::PROGRESSIVE),
+                forms.contains(VerbFormFlags::THIRD_PERSON_SINGULAR),
+            ) {
+                (true, _, _, _, _, _) | (false, false, false, false, false, false) => {
+                    tag.push_str("B")
+                }
+                _ => {}
             }
-            if forms.contains(VerbFormFlags::PAST) {
-                tag.push_str("P");
-            }
-            if forms.contains(VerbFormFlags::PRETERITE) {
-                tag.push_str("Pt");
-            }
-            if forms.contains(VerbFormFlags::PAST_PARTICIPLE) {
-                tag.push_str("Pp");
+            // Regular verbs set both together; Irregular verbs can set them separately.
+            match (
+                forms.contains(VerbFormFlags::PAST),
+                forms.contains(VerbFormFlags::PRETERITE),
+                forms.contains(VerbFormFlags::PAST_PARTICIPLE),
+            ) {
+                (true, _, _) | (_, true, true) => tag.push_str("P"),
+                (false, true, false) => tag.push_str("Pt"),
+                (false, false, true) => tag.push_str("Pp"),
+                _ => {}
             }
             if forms.contains(VerbFormFlags::PROGRESSIVE) {
                 tag.push_str("g");
@@ -165,6 +188,8 @@ fn format_word_tag(word: &WordMetadata) -> String {
             if forms.contains(VerbFormFlags::THIRD_PERSON_SINGULAR) {
                 tag.push_str("3");
             }
+        } else {
+            tag.push_str("B");
         }
         add(&tag, &mut tags);
     }
@@ -195,6 +220,9 @@ fn format_word_tag(word: &WordMetadata) -> String {
     if word.preposition {
         add("P", &mut tags);
     }
+    if word.is_roman_numerals() {
+        add("#r", &mut tags);
+    }
 
     get_dialect_annotations(word).into_iter().for_each(|tag| {
         add(tag, &mut tags);
@@ -206,16 +234,16 @@ fn format_word_tag(word: &WordMetadata) -> String {
         add("B", &mut tags);
     }
 
-    if tags.is_empty() {
-        String::from("W?")
-    } else {
-        tags
+    match tags.is_empty() {
+        true if word.orth_info.contains(OrthFlags::APOSTROPHE) => String::from("K"),
+        true => String::from("W?"),
+        false => tags,
     }
 }
 
 /// Returns a vector of dialect annotation strings for the given word.
 /// Handles both individual dialects and special groupings (NoAm, Comm).
-fn get_dialect_annotations(word: &WordMetadata) -> Vec<&'static str> {
+fn get_dialect_annotations(word: &DictWordMetadata) -> Vec<&'static str> {
     let mut annotations = Vec::new();
     let mut north_america = false;
     let mut commonwealth = false;
