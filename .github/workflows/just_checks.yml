@@ -39,7 +39,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version-file: ".node-version"
-          cache: "pnpm"
+          package-manager-cache: false
       - name: Enable Corepack
         run: corepack enable
       - name: Install `pandoc`
