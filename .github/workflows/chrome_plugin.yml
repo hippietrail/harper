@@ -1,4 +1,4 @@
-name: Release Chrome Plugin
+name: Chrome Plugin
 
 on:
   push:
