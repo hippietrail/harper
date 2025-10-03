@@ -1,26 +1,25 @@
 use harper_core::linting::{LintGroup, Linter};
 use harper_core::spell::FstDictionary;
 use harper_core::{Dialect, Document};
-use harper_ink::InkParser;
+use harper_python::PythonParser;
 
-/// Creates a unit test checking that the linting of a Ink document (in
-/// `tests_sources`) produces the expected number of lints.
+/// Creates a unit test checking Python source code parsing.
 macro_rules! create_test {
-    ($filename:ident.ink, $correct_expected:expr) => {
+    ($filename:ident.$ext:ident, $correct_expected:expr) => {
         paste::paste! {
             #[test]
-            fn [<lints_ $filename _correctly>](){
+            fn [<lints_$ext _ $filename _correctly>](){
                  let source = include_str!(
                     concat!(
                         "./test_sources/",
-                        concat!(stringify!($filename), ".ink")
+                        concat!(
+                        stringify!($filename), ".", stringify!($ext))
                     )
                  );
 
+                 let parser = PythonParser::default();
                  let dict = FstDictionary::curated();
-                 let document = Document::new(&source, &InkParser::default(),
-                      &FstDictionary::curated()
-                      );
+                 let document = Document::new(&source, &parser, &dict);
 
                  let mut linter = LintGroup::new_curated(dict, Dialect::American);
                  let lints = linter.lint(&document);
@@ -37,5 +36,6 @@ macro_rules! create_test {
     };
 }
 
-create_test!(good.ink, 0);
-create_test!(bad.ink, 5);
+create_test!(docstrings.py, 4);
+create_test!(field_docstrings.py, 2);
+create_test!(comments.py, 1);

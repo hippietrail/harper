@@ -2280,7 +2280,7 @@ dependencies = [
 
 [[package]]
 name = "harper-brill"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "harper-pos-utils",
  "lazy_static",
@@ -2302,6 +2302,7 @@ dependencies = [
  "harper-ink",
  "harper-literate-haskell",
  "harper-pos-utils",
+ "harper-python",
  "harper-stats",
  "harper-typst",
  "hashbrown 0.16.0",
@@ -2313,7 +2314,7 @@ dependencies = [
 
 [[package]]
 name = "harper-comments"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "harper-core",
  "harper-html",
@@ -2336,7 +2337,6 @@ dependencies = [
  "tree-sitter-lua",
  "tree-sitter-nix",
  "tree-sitter-php",
- "tree-sitter-python",
  "tree-sitter-ruby",
  "tree-sitter-rust",
  "tree-sitter-scala",
@@ -2348,7 +2348,7 @@ dependencies = [
 
 [[package]]
 name = "harper-core"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "ammonia",
  "bitflags 2.9.4",
@@ -2385,7 +2385,7 @@ dependencies = [
 
 [[package]]
 name = "harper-html"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -2396,7 +2396,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ink"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -2407,7 +2407,7 @@ dependencies = [
 
 [[package]]
 name = "harper-literate-haskell"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "harper-comments",
  "harper-core",
@@ -2418,7 +2418,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ls"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -2430,6 +2430,7 @@ dependencies = [
  "harper-html",
  "harper-ink",
  "harper-literate-haskell",
+ "harper-python",
  "harper-stats",
  "harper-typst",
  "indexmap",
@@ -2447,7 +2448,7 @@ dependencies = [
 
 [[package]]
 name = "harper-pos-utils"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "burn",
  "burn-ndarray",
@@ -2465,8 +2466,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "harper-python"
+version = "0.66.0"
+dependencies = [
+ "harper-core",
+ "harper-tree-sitter",
+ "paste",
+ "tree-sitter",
+ "tree-sitter-python",
+]
+
+[[package]]
 name = "harper-stats"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "chrono",
  "harper-core",
@@ -2477,7 +2489,7 @@ dependencies = [
 
 [[package]]
 name = "harper-tree-sitter"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "harper-core",
  "tree-sitter",
@@ -2496,7 +2508,7 @@ dependencies = [
 
 [[package]]
 name = "harper-typst"
-version = "0.65.0"
+version = "0.66.0"
 dependencies = [
  "harper-core",
  "itertools 0.14.0",
@@ -2735,13 +2747,14 @@ dependencies = [
 
 [[package]]
 name = "indexmap"
-version = "2.11.1"
+version = "2.11.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "206a8042aec68fa4a62e8d3f7aa4ceb508177d9324faf261e1959e495b7a1921"
+checksum = "4b0f83760fb341a774ed326568e19f5a863af4a952def8c39f9ab92fd95b88e5"
 dependencies = [
  "equivalent",
- "hashbrown 0.15.5",
+ "hashbrown 0.16.0",
  "serde",
+ "serde_core",
 ]
 
 [[package]]
