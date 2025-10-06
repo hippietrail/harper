@@ -11,7 +11,7 @@
 >
 #
 > Most         example sentences are taken from https://en.wiktionary.org/. License : CC         BY      - SA        4.0 .
-# NSg/I/J/R/Dq NSg/VB+ NPl/V3+   VB  VB/J  P    Url                         NSg/VB+ . NSg/VB/#r+ NSg/J/P . NPr/VB/J+ #   .
+# NSg/I/J/R/Dq NSg/VB+ NPl/V3+   VB  VPp/J P    Url                         NSg/VB+ . NSg/VB/#r+ NSg/J/P . NPr/VB/J+ #   .
 >
 #
 > A
@@ -577,7 +577,7 @@
 > It's not     that         big   of a    deal      .
 # +    NSg/R/C NSg/I/C/Ddem NSg/J P  D/P+ NSg/VB/J+ .
 > I’ve not     taken her     out          of a   goodly long     while      .
-# K    NSg/R/C VB/J  ISg/D$+ NSg/VB/J/R/P P  D/P J/R    NPr/VB/J NSg/VB/C/P .
+# K    NSg/R/C VPp/J ISg/D$+ NSg/VB/J/R/P P  D/P J/R    NPr/VB/J NSg/VB/C/P .
 > After a   delay    of three hours , the plane     finally took off        .
 # P     D/P NSg/VB/J P  NSg+  NPl+  . D+  NSg/VB/J+ R       VPt  NSg/VB/J/P .
 >
@@ -839,7 +839,7 @@
 > The name    has a    nice      ring    to it       .
 # D+  NSg/VB+ V3  D/P+ NPr/VB/J+ NSg/VB+ P  NPr/ISg+ .
 > There are 100 pence to the pound   .
-# R+    VB  #   NSg   P  D+  NPr/VB+ .
+# R+    VB  #   NPl   P  D+  NPr/VB+ .
 > It       takes  2 to 4 weeks  to process typical applications .
 # NPr/ISg+ NPl/V3 # P  # NPrPl+ P  NSg/VB  NSg/J+  NPl+         .
 > Three to the power     of two  is   nine .
@@ -868,8 +868,8 @@
 # NSg/VB
 >
 #
-> He       picked a   fight  with the class     bully     .
-# NPr/ISg+ VP/J   D/P NSg/VB P    D+  NSg/VB/J+ NSg/VB/J+ .
+> He       picked a   fight  with the class      bully     .
+# NPr/ISg+ VP/J   D/P NSg/VB P    D+  N🅪Sg/VB/J+ NSg/VB/J+ .
 > He       went    with his     friends .
 # NPr/ISg+ NSg/VPt P    ISg/D$+ NPl/V3+ .
 > She  owns   a    motorcycle with a   sidecar .
