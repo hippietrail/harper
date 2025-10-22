@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper - Grammar / Spell Checking",
 	"description": "The grammar checker for developers",
-	"version": "0.68.0",
+	"version": "0.69.0",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -2107,6 +2107,12 @@
 					"default": true,
 					"description": "Detects when `roadmap` is used instead of `road map`, prompting the correct spacing."
 				},
+				"harper.linters.RollerSkated": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Encourages hyphenating the past tense of `roller-skate`."
+				},
 				"harper.linters.RulesOfThumb": {
 					"scope": "resource",
 					"type": "boolean",
@@ -2178,6 +2184,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Quantity words such as `some` normally take `of` before a definite article. Including `of` signals that you mean a subset of a larger set, preventing a momentary stumble in comprehension."
+				},
+				"harper.linters.SomeWithoutArticle": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Detects the redundant article in front of `some` and suggests more natural phrasing."
 				},
 				"harper.linters.Somebody": {
 					"scope": "resource",
@@ -2393,7 +2405,7 @@
 					"scope": "resource",
 					"type": "boolean",
 					"default": true,
-					"description": "Finds the typo `through away` and suggests `throw away` instead."
+					"description": "Finds the typo `through away` and suggests `throw away` or `threw away` instead."
 				},
 				"harper.linters.ThrowRubbish": {
 					"scope": "resource",
@@ -2448,6 +2460,18 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Corrects homophone confusion between `to` and `too`."
+				},
+				"harper.linters.ToWorryAbout": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Fixes incorrect use of `to worried about`."
+				},
+				"harper.linters.TongueInCheek": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Corrects the idiom when `and` replaces the needed preposition."
 				},
 				"harper.linters.TooTo": {
 					"scope": "resource",
