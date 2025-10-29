@@ -125,6 +125,7 @@ use super::sought_after::SoughtAfter;
 use super::spaces::Spaces;
 use super::spell_check::SpellCheck;
 use super::spelled_numbers::SpelledNumbers;
+use super::split_words::SplitWords;
 use super::that_than::ThatThan;
 use super::that_which::ThatWhich;
 use super::the_how_why::TheHowWhy;
@@ -491,6 +492,7 @@ impl LintGroup {
         insert_struct_rule!(LongSentences, true);
         insert_expr_rule!(LookingForwardTo, true);
         insert_struct_rule!(MergeWords, true);
+        insert_expr_rule!(SplitWords, true);
         insert_expr_rule!(Misspell, true);
         insert_expr_rule!(MissingPreposition, true);
         insert_expr_rule!(MissingTo, true);
