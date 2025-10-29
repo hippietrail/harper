@@ -54,7 +54,10 @@ impl ExprLinter for CautionaryTale {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::{CautionaryTale, tests::{assert_lint_count, assert_suggestion_result}};
+    use crate::linting::{
+        CautionaryTale,
+        tests::{assert_lint_count, assert_suggestion_result},
+    };
 
     #[test]
     fn catches_cautionary_tail() {
@@ -112,11 +115,7 @@ mod tests {
 
     #[test]
     fn allows_different_adjective_with_tail() {
-        assert_lint_count(
-            "The cat has a long tail.",
-            CautionaryTale::default(),
-            0,
-        );
+        assert_lint_count("The cat has a long tail.", CautionaryTale::default(), 0);
     }
 
     #[test]
