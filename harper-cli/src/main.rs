@@ -1,5 +1,6 @@
 #![doc = include_str!("../README.md")]
 
+use harper_core::VecExt;
 use harper_core::spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary, WordId};
 use hashbrown::HashMap;
 use std::collections::BTreeMap;
@@ -696,7 +697,7 @@ fn main() -> anyhow::Result<()> {
                         let normalized = format!(
                             "{}/{}{}",
                             lexeme,
-                            normalize_annotation_flags(annotation),
+                            normalize_annotation_flags(annotation, &lexeme),
                             whitespace
                         );
                         if !comment_part.is_empty() {
@@ -940,143 +941,123 @@ fn file_dict_name(path: &Path) -> PathBuf {
     rewritten.into()
 }
 
-/// Normalizes a dictionary entry's annotation flags
-fn normalize_annotation_flags(flag_str: &str) -> String {
-    let char_vec = flag_str.chars().collect::<Vec<_>>();
+fn normalize_annotation_flags(flag_str: &str, lexeme: &str) -> String {
+    let mut vin: Vec<char> = flag_str.chars().collect();
+    let vinorig = vin.clone();
 
-    let mut pos_order: Vec<String> = Vec::new();
-    let mut pos_map: HashMap<String, Vec<char>> = HashMap::new();
+    // Each segment contains one top-level flag (either `~` or a POS flag)
+    // followed by any dupes
+    // followed by any properties, in original order, including duplicates
+    let mut out_segments: Vec<Vec<char>> = Vec::new();
 
-    let pos_tags = "NOVJRIPCD";
-    let noun_props = "09gmw♂♀ª";
-    let verb_props = "lAbdGtT6h";
-    let pron_props = "aso123F";
-    let adj_props = "^cuY*.:";
-    let det_props = "qM5";
+    // If there are any tildes anywhere in `vin`, move them all to the first segment
+    let mut tildes: Vec<char> = Vec::new();
+    let tilde_indices: Vec<_> = vin
+        .iter()
+        .enumerate()
+        .filter(|(_, c)| matches!(c, '~'))
+        .map(|(i, _)| i)
+        .collect();
 
-    // Create a special key in the map for the 'unused' flags, using the empty string as the key
-    pos_map.insert("".to_string(), vec![]);
-
-    // Check for ~ because it must be first if present
-    if char_vec.contains(&'~') {
-        pos_order.push("~".to_string());
-        pos_map.insert("~".to_string(), vec![]);
+    // Remove tildes from vin in reverse order to avoid shifting issues
+    for &i in tilde_indices.iter().rev() {
+        tildes.push(vin.remove(i));
+    }
+    if !tildes.is_empty() {
+        out_segments.push(tildes);
     }
 
-    char_vec.iter().for_each(|flag| {
-        if flag == &'~' {
-            // This will drop any duplicates should they exist
-            return;
-        }
-        if pos_tags.contains(*flag) {
-            let flag_str = flag.to_string();
-            // This one is a POS tag so if it's not already in the map, add it as a key and push it to the pos_order vec
-            // but if it is already in the map (a dupe), treat it as a property of the POS and push it onto the value of the key
-            
-            // If it's 'N' or 'O' it's special and they should be grouped together but in the order they appear
-            if flag_str == "N" {
-                if pos_map.contains_key("N") {
-                    // add dupe
-                    pos_map.get_mut("N").unwrap().push(*flag);
-                } else if pos_map.contains_key("O") {
-                    // Change the "O" key to "ON" and move its properties from "O" to "ON"
-                    let os_old_vec = pos_map.remove("O").unwrap();
-                    pos_map.insert("ON".to_string(), os_old_vec);
-                    // Change the 'O' in pos_order to 'ON'
-                    let i = pos_order.iter().position(|x| x == "O").unwrap();
-                    pos_order[i] = "ON".to_string();
-                } else {
-                    pos_map.insert("N".to_string(), vec![]);
-                    pos_order.push("N".to_string());
-                }
-            } else if flag_str == "O" {
-                if pos_map.contains_key("O") {
-                    // add dupe
-                    pos_map.get_mut("O").unwrap().push(*flag);
-                } else if pos_map.contains_key("N") {
-                    // Change the "N" key to "NO" and move its properties from "N" to "NO"
-                    let ns_old_vec = pos_map.remove("N").unwrap();
-                    pos_map.insert("NO".to_string(), ns_old_vec);
-                    // Change the 'N' in pos_order to 'NO'
-                    let i = pos_order.iter().position(|x| x == "N").unwrap();
-                    pos_order[i] = "NO".to_string();
-                } else {
-                    pos_map.insert("O".to_string(), vec![]);
-                    pos_order.push("O".to_string());
-                }
-            } else {
-                if pos_map.contains_key(&flag_str) {
-                    // add dupe
-                    pos_map.get_mut(&flag_str).unwrap().push(*flag);
-                } else {
-                    pos_map.insert(flag_str, vec![]);
-                    pos_order.push(flag.to_string());
-                }
-            }
-        } else if noun_props.contains(*flag) {
-            if pos_map.contains_key("N") {
-                pos_map.get_mut("N").unwrap().push(*flag);
-            } else if pos_map.contains_key("O") {
-                pos_map.get_mut("O").unwrap().push(*flag);
-            } else {
-                // we got a noun property before we got the 'N' tag, so add it to the unused flags
-                pos_map.get_mut("").unwrap().push(*flag);
-            }
-        } else if verb_props.contains(*flag) {
-            if pos_map.contains_key("V") {
-                pos_map.get_mut("V").unwrap().push(*flag);
-            } else {
-                pos_order.push(flag.to_string());
-            }
-        } else if *flag == 'S' {
-            if pos_map.contains_key("N") {
-                pos_map.get_mut("N").unwrap().push(*flag);
-            } else if pos_map.contains_key("V") {
-                pos_map.get_mut("V").unwrap().push(*flag);
-            } else {
-                pos_order.push(flag.to_string());
-            }
-        } else if *flag == '>' {
-            if pos_map.contains_key("V") {
-                pos_map.get_mut("V").unwrap().push(*flag);
-            } else if pos_map.contains_key("J") {
-                pos_map.get_mut("J").unwrap().push(*flag);
-            } else {
-                pos_order.push(flag.to_string());
-            }
-        } else if adj_props.contains(*flag) {
-            if pos_map.contains_key("J") {
-                pos_map.get_mut("J").unwrap().push(*flag);
-            } else {
-                pos_order.push(flag.to_string());
-            }
-        } else if pron_props.contains(*flag) {
-            if pos_map.contains_key("I") {
-                pos_map.get_mut("I").unwrap().push(*flag);
-            } else {
-                pos_order.push(flag.to_string());
-            }
-        } else if det_props.contains(*flag) {
-            if pos_map.contains_key("D") {
-                pos_map.get_mut("D").unwrap().push(*flag);
-            } else {
-                pos_order.push(flag.to_string());
-            }
-        } else {
-            // This one is not a POS tag so add it to the 'unused' flags
-            pos_map.get_mut("").unwrap().push(*flag);
-        }
-    });
+    // First, define which properties belong to which POS
+    let pos_to_props: HashMap<char, &str> = [
+        ('N', "09gmw♂♀ªS"),
+        ('O', "9gS"),
+        ('V', "lAbdGtT6hS"),
+        ('I', "aso123F"),
+        ('J', "^cuY*.:"),
+        ('D', "qM5"),
+    ]
+    .into_iter()
+    .collect();
 
-    let mut result = String::new();
-    // Get the pos in order then append it and its values to the result string
-    pos_order.iter().for_each(|pos_flag_char| {
-        result.push_str(pos_flag_char);
-        if let Some(props) = pos_map.get(pos_flag_char) {
-            result.extend(props);
+    // Pull out all the POS flags from vin
+    let pos_flags_in_vin = vin
+        .iter()
+        .filter(|&&f| pos_to_props.contains_key(&f))
+        .copied()
+        .collect::<Vec<_>>();
+    vin.retain(|f| !pos_to_props.contains_key(f));
+
+    // Start a new segment for each new POS flag, or add any duplicates found to their existing segments
+    for pos_flag in pos_flags_in_vin {
+        // Is there a segment whose first element is this? If so append to it? If not start a new segment
+        let found = out_segments
+            .iter_mut()
+            .any(|s| s.first() == Some(&pos_flag));
+        if found {
+            out_segments
+                .iter_mut()
+                .find(|s| s.first() == Some(&pos_flag))
+                .unwrap()
+                .push(pos_flag);
+        } else {
+            out_segments.push(vec![pos_flag]);
         }
-    });
-    // finally append the unused flags
-    result.extend(pos_map.get("").unwrap());
-    result
+    }
+
+    // Create a reverse mapping from property to its valid POS tags
+    let mut prop_to_poses: HashMap<char, Vec<char>> = HashMap::new();
+    for (&pos, &props) in &pos_to_props {
+        for prop in props.chars() {
+            prop_to_poses.entry(prop).or_default().push(pos);
+        }
+    }
+
+    // Pull out all the property flags from vin
+    let prop_flags: Vec<char> = vin
+        .iter()
+        .filter(|&&f| prop_to_poses.contains_key(&f))
+        .copied()
+        .collect();
+    vin.retain(|f| !prop_to_poses.contains_key(f));
+
+    let mut orphan_properties: Vec<char> = Vec::new();
+
+    // Go through the prop flags and look for the first segment for which it is a valid property
+    for prop_flag in prop_flags {
+        if let Some(found_segment) = out_segments.iter_mut().find(|s| {
+            prop_to_poses
+                .get(&prop_flag)
+                .unwrap()
+                .contains(&s.first().unwrap())
+        }) {
+            found_segment.push(prop_flag);
+        } else {
+            eprintln!(
+                "** {lexeme} : contains property flag `{prop_flag}` for which no valid POS was found: {}",
+                vinorig.to_string()
+            );
+            orphan_properties.push(prop_flag);
+        }
+    }
+
+    // Do this just before returning - no other logic should be below this line
+
+    // Concatenate all the segments in order
+    // and then add any orphaned properties
+    // and then add whatever is left in `vin`
+    // Return as a string
+    let mut vout: Vec<char> = Vec::<char>::new();
+    for segment in out_segments {
+        vout.extend(segment);
+    }
+    vout.extend(orphan_properties);
+    vout.extend(vin);
+    if vout != vinorig {
+        eprintln!(
+            "** {lexeme} : {} -> {}",
+            vinorig.to_string(),
+            vout.to_string()
+        );
+    }
+    vout.to_string()
 }
