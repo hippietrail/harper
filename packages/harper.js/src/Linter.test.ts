@@ -225,6 +225,21 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 		expect(secondRound.length).toBeLessThan(firstRound.length);
 	});
 
+	test(`${linterName} can ignore larger lints to reveal smaller ones`, async () => {
+		const linter = new Linter({ binary });
+		const source = `This is a really long sentensd with some errorz in it, which in an old version of Harper, would get removedd when the bigger "Long Sentences" lint was ignored, that isn't what we woant, so we are writing a test for that exact problem.`;
+
+		const firstRound = await linter.lint(source);
+
+		expect(firstRound.length).toBeGreaterThanOrEqual(1);
+
+		await linter.ignoreLint(source, firstRound[0]);
+
+		const secondRound = await linter.lint(source);
+
+		expect(secondRound.length).toBe(4);
+	});
+
 	test(`${linterName} can reimport ignored lints.`, async () => {
 		const source = 'This is an test of xporting lints.';
 
@@ -317,6 +332,20 @@ for (const [linterName, Linter] of Object.entries(linters)) {
 
 		const newLinter = new Linter({ binary });
 		await newLinter.importStatsFile(stats);
+	});
+
+	test(`${linterName} emits the correct span indices`, async () => {
+		const text = '✉️👋👍✉️🚀✉️🌴 This is to show the offset issue sdssda is it there?';
+
+		const linter = new LocalLinter({ binary });
+		const lints = await linter.lint(text);
+
+		const span = lints[0].span();
+
+		expect(span.start).toBe(48);
+		expect(span.end).toBe(54);
+
+		expect(text.slice(span.start, span.end)).toBe('sdssda');
 	});
 }
 
