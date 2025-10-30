@@ -317,6 +317,7 @@ impl SequenceExpr {
         })
     }
 
+    gen_then_from_is!(sentence_terminator);
     // More than two kinds
 
     /// Match a token where any of the token kind predicates returns true.
@@ -417,6 +418,7 @@ impl SequenceExpr {
     gen_then_from_is!(third_person_pronoun);
     gen_then_from_is!(third_person_singular_pronoun);
     gen_then_from_is!(third_person_plural_pronoun);
+    gen_then_from_is!(subject_pronoun);
     gen_then_from_is!(object_pronoun);
 
     // Verbs
@@ -424,6 +426,7 @@ impl SequenceExpr {
     gen_then_from_is!(verb);
     gen_then_from_is!(auxiliary_verb);
     gen_then_from_is!(linking_verb);
+    gen_then_from_is!(verb_lemma);
 
     // Adjectives
 
