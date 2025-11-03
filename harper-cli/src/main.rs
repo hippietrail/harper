@@ -1,6 +1,5 @@
 #![doc = include_str!("../README.md")]
 
-use harper_core::VecExt;
 use harper_core::spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary, WordId};
 use hashbrown::HashMap;
 use std::collections::BTreeMap;
@@ -945,123 +944,111 @@ fn file_dict_name(path: &Path) -> PathBuf {
     rewritten.into()
 }
 
+/// Normalize annotation flags
+///
+/// Ensures any tilde (~) is the first flag.
+/// Maintains relative order of POS flags.
+/// Groups N (noun) and O (proper noun) flags together.
+/// Groups property tags following the POS to which they apply (or pair of POS in the case of N/O).
+/// Property tags will maintain relative order, except for 0 (singular) and 9 (plural) which are sorted.
+/// Property tags and tags that are neither POS nor property tags will be grouped together at the end and maintain relative order.
+/// Duplicate POS and property tags are grouped together.
 fn normalize_annotation_flags(flag_str: &str, lexeme: &str) -> String {
-    let mut vin: Vec<char> = flag_str.chars().collect();
-    let vinorig = vin.clone();
+    let flags: Vec<char> = flag_str.chars().collect();
 
-    // Each segment contains one top-level flag (either `~` or a POS flag)
-    // followed by any dupes
-    // followed by any properties, in original order, including duplicates
-    let mut out_segments: Vec<Vec<char>> = Vec::new();
-
-    // If there are any tildes anywhere in `vin`, move them all to the first segment
-    let mut tildes: Vec<char> = Vec::new();
-    let tilde_indices: Vec<_> = vin
-        .iter()
-        .enumerate()
-        .filter(|(_, c)| matches!(c, '~'))
-        .map(|(i, _)| i)
-        .collect();
-
-    // Remove tildes from vin in reverse order to avoid shifting issues
-    for &i in tilde_indices.iter().rev() {
-        tildes.push(vin.remove(i));
-    }
-    if !tildes.is_empty() {
-        out_segments.push(tildes);
-    }
-
-    // First, define which properties belong to which POS
-    let pos_to_props: HashMap<char, &str> = [
-        ('N', "09gmw♂♀ªS"),
-        ('O', "9gS"),
-        ('V', "lAbdGtT6hS"),
-        ('I', "aso123F"),
-        ('J', "^cuY*.:"),
-        ('D', "qM5"),
+    let pos_to_props: HashMap<_, _> = [
+        ('C', ""),            // Conjunction
+        ('D', "qM5"),         // Determiner
+        ('I', "aso123F"),     // Pronoun
+        ('J', ">^cuY*.:"),    // Adjective
+        ('N', "09gmw♂♀ªS"),   // Noun
+        ('O', "9gS"),         // Proper noun
+        ('P', ""),            // Preposition
+        ('R', ""),            // Adverb
+        ('V', "lAbdGtT6hS>"), // Verb
     ]
-    .into_iter()
+    .iter()
+    .map(|&(pos, props)| (pos, props.chars().collect::<Vec<_>>()))
     .collect();
 
-    // Pull out all the POS flags from vin
-    let pos_flags_in_vin = vin
+    let prop_to_poses: HashMap<_, _> = pos_to_props
         .iter()
-        .filter(|&&f| pos_to_props.contains_key(&f))
-        .copied()
-        .collect::<Vec<_>>();
-    vin.retain(|f| !pos_to_props.contains_key(f));
+        .flat_map(|(&pos, props)| props.iter().map(move |&c| (c, pos)))
+        .fold(HashMap::new(), |mut acc, (c, pos)| {
+            acc.entry(c).or_insert_with(Vec::new).push(pos);
+            acc
+        });
 
-    // Start a new segment for each new POS flag, or add any duplicates found to their existing segments
-    for pos_flag in pos_flags_in_vin {
-        // Is there a segment whose first element is this? If so append to it? If not start a new segment
-        let found = out_segments
-            .iter_mut()
-            .any(|s| s.first() == Some(&pos_flag));
-        if found {
-            out_segments
-                .iter_mut()
-                .find(|s| s.first() == Some(&pos_flag))
-                .unwrap()
-                .push(pos_flag);
-        } else {
-            out_segments.push(vec![pos_flag]);
+    let mut tildes = Vec::with_capacity(flags.len());
+    let mut poses_with_props: Vec<Vec<char>> = Vec::new();
+    let mut other_flags = Vec::new();
+
+    // First pass: tildes and POS
+    for &flag in &flags {
+        if flag == '~' {
+            tildes.push('~');
+        } else if pos_to_props.contains_key(&flag) {
+            // Keep noun (N) & proper noun (O) flags together
+            let poses = match flag {
+                'N' | 'O' => &['N', 'O'][..],
+                _ => &[flag][..],
+            };
+            if let Some(which) = poses_with_props
+                .iter()
+                // The first entry in each pos-with-props vector is always its POS
+                .position(|pos_with_props| poses.contains(&pos_with_props.first().unwrap()))
+            {
+                poses_with_props[which].push(flag);
+            } else {
+                poses_with_props.push(vec![flag]);
+            }
         }
     }
 
-    // Create a reverse mapping from property to its valid POS tags
-    let mut prop_to_poses: HashMap<char, Vec<char>> = HashMap::new();
-    for (&pos, &props) in &pos_to_props {
-        for prop in props.chars() {
-            prop_to_poses.entry(prop).or_default().push(pos);
+    // Second pass: properties and other flags
+    for &flag in &flags {
+        if prop_to_poses.contains_key(&flag) {
+            let prop = flag;
+            let poses = prop_to_poses.get(&prop).unwrap();
+            // Find the first POS-with-props vector that contains one of this property's POSes
+            if let Some(which) = poses_with_props
+                .iter()
+                .position(|pos_with_props| pos_with_props.iter().any(|&pos| poses.contains(&pos)))
+            {
+                // Check if this prop already exists in the group
+                let pos_with_props = &mut poses_with_props[which];
+
+                // Keep singular (0) and plural (9) flags together
+                let props = match prop {
+                    '0' | '9' => &['0', '9'][..],
+                    _ => &[prop][..],
+                };
+                
+                if let Some(mut i) = pos_with_props.iter().position(|&p| props.contains(&p)) {
+                    // And keep duplicate 0s and 9s sorted
+                    while i < pos_with_props.len() && props.contains(&pos_with_props[i]) {
+                        if pos_with_props[i] >= prop {
+                            break;
+                        }
+                        i += 1;
+                    }
+                    pos_with_props.insert(i, prop);
+                } else {
+                    // Prop doesn't exist in this group yet, add it
+                    pos_with_props.push(prop);
+                }
+            } else {
+                // This property is an orphan
+                other_flags.push(prop);
+            }
+        } else if flag != '~' && !pos_to_props.contains_key(&flag) {
+            other_flags.push(flag);
         }
     }
 
-    // Pull out all the property flags from vin
-    let prop_flags: Vec<char> = vin
-        .iter()
-        .filter(|&&f| prop_to_poses.contains_key(&f))
-        .copied()
-        .collect();
-    vin.retain(|f| !prop_to_poses.contains_key(f));
-
-    let mut orphan_properties: Vec<char> = Vec::new();
-
-    // Go through the prop flags and look for the first segment for which it is a valid property
-    for prop_flag in prop_flags {
-        if let Some(found_segment) = out_segments.iter_mut().find(|s| {
-            prop_to_poses
-                .get(&prop_flag)
-                .unwrap()
-                .contains(&s.first().unwrap())
-        }) {
-            found_segment.push(prop_flag);
-        } else {
-            eprintln!(
-                "** {lexeme} : contains property flag `{prop_flag}` for which no valid POS was found: {}",
-                vinorig.to_string()
-            );
-            orphan_properties.push(prop_flag);
-        }
-    }
-
-    // Do this just before returning - no other logic should be below this line
-
-    // Concatenate all the segments in order
-    // and then add any orphaned properties
-    // and then add whatever is left in `vin`
-    // Return as a string
-    let mut vout: Vec<char> = Vec::<char>::new();
-    for segment in out_segments {
-        vout.extend(segment);
-    }
-    vout.extend(orphan_properties);
-    vout.extend(vin);
-    if vout != vinorig {
-        eprintln!(
-            "** {lexeme} : {} -> {}",
-            vinorig.to_string(),
-            vout.to_string()
-        );
-    }
-    vout.to_string()
+    tildes
+        .into_iter()
+        .chain(poses_with_props.into_iter().flatten())
+        .chain(other_flags.into_iter())
+        .collect::<String>()
 }
