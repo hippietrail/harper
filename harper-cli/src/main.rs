@@ -698,7 +698,7 @@ fn main() -> anyhow::Result<()> {
                         let normalized = format!(
                             "{}/{}{}",
                             lexeme,
-                            normalize_annotation_flags(annotation, &lexeme),
+                            normalize_annotation_flags(annotation),
                             whitespace
                         );
                         if !comment_part.is_empty() {
@@ -953,7 +953,7 @@ fn file_dict_name(path: &Path) -> PathBuf {
 /// Property tags will maintain relative order, except for 0 (singular) and 9 (plural) which are sorted.
 /// Property tags and tags that are neither POS nor property tags will be grouped together at the end and maintain relative order.
 /// Duplicate POS and property tags are grouped together.
-fn normalize_annotation_flags(flag_str: &str, lexeme: &str) -> String {
+fn normalize_annotation_flags(flag_str: &str) -> String {
     let flags: Vec<char> = flag_str.chars().collect();
 
     let pos_to_props: HashMap<_, _> = [
@@ -1023,7 +1023,7 @@ fn normalize_annotation_flags(flag_str: &str, lexeme: &str) -> String {
                     '0' | '9' => &['0', '9'][..],
                     _ => &[prop][..],
                 };
-                
+
                 if let Some(mut i) = pos_with_props.iter().position(|&p| props.contains(&p)) {
                     // And keep duplicate 0s and 9s sorted
                     while i < pos_with_props.len() && props.contains(&pos_with_props[i]) {
