@@ -996,7 +996,7 @@ fn normalize_annotation_flags(flag_str: &str) -> String {
             if let Some(which) = poses_with_props
                 .iter()
                 // The first entry in each pos-with-props vector is always its POS
-                .position(|pos_with_props| poses.contains(&pos_with_props.first().unwrap()))
+                .position(|pos_with_props| poses.contains(pos_with_props.first().unwrap()))
             {
                 poses_with_props[which].push(flag);
             } else {
@@ -1049,6 +1049,6 @@ fn normalize_annotation_flags(flag_str: &str) -> String {
     tildes
         .into_iter()
         .chain(poses_with_props.into_iter().flatten())
-        .chain(other_flags.into_iter())
+        .chain(other_flags)
         .collect::<String>()
 }
