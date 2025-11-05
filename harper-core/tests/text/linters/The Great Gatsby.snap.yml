@@ -819,7 +819,7 @@ Message: |
 Suggest:
   - Replace with: “Ta”
   - Replace with: “Tb”
-  - Replace with: “Ti”
+  - Replace with: “Tn”
 
 
 
@@ -828,7 +828,7 @@ Message: |
      664 | it, you perceive, after a moment, the eyes of Doctor T. J. Eckleburg. The eyes
          |                                                         ^~ Did you mean to spell `J.` this way?
 Suggest:
-  - Replace with: “Jr”
+  - Replace with: “Jg”
   - Replace with: “J”
   - Replace with: “JD”
 
@@ -853,7 +853,7 @@ Message: |
 Suggest:
   - Replace with: “Ta”
   - Replace with: “Tb”
-  - Replace with: “Ti”
+  - Replace with: “Tn”
 
 
 
@@ -862,7 +862,7 @@ Message: |
      665 | of Doctor T. J. Eckleburg are blue and gigantic—their retinas are one yard high.
          |              ^~ Did you mean to spell `J.` this way?
 Suggest:
-  - Replace with: “Jr”
+  - Replace with: “Jg”
   - Replace with: “J”
   - Replace with: “JD”
 
@@ -929,8 +929,8 @@ Message: |
          |                        ^~ Did you mean to spell `B.` this way?
 Suggest:
   - Replace with: “Bu”
-  - Replace with: “B”
   - Replace with: “Be”
+  - Replace with: “Bf”
 
 
 
@@ -1055,9 +1055,9 @@ Message: |
      784 | We backed up to a gray old man who bore an absurd resemblance to John D.
          |                                                                       ^~ Did you mean to spell `D.` this way?
 Suggest:
-  - Replace with: “Db”
   - Replace with: “Dc”
-  - Replace with: “Do”
+  - Replace with: “DA”
+  - Replace with: “DE”
 
 
 
@@ -1246,8 +1246,8 @@ Message: |
          | ^~ Did you mean to spell `B.` this way?
 Suggest:
   - Replace with: “Bu”
-  - Replace with: “B”
   - Replace with: “Be”
+  - Replace with: “Bf”
 
 
 
@@ -1342,9 +1342,9 @@ Message: |
     1122 | Daisy! Dai———”
          |        ^~~ Did you mean to spell `Dai` this way?
 Suggest:
+  - Replace with: “Day”
   - Replace with: “Dab”
   - Replace with: “Dad”
-  - Replace with: “Dais”
 
 
 
@@ -2386,9 +2386,9 @@ Message: |
     1858 | farther out on the Island came the Cheadles and the O. R. P. Schraeders, and the
          |                                                        ^~ Did you mean to spell `R.` this way?
 Suggest:
-  - Replace with: “R”
   - Replace with: “Rd”
-  - Replace with: “Re”
+  - Replace with: “R”
+  - Replace with: “RC”
 
 
 
@@ -2397,8 +2397,8 @@ Message: |
     1858 | farther out on the Island came the Cheadles and the O. R. P. Schraeders, and the
          |                                                           ^~ Did you mean to spell `P.` this way?
 Suggest:
-  - Replace with: “Pp”
-  - Replace with: “Pa”
+  - Replace with: “Pt”
+  - Replace with: “P”
   - Replace with: “Pd”
 
 
@@ -2475,8 +2475,8 @@ Message: |
          |                               ^~ Did you mean to spell `B.` this way?
 Suggest:
   - Replace with: “Bu”
-  - Replace with: “B”
   - Replace with: “Be”
+  - Replace with: “Bf”
 
 
 
@@ -2487,8 +2487,8 @@ Message: |
          | ^~ Did you mean to spell `A.` this way?
 Suggest:
   - Replace with: “Ax”
-  - Replace with: “A”
   - Replace with: “Ab”
+  - Replace with: “Ac”
 
 
 
@@ -2611,8 +2611,8 @@ Message: |
          |                              ^~ Did you mean to spell `G.` this way?
 Suggest:
   - Replace with: “Gt”
-  - Replace with: “Gm”
   - Replace with: “Go”
+  - Replace with: “Gr”
 
 
 
@@ -2654,9 +2654,9 @@ Message: |
     1871 | afterward strangled his wife. Da Fontano the promoter came there, and Ed Legros
          |                               ^~ Did you mean to spell `Da` this way?
 Suggest:
+  - Replace with: “Dab”
   - Replace with: “Dad”
   - Replace with: “Dam”
-  - Replace with: “Day”
 
 
 
@@ -2701,8 +2701,8 @@ Message: |
          |           ^~ Did you mean to spell `B.` this way?
 Suggest:
   - Replace with: “Bu”
-  - Replace with: “B”
   - Replace with: “Be”
+  - Replace with: “Bf”
 
 
 
@@ -2724,7 +2724,7 @@ Message: |
 Suggest:
   - Replace with: “Db”
   - Replace with: “Dc”
-  - Replace with: “Dd”
+  - Replace with: “Def”
 
 
 
@@ -2934,7 +2934,7 @@ Message: |
 Suggest:
   - Replace with: “L”
   - Replace with: “Lb”
-  - Replace with: “Lg”
+  - Replace with: “Lo”
 
 
 
@@ -3054,8 +3054,8 @@ Message: |
     1896 | Fitz-Peters and Mr. P. Jewett, once head of the American Legion, and Miss
          |                     ^~ Did you mean to spell `P.` this way?
 Suggest:
-  - Replace with: “Pp”
-  - Replace with: “Pa”
+  - Replace with: “Pt”
+  - Replace with: “P”
   - Replace with: “Pd”
 
 
@@ -5447,7 +5447,7 @@ Message: |
 Suggest:
   - Replace with: “Ta”
   - Replace with: “Tb”
-  - Replace with: “Ti”
+  - Replace with: “Tn”
 
 
 
@@ -5456,7 +5456,7 @@ Message: |
     3874 | while in silence. Then as Doctor T. J. Eckleburg’s faded eyes came into sight
          |                                     ^~ Did you mean to spell `J.` this way?
 Suggest:
-  - Replace with: “Jr”
+  - Replace with: “Jg”
   - Replace with: “J”
   - Replace with: “JD”
 
@@ -5516,7 +5516,7 @@ Message: |
 Suggest:
   - Replace with: “Ta”
   - Replace with: “Tb”
-  - Replace with: “Ti”
+  - Replace with: “Tn”
 
 
 
@@ -5525,7 +5525,7 @@ Message: |
     3948 | behind. Over the ashheaps the giant eyes of Doctor T. J. Eckleburg kept their
          |                                                       ^~ Did you mean to spell `J.` this way?
 Suggest:
-  - Replace with: “Jr”
+  - Replace with: “Jg”
   - Replace with: “J”
   - Replace with: “JD”
 
@@ -7004,9 +7004,9 @@ Message: |
     5122 | ghost of a superior “Hm!”
          |                      ^~ Did you mean to spell `Hm` this way?
 Suggest:
-  - Replace with: “H”
   - Replace with: “H'm”
-  - Replace with: “Hem”
+  - Replace with: “Ha”
+  - Replace with: “Ham”
 
 
 
@@ -7072,7 +7072,7 @@ Message: |
 Suggest:
   - Replace with: “Ta”
   - Replace with: “Tb”
-  - Replace with: “Ti”
+  - Replace with: “Tn”
 
 
 
@@ -7081,7 +7081,7 @@ Message: |
     5156 | of Doctor T. J. Eckleburg, which had just emerged, pale and enormous, from the
          |              ^~ Did you mean to spell `J.` this way?
 Suggest:
-  - Replace with: “Jr”
+  - Replace with: “Jg”
   - Replace with: “J”
   - Replace with: “JD”
 
@@ -7479,8 +7479,8 @@ Message: |
          |                                                              ^~ Did you mean to spell `C.` this way?
 Suggest:
   - Replace with: “Cw”
-  - Replace with: “C”
   - Replace with: “Cc”
+  - Replace with: “Ch”
 
 
 
@@ -7585,7 +7585,7 @@ Message: |
     5412 | “If he’d of lived, he’d of been a great man. A man like James J. Hill. He’d of
          |                                                               ^~ Did you mean to spell `J.` this way?
 Suggest:
-  - Replace with: “Jr”
+  - Replace with: “Jg”
   - Replace with: “J”
   - Replace with: “JD”
 
@@ -7614,8 +7614,8 @@ Message: |
          |                                                              ^~ Did you mean to spell `B.` this way?
 Suggest:
   - Replace with: “Bu”
-  - Replace with: “B”
   - Replace with: “Be”
+  - Replace with: “Bf”
 
 
 
