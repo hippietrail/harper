@@ -7,7 +7,11 @@ format:
 build-wasm:
   #!/usr/bin/env bash
   cd "{{justfile_directory()}}/harper-wasm"
-  wasm-pack build --target web
+  if [ "${DISABLE_WASM_OPT:-0}" -eq 1 ]; then
+    wasm-pack build --target web --no-opt
+  else
+    wasm-pack build --target web
+  fi
 
 # Build `harper.js` with all size optimizations available.
 build-harperjs: build-wasm 
