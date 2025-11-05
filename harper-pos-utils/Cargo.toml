@@ -18,7 +18,9 @@ burn = { version = "0.19.0", default-features = false, features = ["std"] }
 burn-ndarray = { version = "0.19.0", default-features = false }
 serde_json = "1.0.145"
 lru = "0.16.2"
+rayon = { version = "1.11.0", optional = true }
 
 [features]
 default = []
 training = ["dep:rand", "burn/train", "burn/autodiff"]
+threaded = ["dep:rayon"]
