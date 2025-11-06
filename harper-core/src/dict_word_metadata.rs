@@ -530,6 +530,30 @@ impl DictWordMetadata {
         }
     }
 
+    // Noun that is singular but not plural: "car" but not "sheep"
+    pub fn is_singular_noun_only(&self) -> bool {
+        if let Some(noun) = self.noun {
+            matches!(
+                (noun.is_singular, noun.is_plural),
+                (Some(true) | None, None | Some(false))
+            )
+        } else {
+            false
+        }
+    }
+
+    // Noun that is plural but not singular: "cars" but not "biceps"
+    pub fn is_plural_noun_only(&self) -> bool {
+        if let Some(noun) = self.noun {
+            matches!(
+                (noun.is_singular, noun.is_plural),
+                (None | Some(false), Some(true))
+            )
+        } else {
+            false
+        }
+    }
+
     // Countable is default if countability is not marked in the dictionary.
     pub fn is_countable_noun(&self) -> bool {
         if let Some(noun) = self.noun {
@@ -1298,6 +1322,26 @@ pub mod tests {
         }
 
         // noun countability
+
+        #[test]
+        fn cars_is_plural_only() {
+            assert!(md("cars").is_plural_noun_only());
+        }
+
+        #[test]
+        fn car_is_singular_only() {
+            assert!(md("car").is_singular_noun_only());
+        }
+
+        #[test]
+        fn sheep_is_not_singular_only() {
+            assert!(!md("sheep").is_singular_noun_only());
+        }
+
+        #[test]
+        fn biceps_is_not_plural_only() {
+            assert!(!md("biceps").is_plural_noun_only());
+        }
 
         #[test]
         fn dog_is_countable() {
