@@ -26,6 +26,10 @@ pub trait CharStringExt {
     /// Only normalizes the left side to lowercase and avoids allocations.
     fn eq_ignore_ascii_case_str(&self, other: &str) -> bool;
 
+    /// Case-insensitive comparison with any of a list of string slices, assuming the right-hand side is lowercase ASCII.
+    /// Only normalizes the left side to lowercase and avoids allocations.
+    fn eq_any_ignore_ascii_case_str(&self, others: &[&str]) -> bool;
+
     /// Case-insensitive comparison with any of a list of character slices, assuming the right-hand side is lowercase ASCII.
     /// Only normalizes the left side to lowercase and avoids allocations.
     fn eq_any_ignore_ascii_case_chars(&self, others: &[&[char]]) -> bool;
@@ -86,6 +90,10 @@ impl CharStringExt for [char] {
                 .iter()
                 .zip(other.iter())
                 .all(|(a, b)| a.to_ascii_lowercase() == *b)
+    }
+
+    fn eq_any_ignore_ascii_case_str(&self, others: &[&str]) -> bool {
+        others.iter().any(|s| self.eq_ignore_ascii_case_str(s))
     }
 
     fn eq_any_ignore_ascii_case_chars(&self, others: &[&[char]]) -> bool {
