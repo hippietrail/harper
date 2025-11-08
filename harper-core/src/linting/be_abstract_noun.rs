@@ -74,6 +74,7 @@ impl ExprLinter for BeAbstractNoun {
                 "bias corrected",
                 "shock sensitive",
                 "stress free",
+                "stress related",
                 "stress tested",
                 "stress testing",
             ])
@@ -266,6 +267,16 @@ mod tests {
         assert_no_lints(
             "because it is bias created by lack of women in the design",
             BeAbstractNoun::default(),
+        );
+    }
+
+    // Note that this linter doesn't attempt to fix "A bias person" to "A biased person"
+    #[test]
+    fn they_are_bias() {
+        assert_suggestion_result(
+            "A bias person usually doesn't believe they are bias.",
+            BeAbstractNoun::default(),
+            "A bias person usually doesn't believe they are biased.",
         );
     }
 }
