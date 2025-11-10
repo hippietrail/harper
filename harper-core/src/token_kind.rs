@@ -231,6 +231,10 @@ impl TokenKind {
         matches!(self, TokenKind::Punctuation(Punctuation::ForwardSlash))
     }
 
+    pub fn is_question(&self) -> bool {
+        matches!(self, TokenKind::Punctuation(Punctuation::Question))
+    }
+
     // Miscellaneous is-methods
 
     /// Checks whether a token is word-like--meaning it is more complex than punctuation and can
