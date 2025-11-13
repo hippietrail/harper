@@ -177,6 +177,9 @@ const testimonials = [
 			That means you have 100% certainty we don't violate your copyright by training large language
 			models.
 		</p>
+		<p>
+			Harper also intentionally avoids including any kind of generative AI in any part of our processing pipeline.
+		</p>
 		<svelte:fragment slot="aside">
 			<img
 				src="/images/camera.webp"
