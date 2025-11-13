@@ -103,10 +103,10 @@ impl Linter for PhrasalVerbAsCompoundNoun {
             // So far we only have a small number of phrasal verbs in the dictionary.
             let (verb_part_is_verb, phrasal_verb_is_verb) = (
                 self.dict
-                    .get_lexeme_metadata(verb_part)
+                    .get_word_metadata(verb_part)
                     .is_some_and(|md| md.verb.is_some()),
                 self.dict
-                    .get_lexeme_metadata_str(&phrasal_verb)
+                    .get_word_metadata_str(&phrasal_verb)
                     .is_some_and(|md| md.verb.is_some()),
             );
 
@@ -731,5 +731,13 @@ mod tests {
     #[test]
     fn dont_flag_plugin_interface() {
         assert_no_lints("[Plugin interface]", PhrasalVerbAsCompoundNoun::default());
+    }
+
+    #[test]
+    fn issue_1918() {
+        assert_no_lints(
+            "Boost your productivity with our JetBrains plugin!",
+            PhrasalVerbAsCompoundNoun::default(),
+        );
     }
 }

@@ -2,7 +2,7 @@ import computeLintBoxes from './computeLintBoxes';
 import { isVisible } from './domUtils';
 import Highlights from './Highlights';
 import PopupHandler from './PopupHandler';
-import type { UnpackedLintGroups } from './unpackLint';
+import type { UnpackedLint, UnpackedLintGroups } from './unpackLint';
 
 type ActivationKey = 'off' | 'shift' | 'control';
 
@@ -32,6 +32,8 @@ export default class LintFramework {
 		getActivationKey?: () => Promise<ActivationKey>;
 		openOptions?: () => Promise<void>;
 		addToUserDictionary?: (words: string[]) => Promise<void>;
+		reportError?: (lint: UnpackedLint, ruleId: string) => Promise<void>;
+		setRuleEnabled?: (ruleId: string, enabled: boolean) => Promise<void> | void;
 	};
 
 	constructor(
@@ -41,6 +43,8 @@ export default class LintFramework {
 			getActivationKey?: () => Promise<ActivationKey>;
 			openOptions?: () => Promise<void>;
 			addToUserDictionary?: (words: string[]) => Promise<void>;
+			reportError?: (lint: UnpackedLint, ruleId: string) => Promise<void>;
+			setRuleEnabled?: (ruleId: string, enabled: boolean) => Promise<void> | void;
 		},
 	) {
 		this.lintProvider = lintProvider;
@@ -50,6 +54,8 @@ export default class LintFramework {
 			getActivationKey: actions.getActivationKey,
 			openOptions: actions.openOptions,
 			addToUserDictionary: actions.addToUserDictionary,
+			reportError: actions.reportError,
+			setRuleEnabled: actions.setRuleEnabled,
 		});
 		this.targets = new Set();
 		this.scrollableAncestors = new Set();
