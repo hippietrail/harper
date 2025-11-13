@@ -264,7 +264,7 @@ mod tests {
     use crate::linting::tests::{assert_good_and_bad_suggestions, assert_top3_suggestion_result};
     use crate::spell::FstDictionary;
 
-#[test]
+    #[test]
     fn fix_irregular_past_verb() {
         assert_top3_suggestion_result(
             "I eated the banana.",
