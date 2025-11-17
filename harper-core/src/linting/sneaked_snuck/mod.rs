@@ -15,15 +15,15 @@ merge_linters! {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::assert_suggestion_result;
     use crate::linting::SneakedSnuck;
+    use crate::linting::tests::assert_suggestion_result;
 
     #[test]
     fn correct_snuck_to_sneaked() {
         assert_suggestion_result(
             "He snuck in around the back.",
             SneakedSnuck::default(),
-            "He sneaked in around the back."
+            "He sneaked in around the back.",
         );
     }
 

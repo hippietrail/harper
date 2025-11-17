@@ -24,7 +24,10 @@ impl ExprLinter for PreferSnuck {
         Some(Lint {
             span: toks[0].span,
             lint_kind: LintKind::Usage,
-            suggestions: vec![Suggestion::replace_with_match_case(['s', 'n', 'u', 'c', 'k'].to_vec(), toks[0].span.get_content(src))],
+            suggestions: vec![Suggestion::replace_with_match_case(
+                ['s', 'n', 'u', 'c', 'k'].to_vec(),
+                toks[0].span.get_content(src),
+            )],
             message: "Use `snuck` instead of `sneaked`.".to_string(),
             ..Default::default()
         })
