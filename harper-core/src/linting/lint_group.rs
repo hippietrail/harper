@@ -21,6 +21,7 @@ use super::allow_to::AllowTo;
 use super::am_in_the_morning::AmInTheMorning;
 use super::amounts_for::AmountsFor;
 use super::an_a::AnA;
+use super::and_in::AndIn;
 use super::another_thing_coming::AnotherThingComing;
 use super::another_think_coming::AnotherThinkComing;
 use super::ask_no_preposition::AskNoPreposition;
@@ -44,6 +45,7 @@ use super::criteria_phenomena::CriteriaPhenomena;
 use super::despite_of::DespiteOf;
 use super::didnt::Didnt;
 use super::discourse_markers::DiscourseMarkers;
+use super::do_past::DoPast;
 use super::dot_initialisms::DotInitialisms;
 use super::double_click::DoubleClick;
 use super::double_modal::DoubleModal;
@@ -105,6 +107,7 @@ use super::of_course::OfCourse;
 use super::on_floor::OnFloor;
 use super::once_or_twice::OnceOrTwice;
 use super::one_and_the_same::OneAndTheSame;
+use super::one_of_the_non_plural::OneOfTheNonPlural;
 use super::open_the_light::OpenTheLight;
 use super::orthographic_consistency::OrthographicConsistency;
 use super::ought_to_be::OughtToBe;
@@ -121,6 +124,7 @@ use super::pronoun_inflection_be::PronounInflectionBe;
 use super::pronoun_knew::PronounKnew;
 use super::proper_noun_capitalization_linters;
 use super::quantifier_needs_of::QuantifierNeedsOf;
+use super::quantifier_numeral_conflict::QuantifierNumeralConflict;
 use super::quite_quiet::QuiteQuiet;
 use super::quote_spacing::QuoteSpacing;
 use super::redundant_additive_adverbs::RedundantAdditiveAdverbs;
@@ -460,6 +464,7 @@ impl LintGroup {
         insert_struct_rule!(AmInTheMorning, true);
         insert_expr_rule!(AmountsFor, true);
         insert_struct_rule!(AnA, true);
+        insert_struct_rule!(AndIn, true);
         insert_expr_rule!(AnotherThingComing, true);
         insert_expr_rule!(AnotherThinkComing, false);
         insert_expr_rule!(AskNoPreposition, true);
@@ -486,6 +491,7 @@ impl LintGroup {
         insert_expr_rule!(DespiteOf, true);
         insert_expr_rule!(Didnt, true);
         insert_struct_rule!(DiscourseMarkers, true);
+        insert_expr_rule!(DoPast, true);
         insert_expr_rule!(DotInitialisms, true);
         insert_expr_rule!(DoubleClick, true);
         insert_expr_rule!(DoubleModal, true);
@@ -561,6 +567,7 @@ impl LintGroup {
         insert_expr_rule!(PronounInflectionBe, true);
         insert_struct_rule!(PronounKnew, true);
         insert_expr_rule!(QuantifierNeedsOf, true);
+        insert_expr_rule!(QuantifierNumeralConflict, true);
         insert_expr_rule!(QuiteQuiet, true);
         insert_struct_rule!(QuoteSpacing, true);
         insert_expr_rule!(RedundantAdditiveAdverbs, true);
@@ -635,6 +642,12 @@ impl LintGroup {
 
         out.add("MassPlurals", MassPlurals::new(dictionary.clone()));
         out.config.set_rule_enabled("MassPlurals", true);
+
+        out.add(
+            "OneOfTheNonPlural",
+            OneOfTheNonPlural::new(dictionary.clone()),
+        );
+        out.config.set_rule_enabled("OneOfTheNonPlural", true);
 
         out
     }

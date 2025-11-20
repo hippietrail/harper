@@ -31,6 +31,28 @@ macro_rules! gen_then_from_is {
                 })
             }
 
+            #[doc = concat!("Adds an optional step matching a token where [`TokenKind::is_", stringify!($quality), "()`] returns true, followed by a whitespace token.")]
+            pub fn [< then_optional_$quality _then_space >](self) -> Self {
+                self.then_optional(
+                    SequenceExpr::default()
+                        .then(|tok: &Token, _source: &[char]| {
+                            tok.kind.[< is_$quality >]()
+                        })
+                        .t_ws()
+                )
+            }
+
+            #[doc = concat!("Adds an optional step matching a token where [`TokenKind::is_", stringify!($quality), "()`] returns true, preceded by a whitespace token." )]
+            pub fn [< then_optional_space_then_$quality >](self) -> Self {
+                self.then_optional(
+                    SequenceExpr::default()
+                        .t_ws()
+                        .then(|tok: &Token, _source: &[char]| {
+                            tok.kind.[< is_$quality >]()
+                        })
+                )
+            }
+
             #[doc = concat!("Adds a step matching one or more consecutive tokens where [`TokenKind::is_", stringify!($quality), "()`] returns true.")]
             pub fn [< then_one_or_more_$quality s >] (self) -> Self{
                 self.then_one_or_more(Box::new(|tok: &Token, _source: &[char]| {
@@ -114,6 +136,11 @@ impl SequenceExpr {
     }
 
     // Multiple expressions
+
+    // Optionally match an expression
+    pub fn optional(expr: impl Expr + 'static) -> Self {
+        Self::default().then_optional(expr)
+    }
 
     /// Match the first of multiple expressions.
     pub fn any_of(exprs: Vec<Box<dyn Expr>>) -> Self {
@@ -454,6 +481,7 @@ impl SequenceExpr {
     // Adverbs
 
     gen_then_from_is!(adverb);
+    gen_then_from_is!(degree_adverb);
 
     // Determiners
 
@@ -474,6 +502,12 @@ impl SequenceExpr {
     gen_then_from_is!(conjunction);
     gen_then_from_is!(preposition);
 
+    // Numbers
+
+    gen_then_from_is!(number);
+    gen_then_from_is!(cardinal_number);
+    gen_then_from_is!(ordinal_number);
+
     // Punctuation
 
     gen_then_from_is!(punctuation);
@@ -486,7 +520,6 @@ impl SequenceExpr {
 
     // Other
 
-    gen_then_from_is!(number);
     gen_then_from_is!(case_separator);
     gen_then_from_is!(likely_homograph);
 }

@@ -17,7 +17,19 @@ pub trait ExprLinter: LSend {
     /// transformed into a [`Lint`] for editor consumption.
     ///
     /// This function may return `None` to elect _not_ to produce a lint.
-    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint>;
+    fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
+        // Default implementation falls back to the context version
+        self.match_to_lint_with_context(matched_tokens, source, None)
+    }
+    fn match_to_lint_with_context(
+        &self,
+        matched_tokens: &[Token],
+        source: &[char],
+        _context: Option<(&[Token], &[Token])>,
+    ) -> Option<Lint> {
+        // Default implementation falls back to the simple version
+        self.match_to_lint(matched_tokens, source)
+    }
     /// A user-facing description of what kinds of grammatical errors this rule looks for.
     /// It is usually shown in settings menus.
     fn description(&self) -> &str;
@@ -71,6 +83,10 @@ pub fn run_on_chunk<'a>(
         .expr()
         .iter_matches(chunk, source)
         .filter_map(|match_span| {
-            linter.match_to_lint(&chunk[match_span.start..match_span.end], source)
+            linter.match_to_lint_with_context(
+                &chunk[match_span.start..match_span.end],
+                source,
+                Some((&chunk[..match_span.start], &chunk[match_span.end..])),
+            )
         })
 }
