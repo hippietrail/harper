@@ -15,7 +15,7 @@ function randomString(length: number): string {
 function createEphemeralState(): State {
 	return new State(
 		(_) => Promise.resolve(),
-		() => { },
+		() => {},
 		undefined,
 	);
 }
@@ -93,8 +93,8 @@ test('Lint settings and descriptions have the same keys', async () => {
 	const lintKeys = Object.keys(settings.lintSettings).sort();
 	const descKeys = Object.keys(descriptions).sort();
 
-	const missingInDescriptions = lintKeys.filter(k => !descKeys.includes(k));
-	const extraInDescriptions = descKeys.filter(k => !lintKeys.includes(k));
+	const missingInDescriptions = lintKeys.filter((k) => !descKeys.includes(k));
+	const extraInDescriptions = descKeys.filter((k) => !lintKeys.includes(k));
 
 	if (missingInDescriptions.length || extraInDescriptions.length) {
 		// Print the diffs so CI/local run shows the exact keys
