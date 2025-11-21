@@ -103,9 +103,12 @@ impl ExprLinter for SingleBe {
         }
 
         let progressive_like = |tok: &Token| {
-            be_forms(tok).map_or(false, |forms| {
-                forms.intersects(VerbFormFlags::PROGRESSIVE | VerbFormFlags::PAST_PARTICIPLE)
-            })
+            be_forms(tok).map_or_else(
+                || false,
+                |forms| {
+                    forms.intersects(VerbFormFlags::PROGRESSIVE | VerbFormFlags::PAST_PARTICIPLE)
+                },
+            )
         };
         if progressive_like(first) || progressive_like(second) {
             return None;
