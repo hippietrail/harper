@@ -3,26 +3,8 @@ use crate::{
     Span, Token,
     expr::{Expr, SequenceExpr},
     linting::{ExprLinter, Lint, LintKind, Suggestion},
-    patterns::{InflectionOfBe, SingleTokenPattern},
-    spell::WordId,
+    patterns::{DerivedFrom, InflectionOfBe},
 };
-
-fn is_be_inflection(token: &Token, source: &[char]) -> bool {
-    let be_id = WordId::from_word_str("be");
-    let Some(metadata) = token.kind.as_word() else {
-        return InflectionOfBe::new().matches_token(token, source);
-    };
-
-    if let Some(metadata) = metadata.as_ref() {
-        if metadata.derived_from == Some(be_id) {
-            return true;
-        }
-    }
-
-    let word_id = WordId::from_word_chars(token.span.get_content(source));
-
-    word_id == be_id || InflectionOfBe::new().matches_token(token, source)
-}
 
 fn be_forms(token: &Token) -> Option<VerbFormFlags> {
     let metadata = token
@@ -32,20 +14,6 @@ fn be_forms(token: &Token) -> Option<VerbFormFlags> {
     let verb_data = metadata.verb.as_ref()?;
 
     verb_data.verb_forms
-}
-
-fn is_finite_be(token: &Token, source: &[char]) -> bool {
-    if !is_be_inflection(token, source) {
-        return false;
-    };
-
-    if let Some(forms) = be_forms(token) {
-        if forms.intersects(VerbFormFlags::PROGRESSIVE | VerbFormFlags::PAST_PARTICIPLE) {
-            return false;
-        }
-    }
-
-    true
 }
 
 fn is_past_flag(forms: VerbFormFlags) -> bool {
@@ -87,20 +55,24 @@ fn looks_like_be_contraction(token: &Token, source: &[char]) -> bool {
     matches!(suffix.as_slice(), ['s'] | ['r', 'e'] | ['m']) && apostrophe_idx > 0
 }
 
-fn is_be_like(token: &Token, source: &[char]) -> bool {
-    is_finite_be(token, source) || looks_like_be_contraction(token, source)
-}
-
 pub struct SingleBe {
     expr: Box<dyn Expr>,
 }
 
 impl Default for SingleBe {
     fn default() -> Self {
+        fn be_like_expr() -> SequenceExpr {
+            SequenceExpr::any_of(vec![
+                Box::new(InflectionOfBe::new()),
+                Box::new(DerivedFrom::new_from_str("be")),
+                Box::new(looks_like_be_contraction),
+            ])
+        }
+
         let expr = SequenceExpr::default()
-            .then(is_be_like)
+            .then(be_like_expr())
             .t_ws()
-            .then(is_finite_be);
+            .then(be_like_expr());
 
         Self {
             expr: Box::new(expr),
@@ -127,6 +99,15 @@ impl ExprLinter for SingleBe {
                 .first()
                 .is_some_and(|c| c.is_uppercase())
         {
+            return None;
+        }
+
+        let progressive_like = |tok: &Token| {
+            be_forms(tok).map_or(false, |forms| {
+                forms.intersects(VerbFormFlags::PROGRESSIVE | VerbFormFlags::PAST_PARTICIPLE)
+            })
+        };
+        if progressive_like(first) || progressive_like(second) {
             return None;
         }
 
