@@ -5,12 +5,39 @@ use crate::{Document, LSend, Token, TokenStringExt};
 
 use super::{Lint, Linter};
 
+pub trait DocumentIterator {
+    type Unit;
+
+    fn iter_units<'a>(document: &'a Document) -> Box<dyn Iterator<Item = &'a [Token]> + 'a>;
+}
+
+pub struct Chunk;
+pub struct Sentence;
+
+impl DocumentIterator for Chunk {
+    type Unit = Chunk;
+
+    fn iter_units<'a>(document: &'a Document) -> Box<dyn Iterator<Item = &'a [Token]> + 'a> {
+        Box::new(document.iter_chunks())
+    }
+}
+
+impl DocumentIterator for Sentence {
+    type Unit = Sentence;
+
+    fn iter_units<'a>(document: &'a Document) -> Box<dyn Iterator<Item = &'a [Token]> + 'a> {
+        Box::new(document.iter_sentences())
+    }
+}
+
 /// A trait that searches for tokens that fulfil [`Expr`]s in a [`Document`].
 ///
 /// Makes use of [`TokenStringExt::iter_chunks`] to avoid matching across sentence or clause
 /// boundaries.
 #[blanket(derive(Box))]
 pub trait ExprLinter: LSend {
+    type Unit: DocumentIterator;
+
     /// A simple getter for the expression you want Harper to search for.
     fn expr(&self) -> &dyn Expr;
     /// If any portions of a [`Document`] match [`Self::expr`], they are passed through [`ExprLinter::match_to_lint`]
@@ -65,16 +92,18 @@ where
     }
 }
 
-impl<L> Linter for L
+impl<L, U> Linter for L
 where
-    L: ExprLinter,
+    L: ExprLinter<Unit = U>,
+    U: DocumentIterator,
 {
     fn lint(&mut self, document: &Document) -> Vec<Lint> {
         let mut lints = Vec::new();
         let source = document.get_source();
 
-        for chunk in document.iter_chunks() {
-            lints.extend(run_on_chunk(self, chunk, source));
+        // for chunk in document.iter_chunks() {
+        for unit in U::iter_units(document) {
+            lints.extend(run_on_chunk(self, unit, source));
         }
 
         lints
@@ -105,6 +134,7 @@ pub fn run_on_chunk<'a>(
 #[cfg(test)]
 mod tests {
     use crate::expr::{Expr, FixedPhrase};
+    use crate::linting::expr_linter::{Chunk, Sentence};
     use crate::linting::tests::assert_suggestion_result;
     use crate::linting::{ExprLinter, Suggestion};
     use crate::token_string_ext::TokenStringExt;
@@ -123,6 +153,8 @@ mod tests {
     }
 
     impl ExprLinter for TestSimpleLinter {
+        type Unit = Chunk;
+
         fn expr(&self) -> &dyn Expr {
             &*self.expr
         }
@@ -154,6 +186,8 @@ mod tests {
     }
 
     impl ExprLinter for TestContextLinter {
+        type Unit = Chunk;
+
         fn expr(&self) -> &dyn Expr {
             &*self.expr
         }
@@ -205,6 +239,39 @@ mod tests {
         }
     }
 
+    pub struct TestSentenceLinter {
+        expr: Box<dyn Expr>,
+    }
+
+    impl Default for TestSentenceLinter {
+        fn default() -> Self {
+            Self {
+                expr: Box::new(FixedPhrase::from_phrase("two, two")),
+            }
+        }
+    }
+
+    impl ExprLinter for TestSentenceLinter {
+        type Unit = Sentence;
+
+        fn expr(&self) -> &dyn Expr {
+            &*self.expr
+        }
+
+        fn match_to_lint(&self, toks: &[Token], _src: &[char]) -> Option<Lint> {
+            Some(Lint {
+                span: toks.span()?,
+                message: "simple".to_string(),
+                suggestions: vec![Suggestion::ReplaceWith(vec!['2', ',', '2'])],
+                ..Default::default()
+            })
+        }
+
+        fn description(&self) -> &str {
+            "sentence linter"
+        }
+    }
+
     #[test]
     fn simple_test_123() {
         assert_suggestion_result("one two three", TestSimpleLinter::default(), "one 2 three");
@@ -218,5 +285,14 @@ mod tests {
     #[test]
     fn context_test_321() {
         assert_suggestion_result("three two one", TestContextLinter::default(), "three < one");
+    }
+
+    #[test]
+    fn sentence_test_123() {
+        assert_suggestion_result(
+            "one, two, two, three",
+            TestSentenceLinter::default(),
+            "one, 2,2, three",
+        );
     }
 }

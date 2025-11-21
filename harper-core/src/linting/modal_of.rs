@@ -5,6 +5,7 @@ use crate::patterns::ModalVerb;
 use crate::{Lrc, Token, TokenStringExt};
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
+use crate::linting::expr_linter::Chunk;
 
 pub struct ModalOf {
     expr: Box<dyn Expr>,
@@ -59,6 +60,8 @@ impl Default for ModalOf {
 }
 
 impl ExprLinter for ModalOf {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
