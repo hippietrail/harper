@@ -15,7 +15,7 @@ function randomString(length: number): string {
 function createEphemeralState(): State {
 	return new State(
 		(_) => Promise.resolve(),
-		() => {},
+		() => { },
 		undefined,
 	);
 }
@@ -85,25 +85,25 @@ test('Lint keys can be enabled, then set to default.', async () => {
 
 // packages/obsidian-plugin/src/State.test.ts (use ref 5173e96f5c9f6fea80c2fabf7c2940672090ec5f)
 test('Lint settings and descriptions have the same keys', async () => {
-  const state = createEphemeralState();
+	const state = createEphemeralState();
 
-  const settings = await state.getSettings();
-  const descriptions = await state.getDescriptionHTML();
+	const settings = await state.getSettings();
+	const descriptions = await state.getDescriptionHTML();
 
-  const lintKeys = Object.keys(settings.lintSettings).sort();
-  const descKeys = Object.keys(descriptions).sort();
+	const lintKeys = Object.keys(settings.lintSettings).sort();
+	const descKeys = Object.keys(descriptions).sort();
 
-  const missingInDescriptions = lintKeys.filter(k => !descKeys.includes(k));
-  const extraInDescriptions = descKeys.filter(k => !lintKeys.includes(k));
+	const missingInDescriptions = lintKeys.filter(k => !descKeys.includes(k));
+	const extraInDescriptions = descKeys.filter(k => !lintKeys.includes(k));
 
-  if (missingInDescriptions.length || extraInDescriptions.length) {
-    // Print the diffs so CI/local run shows the exact keys
-    console.error('Missing in descriptions (present in lintSettings):', missingInDescriptions);
-    console.error('Extra in descriptions (not in lintSettings):', extraInDescriptions);
-  }
+	if (missingInDescriptions.length || extraInDescriptions.length) {
+		// Print the diffs so CI/local run shows the exact keys
+		console.error('Missing in descriptions (present in lintSettings):', missingInDescriptions);
+		console.error('Extra in descriptions (not in lintSettings):', extraInDescriptions);
+	}
 
-  expect(missingInDescriptions.length).toBe(0);
-  expect(extraInDescriptions.length).toBe(0);
+	expect(missingInDescriptions.length).toBe(0);
+	expect(extraInDescriptions.length).toBe(0);
 });
 
 test('Can be initialized with incomplete lint settings and retain default state.', async () => {
