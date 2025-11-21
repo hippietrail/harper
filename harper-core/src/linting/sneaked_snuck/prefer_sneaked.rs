@@ -37,3 +37,18 @@ impl ExprLinter for PreferSneaked {
         "Prefer 'sneaked' over 'snuck'"
     }
 }
+
+#[cfg(test)]
+mod tests {
+    use crate::linting::sneaked_snuck::PreferSneaked;
+    use crate::linting::tests::assert_suggestion_result;
+
+    #[test]
+    fn correct_snuck_to_sneaked() {
+        assert_suggestion_result(
+            "He snuck in around the back.",
+            PreferSneaked::default(),
+            "He sneaked in around the back.",
+        );
+    }
+}
