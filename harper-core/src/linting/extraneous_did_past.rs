@@ -36,7 +36,7 @@ impl ExprLinter for ExtraneousDidPast {
         self.expr.as_ref()
     }
 
-    fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
+    fn match_to_lint(&self, toks: &[Token], _src: &[char]) -> Option<Lint> {
         // eprintln!("💔 '{}'", toks.span()?.get_content_string(src));
         Some(Lint {
             span: toks.span()?,
