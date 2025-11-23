@@ -37,20 +37,20 @@ impl ExprLinter for ExtraneousDidPast {
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
-        eprintln!("💔 '{}'", toks.span()?.get_content_string(src));
+        // eprintln!("💔 '{}'", toks.span()?.get_content_string(src));
         Some(Lint {
             span: toks.span()?,
             lint_kind: LintKind::Redundancy,
             // TODO: suggestions will involve converting past tense forms, including irregulars, to lemmas/present,
             message:
-                "It's redundant do use the past form `did` and also the past form of the main verb."
+                "It's redundant to use the past form `did` and also the past form of the main verb."
                     .to_string(),
             ..Default::default()
         })
     }
 
     fn description(&self) -> &str {
-        "I did wrote this."
+        "Detects the redundant use of `did` with a past tense verb (e.g., `did went`, `did not had`). Use either `did` + base form (`did go`, `did not have`) or just the past tense (`went`, `had`)."
     }
 }
 
