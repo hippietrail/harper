@@ -275,8 +275,8 @@ fn extract_linters_from_file(path: &Path) -> anyhow::Result<Vec<LinterInfo>> {
             _ => "❓",
         };
         eprintln!(
-            "  {:4} {} {} '{}' (normalized: '{}')",
-            i, emoji, linter.kind, linter.name, linter.normalized_name
+            "  {:4} {} '{}' (normalized: '{}')",
+            i, emoji, linter.name, linter.normalized_name
         );
     }
 
