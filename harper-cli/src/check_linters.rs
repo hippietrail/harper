@@ -103,7 +103,7 @@ pub fn check_linters() -> anyhow::Result<()> {
                 _ => {}
             }
         }
-        let normal = counts[0] + counts[1] + counts[2] + counts[3] + counts[4]  == 4;
+        let normal = counts[0] + counts[1] + counts[2] + counts[3] + counts[4] == 4;
         let (pre, post) = if !normal {
             ("\x1b[31m", "\x1b[0m")
         } else {
@@ -267,11 +267,11 @@ fn extract_linters_from_file(path: &Path) -> anyhow::Result<Vec<LinterInfo>> {
     eprintln!("\nFound {} linters in {}:", linters.len(), path.display());
     for (i, linter) in linters.iter().enumerate() {
         let emoji = match (linter.kind, linter.rule_kind) {
-            (0, _) => "🦸",                      // use super
+            (0, _) => "🦸",                        // use super
             (1, Some(RuleKind::Expr)) => "📏💬",   // insert_expr_rule!
             (1, Some(RuleKind::Struct)) => "📏🧩", // insert_struct_rule!
-            (2, _) => "🧱",                      // mod
-            (3, _) => "🍻",                      // pub use
+            (2, _) => "🧱",                        // mod
+            (3, _) => "🍻",                        // pub use
             _ => "❓",
         };
         eprintln!(
