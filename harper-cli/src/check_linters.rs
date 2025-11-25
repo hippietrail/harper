@@ -136,46 +136,45 @@ fn extract_linters_from_file(path: &Path) -> anyhow::Result<Vec<LinterInfo>> {
         let line = line.trim();
         let _line_display = format!("{}:{}", path.display(), line_num + 1);
 
-        if line.starts_with("use super::") {
-            if let Some(after_prefix) = line.strip_prefix("use super::") {
-                if let Some(before_semi) = after_prefix.strip_suffix(';') {
-                    let parts: Vec<&str> = before_semi.split("::").collect();
-                    if let Some(&last_part) = parts.last() {
-                        if let Some(first_char) = last_part.chars().next() {
-                            let is_upper = first_char.is_ascii_uppercase();
-                            if is_upper && parts.len() >= 2 {
-                                // The module name should be the second-to-last part
-                                let module_name = parts[parts.len() - 2];
-                                // Convert the linter name to snake_case
-                                let expected_module_name = last_part
-                                    .chars()
-                                    .flat_map(|c| {
-                                        if c.is_uppercase() {
-                                            vec!['_', c.to_ascii_lowercase()]
-                                        } else {
-                                            vec![c]
-                                        }
-                                    })
-                                    .collect::<String>()
-                                    .trim_start_matches('_')
-                                    .to_string();
-
-                                if module_name == expected_module_name {
-                                    linters.push(LinterInfo {
-                                        name: last_part.to_string(),
-                                        kind: 0, // use super
-                                        rule_kind: None,
-                                        file_kind,
-                                        normalized_name: normalize_linter_name(last_part),
-                                    });
-                                } else {
-                                    eprintln!(
-                                        "Warning: Module name '{}' doesn't match linter name '{}' (expected '{}')",
-                                        module_name, last_part, expected_module_name
-                                    );
-                                }
+        if line.starts_with("use super::")
+            && let Some(after_prefix) = line.strip_prefix("use super::")
+            && let Some(before_semi) = after_prefix.strip_suffix(';')
+        {
+            let parts: Vec<&str> = before_semi.split("::").collect();
+            if let Some(&last_part) = parts.last()
+                && let Some(first_char) = last_part.chars().next()
+            {
+                let is_upper = first_char.is_ascii_uppercase();
+                if is_upper && parts.len() >= 2 {
+                    // The module name should be the second-to-last part
+                    let module_name = parts[parts.len() - 2];
+                    // Convert the linter name to snake_case
+                    let expected_module_name = last_part
+                        .chars()
+                        .flat_map(|c| {
+                            if c.is_uppercase() {
+                                vec!['_', c.to_ascii_lowercase()]
+                            } else {
+                                vec![c]
                             }
-                        }
+                        })
+                        .collect::<String>()
+                        .trim_start_matches('_')
+                        .to_string();
+
+                    if module_name == expected_module_name {
+                        linters.push(LinterInfo {
+                            name: last_part.to_string(),
+                            kind: 0, // use super
+                            rule_kind: None,
+                            file_kind,
+                            normalized_name: normalize_linter_name(last_part),
+                        });
+                    } else {
+                        eprintln!(
+                            "Warning: Module name '{}' doesn't match linter name '{}' (expected '{}')",
+                            module_name, last_part, expected_module_name
+                        );
                     }
                 }
             }
@@ -220,44 +219,44 @@ fn extract_linters_from_file(path: &Path) -> anyhow::Result<Vec<LinterInfo>> {
             });
         }
         // Match: pub use module_name::LinterName;
-        else if let Some(after_prefix) = line.strip_prefix("pub use ") {
-            if let Some(before_semi) = after_prefix.strip_suffix(';') {
-                let parts: Vec<&str> = before_semi.split("::").collect();
-                if let Some(&last_part) = parts.last() {
-                    if let Some(first_char) = last_part.chars().next() {
-                        if first_char.is_ascii_uppercase() && parts.len() >= 2 {
-                            // The module name should be the second-to-last part
-                            let module_name = parts[parts.len() - 2];
-                            // Convert the linter name to snake_case
-                            let expected_module_name = last_part
-                                .chars()
-                                .flat_map(|c| {
-                                    if c.is_uppercase() {
-                                        vec!['_', c.to_ascii_lowercase()]
-                                    } else {
-                                        vec![c]
-                                    }
-                                })
-                                .collect::<String>()
-                                .trim_start_matches('_')
-                                .to_string();
-
-                            if module_name == expected_module_name {
-                                linters.push(LinterInfo {
-                                    name: last_part.to_string(),
-                                    kind: 3, // pub use
-                                    rule_kind: None,
-                                    file_kind,
-                                    normalized_name: normalize_linter_name(last_part),
-                                });
-                            } else {
-                                eprintln!(
-                                    "Warning: In pub use, module name '{}' doesn't match linter name '{}' (expected '{}')",
-                                    module_name, last_part, expected_module_name
-                                );
-                            }
+        else if let Some(after_prefix) = line.strip_prefix("pub use ")
+            && let Some(before_semi) = after_prefix.strip_suffix(';')
+        {
+            let parts: Vec<&str> = before_semi.split("::").collect();
+            if let Some(&last_part) = parts.last()
+                && let Some(first_char) = last_part.chars().next()
+                && first_char.is_ascii_uppercase()
+                && parts.len() >= 2
+            {
+                // The module name should be the second-to-last part
+                let module_name = parts[parts.len() - 2];
+                // Convert the linter name to snake_case
+                let expected_module_name = last_part
+                    .chars()
+                    .flat_map(|c| {
+                        if c.is_uppercase() {
+                            vec!['_', c.to_ascii_lowercase()]
+                        } else {
+                            vec![c]
                         }
-                    }
+                    })
+                    .collect::<String>()
+                    .trim_start_matches('_')
+                    .to_string();
+
+                if module_name == expected_module_name {
+                    linters.push(LinterInfo {
+                        name: last_part.to_string(),
+                        kind: 3, // pub use
+                        rule_kind: None,
+                        file_kind,
+                        normalized_name: normalize_linter_name(last_part),
+                    });
+                } else {
+                    eprintln!(
+                        "Warning: In pub use, module name '{}' doesn't match linter name '{}' (expected '{}')",
+                        module_name, last_part, expected_module_name
+                    );
                 }
             }
         }
