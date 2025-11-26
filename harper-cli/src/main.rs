@@ -190,7 +190,11 @@ enum Args {
         input: Option<Input>,
     },
     /// Check the linters
-    CheckLinters,
+    CheckLinters {
+        /// Show detailed output
+        #[arg(short, long)]
+        verbose: bool,
+    },
 }
 
 fn main() -> anyhow::Result<()> {
@@ -926,7 +930,7 @@ fn main() -> anyhow::Result<()> {
 
             Ok(())
         }
-        Args::CheckLinters => check_linters::check_linters(),
+        Args::CheckLinters { verbose } => check_linters::check_linters(verbose),
     }
 }
 
