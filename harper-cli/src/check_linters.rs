@@ -207,9 +207,9 @@ pub fn check_linters(_verbose: bool) -> anyhow::Result<()> {
                     RuleKind::Struct => "🧩",
                 }
                 .to_string()
-                    + if default { "✅" } else { "❌" }
+                    + if default { "✓" } else { "✗" }
             } else {
-                "    ".to_string() // 4 spaces to match the emoji + symbol width
+                "   ".to_string()
             },
             file_icon,
             mod_kind,
