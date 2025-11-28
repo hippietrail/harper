@@ -303,7 +303,7 @@ pub struct LintGroup {
     /// We use a binary map here so the ordering is stable.
     linters: BTreeMap<String, Box<dyn Linter>>,
     /// We use a binary map here so the ordering is stable.
-    expr_linters: BTreeMap<String, Box<dyn ExprLinter<Unit = Chunk>>>,
+    chunk_expr_linters: BTreeMap<String, Box<dyn ExprLinter<Unit = Chunk>>>,
     /// Since [`ExprLinter`]s operate on a chunk-basis, we can store a
     /// mapping of `Chunk -> Lint` and only re-run the expr linters
     /// when a chunk changes.
@@ -319,7 +319,7 @@ impl LintGroup {
         Self {
             config: LintGroupConfig::default(),
             linters: BTreeMap::new(),
-            expr_linters: BTreeMap::new(),
+            chunk_expr_linters: BTreeMap::new(),
             chunk_expr_cache: LruCache::new(NonZero::new(1000).unwrap()),
             hasher_builder: RandomState::default(),
         }
@@ -327,7 +327,8 @@ impl LintGroup {
 
     /// Check if the group already contains a linter with a given name.
     pub fn contains_key(&self, name: impl AsRef<str>) -> bool {
-        self.linters.contains_key(name.as_ref()) || self.expr_linters.contains_key(name.as_ref())
+        self.linters.contains_key(name.as_ref())
+            || self.chunk_expr_linters.contains_key(name.as_ref())
     }
 
     /// Add a [`Linter`] to the group, returning whether the operation was successful.
@@ -342,12 +343,12 @@ impl LintGroup {
         }
     }
 
-    /// Add a [`ExprLinter`] to the group, returning whether the operation was successful.
+    /// Add a chunk-based [`ExprLinter`] to the group, returning whether the operation was successful.
     /// If it returns `false`, it is because a linter with that key already existed in the group.
     ///
     /// This function is not significantly different from [`Self::add`], but allows us to take
-    /// advantage of some properties of [`ExprLinter`]s for cache optimization.
-    pub fn add_expr_linter(
+    /// advantage of some properties of chunk-based [`ExprLinter`]s for cache optimization.
+    pub fn add_chunk_expr_linter(
         &mut self,
         name: impl AsRef<str>,
         // linter: impl ExprLinter + 'static,
@@ -356,9 +357,7 @@ impl LintGroup {
         if self.contains_key(&name) {
             false
         } else {
-            self.expr_linters
-                // .insert(name.as_ref().to_string(), Box::new(linter));
-                // .insert(name.as_ref().to_string(), Box::new(linter) as Box<dyn ExprLinter<ExLiType = ExLiSt>>);
+            self.chunk_expr_linters
                 .insert(name.as_ref().to_string(), Box::new(linter) as _);
             true
         }
@@ -372,14 +371,14 @@ impl LintGroup {
         let other_linters = std::mem::take(&mut other.linters);
         self.linters.extend(other_linters);
 
-        let other_expr_linters = std::mem::take(&mut other.expr_linters);
-        self.expr_linters.extend(other_expr_linters);
+        let other_expr_linters = std::mem::take(&mut other.chunk_expr_linters);
+        self.chunk_expr_linters.extend(other_expr_linters);
     }
 
     pub fn iter_keys(&self) -> impl Iterator<Item = &str> {
         self.linters
             .keys()
-            .chain(self.expr_linters.keys())
+            .chain(self.chunk_expr_linters.keys())
             .map(|v| v.as_str())
     }
 
@@ -402,7 +401,7 @@ impl LintGroup {
             .iter()
             .map(|(key, value)| (key.as_str(), value.description()))
             .chain(
-                self.expr_linters
+                self.chunk_expr_linters
                     .iter()
                     .map(|(key, value)| (key.as_str(), ExprLinter::description(value))),
             )
@@ -415,7 +414,7 @@ impl LintGroup {
             .iter()
             .map(|(key, value)| (key.as_str(), value.description_html()))
             .chain(
-                self.expr_linters
+                self.chunk_expr_linters
                     .iter()
                     .map(|(key, value)| (key.as_str(), value.description_html())),
             )
@@ -440,12 +439,12 @@ impl LintGroup {
             };
         }
 
-        /// Add an `ExprLinter` to the group, setting it to be enabled by default.
+        /// Add a chunk-based `ExprLinter` to the group, setting it to be enabled by default.
         /// While you _can_ pass an `ExprLinter` to `insert_struct_rule`, using this macro instead
         /// will allow it to use more aggressive caching strategies.
         macro_rules! insert_expr_rule {
             ($rule:ident, $default_config:expr) => {
-                out.add_expr_linter(stringify!($rule), $rule::default());
+                out.add_chunk_expr_linter(stringify!($rule), $rule::default());
                 out.config
                     .set_rule_enabled(stringify!($rule), $default_config);
             };
@@ -696,7 +695,7 @@ impl LintGroup {
             } else {
                 let mut pattern_lints = BTreeMap::new();
 
-                for (key, linter) in &mut self.expr_linters {
+                for (key, linter) in &mut self.chunk_expr_linters {
                     if self.config.is_rule_enabled(key) {
                         let lints =
                             run_on_chunk(linter, chunk, document.get_source()).map(|mut l| {
