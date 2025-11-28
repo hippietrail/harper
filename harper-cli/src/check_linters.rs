@@ -34,60 +34,10 @@ pub fn check_linters(_verbose: bool) -> anyhow::Result<()> {
     let (mods, pub_uses) = scan_mod_rs()?;
 
     // 1. Check if snake case entries in mod lines are in alphabetical order
-    let mut sorted_mods = mods.clone();
-    sorted_mods.sort_by(|a, b| a.snake_norm.join("_").cmp(&b.snake_norm.join("_")));
-    if mods != sorted_mods {
-        eprintln!("❌ Mod lines are not in alphabetical order");
-        // Show first few out-of-order items
-        for (i, (a, b)) in mods.iter().zip(sorted_mods.iter()).take(5).enumerate() {
-            if a.snake_norm != b.snake_norm {
-                eprintln!(
-                    "  {}. Found: {}, Expected: {}",
-                    i + 1,
-                    a.snake_norm.join("_"),
-                    b.snake_norm.join("_")
-                );
-            }
-        }
-    } else {
-        println!("✅ Mod lines are in alphabetical order");
-    }
+    check_ordered(&mods, |m| m.snake_norm.join(" "), "mods");
 
     // 2. Check if snake case and pascal case entries in pub use lines are in alphabetical order
-    let mut sorted_pub_uses = pub_uses.clone();
-    sorted_pub_uses.sort_by(|a, b| {
-        a.snake_norm
-            .join("_")
-            .cmp(&b.snake_norm.join("_"))
-            .then_with(|| a.pascal_norm.join("").cmp(&b.pascal_norm.join("")))
-    });
-
-    if pub_uses != sorted_pub_uses {
-        eprintln!("\n❌ Pub use lines are not in alphabetical order");
-        // Show first few out-of-order items
-        for (i, (a, b)) in pub_uses
-            .iter()
-            .zip(sorted_pub_uses.iter())
-            .take(5)
-            .enumerate()
-        {
-            if a.snake_norm != b.snake_norm {
-                eprintln!(
-                    "  {}. Found: {}::{}",
-                    i + 1,
-                    a.snake_norm.join("_"),
-                    a.pascal_norm.join("")
-                );
-                eprintln!(
-                    "     Expected: {}::{}",
-                    b.snake_norm.join("_"),
-                    b.pascal_norm.join("")
-                );
-            }
-        }
-    } else {
-        println!("\n✅ Pub use lines are in alphabetical order");
-    }
+    check_ordered(&pub_uses, |m| m.snake_norm.join(" "), "pub uses");
 
     // 3. Check if number of mod lines matches number of pub uses
     if mods.len() != pub_uses.len() {
@@ -131,65 +81,10 @@ pub fn check_linters(_verbose: bool) -> anyhow::Result<()> {
     let (use_supers, insert_rules) = scan_lint_group_rs()?;
 
     // 5. Check if snake case and pascal case entries in use super lines are in alphabetical order
-    let mut sorted_use_supers = use_supers.clone();
-    sorted_use_supers.sort_by(|a, b| {
-        a.snake_norm
-            .join("_")
-            .cmp(&b.snake_norm.join("_"))
-            .then_with(|| a.pascal_norm.join("").cmp(&b.pascal_norm.join("")))
-    });
-
-    if use_supers != sorted_use_supers {
-        eprintln!("\n❌ Use super lines are not in alphabetical order");
-        // Show first few out-of-order items
-        for (i, (a, b)) in use_supers
-            .iter()
-            .zip(sorted_use_supers.iter())
-            .take(5)
-            .enumerate()
-        {
-            if a.snake_norm != b.snake_norm {
-                eprintln!(
-                    "  {}. Found: {}::{}",
-                    i + 1,
-                    a.snake_norm.join("_"),
-                    a.pascal_norm.join("")
-                );
-                eprintln!(
-                    "     Expected: {}::{}",
-                    b.snake_norm.join("_"),
-                    b.pascal_norm.join("")
-                );
-            }
-        }
-    } else {
-        println!("\n✅ Use super lines are in alphabetical order");
-    }
+    check_ordered(&use_supers, |m| m.snake_norm.join(" "), "use supers");
 
     // 6. Check if snake case entries in insert rule lines are in alphabetical order
-    let mut sorted_insert_rules = insert_rules.clone();
-    sorted_insert_rules.sort_by(|a, b| a.pascal_norm.join("_").cmp(&b.pascal_norm.join("_")));
-    if insert_rules != sorted_insert_rules {
-        eprintln!("❌ Insert rule lines are not in alphabetical order");
-        // Show first few out-of-order items
-        for (i, (a, b)) in insert_rules
-            .iter()
-            .zip(sorted_insert_rules.iter())
-            .take(5)
-            .enumerate()
-        {
-            if a.pascal_norm != b.pascal_norm {
-                eprintln!(
-                    "  {}. Found: {}, Expected: {}",
-                    i + 1,
-                    a.pascal_norm.join("_"),
-                    b.pascal_norm.join("_")
-                );
-            }
-        }
-    } else {
-        println!("✅ Insert rule lines are in alphabetical order");
-    }
+    check_ordered(&insert_rules, |m| m.pascal_norm.join(" "), "insert rules");
 
     // 7. Check if number of use super lines matches number of insert rule lines
     if use_supers.len() != insert_rules.len() {
@@ -475,4 +370,41 @@ fn split_pascal_case(s: &str) -> Vec<String> {
     }
 
     result
+}
+
+/// Checks if a sequence is in order according to the given key function.
+fn check_ordered<T, F, K>(items: &[T], key_fn: F, item_name: &str)
+where
+    F: Fn(&T) -> K,
+    K: std::cmp::PartialOrd + std::fmt::Display,
+{
+    let mut total_errors = 0;
+
+    for (i, window) in items.windows(2).enumerate() {
+        let a = key_fn(&window[0]);
+        let b = key_fn(&window[1]);
+
+        if b < a {
+            total_errors += 1;
+            if total_errors <= 3 {
+                eprintln!(
+                    "❌ {} are out of order at {}/{} where '{}' should come after '{}'",
+                    item_name,
+                    i,
+                    i + 1,
+                    a,
+                    b
+                );
+            }
+        }
+    }
+
+    if total_errors > 3 {
+        eprintln!(
+            "   and {} more {} out of order entries (total: {})",
+            total_errors - 3,
+            item_name.to_lowercase(),
+            total_errors
+        );
+    }
 }
