@@ -12,6 +12,7 @@ use lru::LruCache;
 use serde::{Deserialize, Deserializer, Serialize, Serializer};
 
 use super::a_part::APart;
+use super::a_while::AWhile;
 use super::addicting::Addicting;
 use super::adjective_double_degree::AdjectiveDoubleDegree;
 use super::adjective_of_a::AdjectiveOfA;
@@ -497,6 +498,7 @@ impl LintGroup {
         insert_expr_rule!(CautionaryTale, true);
         insert_expr_rule!(ChangeTack, true);
         insert_expr_rule!(ChockFull, true);
+        insert_expr_rule!(AWhile, true);
         insert_struct_rule!(SubjectPronoun, true);
         insert_struct_rule!(FindFine, true);
         insert_struct_rule!(CommaFixes, true);
