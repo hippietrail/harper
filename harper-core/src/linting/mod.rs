@@ -166,6 +166,7 @@ mod spaces;
 mod spell_check;
 mod spelled_numbers;
 mod split_words;
+mod subject_pronoun;
 mod suggestion;
 mod take_serious;
 mod that_than;
