@@ -55,6 +55,7 @@ mod far_be_it;
 mod feel_fell;
 mod few_units_of_time_ago;
 mod filler_words;
+mod find_fine;
 mod first_aid_kit;
 mod for_noun;
 mod free_predicate;
@@ -245,6 +246,7 @@ pub use far_be_it::FarBeIt;
 pub use feel_fell::FeelFell;
 pub use few_units_of_time_ago::FewUnitsOfTimeAgo;
 pub use filler_words::FillerWords;
+pub use find_fine::FindFine;
 pub use for_noun::ForNoun;
 pub use free_predicate::FreePredicate;
 pub use friend_of_me::FriendOfMe;
@@ -481,9 +483,7 @@ pub mod tests {
         let transformed_str = transform_nth_str(text, &mut linter, n);
 
         if transformed_str.as_str() != expected_result {
-            panic!(
-                "Expected \"{transformed_str}\" to be \"{expected_result}\" after applying the computed suggestions."
-            );
+            panic!("Expected \"{expected_result}\"\n But got  \"{transformed_str}\"");
         }
 
         // Applying the suggestions should fix all the lints.

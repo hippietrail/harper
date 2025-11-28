@@ -420,6 +420,7 @@ impl SequenceExpr {
 
     gen_then_from_is!(noun);
     gen_then_from_is!(proper_noun);
+    gen_then_from_is!(plural_noun);
     gen_then_from_is!(mass_noun_only);
 
     // Pronouns
@@ -443,6 +444,7 @@ impl SequenceExpr {
     gen_then_from_is!(verb_lemma);
     gen_then_from_is!(verb_simple_past_form);
     gen_then_from_is!(verb_past_participle_form);
+    gen_then_from_is!(verb_progressive_form);
 
     // Adjectives
 

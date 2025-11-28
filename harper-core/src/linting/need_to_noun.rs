@@ -86,7 +86,7 @@ impl ExprLinter for NeedToNoun {
 #[cfg(test)]
 mod tests {
     use super::NeedToNoun;
-    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
+    use crate::linting::tests::{assert_lint_count, assert_no_lints, assert_suggestion_result};
 
     #[test]
     fn flags_need_to_noun() {
@@ -415,5 +415,10 @@ mod tests {
             NeedToNoun::default(),
             0,
         );
+    }
+
+    #[test]
+    fn allows_issue_2252() {
+        assert_no_lints("Things I need to do today:", NeedToNoun::default());
     }
 }
