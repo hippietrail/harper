@@ -5,6 +5,8 @@ use crate::linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk};
 use crate::spell::Dictionary;
 use crate::{CharStringExt, Lint, Token, TokenStringExt};
 
+const VOWELS: [char; 5] = ['a', 'e', 'i', 'o', 'u'];
+
 pub struct MoreAdjective<D> {
     expr: Box<dyn Expr>,
     dict: D,
@@ -22,6 +24,17 @@ where
                     .then_positive_adjective(),
             ),
             dict,
+        }
+    }
+
+    fn add_valid_candidate(&self, candidates: &mut Vec<String>, candidate: String) -> bool {
+        if let Some(metadata) = self.dict.get_word_metadata_str(&candidate)
+            && (metadata.is_comparative_adjective() || metadata.is_superlative_adjective())
+        {
+            candidates.push(candidate);
+            true
+        } else {
+            false
         }
     }
 }
@@ -43,7 +56,7 @@ where
             return None;
         }
 
-        let phrase_span = toks.span()?;
+        let phrase = toks.span()?;
 
         enum Degree {
             Comparative,
@@ -98,55 +111,40 @@ where
             },
             _ => None,
         };
-        if let Some(candies) = new_candidates {
-            candidates.extend(candies.iter().map(|c| c.to_string()));
+        if let Some(irregulars) = new_candidates {
+            candidates.extend(irregulars.iter().map(|c| c.to_string()));
         }
 
         // Just add the ending: smart -> smarter/smartest
-        let candidate = format!("{}{}", adj_str, ending);
-        if let Some(metadata) = self.dict.get_word_metadata_str(&candidate)
-            && (metadata.is_comparative_adjective() || metadata.is_superlative_adjective())
-        {
-            candidates.push(candidate);
-        }
+        self.add_valid_candidate(&mut candidates, format!("{}{}", adj_str, ending));
 
         // Double consonant: big -> bigger/biggest
         let penult = adj_chars[adj_chars.len() - 2];
         let last = adj_chars[adj_chars.len() - 1];
-        let vowels = ['a', 'e', 'i', 'o', 'u'];
-        if vowels.contains(&penult) && !vowels.contains(&last) {
-            let candidate = format!("{}{}{}", adj_str, last, ending);
-            if let Some(metadata) = self.dict.get_word_metadata_str(&candidate)
-                && (metadata.is_comparative_adjective() || metadata.is_superlative_adjective())
-            {
-                candidates.push(candidate);
-            }
+        if VOWELS.contains(&penult) && !VOWELS.contains(&last) {
+            self.add_valid_candidate(&mut candidates, format!("{}{}{}", adj_str, last, ending));
         }
 
         if last == 'y' {
             // smelly -> smellier/smelliest
-            let candidate = format!(
-                "{}i{}",
-                &adj_chars[0..adj_chars.len() - 1].iter().collect::<String>(),
-                ending
+            self.add_valid_candidate(
+                &mut candidates,
+                format!(
+                    "{}i{}",
+                    &adj_chars[0..adj_chars.len() - 1].iter().collect::<String>(),
+                    ending
+                ),
             );
-            if let Some(metadata) = self.dict.get_word_metadata_str(&candidate)
-                && (metadata.is_comparative_adjective() || metadata.is_superlative_adjective())
-            {
-                candidates.push(candidate);
-            }
         } else if last == 'e' {
             // cute -> cuter/cutest
-            let candidate = format!(
-                "{}{}",
-                &adj_chars[0..adj_chars.len() - 1].iter().collect::<String>(),
-                ending
+            self.add_valid_candidate(
+                &mut candidates,
+                format!(
+                    "{}{}",
+                    &adj_chars[0..adj_chars.len() - 1].iter().collect::<String>(),
+                    ending
+                ),
             );
-            if let Some(metadata) = self.dict.get_word_metadata_str(&candidate)
-                && (metadata.is_comparative_adjective() || metadata.is_superlative_adjective())
-            {
-                candidates.push(candidate);
-            }
         }
 
         if candidates.is_empty() {
@@ -158,13 +156,13 @@ where
             .map(|c| {
                 Suggestion::replace_with_match_case(
                     c.chars().collect_vec(),
-                    phrase_span.get_content(src),
+                    phrase.get_content(src),
                 )
             })
             .collect::<Vec<Suggestion>>();
 
         Some(Lint {
-            span: toks.span()?,
+            span: phrase,
             // Not `LintKind::Style` or `LintKind::Usage` since those can imply that the inflected form
             // is always preferred over the two-word phrase. `LintKind::WordChoice` leaves it up to you.
             lint_kind: LintKind::WordChoice,
