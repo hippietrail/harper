@@ -5,11 +5,6 @@ use std::path::Path;
 struct ModLine {
     snake_norm: Vec<String>,
 }
-#[derive(Clone, PartialEq)]
-struct PubUseLine {
-    snake_norm: Vec<String>,
-    pascal_norm: Vec<String>,
-}
 
 #[derive(Clone, PartialEq)]
 struct UseSuperLine {
@@ -31,46 +26,63 @@ struct InsertRuleLine {
 }
 
 pub fn check_linters(_verbose: bool) -> anyhow::Result<()> {
-    let (mods, pub_uses) = scan_mod_rs()?;
+    let mods = scan_mod_rs()?;
+    let (use_supers, insert_rules) = scan_lint_group_rs()?;
 
-    // 1. Check if snake case entries in mod lines are in alphabetical order
+    // 1. Check if linter entries in all files are in alphabetical order
     check_ordered(&mods, |m| m.snake_norm.join(" "), "mods");
+    check_ordered(&use_supers, |m| m.snake_norm.join(" "), "use supers");
+    check_ordered(&insert_rules, |m| m.pascal_norm.join(" "), "insert rules");
 
-    // 2. Check if snake case and pascal case entries in pub use lines are in alphabetical order
-    check_ordered(&pub_uses, |m| m.snake_norm.join(" "), "pub uses");
-
-    // 3. Check if number of mod lines matches number of pub uses
-    if mods.len() != pub_uses.len() {
+    // 2. Check if number of entries matches
+    if mods.len() != use_supers.len()
+        || mods.len() != insert_rules.len()
+        || use_supers.len() != insert_rules.len()
+    {
         eprintln!(
-            "\n❌ Mismatch in number of items: {} mods vs {} pub uses",
+            "\n❌ Mismatch in number of items: {} mods vs {} use supers vs {} insert rules",
             mods.len(),
-            pub_uses.len()
+            use_supers.len(),
+            insert_rules.len()
         );
     } else {
         println!(
-            "\n✅ Number of mods matches number of pub uses: {}",
+            "\n✅ Number of mods, use supers, and insert rules all match: {}",
             mods.len()
         );
     }
 
-    // 4. List items that are in one but not the other
+    // 3. List items that are in one but not the other
     let mod_set: BTreeSet<_> = mods.iter().map(|m| m.snake_norm.join("_")).collect();
-    let pub_set: BTreeSet<_> = pub_uses.iter().map(|p| p.snake_norm.join("_")).collect();
+    let use_super_set: BTreeSet<_> = use_supers
+        .iter()
+        .map(|us| us.snake_norm.join("_"))
+        .collect();
+    let insert_rule_set: BTreeSet<_> = insert_rules
+        .iter()
+        .map(|ir| ir.pascal_norm.join("_").to_lowercase())
+        .collect();
 
-    let missing_in_pub: Vec<_> = mod_set.difference(&pub_set).collect();
-    let extra_in_pub: Vec<_> = pub_set.difference(&mod_set).collect();
+    let missing_in_mod_vs_use_super: Vec<_> = mod_set.difference(&use_super_set).collect();
+    let extra_in_mod_vs_use_super: Vec<_> = use_super_set.difference(&mod_set).collect();
+    let missing_in_mod_vs_insert_rule: Vec<_> = mod_set.difference(&insert_rule_set).collect();
+    let extra_in_mod_vs_insert_rule: Vec<_> = insert_rule_set.difference(&mod_set).collect();
+    let missing_in_use_super_vs_insert_rule: Vec<_> =
+        use_super_set.difference(&insert_rule_set).collect();
+    let extra_in_use_super_vs_insert_rule: Vec<_> =
+        insert_rule_set.difference(&use_super_set).collect();
 
-    if !missing_in_pub.is_empty() || !extra_in_pub.is_empty() {
-        eprintln!("\n❌ Mismatch between mods and pub uses:");
-        if !missing_in_pub.is_empty() {
-            eprintln!("  Missing in pub uses ({}):", missing_in_pub.len());
-            for item in missing_in_pub {
+    if !missing_in_mod_vs_use_super.is_empty() || !extra_in_mod_vs_use_super.is_empty() {
+        eprintln!("\n❌ Mismatch between mods and use supers:");
+        if !missing_in_mod_vs_use_super.is_empty() {
+            eprintln!("  Missing in mods ({}):", missing_in_mod_vs_use_super.len());
+            for item in missing_in_mod_vs_use_super {
                 eprintln!("    - {}", item);
             }
         }
-        if !extra_in_pub.is_empty() {
-            eprintln!("\n  Extra in pub uses ({}):", extra_in_pub.len());
-            for item in extra_in_pub {
+        if !extra_in_mod_vs_use_super.is_empty() {
+            eprintln!("\n  Extra in mods ({}):", extra_in_mod_vs_use_super.len());
+            for item in extra_in_mod_vs_use_super {
                 eprintln!("    - {}", item);
             }
         }
@@ -78,29 +90,54 @@ pub fn check_linters(_verbose: bool) -> anyhow::Result<()> {
         println!("\n✅ All mods have corresponding pub uses and vice versa");
     }
 
-    let (use_supers, insert_rules) = scan_lint_group_rs()?;
-
-    // 5. Check if snake case and pascal case entries in use super lines are in alphabetical order
-    check_ordered(&use_supers, |m| m.snake_norm.join(" "), "use supers");
-
-    // 6. Check if snake case entries in insert rule lines are in alphabetical order
-    check_ordered(&insert_rules, |m| m.pascal_norm.join(" "), "insert rules");
-
-    // 7. Check if number of use super lines matches number of insert rule lines
-    if use_supers.len() != insert_rules.len() {
-        eprintln!(
-            "\n❌ Mismatch in number of items: {} use supers vs {} insert rules",
-            use_supers.len(),
-            insert_rules.len()
-        );
+    if !missing_in_mod_vs_insert_rule.is_empty() || !extra_in_mod_vs_insert_rule.is_empty() {
+        eprintln!("\n❌ Mismatch between mods and insert rules:");
+        if !missing_in_mod_vs_insert_rule.is_empty() {
+            eprintln!(
+                "  Missing in mods ({}):",
+                missing_in_mod_vs_insert_rule.len()
+            );
+            for item in missing_in_mod_vs_insert_rule {
+                eprintln!("    - {}", item);
+            }
+        }
+        if !extra_in_mod_vs_insert_rule.is_empty() {
+            eprintln!("\n  Extra in mods ({}):", extra_in_mod_vs_insert_rule.len());
+            for item in extra_in_mod_vs_insert_rule {
+                eprintln!("    - {}", item);
+            }
+        }
     } else {
-        println!(
-            "\n✅ Number of use supers matches number of insert rules: {}",
-            use_supers.len()
-        );
+        println!("\n✅ All mods have corresponding pub uses and vice versa");
     }
 
-    // Build a complete set of all linters mentioned
+    if !missing_in_use_super_vs_insert_rule.is_empty()
+        || !extra_in_use_super_vs_insert_rule.is_empty()
+    {
+        eprintln!("\n❌ Mismatch between use supers and insert rules:");
+        if !missing_in_use_super_vs_insert_rule.is_empty() {
+            eprintln!(
+                "  Missing in use supers ({}):",
+                missing_in_use_super_vs_insert_rule.len()
+            );
+            for item in missing_in_use_super_vs_insert_rule {
+                eprintln!("    - {}", item);
+            }
+        }
+        if !extra_in_use_super_vs_insert_rule.is_empty() {
+            eprintln!(
+                "\n  Extra in use supers ({}):",
+                extra_in_use_super_vs_insert_rule.len()
+            );
+            for item in extra_in_use_super_vs_insert_rule {
+                eprintln!("    - {}", item);
+            }
+        }
+    } else {
+        println!("\n✅ All use supers have corresponding insert rules and vice versa");
+    }
+
+    // 4. Build a complete set of all linters mentioned
     fn join_parts(parts: &[String]) -> String {
         parts
             .iter()
@@ -114,11 +151,6 @@ pub fn check_linters(_verbose: bool) -> anyhow::Result<()> {
 
     // Add mod linters (snake_case)
     for linter in &mods {
-        all_linters.insert(join_parts(&linter.snake_norm));
-    }
-
-    // Add pub use linters (snake_case)
-    for linter in &pub_uses {
         all_linters.insert(join_parts(&linter.snake_norm));
     }
 
@@ -139,10 +171,7 @@ pub fn check_linters(_verbose: bool) -> anyhow::Result<()> {
 
     // Now print with aligned columns
     for linter in &all_linters {
-        let in_mod_mod = mods.iter().any(|m| join_parts(&m.snake_norm) == *linter);
-        let in_mod_pub_use = pub_uses
-            .iter()
-            .any(|p| join_parts(&p.snake_norm) == *linter);
+        let in_mod = mods.iter().any(|m| join_parts(&m.snake_norm) == *linter);
         let in_lint_group_use_super = use_supers
             .iter()
             .any(|u| join_parts(&u.pascal_norm) == *linter);
@@ -183,8 +212,12 @@ pub fn check_linters(_verbose: bool) -> anyhow::Result<()> {
 
         let excl = if let Some((kind, _)) = &rule_info {
             match kind {
-                RuleKind::Expr if mod_kind == "🧩" => "‼️", // Mismatch: Rule says Expr but file implements Linter
-                RuleKind::Struct if mod_kind == "💬" => "‼️", // Mismatch: Rule says Struct but file implements ExprLinter
+                RuleKind::Expr if mod_kind == "🧩" => {
+                    "‼️ Rule says Expr but file implements Linter"
+                } // Mismatch: Rule says Expr but file implements Linter
+                RuleKind::Struct if mod_kind == "💬" => {
+                    "‼️ Rule says Struct but file implements ExprLinter"
+                } // Mismatch: Rule says Struct but file implements ExprLinter
                 _ => "",
             }
         } else {
@@ -192,10 +225,9 @@ pub fn check_linters(_verbose: bool) -> anyhow::Result<()> {
         };
 
         println!(
-            "{:<width$} | mod.rs: {}{} | lint_group.rs: {}{} | file: {}{} {}",
+            "{:<width$} | mod.rs: {} | lint_group.rs: {}{} | file: {}{} {}",
             linter,
-            if in_mod_mod { "📦" } else { "  " },
-            if in_mod_pub_use { "🍻" } else { "  " },
+            if in_mod { "📦" } else { "  " },
             if in_lint_group_use_super {
                 "🦸"
             } else {
@@ -229,9 +261,8 @@ pub fn check_linters(_verbose: bool) -> anyhow::Result<()> {
 //     AfterPubUses,
 // }
 
-fn scan_mod_rs() -> anyhow::Result<(Vec<ModLine>, Vec<PubUseLine>)> {
+fn scan_mod_rs() -> anyhow::Result<Vec<ModLine>> {
     let mut mods = Vec::new();
-    let mut pub_uses = Vec::new();
     // let mut state = ModRsState::BeforeMods;
 
     let content = std::fs::read_to_string("harper-core/src/linting/mod.rs")?;
@@ -249,34 +280,9 @@ fn scan_mod_rs() -> anyhow::Result<(Vec<ModLine>, Vec<PubUseLine>)> {
                 snake_norm: linter_norm_split,
             });
         }
-        // starts with "pub use " / ends with ';' / snake_case `::` PascalCase
-        if line.starts_with("pub use ")
-            && let Some(after) = line.strip_prefix("pub use ")
-            && let Some(snake_pascal) = after.strip_suffix(';')
-            && let Some((snake, pascal)) = snake_pascal.split_once("::")
-        {
-            let (snake_norm, pascal_norm) = (split_snake_case(snake), split_pascal_case(pascal));
-
-            if snake_norm.len() != pascal_norm.len()
-                || !snake_norm
-                    .iter()
-                    .zip(&pascal_norm)
-                    .all(|(s, p)| s.eq_ignore_ascii_case(p))
-            {
-                eprintln!(
-                    "🍻 '{snake}' / '{pascal}' -> {:?} / {:?}",
-                    snake_norm, pascal_norm
-                );
-            } else {
-                pub_uses.push(PubUseLine {
-                    snake_norm,
-                    pascal_norm,
-                });
-            }
-        }
     }
 
-    Ok((mods, pub_uses))
+    Ok(mods)
 }
 
 // enum LintGroupRsState {
