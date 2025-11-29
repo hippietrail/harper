@@ -37,7 +37,6 @@ where
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
-        // eprintln!("🍏 '{}'", toks.span()?.get_content_string(src));
         // Check invariants just in case the Expr changes
         if toks.len() != 3 || !toks[1].kind.is_whitespace() || !toks[2].kind.is_positive_adjective()
         {
@@ -52,9 +51,7 @@ where
         }
 
         let degree_tok = &toks[0];
-        let degree_span = degree_tok.span;
-        let degree_chars = degree_span.get_content(src);
-        let degree_str = degree_span.get_content_string(src);
+        let degree_chars = degree_tok.span.get_content(src);
 
         let degree = if degree_chars.eq_ignore_ascii_case_str("more") {
             Degree::Comparative
@@ -78,20 +75,31 @@ where
             return None;
         }
 
+        // "humaner" = "more humane", not "more human"
+        if adj_str == "human" {
+            return None;
+        }
+
         let mut candidates: Vec<String> = vec![];
 
         // Only a handful of adjectives are irregular
-        // if adj_str == "good" {
-        let candidate = match adj_str.as_str() {
+        let new_candidates = match adj_str.as_str() {
+            "bad" => match degree {
+                Degree::Comparative => Some(&["worse"][..]),
+                Degree::Superlative => Some(&["worst"][..]),
+            },
             "good" => match degree {
-                Degree::Comparative => Some("better"),
-                Degree::Superlative => Some("best"),
+                Degree::Comparative => Some(&["better"][..]),
+                Degree::Superlative => Some(&["best"][..]),
+            },
+            "far" => match degree {
+                Degree::Comparative => Some(&["further", "farther"][..]),
+                Degree::Superlative => Some(&["furthest", "farthest"][..]),
             },
             _ => None,
         };
-        if let Some(candidate) = candidate {
-            eprintln!("🌈 '{} {}' 🔜 '{}'", degree_str, adj_str, candidate);
-            candidates.push(candidate.to_string());
+        if let Some(candies) = new_candidates {
+            candidates.extend(candies.iter().map(|c| c.to_string()));
         }
 
         // Just add the ending: smart -> smarter/smartest
@@ -99,7 +107,6 @@ where
         if let Some(metadata) = self.dict.get_word_metadata_str(&candidate)
             && (metadata.is_comparative_adjective() || metadata.is_superlative_adjective())
         {
-            eprintln!("🍊 '{} {}' 🔜 '{}'", degree_str, adj_str, candidate);
             candidates.push(candidate);
         }
 
@@ -112,7 +119,6 @@ where
             if let Some(metadata) = self.dict.get_word_metadata_str(&candidate)
                 && (metadata.is_comparative_adjective() || metadata.is_superlative_adjective())
             {
-                eprintln!("🍎 '{} {}' 🔜 '{}'", degree_str, adj_str, candidate);
                 candidates.push(candidate);
             }
         }
@@ -127,7 +133,6 @@ where
             if let Some(metadata) = self.dict.get_word_metadata_str(&candidate)
                 && (metadata.is_comparative_adjective() || metadata.is_superlative_adjective())
             {
-                eprintln!("🎾 '{} {}' 🔜 '{}'", degree_str, adj_str, candidate);
                 candidates.push(candidate);
             }
         } else if last == 'e' {
@@ -140,7 +145,6 @@ where
             if let Some(metadata) = self.dict.get_word_metadata_str(&candidate)
                 && (metadata.is_comparative_adjective() || metadata.is_superlative_adjective())
             {
-                eprintln!("🍋 '{} {}' 🔜 '{}'", degree_str, adj_str, candidate);
                 candidates.push(candidate);
             }
         }
@@ -154,7 +158,7 @@ where
             .map(|c| {
                 Suggestion::replace_with_match_case(
                     c.chars().collect_vec(),
-                    phrase_span.get_content(src), // template - char slice
+                    phrase_span.get_content(src),
                 )
             })
             .collect::<Vec<Suggestion>>();
@@ -173,5 +177,130 @@ where
 
     fn description(&self) -> &str {
         "Looks for comparative adjective constructions with `more` than could use inflected forms."
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::linting::tests::{
+        assert_good_and_bad_suggestions, assert_no_lints, assert_suggestion_result,
+    };
+    use crate::spell::FstDictionary;
+
+    // True positives
+
+    #[test]
+    fn add_er() {
+        assert_suggestion_result(
+            "The red car is more fast.",
+            MoreAdjective::new(FstDictionary::curated()),
+            "The red car is faster.",
+        );
+    }
+
+    #[test]
+    fn add_r() {
+        assert_suggestion_result(
+            "The fluffy one is more cute.",
+            MoreAdjective::new(FstDictionary::curated()),
+            "The fluffy one is cuter.",
+        );
+    }
+
+    #[test]
+    fn double_final_consonant() {
+        assert_suggestion_result(
+            "You'll find out when you're more big.",
+            MoreAdjective::new(FstDictionary::curated()),
+            "You'll find out when you're bigger.",
+        )
+    }
+
+    #[test]
+    fn final_y() {
+        assert_suggestion_result(
+            "That one was even more smelly!",
+            MoreAdjective::new(FstDictionary::curated()),
+            "That one was even smellier!",
+        );
+    }
+
+    #[test]
+    fn irregular_good() {
+        assert_suggestion_result(
+            "I bet you couldn't do more good.",
+            MoreAdjective::new(FstDictionary::curated()),
+            "I bet you couldn't do better.",
+        );
+    }
+
+    #[test]
+    fn irregular_far() {
+        assert_good_and_bad_suggestions(
+            "Is it much more far?",
+            MoreAdjective::new(FstDictionary::curated()),
+            &["Is it much further?", "Is it much farther?"],
+            &[],
+        );
+    }
+
+    #[test]
+    fn humane() {
+        assert_suggestion_result(
+            "That Klingon is more humane than the humans!",
+            MoreAdjective::new(FstDictionary::curated()),
+            "That Klingon is humaner than the humans!",
+        );
+    }
+
+    // False positives
+
+    #[test]
+    fn dont_flag_more_time() {
+        assert_no_lints(
+            "I need more time.",
+            MoreAdjective::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn dont_flag_more_model() {
+        assert_no_lints(
+            "Expanded access to more model architectures",
+            MoreAdjective::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn dont_flag_more_human() {
+        assert_no_lints(
+            "I am more human than machine.",
+            MoreAdjective::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn dont_flag_more_battle() {
+        assert_no_lints(
+            "and has more battle-tested defaults",
+            MoreAdjective::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn dont_flag_more_like() {
+        assert_no_lints(
+            "It's more like a suggestion than a mistake.",
+            MoreAdjective::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn dont_flag_more_ground() {
+        assert_no_lints(
+            "This E2E security scan covers more ground",
+            MoreAdjective::new(FstDictionary::curated()),
+        );
     }
 }
