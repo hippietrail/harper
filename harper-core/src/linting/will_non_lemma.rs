@@ -2,7 +2,7 @@ use crate::Token;
 use crate::TokenStringExt;
 use crate::expr::{Expr, SequenceExpr};
 use crate::linting::expr_linter::Chunk;
-use crate::linting::{ExprLinter, Lint, LintKind, Suggestion};
+use crate::linting::{ExprLinter, Lint, LintKind};
 
 pub struct WillNonLemma {
     expr: Box<dyn Expr>,
