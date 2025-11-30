@@ -37,12 +37,16 @@ impl ExprLinter for WillNonLemma {
     ) -> Option<Lint> {
         let (pre, post) = match ctx {
             Some((prev, next)) => (
-                prev.iter()
-                    .map(|t| t.span.get_content_string(src))
-                    .collect::<String>(),
-                next.iter()
-                    .map(|t| t.span.get_content_string(src))
-                    .collect::<String>(),
+                if let Some(s) = prev.span() {
+                    s.get_content_string(src)
+                } else {
+                    String::new()
+                },
+                if let Some(n) = next.span() {
+                    n.get_content_string(src)
+                } else {
+                    String::new()
+                },
             ),
             None => (String::new(), String::new()),
         };
@@ -70,9 +74,7 @@ impl ExprLinter for WillNonLemma {
 #[cfg(test)]
 mod tests {
     use super::WillNonLemma;
-    use crate::linting::tests::{
-        assert_good_and_bad_suggestions, assert_lint_count, assert_suggestion_result,
-    };
+    use crate::linting::tests::{assert_good_and_bad_suggestions, assert_lint_count};
 
     #[test]
     fn fix_will_ran() {
@@ -129,7 +131,7 @@ mod tests {
         );
     }
 
-    // on CPU and GPU (NPU support will coming next)
+    #[test]
     fn fix_will_coming_next() {
         assert_good_and_bad_suggestions(
             "on CPU and GPU (NPU support will coming next)",
