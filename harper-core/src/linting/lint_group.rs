@@ -637,7 +637,6 @@ impl LintGroup {
         insert_expr_rule!(WellEducated, true);
         insert_expr_rule!(Whereas, true);
         insert_expr_rule!(WidelyAccepted, true);
-        insert_expr_rule!(WillNonLemma, true);
         insert_expr_rule!(WinPrize, true);
         insert_struct_rule!(WordPressDotcom, true);
         insert_expr_rule!(WouldNeverHave, true);
@@ -671,6 +670,9 @@ impl LintGroup {
 
         out.add("MassPlurals", MassPlurals::new(dictionary.clone()));
         out.config.set_rule_enabled("MassPlurals", true);
+
+        out.add("WillNonLemma", WillNonLemma::new(dictionary.clone()));
+        out.config.set_rule_enabled("WillNonLemma", true);
 
         out
     }
