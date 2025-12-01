@@ -48,6 +48,7 @@ mod double_click;
 mod double_modal;
 mod ellipsis_length;
 mod else_possessive;
+mod emigrate_immigrate;
 mod everyday;
 mod expand_memory_shorthands;
 mod expand_time_shorthands;
