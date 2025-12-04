@@ -5,10 +5,9 @@ use crate::TokenStringExt;
 use crate::expr::All;
 use crate::expr::Expr;
 use crate::expr::ExprExt;
+use crate::expr::NominalPhrase;
 use crate::expr::OwnedExprExt;
 use crate::expr::SequenceExpr;
-use crate::patterns::NominalPhrase;
-use crate::patterns::Pattern;
 use crate::patterns::UPOSSet;
 use crate::patterns::WordSet;
 use crate::{
@@ -79,7 +78,7 @@ impl ItsContraction {
         let offender_chars = offender.span.get_content(source);
 
         if toks.get(2)?.kind.is_upos(UPOS::VERB)
-            && NominalPhrase.matches(&toks[2..], source).is_some()
+            && NominalPhrase.run(0, &toks[2..], source).is_some()
         {
             return None;
         }

@@ -143,4 +143,36 @@ mod tests {
                 .is_some()
         );
     }
+
+    // Tests that should not pass but do
+
+    #[test]
+    fn the_the_car() {
+        let doc = Document::new_markdown_default_curated("the the car");
+        assert!(
+            NominalPhrase
+                .matches(doc.get_tokens(), doc.get_source())
+                .is_some()
+        );
+    }
+
+    #[test]
+    fn red_the_car() {
+        let doc = Document::new_markdown_default_curated("red the car");
+        assert!(
+            NominalPhrase
+                .matches(doc.get_tokens(), doc.get_source())
+                .is_some()
+        );
+    }
+
+    #[test]
+    fn speeding_the_a_car() {
+        let doc = Document::new_markdown_default_curated("speeding the a car");
+        assert!(
+            NominalPhrase
+                .matches(doc.get_tokens(), doc.get_source())
+                .is_some()
+        );
+    }
 }

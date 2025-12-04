@@ -1,9 +1,7 @@
-use crate::expr::Expr;
-use crate::expr::OwnedExprExt;
-use crate::expr::SequenceExpr;
 use crate::{
     Token,
-    patterns::{NominalPhrase, Word},
+    expr::{Expr, NominalPhrase, OwnedExprExt, SequenceExpr},
+    patterns::Word,
 };
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};

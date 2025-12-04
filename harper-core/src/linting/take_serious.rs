@@ -1,9 +1,8 @@
-use crate::linting::expr_linter::Chunk;
 use crate::{
     Token, TokenStringExt,
-    expr::{Expr, SequenceExpr},
-    linting::{ExprLinter, Lint, LintKind, Suggestion},
-    patterns::{NominalPhrase, WordSet},
+    expr::{Expr, NominalPhrase, SequenceExpr},
+    linting::{ExprLinter, Lint, LintKind, Suggestion, expr_linter::Chunk},
+    patterns::WordSet,
 };
 
 /// Linter that corrects "take X serious" to "take X seriously".

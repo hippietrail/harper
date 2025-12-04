@@ -1,9 +1,8 @@
-use crate::expr::Expr;
-use crate::expr::SequenceExpr;
-use crate::{Token, patterns::NominalPhrase};
+use crate::Token;
+use crate::expr::{Expr, NominalPhrase, SequenceExpr};
+use crate::linting::expr_linter::Chunk;
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
-use crate::linting::expr_linter::Chunk;
 
 pub struct HyphenateNumberDay {
     expr: Box<dyn Expr>,

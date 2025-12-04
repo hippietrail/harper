@@ -190,6 +190,10 @@ impl SequenceExpr {
         self.then(Repeating::new(Box::new(expr), 1))
     }
 
+    pub fn then_zero_or_more(self, expr: impl Expr + 'static) -> Self {
+        self.then(Repeating::new(Box::new(expr), 0))
+    }
+
     /// Create a new condition that will step one token forward if met.
     /// If the condition is _not_ met, the whole expression returns `None`.
     ///

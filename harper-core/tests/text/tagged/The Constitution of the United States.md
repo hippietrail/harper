@@ -1042,8 +1042,8 @@
 # D+  NSg/VB+   VXB   NSg/VXB N🅪Sg/VB/J+ P  NSg/VB NSg/VB/J/P NSg/I/J/C/Dq NPl       NSg/I/C/Ddem+ NPr/VXB VB     VB/P
 > the Recess   of the Senate , by      granting Commissions which shall expire at    the End
 # D   NSg/VB/J P  D   NPr+   . NSg/J/P Nᴹ/Vg/J+ NPl/V3+     I/C+  VXB   VB     NSg/P D   NSg/VB
-> of their next    Session .
-# P  D$+   NSg/J/P NSg/VB+ .
+> of their next Session .
+# P  D$+   J/P  NSg/VB+ .
 >
 #
 > No        soldier   shall , in        time      of peace      be      quartered in        any     house   , without the

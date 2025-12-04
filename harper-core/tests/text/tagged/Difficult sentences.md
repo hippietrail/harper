@@ -598,8 +598,8 @@
 # I/J/R/Dq P  D   NSg/VB/J NSg/VPt N🅪Sg/VB/J/P P    NSg+ . NSg/C/P D   NSg$   NSg/VB/J J/P .
 > That          TV   programme     that          you    wanted to watch  is  on  now       .
 # NSg/I/C/Ddem+ NSg+ NSg/VB/Au/Br+ NSg/I/C/Ddem+ ISgPl+ VP/J   P  NSg/VB VL3 J/P NSg/J/R/C .
-> This    is  her     last      song  . You're on  next    !
-# I/Ddem+ VL3 ISg/D$+ NSg/VB/J+ N🅪Sg+ . +      J/P NSg/J/P .
+> This    is  her     last      song  . You're on  next !
+# I/Ddem+ VL3 ISg/D$+ NSg/VB/J+ N🅪Sg+ . +      J/P J/P  .
 > Are we   still    on  for   tonight ?
 # VB  IPl+ NSg/VB/J J/P R/C/P NSg+    .
 > Mike    just threw coffee     onto Paul's lap       . It's on  now       .
@@ -612,8 +612,8 @@
 # ISg/#r+ VPt Nᴹ/Vg/J P  NSg/VB NSg/VB/J/R/P P  D+  NSg/VB+ NSg/VB/C/P D+  NSg/VB/J+ VPt NSg/VB/J J/P .
 > Climbing up         that          steep     ridge   isn't  on  . We'll have    to find   another route   .
 # Nᴹ/Vg/J  NSg/VB/J/P NSg/I/C/Ddem+ NSg/VB/J+ NSg/VB+ NSg/VB J/P . K     NSg/VXB P  NSg/VB I/D     NSg/VB+ .
-> He'd like         to play    the red    next    to the black     spot      , but     that         shot      isn't  on  .
-# K    NSg/VB/J/C/P P  N🅪Sg/VB D   N🅪Sg/J NSg/J/P P  D   N🅪Sg/VB/J NSg/VB/J+ . NSg/C/P NSg/I/C/Ddem NSg/VP/J+ NSg/VB J/P .
+> He'd like         to play    the red    next to the black     spot      , but     that         shot      isn't  on  .
+# K    NSg/VB/J/C/P P  N🅪Sg/VB D   N🅪Sg/J J/P  P  D   N🅪Sg/VB/J NSg/VB/J+ . NSg/C/P NSg/I/C/Ddem NSg/VP/J+ NSg/VB J/P .
 > The captain moved two fielders to the on  side      .
 # D+  NSg/VB+ VP/J  NSg W?       P  D   J/P NSg/VB/J+ .
 > Ponsonby - Smythe hit       a   thumping on  drive   .

@@ -1,7 +1,7 @@
-use crate::expr::{Expr, SequenceExpr};
+use crate::expr::{Expr, NominalPhrase, SequenceExpr};
 use crate::linting::expr_linter::Chunk;
 use crate::linting::{ExprLinter, LintKind, Suggestion};
-use crate::patterns::{NominalPhrase, WordSet};
+use crate::patterns::WordSet;
 use crate::token_string_ext::TokenStringExt;
 use crate::{CharStringExt, Lint, Token};
 

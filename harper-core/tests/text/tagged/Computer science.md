@@ -252,8 +252,8 @@
 # D   NSg . ?           . ?          . NSg/VB+ . NPl/V3+ . NPr/VB/J+ . VP/J    NSg/J . NSg+          .
 > and  applied epistemologist . Three months later in        the same journal   , comptologist
 # VB/C VP/J    NSg            . NSg+  NPl+   JC    NPr/J/R/P D+  I/J+ NSg/VB/J+ . ?
-> was suggested , followed next    year by      hypologist . The term      computics has also
-# VPt VP/J      . VP/J     NSg/J/P NSg+ NSg/J/P ?          . D+  NSg/VB/J+ ?         V3  R/C
+> was suggested , followed next year by      hypologist . The term      computics has also
+# VPt VP/J      . VP/J     J/P  NSg+ NSg/J/P ?          . D+  NSg/VB/J+ ?         V3  R/C
 > been    suggested . In        Europe , terms   derived from contracted translations of the
 # NSg/VPp VP/J      . NPr/J/R/P NPr+   . NPl/V3+ VP/J    P    VP/J       NPl          P  D+
 > expression " automatic information " ( e.g. " informazione automatica " in        Italian )

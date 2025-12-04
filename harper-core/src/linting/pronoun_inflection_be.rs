@@ -1,12 +1,11 @@
 use harper_brill::UPOS;
 
-use crate::expr::{All, AnchorStart, Expr, ExprMap, SequenceExpr};
-use crate::patterns::{NominalPhrase, UPOSSet};
+use crate::expr::{All, AnchorStart, Expr, ExprMap, NominalPhrase, SequenceExpr};
+use crate::linting::expr_linter::Chunk;
+use crate::patterns::UPOSSet;
 use crate::{Lrc, Token, TokenKind};
 
-use super::Suggestion;
-use super::{ExprLinter, Lint, LintKind};
-use crate::linting::expr_linter::Chunk;
+use super::{ExprLinter, Lint, LintKind, Suggestion};
 
 pub struct PronounInflectionBe {
     expr: Box<dyn Expr>,
