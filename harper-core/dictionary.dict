@@ -16366,6 +16366,8 @@ canoeist/NSg
 canola/Ng
 canon/~NgSJ
 canonical/~JYN
+canonicalise/VGdS!_
+canonicalize/VGdS
 canonisation/NgS!_
 canonise/VdSG!_
 canonization/~NSg
@@ -53052,7 +53054,7 @@ KiCad/Og            # software
 Kia/ONSg            # automobile brand
 Kubernetes/OgS
 LADAR
-LDAP/Og             # Lightweight Directory Access Protocol 
+LDAP/Og             # Lightweight Directory Access Protocol
 LEGO/NSg            # official trademark form of Lego
 LIBOR/N             # London Interbank Offered Rate
 LIDAR/N             # FIXME! elsewhere we have LiDAR
