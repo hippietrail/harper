@@ -20,7 +20,7 @@ fi
 mkdir -p "$harperjs_docs_dir" || true
 
 echo "Rendering HTML..."
-if false; then
+if command -v parallel &> /dev/null; then
 	parallel '
         base=$(basename {} .md)
         node renderPage.js "${base#"harper.js."} - Harper" "API reference documentation for harper.js" {} "html/${base}.html"
