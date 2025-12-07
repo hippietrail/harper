@@ -254,7 +254,7 @@ where
 }
 
 pub mod debug {
-    use crate::{Token, token_string_ext::TokenStringExt};
+    use crate::Token;
 
     /// Formats a lint match with surrounding context for debug output.
     ///
@@ -275,18 +275,23 @@ pub mod debug {
         ctx: Option<(&[Token], &[Token])>,
         src: &[char],
     ) -> String {
+        let fmt = |tokens: &[Token]| {
+            tokens
+                .iter()
+                .filter(|t| !t.kind.is_unlintable())
+                .map(|t| t.span.get_content_string(src))
+                .collect::<String>()
+        };
+
         if let Some((pro, epi)) = ctx {
-            let [pro, log, epi] = [pro, log, epi].map(|tt| {
-                tt.iter()
-                    .filter(|t| !t.kind.is_whitespace() && !t.kind.is_newline())
-                    .map(|t| t.span.get_content_string(src))
-                    .collect::<Vec<_>>()
-                    .join(" ")
-            });
-            format!("\x1b[2m{}\x1b[0m {} \x1b[2m{}\x1b[0m", pro, log, epi,)
+            format!(
+                "\x1b[2m{}\x1b[0m{}\x1b[2m{}\x1b[0m",
+                fmt(pro),
+                fmt(log),
+                fmt(epi)
+            )
         } else {
-            log.span()
-                .map_or_else(String::new, |span| span.get_content_string(src))
+            fmt(log)
         }
     }
 }
