@@ -207,7 +207,7 @@ where
 
         Some(Lint {
             span: verb_span,
-            lint_kind: LintKind::Grammar,
+            lint_kind: LintKind::Agreement,
             suggestions,
             message: "The form of the verb must agree in grammatical number with the pronoun."
                 .to_string(),

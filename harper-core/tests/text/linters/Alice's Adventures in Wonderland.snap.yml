@@ -1314,7 +1314,7 @@ Message: |
 
 
 
-Lint:    Grammar (127 priority)
+Lint:    Agreement (127 priority)
 Message: |
      713 | flustered to tell you—all I know is, something comes at me like a
      714 | Jack-in-the-box, and up I goes like a sky-rocket!”
@@ -2598,7 +2598,7 @@ Suggest:
 
 
 
-Lint:    Grammar (127 priority)
+Lint:    Agreement (127 priority)
 Message: |
     2121 | “This here young lady,” said the Gryphon, “she wants for to know your history,
     2122 | she do.”

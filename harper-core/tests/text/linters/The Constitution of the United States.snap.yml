@@ -504,7 +504,7 @@ Suggest:
 
 
 
-Lint:    Grammar (127 priority)
+Lint:    Agreement (127 priority)
 Message: |
      179 | States; If he approve he shall sign it, but if not he shall return it, with his
          |               ^~~~~~~ The form of the verb must agree in grammatical number with the pronoun.
@@ -1297,7 +1297,7 @@ Message: |
 
 
 
-Lint:    Grammar (127 priority)
+Lint:    Agreement (127 priority)
 Message: |
      454 | Before he enter on the Execution of his Office, he shall take the following
          |           ^~~~~ The form of the verb must agree in grammatical number with the pronoun.
