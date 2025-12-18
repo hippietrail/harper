@@ -1,7 +1,7 @@
 use crate::{
     Lint, Token,
     expr::{Expr, FixedPhrase, SequenceExpr},
-    linting::{ExprLinter, LintKind},
+    linting::{ExprLinter, LintKind, expr_linter::Chunk},
     token_string_ext::TokenStringExt,
 };
 
@@ -32,6 +32,8 @@ impl Default for ExtraneousDidPast {
 }
 
 impl ExprLinter for ExtraneousDidPast {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
