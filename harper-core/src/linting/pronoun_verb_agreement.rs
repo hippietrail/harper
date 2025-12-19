@@ -32,13 +32,13 @@ where
                 TokenKind::is_third_person_singular_pronoun,
             )
             .t_ws()
-            // TODO: allowing verbs that are also nouns leads to false positives:
+            // NOTE: allowing verbs that are also nouns leads to false positives:
             // "Are they colors or colours?"
             // "8 years to give you rewards"
             // "all I can do is give you examples"
             .then_verb_third_person_singular_present_form();
 
-        // TODO: But excluding them causes many more false positives:
+        // NOTE: But excluding them causes many more false positives:
         // boxes, does, drops, flies, gets, goes, likes, site, wakes
         // .then_kind_where(|k| k.is_verb_third_person_singular_present_form() && !k.is_plural_noun());
 
@@ -180,9 +180,12 @@ where
                         .span
                         .get_content(src)
                         .eq_any_ignore_ascii_case_str(&[
-                            // Note: "if he go" etc. may sound arhaic or wrong to us but is in the US constitution
+                            // Note: "if he go" etc. may sound archaic or wrong to us but is in the US constitution
                             // "if",
-                            "that"
+                            "that",
+                            // Some words make a following "that" optional:
+                            "insisted",
+                            "suggested",
                         ]));
             if is_exempt {
                 return None;
@@ -547,6 +550,40 @@ mod lints {
             "You does",
             PronounVerbAgreement::new(FstDictionary::curated()),
             "You do",
+        );
+    }
+
+    // False positives found by Elijah
+
+    #[test]
+    fn false_positive_she_consider() {
+        assert_no_lints(
+            "On April 10th, I suggested she consider a smaller, more intimate gathering.",
+            PronounVerbAgreement::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn false_positive_she_sell() {
+        assert_no_lints(
+            "I suggested she sell it and use the proceeds to help with her relocation expenses, or perhaps rent a similar camera while in Barcelona.",
+            PronounVerbAgreement::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn false_positive_she_rent() {
+        assert_no_lints(
+            "I suggested she sell it and use the proceeds to help with her relocation expenses, or perhaps rent a similar camera while in Barcelona.",
+            PronounVerbAgreement::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn false_positive_he_donned() {
+        assert_no_lints(
+            "He donned his heavy oilskins and descended the winding staircase, his boots echoing in the hollow tower.",
+            PronounVerbAgreement::new(FstDictionary::curated()),
         );
     }
 }
