@@ -27,6 +27,7 @@
 		"@microsoft/api-extractor": "^7.55.1",
 		"@types/node": "catalog:",
 		"@vitest/browser": "^4.0.16",
+		"@vitest/browser-playwright": "^4.0.16",
 		"@vitest/ui": "4.0.16",
 		"harper-wasm": "workspace:*",
 		"marked": "^16.4.1",
