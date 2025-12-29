@@ -1,5 +1,5 @@
 use crate::expr::Expr;
-use crate::linting::{ExprLinter, LintKind, Suggestion};
+use crate::linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk};
 use crate::patterns::Word;
 use crate::{Lint, Token};
 
@@ -16,6 +16,8 @@ impl Default for PreferSnuck {
 }
 
 impl ExprLinter for PreferSnuck {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
