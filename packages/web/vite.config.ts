@@ -24,8 +24,8 @@ export default defineConfig(async () => {
 		plugins: [
 			sveltepress({
 				siteConfig: {
-					title: 'Harper',
-					description: 'A Grammar Checker from Automattic',
+					title: 'Harper: The Private Grammar Checker',
+					description: 'The Free Grammar Checker That Respects Your Privacy',
 				},
 				theme: defaultTheme({
 					editLink:
@@ -34,8 +34,8 @@ export default defineConfig(async () => {
 					github: 'https://github.com/automattic/harper',
 					discord: 'https://discord.gg/invite/JBqcAaKrzQ',
 					themeColor: {
-						primary: '#818eae',
-						dark: '#355280',
+						primary: '#f1920e',
+						dark: '#301d03',
 						gradient: {
 							start: '#355280',
 							end: '#818eae',
