@@ -74,6 +74,7 @@ use super::for_noun::ForNoun;
 use super::free_predicate::FreePredicate;
 use super::friend_of_me::FriendOfMe;
 use super::go_so_far_as_to::GoSoFarAsTo;
+use super::good_at::GoodAt;
 use super::have_pronoun::HavePronoun;
 use super::have_take_a_look::HaveTakeALook;
 use super::hedging::Hedging;
@@ -123,6 +124,7 @@ use super::nominal_wants::NominalWants;
 use super::noun_verb_confusion::NounVerbConfusion;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
 use super::of_course::OfCourse;
+use super::oldest_in_the_book::OldestInTheBook;
 use super::on_floor::OnFloor;
 use super::once_or_twice::OnceOrTwice;
 use super::one_and_the_same::OneAndTheSame;
@@ -186,6 +188,7 @@ use super::throw_rubbish::ThrowRubbish;
 use super::to_adverb::ToAdverb;
 use super::to_two_too::ToTwoToo;
 use super::touristic::Touristic;
+use super::transposed_space::TransposedSpace;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::update_place_names::UpdatePlaceNames;
 use super::use_genitive::UseGenitive;
@@ -509,8 +512,8 @@ impl LintGroup {
         insert_expr_rule!(BeAllowed, true);
         insert_expr_rule!(BestOfAllTime, true);
         insert_expr_rule!(BoringWords, false);
-        insert_expr_rule!(BrandBrandish, true);
         insert_expr_rule!(Bought, true);
+        insert_expr_rule!(BrandBrandish, true);
         insert_expr_rule!(Cant, true);
         insert_struct_rule!(CapitalizePersonalPronouns, true);
         insert_expr_rule!(CautionaryTale, true);
@@ -549,6 +552,7 @@ impl LintGroup {
         insert_expr_rule!(FreePredicate, true);
         insert_expr_rule!(FriendOfMe, true);
         insert_expr_rule!(GoSoFarAsTo, true);
+        insert_expr_rule!(GoodAt, true);
         insert_expr_rule!(HavePronoun, true);
         insert_expr_rule!(Hedging, true);
         insert_expr_rule!(HelloGreeting, true);
@@ -594,6 +598,7 @@ impl LintGroup {
         insert_struct_rule!(NounVerbConfusion, true);
         insert_struct_rule!(NumberSuffixCapitalization, true);
         insert_expr_rule!(OfCourse, true);
+        insert_expr_rule!(OldestInTheBook, true);
         insert_expr_rule!(OnFloor, true);
         insert_expr_rule!(OnceOrTwice, true);
         insert_expr_rule!(OneAndTheSame, true);
@@ -707,6 +712,9 @@ impl LintGroup {
             DisjointPrefixes::new(dictionary.clone()),
         );
         out.config.set_rule_enabled("DisjointPrefixes", true);
+
+        out.add_chunk_expr_linter("TransposedSpace", TransposedSpace::new(dictionary.clone()));
+        out.config.set_rule_enabled("TransposedSpace", true);
 
         out
     }
