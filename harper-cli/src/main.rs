@@ -13,6 +13,7 @@ use anyhow::anyhow;
 use ariadne::{Color, Label, Report, ReportKind, Source};
 use clap::Parser;
 use dirs::{config_dir, data_local_dir};
+use harper_asciidoc::AsciidocParser;
 use harper_comments::CommentParser;
 use harper_core::linting::LintGroup;
 use harper_core::parsers::{Markdown, MarkdownOptions, OrgMode, PlainEnglish};
@@ -946,6 +947,7 @@ fn load_file(
         Some("org") => Box::new(OrgMode),
         Some("typ") => Box::new(harper_typst::Typst),
         Some("py") | Some("pyi") => Box::new(PythonParser::default()),
+        Some("adoc") | Some("asciidoc") => Box::new(AsciidocParser::default()),
         Some("txt") => Box::new(PlainEnglish),
         _ => {
             if let Some(comment_parser) = CommentParser::new_from_filename(file, markdown_options) {
