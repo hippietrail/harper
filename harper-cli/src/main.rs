@@ -1063,15 +1063,16 @@ fn normalize_annotation_flags(flag_str: &str) -> String {
     let flags: Vec<char> = flag_str.chars().collect();
 
     let pos_to_props: HashMap<_, _> = [
-        ('C', ""),            // Conjunction
-        ('D', "qM5"),         // Determiner
-        ('I', "aso123F"),     // Pronoun
-        ('J', ">^cuY*.:"),    // Adjective
-        ('N', "09gmw♂♀ªS"),   // Noun
-        ('O', "9gS"),         // Proper noun
-        ('P', ""),            // Preposition
-        ('R', ""),            // Adverb
-        ('V', "lAbdGtT6hS>"), // Verb
+        ('C', ""),             // Conjunction
+        ('D', "qM5"),          // Determiner
+        ('I', "aso123.:F"),    // Pronoun
+        ('J', ">^cuY*p"),      // Adjective
+        ('N', "09gmw♂♀ªS"),    // Noun
+        ('O', "9gS"),          // Proper noun
+        ('P', ""),             // Preposition
+        ('R', "y8%"),          // Adverb
+        ('V', "lAbdGjtT6hS>"), // Verb
+        ('(', ""),             // Prefix
     ]
     .iter()
     .map(|&(pos, props)| (pos, props.chars().collect::<Vec<_>>()))
