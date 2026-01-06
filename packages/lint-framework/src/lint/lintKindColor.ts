@@ -1,5 +1,4 @@
 import { getContrastingTextColor } from './utils';
-import type * as Harper from 'harper.js';
 
 // Color map will be populated from the WASM API at runtime
 let LINT_KIND_COLORS: Record<string, string> = {};
@@ -8,9 +7,11 @@ let LINT_KIND_COLORS: Record<string, string> = {};
  * Initialize the lint kind colors from the WASM API.
  * This should be called once at startup when harper.js is available.
  */
-export async function initializeLintKindColors(harperModule: typeof Harper): Promise<void> {
-	const colorJson = harperModule.get_lint_kind_colors();
-	LINT_KIND_COLORS = JSON.parse(colorJson);
+export async function initializeLintKindColors(): Promise<void> {
+    // Access the wasm module directly
+    const wasm = await import('harper-wasm');
+    const colorJson = wasm.get_lint_kind_colors();
+    LINT_KIND_COLORS = JSON.parse(colorJson);
 }
 
 // Export the type for the lint kind keys
