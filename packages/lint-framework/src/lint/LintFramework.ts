@@ -1,7 +1,7 @@
 import type { LintOptions } from 'harper.js';
 import type { IgnorableLintBox } from './Box';
 import computeLintBoxes from './computeLintBoxes';
-import { isHeading, isVisible, isVisibleOrMonitored } from './domUtils';
+import { isHeading, isVisibleOrMonitored } from './domUtils';
 import Highlights from './Highlights';
 import PopupHandler from './PopupHandler';
 import type { UnpackedLint, UnpackedLintGroups } from './unpackLint';
