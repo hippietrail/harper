@@ -9,6 +9,10 @@ import {
 import isWordPress from '../isWordPress';
 import ProtocolClient from '../ProtocolClient';
 
+// Build ID for debugging - update when making changes
+const BUILD_ID = `harper-ext-${new Date().toISOString().slice(0, 10)}`;
+console.log(`🔤 Harper Extension [${BUILD_ID}] content script initializing`);
+
 if (isWordPress()) {
 	ProtocolClient.setDomainEnabled(window.location.hostname, true, false);
 }
@@ -51,6 +55,7 @@ const keepAliveCallback = () => {
 keepAliveCallback();
 
 function scan() {
+	let foundGlassesTextarea = false;
 	document.querySelectorAll<HTMLTextAreaElement>('textarea').forEach((element) => {
 		// Allow Harper Glasses textareas to be monitored even if not visible
 		const isHarperGlasses = element.getAttribute('data-harper-glasses') === 'true';
@@ -64,8 +69,17 @@ function scan() {
 			return;
 		}
 
+		if (isHarperGlasses) {
+			foundGlassesTextarea = true;
+			console.log(`🔤 Harper Extension [${BUILD_ID}] detected Harper Glasses textarea!`);
+		}
+
 		fw.addTarget(element);
 	});
+
+	if (foundGlassesTextarea) {
+		console.log(`🔤 Harper Extension [${BUILD_ID}] now monitoring Harper Glasses textarea`);
+	}
 
 	document
 		.querySelectorAll<HTMLInputElement>('input[type="text"][spellcheck="true"]')
