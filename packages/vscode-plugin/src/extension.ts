@@ -1,5 +1,5 @@
-import type { ExtensionContext, QuickPickItem } from 'vscode';
-import { ConfigurationTarget, commands, StatusBarAlignment, type StatusBarItem, Uri, window, workspace } from 'vscode';
+import type { ExtensionContext, QuickPickItem, StatusBarItem } from 'vscode';
+import { ConfigurationTarget, commands, StatusBarAlignment, Uri, window, workspace } from 'vscode';
 import type { Executable, LanguageClientOptions } from 'vscode-languageclient/node';
 import { LanguageClient, ResponseError, TransportKind } from 'vscode-languageclient/node';
 
@@ -100,9 +100,7 @@ export async function activate(context: ExtensionContext): Promise<void> {
 		commands.registerCommand('harper.languageserver.restart', startLanguageServer),
 	);
 
-	context.subscriptions.push(
-		commands.registerCommand('harper.changeDialect', changeDialect),
-	);
+	context.subscriptions.push(commands.registerCommand('harper.changeDialect', changeDialect));
 
 	await startLanguageServer();
 
