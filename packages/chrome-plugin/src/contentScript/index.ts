@@ -52,8 +52,11 @@ keepAliveCallback();
 
 function scan() {
 	document.querySelectorAll<HTMLTextAreaElement>('textarea').forEach((element) => {
+		// Allow Harper Glasses textareas to be monitored even if not visible
+		const isHarperGlasses = element.getAttribute('data-harper-glasses') === 'true';
+
 		if (
-			!isVisible(element) ||
+			(!isVisible(element) && !isHarperGlasses) ||
 			element.getAttribute('data-enable-grammarly') === 'false' ||
 			element.disabled ||
 			element.readOnly
