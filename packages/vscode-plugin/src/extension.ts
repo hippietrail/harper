@@ -1,5 +1,5 @@
 import type { ExtensionContext, QuickPickItem } from 'vscode';
-import { commands, ConfigurationTarget, StatusBarAlignment, type StatusBarItem, Uri, window, workspace } from 'vscode';
+import { ConfigurationTarget, commands, StatusBarAlignment, type StatusBarItem, Uri, window, workspace } from 'vscode';
 import type { Executable, LanguageClientOptions } from 'vscode-languageclient/node';
 import { LanguageClient, ResponseError, TransportKind } from 'vscode-languageclient/node';
 
