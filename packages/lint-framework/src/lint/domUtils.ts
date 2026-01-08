@@ -151,3 +151,19 @@ export function isVisible(node: Node): boolean {
 		return false;
 	}
 }
+
+/** Check if an element is visible or is marked for monitoring even when hidden (e.g., by Harper Glasses).
+ *
+ * This is used to allow tools like Harper Glasses to create off-screen textareas that Harper monitors.*/
+export function isVisibleOrMonitored(node: Node): boolean {
+	if (isVisible(node)) {
+		return true;
+	}
+
+	// Allow monitoring of elements marked with data-harper-glasses attribute
+	if (node instanceof Element && node.getAttribute('data-harper-glasses') === 'true') {
+		return true;
+	}
+
+	return false;
+}
