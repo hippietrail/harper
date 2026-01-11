@@ -90,6 +90,27 @@ pub trait TokenStringExt: private::Sealed {
     create_decl_for!(word_like);
     create_decl_for!(heading_start);
 
+    // Use negative indices to access tokens relative to the end of the slice.
+    fn get_rel(&self, index: isize) -> Option<&Token>
+    where
+        Self: AsRef<[Token]>,
+    {
+        let slice = self.as_ref();
+        let len = slice.len() as isize;
+
+        if index >= len || -index > len {
+            return None;
+        }
+
+        let idx = if index >= 0 {
+            index as usize
+        } else {
+            (len + index) as usize
+        };
+
+        slice.get(idx)
+    }
+
     fn iter_linking_verb_indices(&self) -> impl Iterator<Item = usize> + '_;
     fn iter_linking_verbs(&self) -> impl Iterator<Item = &Token> + '_;
 
