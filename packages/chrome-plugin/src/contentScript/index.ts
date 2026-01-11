@@ -100,8 +100,25 @@ function scan() {
 		if (
 			element.matches('[role="combobox"]') ||
 			element.getAttribute('data-enable-grammarly') === 'false' ||
-			element.getAttribute('spellcheck') === 'false'
+			(element.getAttribute('spellcheck') === 'false' &&
+				element.getAttribute('data-language') !== 'markdown')
 		) {
+			return;
+		}
+
+		if (element.classList.contains('ck-editor__editable')) {
+			element.querySelectorAll('p').forEach((paragraph) => {
+				if (paragraph.closest('[contenteditable="false"],[disabled],[readonly]') != null) {
+					return;
+				}
+
+				if (!isVisible(paragraph)) {
+					return;
+				}
+
+				fw.addTarget(paragraph);
+			});
+
 			return;
 		}
 
