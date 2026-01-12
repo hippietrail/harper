@@ -1,3 +1,12 @@
+Lint:    Capitalization (127 priority)
+Message: |
+       1 | # Alice’s Adventures in Wonderland
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Try to use title case in headings.
+Suggest:
+  - Replace with: “# Alice's Adventures in Wonderland”
+
+
+
 Lint:    Readability (127 priority)
 Message: |
        9 | Alice was beginning to get very tired of sitting by her sister on the bank, and
@@ -103,8 +112,8 @@ Message: |
          | ^~~~~~ Did you mean to spell `centre` this way?
 Suggest:
   - Replace with: “center”
-  - Replace with: “central”
   - Replace with: “censure”
+  - Replace with: “cent”
 
 
 
@@ -171,11 +180,9 @@ Suggest:
 Lint:    Spelling (63 priority)
 Message: |
       74 | again. “Dinah’ll miss me very much to-night, I should think!” (Dinah was the
-         |         ^~~~~~~~ Did you mean to spell `Dinah’ll` this way?
+         |         ^~~~~~~~ Did you mean `Dinah's`?
 Suggest:
   - Replace with: “Dinah's”
-  - Replace with: “Dina's”
-  - Replace with: “Dinah”
 
 
 
@@ -668,9 +675,9 @@ Message: |
      320 | she began again: “Où est ma chatte?” which was the first sentence in her French
          |                   ^~ Did you mean to spell `Où` this way?
 Suggest:
-  - Replace with: “Os”
-  - Replace with: “O”
-  - Replace with: “OD”
+  - Replace with: “Of”
+  - Replace with: “Oh”
+  - Replace with: “Oi”
 
 
 
@@ -699,9 +706,9 @@ Message: |
      320 | she began again: “Où est ma chatte?” which was the first sentence in her French
          |                             ^~~~~~ Did you mean to spell `chatte` this way?
 Suggest:
-  - Replace with: “chatty”
   - Replace with: “chaste”
   - Replace with: “chatted”
+  - Replace with: “chattel”
 
 
 
@@ -761,9 +768,9 @@ Message: |
          |                                                                      ^~~~ Did you mean to spell `Lory` this way?
      363 | Eaglet, and several other curious creatures. Alice led the way, and the whole
 Suggest:
-  - Replace with: “Lori”
-  - Replace with: “Gory”
-  - Replace with: “Dory”
+  - Replace with: “Lord”
+  - Replace with: “Lore”
+  - Replace with: “Lorry”
 
 
 
@@ -809,9 +816,9 @@ Message: |
          |                                                ^~~~ Did you mean to spell `Lory` this way?
      376 | and would only say, “I am older than you, and must know better;” and this Alice
 Suggest:
-  - Replace with: “Lori”
-  - Replace with: “Gory”
-  - Replace with: “Dory”
+  - Replace with: “Lord”
+  - Replace with: “Lore”
+  - Replace with: “Lorry”
 
 
 
@@ -821,9 +828,9 @@ Message: |
          |                                                             ^~~~ Did you mean to spell `Lory` this way?
      378 | refused to tell its age, there was no more to be said.
 Suggest:
-  - Replace with: “Lori”
-  - Replace with: “Gory”
-  - Replace with: “Dory”
+  - Replace with: “Lord”
+  - Replace with: “Lore”
+  - Replace with: “Lorry”
 
 
 
@@ -845,8 +852,8 @@ Message: |
          |           ^~~~~~ Did you mean to spell `Morcar` this way?
 Suggest:
   - Replace with: “Mortar”
-  - Replace with: “Molnar”
-  - Replace with: “Mopar”
+  - Replace with: “Mercer”
+  - Replace with: “Molar”
 
 
 
@@ -862,9 +869,9 @@ Message: |
      392 | “Ugh!” said the Lory, with a shiver.
          |                 ^~~~ Did you mean to spell `Lory` this way?
 Suggest:
-  - Replace with: “Lori”
-  - Replace with: “Gory”
-  - Replace with: “Dory”
+  - Replace with: “Lord”
+  - Replace with: “Lore”
+  - Replace with: “Lorry”
 
 
 
@@ -873,9 +880,9 @@ Message: |
      397 | “Not I!” said the Lory hastily.
          |                   ^~~~ Did you mean to spell `Lory` this way?
 Suggest:
-  - Replace with: “Lori”
-  - Replace with: “Gory”
-  - Replace with: “Dory”
+  - Replace with: “Lord”
+  - Replace with: “Lore”
+  - Replace with: “Lorry”
 
 
 
@@ -886,8 +893,8 @@ Message: |
      400 | of Mercia and Northumbria, declared for him: and even Stigand, the patriotic
 Suggest:
   - Replace with: “Mortar”
-  - Replace with: “Molnar”
-  - Replace with: “Mopar”
+  - Replace with: “Mercer”
+  - Replace with: “Molar”
 
 
 
@@ -902,10 +909,12 @@ Message: |
 Lint:    Spelling (63 priority)
 Message: |
      400 | of Mercia and Northumbria, declared for him: and even Stigand, the patriotic
-         |                                                       ^~~~~~~ Did you mean `Brigand`?
+         |                                                       ^~~~~~~ Did you mean to spell `Stigand` this way?
      401 | archbishop of Canterbury, found it advisable—’”
 Suggest:
-  - Replace with: “Brigand”
+  - Replace with: “Stand”
+  - Replace with: “Stipend”
+  - Replace with: “Strand”
 
 
 
@@ -915,8 +924,9 @@ Message: |
      412 | advisable to go with Edgar Atheling to meet William and offer him the crown.
          |                            ^~~~~~~~ Did you mean to spell `Atheling` this way?
 Suggest:
-  - Replace with: “Theming”
-  - Replace with: “Steeling”
+  - Replace with: “Gathering”
+  - Replace with: “Adhering”
+  - Replace with: “Fathering”
 
 
 
@@ -967,9 +977,9 @@ Message: |
          |                                            ^~~~ Did you mean to spell `Lory` this way?
      528 | sight; and an old Crab took the opportunity of saying to her daughter “Ah, my
 Suggest:
-  - Replace with: “Lori”
-  - Replace with: “Gory”
-  - Replace with: “Dory”
+  - Replace with: “Lord”
+  - Replace with: “Lore”
+  - Replace with: “Lorry”
 
 
 
@@ -978,9 +988,18 @@ Message: |
      536 | “And who is Dinah, if I might venture to ask the question?” said the Lory.
          |                                                                      ^~~~ Did you mean to spell `Lory` this way?
 Suggest:
-  - Replace with: “Lori”
-  - Replace with: “Gory”
-  - Replace with: “Dory”
+  - Replace with: “Lord”
+  - Replace with: “Lore”
+  - Replace with: “Lorry”
+
+
+
+Lint:    Capitalization (127 priority)
+Message: |
+     558 | ## CHAPTER IV: The Rabbit Sends in a Little Bill
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Try to use title case in headings.
+Suggest:
+  - Replace with: “## CHAPTER IV: The Rabbit Sends in a little Bill”
 
 
 
@@ -1035,11 +1054,9 @@ Suggest:
 Lint:    Spelling (63 priority)
 Message: |
      585 | I suppose Dinah’ll be sending me on messages next!” And she began fancying the
-         |           ^~~~~~~~ Did you mean to spell `Dinah’ll` this way?
+         |           ^~~~~~~~ Did you mean `Dinah's`?
 Suggest:
   - Replace with: “Dinah's”
-  - Replace with: “Dina's”
-  - Replace with: “Dinah”
 
 
 
@@ -1152,8 +1169,8 @@ Message: |
          |                                                     ^~~~~ Did you mean to spell `arrum` this way?
 Suggest:
   - Replace with: “arum”
-  - Replace with: “atrium”
-  - Replace with: “argue”
+  - Replace with: “album”
+  - Replace with: “alum”
 
 
 
@@ -1418,6 +1435,15 @@ Message: |
 
 
 
+Lint:    Capitalization (127 priority)
+Message: |
+     796 | ## CHAPTER V: Advice from a Caterpillar
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Try to use title case in headings.
+Suggest:
+  - Replace with: “## CHAPTER v: Advice from a Caterpillar”
+
+
+
 Lint:    Readability (127 priority)
 Message: |
      822 | “Well, perhaps you haven’t found it so yet,” said Alice; “but when you have to
@@ -1506,7 +1532,7 @@ Suggest:
 Lint:    Capitalization (127 priority)
 Message: |
      964 | “Come, my head’s free at last!” said Alice in a tone of delight, which changed
-         |           ^~~~~~ The canonical dictionary spelling is `head's`.
+         |           ^~~~~~ The canonical dictionary spelling is title case: `head's`.
 Suggest:
   - Replace with: “head's”
 
@@ -1640,6 +1666,15 @@ Suggest:
 
 
 
+Lint:    Capitalization (127 priority)
+Message: |
+    1059 | ## CHAPTER VI: Pig and Pepper
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Try to use title case in headings.
+Suggest:
+  - Replace with: “## CHAPTER Vi: Pig and Pepper”
+
+
+
 Lint:    Readability (127 priority)
 Message: |
     1061 | For a minute or two she stood looking at the house, and wondering what to do
@@ -1671,7 +1706,7 @@ Message: |
 Lint:    Capitalization (127 priority)
 Message: |
     1127 | “Oh, there’s no use in talking to him,” said Alice desperately: “he’s perfectly
-         |                                                                  ^~~~ The canonical dictionary spelling is `he's`.
+         |                                                                  ^~~~ The canonical dictionary spelling is title case: `he's`.
     1128 | idiotic!” And she opened the door and went in.
 Suggest:
   - Replace with: “he's”
@@ -1881,6 +1916,16 @@ Message: |
 
 
 
+Lint:    Grammar (127 priority)
+Message: |
+    1379 | “I didn’t know it was your table,” said Alice; “it’s laid for a great many more
+         |                                                      ^~~~ Use the past participle `lain` instead of `laid` when using compound tenses or passive voice.
+    1380 | than three.”
+Suggest:
+  - Replace with: “lain”
+
+
+
 Lint:    Miscellaneous (31 priority)
 Message: |
     1415 | dropped, and the party sat silent for a minute, while Alice thought over all she
@@ -1968,7 +2013,7 @@ Message: |
 Suggest:
   - Replace with: “Lace”
   - Replace with: “Lacier”
-  - Replace with: “Lacey”
+  - Replace with: “Lac”
 
 
 
@@ -1977,9 +2022,9 @@ Message: |
     1555 | great hurry; “and their names were Elsie, Lacie, and Tillie; and they lived at
          |                                                      ^~~~~~ Did you mean to spell `Tillie` this way?
 Suggest:
-  - Replace with: “Billie”
-  - Replace with: “Lillie”
-  - Replace with: “Millie”
+  - Replace with: “Tile”
+  - Replace with: “Till”
+  - Replace with: “Till's”
 
 
 
@@ -2046,6 +2091,15 @@ Message: |
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     1666 | bright flower-beds and the cool fountains.
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ This sentence is 53 words long.
+
+
+
+Lint:    Capitalization (127 priority)
+Message: |
+    1668 | ## CHAPTER VIII: The Queen’s Croquet-Ground
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Try to use title case in headings.
+Suggest:
+  - Replace with: “## CHAPTER VIII: The Queen's Croquet-Ground”
 
 
 
@@ -2558,7 +2612,7 @@ Message: |
          |                 ^~~~~~~ Did you mean to spell `Hjckrrh` this way?
 Suggest:
   - Replace with: “Hacker”
-  - Replace with: “Hackish”
+  - Replace with: “Hickory”
   - Replace with: “Hackers”
 
 
@@ -2691,9 +2745,9 @@ Message: |
     2206 | his flappers, “—Mystery, ancient and modern, with Seaography: then Drawling—the
          |                                                   ^~~~~~~~~~ Did you mean to spell `Seaography` this way?
 Suggest:
+  - Replace with: “Scenography”
+  - Replace with: “Stenography”
   - Replace with: “Demography”
-  - Replace with: “Geography”
-  - Replace with: “Xerography”
 
 
 
@@ -2920,7 +2974,7 @@ Lint:    Capitalization (127 priority)
 Message: |
     2306 | > “Will you walk a little faster?” said a whiting to a snail. “There’s a
     2307 | > porpoise close behind us, and he’s treading on my tail. See how eagerly the
-         |                                 ^~~~ The canonical dictionary spelling is `he's`.
+         |                                 ^~~~ The canonical dictionary spelling is title case: `he's`.
 Suggest:
   - Replace with: “he's”
 
@@ -3207,9 +3261,9 @@ Message: |
     2477 | eagerly that the Gryphon said, in a rather offended tone, “Hm! No accounting for
          |                                                            ^~ Did you mean to spell `Hm` this way?
 Suggest:
-  - Replace with: “Him”
-  - Replace with: “Ho”
-  - Replace with: “Am”
+  - Replace with: “Ha”
+  - Replace with: “Ham”
+  - Replace with: “He”
 
 
 
@@ -3237,8 +3291,8 @@ Message: |
          |                                         ^~~ Did you mean to spell `Soo` this way?
 Suggest:
   - Replace with: “So”
-  - Replace with: “Solo”
-  - Replace with: “Son”
+  - Replace with: “Soc”
+  - Replace with: “Sod”
 
 
 
@@ -3279,8 +3333,8 @@ Message: |
          |                                                               ^~~ Did you mean to spell `Soo` this way?
 Suggest:
   - Replace with: “So”
-  - Replace with: “Solo”
-  - Replace with: “Son”
+  - Replace with: “Soc”
+  - Replace with: “Sod”
 
 
 
@@ -3311,8 +3365,8 @@ Message: |
     2486 | > of the e—e—evening, Beautiful, beautiful Soup!
 Suggest:
   - Replace with: “So”
-  - Replace with: “Solo”
-  - Replace with: “Son”
+  - Replace with: “Soc”
+  - Replace with: “Sod”
 
 
 
@@ -3375,8 +3429,8 @@ Message: |
          |                                ^~~ Did you mean to spell `Soo` this way?
 Suggest:
   - Replace with: “So”
-  - Replace with: “Solo”
-  - Replace with: “Son”
+  - Replace with: “Soc”
+  - Replace with: “Sod”
 
 
 
@@ -3417,8 +3471,8 @@ Message: |
          |                                                      ^~~ Did you mean to spell `Soo` this way?
 Suggest:
   - Replace with: “So”
-  - Replace with: “Solo”
-  - Replace with: “Son”
+  - Replace with: “Soc”
+  - Replace with: “Sod”
 
 
 
@@ -3449,8 +3503,8 @@ Message: |
     2491 | > e—e—evening, Beautiful, beauti—FUL SOUP!”
 Suggest:
   - Replace with: “So”
-  - Replace with: “Solo”
-  - Replace with: “Son”
+  - Replace with: “Soc”
+  - Replace with: “Sod”
 
 
 
@@ -3504,9 +3558,9 @@ Message: |
     2491 | > e—e—evening, Beautiful, beauti—FUL SOUP!”
          |                                  ^~~ Did you mean to spell `FUL` this way?
 Suggest:
-  - Replace with: “FUD”
-  - Replace with: “F's”
-  - Replace with: “UL”
+  - Replace with: “Full”
+  - Replace with: “Flu”
+  - Replace with: “Fol”
 
 
 
@@ -3544,8 +3598,8 @@ Message: |
          |    ^~~ Did you mean to spell `Soo` this way?
 Suggest:
   - Replace with: “So”
-  - Replace with: “Solo”
-  - Replace with: “Son”
+  - Replace with: “Soc”
+  - Replace with: “Sod”
 
 
 
@@ -3761,6 +3815,15 @@ Message: |
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     2724 | sight, he said in a deep voice, “What are tarts made of?”
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ This sentence is 42 words long.
+
+
+
+Lint:    Capitalization (127 priority)
+Message: |
+    2745 | ## CHAPTER XII: Alice’s Evidence
+         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Try to use title case in headings.
+Suggest:
+  - Replace with: “## CHAPTER XII: Alice's Evidence”
 
 
 

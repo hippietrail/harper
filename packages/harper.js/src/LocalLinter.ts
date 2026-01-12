@@ -11,6 +11,7 @@ import type { LintConfig, LintOptions } from './main';
 export default class LocalLinter implements Linter {
 	binary: SuperBinaryModule;
 	private inner: Promise<WasmLinter>;
+	private disposed = false;
 
 	constructor(init: LinterInit) {
 		this.binary = init.binary as SuperBinaryModule;
@@ -35,7 +36,7 @@ export default class LocalLinter implements Linter {
 	async lint(text: string, options?: LintOptions): Promise<Lint[]> {
 		const inner = await this.inner;
 		const language = options?.language === 'plaintext' ? Language.Plain : Language.Markdown;
-		const lints = inner.lint(text, language);
+		const lints = inner.lint(text, language, options?.forceAllHeadings ?? false);
 
 		return lints;
 	}
@@ -43,12 +44,13 @@ export default class LocalLinter implements Linter {
 	async organizedLints(text: string, options?: LintOptions): Promise<Record<string, Lint[]>> {
 		const inner = await this.inner;
 		const language = options?.language === 'plaintext' ? Language.Plain : Language.Markdown;
-		const lintGroups = inner.organized_lints(text, language);
+		const lintGroups = inner.organized_lints(text, language, options?.forceAllHeadings ?? false);
 
 		const output: Record<string, Lint[]> = {};
 
-		for (const { group, lints } of lintGroups) {
-			output[group] = lints;
+		for (const group of lintGroups) {
+			output[group.group] = group.lints;
+			group.free();
 		}
 
 		return output;
@@ -179,6 +181,7 @@ export default class LocalLinter implements Linter {
 		const inner = await this.inner;
 
 		if (inner.get_dialect() !== dialect) {
+			inner.free();
 			this.inner = this.createInner(dialect);
 		}
 
@@ -198,5 +201,15 @@ export default class LocalLinter implements Linter {
 	async importStatsFile(statsFile: string): Promise<void> {
 		const inner = await this.inner;
 		return inner.import_stats_file(statsFile);
+	}
+
+	async dispose(): Promise<void> {
+		if (this.disposed) {
+			return;
+		}
+
+		this.disposed = true;
+		const inner = await this.inner;
+		inner.free();
 	}
 }

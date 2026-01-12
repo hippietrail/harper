@@ -7,7 +7,7 @@ use std::sync::Arc;
 use harper_core::DialectFlags;
 use harper_core::language_detection::is_doc_likely_english;
 use harper_core::linting::{LintGroup, Linter as _};
-use harper_core::parsers::{IsolateEnglish, Markdown, Parser, PlainEnglish};
+use harper_core::parsers::{IsolateEnglish, Markdown, OopsAllHeadings, Parser, PlainEnglish};
 use harper_core::remove_overlaps_map;
 use harper_core::{
     CharString, DictWordMetadata, Document, IgnoredLints, LintContext, Lrc, remove_overlaps,
@@ -72,6 +72,7 @@ pub enum Dialect {
     British,
     Australian,
     Canadian,
+    Indian,
 }
 
 impl From<Dialect> for harper_core::Dialect {
@@ -81,6 +82,7 @@ impl From<Dialect> for harper_core::Dialect {
             Dialect::Canadian => harper_core::Dialect::Canadian,
             Dialect::Australian => harper_core::Dialect::Australian,
             Dialect::British => harper_core::Dialect::British,
+            Dialect::Indian => harper_core::Dialect::Indian,
         }
     }
 }
@@ -253,11 +255,20 @@ impl Linter {
         ctx.default_hash()
     }
 
-    pub fn organized_lints(&mut self, text: String, language: Language) -> Vec<OrganizedGroup> {
+    pub fn organized_lints(
+        &mut self,
+        text: String,
+        language: Language,
+        all_headings: bool,
+    ) -> Vec<OrganizedGroup> {
         let source: Vec<_> = text.chars().collect();
         let source = Lrc::new(source);
 
-        let parser = language.create_parser();
+        let mut parser = language.create_parser();
+
+        if all_headings {
+            parser = Box::new(OopsAllHeadings::new(parser));
+        }
 
         let document = Document::new_from_vec(source.clone(), &parser, &self.dictionary);
 
@@ -292,11 +303,15 @@ impl Linter {
     }
 
     /// Perform the configured linting on the provided text.
-    pub fn lint(&mut self, text: String, language: Language) -> Vec<Lint> {
+    pub fn lint(&mut self, text: String, language: Language, all_headings: bool) -> Vec<Lint> {
         let source: Vec<_> = text.chars().collect();
         let source = Lrc::new(source);
 
-        let parser = language.create_parser();
+        let mut parser = language.create_parser();
+
+        if all_headings {
+            parser = Box::new(OopsAllHeadings::new(parser));
+        }
 
         let document = Document::new_from_vec(source.clone(), &parser, &self.dictionary);
 
@@ -641,7 +656,22 @@ mod tests {
         linter.import_words(vec![text.clone()]);
         dbg!(linter.dictionary.get_word_metadata_str(&text));
 
-        let lints = linter.lint(text, Language::Plain);
+        let lints = linter.lint(text, Language::Plain, false);
         assert!(lints.is_empty());
+    }
+
+    #[test]
+    fn does_not_oom_with_repeated_lints() {
+        for _ in 0..3000 {
+            let mut linter = Linter::new(Dialect::American);
+
+            let results = linter.lint(
+                "This is a grammatically correct sentence.".to_string(),
+                Language::Plain,
+                false,
+            );
+
+            assert!(results.is_empty())
+        }
     }
 }
