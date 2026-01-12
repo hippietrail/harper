@@ -18,24 +18,28 @@ pub struct NeedToNoun {
 impl Default for NeedToNoun {
     fn default() -> Self {
         let postfix_exceptions = LongestMatchOf::new(vec![
-            Box::new(|tok: &Token, _: &[char]| tok.kind.is_adverb() || tok.kind.is_determiner()),
-            Box::new(WordSet::new(&["about"])),
+            Box::new(|tok: &Token, _: &[char]| {
+                tok.kind.is_adverb()
+                    || tok.kind.is_determiner()
+                    || tok.kind.is_unlintable()
+                    || tok.kind.is_pronoun()
+            }),
+            Box::new(WordSet::new(&["about", "into", "it"])),
         ]);
 
-        let exceptions = SequenceExpr::default()
+        let exceptions = SequenceExpr::anything()
             .t_any()
             .t_any()
             .t_any()
-            .t_any()
-            .then_word_set(&["be"]);
+            .then_word_set(&["be", "match"]);
 
         let a = SequenceExpr::default()
-            .then(|tok: &Token, _: &[char]| tok.kind.is_nominal())
+            .then_kind_where(|kind| kind.is_nominal())
             .t_ws()
             .then_unless(postfix_exceptions);
 
-        let b = SequenceExpr::default()
-            .then(|tok: &Token, _: &[char]| tok.kind.is_nominal() && !tok.kind.is_verb());
+        let b =
+            SequenceExpr::default().then_kind_where(|kind| kind.is_nominal() && !kind.is_verb());
 
         let expr = SequenceExpr::default()
             .then(DerivedFrom::new_from_str("need"))
@@ -420,5 +424,50 @@ mod tests {
     #[test]
     fn allows_issue_2252() {
         assert_no_lints("Things I need to do today:", NeedToNoun::default());
+    }
+
+    #[test]
+    fn allows_install() {
+        assert_no_lints(
+            "You need to install it separately, as it's a standalone application.",
+            NeedToNoun::default(),
+        );
+    }
+
+    #[test]
+    fn allows_lay() {
+        assert_no_lints(
+            "Okay, this is a long one, but I feel like I need to lay everything out.",
+            NeedToNoun::default(),
+        );
+    }
+
+    #[test]
+    fn allows_overcome() {
+        assert_no_lints(
+            "We believe every family deserves the opportunity to flourish, and we are committed to providing the resources they need to overcome adversity.",
+            NeedToNoun::default(),
+        );
+    }
+
+    #[test]
+    fn allows_need_to_run_into_2433() {
+        assert_no_lints(
+            "So that they don't need to run into this problem in the future.",
+            NeedToNoun::default(),
+        );
+    }
+
+    #[test]
+    fn allows_need_to_match_2446() {
+        assert_no_lints(
+            "You don't need to match string errors explicitly.",
+            NeedToNoun::default(),
+        );
+    }
+
+    #[test]
+    fn allows_need_to_match_exactly_2446() {
+        assert_no_lints("They need to match exactly.", NeedToNoun::default());
     }
 }
