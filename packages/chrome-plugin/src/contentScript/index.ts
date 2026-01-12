@@ -13,22 +13,25 @@ if (isWordPress()) {
 	ProtocolClient.setDomainEnabled(window.location.hostname, true, false);
 }
 
-const fw = new LintFramework((text, domain) => ProtocolClient.lint(text, domain), {
-	ignoreLint: (hash) => ProtocolClient.ignoreHash(hash),
-	getActivationKey: () => ProtocolClient.getActivationKey(),
-	openOptions: () => ProtocolClient.openOptions(),
-	addToUserDictionary: (words) => ProtocolClient.addToUserDictionary(words),
-	reportError: (lint: UnpackedLint, ruleId: string) =>
-		ProtocolClient.openReportError(
-			padWithContext(lint.source, lint.span.start, lint.span.end, 15),
-			ruleId,
-			'',
-		),
-	setRuleEnabled: async (ruleId, enabled) => {
-		await ProtocolClient.setRuleEnabled(ruleId, enabled);
-		fw.update();
+const fw = new LintFramework(
+	(text, domain, options) => ProtocolClient.lint(text, domain, options),
+	{
+		ignoreLint: (hash) => ProtocolClient.ignoreHash(hash),
+		getActivationKey: () => ProtocolClient.getActivationKey(),
+		openOptions: () => ProtocolClient.openOptions(),
+		addToUserDictionary: (words) => ProtocolClient.addToUserDictionary(words),
+		reportError: (lint: UnpackedLint, ruleId: string) =>
+			ProtocolClient.openReportError(
+				padWithContext(lint.source, lint.span.start, lint.span.end, 15),
+				ruleId,
+				'',
+			),
+		setRuleEnabled: async (ruleId, enabled) => {
+			await ProtocolClient.setRuleEnabled(ruleId, enabled);
+			fw.update();
+		},
 	},
-});
+);
 
 function padWithContext(source: string, start: number, end: number, contextLength: number): string {
 	const normalizedStart = Math.max(0, Math.min(start, source.length));
@@ -40,7 +43,7 @@ function padWithContext(source: string, start: number, end: number, contextLengt
 }
 
 const keepAliveCallback = () => {
-	ProtocolClient.lint('', 'example.com');
+	ProtocolClient.lint('', 'example.com', {});
 
 	setTimeout(keepAliveCallback, 400);
 };
@@ -97,8 +100,25 @@ function scan() {
 		if (
 			element.matches('[role="combobox"]') ||
 			element.getAttribute('data-enable-grammarly') === 'false' ||
-			element.getAttribute('spellcheck') === 'false'
+			(element.getAttribute('spellcheck') === 'false' &&
+				element.getAttribute('data-language') !== 'markdown')
 		) {
+			return;
+		}
+
+		if (element.classList.contains('ck-editor__editable')) {
+			element.querySelectorAll('p').forEach((paragraph) => {
+				if (paragraph.closest('[contenteditable="false"],[disabled],[readonly]') != null) {
+					return;
+				}
+
+				if (!isVisible(paragraph)) {
+					return;
+				}
+
+				fw.addTarget(paragraph);
+			});
+
 			return;
 		}
 
