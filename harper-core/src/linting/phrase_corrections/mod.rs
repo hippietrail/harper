@@ -44,6 +44,13 @@ pub fn lint_group() -> LintGroup {
             "Corrects `a couple of more` to `a couple more`.",
             LintKind::Redundancy
         ),
+        "AdNauseam" => (
+            ["as nauseam"],
+            ["ad nauseam"],
+            "This phrase comes from Latin, where `ad` means `to`.",
+            "Corrects `as nauseam` to `ad nauseam`.",
+            LintKind::Spelling
+        ),
         "AfterAWhile" => (
             ["after while"],
             ["after a while"],
@@ -147,6 +154,13 @@ pub fn lint_group() -> LintGroup {
             "The standard form is `as of late`.",
             "Corrects `as of lately` to `as of late`.",
             LintKind::WordChoice
+        ),
+        "AsOpposedTo" => (
+            ["as oppose to"],
+            ["as opposed to"],
+            "Did you mean `as opposed to`?",
+            "Corrects `as oppose to` to `as opposed to`.",
+            LintKind::Usage
         ),
         "AtFaceValue" => (
             ["on face value"],
@@ -384,6 +398,13 @@ pub fn lint_group() -> LintGroup {
             "Corrects `every since` to `ever since`.",
             LintKind::Typo
         ),
+        "EveryOnceAndAgain" => (
+            ["every once and again"],
+            ["every once in a while", "once again"],
+            "For things that happen only occasionaly use `every once in a while. For things that persistently happen use `once again`.",
+            "Corrects `every once and again` to `every once in a while` or `once again`.",
+            LintKind::Usage
+        ),
         "EveryTime" => (
             ["everytime"],
             ["every time"],
@@ -403,6 +424,13 @@ pub fn lint_group() -> LintGroup {
             ["because"],
             "Use `because` instead of informal `cuz`",
             "Expands the informal abbreviation `cuz` to the full word `because` for formality.",
+            LintKind::Style
+        ),
+        "ExpandForward" => (
+            ["fwd"],
+            ["forward"],
+            "Use `forward` instead of `fwd`",
+            "Expands the abbreviation `fwd` to the full word `forward` for clarity.",
             LintKind::Style
         ),
         "ExpandMinimum" => (
@@ -585,6 +613,13 @@ pub fn lint_group() -> LintGroup {
             "Corrects `I does` to `I do`.",
             LintKind::Agreement
         ),
+        "Initiatively" => (
+            ["initiatively"],
+            ["proactively", "initially"],
+            "Did you mean `proactive` (taking initiative, acting in advance) or `initially` (at first, in the beginning)?",
+            "Corrects nonstandard `initiatively`.",
+            LintKind::Nonstandard
+        ),
         "InLieuOf" => (
             ["in lue of"],
             ["in lieu of"],
@@ -752,6 +787,13 @@ pub fn lint_group() -> LintGroup {
             "Corrects `like a plague` to `like the plague`.",
             LintKind::Usage
         ),
+        "LinesOfCode" => (
+            ["line of codes", "lines of codes"],
+            ["lines of code"],
+            "The correct plural is `lines of code`.",
+            "Corrects pluralizing the wrong noun in `lines of code`.",
+            LintKind::Usage
+        ),
         "LowHangingFruit" => (
             ["low hanging fruit", "low hanging fruits", "low-hanging fruits"],
             ["low-hanging fruit"],
@@ -859,6 +901,13 @@ pub fn lint_group() -> LintGroup {
             "Corrects `ontop of` to `on top of`.",
             LintKind::BoundaryError
         ),
+        "PartsOfSpeech" => (
+            ["part of speeches", "parts of speeches"],
+            ["parts of speech"],
+            "The correct plural is `parts of speech`.",
+            "Corrects pluralizing the wrong noun in `part of speech`.",
+            LintKind::Grammar
+        ),
         "PeaceOfMind" => (
             ["piece of mind"],
             ["peace of mind"],
@@ -874,7 +923,7 @@ pub fn lint_group() -> LintGroup {
             LintKind::Spelling
         ),
         "PointsOfView" => (
-            ["point of views"],
+            ["point of views", "points of views"],
             ["points of view"],
             "The correct plural is `points of view`.",
             "Corrects pluralizing the wrong noun in `point of view`.",
@@ -953,7 +1002,7 @@ pub fn lint_group() -> LintGroup {
             LintKind::WordChoice
         ),
         "RulesOfThumb" => (
-            ["rule of thumbs", "rule-of-thumbs"],
+            ["rule of thumbs", "rule-of-thumbs", "rules of thumbs"],
             ["rules of thumb"],
             "The correct plural is `rules of thumb`.",
             "Corrects pluralizing the wrong noun in `rule of thumb`.",
