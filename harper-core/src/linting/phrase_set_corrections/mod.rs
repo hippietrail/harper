@@ -162,6 +162,15 @@ pub fn lint_group() -> LintGroup {
             "Expands the abbreviation `deps` to the full word `dependencies` for clarity.",
             LintKind::Style
         ),
+        "ExpandDeref" => (
+            &[
+                ("deref", "dereference"),
+                ("derefs", "dereferences"),
+            ],
+            "Use `dereference` instead of `deref`",
+            "Expands the abbreviation `deref` to the full word `dereference` for clarity.",
+            LintKind::Style
+        ),
         "ExpandParameter" => (
             &[
                 ("param", "parameter"),
@@ -169,6 +178,15 @@ pub fn lint_group() -> LintGroup {
             ],
             "Use `parameter` instead of `param`",
             "Expands the abbreviation `param` to the full word `parameter` for clarity.",
+            LintKind::Style
+        ),
+        "ExpandPointer" => (
+            &[
+                ("ptr", "pointer"),
+                ("ptrs", "pointers"),
+            ],
+            "Use `pointer` instead of `ptr`",
+            "Expands the abbreviation `ptr` to the full word `pointer` for clarity.",
             LintKind::Style
         ),
         "ExpandStandardInputAndOutput" => (
@@ -202,6 +220,17 @@ pub fn lint_group() -> LintGroup {
             "Corrects `extend` to `extent` when the context is a noun.",
             // ConfusedPair??
             LintKind::WordChoice
+        ),
+        "FoamAtTheMouth" => (
+            &[
+                ("foam out the mouth", "foam at the mouth"),
+                ("foamed out the mouth", "foamed at the mouth"),
+                ("foaming out the mouth", "foaming at the mouth"),
+                ("foams out the mouth", "foams at the mouth"),
+            ],
+            "The correct idiom is `foam at the mouth`.",
+            "Corrects the idiom `foam out the mouth` to the standard `foam at the mouth`.",
+            LintKind::Nonstandard
         ),
         "FootTheBill" => (
             &[
@@ -358,6 +387,16 @@ pub fn lint_group() -> LintGroup {
             "Simplifies redundant double positives like `most optimal` to the base form.",
             LintKind::Redundancy
         ),
+        "ScapeGoat" => (
+            &[
+                ("an escape goat", "a scapegoat"),
+                ("escape goat", "scapegoat"),
+                ("escape goats", "scapegoats"),
+            ],
+            "If you're referring someone is being blamed unfairly, write it as a single word: `scapegoat`.",
+            "Corrects `scape goat` to `scapegoat`, which is the proper term for a person blamed for others' failures.",
+            LintKind::Eggcorn
+        ),
         "WreakHavoc" => (
             &[
                 ("wreck havoc", "wreak havoc"),
@@ -404,6 +443,15 @@ pub fn lint_group() -> LintGroup {
             "Did you mean `double-edged sword`?",
             "Corrects variants of `double-edged sword`.",
             LintKind::Spelling
+        ),
+        "ExpandAlloc" => (
+            &[
+                (&["alloc"], &["allocate", "allocation"]),
+                (&["allocs"], &["allocates", "allocations"]),
+            ],
+            "Use `allocate` or `allocation` instead of `alloc`",
+            "Expands the abbreviation `alloc` to the full word `allocate` or `allocation` for clarity.",
+            LintKind::Style
         ),
         "ExpandDecl" => (
             &[
@@ -487,10 +535,16 @@ pub fn lint_group() -> LintGroup {
         ),
         "RiseTheQuestion" => (
             &[
-                (&["rise the question"], &["raise the question"]),
-                (&["rises the question"], &["raises the question"]),
-                (&["risen the question", "rose the question"], &["raised the question"]),
-                (&["rising the question"], &["raising the question"])
+                (&["rise the question", "arise the question"], &["raise the question"]),
+                (&["rises the question", "arises the question"], &["raises the question"]),
+                (
+                    &[
+                        "risen the question", "rose the question", "rised the question",
+                        "arisen the question", "arose the question", "arised the question"
+                    ],
+                    &["raised the question"]
+                ),
+                (&["rising the question", "arising the question"], &["raising the question"])
             ],
             "Use `raise` instead of `rise` when referring to the act of asking a question.",
             "Corrects `rise the question` to `raise the question`.",

@@ -1,6 +1,6 @@
 use crate::linting::tests::{
     assert_good_and_bad_suggestions, assert_lint_count, assert_no_lints,
-    assert_nth_suggestion_result, assert_suggestion_result,
+    assert_nth_suggestion_result, assert_suggestion_result, assert_top3_suggestion_result,
 };
 
 use super::lint_group;
@@ -505,6 +505,26 @@ fn corrects_decls() {
 // ExpandDependency
 // -none-
 
+// ExpandDereference
+
+#[test]
+fn expand_deref() {
+    assert_suggestion_result(
+        "Should raw pointer deref/projections have to be in-bounds?",
+        lint_group(),
+        "Should raw pointer dereference/projections have to be in-bounds?",
+    );
+}
+
+#[test]
+fn corrects_derefs() {
+    assert_suggestion_result(
+        "A contiguous-in-memory double-ended queue that derefs into a slice - gnzlbg/slice_deque.",
+        lint_group(),
+        "A contiguous-in-memory double-ended queue that dereferences into a slice - gnzlbg/slice_deque.",
+    );
+}
+
 // ExpandParam
 
 #[test]
@@ -522,6 +542,24 @@ fn corrects_params() {
         "the params are not loaded in the R environment when using the terminal",
         lint_group(),
         "the parameters are not loaded in the R environment when using the terminal",
+    );
+}
+
+// ExpandPointer
+
+fn correct_ptr() {
+    assert_suggestion_result(
+        "How else would you construct a slice from a ptr and a length?",
+        lint_group(),
+        "How else would you construct a slice from a pointer and a length?",
+    );
+}
+
+fn correct_ptrs() {
+    assert_suggestion_result(
+        "FixedBufferAllocator.free not freeing ptrs",
+        lint_group(),
+        "FixedBufferAllocator.free not freeing pointers",
     );
 }
 
@@ -611,6 +649,44 @@ fn correct_to_an_extend() {
         "It mimics (to an extend) the way in which Chrome requests SSO cookies with the Windows 10 accounts extension.",
         lint_group(),
         "It mimics (to an extent) the way in which Chrome requests SSO cookies with the Windows 10 accounts extension.",
+    );
+}
+
+// FoamAtTheMouth
+
+#[test]
+fn correct_foam_out_the_mouth() {
+    assert_suggestion_result(
+        "and he gave him a drink that made him foam out the mouth and die",
+        lint_group(),
+        "and he gave him a drink that made him foam at the mouth and die",
+    );
+}
+
+#[test]
+fn correct_foamed_out_the_mouth() {
+    assert_suggestion_result(
+        "You can see in some shots they've foamed out the mouth, and it's apparent their poisoned.",
+        lint_group(),
+        "You can see in some shots they've foamed at the mouth, and it's apparent their poisoned.",
+    );
+}
+
+#[test]
+fn correct_foaming_out_the_mouth() {
+    assert_suggestion_result(
+        "choking or foaming out the mouth or something like that, leading up to death",
+        lint_group(),
+        "choking or foaming at the mouth or something like that, leading up to death",
+    );
+}
+
+#[test]
+fn correct_foams_out_the_mouth() {
+    assert_suggestion_result(
+        "Elaine can't swallow, foams out the mouth and Kramer says she has rabies just like his friend Bob Sacamano after she gets bit by the guy's dog",
+        lint_group(),
+        "Elaine can't swallow, foams at the mouth and Kramer says she has rabies just like his friend Bob Sacamano after she gets bit by the guy's dog",
     );
 }
 
@@ -932,9 +1008,39 @@ fn correct_passer_bys_hyphen() {
 // Piggyback
 // -none-
 
-// WreakHavoc
+// RedundantSuperlatives
+// -none-
 
-// Many to many tests
+// ScapeGoat
+
+#[test]
+fn fix_an_escape_goat() {
+    assert_suggestion_result(
+        "I see too many times the cable and ps thingy being used as an escape goat.",
+        lint_group(),
+        "I see too many times the cable and ps thingy being used as a scapegoat.",
+    );
+}
+
+#[test]
+fn fix_escape_goat() {
+    assert_suggestion_result(
+        "It helps shift the reason for the failure on to what the manager did not do (making them the escape goat when it fails).",
+        lint_group(),
+        "It helps shift the reason for the failure on to what the manager did not do (making them the scapegoat when it fails).",
+    );
+}
+
+#[test]
+fn fix_escape_goats() {
+    assert_suggestion_result(
+        "People might be using Americans as escape goats for this, but these mishearings are becoming as common as a bowl in a china shop!",
+        lint_group(),
+        "People might be using Americans as scapegoats for this, but these mishearings are becoming as common as a bowl in a china shop!",
+    );
+}
+
+// WreakHavoc
 
 #[test]
 fn fix_wreck_havoc() {
@@ -971,6 +1077,8 @@ fn fix_wrecks_havoc() {
         "Small POC using rust with ptrace that wreaks havoc on msync",
     );
 }
+
+// Many to many tests
 
 // AwaitFor
 
@@ -1117,6 +1225,26 @@ fn correct_double_edged_space_plural() {
         "Change: Ambushers and Crusaders now protect their targets too, making them double edged swords",
         lint_group(),
         "Change: Ambushers and Crusaders now protect their targets too, making them double-edged swords",
+    );
+}
+
+// ExpandAlloc
+
+#[test]
+fn corrects_allocs() {
+    assert_top3_suggestion_result(
+        "cmd/compile: avoid allocs by better tracking of literals for interface conversions and make",
+        lint_group(),
+        "cmd/compile: avoid allocations by better tracking of literals for interface conversions and make",
+    );
+}
+
+#[test]
+fn expand_alloc() {
+    assert_top3_suggestion_result(
+        "Used to find system libraries that alloc RWX regions on load.",
+        lint_group(),
+        "Used to find system libraries that allocate RWX regions on load.",
     );
 }
 
@@ -1533,7 +1661,7 @@ fn dont_correct_so_much_nerve_wreck() {
 
 // -raise the question-
 #[test]
-fn detect_raise_the_question() {
+fn detect_rise_the_question() {
     assert_suggestion_result(
         "That would rise the question how to deal with syntax errors etc.",
         lint_group(),
@@ -1541,9 +1669,18 @@ fn detect_raise_the_question() {
     );
 }
 
+#[test]
+fn detect_arise_the_question() {
+    assert_suggestion_result(
+        "As e.g. UTC+1, might arise the question whether it includes summer and winter time",
+        lint_group(),
+        "As e.g. UTC+1, might raise the question whether it includes summer and winter time",
+    );
+}
+
 // -raises the question-
 #[test]
-fn detect_raises_the_question() {
+fn detect_rises_the_question() {
     assert_suggestion_result(
         "However, this rises the question as to whether this test is conceptually sound.",
         lint_group(),
@@ -1551,9 +1688,18 @@ fn detect_raises_the_question() {
     );
 }
 
+#[test]
+fn detect_arises_the_question() {
+    assert_suggestion_result(
+        "And it arises the question, why?",
+        lint_group(),
+        "And it raises the question, why?",
+    );
+}
+
 // -raising the question-
 #[test]
-fn detect_raising_the_question() {
+fn detect_rising_the_question() {
     assert_suggestion_result(
         "as soon as a infoHash query is performed, a Torrent file is retried, rising the question of:",
         lint_group(),
@@ -1561,7 +1707,16 @@ fn detect_raising_the_question() {
     );
 }
 
-// -rose the question-
+#[test]
+fn detect_arising_the_question() {
+    assert_suggestion_result(
+        "arising the question whether the requirement of wgpu::Features::DEPTH24PLUS_STENCIL8 is precise",
+        lint_group(),
+        "raising the question whether the requirement of wgpu::Features::DEPTH24PLUS_STENCIL8 is precise",
+    );
+}
+
+// -raised the question-
 #[test]
 fn detect_rose_the_question() {
     assert_suggestion_result(
@@ -1571,13 +1726,58 @@ fn detect_rose_the_question() {
     );
 }
 
-// -risen the question-
 #[test]
 fn detect_risen_the_question() {
     assert_suggestion_result(
         "That has risen the question in my mind if it is still possible to embed your own Flash player on Facebook today?",
         lint_group(),
         "That has raised the question in my mind if it is still possible to embed your own Flash player on Facebook today?",
+    );
+}
+
+#[test]
+fn detect_rised_the_question() {
+    assert_suggestion_result(
+        "I rised the question to Emax Support and they just came back to me inmediately with the below response.",
+        lint_group(),
+        "I raised the question to Emax Support and they just came back to me inmediately with the below response.",
+    );
+}
+
+#[test]
+#[ignore = "Not actually an error after when it's 'there arose'"]
+fn dont_fag_there_arose_the_question() {
+    assert_suggestion_result(
+        "Hello, while I have been using modals manager there arose the question related to customizing of modal header.",
+        lint_group(),
+        "Hello, while I have been using modals manager there arose the question related to customizing of modal header.",
+    );
+}
+
+#[test]
+fn detect_arised_the_question() {
+    assert_suggestion_result(
+        "and that fact arised the question in my mind, what does exactly is happening",
+        lint_group(),
+        "and that fact raised the question in my mind, what does exactly is happening",
+    );
+}
+
+#[test]
+fn detect_arose_the_question() {
+    assert_suggestion_result(
+        "This arose the question, could I store 32 digits on the stack?",
+        lint_group(),
+        "This raised the question, could I store 32 digits on the stack?",
+    );
+}
+
+#[test]
+fn detect_arisen_the_question() {
+    assert_suggestion_result(
+        "Some have arisen the question like how to use this wireless HD mini camera",
+        lint_group(),
+        "Some have raised the question like how to use this wireless HD mini camera",
     );
 }
 

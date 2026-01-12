@@ -70,6 +70,7 @@ use super::few_units_of_time_ago::FewUnitsOfTimeAgo;
 use super::filler_words::FillerWords;
 use super::find_fine::FindFine;
 use super::first_aid_kit::FirstAidKit;
+use super::flesh_out_vs_full_fledged::FleshOutVsFullFledged;
 use super::for_noun::ForNoun;
 use super::free_predicate::FreePredicate;
 use super::friend_of_me::FriendOfMe;
@@ -129,6 +130,7 @@ use super::oldest_in_the_book::OldestInTheBook;
 use super::on_floor::OnFloor;
 use super::once_or_twice::OnceOrTwice;
 use super::one_and_the_same::OneAndTheSame;
+use super::one_of_the_singular::OneOfTheSingular;
 use super::open_the_light::OpenTheLight;
 use super::orthographic_consistency::OrthographicConsistency;
 use super::ought_to_be::OughtToBe;
@@ -180,10 +182,12 @@ use super::that_than::ThatThan;
 use super::that_which::ThatWhich;
 use super::the_how_why::TheHowWhy;
 use super::the_my::TheMy;
+use super::the_proper_noun_possessive::TheProperNounPossessive;
 use super::then_than::ThenThan;
 use super::theres::Theres;
 use super::theses_these::ThesesThese;
 use super::thing_think::ThingThink;
+use super::this_type_of_thing::ThisTypeOfThing;
 use super::though_thought::ThoughThought;
 use super::throw_away::ThrowAway;
 use super::throw_rubbish::ThrowRubbish;
@@ -549,6 +553,7 @@ impl LintGroup {
         insert_expr_rule!(FillerWords, true);
         insert_struct_rule!(FindFine, true);
         insert_expr_rule!(FirstAidKit, true);
+        insert_expr_rule!(FleshOutVsFullFledged, true);
         insert_expr_rule!(ForNoun, true);
         insert_expr_rule!(FreePredicate, true);
         insert_expr_rule!(FriendOfMe, true);
@@ -651,10 +656,12 @@ impl LintGroup {
         insert_expr_rule!(ThatWhich, true);
         insert_expr_rule!(TheHowWhy, true);
         insert_expr_rule!(TheMy, true);
+        insert_expr_rule!(TheProperNounPossessive, true);
         insert_expr_rule!(ThenThan, true);
         insert_expr_rule!(Theres, true);
         insert_expr_rule!(ThesesThese, true);
         insert_expr_rule!(ThingThink, true);
+        insert_expr_rule!(ThisTypeOfThing, true);
         insert_expr_rule!(ThoughThought, true);
         insert_expr_rule!(ThrowAway, true);
         insert_struct_rule!(ThrowRubbish, true);
@@ -718,6 +725,12 @@ impl LintGroup {
 
         out.add_chunk_expr_linter("TransposedSpace", TransposedSpace::new(dictionary.clone()));
         out.config.set_rule_enabled("TransposedSpace", true);
+
+        out.add_chunk_expr_linter(
+            "OneOfTheSingular",
+            OneOfTheSingular::new(dictionary.clone()),
+        );
+        out.config.set_rule_enabled("OneOfTheSingular", true);
 
         out.add("AnA", AnA::new(dialect));
         out.config.set_rule_enabled("AnA", true);
