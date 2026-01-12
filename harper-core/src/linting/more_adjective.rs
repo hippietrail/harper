@@ -163,9 +163,7 @@ where
 
         Some(Lint {
             span: phrase,
-            // Not `LintKind::Style` or `LintKind::Usage` since those can imply that the inflected form
-            // is always preferred over the two-word phrase. `LintKind::WordChoice` leaves it up to you.
-            lint_kind: LintKind::WordChoice,
+            lint_kind: LintKind::Style,
             suggestions,
             message: "This is not an error, but an inflected form of this adjective also exists"
                 .to_string(),

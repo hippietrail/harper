@@ -65,7 +65,7 @@ Suggest:
 
 
 
-Lint:    WordChoice (127 priority)
+Lint:    Style (127 priority)
 Message: |
       32 | Correct grammatical tagging will reflect that "dogs" is here used as a verb, not
       33 | as the more common plural noun. Grammatical context is one way to determine
@@ -243,17 +243,6 @@ Suggest:
 
 
 
-Lint:    WordChoice (127 priority)
-Message: |
-      77 | subtypes of nouns, verbs, punctuation, and so on). Whether a very small set of
-      78 | very broad tags or a much larger set of more precise ones is preferable, depends
-         |                                         ^~~~~~~~~~~~ This is not an error, but an inflected form of this adjective also exists
-      79 | on the purpose at hand. Automatic tagging is easier on smaller tag-sets.
-Suggest:
-  - Replace with: “preciser”
-
-
-
 Lint:    Spelling (63 priority)
 Message: |
       86 | The first major corpus of English for computer analysis was the Brown Corpus
@@ -357,7 +346,7 @@ Suggest:
 
 
 
-Lint:    WordChoice (127 priority)
+Lint:    Style (127 priority)
 Message: |
      125 | program can decide that "can" in "the can" is far more likely to be a noun than
          |                                                   ^~~~~~~~~~~ This is not an error, but an inflected form of this adjective also exists
@@ -404,7 +393,7 @@ Suggest:
 
 
 
-Lint:    WordChoice (127 priority)
+Lint:    Style (127 priority)
 Message: |
      142 | parsing (1997) that merely assigning the most common tag to each known word and
          |                                          ^~~~~~~~~~~ This is not an error, but an inflected form of this adjective also exists

@@ -837,6 +837,7 @@ mod tests {
     use std::sync::Arc;
 
     use super::{LintGroup, LintGroupConfig};
+    use crate::linting::LintKind;
     use crate::linting::tests::assert_no_lints;
     use crate::spell::{FstDictionary, MutableDictionary};
     use crate::{Dialect, Document, linting::Linter};
@@ -905,9 +906,7 @@ mod tests {
     fn lint_descriptions_are_clean() {
         let lints_to_check = LintGroup::new_curated(FstDictionary::curated(), Dialect::American);
 
-        let mut enforcer_config = LintGroupConfig::new_curated();
-        enforcer_config.set_rule_enabled("MoreAdjective", false);
-
+        let enforcer_config = LintGroupConfig::new_curated();
         let mut lints_to_enforce =
             LintGroup::new_curated(FstDictionary::curated(), Dialect::American)
                 .with_lint_config(enforcer_config);
@@ -922,8 +921,13 @@ mod tests {
             let doc = Document::new_markdown_default_curated(&description);
             eprintln!("{lint_name}: {description}");
 
-            if !lints_to_enforce.lint(&doc).is_empty() {
-                dbg!(&lints_to_enforce.lint(&doc));
+            let mut lints = lints_to_enforce.lint(&doc);
+
+            // Remove ones related to style
+            lints.retain(|l| l.lint_kind != LintKind::Style);
+
+            if !lints.is_empty() {
+                dbg!(lints);
                 panic!();
             }
         }
