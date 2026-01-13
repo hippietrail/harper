@@ -4362,8 +4362,8 @@
 # NPr/ISg+ P    NSg+ . ?         NSg/P D   NSg/VB+ .
 >
 #
-> “ He       has to telephone , ” said Mr   . Wolfshiem , following him  with his     eyes    . “ Fine
-# . NPr/ISg+ V3  P  NSg/VB    . . VP/J NSg+ . ?         . Nᴹ/Vg/J/P ISg+ P    ISg/D$+ NPl/V3+ . . NSg/VB/J
+> “ He       has to telephone , ” said Mr   . Wolfshiem , following   him  with his     eyes    . “ Fine
+# . NPr/ISg+ V3  P  NSg/VB    . . VP/J NSg+ . ?         . N🅪Sg/Vg/J/P ISg+ P    ISg/D$+ NPl/V3+ . . NSg/VB/J
 > fellow , isn’t   he       ? Handsome to look   at    and  a    perfect   gentleman . ”
 # NSg    . NSg/VX3 NPr/ISg+ . VB/J     P  NSg/VB NSg/P VB/C D/P+ NSg/VB/J+ NSg/J+    . .
 >
@@ -6462,8 +6462,8 @@
 #
 > Tom     was evidently perturbed at    Daisy’s running   around alone , for   on  the
 # NPr/VB+ VPt R         VP/J      NSg/P NPr$    Nᴹ/Vg/J/P J/P    J     . R/C/P J/P D
-> following Saturday night    he       came      with her     to Gatsby’s party     . Perhaps his
-# Nᴹ/Vg/J/P NSg/VB+  N🅪Sg/VB+ NPr/ISg+ NSg/VPt/P P    ISg/D$+ P  NPr$     NSg/VB/J+ . NSg/R   ISg/D$+
+> following   Saturday night    he       came      with her     to Gatsby’s party     . Perhaps his
+# N🅪Sg/Vg/J/P NSg/VB+  N🅪Sg/VB+ NPr/ISg+ NSg/VPt/P P    ISg/D$+ P  NPr$     NSg/VB/J+ . NSg/R   ISg/D$+
 > presence gave the evening    its     peculiar quality of oppressiveness — it       stands out
 # N🅪Sg/VB+ VPt  D+  N🅪Sg/Vg/J+ ISg/D$+ NSg/J    N🅪Sg/J  P  Nᴹ             . NPr/ISg+ NPl/V3 NSg/VB/J/R/P
 > in        my  memory from Gatsby’s other     parties that          summer     . There were    the same
@@ -6778,8 +6778,8 @@
 # NPr+  VPt   P  NSg/VB/J P    D+  N🅪Sg/VB/J+ NPr/J/R/P D/P NSg/J . ?       NSg/VB  . Nᴹ/Vg/J  NSg/VB/J/R/P D/P
 > meaning    in        each word    that          it       had never had before and  would never have    again .
 # N🅪Sg/Vg/J+ NPr/J/R/P Dq   NSg/VB+ NSg/I/C/Ddem+ NPr/ISg+ VP  R     VP  C/P    VB/C VXB   R     NSg/VXB P     .
-> When    the melody rose      her     voice   broke     up         sweetly , following it       , in        a   way
-# NSg/I/C D   NPr🅪Sg NPr/VPt/J ISg/D$+ NSg/VB+ NSg/VPt/J NSg/VB/J/P R       . Nᴹ/Vg/J/P NPr/ISg+ . NPr/J/R/P D/P NSg/J+
+> When    the melody rose      her     voice   broke     up         sweetly , following   it       , in        a   way
+# NSg/I/C D   NPr🅪Sg NPr/VPt/J ISg/D$+ NSg/VB+ NSg/VPt/J NSg/VB/J/P R       . N🅪Sg/Vg/J/P NPr/ISg+ . NPr/J/R/P D/P NSg/J+
 > contralto voices  have    , and  each change   tipped out          a   little     of her     warm     human
 # NSg       NPl/V3+ NSg/VXB . VB/C Dq   N🅪Sg/VB+ VP     NSg/VB/J/R/P D/P NPr/I/J/Dq P  ISg/D$+ NSg/VB/J NSg/VB/J
 > magic      upon the air      .
@@ -9608,8 +9608,8 @@
 # NSg/C/P NPr/ISg+ VXPt   VB      ISg+    VB/C NPr/ISg+ VXPt   NSg/VB NSg/VB/J/R/P R/C/P NPr/ISg+ VP  VP/J     . NPr/ISg+ VP
 > intended , probably , to take   what   he       could   and  go       — but     now       he       found  that         he       had
 # NSg/VP/J . R        . P  NSg/VB NSg/I+ NPr/ISg+ NSg/VXB VB/C NSg/VB/J . NSg/C/P NSg/J/R/C NPr/ISg+ NSg/VP NSg/I/C/Ddem NPr/ISg+ VP
-> committed himself to the following of a    grail . He       knew that         Daisy was
-# VB/J      ISg+    P  D   Nᴹ/Vg/J/P P  D/P+ NSg+  . NPr/ISg+ VPt  NSg/I/C/Ddem NPr+  VPt
+> committed himself to the following   of a    grail . He       knew that         Daisy was
+# VB/J      ISg+    P  D   N🅪Sg/Vg/J/P P  D/P+ NSg+  . NPr/ISg+ VPt  NSg/I/C/Ddem NPr+  VPt
 > extraordinary , but     he       didn’t realize just how   extraordinary a   “ nice  ” girl    could
 # NSg/J         . NSg/C/P NPr/ISg+ VXPt   VB/NoAm J/R  NSg/C NSg/J         D/P . NPr/J . NSg/VB+ NSg/VXB
 > be      . She  vanished into her     rich      house   , into her     rich     , full      life     , leaving
@@ -9674,8 +9674,8 @@
 #
 > He       did  extraordinarily well       in        the war      . He       was a   captain before he       went    to the
 # NPr/ISg+ VXPt R               NSg/VB/J/R NPr/J/R/P D+  N🅪Sg/VB+ . NPr/ISg+ VPt D/P NSg/VB  C/P    NPr/ISg+ NSg/VPt P  D+
-> front     , and  following the Argonne battles he       got his     majority and  the command of
-# NSg/VB/J+ . VB/C Nᴹ/Vg/J/P D   NPr     NPl/V3+ NPr/ISg+ VP  ISg/D$+ NSg+     VB/C D   NSg/VB  P
+> front     , and  following   the Argonne battles he       got his     majority and  the command of
+# NSg/VB/J+ . VB/C N🅪Sg/Vg/J/P D   NPr     NPl/V3+ NPr/ISg+ VP  ISg/D$+ NSg+     VB/C D   NSg/VB  P
 > the divisional machine - guns    . After the armistice he       tried frantically to get
 # D   NSg/J      NSg/VB+ . NPl/V3+ . P     D   NPr🅪Sg    NPr/ISg+ VP/J  R           P  NSg/VB
 > home      , but     some     complication or    misunderstanding sent   him  to Oxford instead . He
