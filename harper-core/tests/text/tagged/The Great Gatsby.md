@@ -10626,10 +10626,10 @@
 # NSg/VB/J+ NSg+ . ?        . I/Ddem+ V3  NSg/VPp NSg/I/J P  D   NSg/I/J/R/Dq J        NPl    P  D$+ N🅪Sg/VB+ P
 > me       I       hardly can     believe it       that         it       is  true     at    all          . Such  a   mad      act     as    that         man
 # NPr/ISg+ ISg/#r+ R      NPr/VXB VB      NPr/ISg+ NSg/I/C/Ddem NPr/ISg+ VL3 NSg/VB/J NSg/P NSg/I/J/C/Dq . NSg/I D/P NSg/VB/J NPr/VB+ R/C/P NSg/I/C/Ddem NPr/VB/J+
-> did  should make   us       all           think   . I       cannot come       down        now       as    I       am       tied up         in        some
-# VXPt VXB    NSg/VB NPr/IPl+ NSg/I/J/C/Dq+ NSg/VB+ . ISg/#r+ NSg/VB NSg/VBPp/P N🅪Sg/VB/J/P NSg/J/R/C R/C/P ISg/#r+ NPr/VB/J VP/J NSg/VB/J/P NPr/J/R/P I/J/R/Dq
-> very important business and  cannot get    mixed up         in        this   thing now       . If    there is
-# J/R  J         N🅪Sg/J+  VB/C NSg/VB NSg/VB VP/J  NSg/VB/J/P NPr/J/R/P I/Ddem NSg+  NSg/J/R/C . NSg/C R+    VL3
+> did  should make   us       all           think   . I       cannot  come       down        now       as    I       am       tied up         in        some
+# VXPt VXB    NSg/VB NPr/IPl+ NSg/I/J/C/Dq+ NSg/VB+ . ISg/#r+ NSg/VXB NSg/VBPp/P N🅪Sg/VB/J/P NSg/J/R/C R/C/P ISg/#r+ NPr/VB/J VP/J NSg/VB/J/P NPr/J/R/P I/J/R/Dq
+> very important business and  cannot  get    mixed up         in        this   thing now       . If    there is
+# J/R  J         N🅪Sg/J+  VB/C NSg/VXB NSg/VB VP/J  NSg/VB/J/P NPr/J/R/P I/Ddem NSg+  NSg/J/R/C . NSg/C R+    VL3
 > anything  I       can     do  a   little     later let     me       know   in        a   letter  by      Edgar . I       hardly know
 # NSg/I/VB+ ISg/#r+ NPr/VXB VXB D/P NPr/I/J/Dq JC    NSg/VBP NPr/ISg+ NSg/VB NPr/J/R/P D/P NSg/VB+ NSg/J/P NPr+  . ISg/#r+ R      NSg/VB
 > where   I       am       when    I       hear about a    thing like         this    and  am       completely knocked down

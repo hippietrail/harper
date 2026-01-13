@@ -5516,8 +5516,8 @@
 # VP/J      NSg/P NSg/C VB/C NSg/VBP NSg/VB/J P    D   NSg/VB/J+ . NSg/VB+ . NPr/C IPl+ VXB   NSg/VB .
 >
 #
-> “ The trial     cannot proceed , ” said the King      in        a   very grave     voice   , “ until all          the
-# . D+  NSg/VB/J+ NSg/VB VB      . . VP/J D   NPr/VB/J+ NPr/J/R/P D/P J/R  NSg/VB/J+ NSg/VB+ . . C/P   NSg/I/J/C/Dq D
+> “ The trial     cannot  proceed , ” said the King      in        a   very grave     voice   , “ until all          the
+# . D+  NSg/VB/J+ NSg/VXB VB      . . VP/J D   NPr/VB/J+ NPr/J/R/P D/P J/R  NSg/VB/J+ NSg/VB+ . . C/P   NSg/I/J/C/Dq D
 > jurymen are back     in        their proper places  — all          , ” he       repeated with great emphasis ,
 # NPl     VB  NSg/VB/J NPr/J/R/P D$+   NSg/J  NPl/V3+ . NSg/I/J/C/Dq . . NPr/ISg+ VP/J     P    NSg/J NSg+     .
 > looking hard     at    Alice as    he       said so          .

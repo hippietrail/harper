@@ -5,10 +5,26 @@ use crate::{
     spell::Dictionary,
 };
 
-static IRREGULAR: &[(&str, &str)] = &[("don't", "doesn't"), ("have", "has"), ("haven't", "hasn't")];
 static NON_MODAL_AUX: &[&str] = &[
     "do", "don't", "does", "doesn't", "have", "has", "haven't", "hasn't", "dont", "doesnt",
     "havent", "hasnt",
+];
+static IRREGULAR: &[(&str, &str)] = &[("don't", "doesn't"), ("have", "has"), ("haven't", "hasn't")];
+static SUBJUNCTIVE: &[&str] = &[
+    // "if" and "that" can take the subjunctive mood: "if he go", "that he go" - as in the US constitution
+    // "if" TODO: "if" is more complicated to support than "that"
+    "that",
+    // Verbs that take the subjunctive mood can omit the "that":
+    "demanded",
+    "demanding",
+    "insisted",
+    "insisting",
+    "recommended",
+    "recommending",
+    "requested",
+    "requesting",
+    "suggested",
+    "suggesting",
 ];
 
 pub struct PronounVerbAgreement<D> {
@@ -169,25 +185,27 @@ where
         let pron_tok = &toks[0];
         let is_3psg = pron_tok.kind.is_third_person_singular_pronoun();
 
-        if is_3psg
-            && let Some((before, _)) = ctx
+        if let Some((before, _)) = ctx
             && let [.., prev_word_tok, ws_tok] = before
+            && ws_tok.kind.is_whitespace()
         {
-            let is_exempt = ws_tok.kind.is_whitespace()
-                // Don't flag "can he go", "does he go", etc.
-                && (prev_word_tok.kind.is_auxiliary_verb()
+            let is_exmpt = if is_3psg {
+                prev_word_tok.kind.is_auxiliary_verb()
                     || prev_word_tok
                         .span
                         .get_content(src)
-                        .eq_any_ignore_ascii_case_str(&[
-                            // Note: "if he go" etc. may sound archaic or wrong to us but is in the US constitution
-                            // "if",
-                            "that",
-                            // Some words make a following "that" optional:
-                            "insisted",
-                            "suggested",
-                        ]));
-            if is_exempt {
+                        .eq_any_ignore_ascii_case_str(SUBJUNCTIVE)
+            } else {
+                // Clause structure: (... in you) is ... ≠ you is
+                // Look for "true" prepositions, not ones that are more like adverbial particles
+                prev_word_tok.kind.is_preposition()
+                    && !prev_word_tok
+                        .span
+                        .get_content(src)
+                        .eq_ignore_ascii_case_str("up")
+            };
+
+            if is_exmpt {
                 return None;
             }
         }
@@ -583,6 +601,30 @@ mod lints {
     fn false_positive_he_donned() {
         assert_no_lints(
             "He donned his heavy oilskins and descended the winding staircase, his boots echoing in the hollow tower.",
+            PronounVerbAgreement::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn false_positive_he_cannot() {
+        assert_no_lints(
+            "Surely, he cannot offer the same sum as the developers.",
+            PronounVerbAgreement::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn false_positive_insisting_she_return() {
+        assert_no_lints(
+            "Am I the asshole for insisting she return the dress?",
+            PronounVerbAgreement::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn false_positive_pride_in_you_is() {
+        assert_no_lints(
+            "It’s also important to recognize that your family's pride in you is a genuine reflection of your value.",
             PronounVerbAgreement::new(FstDictionary::curated()),
         );
     }
