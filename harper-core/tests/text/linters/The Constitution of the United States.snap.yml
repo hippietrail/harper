@@ -22,7 +22,7 @@ Message: |
 
 
 
-Lint:    WordChoice (127 priority)
+Lint:    Style (127 priority)
 Message: |
        5 | **We the People** of the United States, in Order to form a more perfect Union,
          |                                                            ^~~~~~~~~~~~ This is not an error, but an inflected form of this adjective also exists
