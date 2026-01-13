@@ -2,7 +2,7 @@
 	"name": "harper",
 	"displayName": "Harper - Grammar / Spell Checking",
 	"description": "The grammar checker for developers",
-	"version": "1.4.0",
+	"version": "1.4.1",
 	"private": true,
 	"author": "Elijah Potter",
 	"publisher": "elijah-potter",
@@ -995,6 +995,12 @@
 					"default": true,
 					"description": "Provides a stronger word choice by replacing `very good` with `excellent` for clarity and emphasis."
 				},
+				"harper.linters.ExpandAlloc": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Expands the abbreviation `alloc` to the full word `allocate` or `allocation` for clarity."
+				},
 				"harper.linters.ExpandArgument": {
 					"scope": "resource",
 					"type": "boolean",
@@ -1019,6 +1025,12 @@
 					"default": true,
 					"description": "Expands the abbreviation `deps` to the full word `dependencies` for clarity."
 				},
+				"harper.linters.ExpandDeref": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Expands the abbreviation `deref` to the full word `dereference` for clarity."
+				},
 				"harper.linters.ExpandForward": {
 					"scope": "resource",
 					"type": "boolean",
@@ -1042,6 +1054,12 @@
 					"type": "boolean",
 					"default": true,
 					"description": "Expands the abbreviation `param` to the full word `parameter` for clarity."
+				},
+				"harper.linters.ExpandPointer": {
+					"scope": "resource",
+					"type": "boolean",
+					"default": true,
+					"description": "Expands the abbreviation `ptr` to the full word `pointer` for clarity."
 				},
 				"harper.linters.ExpandStandardInputAndOutput": {
 					"scope": "resource",
