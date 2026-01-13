@@ -48,12 +48,7 @@
 		"description": "When referring to provinces, territories, and cities in Canada, make sure to treat them as a proper noun."
 	},
 	"Laos": {
-		"canonical": [
-			"La Mam",
-			"Luang Namtha",
-			"Luang Prabang",
-			"Xam Neua"
-		],
+		"canonical": ["La Mam", "Luang Namtha", "Luang Prabang", "Xam Neua"],
 		"description": "When referring to provinces and cities in Laos, make sure to treat them as a proper noun."
 	},
 	"Malaysia": {
