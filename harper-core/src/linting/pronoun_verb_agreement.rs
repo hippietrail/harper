@@ -189,7 +189,7 @@ where
             && let [.., prev_word_tok, ws_tok] = before
             && ws_tok.kind.is_whitespace()
         {
-            let is_exmpt = if is_3psg {
+            let is_exempt = if is_3psg {
                 prev_word_tok.kind.is_auxiliary_verb()
                     || prev_word_tok
                         .span
@@ -205,7 +205,7 @@ where
                         .eq_ignore_ascii_case_str("up")
             };
 
-            if is_exmpt {
+            if is_exempt {
                 return None;
             }
         }
@@ -625,6 +625,31 @@ mod lints {
     fn false_positive_pride_in_you_is() {
         assert_no_lints(
             "It’s also important to recognize that your family's pride in you is a genuine reflection of your value.",
+            PronounVerbAgreement::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn false_positive_she_sought() {
+        assert_no_lints(
+            "She sought out Mrs. Hawthorne, the village’s oldest resident, a woman known for her vast knowledge of local history and her unsettlingly accurate intuition.",
+            PronounVerbAgreement::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    #[ignore = "requires ditransitive verb handling"]
+    fn false_positive_lose_you_points() {
+        assert_no_lints(
+            "I admire your dedication to consistently drafting players who are actively trying to lose you points.",
+            PronounVerbAgreement::new(FstDictionary::curated()),
+        );
+    }
+
+    #[test]
+    fn false_positive_she_hung_up() {
+        assert_no_lints(
+            "When I reiterated the conditions I'd previously set, she hung up on me.",
             PronounVerbAgreement::new(FstDictionary::curated()),
         );
     }
