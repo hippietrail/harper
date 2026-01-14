@@ -26,6 +26,9 @@ static SUBJUNCTIVE: &[&str] = &[
     "suggested",
     "suggesting",
 ];
+static DITRANSITIVE: &[&str] = &[
+    "give", "gave", "given", "gives", "giving", "lose", "lost", "loses", "losing",
+];
 
 pub struct PronounVerbAgreement<D> {
     expr: Box<dyn Expr>,
@@ -39,7 +42,7 @@ where
     pub fn new(dict: D) -> Self {
         // TODO: allowing "you" leads to false positives:
         // "8 years to give you rewards", "all I can do is give you examples"
-        let non_3p_sing_pres_pronoun_with_3p_sing_pres_verb = SequenceExpr::default()
+        let non_3p_sing_pres_pron_with_3p_sing_pres_verb = SequenceExpr::default()
             .then_kind_both_but_not(
                 (
                     TokenKind::is_personal_pronoun,
@@ -58,7 +61,7 @@ where
         // boxes, does, drops, flies, gets, goes, likes, site, wakes
         // .then_kind_where(|k| k.is_verb_third_person_singular_present_form() && !k.is_plural_noun());
 
-        let third_person_sing_pres_pronoun = |t: &Token, _: &[char]| {
+        let third_person_sing_pres_pron = |t: &Token, _: &[char]| {
             t.kind.is_subject_pronoun()
                 && !t.kind.is_object_pronoun()
                 && t.kind.is_personal_pronoun()
@@ -80,10 +83,10 @@ where
         Self {
             expr: Box::new(FirstMatchOf::new(vec![
                 // One Expr for the "I walks" type:
-                Box::new(non_3p_sing_pres_pronoun_with_3p_sing_pres_verb),
+                Box::new(non_3p_sing_pres_pron_with_3p_sing_pres_verb),
                 // Two Expr's for the "he walk" type:
                 Box::new(
-                    SequenceExpr::with(third_person_sing_pres_pronoun)
+                    SequenceExpr::with(third_person_sing_pres_pron)
                         .t_ws()
                         .then(verb_lemma),
                 ),
@@ -185,24 +188,24 @@ where
         let pron_tok = &toks[0];
         let is_3psg = pron_tok.kind.is_third_person_singular_pronoun();
 
+        let verb_tok = toks.last()?;
+
         if let Some((before, _)) = ctx
             && let [.., prev_word_tok, ws_tok] = before
             && ws_tok.kind.is_whitespace()
         {
+            let prev_word = prev_word_tok.span.get_content(src);
             let is_exempt = if is_3psg {
                 prev_word_tok.kind.is_auxiliary_verb()
-                    || prev_word_tok
-                        .span
-                        .get_content(src)
-                        .eq_any_ignore_ascii_case_str(SUBJUNCTIVE)
-            } else {
+                    || prev_word.eq_any_ignore_ascii_case_str(SUBJUNCTIVE)
+            } else if pron_tok.kind.is_subject_pronoun() {
                 // Clause structure: (... in you) is ... ≠ you is
                 // Look for "true" prepositions, not ones that are more like adverbial particles
-                prev_word_tok.kind.is_preposition()
-                    && !prev_word_tok
-                        .span
-                        .get_content(src)
-                        .eq_ignore_ascii_case_str("up")
+                prev_word_tok.kind.is_preposition() && !prev_word.eq_ignore_ascii_case_str("up")
+                    // When the verb is ditransitive, the pronoun is object case, the verb position is actually a noun
+                    || (prev_word.eq_any_ignore_ascii_case_str(DITRANSITIVE) && verb_tok.kind.is_noun())
+            } else {
+                false
             };
 
             if is_exempt {
@@ -210,7 +213,6 @@ where
             }
         }
 
-        let verb_tok = toks.last()?;
         let verb_span = verb_tok.span;
         let verb_chars = verb_tok.span.get_content(src);
         let verb_str = verb_tok.span.get_content_string(src);
@@ -638,7 +640,6 @@ mod lints {
     }
 
     #[test]
-    #[ignore = "requires ditransitive verb handling"]
     fn false_positive_lose_you_points() {
         assert_no_lints(
             "I admire your dedication to consistently drafting players who are actively trying to lose you points.",
