@@ -85,6 +85,14 @@ impl SequenceExpr {
         Self::default().then(expr)
     }
 
+    // Match an [expression](Expr) where the token kind satisfies a predicate.
+    pub fn with_kind_where<F>(pred: F) -> Self
+    where
+        F: Fn(&TokenKind) -> bool + Send + Sync + 'static,
+    {
+        Self::default().then_kind_where(pred)
+    }
+
     // Single token methods
 
     /// Construct a new sequence with an [`AnyPattern`] at the beginning of the operation list.

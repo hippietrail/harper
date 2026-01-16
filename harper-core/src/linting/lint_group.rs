@@ -149,6 +149,7 @@ use super::pronoun_contraction::PronounContraction;
 use super::pronoun_inflection_be::PronounInflectionBe;
 use super::pronoun_knew::PronounKnew;
 use super::pronoun_verb_agreement::PronounVerbAgreement;
+use super::pronoun_verb_combos::PronounVerbCombos;
 use super::proper_noun_capitalization_linters;
 use super::quantifier_needs_of::QuantifierNeedsOf;
 use super::quantifier_numeral_conflict::QuantifierNumeralConflict;
@@ -533,6 +534,7 @@ impl LintGroup {
         insert_struct_rule!(PronounContraction, true);
         insert_expr_rule!(PronounInflectionBe, true);
         insert_expr_rule!(PronounKnew, true);
+        insert_expr_rule!(PronounVerbCombos, true);
         insert_expr_rule!(QuantifierNeedsOf, true);
         insert_expr_rule!(QuantifierNumeralConflict, true);
         insert_expr_rule!(QuiteQuiet, true);

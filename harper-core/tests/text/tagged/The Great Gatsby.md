@@ -289,7 +289,7 @@
 > particular reason   , and  then      drifted here and  there unrestfully wherever people
 # NSg/J+     N🅪Sg/VB+ . VB/C NSg/J/R/C VP/J    J/R  VB/C R+    R           C        NPl/VB+
 > played polo  and  were    rich     together . This    was a   permanent move   , said Daisy over
-# VP/J   NPrᴹ+ VB/C NSg/VPt NPr/VB/J J        . I/Ddem+ VPt D/P NSg/VB/J  NSg/VB . VP/J NPr+  NSg/J/P
+# VP/J   NPrᴹ+ VB/C NSg/VPt NPr/VB/J J        . I/Ddem+ VPt D/P NSg/J     NSg/VB . VP/J NPr+  NSg/J/P
 > the telephone , but     I       didn’t believe it       — I       had no       sight    into Daisy’s heart    , but     I
 # D+  NSg/VB+   . NSg/C/P ISg/#r+ VXPt   VB      NPr/ISg+ . ISg/#r+ VP  NSg/Dq/P N🅪Sg/VB+ P    NPr$    N🅪Sg/VB+ . NSg/C/P ISg/#r+
 > felt      that         Tom     would drift  on  forever seeking , a   little     wistfully , for   the

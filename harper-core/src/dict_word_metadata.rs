@@ -427,6 +427,16 @@ impl DictWordMetadata {
         self.pronoun.as_ref().and_then(|p| p.person)
     }
 
+    pub fn is_first_person_pronoun(&self) -> bool {
+        matches!(
+            self.pronoun,
+            Some(PronounData {
+                person: Some(Person::First),
+                ..
+            })
+        )
+    }
+
     pub fn is_first_person_plural_pronoun(&self) -> bool {
         matches!(
             self.pronoun,
