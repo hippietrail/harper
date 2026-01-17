@@ -53335,7 +53335,8 @@ Soros/Og            # financier George Soros
 SpaceX/Og
 Spotify/Og
 Stellantis/Og       # car company
-Subversion/Ng       # version control
+Substack/Og
+Subversion/Og       # version control
 Svelte/Og           # js framework
 SwiftUI/Og          # framework
 Systemd/Sg          # Linux system software
@@ -53544,6 +53545,7 @@ standup/Sg          # dictionaries prefer: stand-up
 strat/NgS           # gamer slang strategy
 subchannel/NgS
 subkey/NgS
+subreddit/NgS       # see Reddit
 supersequence/NgS
 tagset/NgS
 terraform/VGdS
