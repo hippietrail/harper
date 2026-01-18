@@ -13250,7 +13250,7 @@ assign's
 assignable/J
 assignation/NgS
 assigned/~JVtTU
-assignee/Ng
+assignee/NgS
 assigner/NgS
 assignment/~NgSr
 assignor/NgS
@@ -19533,13 +19533,12 @@ covariant/JNgS
 cove/~NgSV
 coven/~NSg
 covenant/~NgSVdG
-cover/~NwSJVGdrEU
+cover/~NwSJVGdrEUB
 cover's
 coverage/~Nmg
 coverall/NgS
 coverglass/Ng
-covering's
-coverings/~N9
+covering/NwgS
 coverlet/NgS
 covert/~JYpNSg
 covertness/Nmg
@@ -41483,6 +41482,7 @@ reconnoiter/VdGSN
 reconnoitre/VGdSN!@_₹
 reconstruct/~Vv
 reconstructed/~VJU
+reconstructible/J
 recontest/VSdG
 recorded/~VJU
 recorder/~NgS
@@ -47265,7 +47265,7 @@ superheat/VdSG
 superhero/~N0gS
 superheroes/~N9
 superhighway/NSg
-superhuman/~JN
+superhuman/~JNY
 superimpose/VGdS
 superimposition/Ng
 superintelligence/NwSg
@@ -53621,6 +53621,7 @@ camel case/Nmg
 car bomb/NgS
 car-bomb/V
 carbon-intensive/J
+carte blanche/Nmg
 cash flow/NgS
 cash-strapped/J
 CD-ROM/NgS
