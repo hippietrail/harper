@@ -40585,6 +40585,7 @@ pulchritudinous/J
 pule/NSVGd
 pull/~VGd>SNgZ
 pullback/NgS
+pulldown/NgS
 puller/NgS
 pullet/NSg
 pulley/~NSgV
@@ -50031,6 +50032,7 @@ unaesthetic/J
 unaffected/J
 unaffordable/J
 unalive/NgSVdGJ
+unallocated/J
 unalterably/Ry
 unambitious/J
 unanimity/Ng
@@ -53031,6 +53033,7 @@ DuckDuckGo/Og       # search engine
 EBITDA/N            # earnings before interest, taxes, depreciation, and amortization
 ECMA/Og             # European Computer Manufacturers Association
 EEA/O               # European Economic Area
+EFI/Og              # Extensible Firmware Interface
 EGR/                # exhaust gas recirculation
 EMR/NOSg
 EOF/NgS             # end of file
@@ -54155,6 +54158,7 @@ melt down/V/
 pay out/V/
 pick up/V/
 plug in/V/
+pull down/V/
 push back/V/
 roll back/V/
 roll out/V/
