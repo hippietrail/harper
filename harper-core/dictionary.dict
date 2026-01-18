@@ -15385,7 +15385,7 @@ bothersome/J
 botlike/J
 botnet/NSg
 bottle/~NSgVd>GZ
-bottleneck/~NgSV
+bottleneck/~NgSVdG
 bottler/Ng
 bottom/~NSgVdGJ
 bottomless/J
@@ -34211,7 +34211,7 @@ missioner/NSg
 missive/NgSJ
 misspeak/VGS
 misspell/VGdSz
-misspelling/~NgV
+misspelling/~NwgSV6
 misspend/VGS
 misspent/JV
 misspoke/V
@@ -50340,6 +50340,7 @@ ungenerous/J
 ungentle/J
 ungodly/J^
 ungraceful/JY
+ungrounded/J
 ungrudging/JY
 unguarded/J
 unguent/NSgJ
@@ -53552,6 +53553,7 @@ supersequence/NgS
 tagset/NgS
 terraform/VGdS
 timespan/NgS
+tmux/Og             # terminal multiplexer, uncapitalized proper noun
 trie/NgS            # data structure
 truthy/J
 unicast/JVSdG
@@ -53734,6 +53736,7 @@ gray wolves/9<
 Greco-Roman/J
 grey wolf/Ng!@_₹
 grey wolves/9!@_₹
+grid line/NgS       # Two-word spelling is in Collins and Merriam-Webster
 ground-based/J
 GT R/N
 GT-R/NgS
