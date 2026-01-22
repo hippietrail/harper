@@ -2681,7 +2681,7 @@ dependencies = [
 
 [[package]]
 name = "harper-asciidoc"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -2692,7 +2692,7 @@ dependencies = [
 
 [[package]]
 name = "harper-brill"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "harper-pos-utils",
  "lazy_static",
@@ -2727,7 +2727,7 @@ dependencies = [
 
 [[package]]
 name = "harper-comments"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "harper-core",
  "harper-html",
@@ -2761,7 +2761,7 @@ dependencies = [
 
 [[package]]
 name = "harper-core"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "ammonia",
  "bitflags 2.10.0",
@@ -2799,7 +2799,7 @@ dependencies = [
 
 [[package]]
 name = "harper-html"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -2810,7 +2810,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ink"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -2821,7 +2821,7 @@ dependencies = [
 
 [[package]]
 name = "harper-jjdescription"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -2832,7 +2832,7 @@ dependencies = [
 
 [[package]]
 name = "harper-literate-haskell"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "harper-comments",
  "harper-core",
@@ -2843,7 +2843,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ls"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -2873,7 +2873,7 @@ dependencies = [
 
 [[package]]
 name = "harper-pos-utils"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "burn",
  "burn-ndarray",
@@ -2891,7 +2891,7 @@ dependencies = [
 
 [[package]]
 name = "harper-python"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -2902,7 +2902,7 @@ dependencies = [
 
 [[package]]
 name = "harper-stats"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "chrono",
  "harper-core",
@@ -2913,7 +2913,7 @@ dependencies = [
 
 [[package]]
 name = "harper-thesaurus"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "hashbrown 0.16.1",
  "indexmap",
@@ -2924,7 +2924,7 @@ dependencies = [
 
 [[package]]
 name = "harper-tree-sitter"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "harper-core",
  "tree-sitter",
@@ -2943,7 +2943,7 @@ dependencies = [
 
 [[package]]
 name = "harper-typst"
-version = "1.4.1"
+version = "1.5.0"
 dependencies = [
  "harper-core",
  "itertools 0.14.0",
