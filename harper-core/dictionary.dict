@@ -52936,6 +52936,7 @@ AngularJS/Og
 Anker/Sg
 Anki/Og             # flashcard app
 Anthropic/Og        # AI company
+AppKit/Og           # macOS framework
 Archytas/Sg         # !! please check and comment !! we also have archytas
 Atlassian/Og        # Company behind Jira, Confluence, Bitbucket
 AutoGPT/Og
@@ -53209,6 +53210,7 @@ MapReduce/N
 Marchus/Sg
 Mbps                # megabits per second
 MediaWiki/Og        # the software Wikimedia runs on
+#Metal/Og           # 3D graphics API - not working yet due to canonical spelling bug
 Metasploit/ONSg
 Minecraft/Og
 Minhaj/OgS
@@ -53350,7 +53352,7 @@ Stellantis/Og       # car company
 Substack/Og
 Subversion/Og       # version control
 Svelte/Og           # js framework
-SwiftUI/Og          # framework
+SwiftUI/Og          # Apple framework
 Systemd/Sg          # Linux system software
 TARGET2/O           # RTGS system for the Eurozone
 TCP/JOgS            # internet protocol
@@ -53384,6 +53386,7 @@ Typst/Sg
 UAC                 # User Account Control (Windows)
 UDP/NOSg            # internet protocol
 UEFI/Og             # Unified Extensible Firmware Interface
+UIKit/Og            # Apple framework
 ULA/NgS             # uncommitted logic array
 URI/NSg             # uniform resource identifier
 UUID/NgS            # universal unique identifier
@@ -53405,7 +53408,7 @@ Vimeo/Og            # video platform
 VirtualBox/ONSg
 Vite/Sg
 Vue/Og              # framework
-Vulkan/Og
+Vulkan/Og           # 3D graphics API
 WAL/ONSg
 WASI/Sg
 WASM/Sg             # see WebAssembly
@@ -53530,6 +53533,7 @@ pdfTeX/Og           # Program, extension for TeX engine
 pentest/VSdG
 pentester/NSg       # penetration tester
 pentesting/NmgV6
+plist/NgS           # Apple property list
 postfix/NgSVdG
 pre/~PNV(           # !! please check and comment !! dictionaries only list prefix pre-
 preshared/J
