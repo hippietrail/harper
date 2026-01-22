@@ -404,8 +404,8 @@
 #
 > Proponents of classifying computer science  as    a   mathematical discipline argue
 # NPl        P  Nᴹ/Vg/J     NSg/VB+  N🅪Sg/VB+ R/C/P D/P J            NSg/VB+    VB
-> that         computer programs  are physical realizations of mathematical entities and
-# NSg/I/C/Ddem NSg/VB+  NPrPl/V3+ VB  NSg/J    NPl/NoAm     P  J            NPl      VB/C
+> that         computer programs  are physical realizations  of mathematical entities and
+# NSg/I/C/Ddem NSg/VB+  NPrPl/V3+ VB  NSg/J    NPl/Comm/NoAm P  J            NPl      VB/C
 > programs  that          can     be      deductively reasoned through mathematical formal methods .
 # NPrPl/V3+ NSg/I/C/Ddem+ NPr/VXB NSg/VXB R           VP/J     NSg/J/P J            NSg/J  NPl/V3+ .
 > Computer scientists Edsger W. Dijkstra and  Tony  Hoare regard  instructions for
@@ -674,8 +674,8 @@
 # NPl      . P     NSg/I/J/Dq NPl/V3+ . NSg/J  NPl/V3+   VB     N🅪Sg         P  NSg/I
 > designs as    complete  aircraft . Notable in        electrical and  electronic circuit
 # NPl/V3+ R/C/P NSg/VB/J+ NSgPl+   . J       NPr/J/R/P NSg/J      VB/C J+         NSg/VB+
-> design   are SPICE    , as    well       as    software for   physical realization of new   ( or
-# N🅪Sg/VB+ VB  N🅪Sg/VB+ . R/C/P NSg/VB/J/R R/C/P Nᴹ       R/C/P NSg/J    NSg/NoAm    P  NSg/J . NPr/C
+> design   are SPICE    , as    well       as    software for   physical realization   of new   ( or
+# N🅪Sg/VB+ VB  N🅪Sg/VB+ . R/C/P NSg/VB/J/R R/C/P Nᴹ       R/C/P NSg/J    NSg/Comm/NoAm P  NSg/J . NPr/C
 > modified ) designs . The latter includes essential design   software for   integrated
 # NSg/VP/J . NPl/V3+ . D   NSg/J  NPl/V3   NSg/J+    N🅪Sg/VB+ Nᴹ+      R/C/P VP/J
 > circuits .
@@ -784,8 +784,8 @@
 # NSg/VB/J . N🅪Sg+        . NPr/J/R/P NSg/VB+  Nᴹ+        NPr/VXB NSg/VXB VP/J   P  D   N🅪Sg/VB P  NPr  ?
 > Johnson and  Frederick P. Brooks   Jr     . , members of the Machine Organization
 # NPr     VB/C NPr+      ?  NPrPl/V3 NSg/J+ . . NPl/V3  P  D+  NSg/VB+ N🅪Sg+
-> department in        IBM's main      research center    in        1959 .
-# NSg+       NPr/J/R/P NPr$  NSg/VB/J+ Nᴹ/VB+   NSg/VB/J+ NPr/J/R/P #    .
+> department in        IBM's main      research center       in        1959 .
+# NSg+       NPr/J/R/P NPr$  NSg/VB/J+ Nᴹ/VB+   NSg/VB/J/Am+ NPr/J/R/P #    .
 >
 #
 >              Concurrent , parallel and  distributed computing
