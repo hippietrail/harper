@@ -276,7 +276,7 @@ check-rust: auditdictionary
   cargo fmt -- --check
   cargo clippy -- -Dwarnings -D clippy::dbg_macro -D clippy::needless_raw_string_hashes
 
-  if command -v cargo-hack >/dev/null 2>&1; then
+  if cargo --list | grep -q '^ *hack$'; then
     cargo hack check --each-feature
   else
     echo "\n⚠️  cargo-hack not found. Install with 'cargo install cargo-hack' for complete feature testing.\n"
