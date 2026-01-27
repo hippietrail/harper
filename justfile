@@ -278,8 +278,10 @@ check-rust: auditdictionary
 
   if cargo --list | grep -q '^ *hack$'; then
     cargo hack check --each-feature
+  elif [[ "${DISABLE_CARGO_HACK:-0}" -eq 1 ]]; then
+    echo "ℹ️  cargo-hack disabled via DISABLE_CARGO_HACK=1"
   else
-    echo "\n⚠️  cargo-hack not found. Install with 'cargo install cargo-hack' for complete feature testing.\n"
+    echo "\n⚠️  cargo-hack not found. Install with 'cargo install cargo-hack' or set DISABLE_CARGO_HACK=1 to skip.\n"
   fi
 
 # Perform format and type checking.
