@@ -295,7 +295,8 @@ check-rust: auditdictionary
   elif [[ "${DISABLE_CARGO_HACK:-0}" -eq 1 ]]; then
     echo "ℹ️  cargo-hack disabled via DISABLE_CARGO_HACK=1"
   else
-    echo "\n⚠️  cargo-hack not found. Install with 'cargo install cargo-hack' or set DISABLE_CARGO_HACK=1 to skip.\n"
+    echo "\n❌ cargo-hack not found. Install with 'cargo install cargo-hack' or set DISABLE_CARGO_HACK=1 to skip.\n" >&2
+    exit 1
   fi
 
 # Perform format and type checking.
