@@ -160,6 +160,7 @@ use super::quote_spacing::QuoteSpacing;
 use super::redundant_acronyms::RedundantAcronyms;
 use super::redundant_additive_adverbs::RedundantAdditiveAdverbs;
 use super::regionalisms::Regionalisms;
+use super::relative_clause_noun_verb_agreement::RelativeClauseNounVerbAgreement;
 use super::repeated_words::RepeatedWords;
 use super::respond::Respond;
 use super::right_click::RightClick;
@@ -550,6 +551,7 @@ impl LintGroup {
         insert_struct_rule!(QuoteSpacing, true);
         insert_expr_rule!(RedundantAcronyms, true);
         insert_expr_rule!(RedundantAdditiveAdverbs, true);
+        insert_expr_rule!(RelativeClauseNounVerbAgreement, true);
         insert_struct_rule!(RepeatedWords, true);
         insert_expr_rule!(Respond, true);
         insert_expr_rule!(RightClick, true);
