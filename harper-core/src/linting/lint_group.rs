@@ -16,6 +16,7 @@ use super::a_while::AWhile;
 use super::addicting::Addicting;
 use super::adjective_double_degree::AdjectiveDoubleDegree;
 use super::adjective_of_a::AdjectiveOfA;
+use super::adverb_verb_lemma::AdverbVerbLemma;
 use super::after_later::AfterLater;
 use super::all_intents_and_purposes::AllIntentsAndPurposes;
 use super::allow_to::AllowTo;
@@ -417,6 +418,7 @@ impl LintGroup {
         insert_expr_rule!(Addicting, true);
         insert_expr_rule!(AdjectiveDoubleDegree, true);
         insert_struct_rule!(AdjectiveOfA, true);
+        insert_expr_rule!(AdverbVerbLemma, true);
         insert_expr_rule!(AfterLater, true);
         insert_expr_rule!(AllIntentsAndPurposes, true);
         insert_expr_rule!(AllowTo, true);

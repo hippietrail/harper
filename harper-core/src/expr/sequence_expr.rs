@@ -578,6 +578,7 @@ impl SequenceExpr {
     gen_then_from_is!(adverb);
     gen_then_from_is!(frequency_adverb);
     gen_then_from_is!(degree_adverb);
+    gen_then_from_is!(manner_adverb);
 
     // Determiners
 
