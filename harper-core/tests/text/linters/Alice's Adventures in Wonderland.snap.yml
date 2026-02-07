@@ -1,12 +1,3 @@
-Lint:    Capitalization (127 priority)
-Message: |
-       1 | # Alice’s Adventures in Wonderland
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Try to use title case in headings.
-Suggest:
-  - Replace with: “# Alice's Adventures in Wonderland”
-
-
-
 Lint:    Readability (127 priority)
 Message: |
        9 | Alice was beginning to get very tired of sitting by her sister on the bank, and
@@ -1323,6 +1314,16 @@ Message: |
 
 
 
+Lint:    Agreement (127 priority)
+Message: |
+     713 | flustered to tell you—all I know is, something comes at me like a
+     714 | Jack-in-the-box, and up I goes like a sky-rocket!”
+         |                           ^~~~ The form of the verb must agree in grammatical number with the pronoun.
+Suggest:
+  - Replace with: “go”
+
+
+
 Lint:    Spelling (63 priority)
 Message: |
      723 | minute or two, they began moving about again, and Alice heard the Rabbit say, “A
@@ -1529,15 +1530,6 @@ Suggest:
 
 
 
-Lint:    Capitalization (127 priority)
-Message: |
-     964 | “Come, my head’s free at last!” said Alice in a tone of delight, which changed
-         |           ^~~~~~ The canonical dictionary spelling is title case: `head's`.
-Suggest:
-  - Replace with: “head's”
-
-
-
 Lint:    Readability (127 priority)
 Message: |
      964 | “Come, my head’s free at last!” said Alice in a tone of delight, which changed
@@ -1700,16 +1692,6 @@ Message: |
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     1081 | the sky.
          | ~~~~~~~~ This sentence is 49 words long.
-
-
-
-Lint:    Capitalization (127 priority)
-Message: |
-    1127 | “Oh, there’s no use in talking to him,” said Alice desperately: “he’s perfectly
-         |                                                                  ^~~~ The canonical dictionary spelling is title case: `he's`.
-    1128 | idiotic!” And she opened the door and went in.
-Suggest:
-  - Replace with: “he's”
 
 
 
@@ -1916,16 +1898,6 @@ Message: |
 
 
 
-Lint:    Grammar (127 priority)
-Message: |
-    1379 | “I didn’t know it was your table,” said Alice; “it’s laid for a great many more
-         |                                                      ^~~~ Use the past participle `lain` instead of `laid` when using compound tenses or passive voice.
-    1380 | than three.”
-Suggest:
-  - Replace with: “lain”
-
-
-
 Lint:    Miscellaneous (31 priority)
 Message: |
     1415 | dropped, and the party sat silent for a minute, while Alice thought over all she
@@ -2091,15 +2063,6 @@ Message: |
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     1666 | bright flower-beds and the cool fountains.
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ This sentence is 53 words long.
-
-
-
-Lint:    Capitalization (127 priority)
-Message: |
-    1668 | ## CHAPTER VIII: The Queen’s Croquet-Ground
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Try to use title case in headings.
-Suggest:
-  - Replace with: “## CHAPTER VIII: The Queen's Croquet-Ground”
 
 
 
@@ -2605,6 +2568,16 @@ Suggest:
 
 
 
+Lint:    Agreement (127 priority)
+Message: |
+    2121 | “This here young lady,” said the Gryphon, “she wants for to know your history,
+    2122 | she do.”
+         |     ^~ The form of the verb must agree in grammatical number with the pronoun.
+Suggest:
+  - Replace with: “does”
+
+
+
 Lint:    Spelling (63 priority)
 Message: |
     2133 | These words were followed by a very long silence, broken only by an occasional
@@ -2967,16 +2940,6 @@ Message: |
     2306 | > “Will you walk a little faster?” said a whiting to a snail. “There’s a
          |                                                               ^ This quote has no termination.
     2307 | > porpoise close behind us, and he’s treading on my tail. See how eagerly the
-
-
-
-Lint:    Capitalization (127 priority)
-Message: |
-    2306 | > “Will you walk a little faster?” said a whiting to a snail. “There’s a
-    2307 | > porpoise close behind us, and he’s treading on my tail. See how eagerly the
-         |                                 ^~~~ The canonical dictionary spelling is title case: `he's`.
-Suggest:
-  - Replace with: “he's”
 
 
 
@@ -3815,15 +3778,6 @@ Message: |
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     2724 | sight, he said in a deep voice, “What are tarts made of?”
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ This sentence is 42 words long.
-
-
-
-Lint:    Capitalization (127 priority)
-Message: |
-    2745 | ## CHAPTER XII: Alice’s Evidence
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Try to use title case in headings.
-Suggest:
-  - Replace with: “## CHAPTER XII: Alice's Evidence”
 
 
 

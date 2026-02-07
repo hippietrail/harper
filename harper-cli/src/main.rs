@@ -7,14 +7,15 @@ use std::fs::File;
 use std::io::BufReader;
 use std::path::PathBuf;
 // use std::sync::Arc;
-use std::fs;
+use std::{fs, process};
 
 use anyhow::anyhow;
 use ariadne::{Color, Label, Report, ReportKind, Source};
 use clap::Parser;
 use dirs::{config_dir, data_local_dir};
 use harper_core::linting::LintGroup;
-use harper_core::parsers::MarkdownOptions;
+use harper_core::parsers::{IsolateEnglish, MarkdownOptions};
+use harper_core::weir::WeirLinter;
 use harper_core::{
     CharStringExt, Dialect, DictWordMetadata, OrthFlags, Span, TokenKind, TokenStringExt,
 };
@@ -31,8 +32,8 @@ use input::{
     single_input::{SingleInput, SingleInputOptionExt, SingleInputTrait},
 };
 
-mod annotate_tokens;
-use annotate_tokens::{Annotation, AnnotationType};
+mod annotate;
+use annotate::AnnotationType;
 
 mod lint;
 use crate::lint::lint;
@@ -59,6 +60,9 @@ enum Args {
         /// If omitted, `harper-cli` will run every rule.
         #[arg(long, value_delimiter = ',')]
         only: Option<Vec<String>>,
+        /// Overlapping lints are removed by default. This option disables that behavior.
+        #[arg(short = 'o', long)]
+        keep_overlapping_lints: bool,
         /// Specify the dialect.
         #[arg(short, long, default_value = Dialect::American.to_string())]
         dialect: Dialect,
@@ -68,6 +72,9 @@ enum Args {
         /// Path to the directory for file-local dictionaries.
         #[arg(short, long, default_value = data_local_dir().unwrap().join("harper-ls/file_dictionaries/").into_os_string())]
         file_dict_path: PathBuf,
+        /// Path to a Weirpack file to load. May be supplied multiple times.
+        #[arg(long, value_name = "WEIRPACK")]
+        weirpacks: Vec<SingleInput>,
     },
     /// Parse a provided document and print the detected symbols.
     Parse {
@@ -84,14 +91,17 @@ enum Args {
         #[arg(short, long)]
         include_newlines: bool,
     },
-    /// Parse a provided document and annotate its tokens.
-    AnnotateTokens {
+    /// Parse and annotate a provided document.
+    Annotate {
         /// The text or file you wish to parse. If not provided, it will be read from standard
         /// input.
         input: Option<SingleInput>,
-        /// How the tokens should be annotated.
+        /// How the document should be annotated.
         #[arg(short, long, value_enum, default_value_t = AnnotationType::Upos)]
         annotation_type: AnnotationType,
+        /// Attempt to detect and ignore non-English spans of text.
+        #[arg(short, long)]
+        isolate_english: bool,
     },
     /// Get the metadata associated with one or more words.
     Metadata {
@@ -185,6 +195,11 @@ enum Args {
         /// The text or file to analyze. If not provided, it will be read from standard input.
         input: Option<SingleInput>,
     },
+    /// Run the tests contained within a Weir file.
+    Test {
+        /// The location of the Weir file to test
+        input: PathBuf,
+    },
 }
 
 fn main() -> anyhow::Result<()> {
@@ -198,10 +213,12 @@ fn main() -> anyhow::Result<()> {
             count,
             ignore,
             only,
+            keep_overlapping_lints,
             dialect,
             user_dict_path,
             // TODO workspace_dict_path?
             file_dict_path,
+            weirpacks,
         } => {
             lint(
                 markdown_options,
@@ -211,7 +228,9 @@ fn main() -> anyhow::Result<()> {
                     count,
                     ignore,
                     only,
+                    keep_overlapping_lints,
                     dialect,
+                    weirpack_inputs: weirpacks,
                 },
                 user_dict_path,
                 // TODO workspace_dict_path?
@@ -249,8 +268,7 @@ fn main() -> anyhow::Result<()> {
 
             let mut report_builder = Report::build(
                 ReportKind::Custom("Spans", primary_color),
-                &input_identifier,
-                0,
+                (&input_identifier, 0..0),
             );
             let mut color = primary_color;
 
@@ -281,32 +299,39 @@ fn main() -> anyhow::Result<()> {
 
             Ok(())
         }
-        Args::AnnotateTokens {
+        Args::Annotate {
             input,
             annotation_type,
+            isolate_english,
         } => {
             // Try to read from standard input if `input` was not provided.
             let input = input.unwrap_or_read_from_stdin();
 
+            let parser = if isolate_english {
+                Box::new(IsolateEnglish::new(
+                    input.get_parser(markdown_options),
+                    &curated_dictionary,
+                ))
+            } else {
+                input.get_parser(markdown_options)
+            };
+
             // Load the file/text.
-            let (doc, source) = input.load(markdown_options, &curated_dictionary)?;
+            let (doc, source) = input.load_with_parser(&parser, &curated_dictionary)?;
 
             let input_identifier = input.get_identifier();
 
-            let mut report_builder = Report::build(
-                ReportKind::Custom("AnnotateTokens", Color::Blue),
-                &*input_identifier,
-                0,
-            );
-
-            report_builder = report_builder.with_labels(Annotation::iter_labels_from_document(
-                annotation_type,
-                &doc,
-                &input_identifier,
-            ));
-
-            let report = report_builder.finish();
-            report.print((&*input_identifier, Source::from(source)))?;
+            annotation_type
+                .build_report(
+                    &doc,
+                    &input_identifier,
+                    &annotation_type.get_title_with_tags(if isolate_english {
+                        &["Isolate english"]
+                    } else {
+                        &[]
+                    }),
+                )
+                .print((&*input_identifier, Source::from(source)))?;
 
             Ok(())
         }
@@ -906,6 +931,20 @@ fn main() -> anyhow::Result<()> {
             println!();
 
             Ok(())
+        }
+        Args::Test { input } => {
+            let weir_file = fs::read_to_string(input)?;
+            let mut linter = WeirLinter::new(&weir_file)?;
+
+            let failing_tests = linter.run_tests();
+
+            if failing_tests.is_empty() {
+                eprintln!("All tests pass!");
+                Ok(())
+            } else {
+                eprintln!("{:?}", failing_tests);
+                process::exit(1);
+            }
         }
     }
 }
