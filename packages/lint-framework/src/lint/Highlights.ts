@@ -1,4 +1,3 @@
-import Bowser from 'bowser';
 import type { VNode } from 'virtual-dom';
 import h from 'virtual-dom/h';
 import type { LintBox } from './Box';
@@ -117,20 +116,30 @@ export default class Highlights {
 			if (cpa != null) {
 				const hostStyle = host.style;
 
-				hostStyle.contain = 'layout';
 				hostStyle.position = 'absolute';
 				hostStyle.top = '0px';
 				hostStyle.left = '0px';
-				hostStyle.transform = `translate(${-cpa.x}px, ${-cpa.y}px)`;
 				hostStyle.inset = '0';
 				hostStyle.pointerEvents = 'none';
 				hostStyle.width = '0px';
 				hostStyle.height = '0px';
+				hostStyle.contain = 'none';
+				hostStyle.transform = 'none';
 			} else if (host.hasAttribute('style')) {
 				host.removeAttribute('style');
 			}
 
-			renderBox.render(this.renderTree(boxes));
+			renderBox.render(
+				this.renderTree(
+					boxes,
+					cpa
+						? {
+								x: cpa.x,
+								y: cpa.y,
+							}
+						: null,
+				),
+			);
 			updated.add(source);
 		}
 
@@ -153,8 +162,10 @@ export default class Highlights {
 		}
 	}
 
-	private renderTree(boxes: LintBox[]): VNode {
+	private renderTree(boxes: LintBox[], offset: { x: number; y: number } | null): VNode {
 		const elements = [];
+		const offsetX = offset?.x ?? 0;
+		const offsetY = offset?.y ?? 0;
 
 		for (const box of boxes) {
 			const boxEl = h(
@@ -164,7 +175,7 @@ export default class Highlights {
 						position: 'fixed',
 						left: '0px',
 						top: '0px',
-						transform: `translate(${box.x}px, ${box.y}px)`,
+						transform: `translate(${box.x - offsetX}px, ${box.y - offsetY}px)`,
 						width: `${box.width}px`,
 						height: `${box.height}px`,
 						pointerEvents: 'none',
@@ -288,7 +299,7 @@ function isContainingBlock(el: Element): boolean {
 	return false;
 }
 
-export function supportsCustomHighlights(ua = navigator.userAgent) {
+export function supportsCustomHighlights() {
 	const root = globalThis.document?.documentElement;
 	const disableFlag =
 		root?.getAttribute?.('data-harper-disable-css-highlights') === 'true' ||
@@ -300,9 +311,6 @@ export function supportsCustomHighlights(ua = navigator.userAgent) {
 	if (isAutomated) {
 		return false;
 	}
-	const parser = Bowser.getParser(ua);
-	const isFirefox = parser.getBrowserName(true) === 'firefox';
-	if (isFirefox) return false;
 	if (!('CSS' in window) || typeof CSS.supports !== 'function') return false;
 	const supportsSelector = CSS.supports('selector(::highlight(__x))');
 	const reg = CSS?.highlights as any;

@@ -290,6 +290,16 @@ pub fn lint_group() -> LintGroup {
             "`Invest` is traditionally followed by 'in,' not `into.`",
             LintKind::Usage
         ),
+        "LayoutVerb" => (
+            &[
+                ("layouted", "laid out"),
+                ("layouting", "laying out"),
+                // Note "layout" and "layouts" are valid as nouns
+            ],
+            "`layouted` and `layouting` are non-standard verb forms. Use `laid out` and `laying out` instead.",
+            "Flags nonstandard verb forms of `layout` (like `layouted` and `layouting`) and suggests the standard English verb forms (`laid out` and `laying out`).",
+            LintKind::Usage
+        ),
 
         // General litotes (double negatives) → direct positive suggestions
         "LitotesDirectPositive" => (
@@ -364,6 +374,17 @@ pub fn lint_group() -> LintGroup {
             "The correct plural is `passersby` or `passers-by`.",
             "Corrects `passerbys` and `passer-bys` to `passersby` or `passers-by`.",
             LintKind::Grammar
+        ),
+        "PeekBehindTheCurtain" => (
+            &[
+                ("peak behind the curtain", "peek behind the curtain"),
+                ("peaked behind the curtain", "peeked behind the curtain"),
+                ("peaking behind the curtain", "peeking behind the curtain"),
+                ("peaks behind the curtain", "peeks behind the curtain"),
+            ],
+            "The correct idiom is `peek behind the curtain`.",
+            "Corrects `peak behind the curtain` to `peek behind the curtain`.",
+            LintKind::Eggcorn
         ),
         "Piggyback" => (
             &[
@@ -532,6 +553,17 @@ pub fn lint_group() -> LintGroup {
             "Use `nervous wreck` when referring to a person who is extremely anxious or upset. `Nerve wreck` is non-standard but sometimes used for events or situations.",
             "Suggests using `nervous wreck` when referring to a person's emotional state.",
             LintKind::Eggcorn
+        ),
+        "NotOnly" => (
+            &[
+                (&["no only are"], &["not only are"]),
+                (&["no only is"], &["not only is"]),
+                (&["no only was"], &["not only was"]),
+                (&["no only were"], &["not only were"]),
+            ],
+            "Use `not only` instead of `no only` in this expression.",
+            "Corrects `no only` to `not only` before forms of `to be`.",
+            LintKind::Grammar
         ),
         "RiseTheQuestion" => (
             &[
