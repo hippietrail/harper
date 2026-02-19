@@ -15,8 +15,7 @@ impl Default for SemicolonApostrophe {
     fn default() -> Self {
         Self {
             expr: Box::new(
-                SequenceExpr::default()
-                    .then_any_word()
+                SequenceExpr::any_word()
                     .then_semicolon()
                     .then_word_set(&CONTRACTION_AND_POSSESSIVE_ENDINGS),
             ),

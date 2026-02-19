@@ -23,12 +23,7 @@ impl Default for Everyday {
         ]);
 
         let bad_before_every_day = All::new(vec![
-            Box::new(
-                SequenceExpr::default()
-                    .then_any_word()
-                    .t_ws()
-                    .then(every_day.clone()),
-            ),
+            Box::new(SequenceExpr::any_word().t_ws().then(every_day.clone())),
             Box::new(|tok: &Token, _src: &[char]| {
                 // "this" and "that" are both determiners and pronouns
                 tok.kind.is_determiner() && !tok.kind.is_pronoun()

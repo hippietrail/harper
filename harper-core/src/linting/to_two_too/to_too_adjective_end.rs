@@ -14,7 +14,7 @@ pub struct ToTooAdjectiveEnd {
 
 impl Default for ToTooAdjectiveEnd {
     fn default() -> Self {
-        let expr = SequenceExpr::optional(SequenceExpr::default().then_any_word().t_ws())
+        let expr = SequenceExpr::optional(SequenceExpr::any_word().t_ws())
             .t_aco("to")
             .t_ws()
             .then_kind_is_but_is_not_except(
@@ -23,7 +23,7 @@ impl Default for ToTooAdjectiveEnd {
                 &["standard"],
             )
             .then_optional(WhitespacePattern)
-            .then_optional(SequenceExpr::default().then_any_word())
+            .then_optional(SequenceExpr::any_word())
             .then_optional(WhitespacePattern)
             .then_optional(SequenceExpr::default().then_punctuation());
 

@@ -41,8 +41,7 @@ impl Default for ModalOf {
             Lrc::new(SequenceExpr::with(modal_of.clone()).then(ws_course.clone()));
 
         let anyword_might_of = Lrc::new(
-            SequenceExpr::default()
-                .then_any_word()
+            SequenceExpr::any_word()
                 .then_whitespace()
                 .t_aco("might")
                 .then_whitespace()

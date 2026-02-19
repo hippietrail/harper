@@ -25,10 +25,7 @@ impl MergeableWords {
         + 'static,
     ) -> Self {
         Self {
-            inner: SequenceExpr::default()
-                .then_any_word()
-                .t_ws_h()
-                .then_any_word(),
+            inner: SequenceExpr::any_word().t_ws_h().then_any_word(),
             dict: FstDictionary::curated(),
             predicate: Box::new(predicate),
         }
