@@ -38,18 +38,18 @@ impl Default for SimplePastToPastParticiple {
                     .then_verb_simple_past_form(),
                 ),
                 // negative: exceptions
-                Box::new(SequenceExpr::default().then_unless(FirstMatchOf::new(vec![
-                        Box::new(
-                            SequenceExpr::with(InflectionOfBe::default())
-                                .t_any()
-                                .t_aco("woke"),
-                        ),
-                        Box::new(
-                            SequenceExpr::aco("id")
-                                .t_any()
-                                .then_word_set(&["came", "did", "went"]),
-                        ),
-                    ]))),
+                Box::new(SequenceExpr::unless(FirstMatchOf::new(vec![
+                    Box::new(
+                        SequenceExpr::with(InflectionOfBe::default())
+                            .t_any()
+                            .t_aco("woke"),
+                    ),
+                    Box::new(
+                        SequenceExpr::aco("id")
+                            .t_any()
+                            .then_word_set(&["came", "did", "went"]),
+                    ),
+                ]))),
             ])),
         }
     }

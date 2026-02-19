@@ -26,12 +26,12 @@ where
 
         let additional_req = SequenceExpr::anything().t_any().t_any().t_any().then_noun();
 
-        let exceptions = SequenceExpr::default()
-            .then_unless(|tok: &Token, _: &[char]| tok.kind.is_demonstrative_determiner())
-            .t_any()
-            .then_unless(WordSet::new(&["flags", "checks", "catches", "you"]))
-            .t_any()
-            .then_unless(WordSet::new(&["form", "go"]));
+        let exceptions =
+            SequenceExpr::unless(|tok: &Token, _: &[char]| tok.kind.is_demonstrative_determiner())
+                .t_any()
+                .then_unless(WordSet::new(&["flags", "checks", "catches", "you"]))
+                .t_any()
+                .then_unless(WordSet::new(&["form", "go"]));
 
         Self {
             expr: Box::new(All::new(vec![

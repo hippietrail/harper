@@ -28,7 +28,7 @@ impl Default for WayTooAdjective {
 
         let expr = All::new(vec![
             Box::new(base),
-            Box::new(SequenceExpr::default().then_unless(exceptions)),
+            Box::new(SequenceExpr::unless(exceptions)),
         ]);
 
         Self {

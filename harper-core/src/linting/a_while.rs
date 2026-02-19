@@ -33,8 +33,7 @@ impl Default for AWhile {
             ),
         );
 
-        let b = SequenceExpr::default()
-            .then_unless(UPOSSet::new(&[UPOS::VERB]))
+        let b = SequenceExpr::unless(UPOSSet::new(&[UPOS::VERB]))
             .t_ws()
             .t_aco("awhile");
 
