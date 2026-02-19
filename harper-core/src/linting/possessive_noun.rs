@@ -17,8 +17,7 @@ where
     D: Dictionary,
 {
     pub fn new(dict: D) -> Self {
-        let expr = SequenceExpr::default()
-            .then(UPOSSet::new(&[UPOS::DET, UPOS::PROPN]))
+        let expr = SequenceExpr::with(UPOSSet::new(&[UPOS::DET, UPOS::PROPN]))
             .t_ws()
             .then_kind_is_but_is_not(TokenKind::is_plural_nominal, TokenKind::is_singular_nominal)
             .t_ws()

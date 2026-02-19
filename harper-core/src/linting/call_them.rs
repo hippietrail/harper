@@ -19,8 +19,7 @@ impl Default for CallThem {
         let post_exception = Arc::new(SequenceExpr::default().t_ws().then_word_set(&["if", "it"]));
 
         map.insert(
-            SequenceExpr::default()
-                .then(DerivedFrom::new_from_str("call"))
+            SequenceExpr::with(DerivedFrom::new_from_str("call"))
                 .t_ws()
                 .then_pronoun()
                 .t_ws()
@@ -30,8 +29,7 @@ impl Default for CallThem {
         );
 
         map.insert(
-            SequenceExpr::default()
-                .then(DerivedFrom::new_from_str("call"))
+            SequenceExpr::with(DerivedFrom::new_from_str("call"))
                 .t_ws()
                 .t_aco("as")
                 .t_ws()

@@ -41,15 +41,11 @@ impl Default for NounCountability {
             .then_mass_noun_only(),
         );
 
-        let detauant_mass_then_hyphen = Lrc::new(
-            SequenceExpr::default()
-                .then(detquant_mass.clone())
-                .then_hyphen(),
-        );
+        let detauant_mass_then_hyphen =
+            Lrc::new(SequenceExpr::with(detquant_mass.clone()).then_hyphen());
 
         let detquant_mass_following_context = Lrc::new(
-            SequenceExpr::default()
-                .then(detquant_mass.clone())
+            SequenceExpr::with(detquant_mass.clone())
                 .then_whitespace()
                 // If we don't get the word, this won't be the longest match
                 .then_any_word(),

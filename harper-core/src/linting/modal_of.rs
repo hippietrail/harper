@@ -19,8 +19,7 @@ impl Default for ModalOf {
         // "The code I had of this used to work fine ..."
 
         let modal_of = Lrc::new(
-            SequenceExpr::default()
-                .then(ModalVerb::default())
+            SequenceExpr::with(ModalVerb::default())
                 .then_whitespace()
                 .t_aco("of"),
         );
@@ -38,11 +37,8 @@ impl Default for ModalOf {
 
         let ws_course = Lrc::new(SequenceExpr::default().then_whitespace().t_aco("course"));
 
-        let modal_of_course = Lrc::new(
-            SequenceExpr::default()
-                .then(modal_of.clone())
-                .then(ws_course.clone()),
-        );
+        let modal_of_course =
+            Lrc::new(SequenceExpr::with(modal_of.clone()).then(ws_course.clone()));
 
         let anyword_might_of = Lrc::new(
             SequenceExpr::default()
@@ -53,11 +49,8 @@ impl Default for ModalOf {
                 .t_aco("of"),
         );
 
-        let anyword_might_of_course = Lrc::new(
-            SequenceExpr::default()
-                .then(anyword_might_of.clone())
-                .then(ws_course.clone()),
-        );
+        let anyword_might_of_course =
+            Lrc::new(SequenceExpr::with(anyword_might_of.clone()).then(ws_course.clone()));
 
         Self {
             expr: Box::new(LongestMatchOf::new(vec![

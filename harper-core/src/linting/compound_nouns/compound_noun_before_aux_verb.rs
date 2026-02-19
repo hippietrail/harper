@@ -18,8 +18,7 @@ pub struct CompoundNounBeforeAuxVerb {
 
 impl Default for CompoundNounBeforeAuxVerb {
     fn default() -> Self {
-        let context_pattern = SequenceExpr::default()
-            .then(is_content_word)
+        let context_pattern = SequenceExpr::with(is_content_word)
             .t_ws()
             .then(is_content_word)
             .then_auxiliary_verb();
@@ -31,8 +30,7 @@ impl Default for CompoundNounBeforeAuxVerb {
         let mut expr = All::default();
         expr.add(context_pattern);
         expr.add(
-            SequenceExpr::default()
-                .then(split_pattern.clone())
+            SequenceExpr::with(split_pattern.clone())
                 .then(AnyPattern)
                 .then(AnyPattern),
         );

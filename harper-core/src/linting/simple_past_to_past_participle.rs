@@ -41,8 +41,7 @@ impl Default for SimplePastToPastParticiple {
                 // negative: exceptions
                 Box::new(SequenceExpr::default().then_unless(FirstMatchOf::new(vec![
                         Box::new(
-                            SequenceExpr::default()
-                                .then(InflectionOfBe::default())
+                            SequenceExpr::with(InflectionOfBe::default())
                                 .t_any()
                                 .t_aco("woke"),
                         ),

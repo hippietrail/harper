@@ -36,8 +36,7 @@ impl Default for TakeMedicine {
 
         let adjectives = SequenceExpr::default().then_one_or_more_adjectives().t_ws();
 
-        let pattern = SequenceExpr::default()
-            .then(eat_verb)
+        let pattern = SequenceExpr::with(eat_verb)
             .t_ws()
             .then_optional(modifiers)
             .then_optional(adjectives)

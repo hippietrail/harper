@@ -39,8 +39,7 @@ impl Default for CompoundNounAfterPossessive {
 
         pattern.add(context_pattern);
         pattern.add(
-            SequenceExpr::default()
-                .then(AnyPattern)
+            SequenceExpr::with(AnyPattern)
                 .then(AnyPattern)
                 .then(split_pattern.clone()),
         );

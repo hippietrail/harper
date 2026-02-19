@@ -36,13 +36,11 @@ impl Default for PronounKnew {
             !excluded.contains(&&*pronorm)
         };
 
-        let pronoun_then_new = SequenceExpr::default()
-            .then(pronoun_pattern)
+        let pronoun_then_new = SequenceExpr::with(pronoun_pattern)
             .then_whitespace()
             .then_any_capitalization_of("new");
 
-        let pronoun_adverb_then_new = SequenceExpr::default()
-            .then(pronoun_pattern)
+        let pronoun_adverb_then_new = SequenceExpr::with(pronoun_pattern)
             .then_whitespace()
             .then_word_set(&["always", "never", "also", "often"])
             .then_whitespace()

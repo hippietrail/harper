@@ -26,8 +26,7 @@ impl Default for ItsPossessive {
             .t_ws()
             .then(UPOSSet::new(&[UPOS::ADJ]));
 
-        let mid_sentence = SequenceExpr::default()
-            .then(UPOSSet::new(&[UPOS::VERB, UPOS::ADP]))
+        let mid_sentence = SequenceExpr::with(UPOSSet::new(&[UPOS::VERB, UPOS::ADP]))
             .t_ws()
             .t_aco("it's")
             .then_optional(adj_term)
@@ -40,8 +39,7 @@ impl Default for ItsPossessive {
 
         map.insert(mid_sentence, 2);
 
-        let start_of_sentence = SequenceExpr::default()
-            .then(AnchorStart)
+        let start_of_sentence = SequenceExpr::with(AnchorStart)
             .t_aco("it's")
             .t_ws()
             .then(UPOSSet::new(&[UPOS::ADJ, UPOS::NOUN, UPOS::PROPN]))

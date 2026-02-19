@@ -28,8 +28,7 @@ impl InOnTheCards {
             ])),
         ]);
 
-        let expr = SequenceExpr::default()
-            .then(pre_context)
+        let expr = SequenceExpr::with(pre_context)
             .t_ws()
             .t_aco(preposition)
             .then(FixedPhrase::from_phrase(" the cards"));

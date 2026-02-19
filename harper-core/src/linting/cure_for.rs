@@ -12,8 +12,7 @@ pub struct CureFor {
 
 impl Default for CureFor {
     fn default() -> Self {
-        let expr = SequenceExpr::default()
-            .then(DerivedFrom::new_from_str("cure"))
+        let expr = SequenceExpr::with(DerivedFrom::new_from_str("cure"))
             .t_ws()
             .t_aco("against");
 

@@ -225,14 +225,10 @@ impl SequenceExpr {
 
     pub fn then_one_or_more_spaced(self, expr: impl Expr + 'static) -> Self {
         let expr = Lrc::new(expr);
-        self.then(
-            SequenceExpr::default()
-                .then(expr.clone())
-                .then(Repeating::new(
-                    Box::new(SequenceExpr::default().t_ws().then(expr)),
-                    0,
-                )),
-        )
+        self.then(SequenceExpr::with(expr.clone()).then(Repeating::new(
+            Box::new(SequenceExpr::default().t_ws().then(expr)),
+            0,
+        )))
     }
 
     /// Create a new condition that will step one token forward if met.

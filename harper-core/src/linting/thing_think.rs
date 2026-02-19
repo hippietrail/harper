@@ -65,10 +65,7 @@ impl Default for ThingThink {
             Box::new(adverb_of_frequency),
         ]);
 
-        let pattern = SequenceExpr::default()
-            .then(pre_context)
-            .t_ws()
-            .t_aco("thing");
+        let pattern = SequenceExpr::with(pre_context).t_ws().t_aco("thing");
 
         Self {
             expr: Box::new(pattern),

@@ -19,14 +19,10 @@ impl ExpandMemoryShorthands {
         ]));
 
         Self {
-            expr: Box::new(
-                SequenceExpr::default()
-                    .then(ImpliesQuantity)
-                    .then_longest_of(vec![
-                        Box::new(SequenceExpr::with(hotwords.clone())),
-                        Box::new(SequenceExpr::default().t_ws_h().then(hotwords.clone())),
-                    ]),
-            ),
+            expr: Box::new(SequenceExpr::with(ImpliesQuantity).then_longest_of(vec![
+                Box::new(SequenceExpr::with(hotwords.clone())),
+                Box::new(SequenceExpr::default().t_ws_h().then(hotwords.clone())),
+            ])),
         }
     }
 

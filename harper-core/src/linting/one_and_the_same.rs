@@ -23,8 +23,7 @@ impl Default for OneAndTheSame {
                         .then(one_in_the_same.clone()),
                 ),
                 Box::new(
-                    SequenceExpr::default()
-                        .then(one_in_the_same.clone())
+                    SequenceExpr::with(one_in_the_same.clone())
                         .t_ws()
                         .t_aco("as"),
                 ),

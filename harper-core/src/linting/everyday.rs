@@ -16,12 +16,7 @@ impl Default for Everyday {
         let every_day = Lrc::new(SequenceExpr::aco("every").t_ws().t_aco("day"));
 
         let everyday_bad_after = All::new(vec![
-            Box::new(
-                SequenceExpr::default()
-                    .then(everyday.clone())
-                    .t_ws()
-                    .then_any_word(),
-            ),
+            Box::new(SequenceExpr::with(everyday.clone()).t_ws().then_any_word()),
             Box::new(SequenceExpr::anything().t_any().then_kind_where(|kind| {
                 !kind.is_noun() && !kind.is_oov() && !kind.is_verb_progressive_form()
             })),
@@ -43,8 +38,7 @@ impl Default for Everyday {
         // (why does) everyday feel the (same ?)
         let everyday_ambiverb_after_then_noun = All::new(vec![
             Box::new(
-                SequenceExpr::default()
-                    .then(everyday.clone())
+                SequenceExpr::with(everyday.clone())
                     .t_ws()
                     .then_any_word()
                     .t_ws()
@@ -61,11 +55,7 @@ impl Default for Everyday {
 
         // (Do you actually improve if you draw) everyday?
         let everyday_punctuation_after = All::new(vec![
-            Box::new(
-                SequenceExpr::default()
-                    .then(everyday.clone())
-                    .then_punctuation(),
-            ),
+            Box::new(SequenceExpr::with(everyday.clone()).then_punctuation()),
             Box::new(SequenceExpr::anything().then_kind_where(|kind| {
                 matches!(
                     kind,
@@ -79,8 +69,7 @@ impl Default for Everyday {
         // (However, the message goes far beyond) every day things.
         let every_day_noun_after_then_punctuation = All::new(vec![
             Box::new(
-                SequenceExpr::default()
-                    .then(every_day.clone())
+                SequenceExpr::with(every_day.clone())
                     .t_ws()
                     .then_plural_noun()
                     .then_punctuation(),

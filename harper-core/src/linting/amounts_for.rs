@@ -15,8 +15,7 @@ impl Default for AmountsFor {
     fn default() -> Self {
         let singular_context = WordSet::new(&["that", "which", "it", "this"]);
 
-        let singular_pattern = SequenceExpr::default()
-            .then(singular_context)
+        let singular_pattern = SequenceExpr::with(singular_context)
             .then_whitespace()
             .then(FixedPhrase::from_phrase("amounts for"));
 
@@ -24,8 +23,7 @@ impl Default for AmountsFor {
             "they", "can", "could", "may", "might", "must", "should", "will", "would",
         ]);
 
-        let plural_pattern = SequenceExpr::default()
-            .then(singular_context)
+        let plural_pattern = SequenceExpr::with(singular_context)
             .then_whitespace()
             .then(FixedPhrase::from_phrase("amount for"));
 

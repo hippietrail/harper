@@ -31,8 +31,7 @@ impl Default for OughtToBe {
 
         // 2) start-of-sentence + pronoun + "out to be" → index of `out` = 2 tokens after start
         //    [AnchorStart] [pronoun] [ws] [out] [ws] [to] [ws] [be]
-        let branch_anchor_pronoun = SequenceExpr::default()
-            .then(AnchorStart)
+        let branch_anchor_pronoun = SequenceExpr::with(AnchorStart)
             .then_pronoun()
             .then_whitespace()
             .then(FixedPhrase::from_phrase("out to be"));

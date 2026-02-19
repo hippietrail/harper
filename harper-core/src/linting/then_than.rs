@@ -16,14 +16,13 @@ impl ThenThan {
             Box::new(FirstMatchOf::new(vec![
                 // Comparative form of adjective
                 Box::new(
-                    SequenceExpr::default()
-                        .then(Box::new(|tok: &Token, source: &[char]| {
-                            is_comparative(tok, source)
-                        }))
-                        .t_ws()
-                        .t_aco("then")
-                        .t_ws()
-                        .then_unless(Word::new("that")),
+                    SequenceExpr::with(Box::new(|tok: &Token, source: &[char]| {
+                        is_comparative(tok, source)
+                    }))
+                    .t_ws()
+                    .t_aco("then")
+                    .t_ws()
+                    .then_unless(Word::new("that")),
                 ),
                 // Positive form of adjective following "more" or "less"
                 Box::new(

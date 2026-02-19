@@ -20,8 +20,7 @@ impl Default for OxfordComma {
                 .or_longest(SequenceExpr::default().then_nominal()),
         );
 
-        let item_chunk = SequenceExpr::default()
-            .then(item.clone())
+        let item_chunk = SequenceExpr::with(item.clone())
             .then_comma()
             .then_whitespace();
 
