@@ -1,7 +1,7 @@
 use crate::linting::expr_linter::Chunk;
 use crate::{
     Lrc, Span, Token, TokenStringExt,
-    expr::{Expr, FirstMatchOf, LongestMatchOf, SequenceExpr},
+    expr::{Expr, LongestMatchOf, SequenceExpr},
     linting::{ExprLinter, Lint, LintKind, Suggestion},
     patterns::{IndefiniteArticle, WordSet},
 };
@@ -33,13 +33,12 @@ impl Default for NounCountability {
 
         // A determiner or quantifier followed by a mass noun
         let detquant_mass = Lrc::new(
-            SequenceExpr::default()
-                .then(FirstMatchOf::new(vec![
-                    Box::new(IndefiniteArticle::default()),
-                    Box::new(quantifier),
-                ]))
-                .then_whitespace()
-                .then_mass_noun_only(),
+            SequenceExpr::any_of(vec![
+                Box::new(IndefiniteArticle::default()),
+                Box::new(quantifier),
+            ])
+            .then_whitespace()
+            .then_mass_noun_only(),
         );
 
         let detauant_mass_then_hyphen = Lrc::new(
