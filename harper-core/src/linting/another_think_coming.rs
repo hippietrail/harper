@@ -1,7 +1,7 @@
 use crate::linting::expr_linter::Chunk;
 use crate::{
     Token, TokenStringExt,
-    expr::{Expr, FixedPhrase, SequenceExpr},
+    expr::{Expr, SequenceExpr},
     linting::{ExprLinter, Lint, LintKind, Suggestion},
 };
 
@@ -15,7 +15,7 @@ impl Default for AnotherThinkComing {
         Self {
             expr: Box::new(
                 SequenceExpr::word_set(&["had", "has", "have", "got"])
-                    .then(FixedPhrase::from_phrase(" another thing coming")),
+                    .then_fixed_phrase(" another thing coming"),
             ),
         }
     }

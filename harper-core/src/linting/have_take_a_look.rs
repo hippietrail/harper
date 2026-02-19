@@ -1,7 +1,7 @@
 use crate::linting::expr_linter::Chunk;
 use crate::{
     Dialect, Token,
-    expr::{Expr, FixedPhrase, SequenceExpr},
+    expr::{Expr, SequenceExpr},
     linting::{ExprLinter, Lint, LintKind, Suggestion},
 };
 
@@ -20,7 +20,7 @@ impl HaveTakeALook {
 
         let expr = SequenceExpr::word_set(light_verb)
             .t_ws()
-            .then(FixedPhrase::from_phrase("a look"));
+            .then_fixed_phrase("a look");
 
         Self {
             expr: Box::new(expr),
