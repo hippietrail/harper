@@ -35,10 +35,10 @@ impl SeqExprExt for SequenceExpr {
 impl<D: Dictionary + 'static> OneOfTheSingular<D> {
     pub fn new(dict: D) -> Self {
         let advs =
-            SequenceExpr::default().then_one_or_more_spaced(SequenceExpr::default().then_adverb());
+            SequenceExpr::default().then_zero_or_more_spaced(SequenceExpr::default().then_adverb());
 
         let adj_or_nouns = SequenceExpr::default()
-            .then_one_or_more_spaced(SequenceExpr::default().then_my_noun_or_adjective());
+            .then_zero_or_more_spaced(SequenceExpr::default().then_my_noun_or_adjective());
 
         Self {
             expr: Box::new(

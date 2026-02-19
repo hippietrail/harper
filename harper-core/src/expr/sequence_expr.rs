@@ -219,11 +219,18 @@ impl SequenceExpr {
         self.then_whitespace_or_hyphen()
     }
 
+    /// Match against zero or more occurrences of the given expression. Like `*` in regex.
+    pub fn then_zero_or_more(self, expr: impl Expr + 'static) -> Self {
+        self.then(Repeating::new(Box::new(expr), 0))
+    }
+
+    /// Match against one or more occurrences of the given expression. Like `+` in regex.
     pub fn then_one_or_more(self, expr: impl Expr + 'static) -> Self {
         self.then(Repeating::new(Box::new(expr), 1))
     }
 
-    pub fn then_one_or_more_spaced(self, expr: impl Expr + 'static) -> Self {
+    /// Match against zero or more whitespace-separated occurrences of the given expression.
+    pub fn then_zero_or_more_spaced(self, expr: impl Expr + 'static) -> Self {
         let expr = Lrc::new(expr);
         self.then(SequenceExpr::with(expr.clone()).then(Repeating::new(
             Box::new(SequenceExpr::default().t_ws().then(expr)),
