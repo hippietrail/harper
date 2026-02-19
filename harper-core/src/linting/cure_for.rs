@@ -3,7 +3,7 @@ use crate::{
     expr::{Expr, SequenceExpr},
     linting::expr_linter::Chunk,
     linting::{ExprLinter, Lint, LintKind, Suggestion},
-    patterns::{DerivedFrom, Word},
+    patterns::DerivedFrom,
 };
 
 pub struct CureFor {
@@ -15,7 +15,7 @@ impl Default for CureFor {
         let expr = SequenceExpr::default()
             .then(DerivedFrom::new_from_str("cure"))
             .t_ws()
-            .then(Word::new("against"));
+            .t_aco("against");
 
         Self {
             expr: Box::new(expr),
