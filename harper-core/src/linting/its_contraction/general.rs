@@ -20,7 +20,7 @@ impl Default for General {
 
         let exceptions = SequenceExpr::anything()
             .then_anything()
-            .then(WordSet::new(&["own", "intended"]));
+            .then_word_set(&["own", "intended"]);
 
         let inverted = SequenceExpr::default().then_unless(exceptions);
 

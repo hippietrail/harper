@@ -9,7 +9,6 @@ use crate::expr::ExprMap;
 use crate::expr::OwnedExprExt;
 use crate::expr::SequenceExpr;
 use crate::patterns::UPOSSet;
-use crate::patterns::WordSet;
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::linting::expr_linter::Chunk;
@@ -60,9 +59,7 @@ impl Default for ItsPossessive {
 
         map.insert(start_of_sentence, 0);
 
-        let special = SequenceExpr::aco("it's")
-            .t_ws()
-            .then(WordSet::new(&["various"]));
+        let special = SequenceExpr::aco("it's").t_ws().t_aco("various");
 
         map.insert(special, 0);
 

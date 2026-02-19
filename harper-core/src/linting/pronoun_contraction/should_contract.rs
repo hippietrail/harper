@@ -23,8 +23,7 @@ pub struct ShouldContract {
 impl Default for ShouldContract {
     fn default() -> Self {
         let cap = Arc::new(
-            SequenceExpr::default()
-                .then(WordSet::new(&["your", "were"]))
+            SequenceExpr::word_set(&["your", "were"])
                 .then_whitespace()
                 .then_kind_is_but_is_not(
                     TokenKind::is_non_quantifier_determiner,

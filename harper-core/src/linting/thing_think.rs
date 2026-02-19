@@ -29,13 +29,12 @@ impl Default for ThingThink {
             Box::new(indefinite_pronouns),
         ]);
 
-        let verb_to = SequenceExpr::default()
-            .then(WordSet::new(&[
-                "have", "had", "has", "having", "need", "needed", "needs", "needing", "want",
-                "wanted", "wants", "wanting", "try", "tried", "tries", "trying",
-            ]))
-            .t_ws()
-            .t_aco("to");
+        let verb_to = SequenceExpr::word_set(&[
+            "have", "had", "has", "having", "need", "needed", "needs", "needing", "want", "wanted",
+            "wants", "wanting", "try", "tried", "tries", "trying",
+        ])
+        .t_ws()
+        .t_aco("to");
 
         let modal = WordSet::new(&[
             "can",

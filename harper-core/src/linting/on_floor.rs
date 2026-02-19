@@ -29,8 +29,7 @@ impl Default for OnFloor {
         );
 
         let look_up_phrase = Lrc::new(
-            SequenceExpr::default()
-                .then(WordSet::new(&["look", "looking", "looks", "looked"]))
+            SequenceExpr::word_set(&["look", "looking", "looks", "looked"])
                 .t_ws()
                 .t_aco("up"),
         );

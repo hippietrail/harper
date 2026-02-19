@@ -26,7 +26,7 @@ impl Default for AmInTheMorning {
 
         let ws_in_periods = SequenceExpr::default()
             .then(FixedPhrase::from_phrase(" in the "))
-            .then(WordSet::new(&["morning", "afternoon", "evening", "night"]));
+            .then_word_set(&["morning", "afternoon", "evening", "night"]);
 
         let ws_at_periods = FixedPhrase::from_phrase(" at night");
 
