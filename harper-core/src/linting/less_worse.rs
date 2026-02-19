@@ -1,4 +1,4 @@
-use crate::expr::{Expr, SequenceExpr, SpaceOrHyphen};
+use crate::expr::{Expr, SequenceExpr};
 use crate::{CharStringExt, Token, TokenStringExt};
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
@@ -13,7 +13,7 @@ impl Default for LessWorse {
         Self {
             expr: Box::new(
                 SequenceExpr::word_set(&["less", "least"])
-                    .then(SpaceOrHyphen)
+                    .t_ws_h()
                     .then_word_set(&["worse", "worst"]),
             ),
         }

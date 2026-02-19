@@ -1,6 +1,6 @@
 use std::sync::Arc;
 
-use super::{Expr, SequenceExpr, SpaceOrHyphen};
+use super::{Expr, SequenceExpr};
 use crate::spell::{Dictionary, FstDictionary};
 use crate::{CharString, DictWordMetadata, Span, Token};
 
@@ -27,7 +27,7 @@ impl MergeableWords {
         Self {
             inner: SequenceExpr::default()
                 .then_any_word()
-                .then(SpaceOrHyphen)
+                .t_ws_h()
                 .then_any_word(),
             dict: FstDictionary::curated(),
             predicate: Box::new(predicate),
