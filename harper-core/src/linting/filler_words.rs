@@ -15,7 +15,7 @@ impl Default for FillerWords {
     fn default() -> Self {
         let filler_words = Lrc::new(WordSet::new(&["uh", "um"]));
 
-        let pattern = SequenceExpr::default().then_any_of(vec![
+        let pattern = SequenceExpr::any_of(vec![
             Box::new(SequenceExpr::with(filler_words.clone()).then_whitespace()),
             Box::new(SequenceExpr::default().then_whitespace().then(filler_words)),
         ]);
