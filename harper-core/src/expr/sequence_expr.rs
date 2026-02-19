@@ -138,6 +138,10 @@ impl SequenceExpr {
         Self::default().then_longest_of(exprs)
     }
 
+    pub fn whitespace() -> Self {
+        Self::default().then_whitespace()
+    }
+
     /// Will be accepted unless the condition matches.
     pub fn unless(condition: impl Expr + 'static) -> Self {
         Self::default().then_unless(condition)

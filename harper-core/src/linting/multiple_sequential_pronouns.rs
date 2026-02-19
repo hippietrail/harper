@@ -49,11 +49,8 @@ impl MultipleSequentialPronouns {
 
         Self {
             expr: Box::new(
-                SequenceExpr::with(pronouns.clone()).then_one_or_more(
-                    SequenceExpr::default()
-                        .then_whitespace()
-                        .then(pronouns.clone()),
-                ),
+                SequenceExpr::with(pronouns.clone())
+                    .then_one_or_more(SequenceExpr::whitespace().then(pronouns.clone())),
             ),
             subject_pronouns,
             object_pronouns,

@@ -34,7 +34,7 @@ impl Default for ModalOf {
                 .t_aco("of"),
         );
 
-        let ws_course = Lrc::new(SequenceExpr::default().then_whitespace().t_aco("course"));
+        let ws_course = Lrc::new(SequenceExpr::whitespace().t_aco("course"));
 
         let modal_of_course =
             Lrc::new(SequenceExpr::with(modal_of.clone()).then(ws_course.clone()));

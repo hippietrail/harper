@@ -17,7 +17,7 @@ impl Default for FillerWords {
 
         let pattern = SequenceExpr::any_of(vec![
             Box::new(SequenceExpr::with(filler_words.clone()).then_whitespace()),
-            Box::new(SequenceExpr::default().then_whitespace().then(filler_words)),
+            Box::new(SequenceExpr::whitespace().then(filler_words)),
         ]);
 
         Self {
