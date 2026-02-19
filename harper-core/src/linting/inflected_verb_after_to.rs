@@ -72,11 +72,18 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
             let verb_lemmas = inflections::verbs::any_inflected_to_lemma(chars, &self.dictionary);
 
             for lemma in verb_lemmas {
+                // Skip if the lemma is also a noun (to avoid false positives like "to check" or "to capture")
+                if let Some(metadata) = self.dictionary.get_word_metadata(&lemma)
+                    && metadata.is_noun()
+                {
+                    continue;
+                }
+
                 // For -ed forms, apply heuristics to determine if a fix is needed
-                if chars.ends_with(&['e', 'd']) || (chars.ends_with(&['d']) && chars.len() > 1) {
-                    if ed_specific_heuristics() != ExpectsInfinitive {
-                        continue;
-                    }
+                if (chars.ends_with(&['e', 'd']) || (chars.ends_with(&['d']) && chars.len() > 1))
+                    && ed_specific_heuristics() != ExpectsInfinitive
+                {
+                    continue;
                 }
 
                 lints.push(Lint {

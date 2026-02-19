@@ -7,6 +7,17 @@ Suggest:
 
 
 
+Lint:    WordChoice (127 priority)
+Message: |
+       9 | Computer science spans theoretical disciplines (such as algorithms, theory of
+      10 | computation, and information theory) to applied disciplines (including the
+         |                                      ^~~~~~~~~~ The base form of the verb is needed here.
+      11 | design and implementation of hardware and software).
+Suggest:
+  - Replace with: “to apply”
+
+
+
 Lint:    Style (31 priority)
 Message: |
       27 | problem-solving, decision-making, environmental adaptation, planning and

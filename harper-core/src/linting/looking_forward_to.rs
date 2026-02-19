@@ -1,33 +1,40 @@
-use hashbrown::HashSet;
-
 use crate::linting::expr_linter::Chunk;
 use crate::{
     Token,
     expr::{Expr, FixedPhrase, SequenceExpr},
+    inflections,
     linting::{ExprLinter, Lint, LintKind, Suggestion},
+    spell::Dictionary,
 };
 
-pub struct LookingForwardTo {
+pub struct LookingForwardTo<D> {
     expr: Box<dyn Expr>,
+    dict: D,
 }
 
-impl Default for LookingForwardTo {
+impl Default for LookingForwardTo<std::sync::Arc<crate::spell::FstDictionary>> {
     fn default() -> Self {
+        Self::new(crate::spell::FstDictionary::curated())
+    }
+}
+
+impl<D: Dictionary> LookingForwardTo<D> {
+    pub fn new(dict: D) -> Self {
         let looking_forward_to = FixedPhrase::from_phrase("looking forward to");
 
         let pattern = SequenceExpr::default()
             .then(looking_forward_to)
             .t_ws()
-            // TODO: update the use the verb with progressive tense function later
             .then_verb();
 
         Self {
             expr: Box::new(pattern),
+            dict,
         }
     }
 }
 
-impl ExprLinter for LookingForwardTo {
+impl<D: Dictionary> ExprLinter for LookingForwardTo<D> {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
@@ -37,41 +44,21 @@ impl ExprLinter for LookingForwardTo {
     fn match_to_lint(&self, matched_tokens: &[Token], src: &[char]) -> Option<Lint> {
         let span = matched_tokens.last()?.span;
         let verb = matched_tokens.last()?.span.get_content_string(src);
+
+        // Skip if already in progressive form
         if verb.ends_with("ing") {
             return None;
         }
 
-        // TODO: create a util function to handle the appending of -ing
-        // to verbs, taking into account exceptions and irregular forms.
-        let exception_word: HashSet<&str> = [
-            // Verbs ending in -ee
-            "see",
-            "flee",
-            "agree",
-            "knee",
-            "guarantee",
-            // Verbs ending in -oe
-            "hoe",
-            "toe",
-            // Verbs ending in -ye or to avoid confusion
-            "dye",
-            "eye",
-            // Irregular/spelling clarification
-            "singe",
-            "tinge",
-        ]
-        .iter()
-        .cloned()
-        .collect();
+        // Use inflections module to get gerund form
+        let gerunds = inflections::verbs::lemma_to_progressive(&verb, &self.dict);
+        if gerunds.is_empty() {
+            // If no gerund found in dictionary, construct it manually
+            return None;
+        }
 
-        let gerund_form: String =
-            if verb.to_lowercase().ends_with('e') && !exception_word.contains(verb.as_str()) {
-                verb.trim_end_matches('e').to_string() + "ing"
-            } else {
-                format!("{verb}ing")
-            };
+        let gerund_form: String = gerunds.first()?.iter().collect();
 
-        println!("gerund_form: -{gerund_form}- -- verb: -{verb}-");
         Some(Lint {
             span,
             lint_kind: LintKind::WordChoice,

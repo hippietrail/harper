@@ -106,7 +106,8 @@ where
             .find(|(_, f)| form.eq_ignore_ascii_case_str(f))
         {
             let lemma_chars = lemma.chars().collect::<Vec<char>>();
-            if self.dict
+            if self
+                .dict
                 .get_word_metadata(&lemma_chars)
                 .is_some_and(|md| md.is_verb_lemma())
             {
@@ -126,7 +127,8 @@ where
             .find(|(lemma, _)| input.eq_ignore_ascii_case(lemma))
         {
             let form_chars = form.chars().collect::<Vec<char>>();
-            if self.dict
+            if self
+                .dict
                 .get_word_metadata(&form_chars)
                 .is_some_and(|md| md.is_verb_third_person_singular_present_form())
             {

@@ -1,19 +1,15 @@
-/// Helper functions for converting between different inflected forms of words.
-/// Handles regular patterns for nouns (singular/plural) and verbs (lemma/3rd person singular).
-///
-/// Mirrors the structure of `irregular_nouns.rs` and `irregular_verbs.rs` by centralizing
-/// ad-hoc inflection logic scattered across multiple linters.
-
+//! Helper functions for converting between different inflected forms of words.
+//! Handles regular patterns for nouns (singular/plural) and verbs (lemma/3rd person singular).
+//!
+//! Mirrors the structure of `irregular_nouns.rs` and `irregular_verbs.rs` by centralizing
+//! ad-hoc inflection logic scattered across multiple linters.
 pub mod nouns {
     use crate::spell::Dictionary;
 
     /// Attempts to convert a singular noun to its plural form(s).
     /// Tries common patterns: +s, +es, y→ies, fe→ves.
     /// Returns only forms validated by the dictionary.
-    pub fn singular_to_plural<D: Dictionary>(
-        singular: &[char],
-        dict: &D,
-    ) -> Vec<Vec<char>> {
+    pub fn singular_to_plural<D: Dictionary>(singular: &[char], dict: &D) -> Vec<Vec<char>> {
         let mut candidates = Vec::new();
 
         // +s
@@ -53,10 +49,7 @@ pub mod nouns {
     /// Attempts to convert a plural noun to its singular form(s).
     /// Tries common patterns: -s, -es, ies→y, ves→fe.
     /// Returns only forms validated by the dictionary.
-    pub fn plural_to_singular<D: Dictionary>(
-        plural: &[char],
-        dict: &D,
-    ) -> Vec<Vec<char>> {
+    pub fn plural_to_singular<D: Dictionary>(plural: &[char], dict: &D) -> Vec<Vec<char>> {
         let mut candidates = Vec::new();
 
         if plural.ends_with(&['s']) {
@@ -125,8 +118,6 @@ impl VerbConjugation {
         } else if word.ends_with(&['d']) && word.len() > 1 {
             // Single 'd' after vowel (e.g., "pad", "bid")
             VerbConjugation::PastTense
-        } else if word.ends_with(&['e', 's']) {
-            VerbConjugation::ThirdPersonSingular
         } else if word.ends_with(&['s']) {
             VerbConjugation::ThirdPersonSingular
         } else {
@@ -136,8 +127,8 @@ impl VerbConjugation {
 }
 
 pub mod verbs {
+    use crate::char_ext::CharExt;
     use crate::spell::Dictionary;
-    use super::VerbConjugation;
 
     /// Attempts to convert a verb lemma to its 3rd person singular present form(s).
     /// Tries common patterns: +s, +es, y→ies.
@@ -206,62 +197,77 @@ pub mod verbs {
 
     /// Attempts to convert past tense form to lemma.
     /// Tries patterns: -ed, -d, y→ies (becomes y), doubled consonant.
-    /// Returns only forms validated as verbs (not nouns) in the dictionary.
+    /// Returns only forms validated in the dictionary, prioritized by likelihood.
     pub fn past_to_lemma<D: Dictionary>(past: &[char], dict: &D) -> Vec<Vec<char>> {
         use crate::CharStringExt;
 
         let mut candidates = Vec::new();
 
-        // Try stripping -d first, then check for further -e
-        if past.ends_with_ignore_ascii_case_chars(&['d']) && past.len() > 1 {
+        // Try -ed first (remove both 'e' and 'd')
+        if past.ends_with_ignore_ascii_case_chars(&['e', 'd']) && past.len() > 2 {
+            // Prioritize -ied → -y first (more specific)
+            let without_ed = &past[..past.len() - 2];
+            if without_ed.ends_with_ignore_ascii_case_chars(&['i']) {
+                let mut with_y = without_ed[..without_ed.len() - 1].to_vec();
+                with_y.push('y');
+                candidates.push(with_y);
+            }
+
+            // Try removing just the 'd' (e.g., "used" → "use")
             let without_d = &past[..past.len() - 1];
             candidates.push(without_d.to_vec());
 
-            // If without_d ends with 'e', try removing that too (for -ed pattern)
-            if without_d.ends_with_ignore_ascii_case_chars(&['e']) {
-                let without_ed = &without_d[..without_d.len() - 1];
-                candidates.push(without_ed.to_vec());
+            // Try removing -ed for simple cases
+            let without_ed = &past[..past.len() - 2];
+            candidates.push(without_ed.to_vec());
 
-                // -ied → -y
-                if without_ed.ends_with_ignore_ascii_case_chars(&['i']) {
-                    let mut with_y = without_ed[..without_ed.len() - 1].to_vec();
-                    with_y.push('y');
-                    candidates.push(with_y);
-                }
+            // doubled consonant: if stem (without -ed) ends in non-vowel, try with one less
+            let without_ed = &past[..past.len() - 2];
+            if !without_ed.is_empty()
+                && let Some(&last_char) = without_ed.last()
+                && !last_char.is_vowel()
+            {
+                candidates.push(without_ed[..without_ed.len() - 1].to_vec());
+            }
+        }
 
-                // doubled consonant: if stem ends in non-vowel, try with one less
-                if !without_ed.is_empty() {
-                    if let Some(&last_char) = without_ed.last() {
-                        if !matches!(last_char.to_ascii_lowercase(), 'a' | 'e' | 'i' | 'o' | 'u') {
-                            candidates.push(without_ed[..without_ed.len() - 1].to_vec());
-                        }
+        // Try just -d (for words ending in -d but not -ed, e.g., "pad" → "pa")
+        if past.ends_with_ignore_ascii_case_chars(&['d'])
+            && past.len() > 1
+            && !past.ends_with_ignore_ascii_case_chars(&['e', 'd'])
+        {
+            let without_d = &past[..past.len() - 1];
+            candidates.push(without_d.to_vec());
+        }
+
+        // Filter to only those in the dictionary and deduplicate while preserving order
+        let mut seen = hashbrown::HashSet::new();
+        let mut valid_lemmas = Vec::new();
+        let mut valid_other = Vec::new();
+
+        for candidate in candidates {
+            if !seen.contains(&candidate) {
+                seen.insert(candidate.clone());
+                if let Some(md) = dict.get_word_metadata(&candidate) {
+                    // Prioritize verb lemmas
+                    if md.is_verb_lemma() {
+                        valid_lemmas.push(candidate);
+                    } else {
+                        valid_other.push(candidate);
                     }
                 }
             }
         }
 
-        // Filter to only those that are verb lemmas in the dictionary
-        candidates
-            .into_iter()
-            .filter(|word| {
-                dict.get_word_metadata(word)
-                    .is_some_and(|md| md.is_verb_lemma())
-            })
-            .collect::<Vec<_>>()
-            .into_iter()
-            .collect::<std::collections::HashSet<_>>()
-            .into_iter()
-            .collect()
+        // Return lemmas first, then other valid forms
+        valid_lemmas.into_iter().chain(valid_other).collect()
     }
 
     /// Attempts to find verb lemma(s) from any inflected form.
     /// Tries stripping common verb endings: -ed, -d, -es, -s.
     /// Returns only forms validated as verbs (not nouns) in the dictionary.
     /// Useful for finding the base form when the conjugation type is unknown.
-    pub fn any_inflected_to_lemma<D: Dictionary>(
-        inflected: &[char],
-        dict: &D,
-    ) -> Vec<Vec<char>> {
+    pub fn any_inflected_to_lemma<D: Dictionary>(inflected: &[char], dict: &D) -> Vec<Vec<char>> {
         let mut candidates = Vec::new();
 
         // Try past tense forms
@@ -275,9 +281,44 @@ pub mod verbs {
         // Deduplicate
         candidates
             .into_iter()
-            .collect::<std::collections::HashSet<_>>()
+            .collect::<hashbrown::HashSet<_>>()
             .into_iter()
             .collect()
+    }
+
+    /// Attempts to convert a verb lemma to its progressive form (gerund, verb + -ing).
+    /// Handles common patterns: just +ing, or remove final -e then +ing.
+    /// Returns only forms validated by the dictionary.
+    pub fn lemma_to_progressive<D: Dictionary>(lemma: &str, dict: &D) -> Vec<Vec<char>> {
+        // Exceptions: verbs where -e is kept before -ing or special spelling
+        let exceptions = [
+            "see",
+            "flee",
+            "agree",
+            "knee",
+            "guarantee", // -ee verbs
+            "hoe",
+            "toe", // -oe verbs
+            "dye",
+            "eye", // -ye verbs
+            "singe",
+            "tinge", // irregular spelling
+        ];
+
+        let gerund = if lemma.ends_with('e') && !exceptions.contains(&lemma) {
+            format!("{}ing", &lemma[0..lemma.len() - 1])
+        } else {
+            format!("{lemma}ing")
+        };
+
+        let gerund_chars: Vec<char> = gerund.chars().collect();
+
+        // Only return if it's in the dictionary
+        if dict.get_word_metadata(&gerund_chars).is_some() {
+            vec![gerund_chars]
+        } else {
+            Vec::new()
+        }
     }
 }
 
@@ -293,28 +334,44 @@ mod tests {
         fn adds_s() {
             let dict = FstDictionary::curated();
             let result = nouns::singular_to_plural(&['c', 'a', 't'], &dict);
-            assert!(result.iter().any(|w| w.iter().collect::<String>() == "cats"));
+            assert!(
+                result
+                    .iter()
+                    .any(|w| w.iter().collect::<String>() == "cats")
+            );
         }
 
         #[test]
         fn adds_es() {
             let dict = FstDictionary::curated();
             let result = nouns::singular_to_plural(&['b', 'o', 'x'], &dict);
-            assert!(result.iter().any(|w| w.iter().collect::<String>() == "boxes"));
+            assert!(
+                result
+                    .iter()
+                    .any(|w| w.iter().collect::<String>() == "boxes")
+            );
         }
 
         #[test]
         fn converts_y_to_ies() {
             let dict = FstDictionary::curated();
             let result = nouns::singular_to_plural(&['c', 'i', 't', 'y'], &dict);
-            assert!(result.iter().any(|w| w.iter().collect::<String>() == "cities"));
+            assert!(
+                result
+                    .iter()
+                    .any(|w| w.iter().collect::<String>() == "cities")
+            );
         }
 
         #[test]
         fn converts_fe_to_ves() {
             let dict = FstDictionary::curated();
             let result = nouns::singular_to_plural(&['k', 'n', 'i', 'f', 'e'], &dict);
-            assert!(result.iter().any(|w| w.iter().collect::<String>() == "knives"));
+            assert!(
+                result
+                    .iter()
+                    .any(|w| w.iter().collect::<String>() == "knives")
+            );
         }
 
         #[test]
@@ -346,14 +403,22 @@ mod tests {
         fn converts_ies_to_y() {
             let dict = FstDictionary::curated();
             let result = nouns::plural_to_singular(&['c', 'i', 't', 'i', 'e', 's'], &dict);
-            assert!(result.iter().any(|w| w.iter().collect::<String>() == "city"));
+            assert!(
+                result
+                    .iter()
+                    .any(|w| w.iter().collect::<String>() == "city")
+            );
         }
 
         #[test]
         fn converts_ves_to_fe() {
             let dict = FstDictionary::curated();
             let result = nouns::plural_to_singular(&['k', 'n', 'i', 'v', 'e', 's'], &dict);
-            assert!(result.iter().any(|w| w.iter().collect::<String>() == "knife"));
+            assert!(
+                result
+                    .iter()
+                    .any(|w| w.iter().collect::<String>() == "knife")
+            );
         }
 
         #[test]
@@ -371,21 +436,33 @@ mod tests {
         fn adds_s() {
             let dict = FstDictionary::curated();
             let result = verbs::lemma_to_3ps("run", &dict);
-            assert!(result.iter().any(|w| w.iter().collect::<String>() == "runs"));
+            assert!(
+                result
+                    .iter()
+                    .any(|w| w.iter().collect::<String>() == "runs")
+            );
         }
 
         #[test]
         fn adds_es() {
             let dict = FstDictionary::curated();
             let result = verbs::lemma_to_3ps("go", &dict);
-            assert!(result.iter().any(|w| w.iter().collect::<String>() == "goes"));
+            assert!(
+                result
+                    .iter()
+                    .any(|w| w.iter().collect::<String>() == "goes")
+            );
         }
 
         #[test]
         fn converts_y_to_ies() {
             let dict = FstDictionary::curated();
             let result = verbs::lemma_to_3ps("cry", &dict);
-            assert!(result.iter().any(|w| w.iter().collect::<String>() == "cries"));
+            assert!(
+                result
+                    .iter()
+                    .any(|w| w.iter().collect::<String>() == "cries")
+            );
         }
 
         #[test]
@@ -424,6 +501,50 @@ mod tests {
         fn filters_invalid_forms() {
             let dict = FstDictionary::curated();
             let result = verbs::ps3_to_lemma(&['x', 'y', 'z', 's'], &dict);
+            assert!(result.is_empty());
+        }
+    }
+
+    mod verb_past_to_lemma {
+        use super::*;
+
+        #[test]
+        fn strips_ed() {
+            let dict = FstDictionary::curated();
+            let result = verbs::past_to_lemma(&['f', 'o', 'r', 'k', 'e', 'd'], &dict);
+            assert!(
+                result
+                    .iter()
+                    .any(|w| w.iter().collect::<String>() == "fork")
+            );
+        }
+
+        #[test]
+        fn strips_d() {
+            let dict = FstDictionary::curated();
+            let result = verbs::past_to_lemma(&['u', 's', 'e', 'd'], &dict);
+            // "used" ends with -ed, so should give "use", not "used"
+            assert!(result.iter().any(|w| w.iter().collect::<String>() == "use"));
+        }
+
+        #[test]
+        fn converts_ied_to_y() {
+            let dict = FstDictionary::curated();
+            let result = verbs::past_to_lemma(&['f', 'r', 'i', 'e', 'd'], &dict);
+            assert!(result.iter().any(|w| w.iter().collect::<String>() == "fry"));
+        }
+
+        #[test]
+        fn handles_doubled_consonant() {
+            let dict = FstDictionary::curated();
+            let result = verbs::past_to_lemma(&['l', 'o', 'g', 'g', 'e', 'd'], &dict);
+            assert!(result.iter().any(|w| w.iter().collect::<String>() == "log"));
+        }
+
+        #[test]
+        fn filters_invalid_forms() {
+            let dict = FstDictionary::curated();
+            let result = verbs::past_to_lemma(&['x', 'y', 'z', 'e', 'd'], &dict);
             assert!(result.is_empty());
         }
     }

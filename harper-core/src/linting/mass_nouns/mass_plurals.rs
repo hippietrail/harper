@@ -81,7 +81,7 @@ where
 
             // Use the centralized inflections module to find candidate singulars
             let singulars = inflections::nouns::plural_to_singular(plural, &self.dict);
-            
+
             // Filter to only mass nouns (double-check with the mass noun predicate)
             for singular in singulars {
                 if self.is_mass_noun_in_dictionary(&singular) {

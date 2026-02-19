@@ -1,7 +1,7 @@
 use crate::{
-    CharStringExt, Lint, Token,
-    char_ext::CharExt,
+    Lint, Token,
     expr::{Expr, FixedPhrase, SequenceExpr},
+    inflections,
     irregular_verbs::IrregularVerbs,
     linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
     patterns::WordSet,
@@ -35,16 +35,6 @@ where
             dict,
         }
     }
-
-    fn keep_suggestion_if_lemma(&self, suggs: &mut Vec<Vec<char>>, candidate: &[char]) {
-        if self
-            .dict
-            .get_word_metadata(candidate)
-            .is_some_and(|md| md.is_verb_lemma())
-        {
-            suggs.push(candidate.to_vec());
-        }
-    }
 }
 
 impl<D> ExprLinter for DidPast<D>
@@ -68,37 +58,13 @@ where
 
         let mut suggs = vec![];
 
-        // Chop -d/-ed off regular verbs
-
-        if vchars.ends_with_ignore_ascii_case_chars(&['d']) {
-            let without_d = &vchars[..vchars.len() - 1];
-
-            if without_d.ends_with_ignore_ascii_case_chars(&['e']) {
-                let without_ed = &without_d[..without_d.len() - 1];
-
-                self.keep_suggestion_if_lemma(&mut suggs, without_ed);
-
-                // If the stem without -ed now ends in -i, try changing that to -y to find the lemma
-                if without_ed.ends_with_ignore_ascii_case_chars(&['i']) {
-                    let mut with_final_y = without_ed[..without_ed.len() - 1].to_vec();
-                    with_final_y.push('y');
-                    self.keep_suggestion_if_lemma(&mut suggs, &with_final_y);
-                }
-
-                // If the stem without -ed ends in a doubled consonant, try with just a single one
-                if without_ed.last().is_some_and(|c| !c.is_vowel()) {
-                    let without_doubled_consonant = without_ed[..without_ed.len() - 1].to_vec();
-                    self.keep_suggestion_if_lemma(&mut suggs, &without_doubled_consonant);
-                }
-            }
-            self.keep_suggestion_if_lemma(&mut suggs, without_d);
-        }
-
-        // Look up irregular verbs
-
+        // Prioritize irregular verbs first (e.g., "had" → "have")
         if let Some(lemma) = IrregularVerbs::curated().get_lemma_for_preterite(&vstr) {
             suggs.push(lemma.chars().collect());
         }
+
+        // Then try regular verb patterns using the consolidated inflections module
+        suggs.extend(inflections::verbs::past_to_lemma(vchars, &self.dict));
 
         if !suggs.is_empty() {
             Some(Lint {
