@@ -1,7 +1,7 @@
-use crate::char_string::CharStringExt;
 use crate::{
-    Token,
+    CharStringExt, Token,
     expr::{Expr, SequenceExpr},
+    inflections::VerbConjugation,
 };
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
@@ -20,10 +20,8 @@ impl Default for ToTooAdjVerbEdPunct {
                 tok.kind.is_adjective()
                     && tok.kind.is_verb()
                     && !tok.kind.is_noun()
-                    && tok
-                        .span
-                        .get_content(src)
-                        .ends_with_ignore_ascii_case_chars(&['e', 'd'])
+                    && VerbConjugation::identify(tok.span.get_content(src))
+                        == VerbConjugation::PastTense
             })
             .then_sentence_terminator();
 

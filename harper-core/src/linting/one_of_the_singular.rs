@@ -1,6 +1,7 @@
 use crate::{
     CharStringExt, Lint, Token,
     expr::{Expr, SequenceExpr},
+    inflections,
     linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
     spell::Dictionary,
 };
@@ -89,53 +90,12 @@ impl<D: Dictionary + 'static> ExprLinter for OneOfTheSingular<D> {
         }
         let nounspan = nountok.span;
         let singular = nounspan.get_content(src);
-        let mut plural_s = singular.to_vec();
-        let mut plural_es = singular.to_vec();
-        plural_s.push('s');
-        plural_es.extend(['e', 's']);
 
-        let mut suggestions = vec![];
-
-        if self
-            .dict
-            .get_word_metadata(&plural_s)
-            .is_some_and(|m| m.is_plural_noun())
-        {
-            suggestions.push(Suggestion::replace_with_match_case(plural_s, singular));
-        }
-        if self
-            .dict
-            .get_word_metadata(&plural_es)
-            .is_some_and(|m| m.is_plural_noun())
-        {
-            suggestions.push(Suggestion::replace_with_match_case(plural_es, singular));
-        }
-
-        if singular.ends_with_ignore_ascii_case_chars(&['y']) {
-            // Handle words ending in 'y' -> 'ies' (e.g., "city" -> "cities")
-            let mut plural_ies = singular[..singular.len() - 1].to_vec();
-            plural_ies.extend(['i', 'e', 's']);
-            if self
-                .dict
-                .get_word_metadata(&plural_ies)
-                .is_some_and(|m| m.is_plural_noun())
-            {
-                suggestions.push(Suggestion::replace_with_match_case(plural_ies, singular));
-            }
-        }
-
-        if singular.ends_with_ignore_ascii_case_chars(&['f', 'e']) {
-            // Handle words ending in 'fe' -> 'ves' (e.g., "wife" -> "wives")
-            let mut plural_ves = singular[..singular.len() - 2].to_vec();
-            plural_ves.extend(['v', 'e', 's']);
-            if self
-                .dict
-                .get_word_metadata(&plural_ves)
-                .is_some_and(|m| m.is_plural_noun())
-            {
-                suggestions.push(Suggestion::replace_with_match_case(plural_ves, singular));
-            }
-        }
+        let plurals = inflections::nouns::singular_to_plural(singular, &self.dict);
+        let suggestions: Vec<Suggestion> = plurals
+            .into_iter()
+            .map(|plural| Suggestion::replace_with_match_case(plural, singular))
+            .collect();
 
         Some(Lint {
             span: nounspan,

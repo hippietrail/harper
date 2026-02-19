@@ -1,6 +1,7 @@
 use crate::{
     CharStringExt, Lint, Token,
     expr::{Expr, SequenceExpr},
+    inflections::VerbConjugation,
     linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
 };
 
@@ -42,23 +43,7 @@ impl ExprLinter for ObsessPreposition {
         let prep_span = prep_tok.span;
         let prep_chars = prep_span.get_content(src);
 
-        #[derive(PartialEq)]
-        enum Conj {
-            Lemma,
-            Ed,
-            Es,
-            Ing,
-        }
-
-        let conj = if verb_chars.ends_with_ignore_ascii_case_chars(&['e', 'd']) {
-            Conj::Ed
-        } else if verb_chars.ends_with_ignore_ascii_case_chars(&['e', 's']) {
-            Conj::Es
-        } else if verb_chars.ends_with_ignore_ascii_case_chars(&['i', 'n', 'g']) {
-            Conj::Ing
-        } else {
-            Conj::Lemma
-        };
+        let conj = VerbConjugation::identify(verb_chars);
 
         // 👍
         // obsess* over - pay close attention to details
@@ -70,11 +55,11 @@ impl ExprLinter for ObsessPreposition {
             return None;
         }
 
-        if conj == Conj::Ed && prep_chars.eq_ignore_ascii_case_str("with") {
+        if conj == VerbConjugation::PastTense && prep_chars.eq_ignore_ascii_case_str("with") {
             return None;
         }
 
-        let ok_prep_vec: &[&str] = if conj == Conj::Ed {
+        let ok_prep_vec: &[&str] = if conj == VerbConjugation::PastTense {
             &["over", "with"]
         } else {
             &["over"]

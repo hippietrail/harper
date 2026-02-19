@@ -1,5 +1,6 @@
 use super::{Lint, LintKind, Linter, Suggestion};
 use crate::char_string::CharStringExt;
+use crate::inflections;
 use crate::spell::Dictionary;
 use crate::{Document, Span, TokenStringExt};
 
@@ -41,33 +42,6 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
                 continue;
             }
 
-            let check_stem = |stem: &[char]| {
-                if let Some(metadata) = self.dictionary.get_word_metadata(stem)
-                    && metadata.is_verb()
-                    && !metadata.is_noun()
-                {
-                    return true;
-                }
-                false
-            };
-
-            let mut lint_from_stem = |stem: &[char]| {
-                lints.push(Lint {
-                    span: Span::new(prep.span.start, word.span.end),
-                    lint_kind: LintKind::WordChoice,
-                    message: "The base form of the verb is needed here.".to_string(),
-                    suggestions: vec![Suggestion::ReplaceWith(
-                        prep_to
-                            .iter()
-                            .chain([' '].iter())
-                            .chain(stem.iter())
-                            .copied()
-                            .collect(),
-                    )],
-                    ..Default::default()
-                });
-            };
-
             #[derive(PartialEq)]
             enum ToVerbExpects {
                 ExpectsInfinitive,
@@ -94,30 +68,32 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
                 ToVerbExpects::ExpectsNominal
             };
 
-            if chars.ends_with(&['e', 'd']) {
-                let ed = check_stem(&chars[..chars.len() - 2]);
-                if ed && ed_specific_heuristics() == ExpectsInfinitive {
-                    lint_from_stem(&chars[..chars.len() - 2]);
-                };
-                let d = check_stem(&chars[..chars.len() - 1]);
-                // Add -d specific heuristics when needed
-                if d {
-                    lint_from_stem(&chars[..chars.len() - 1]);
-                };
-            }
-            if chars.ends_with(&['e', 's']) {
-                let es = check_stem(&chars[..chars.len() - 2]);
-                // Add -es specific heuristics when needed
-                if es {
-                    lint_from_stem(&chars[..chars.len() - 2]);
-                };
-            }
-            if chars.ends_with(&['s']) {
-                let s = check_stem(&chars[..chars.len() - 1]);
-                // Add -s specific heuristics when needed
-                if s {
-                    lint_from_stem(&chars[..chars.len() - 1]);
-                };
+            // Find possible verb lemmas from the inflected form
+            let verb_lemmas = inflections::verbs::any_inflected_to_lemma(chars, &self.dictionary);
+
+            for lemma in verb_lemmas {
+                // For -ed forms, apply heuristics to determine if a fix is needed
+                if chars.ends_with(&['e', 'd']) || (chars.ends_with(&['d']) && chars.len() > 1) {
+                    if ed_specific_heuristics() != ExpectsInfinitive {
+                        continue;
+                    }
+                }
+
+                lints.push(Lint {
+                    span: Span::new(prep.span.start, word.span.end),
+                    lint_kind: LintKind::WordChoice,
+                    message: "The base form of the verb is needed here.".to_string(),
+                    suggestions: vec![Suggestion::ReplaceWith(
+                        prep_to
+                            .iter()
+                            .chain([' '].iter())
+                            .chain(lemma.iter())
+                            .copied()
+                            .collect(),
+                    )],
+                    ..Default::default()
+                });
+                break; // Only suggest the first valid lemma
             }
         }
         lints

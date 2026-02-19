@@ -3,6 +3,7 @@ use crate::expr::LongestMatchOf;
 use crate::expr::SequenceExpr;
 use crate::{
     Lrc, Token, TokenStringExt,
+    inflections::VerbConjugation,
     linting::{LintKind, Suggestion},
     patterns::WordSet,
 };
@@ -75,24 +76,19 @@ impl ExprLinter for OpenTheLight {
             }
         }
 
+        let verb: &[char] = toks.first()?.span.get_content(src);
+        let conj = VerbConjugation::identify(verb);
+
         const ING: &[char] = &['i', 'n', 'g'];
         const ED: &[char] = &['e', 'd'];
         const ES: &[char] = &['e', 's'];
         const LEMMA: &[char] = &[];
 
-        let verb: &[char] = toks.first()?.span.get_content(src);
-
-        let (e, n, d) = (
-            verb[verb.len() - 3],
-            verb[verb.len() - 2],
-            verb[verb.len() - 1],
-        );
-
-        let (turn_ending, switch_ending) = match (e, n, d) {
-            ('i', 'n', 'g') => (ING, ING),
-            (_, 'e', 'd') => (ED, ED),
-            (_, _, 's') => (&ES[1..], ES),
-            _ => (LEMMA, LEMMA),
+        let (turn_ending, switch_ending) = match conj {
+            VerbConjugation::Progressive => (ING, ING),
+            VerbConjugation::PastTense => (ED, ED),
+            VerbConjugation::ThirdPersonSingular => (&ES[1..], ES),
+            VerbConjugation::Lemma => (LEMMA, LEMMA),
         };
 
         let mut turn_end_on: [char; 7 + 3] =

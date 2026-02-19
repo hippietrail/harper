@@ -4,6 +4,7 @@ use crate::linting::expr_linter::Chunk;
 use crate::{
     CharStringExt, Token, TokenStringExt,
     expr::{All, Expr, FirstMatchOf, FixedPhrase, SequenceExpr},
+    inflections,
     linting::{ExprLinter, Lint, LintKind, Suggestion},
     spell::Dictionary,
 };
@@ -76,35 +77,15 @@ where
         } else {
             let invalid_plural_tok = &invalid_plural_toks[0];
             // Not a fixed phrase, so it's a single word that's not in the dictionary and ends with -s
-            let mut remaining_chars = invalid_plural_tok.span.get_content(src);
+            let plural = invalid_plural_tok.span.get_content(src);
 
-            // -s
-            if remaining_chars.ends_with(&['s']) {
-                remaining_chars = &remaining_chars[..remaining_chars.len() - 1];
-
-                if self.is_mass_noun_in_dictionary(remaining_chars) {
-                    valid_singulars.insert(remaining_chars.into());
-                }
-
-                // -es
-                if remaining_chars.ends_with(&['e']) {
-                    remaining_chars = &remaining_chars[..remaining_chars.len() - 1];
-
-                    if self.is_mass_noun_in_dictionary(remaining_chars) {
-                        valid_singulars.insert(remaining_chars.into());
-                    }
-
-                    // -ies -> -y
-                    if remaining_chars.ends_with(&['i']) {
-                        remaining_chars = &remaining_chars[..remaining_chars.len() - 1];
-
-                        let y_singular = format!("{}y", remaining_chars.to_string());
-                        if self.is_mass_noun_in_dictionary_str(&y_singular) {
-                            let y_singular_chars: Box<[char]> =
-                                y_singular.chars().collect::<Vec<char>>().into_boxed_slice();
-                            valid_singulars.insert(y_singular_chars.clone());
-                        }
-                    }
+            // Use the centralized inflections module to find candidate singulars
+            let singulars = inflections::nouns::plural_to_singular(plural, &self.dict);
+            
+            // Filter to only mass nouns (double-check with the mass noun predicate)
+            for singular in singulars {
+                if self.is_mass_noun_in_dictionary(&singular) {
+                    valid_singulars.insert(singular.into());
                 }
             }
         }

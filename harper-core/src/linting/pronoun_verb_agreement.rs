@@ -1,6 +1,7 @@
 use crate::{
     CharStringExt, Lint, Token, TokenKind,
     expr::{Expr, FirstMatchOf, SequenceExpr},
+    inflections,
     linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
     spell::Dictionary,
 };
@@ -97,75 +98,43 @@ where
     }
 
     fn third_person_singular_present_to_lemma(&self, form: &[char]) -> Vec<Vec<char>> {
-        let mut words: Vec<Vec<char>> = Vec::new();
+        let mut words = inflections::verbs::ps3_to_lemma(form, &self.dict);
 
-        // -s
-        if form.ends_with_ignore_ascii_case_chars(&['s']) {
-            words.push(form[0..form.len() - 1].to_vec());
-
-            // -es
-            if form.ends_with_ignore_ascii_case_chars(&['e', 's']) {
-                words.push(form[0..form.len() - 2].to_vec());
-
-                // -ies -> -y
-                if form.ends_with_ignore_ascii_case_chars(&['i', 'e', 's']) {
-                    words.push(
-                        format!("{}y", &form[0..form.len() - 3].iter().collect::<String>())
-                            .chars()
-                            .collect(),
-                    );
-                }
-            }
-        }
-
+        // Check irregular verbs
         if let Some((lemma, _)) = IRREGULAR
             .iter()
             .find(|(_, f)| form.eq_ignore_ascii_case_str(f))
         {
-            words.push(lemma.chars().collect::<Vec<char>>());
+            let lemma_chars = lemma.chars().collect::<Vec<char>>();
+            if self.dict
+                .get_word_metadata(&lemma_chars)
+                .is_some_and(|md| md.is_verb_lemma())
+            {
+                words.push(lemma_chars);
+            }
         }
 
         words
-            .iter()
-            .filter(|&w| {
-                self.dict
-                    .get_word_metadata(w)
-                    .is_some_and(|md| md.is_verb_lemma())
-            })
-            .map(|w| w.to_vec())
-            .collect()
     }
 
     fn lemma_to_third_person_singular_present(&self, input: &str) -> Vec<Vec<char>> {
-        let mut words: Vec<Vec<char>> = Vec::new();
+        let mut words = inflections::verbs::lemma_to_3ps(input, &self.dict);
 
-        words.push(format!("{input}s").chars().collect());
-        words.push(format!("{input}es").chars().collect());
-
-        if input.ends_with("y") {
-            words.push(
-                format!("{}ies", &input[0..input.len() - 1])
-                    .chars()
-                    .collect(),
-            );
-        }
-
+        // Check irregular verbs
         if let Some((_, form)) = IRREGULAR
             .iter()
             .find(|(lemma, _)| input.eq_ignore_ascii_case(lemma))
         {
-            words.push(form.chars().collect());
+            let form_chars = form.chars().collect::<Vec<char>>();
+            if self.dict
+                .get_word_metadata(&form_chars)
+                .is_some_and(|md| md.is_verb_third_person_singular_present_form())
+            {
+                words.push(form_chars);
+            }
         }
 
         words
-            .iter()
-            .filter(|&w| {
-                self.dict
-                    .get_word_metadata(w)
-                    .is_some_and(|md| md.is_verb_third_person_singular_present_form())
-            })
-            .map(|w| w.to_vec())
-            .collect()
     }
 }
 
