@@ -38,7 +38,7 @@ impl Default for OldestInTheBook {
             1,
         ));
 
-        let noun_phrase = SequenceExpr::default().then_optional(adjseq).then(nounseq);
+        let noun_phrase = SequenceExpr::optional(adjseq).then(nounseq);
 
         Self {
             expr: Box::new(

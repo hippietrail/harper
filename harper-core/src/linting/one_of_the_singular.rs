@@ -42,11 +42,8 @@ impl<D: Dictionary + 'static> OneOfTheSingular<D> {
 
         Self {
             expr: Box::new(
-                SequenceExpr::fixed_phrase("one of the ").then(
-                    SequenceExpr::default()
-                        .then_optional(advs.t_ws())
-                        .then(adj_or_nouns),
-                ),
+                SequenceExpr::fixed_phrase("one of the ")
+                    .then(SequenceExpr::optional(advs.t_ws()).then(adj_or_nouns)),
             ),
             dict,
         }
