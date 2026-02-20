@@ -30,6 +30,7 @@ impl CommentParser {
             "csharp" => tree_sitter_c_sharp::LANGUAGE,
             "dart" => harper_tree_sitter_dart::LANGUAGE,
             "go" => tree_sitter_go::LANGUAGE,
+            "groovy" => tree_sitter_groovy::LANGUAGE,
             "haskell" => tree_sitter_haskell::LANGUAGE,
             "daml" => tree_sitter_haskell::LANGUAGE,
             "java" => tree_sitter_java::LANGUAGE,
@@ -48,6 +49,7 @@ impl CommentParser {
             "toml" => tree_sitter_toml_ng::LANGUAGE,
             "typescript" => tree_sitter_typescript::LANGUAGE_TYPESCRIPT,
             "typescriptreact" => tree_sitter_typescript::LANGUAGE_TSX,
+            "zig" => tree_sitter_zig::LANGUAGE,
             _ => return None,
         };
 
@@ -89,6 +91,7 @@ impl CommentParser {
             "cs" => "csharp",
             "dart" => "dart",
             "go" => "go",
+            "groovy" | "gradle" => "groovy",
             "hs" => "haskell",
             "daml" => "daml",
             "java" => "java",
@@ -107,6 +110,7 @@ impl CommentParser {
             "toml" => "toml",
             "ts" => "typescript",
             "tsx" => "typescriptreact",
+            "zig" => "zig",
             _ => return None,
         })
     }

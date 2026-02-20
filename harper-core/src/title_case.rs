@@ -1,10 +1,10 @@
 use std::borrow::Cow;
+use std::sync::LazyLock;
 
 use crate::Lrc;
 use crate::Token;
 use crate::TokenKind;
 use hashbrown::HashSet;
-use lazy_static::lazy_static;
 
 use crate::Punctuation;
 use crate::spell::Dictionary;
@@ -132,17 +132,18 @@ fn should_capitalize_token(tok: &Token, source: &[char]) -> bool {
     match &tok.kind {
         TokenKind::Word(Some(metadata)) => {
             // Only specific conjunctions are not capitalized.
-            lazy_static! {
-                static ref SPECIAL_CONJUNCTIONS: HashSet<Vec<char>> =
-                    ["and", "but", "for", "or", "nor", "as"]
-                        .iter()
-                        .map(|v| v.chars().collect())
-                        .collect();
-                static ref SPECIAL_ARTICLES: HashSet<Vec<char>> = ["a", "an", "the"]
+            static SPECIAL_CONJUNCTIONS: LazyLock<HashSet<Vec<char>>> = LazyLock::new(|| {
+                ["and", "but", "for", "or", "nor", "as"]
                     .iter()
                     .map(|v| v.chars().collect())
-                    .collect();
-            }
+                    .collect()
+            });
+            static SPECIAL_ARTICLES: LazyLock<HashSet<Vec<char>>> = LazyLock::new(|| {
+                ["a", "an", "the"]
+                    .iter()
+                    .map(|v| v.chars().collect())
+                    .collect()
+            });
 
             let chars = tok.span.get_content(source);
             let chars_lower = chars.to_lower();
@@ -156,7 +157,6 @@ fn should_capitalize_token(tok: &Token, source: &[char]) -> bool {
             }
 
             !is_short_preposition
-                && !metadata.is_non_possessive_determiner()
                 && !SPECIAL_CONJUNCTIONS.contains(chars_lower.as_ref())
                 && !SPECIAL_ARTICLES.contains(chars_lower.as_ref())
         }
@@ -517,6 +517,18 @@ mod tests {
                 &FstDictionary::curated()
             ),
             "Alice’s Adventures in Wonderland",
+        );
+    }
+
+    #[test]
+    fn doesnt_lowercase_this_in_github_template_title() {
+        assert_eq!(
+            make_title_case_str(
+                "# How Has This Been Tested?",
+                &PlainEnglish,
+                &FstDictionary::curated()
+            ),
+            "# How Has This Been Tested?",
         );
     }
 }
