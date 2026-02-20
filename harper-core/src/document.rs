@@ -145,12 +145,9 @@ impl Document {
         self.condense_dotted_initialisms();
         self.condense_number_suffixes();
         self.condense_ellipsis();
-
         self.condense_dotted_latin();
         self.condense_loan_phrases();
-        self.condense_latin();
         self.condense_common_top_level_domains();
-
         self.condense_filename_extensions();
         self.condense_tldr();
         self.condense_ampersand_pairs();

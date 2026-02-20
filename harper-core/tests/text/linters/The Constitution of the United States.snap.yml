@@ -739,6 +739,16 @@ Message: |
 
 
 
+Lint:    Capitalization (31 priority)
+Message: |
+     271 | The Privilege of the Writ of Habeas Corpus shall not be suspended, unless when
+         |                              ^~~~~~~~~~~~~ The canonical dictionary spelling is `habeas corpus`.
+     272 | in Cases of Rebellion or Invasion the public Safety may require it.
+Suggest:
+  - Replace with: “habeas corpus”
+
+
+
 Lint:    Spelling (63 priority)
 Message: |
      274 | No Bill of Attainder or ex post facto Law shall be passed.
