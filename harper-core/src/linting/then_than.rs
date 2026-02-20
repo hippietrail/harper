@@ -1,6 +1,7 @@
 use super::{ExprLinter, Lint, LintKind};
 use crate::expr::{All, Expr, FirstMatchOf, FixedPhrase, SequenceExpr};
 use crate::linting::Suggestion;
+use crate::linting::expr_linter::Chunk;
 use crate::patterns::{Invert, Word, WordSet};
 use crate::{CharStringExt, Token, TokenKind};
 
@@ -15,19 +16,17 @@ impl ThenThan {
             Box::new(FirstMatchOf::new(vec![
                 // Comparative form of adjective
                 Box::new(
-                    SequenceExpr::default()
-                        .then(Box::new(|tok: &Token, source: &[char]| {
-                            is_comparative(tok, source)
-                        }))
-                        .t_ws()
-                        .t_aco("then")
-                        .t_ws()
-                        .then_unless(Word::new("that")),
+                    SequenceExpr::with(Box::new(|tok: &Token, source: &[char]| {
+                        is_comparative(tok, source)
+                    }))
+                    .t_ws()
+                    .t_aco("then")
+                    .t_ws()
+                    .then_unless(Word::new("that")),
                 ),
                 // Positive form of adjective following "more" or "less"
                 Box::new(
-                    SequenceExpr::default()
-                        .then(WordSet::new(&["more", "less"]))
+                    SequenceExpr::word_set(&["more", "less"])
                         .t_ws()
                         .then_kind_either(TokenKind::is_adjective, TokenKind::is_adverb)
                         .t_ws()
@@ -69,6 +68,8 @@ impl Default for ThenThan {
 }
 
 impl ExprLinter for ThenThan {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

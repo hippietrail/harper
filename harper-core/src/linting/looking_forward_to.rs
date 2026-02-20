@@ -1,5 +1,6 @@
 use hashbrown::HashSet;
 
+use crate::linting::expr_linter::Chunk;
 use crate::{
     Token,
     expr::{Expr, FixedPhrase, SequenceExpr},
@@ -14,8 +15,7 @@ impl Default for LookingForwardTo {
     fn default() -> Self {
         let looking_forward_to = FixedPhrase::from_phrase("looking forward to");
 
-        let pattern = SequenceExpr::default()
-            .then(looking_forward_to)
+        let pattern = SequenceExpr::with(looking_forward_to)
             .t_ws()
             // TODO: update the use the verb with progressive tense function later
             .then_verb();
@@ -27,6 +27,8 @@ impl Default for LookingForwardTo {
 }
 
 impl ExprLinter for LookingForwardTo {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

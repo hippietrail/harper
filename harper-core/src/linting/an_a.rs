@@ -2,11 +2,28 @@ use std::borrow::Cow;
 
 use itertools::Itertools;
 
+use crate::case::Case::Upper;
+use crate::char_ext::CharExt;
 use crate::linting::{Lint, LintKind, Linter, Suggestion};
-use crate::{Document, TokenStringExt};
+use crate::{CaseIterExt, Dialect, Document, TokenStringExt};
 
-#[derive(Debug, Default)]
-pub struct AnA;
+#[derive(PartialEq)]
+pub enum InitialSound {
+    Vowel,
+    Consonant,
+    Either, // for SQL
+}
+
+#[derive(Debug)]
+pub struct AnA {
+    dialect: Dialect,
+}
+
+impl AnA {
+    pub fn new(dialect: Dialect) -> Self {
+        Self { dialect }
+    }
+}
 
 impl Linter for AnA {
     fn lint(&mut self, document: &Document) -> Vec<Lint> {
@@ -48,7 +65,13 @@ impl Linter for AnA {
                     continue;
                 };
 
-                let should_be_a_an = !starts_with_vowel(chars_second);
+                let should_be_a_an = match starts_with_vowel(chars_second, self.dialect)
+                    .expect("No empty word tokens")
+                {
+                    InitialSound::Vowel => false,
+                    InitialSound::Consonant => true,
+                    InitialSound::Either => return lints,
+                };
 
                 if a_an != should_be_a_an {
                     let replacement = match a_an {
@@ -90,74 +113,122 @@ fn to_lower_word(word: &[char]) -> Cow<'_, [char]> {
     }
 }
 
-/// Checks whether a provided word begins with a vowel _sound_.
+/// Checks whether a provided word begins with a vowel _sound_. Returns `None` if `word` is empty.
 ///
 /// It was produced through trial and error.
 /// Matches with 99.71% and 99.77% of vowels and non-vowels in the
 /// Carnegie-Mellon University word -> pronunciation dataset.
-fn starts_with_vowel(word: &[char]) -> bool {
+fn starts_with_vowel(word: &[char], dialect: Dialect) -> Option<InitialSound> {
+    if word.is_empty() {
+        return None;
+    }
+
+    if matches!(word, ['S', 'Q', 'L'] | ['L', 'E', 'D']) {
+        return Some(InitialSound::Either);
+    }
+
+    // Try to get the first chunk of a word that appears to be a partial initialism.
+    // For example:
+    // - `RFL` from `RFLink`
+    // - `m` from `mDNS`
+    let word = {
+        let word_casing = word.get_casing_unfiltered();
+        match word_casing.as_slice() {
+            // Lower-upper or upper-upper, possibly a (partial) initialism.
+            [Some(first_char_case), Some(Upper), ..] => {
+                &word[0..word_casing
+                    .iter()
+                    .position(|c| *c != Some(*first_char_case))
+                    .unwrap_or(word.len())]
+            }
+            // Lower-lower or upper-lower, unlikely to be a partial initialism.
+            _ => word,
+        }
+    };
+
     let is_likely_initialism = word.iter().all(|c| !c.is_alphabetic() || c.is_uppercase());
 
-    if is_likely_initialism && !word.is_empty() {
-        return matches!(
-            word[0],
-            'A' | 'E' | 'F' | 'H' | 'I' | 'L' | 'M' | 'N' | 'O' | 'R' | 'S' | 'X'
+    if word.len() == 1 || (is_likely_initialism && !is_likely_acronym(word)) {
+        return Some(
+            if matches!(
+                word[0].to_ascii_uppercase(),
+                'A' | 'E' | 'F' | 'H' | 'I' | 'L' | 'M' | 'N' | 'O' | 'R' | 'S' | 'X'
+            ) {
+                InitialSound::Vowel
+            } else {
+                InitialSound::Consonant
+            },
         );
     }
 
     let word = to_lower_word(word);
     let word = word.as_ref();
 
-    if matches!(
-        word,
-        [] | ['u', 'k', ..]
-            | ['e', 'u', 'p', 'h', ..]
-            | ['e', 'u', 'g' | 'l' | 'c', ..]
-            | ['o', 'n', 'e']
-            | ['o', 'n', 'c', 'e']
-    ) {
-        return false;
+    if matches!(word, ['u', 'b', 'i', ..]) {
+        return Some(InitialSound::Either);
     }
 
-    if matches!(word, |['h', 'o', 'u', 'r', ..]| ['h', 'o', 'n', ..]
-        | ['u', 'n', 'i', 'n' | 'm', ..]
-        | ['u', 'n', 'a' | 'u', ..]
-        | ['h', 'e', 'r', 'b', ..]
-        | ['u', 'r', 'b', ..]
-        | ['i', 'n', 't', ..])
+    if matches!(word, ['e', 'u', 'l', 'e', ..]) {
+        return Some(InitialSound::Vowel);
+    }
+
+    if matches!(
+        word,
+        ['u', 'k', ..]
+            | ['u', 'd', 'e', ..] // for 'udev'
+            | ['e', 'u', 'p', 'h', ..]
+            | ['e', 'u', 'g' | 'l' | 'c', ..]
+            | ['o', 'n', 'e', ..]
+            | ['o', 'n', 'c', 'e']
+    ) {
+        return Some(InitialSound::Consonant);
+    }
+
+    if matches!(
+        word,
+        ['h', 'o', 'u', 'r', ..]
+            | ['u', 'n', 'i', 'n' | 'm', ..]
+            | ['u', 'n', 'a' | 'u', ..]
+            | ['u', 'r', 'b', ..]
+            | ['i', 'n', 't', ..]
+    ) {
+        return Some(InitialSound::Vowel);
+    }
+
+    if matches!(word, ['h', 'e', 'r', 'b', ..] if dialect == Dialect::American || dialect == Dialect::Canadian)
     {
-        return true;
+        return Some(InitialSound::Vowel);
     }
 
     if matches!(word, ['u', 'n' | 's', 'i' | 'a' | 'u', ..]) {
-        return false;
+        return Some(InitialSound::Consonant);
     }
 
     if matches!(word, ['u', 'n', ..]) {
-        return true;
+        return Some(InitialSound::Vowel);
     }
 
     if matches!(word, ['u', 'r', 'g', ..]) {
-        return true;
+        return Some(InitialSound::Vowel);
     }
 
     if matches!(word, ['u', 't', 't', ..]) {
-        return true;
+        return Some(InitialSound::Vowel);
     }
 
     if matches!(
         word,
         ['u', 't' | 'r' | 'n', ..] | ['e', 'u', 'r', ..] | ['u', 'w', ..] | ['u', 's', 'e', ..]
     ) {
-        return false;
+        return Some(InitialSound::Consonant);
     }
 
     if matches!(word, ['o', 'n', 'e', 'a' | 'e' | 'i' | 'u', 'l' | 'd', ..]) {
-        return true;
+        return Some(InitialSound::Vowel);
     }
 
     if matches!(word, ['o', 'n', 'e', 'a' | 'e' | 'i' | 'u' | '-' | 's', ..]) {
-        return false;
+        return Some(InitialSound::Consonant);
     }
 
     if matches!(
@@ -166,127 +237,309 @@ fn starts_with_vowel(word: &[char]) -> bool {
             | ['r', 'z', ..]
             | ['n', 'g', ..]
             | ['n', 'v', ..]
-            | ['x']
             | ['x', 'b', 'o', 'x']
             | ['h', 'e', 'i', 'r', ..]
             | ['h', 'o', 'n', 'o', 'r', ..]
+            | ['h', 'o', 'n', 'e', 's', ..]
     ) {
-        return true;
+        return Some(InitialSound::Vowel);
     }
 
     if matches!(
         word,
         ['j', 'u' | 'o', 'n', ..] | ['j', 'u', 'r', 'a' | 'i' | 'o', ..]
     ) {
-        return false;
+        return Some(InitialSound::Consonant);
     }
 
     if matches!(word, ['x', '-' | '\'' | '.' | 'o' | 's', ..]) {
-        return true;
+        return Some(InitialSound::Vowel);
     }
 
-    matches!(
-        word,
-        ['a', ..] | ['e', ..] | ['i', ..] | ['o', ..] | ['u', ..]
-    )
+    if word[0].is_vowel() {
+        return Some(InitialSound::Vowel);
+    }
+
+    Some(InitialSound::Consonant)
+}
+
+fn is_likely_acronym(word: &[char]) -> bool {
+    /// Does the word contain any sequences that might indicate it's not an acronym?
+    fn word_contains_false_positive_sequence(word: &[char]) -> bool {
+        let likely_false_positive_sequences = [['V', 'C']];
+        for fp_sequence in likely_false_positive_sequences {
+            if word
+                .windows(fp_sequence.len())
+                .any(|subslice| subslice == fp_sequence)
+            {
+                return true;
+            }
+        }
+        false
+    }
+
+    // If the initialism is shorter than this, skip it.
+    const MIN_LEN: usize = 3;
+
+    if let Some(first_chars) = word.get(..MIN_LEN)
+        // Unlikely to be an acronym if it contains non-alphabetic characters.
+        && first_chars.iter().copied().all(char::is_alphabetic)
+        && !word_contains_false_positive_sequence(word)
+    {
+        let vowel_map = first_chars
+            .iter()
+            .map(CharExt::is_vowel)
+            .collect_array::<MIN_LEN>()
+            .unwrap();
+        matches!(vowel_map, [false, true, false] | [false, true, true])
+    } else {
+        false
+    }
 }
 
 #[cfg(test)]
 mod tests {
     use super::AnA;
-    use crate::linting::tests::assert_lint_count;
+    use crate::Dialect;
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     #[test]
     fn detects_html_as_vowel() {
-        assert_lint_count("Here is a HTML document.", AnA, 1);
+        assert_lint_count("Here is a HTML document.", AnA::new(Dialect::American), 1);
     }
 
     #[test]
     fn detects_llm_as_vowel() {
-        assert_lint_count("Here is a LLM document.", AnA, 1);
+        assert_lint_count("Here is a LLM document.", AnA::new(Dialect::American), 1);
     }
 
     #[test]
     fn detects_llm_hyphen_as_vowel() {
-        assert_lint_count("Here is a LLM-based system.", AnA, 1);
+        assert_lint_count(
+            "Here is a LLM-based system.",
+            AnA::new(Dialect::American),
+            1,
+        );
+    }
+
+    #[test]
+    fn detects_euler_as_vowel() {
+        assert_lint_count("This is an Euler brick.", AnA::new(Dialect::American), 0);
+        assert_lint_count(
+            "The graph has an Eulerian tour.",
+            AnA::new(Dialect::American),
+            0,
+        );
     }
 
     #[test]
     fn capitalized_fourier() {
-        assert_lint_count("Then, perform a Fourier transform.", AnA, 0);
+        assert_lint_count(
+            "Then, perform a Fourier transform.",
+            AnA::new(Dialect::American),
+            0,
+        );
     }
 
     #[test]
     fn once_over() {
-        assert_lint_count("give this a once-over.", AnA, 0);
+        assert_lint_count("give this a once-over.", AnA::new(Dialect::American), 0);
     }
 
     #[test]
     fn issue_196() {
-        assert_lint_count("This is formatted as an `ext4` file system.", AnA, 0);
+        assert_lint_count(
+            "This is formatted as an `ext4` file system.",
+            AnA::new(Dialect::American),
+            0,
+        );
     }
 
     #[test]
     fn allows_lowercase_vowels() {
-        assert_lint_count("not an error", AnA, 0);
+        assert_lint_count("not an error", AnA::new(Dialect::American), 0);
     }
 
     #[test]
     fn allows_lowercase_consonants() {
-        assert_lint_count("not a crash", AnA, 0);
+        assert_lint_count("not a crash", AnA::new(Dialect::American), 0);
     }
 
     #[test]
     fn disallows_lowercase_vowels() {
-        assert_lint_count("not a error", AnA, 1);
+        assert_lint_count("not a error", AnA::new(Dialect::American), 1);
     }
 
     #[test]
     fn disallows_lowercase_consonants() {
-        assert_lint_count("not an crash", AnA, 1);
+        assert_lint_count("not an crash", AnA::new(Dialect::American), 1);
     }
 
     #[test]
     fn allows_uppercase_vowels() {
-        assert_lint_count("not an Error", AnA, 0);
+        assert_lint_count("not an Error", AnA::new(Dialect::American), 0);
     }
 
     #[test]
     fn allows_uppercase_consonants() {
-        assert_lint_count("not a Crash", AnA, 0);
+        assert_lint_count("not a Crash", AnA::new(Dialect::American), 0);
     }
 
     #[test]
     fn disallows_uppercase_vowels() {
-        assert_lint_count("not a Error", AnA, 1);
+        assert_lint_count("not a Error", AnA::new(Dialect::American), 1);
     }
 
     #[test]
     fn disallows_uppercase_consonants() {
-        assert_lint_count("not an Crash", AnA, 1);
+        assert_lint_count("not an Crash", AnA::new(Dialect::American), 1);
     }
 
     #[test]
     fn disallows_a_interface() {
         assert_lint_count(
             "A interface for an object that can perform linting actions.",
-            AnA,
+            AnA::new(Dialect::American),
             1,
         );
     }
 
     #[test]
     fn allow_issue_751() {
-        assert_lint_count("He got a 52% approval rating.", AnA, 0);
+        assert_lint_count(
+            "He got a 52% approval rating.",
+            AnA::new(Dialect::American),
+            0,
+        );
     }
 
     #[test]
     fn allow_an_mp_and_an_mp3() {
-        assert_lint_count("an MP and an MP3?", AnA, 0);
+        assert_lint_count("an MP and an MP3?", AnA::new(Dialect::American), 0);
     }
 
     #[test]
     fn disallow_a_mp_and_a_mp3() {
-        assert_lint_count("a MP and a MP3?", AnA, 2);
+        assert_lint_count("a MP and a MP3?", AnA::new(Dialect::American), 2);
+    }
+
+    #[test]
+    fn recognize_acronyms() {
+        // a
+        assert_lint_count("using a MAC address", AnA::new(Dialect::American), 0);
+        assert_lint_count("a NASA spacecraft", AnA::new(Dialect::American), 0);
+        assert_lint_count("a NAT", AnA::new(Dialect::American), 0);
+        assert_lint_count("a REST API", AnA::new(Dialect::American), 0);
+        assert_lint_count("a LIBERO", AnA::new(Dialect::American), 0);
+        assert_lint_count("a README", AnA::new(Dialect::American), 0);
+        assert_lint_count("a LAN", AnA::new(Dialect::American), 0);
+
+        // an
+        assert_lint_count("an RA message", AnA::new(Dialect::American), 0);
+        assert_lint_count("an SI unit", AnA::new(Dialect::American), 0);
+        assert_lint_count(
+            "he is an MA of both Oxford and Cambridge",
+            AnA::new(Dialect::American),
+            0,
+        );
+        assert_lint_count(
+            "in an FA Cup 6th Round match",
+            AnA::new(Dialect::American),
+            0,
+        );
+        assert_lint_count("a AM transmitter", AnA::new(Dialect::American), 1);
+    }
+
+    #[test]
+    fn dont_misrecognize_as_acronym() {
+        assert_lint_count("a UPD connection", AnA::new(Dialect::American), 0);
+        assert_lint_count("a UPB device", AnA::new(Dialect::American), 0);
+        assert_lint_count("a UPS or power device", AnA::new(Dialect::American), 0);
+        assert_lint_count("a USB 2.0 port", AnA::new(Dialect::American), 0);
+        assert_lint_count("an HEVC HLS stream", AnA::new(Dialect::American), 0);
+    }
+
+    #[test]
+    fn a_udev() {
+        assert_lint_count("a udev rule", AnA::new(Dialect::American), 0);
+    }
+
+    #[test]
+    fn an_mdns() {
+        assert_lint_count("an mDNS tool", AnA::new(Dialect::American), 0);
+    }
+
+    #[test]
+    fn an_rflink() {
+        assert_lint_count("an RFLink device", AnA::new(Dialect::American), 0);
+    }
+
+    #[test]
+    fn an_ffmpeg() {
+        assert_lint_count(
+            "an FFmpeg-compatible input file",
+            AnA::new(Dialect::American),
+            0,
+        );
+    }
+
+    #[test]
+    fn a_honey() {
+        assert_lint_count("a Honeywell alarm panel", AnA::new(Dialect::American), 0);
+    }
+
+    #[test]
+    fn an_onedrive() {
+        assert_lint_count("a OneDrive folder", AnA::new(Dialect::American), 0);
+    }
+
+    #[test]
+    fn a_ubiquiti() {
+        assert_lint_count(
+            "a Ubiquiti UniFi Network application",
+            AnA::new(Dialect::American),
+            0,
+        );
+    }
+
+    #[test]
+    fn an_honest() {
+        assert_lint_count("an honest mistake", AnA::new(Dialect::American), 0);
+    }
+
+    #[test]
+    fn dont_flag_an_herb_for_american() {
+        assert_lint_count("an herb", AnA::new(Dialect::American), 0);
+    }
+
+    #[test]
+    fn dont_flag_a_herb_for_british() {
+        assert_lint_count("a herb", AnA::new(Dialect::British), 0);
+    }
+
+    #[test]
+    fn correct_an_herb_for_australian() {
+        assert_suggestion_result("an herb", AnA::new(Dialect::Australian), "a herb");
+    }
+
+    #[test]
+    fn correct_a_herb_for_canadian() {
+        assert_suggestion_result("a herb", AnA::new(Dialect::Canadian), "an herb");
+    }
+
+    #[test]
+    fn dont_flag_a_sql() {
+        assert_lint_count("a SQL query", AnA::new(Dialect::American), 0);
+    }
+
+    #[test]
+    fn dont_flag_an_sql() {
+        assert_lint_count("an SQL query", AnA::new(Dialect::Australian), 0);
+    }
+
+    #[test]
+    fn allow_an_and_a_for_led_2550() {
+        assert_lint_count("an LED", AnA::new(Dialect::American), 0);
+        assert_lint_count("a LED", AnA::new(Dialect::American), 0);
     }
 }

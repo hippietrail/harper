@@ -2,8 +2,9 @@ use std::sync::Arc;
 
 use super::{ExprLinter, Lint, LintKind};
 use crate::Token;
-use crate::expr::{Expr, SequenceExpr, SpaceOrHyphen};
+use crate::expr::{Expr, SequenceExpr};
 use crate::linting::Suggestion;
+use crate::linting::expr_linter::Chunk;
 use crate::patterns::{ImpliesQuantity, WordSet};
 
 pub struct ExpandMemoryShorthands {
@@ -18,18 +19,10 @@ impl ExpandMemoryShorthands {
         ]));
 
         Self {
-            expr: Box::new(
-                SequenceExpr::default()
-                    .then(ImpliesQuantity)
-                    .then_longest_of(vec![
-                        Box::new(SequenceExpr::default().then(hotwords.clone())),
-                        Box::new(
-                            SequenceExpr::default()
-                                .then(SpaceOrHyphen)
-                                .then(hotwords.clone()),
-                        ),
-                    ]),
-            ),
+            expr: Box::new(SequenceExpr::with(ImpliesQuantity).then_longest_of(vec![
+                Box::new(SequenceExpr::with(hotwords.clone())),
+                Box::new(SequenceExpr::default().t_ws_h().then(hotwords.clone())),
+            ])),
         }
     }
 
@@ -74,6 +67,8 @@ impl Default for ExpandMemoryShorthands {
 }
 
 impl ExprLinter for ExpandMemoryShorthands {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

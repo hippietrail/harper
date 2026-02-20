@@ -22,6 +22,7 @@ impl DiscourseMarkers {
             "thus",
             "instead",
             "moreover",
+            "honestly",
             "alternatively",
             "frankly",
             "additionally",
@@ -45,8 +46,7 @@ impl DiscourseMarkers {
         );
 
         Self {
-            expr: SequenceExpr::default()
-                .then(phrases_expr)
+            expr: SequenceExpr::with(phrases_expr)
                 .t_ws()
                 .then_unless(UPOSSet::new(&[UPOS::ADJ, UPOS::ADV, UPOS::ADP])),
         }

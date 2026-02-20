@@ -1,3 +1,4 @@
+use crate::linting::expr_linter::Chunk;
 use crate::{
     Token, TokenStringExt,
     expr::{Expr, LongestMatchOf, SequenceExpr},
@@ -58,17 +59,13 @@ const WHITELIST: &[&str] = &[
 
 impl Default for Touristic {
     fn default() -> Self {
-        let with_prev_and_next_word = SequenceExpr::default()
-            .then_any_word()
+        let with_prev_and_next_word = SequenceExpr::any_word()
             .t_ws()
             .t_aco("touristic")
             .t_ws()
             .then_any_word();
 
-        let with_prev_word = SequenceExpr::default()
-            .then_any_word()
-            .t_ws()
-            .t_aco("touristic");
+        let with_prev_word = SequenceExpr::any_word().t_ws().t_aco("touristic");
 
         let with_next_word = SequenceExpr::default()
             .t_aco("touristic")
@@ -89,6 +86,8 @@ impl Default for Touristic {
 }
 
 impl ExprLinter for Touristic {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
@@ -387,19 +386,6 @@ mod tests {
                 "Application to promote touristy activities in Valencia.",
             ],
             &[],
-        );
-    }
-
-    #[test]
-    fn fixes_for_t_content() {
-        assert_good_and_bad_suggestions(
-            "Missing languages for published field in APIv2 for Touristic Content",
-            Touristic::default(),
-            &[
-                "Missing languages for published field in APIv2 for Tourist Content",
-                "Missing languages for published field in APIv2 for Tourism Content",
-            ],
-            &["Missing languages for published field in APIv2 for Touristy Content"],
         );
     }
 

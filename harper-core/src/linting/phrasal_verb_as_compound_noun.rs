@@ -201,23 +201,30 @@ impl Linter for PhrasalVerbAsCompoundNoun {
             if let Some(next_tok) = maybe_next_tok.filter(|tok| tok.kind.is_noun())
                 && match nountok_lower {
                     ['b', 'a', 'c', 'k', 'u', 'p'] => {
-                        &["file", "images", "location", "snapshots"][..]
+                        &["file", "images", "location", "plan", "sites", "snapshots"][..]
                     }
-                    ['c', 'a', 'l', 'l', 'b', 'a', 'c', 'k'] => &["function"][..],
+                    ['c', 'a', 'l', 'l', 'b', 'a', 'c', 'k'] => &["function", "handlers"][..],
                     ['l', 'a', 'y', 'o', 'u', 't'] => &["estimation"][..],
                     ['m', 'a', 'r', 'k', 'u', 'p'] => &["language", "languages"][..],
-                    ['p', 'l', 'a', 'y', 'b', 'a', 'c', 'k'] => &["latency"][..],
+                    ['m', 'o', 'u', 's', 'e', 'o', 'v', 'e', 'r'] => &["hints"][..],
+                    ['p', 'l', 'a', 'y', 'b', 'a', 'c', 'k'] => &["latency", "speed"][..],
                     ['p', 'l', 'u', 'g', 'i', 'n'] => &[
                         "architecture",
+                        "classes",
                         "development",
+                        "developer",
                         "docs",
                         "ecosystem",
                         "files",
                         "interface",
+                        "name",
                         "packages",
                         "suite",
+                        "support",
                     ][..],
+                    ['p', 'o', 'p', 'u', 'p'] => &["window"][..],
                     ['r', 'o', 'l', 'l', 'o', 'u', 't'] => &["logic", "status"][..],
+                    ['s', 't', 'a', 'r', 't', 'u', 'p'] => &["environments"][..],
                     ['t', 'h', 'r', 'o', 'w', 'b', 'a', 'c', 'k'] => &["machine"][..],
                     ['w', 'o', 'r', 'k', 'o', 'u', 't'] => &["constraints", "preference"][..],
                     _ => &[],
@@ -726,5 +733,37 @@ mod tests {
     #[test]
     fn dont_flag_plugin_interface() {
         assert_no_lints("[Plugin interface]", PhrasalVerbAsCompoundNoun::default());
+    }
+
+    #[test]
+    fn issue_1918() {
+        assert_no_lints(
+            "Boost your productivity with our JetBrains plugin!",
+            PhrasalVerbAsCompoundNoun::default(),
+        );
+    }
+
+    #[test]
+    fn dont_flag_pop_up_2217() {
+        assert_no_lints(
+            "Popup window instead of command line.",
+            PhrasalVerbAsCompoundNoun::default(),
+        );
+    }
+
+    #[test]
+    fn issue_1772() {
+        assert_no_lints(
+            "By default, only one tile size is instantiated for each data type, math instruction, and layout.",
+            PhrasalVerbAsCompoundNoun::default(),
+        );
+    }
+
+    #[test]
+    fn issue_2369() {
+        assert_no_lints(
+            "## Plugin developer documentation",
+            PhrasalVerbAsCompoundNoun::default(),
+        );
     }
 }

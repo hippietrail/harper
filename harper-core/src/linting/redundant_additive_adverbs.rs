@@ -1,3 +1,4 @@
+use crate::linting::expr_linter::Chunk;
 use crate::{
     Lrc, Token, TokenStringExt,
     expr::{Expr, FirstMatchOf, FixedPhrase, SequenceExpr},
@@ -19,14 +20,9 @@ impl Default for RedundantAdditiveAdverbs {
             Box::new(as_well),
         ]));
 
-        let multiple_additive_adverbs = SequenceExpr::default()
-            .then(additive_adverb.clone())
-            .then_one_or_more(
-                SequenceExpr::default()
-                    .then_whitespace()
-                    .then(additive_adverb.clone()),
-            )
-            .then_optional(SequenceExpr::default().then_whitespace().t_aco("as"));
+        let multiple_additive_adverbs = SequenceExpr::with(additive_adverb.clone())
+            .then_one_or_more(SequenceExpr::whitespace().then(additive_adverb.clone()))
+            .then_optional(SequenceExpr::whitespace().t_aco("as"));
 
         Self {
             expr: Box::new(multiple_additive_adverbs),
@@ -35,6 +31,8 @@ impl Default for RedundantAdditiveAdverbs {
 }
 
 impl ExprLinter for RedundantAdditiveAdverbs {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
@@ -114,10 +112,8 @@ impl ExprLinter for RedundantAdditiveAdverbs {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::{
-        RedundantAdditiveAdverbs,
-        tests::{assert_lint_count, assert_top3_suggestion_result},
-    };
+    use super::RedundantAdditiveAdverbs;
+    use crate::linting::tests::{assert_lint_count, assert_top3_suggestion_result};
 
     // Basic unit tests
 

@@ -2,6 +2,7 @@ use crate::expr::{AnchorStart, Expr, SequenceExpr};
 use crate::{Token, TokenKind};
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
+use crate::linting::expr_linter::Chunk;
 
 pub struct HavePronoun {
     expr: Box<dyn Expr>,
@@ -9,8 +10,7 @@ pub struct HavePronoun {
 
 impl Default for HavePronoun {
     fn default() -> Self {
-        let expr = SequenceExpr::default()
-            .then(AnchorStart)
+        let expr = SequenceExpr::with(AnchorStart)
             .t_aco("has")
             .t_ws()
             .then_kind_either(
@@ -25,6 +25,8 @@ impl Default for HavePronoun {
 }
 
 impl ExprLinter for HavePronoun {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

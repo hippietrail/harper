@@ -4,10 +4,10 @@ use crate::expr::SequenceExpr;
 use crate::{
     Lrc, Token, TokenStringExt,
     linting::{LintKind, Suggestion},
-    patterns::WordSet,
 };
 
 use super::{ExprLinter, Lint};
+use crate::linting::expr_linter::Chunk;
 
 pub struct OpenTheLight {
     expr: Box<dyn Expr>,
@@ -35,16 +35,14 @@ impl Default for OpenTheLight {
         ];
 
         let open_the_device = Lrc::new(
-            SequenceExpr::default()
-                .then(WordSet::new(TO_OPEN))
+            SequenceExpr::word_set(TO_OPEN)
                 .t_ws()
                 .then_determiner()
                 .t_ws()
-                .then(WordSet::new(DEVICES)),
+                .then_word_set(DEVICES),
         );
 
-        let open_the_device_then_noun = SequenceExpr::default()
-            .then(open_the_device.clone())
+        let open_the_device_then_noun = SequenceExpr::with(open_the_device.clone())
             .t_ws()
             .then_noun();
 
@@ -58,6 +56,8 @@ impl Default for OpenTheLight {
 }
 
 impl ExprLinter for OpenTheLight {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
@@ -65,8 +65,7 @@ impl ExprLinter for OpenTheLight {
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
         // If I try to do this in the Pattern, the shorter pattern matches, without the context token.
         if toks.len() == 7 {
-            let device_tok = &toks[toks.len() - 3];
-            let context_tok = &toks[toks.len() - 1];
+            let (device_tok, context_tok) = (toks.get_rel(-3)?, toks.get_rel(-1)?);
             // The device word is part of compound noun if it's singular and followed by another noun
             if !device_tok.kind.is_plural_noun() || !context_tok.kind.is_noun() {
                 return None;

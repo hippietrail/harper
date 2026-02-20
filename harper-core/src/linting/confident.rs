@@ -1,6 +1,7 @@
 use crate::expr::Expr;
 use crate::expr::OwnedExprExt;
 use crate::expr::SequenceExpr;
+use crate::linting::expr_linter::Chunk;
 use crate::{Token, patterns::Word};
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
@@ -11,15 +12,14 @@ pub struct Confident {
 
 impl Default for Confident {
     fn default() -> Self {
-        let pattern = SequenceExpr::default()
-            .then(
-                SequenceExpr::from(|tok: &Token, _source: &[char]| {
-                    tok.kind.is_verb() || tok.kind.is_determiner()
-                })
-                .or(Word::new("very")),
-            )
-            .then_whitespace()
-            .t_aco("confidant");
+        let pattern = SequenceExpr::with(
+            SequenceExpr::from(|tok: &Token, _source: &[char]| {
+                tok.kind.is_verb() || tok.kind.is_determiner()
+            })
+            .or(Word::new("very")),
+        )
+        .then_whitespace()
+        .t_aco("confidant");
 
         Self {
             expr: Box::new(pattern),
@@ -28,6 +28,8 @@ impl Default for Confident {
 }
 
 impl ExprLinter for Confident {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

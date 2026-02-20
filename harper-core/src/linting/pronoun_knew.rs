@@ -3,10 +3,10 @@ use harper_brill::UPOS;
 use crate::expr::Expr;
 use crate::expr::LongestMatchOf;
 use crate::expr::SequenceExpr;
+use crate::linting::expr_linter::Chunk;
 use crate::{
     Token,
     linting::{ExprLinter, Lint, LintKind, Suggestion},
-    patterns::WordSet,
 };
 
 pub struct PronounKnew {
@@ -36,15 +36,13 @@ impl Default for PronounKnew {
             !excluded.contains(&&*pronorm)
         };
 
-        let pronoun_then_new = SequenceExpr::default()
-            .then(pronoun_pattern)
+        let pronoun_then_new = SequenceExpr::with(pronoun_pattern)
             .then_whitespace()
             .then_any_capitalization_of("new");
 
-        let pronoun_adverb_then_new = SequenceExpr::default()
-            .then(pronoun_pattern)
+        let pronoun_adverb_then_new = SequenceExpr::with(pronoun_pattern)
             .then_whitespace()
-            .then(WordSet::new(&["always", "never", "also", "often"]))
+            .then_word_set(&["always", "never", "also", "often"])
             .then_whitespace()
             .then_any_capitalization_of("new");
 
@@ -60,6 +58,8 @@ impl Default for PronounKnew {
 }
 
 impl ExprLinter for PronounKnew {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

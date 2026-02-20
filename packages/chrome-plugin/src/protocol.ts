@@ -1,5 +1,5 @@
-import type { Dialect, LintConfig, Summary } from 'harper.js';
-import type { UnpackedLint, UnpackedSuggestion } from './unpackLint';
+import type { Dialect, LintConfig, LintOptions } from 'harper.js';
+import type { UnpackedLintGroups } from 'lint-framework';
 
 export type Request =
 	| LintRequest
@@ -19,7 +19,14 @@ export type Request =
 	| GetUserDictionaryRequest
 	| GetActivationKeyRequest
 	| SetActivationKeyRequest
-	| OpenOptionsRequest;
+	| GetHotkeyRequest
+	| SetHotkeyRequest
+	| OpenOptionsRequest
+	| GetInstalledOnRequest
+	| GetReviewedRequest
+	| SetReviewedRequest
+	| OpenReportErrorRequest
+	| PostFormDataRequest;
 
 export type Response =
 	| LintResponse
@@ -31,17 +38,22 @@ export type Response =
 	| GetDefaultStatusResponse
 	| GetEnabledDomainsResponse
 	| GetUserDictionaryResponse
-	| GetActivationKeyResponse;
+	| GetHotkeyResponse
+	| GetActivationKeyResponse
+	| GetInstalledOnResponse
+	| GetReviewedResponse
+	| PostFormDataResponse;
 
 export type LintRequest = {
 	kind: 'lint';
 	domain: string;
 	text: string;
+	options: LintOptions;
 };
 
 export type LintResponse = {
 	kind: 'lints';
-	lints: UnpackedLint[];
+	lints: UnpackedLintGroups;
 };
 
 export type GetConfigRequest = {
@@ -114,6 +126,8 @@ export type SetDomainStatusRequest = {
 	kind: 'setDomainStatus';
 	domain: string;
 	enabled: boolean;
+	/** Dictates whether this should override a previous setting. */
+	overrideValue: boolean;
 };
 
 export type SetDefaultStatusRequest = {
@@ -140,6 +154,29 @@ export type GetUserDictionaryResponse = {
 	words: string[];
 };
 
+export type GetInstalledOnRequest = {
+	kind: 'getInstalledOn';
+};
+
+export type GetInstalledOnResponse = {
+	kind: 'getInstalledOn';
+	installedOn: string | null;
+};
+
+export type GetReviewedRequest = {
+	kind: 'getReviewed';
+};
+
+export type GetReviewedResponse = {
+	kind: 'getReviewed';
+	reviewed: boolean;
+};
+
+export type SetReviewedRequest = {
+	kind: 'setReviewed';
+	reviewed: boolean;
+};
+
 export type IgnoreLintRequest = {
 	kind: 'ignoreLint';
 	contextHash: string;
@@ -164,9 +201,18 @@ export type GetActivationKeyRequest = {
 	kind: 'getActivationKey';
 };
 
+export type GetHotkeyRequest = {
+	kind: 'getHotkey';
+};
+
 export type GetActivationKeyResponse = {
 	kind: 'getActivationKey';
 	key: ActivationKey;
+};
+
+export type PostFormDataResponse = {
+	kind: 'postFormData';
+	success: boolean;
 };
 
 export type SetActivationKeyRequest = {
@@ -176,4 +222,33 @@ export type SetActivationKeyRequest = {
 
 export type OpenOptionsRequest = {
 	kind: 'openOptions';
+};
+
+export type GetHotkeyResponse = {
+	kind: 'getHotkey';
+	hotkey: Hotkey;
+};
+
+export type SetHotkeyRequest = {
+	kind: 'setHotkey';
+	hotkey: Hotkey;
+};
+
+export type Modifier = 'Ctrl' | 'Shift' | 'Alt';
+
+export type Hotkey = {
+	modifiers: Modifier[];
+	key: string;
+};
+export type OpenReportErrorRequest = {
+	kind: 'openReportError';
+	example: string;
+	rule_id: string;
+	feedback: string;
+};
+
+export type PostFormDataRequest = {
+	kind: 'postFormData';
+	url: string;
+	formData: Record<string, string>;
 };

@@ -1,11 +1,12 @@
 use crate::{
     CharStringExt, Dialect, Token,
-    expr::{Expr, FirstMatchOf, FixedPhrase, SequenceExpr},
+    expr::{Expr, FirstMatchOf, SequenceExpr},
     linting::{LintKind, Suggestion},
     patterns::{InflectionOfBe, WordSet},
 };
 
 use super::{ExprLinter, Lint};
+use crate::linting::expr_linter::Chunk;
 
 pub struct InOnTheCards {
     expr: Box<dyn Expr>,
@@ -27,11 +28,10 @@ impl InOnTheCards {
             ])),
         ]);
 
-        let expr = SequenceExpr::default()
-            .then(pre_context)
+        let expr = SequenceExpr::with(pre_context)
             .t_ws()
             .t_aco(preposition)
-            .then(FixedPhrase::from_phrase(" the cards"));
+            .then_fixed_phrase(" the cards");
 
         Self {
             expr: Box::new(expr),
@@ -41,6 +41,8 @@ impl InOnTheCards {
 }
 
 impl ExprLinter for InOnTheCards {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
@@ -85,12 +87,10 @@ impl ExprLinter for InOnTheCards {
 
 #[cfg(test)]
 mod tests {
+    use super::InOnTheCards;
     use crate::{
         Dialect,
-        linting::{
-            InOnTheCards,
-            tests::{assert_lint_count, assert_suggestion_result},
-        },
+        linting::tests::{assert_lint_count, assert_suggestion_result},
     };
 
     // On the cards

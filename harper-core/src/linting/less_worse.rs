@@ -1,8 +1,8 @@
-use crate::expr::{Expr, SequenceExpr, SpaceOrHyphen};
-use crate::patterns::WordSet;
+use crate::expr::{Expr, SequenceExpr};
 use crate::{CharStringExt, Token, TokenStringExt};
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
+use crate::linting::expr_linter::Chunk;
 
 pub struct LessWorse {
     expr: Box<dyn Expr>,
@@ -12,16 +12,17 @@ impl Default for LessWorse {
     fn default() -> Self {
         Self {
             expr: Box::new(
-                SequenceExpr::default()
-                    .then(WordSet::new(&["less", "least"]))
-                    .then(SpaceOrHyphen)
-                    .then(WordSet::new(&["worse", "worst"])),
+                SequenceExpr::word_set(&["less", "least"])
+                    .t_ws_h()
+                    .then_word_set(&["worse", "worst"]),
             ),
         }
     }
 }
 
 impl ExprLinter for LessWorse {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

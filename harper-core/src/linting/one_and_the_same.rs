@@ -2,9 +2,10 @@ use crate::expr::Expr;
 use crate::expr::FixedPhrase;
 use crate::expr::LongestMatchOf;
 use crate::expr::SequenceExpr;
-use crate::{Lrc, Token, TokenStringExt, patterns::WordSet};
+use crate::{Lrc, Token, TokenStringExt};
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
+use crate::linting::expr_linter::Chunk;
 
 pub struct OneAndTheSame {
     expr: Box<dyn Expr>,
@@ -17,14 +18,12 @@ impl Default for OneAndTheSame {
         Self {
             expr: Box::new(LongestMatchOf::new(vec![
                 Box::new(
-                    SequenceExpr::default()
-                        .then(WordSet::new(&["are", "were"]))
+                    SequenceExpr::word_set(&["are", "were"])
                         .t_ws()
                         .then(one_in_the_same.clone()),
                 ),
                 Box::new(
-                    SequenceExpr::default()
-                        .then(one_in_the_same.clone())
+                    SequenceExpr::with(one_in_the_same.clone())
                         .t_ws()
                         .t_aco("as"),
                 ),
@@ -38,6 +37,8 @@ fn ws_word(word: &'static str) -> SequenceExpr {
 }
 
 impl ExprLinter for OneAndTheSame {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

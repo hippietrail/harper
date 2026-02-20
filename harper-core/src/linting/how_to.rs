@@ -1,7 +1,8 @@
 use harper_brill::UPOS;
 
+use crate::linting::expr_linter::Chunk;
 use crate::{
-    CharStringExt, Token, TokenKind, TokenStringExt,
+    Token, TokenKind, TokenStringExt,
     expr::{All, Expr, OwnedExprExt, SequenceExpr},
     linting::{ExprLinter, Lint, LintKind, Suggestion},
     patterns::{InflectionOfBe, UPOSSet},
@@ -15,22 +16,16 @@ impl Default for HowTo {
     fn default() -> Self {
         let mut pattern = All::default();
 
-        let pos_pattern = SequenceExpr::default()
-            .then_anything()
+        let pos_pattern = SequenceExpr::anything()
             .then_anything()
             .t_aco("how")
             .then_whitespace()
-            .then(|tok: &Token, src: &[char]| {
-                // TODO this is a temporary hack until PR #1730 is merged
-                // TODO we should use then_verb_lemma() instead
-                is_verb_lemma(tok, src)
-            });
+            .then_verb_lemma();
         pattern.add(pos_pattern);
 
-        let exceptions = SequenceExpr::default()
-            .then_unless(UPOSSet::new(&[UPOS::PART]))
+        let exceptions = SequenceExpr::unless(UPOSSet::new(&[UPOS::PART]))
             .then_anything()
-            .then_anything()
+            .then_unless(|tok: &Token, _: &[char]| tok.kind.is_np_member())
             .then_anything()
             .then_unless(
                 InflectionOfBe::new().or(SequenceExpr::default().then_kind_any_or_words(
@@ -44,7 +39,7 @@ impl Default for HowTo {
                 )),
             );
 
-        pattern.add(SequenceExpr::default().then(exceptions));
+        pattern.add(exceptions);
 
         Self {
             expr: Box::new(pattern),
@@ -52,17 +47,9 @@ impl Default for HowTo {
     }
 }
 
-// TODO this is a temporary hack until PR #1730 is merged
-fn is_verb_lemma(tok: &Token, src: &[char]) -> bool {
-    tok.kind.is_verb() && {
-        let verb = tok.span.get_content(src);
-        !(verb.ends_with_ignore_ascii_case_str("s")
-            || verb.ends_with_ignore_ascii_case_str("ed")
-            || verb.ends_with_ignore_ascii_case_str("ing"))
-    }
-}
-
 impl ExprLinter for HowTo {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
@@ -307,6 +294,18 @@ mod tests {
     fn dont_flag_false_positives_1492_how_indexes() {
         assert_no_lints(
             "controls how indexes will be added to unwrapped keys of flat array-like objects",
+            HowTo::default(),
+        );
+    }
+
+    #[test]
+    fn issue_2124() {
+        assert_no_lints(
+            "I like how discord shows Spotify status on your profile.",
+            HowTo::default(),
+        );
+        assert_no_lints(
+            "To be determined based on how error handling is done in new paradigm.",
             HowTo::default(),
         );
     }

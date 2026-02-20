@@ -3,6 +3,13 @@ import type { BinaryModule } from './binary';
 import type { LintConfig, LintOptions } from './main';
 import type Summary from './Summary';
 
+export interface WeirpackTestFailure {
+	expected: string;
+	got: string;
+}
+
+export type WeirpackTestFailures = Record<string, WeirpackTestFailure[]>;
+
 /** An interface for an object that can perform linting actions. */
 export default interface Linter {
 	/** Complete any setup that is necessary before linting. This may include downloading and compiling the WebAssembly binary.
@@ -12,6 +19,9 @@ export default interface Linter {
 
 	/** Lint the provided text. */
 	lint(text: string, options?: LintOptions): Promise<Lint[]>;
+
+	/** Lint the provided text, maintaining the relationship with the source rule. */
+	organizedLints(text: string, options?: LintOptions): Promise<Record<string, Lint[]>>;
 
 	/** Apply a suggestion from a lint to text, returning the changed text. */
 	applySuggestion(text: string, lint: Lint, suggestion: Suggestion): Promise<string>;
@@ -28,11 +38,11 @@ export default interface Linter {
 	getLintConfig(): Promise<LintConfig>;
 
 	/** Get the default (unset) linter configuration as JSON.
-	 * This method does not effect the caller's lint configuration, nor does it return the current one. */
+	 * This method does not affect the caller's lint configuration, nor does it return the current one. */
 	getDefaultLintConfigAsJSON(): Promise<string>;
 
 	/** Get the default (unset) linter configuration.
-	 * This method does not effect the caller's lint configuration, nor does it return the current one. */
+	 * This method does not affect the caller's lint configuration, nor does it return the current one. */
 	getDefaultLintConfig(): Promise<LintConfig>;
 
 	/** Set the linter's current configuration. */
@@ -50,14 +60,20 @@ export default interface Linter {
 	/** Get the linting rule descriptions as an object, formatted in Markdown. */
 	getLintDescriptions(): Promise<Record<string, string>>;
 
-	/** Get the linting rule descriptions as a JSON map, formatted in HTML. */
+	/** Get the linting rule descriptions as a JSON map, formatted in HTML.
+	 * Wraps the function on the BinaryModule by the same name. */
 	getLintDescriptionsHTMLAsJSON(): Promise<string>;
 
-	/** Get the linting rule descriptions as an object, formatted in HTML */
+	/** Get the linting rule descriptions as an object, formatted in HTML.
+	 * Wraps the function on the BinaryModule by the same name. */
 	getLintDescriptionsHTML(): Promise<Record<string, string>>;
 
-	/** Convert a string to Chicago-style title case. */
+	/** Convert a string to Chicago-style title case. 
+	 Wraps the function on the BinaryModule by the same name. */
 	toTitleCase(text: string): Promise<string>;
+
+	/** Release resources held by this linter instance. */
+	dispose(): Promise<void>;
 
 	/** Ignore future instances of a lint from a previous linting run in future invocations. */
 	ignoreLint(source: string, lint: Lint): Promise<void>;
@@ -77,6 +93,9 @@ export default interface Linter {
 
 	/** Clear records of all previously ignored lints. */
 	clearIgnoredLints(): Promise<void>;
+
+	/** Clear the words which have been added to the dictionary. This will not clear words from the curated dictionary. */
+	clearWords(): Promise<void>;
 
 	/** Import words into the dictionary. This is a significant operation, so try to batch words. */
 	importWords(words: string[]): Promise<void>;
@@ -102,8 +121,23 @@ export default interface Linter {
 
 	/** Import a statistics log file. */
 	importStatsFile(statsFile: string): Promise<void>;
+
+	/**
+	 * Load a Weirpack from a Blob, merging its rules into the current linter.
+	 * Returns `undefined` when the Weirpack tests pass and the rules are imported,
+	 * otherwise returns a map of rule names → failing tests so the caller can
+	 * surface the broken expectations.
+	 */
+	loadWeirpackFromBlob(blob: Blob): Promise<WeirpackTestFailures | undefined>;
+
+	/**
+	 * Load a Weirpack from an array of bytes, merging its rules into the current linter.
+	 * Returns the same failure report structure as `loadWeirpackFromBlob`.
+	 */
+	loadWeirpackFromBytes(bytes: Uint8Array): Promise<WeirpackTestFailures | undefined>;
 }
 
+/** The properties and information needed to construct a Linter. */
 export interface LinterInit {
 	/** The module or path to the WebAssembly binary. */
 	binary: BinaryModule;

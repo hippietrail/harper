@@ -2,6 +2,7 @@ use super::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::expr::Expr;
 use crate::expr::FirstMatchOf;
 use crate::expr::SequenceExpr;
+use crate::linting::expr_linter::Chunk;
 use crate::{
     CharStringExt, Token, TokenStringExt,
     patterns::{Word, WordSet},
@@ -16,13 +17,11 @@ impl Default for TheMy {
         let the = Word::new("the");
         let any_possessive = WordSet::new(&["my", "your", "his", "her", "its", "our", "their"]);
 
-        let the_poss = SequenceExpr::default()
-            .then(the.clone())
+        let the_poss = SequenceExpr::with(the.clone())
             .then_whitespace()
             .then(any_possessive.clone());
 
-        let poss_the = SequenceExpr::default()
-            .then(any_possessive)
+        let poss_the = SequenceExpr::with(any_possessive)
             .then_whitespace()
             .then(the);
 
@@ -36,6 +35,8 @@ impl Default for TheMy {
 }
 
 impl ExprLinter for TheMy {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

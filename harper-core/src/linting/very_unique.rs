@@ -1,8 +1,8 @@
+use crate::linting::expr_linter::Chunk;
 use crate::{
     Token, TokenStringExt,
     expr::{Expr, SequenceExpr},
     linting::{ExprLinter, Lint, LintKind, Suggestion},
-    patterns::WordSet,
 };
 
 pub struct VeryUnique {
@@ -13,18 +13,19 @@ impl Default for VeryUnique {
     fn default() -> Self {
         Self {
             expr: Box::new(
-                SequenceExpr::default()
-                    .then(WordSet::new(&[
-                        "fairly", "pretty", "rather", "quite", "somewhat", "very",
-                    ]))
-                    .t_ws()
-                    .t_aco("unique"),
+                SequenceExpr::word_set(&[
+                    "fairly", "pretty", "rather", "quite", "somewhat", "very",
+                ])
+                .t_ws()
+                .t_aco("unique"),
             ),
         }
     }
 }
 
 impl ExprLinter for VeryUnique {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
@@ -67,10 +68,8 @@ impl ExprLinter for VeryUnique {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::{
-        VeryUnique,
-        tests::{assert_good_and_bad_suggestions, assert_top3_suggestion_result},
-    };
+    use super::VeryUnique;
+    use crate::linting::tests::{assert_good_and_bad_suggestions, assert_top3_suggestion_result};
 
     #[test]
     fn fix_very_unique() {

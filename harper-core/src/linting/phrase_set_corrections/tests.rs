@@ -1,5 +1,6 @@
 use crate::linting::tests::{
-    assert_lint_count, assert_nth_suggestion_result, assert_suggestion_result,
+    assert_good_and_bad_suggestions, assert_lint_count, assert_no_lints,
+    assert_nth_suggestion_result, assert_suggestion_result, assert_top3_suggestion_result,
 };
 
 use super::lint_group;
@@ -198,6 +199,22 @@ fn corrects_dose_not() {
     );
 }
 
+// RedundantSuperlatives
+
+#[test]
+fn redundant_more_optimal() {
+    assert_suggestion_result("Is this more optimal?", lint_group(), "Is this optimal?");
+}
+
+#[test]
+fn redundant_most_ideal() {
+    assert_suggestion_result(
+        "This is the most ideal scenario.",
+        lint_group(),
+        "This is the ideal scenario.",
+    );
+}
+
 // -dose it true positive-
 #[test]
 #[ignore = "due to false positives this can't be fixed yet"]
@@ -275,7 +292,6 @@ fn dont_flag_dont_dose_it_too_high() {
     );
 }
 
-// the only solution the other hopefully-dominant-reasonable-adult-human mind can find, is to dose it off, hoping the drowsiness can keep the fear at bay
 #[test]
 #[ignore = "would be a false positive in a naive implementation"]
 fn dont_flag_to_dose_it_off() {
@@ -403,8 +419,108 @@ fn corrects_why_dose() {
 
 // Note: no false positive detected for 'why does'. Only true positives.
 
+// ExpandArgument
+
+#[test]
+fn corrects_arg() {
+    assert_suggestion_result(
+        "but I cannot figure out how to flag an arg as required",
+        lint_group(),
+        "but I cannot figure out how to flag an argument as required",
+    );
+}
+
+#[test]
+fn corrects_args() {
+    assert_suggestion_result(
+        "but every test I've done shows args as being about 65% faster",
+        lint_group(),
+        "but every test I've done shows arguments as being about 65% faster",
+    );
+}
+
+// ExpandDecl
+
+#[test]
+fn corrects_decl() {
+    assert_suggestion_result(
+        "Yeah, I agree a forward decl would be preferable in this case.",
+        lint_group(),
+        "Yeah, I agree a forward declaration would be preferable in this case.",
+    );
+}
+
+#[test]
+fn corrects_decls() {
+    assert_suggestion_result(
+        "Accessing type decls from pointer types",
+        lint_group(),
+        "Accessing type declarations from pointer types",
+    );
+}
+
 // ExpandDependency
 // -none-
+
+// ExpandDereference
+
+#[test]
+fn expand_deref() {
+    assert_suggestion_result(
+        "Should raw pointer deref/projections have to be in-bounds?",
+        lint_group(),
+        "Should raw pointer dereference/projections have to be in-bounds?",
+    );
+}
+
+#[test]
+fn corrects_derefs() {
+    assert_suggestion_result(
+        "A contiguous-in-memory double-ended queue that derefs into a slice - gnzlbg/slice_deque.",
+        lint_group(),
+        "A contiguous-in-memory double-ended queue that dereferences into a slice - gnzlbg/slice_deque.",
+    );
+}
+
+// ExpandParam
+
+#[test]
+fn corrects_param() {
+    assert_suggestion_result(
+        "If I use the following to set an endDate param with a default value",
+        lint_group(),
+        "If I use the following to set an endDate parameter with a default value",
+    );
+}
+
+#[test]
+fn corrects_params() {
+    assert_suggestion_result(
+        "the params are not loaded in the R environment when using the terminal",
+        lint_group(),
+        "the parameters are not loaded in the R environment when using the terminal",
+    );
+}
+
+// ExpandPointer
+
+fn correct_ptr() {
+    assert_suggestion_result(
+        "How else would you construct a slice from a ptr and a length?",
+        lint_group(),
+        "How else would you construct a slice from a pointer and a length?",
+    );
+}
+
+fn correct_ptrs() {
+    assert_suggestion_result(
+        "FixedBufferAllocator.free not freeing ptrs",
+        lint_group(),
+        "FixedBufferAllocator.free not freeing pointers",
+    );
+}
+
+// ExpandSpecification
 
 // ExpandStandardInput
 // -none-
@@ -493,41 +609,79 @@ fn correct_to_an_extend() {
     );
 }
 
-// HaveGone
+// FoamAtTheMouth
 
 #[test]
-fn correct_have_went() {
+fn correct_foam_out_the_mouth() {
     assert_suggestion_result(
-        "I have went into the btle.py file and added a print statement in _connect()",
+        "and he gave him a drink that made him foam out the mouth and die",
         lint_group(),
-        "I have gone into the btle.py file and added a print statement in _connect()",
+        "and he gave him a drink that made him foam at the mouth and die",
     );
 }
 
 #[test]
-fn correct_had_went() {
+fn correct_foamed_out_the_mouth() {
     assert_suggestion_result(
-        "Not sure if TroLoos had went from Tasmota->minimal->Tasmota, or directly Minimal->Tasmota, but going ESPHome->Minimal->Tasmota is not possible",
+        "You can see in some shots they've foamed out the mouth, and it's apparent their poisoned.",
         lint_group(),
-        "Not sure if TroLoos had gone from Tasmota->minimal->Tasmota, or directly Minimal->Tasmota, but going ESPHome->Minimal->Tasmota is not possible",
+        "You can see in some shots they've foamed at the mouth, and it's apparent their poisoned.",
     );
 }
 
 #[test]
-fn correct_having_went() {
+fn correct_foaming_out_the_mouth() {
     assert_suggestion_result(
-        "Having went through the setup guidelines and picking react starter, running npm run watch results in an error",
+        "choking or foaming out the mouth or something like that, leading up to death",
         lint_group(),
-        "Having gone through the setup guidelines and picking react starter, running npm run watch results in an error",
+        "choking or foaming at the mouth or something like that, leading up to death",
     );
 }
 
 #[test]
-fn correct_has_went() {
+fn correct_foams_out_the_mouth() {
     assert_suggestion_result(
-        "I would like to report that the package request which you are loading has went into maintenance mode.",
+        "Elaine can't swallow, foams out the mouth and Kramer says she has rabies just like his friend Bob Sacamano after she gets bit by the guy's dog",
         lint_group(),
-        "I would like to report that the package request which you are loading has gone into maintenance mode.",
+        "Elaine can't swallow, foams at the mouth and Kramer says she has rabies just like his friend Bob Sacamano after she gets bit by the guy's dog",
+    );
+}
+
+// FootTheBill
+
+#[test]
+fn correct_flip_the_bill() {
+    assert_suggestion_result(
+        "- SQL Compare (If the company will flip the bill)",
+        lint_group(),
+        "- SQL Compare (If the company will foot the bill)",
+    );
+}
+
+#[test]
+fn correct_flipped_the_bill() {
+    assert_suggestion_result(
+        "As a meetup we were extremely lucky that NOVI flipped the bill for our in-person events.",
+        lint_group(),
+        "As a meetup we were extremely lucky that NOVI footed the bill for our in-person events.",
+    );
+}
+
+#[test]
+fn correct_flipping_the_bill() {
+    assert_suggestion_result(
+        "for the simple reason that there were no multimillion dollar company flipping the bill",
+        lint_group(),
+        "for the simple reason that there were no multimillion dollar company footing the bill",
+    );
+}
+
+#[test]
+fn correct_flips_the_bill() {
+    assert_suggestion_result(
+        "There seems to be a perennial debate in Illinois between urbanites and rural folk about who really flips the bill.",
+        lint_group(),
+        "There seems to be a perennial debate in Illinois between urbanites and rural folk about who really foots the bill.",
     );
 }
 
@@ -685,6 +839,69 @@ fn corrects_investment_into() {
     );
 }
 
+// LayoutVerb
+
+#[test]
+fn corrects_layouted() {
+    assert_suggestion_result(
+        "only the views that neeed it will be measured and layouted when the superview changes",
+        lint_group(),
+        "only the views that neeed it will be measured and laid out when the superview changes",
+    );
+}
+
+#[test]
+fn corrects_layouting() {
+    assert_suggestion_result(
+        "An R package for layouting tables, using the S4 method",
+        lint_group(),
+        "An R package for laying out tables, using the S4 method",
+    );
+}
+
+// LitotesDirectPositive
+
+#[test]
+fn litotes_not_uncommon_atomic() {
+    assert_suggestion_result("not uncommon", lint_group(), "common");
+}
+
+#[test]
+fn litotes_not_uncommon_sentence() {
+    assert_suggestion_result(
+        "It is not uncommon to see outages during storms.",
+        lint_group(),
+        "It is common to see outages during storms.",
+    );
+}
+
+#[test]
+fn litotes_not_unlikely() {
+    assert_suggestion_result(
+        "This outcome is not unlikely given the data.",
+        lint_group(),
+        "This outcome is likely given the data.",
+    );
+}
+
+#[test]
+fn litotes_not_insignificant() {
+    assert_suggestion_result(
+        "That is not insignificant progress.",
+        lint_group(),
+        "That is significant progress.",
+    );
+}
+
+#[test]
+fn litotes_more_preferable() {
+    assert_suggestion_result(
+        "Is it more preferable to use process.env.variable or env.parsed.variable?",
+        lint_group(),
+        "Is it preferable to use process.env.variable or env.parsed.variable?",
+    );
+}
+
 // MakeDoWith
 
 #[test]
@@ -723,6 +940,44 @@ fn corrects_making_due_with() {
     );
 }
 
+// MakeSense
+
+#[test]
+fn fix_make_senses() {
+    assert_suggestion_result(
+        "some symbols make senses only if you have a certain keyboard",
+        lint_group(),
+        "some symbols make sense only if you have a certain keyboard",
+    );
+}
+
+#[test]
+fn fix_made_senses() {
+    assert_suggestion_result(
+        "Usually on the examples of matlab central I have found all with positive magnitude and made senses to me.",
+        lint_group(),
+        "Usually on the examples of matlab central I have found all with positive magnitude and made sense to me.",
+    );
+}
+
+#[test]
+fn fix_makes_senses() {
+    assert_suggestion_result(
+        "If it makes senses I can open a PR.",
+        lint_group(),
+        "If it makes sense I can open a PR.",
+    );
+}
+
+#[test]
+fn fix_making_senses() {
+    assert_suggestion_result(
+        "I appreciate you mentioned the two use cases, which are making senses for both.",
+        lint_group(),
+        "I appreciate you mentioned the two use cases, which are making sense for both.",
+    );
+}
+
 // MootPoint
 
 // -point is mute-
@@ -751,73 +1006,380 @@ fn operative_systems() {
     );
 }
 
+// PassersBy
+#[test]
+fn correct_passerbys() {
+    assert_suggestion_result(
+        "For any passerbys, you may replace visibility: hidden/collapsed with: opacity: 0; pointer-events: none;.",
+        lint_group(),
+        "For any passersby, you may replace visibility: hidden/collapsed with: opacity: 0; pointer-events: none;.",
+    );
+}
+
+#[test]
+fn correct_passer_bys_hyphen() {
+    assert_suggestion_result(
+        "Is there any way for random willing passer-bys to help with this effort?",
+        lint_group(),
+        "Is there any way for random willing passers-by to help with this effort?",
+    );
+}
+
+// PeekBehindTheCurtain
+
+#[test]
+fn fix_peak() {
+    assert_suggestion_result(
+        "Offer a peak behind the curtain of what I look for when baselining a software installation.",
+        lint_group(),
+        "Offer a peek behind the curtain of what I look for when baselining a software installation.",
+    );
+}
+
+#[test]
+fn fix_peaked() {
+    assert_suggestion_result(
+        "I peaked behind the curtain of the new Autodraw tool and noticed some expected similarities to what I saw in Quickdraw.",
+        lint_group(),
+        "I peeked behind the curtain of the new Autodraw tool and noticed some expected similarities to what I saw in Quickdraw.",
+    );
+}
+
+#[test]
+fn fix_peaking() {
+    assert_suggestion_result(
+        "I can see how peaking behind the curtain got me to where I am today.",
+        lint_group(),
+        "I can see how peeking behind the curtain got me to where I am today.",
+    );
+}
+
+#[test]
+fn fix_peaks() {
+    assert_suggestion_result(
+        "The Daily Vlog Series that peaks behind the curtain of an Entrepreneur's day to day life in 2016 building a business.",
+        lint_group(),
+        "The Daily Vlog Series that peeks behind the curtain of an Entrepreneur's day to day life in 2016 building a business.",
+    );
+}
+
 // Piggyback
 // -none-
 
+// RedundantSuperlatives
+// -none-
+
+// ScapeGoat
+
+#[test]
+fn fix_an_escape_goat() {
+    assert_suggestion_result(
+        "I see too many times the cable and ps thingy being used as an escape goat.",
+        lint_group(),
+        "I see too many times the cable and ps thingy being used as a scapegoat.",
+    );
+}
+
+#[test]
+fn fix_escape_goat() {
+    assert_suggestion_result(
+        "It helps shift the reason for the failure on to what the manager did not do (making them the escape goat when it fails).",
+        lint_group(),
+        "It helps shift the reason for the failure on to what the manager did not do (making them the scapegoat when it fails).",
+    );
+}
+
+#[test]
+fn fix_escape_goats() {
+    assert_suggestion_result(
+        "People might be using Americans as escape goats for this, but these mishearings are becoming as common as a bowl in a china shop!",
+        lint_group(),
+        "People might be using Americans as scapegoats for this, but these mishearings are becoming as common as a bowl in a china shop!",
+    );
+}
+
+// WreakHavoc
+
+#[test]
+fn fix_wreck_havoc() {
+    assert_suggestion_result(
+        "Tables with a \".\" in the name wreck havoc with the system",
+        lint_group(),
+        "Tables with a \".\" in the name wreak havoc with the system",
+    );
+}
+
+#[test]
+fn fix_wrecked_havoc() {
+    assert_suggestion_result(
+        "It would have been some weird local configuration of LO that wrecked havoc.",
+        lint_group(),
+        "It would have been some weird local configuration of LO that wreaked havoc.",
+    );
+}
+
+#[test]
+fn fix_wrecking_havoc() {
+    assert_suggestion_result(
+        "Multi-line edit is wrecking havoc with indention",
+        lint_group(),
+        "Multi-line edit is wreaking havoc with indention",
+    );
+}
+
+#[test]
+fn fix_wrecks_havoc() {
+    assert_suggestion_result(
+        "Small POC using rust with ptrace that wrecks havoc on msync",
+        lint_group(),
+        "Small POC using rust with ptrace that wreaks havoc on msync",
+    );
+}
+
 // Many to many tests
 
-// ChangeTack
-
-// -change_tack-
-#[test]
-fn change_tact_atomic() {
-    assert_suggestion_result("change tact", lint_group(), "change tack");
-}
+// AwaitFor
 
 #[test]
-fn changed_tacks_atomic() {
-    assert_suggestion_result("changed tacks", lint_group(), "changed tack");
-}
-
-#[test]
-fn changes_tacts_atomic() {
-    assert_suggestion_result("changes tacts", lint_group(), "changes tack");
-}
-
-#[test]
-fn changing_tact_atomic() {
-    assert_suggestion_result("changing tact", lint_group(), "changing tack");
-}
-
-// -change_of_tack-
-#[test]
-fn change_of_tacks_atomic() {
-    assert_suggestion_result("change of tacks", lint_group(), "change of tack");
-}
-
-#[test]
-fn change_of_tact_real_world() {
-    assert_suggestion_result(
-        "Change of tact : come give your concerns - Death Knight",
+fn correct_awaits_for() {
+    assert_good_and_bad_suggestions(
+        "Headless mode awaits for requested user feedback without showing any text for what that feedback should be",
         lint_group(),
-        "Change of tack : come give your concerns - Death Knight",
+        &[
+            "Headless mode awaits requested user feedback without showing any text for what that feedback should be",
+            "Headless mode waits for requested user feedback without showing any text for what that feedback should be",
+        ],
+        &[],
     );
 }
 
 #[test]
-fn change_of_tacts_real_world() {
-    assert_suggestion_result(
-        "2013.08.15 - A Change of Tacts | Hero MUX Wiki | Fandom",
+fn correct_awaiting_for() {
+    assert_good_and_bad_suggestions(
+        "gpg import fails awaiting for prompt answer",
         lint_group(),
-        "2013.08.15 - A Change of Tack | Hero MUX Wiki | Fandom",
+        &[
+            "gpg import fails waiting for prompt answer",
+            "gpg import fails awaiting prompt answer",
+        ],
+        &[],
     );
 }
 
 #[test]
-fn changing_of_tacks_real_world() {
-    assert_suggestion_result(
-        "Duffy's changing of tacks hidden in her poetry collection ...",
+fn correct_await_for() {
+    assert_good_and_bad_suggestions(
+        "I still await for a college course on \"Followership 101\"",
         lint_group(),
-        "Duffy's changing of tack hidden in her poetry collection ...",
+        &[
+            "I still wait for a college course on \"Followership 101\"",
+            "I still await a college course on \"Followership 101\"",
+        ],
+        &[],
     );
 }
 
 #[test]
-fn changes_of_tact_real_world() {
-    assert_suggestion_result(
-        "While the notes and the changes of tact started to ...",
+fn correct_awaited_for() {
+    assert_good_and_bad_suggestions(
+        "I have long awaited for the rise of the Dagoat agenda, and it is glorious.",
         lint_group(),
-        "While the notes and the changes of tack started to ...",
+        &[
+            "I have long awaited the rise of the Dagoat agenda, and it is glorious.",
+            "I have long waited for the rise of the Dagoat agenda, and it is glorious.",
+        ],
+        &[],
+    );
+}
+
+// Copyright
+
+#[test]
+fn copywritten() {
+    assert_suggestion_result(
+        "Including digital copies of copywritten artwork with the project isn't advised.",
+        lint_group(),
+        "Including digital copies of copyrighted artwork with the project isn't advised.",
+    );
+}
+
+#[test]
+fn copywrites() {
+    assert_suggestion_result(
+        "Code is 99% copy/pasted from OpenSSH with an attempt to retain all copywrites",
+        lint_group(),
+        "Code is 99% copy/pasted from OpenSSH with an attempt to retain all copyrights",
+    );
+}
+
+#[test]
+fn copywrited() {
+    assert_suggestion_result(
+        "Proprietary copywrited code",
+        lint_group(),
+        "Proprietary copyrighted code",
+    );
+}
+
+#[test]
+fn copywrited_all_caps() {
+    assert_suggestion_result(
+        "URLS MAY CONTAIN COPYWRITED MATERIAL",
+        lint_group(),
+        "URLS MAY CONTAIN COPYRIGHTED MATERIAL",
+    );
+}
+
+#[test]
+fn copywrote() {
+    assert_suggestion_result(
+        "How do you find out if someone copywrote a movie",
+        lint_group(),
+        "How do you find out if someone copyrighted a movie",
+    );
+}
+
+// DoubleEdgedSword
+
+#[test]
+fn correct_double_edge_hyphen() {
+    assert_suggestion_result(
+        "I thought the global defaultTranslationValues was potentially a double-edge sword as it also obfuscates the full set of values",
+        lint_group(),
+        "I thought the global defaultTranslationValues was potentially a double-edged sword as it also obfuscates the full set of values",
+    );
+}
+
+#[test]
+fn correct_double_edge_space() {
+    assert_suggestion_result(
+        "It becomes a double edge sword when it should not be used in cases like this.",
+        lint_group(),
+        "It becomes a double-edged sword when it should not be used in cases like this.",
+    );
+}
+
+#[test]
+fn correct_double_edge_space_plural() {
+    assert_suggestion_result(
+        "Wake locks are really double edge swords.",
+        lint_group(),
+        "Wake locks are really double-edged swords.",
+    );
+}
+
+#[test]
+fn correct_double_edged_space() {
+    assert_suggestion_result(
+        "Use case. currently OPTIMIZE is a double edged sword and potentially a very dangerous tool to use.",
+        lint_group(),
+        "Use case. currently OPTIMIZE is a double-edged sword and potentially a very dangerous tool to use.",
+    );
+}
+
+#[test]
+fn correct_double_edged_space_plural() {
+    assert_suggestion_result(
+        "Change: Ambushers and Crusaders now protect their targets too, making them double edged swords",
+        lint_group(),
+        "Change: Ambushers and Crusaders now protect their targets too, making them double-edged swords",
+    );
+}
+
+// ExpandAlloc
+
+#[test]
+fn corrects_allocs() {
+    assert_top3_suggestion_result(
+        "cmd/compile: avoid allocs by better tracking of literals for interface conversions and make",
+        lint_group(),
+        "cmd/compile: avoid allocations by better tracking of literals for interface conversions and make",
+    );
+}
+
+#[test]
+fn expand_alloc() {
+    assert_top3_suggestion_result(
+        "Used to find system libraries that alloc RWX regions on load.",
+        lint_group(),
+        "Used to find system libraries that allocate RWX regions on load.",
+    );
+}
+
+// Expat
+
+#[test]
+fn correct_ex_pat_hyphen() {
+    assert_suggestion_result(
+        "It seems ex-pat means the person will be in a foreign country temporarily",
+        lint_group(),
+        "It seems expat means the person will be in a foreign country temporarily",
+    );
+}
+
+#[test]
+fn correct_ex_pats_hyphen() {
+    assert_suggestion_result(
+        "So, it might be correct to call most Brits ex-pats.",
+        lint_group(),
+        "So, it might be correct to call most Brits expats.",
+    );
+}
+
+#[test]
+fn correct_ex_pat_space() {
+    assert_suggestion_result(
+        "For me, the term ex pat embodies the exquisite hypocrisy of certain people feeling entitled",
+        lint_group(),
+        "For me, the term expat embodies the exquisite hypocrisy of certain people feeling entitled",
+    );
+}
+
+#[test]
+#[ignore = "replace_with_match_case results in ExPats"]
+fn correct_ex_pats_space() {
+    assert_suggestion_result(
+        "Why are Brits who emigrate \"Ex Pats\" but people who come here \"immigrants\"?",
+        lint_group(),
+        "Why are Brits who emigrate \"Expats\" but people who come here \"immigrants\"?",
+    );
+}
+
+// Expatriate
+
+#[test]
+fn correct_expatriot() {
+    assert_suggestion_result(
+        "Another expatriot of the era, James Joyce, also followed Papa's writing and drinking schedule.",
+        lint_group(),
+        "Another expatriate of the era, James Joyce, also followed Papa's writing and drinking schedule.",
+    );
+}
+
+#[test]
+fn correct_expatriots() {
+    assert_suggestion_result(
+        "Expatriots, upon discovering the delightful nuances of Dutch pronunciation, often find themselves in stitches.",
+        lint_group(),
+        "Expatriates, upon discovering the delightful nuances of Dutch pronunciation, often find themselves in stitches.",
+    );
+}
+
+#[test]
+fn correct_ex_patriot_hyphen() {
+    assert_suggestion_result(
+        "Then I added we should all be using the word 移民 immigrant, not ex-patriot, not 外国人 gaikokujin, and definitely not 外人 gaijin",
+        lint_group(),
+        "Then I added we should all be using the word 移民 immigrant, not expatriate, not 外国人 gaikokujin, and definitely not 外人 gaijin",
+    );
+}
+
+#[test]
+fn correct_ex_patriots_hyphen() {
+    assert_suggestion_result(
+        "Ex-patriots who move to Hong Kong to seek greener pastures and to experience a new culture seem to bring their own cultural baggage with them.",
+        lint_group(),
+        "Expatriates who move to Hong Kong to seek greener pastures and to experience a new culture seem to bring their own cultural baggage with them.",
     );
 }
 
@@ -919,6 +1481,27 @@ fn got_ride_of() {
         "I had to adjust the labels on the free version because you guys got ride of ...",
         lint_group(),
         "I had to adjust the labels on the free version because you guys got rid of ...",
+    );
+}
+
+// HolyWar
+
+#[test]
+#[ignore = "Known failure due to replace_with_match_case working by character index"]
+fn correct_holy_war() {
+    assert_suggestion_result(
+        "I know it is Holly War about idempotent in HTTP and DELETE",
+        lint_group(),
+        "I know it is Holy War about idempotent in HTTP and DELETE",
+    );
+}
+
+#[test]
+fn correct_holly_wars() {
+    assert_suggestion_result(
+        "Anyway I'm not starting some holly wars about this point.",
+        lint_group(),
+        "Anyway I'm not starting some holy wars about this point.",
     );
 }
 
@@ -1075,11 +1658,110 @@ fn corrects_made_it_seemed() {
     );
 }
 
+// NervousWreck
+
+#[test]
+#[ignore = "Harper matches case by letter index as 'How Not to Be a Complete NervoUs wreck in an Interview'"]
+fn correct_nerve_wreck_space_title_case() {
+    assert_suggestion_result(
+        "How Not to Be a Complete Nerve Wreck in an Interview",
+        lint_group(),
+        "How Not to Be a Complete Nervous Wreck in an Interview",
+    );
+}
+
+#[test]
+fn correct_nerve_wreck_space() {
+    assert_suggestion_result(
+        "The nerve wreck you are makes you seem anxious and agitated so your employer will believe the complaints.",
+        lint_group(),
+        "The nervous wreck you are makes you seem anxious and agitated so your employer will believe the complaints.",
+    );
+}
+
+#[test]
+fn correct_nerve_wreck_hyphen() {
+    assert_suggestion_result(
+        "the child receives little education and grows up to be a nerve-wreck",
+        lint_group(),
+        "the child receives little education and grows up to be a nervous wreck",
+    );
+}
+
+#[test]
+fn correct_nerve_wreck_hyphen_plural() {
+    assert_suggestion_result(
+        "This helps us not to become nerve wrecks while looking at the side mirrors",
+        lint_group(),
+        "This helps us not to become nervous wrecks while looking at the side mirrors",
+    );
+}
+
+#[test]
+#[ignore = "We can't detect when the altered form is used for an event rather than a person."]
+fn dont_correct_it_was_a_nerve_wreck() {
+    assert_no_lints(
+        "It was a nerve-wreck, but I was also excited to see what would happen next.",
+        lint_group(),
+    );
+}
+
+#[test]
+#[ignore = "We can't detect when the altered form is used for an event rather than a person."]
+fn dont_correct_so_much_nerve_wreck() {
+    assert_no_lints(
+        "So much nerve wreck for such a simple game ...",
+        lint_group(),
+    );
+}
+
+// NotOnly
+
+// -not only are-
+#[test]
+fn fix_no_only_are() {
+    assert_suggestion_result(
+        "No only are tests run on my pipeline but once successful, my app is deployed differently",
+        lint_group(),
+        "Not only are tests run on my pipeline but once successful, my app is deployed differently",
+    );
+}
+
+// -not only is-
+#[test]
+fn fix_no_only_is() {
+    assert_suggestion_result(
+        "No only is it simple, it's efficient!",
+        lint_group(),
+        "Not only is it simple, it's efficient!",
+    );
+}
+
+// -not only was-
+#[test]
+fn fix_no_only_was() {
+    assert_suggestion_result(
+        "No only was he happily creating shapes, but he was actively using distances and angles to do so.",
+        lint_group(),
+        "Not only was he happily creating shapes, but he was actively using distances and angles to do so.",
+    );
+}
+
+// -not only were-
+#[test]
+fn fix_no_only_were() {
+    assert_suggestion_result(
+        "No only were there UI inconsistencies, but Safari lags behind chrome with things like the Popover API",
+        lint_group(),
+        "Not only were there UI inconsistencies, but Safari lags behind chrome with things like the Popover API",
+    );
+}
+
 // RaiseTheQuestion
 
 // -raise the question-
 #[test]
-fn detect_raise_the_question() {
+fn detect_rise_the_question() {
     assert_suggestion_result(
         "That would rise the question how to deal with syntax errors etc.",
         lint_group(),
@@ -1087,9 +1769,18 @@ fn detect_raise_the_question() {
     );
 }
 
+#[test]
+fn detect_arise_the_question() {
+    assert_suggestion_result(
+        "As e.g. UTC+1, might arise the question whether it includes summer and winter time",
+        lint_group(),
+        "As e.g. UTC+1, might raise the question whether it includes summer and winter time",
+    );
+}
+
 // -raises the question-
 #[test]
-fn detect_raises_the_question() {
+fn detect_rises_the_question() {
     assert_suggestion_result(
         "However, this rises the question as to whether this test is conceptually sound.",
         lint_group(),
@@ -1097,9 +1788,18 @@ fn detect_raises_the_question() {
     );
 }
 
+#[test]
+fn detect_arises_the_question() {
+    assert_suggestion_result(
+        "And it arises the question, why?",
+        lint_group(),
+        "And it raises the question, why?",
+    );
+}
+
 // -raising the question-
 #[test]
-fn detect_raising_the_question() {
+fn detect_rising_the_question() {
     assert_suggestion_result(
         "as soon as a infoHash query is performed, a Torrent file is retried, rising the question of:",
         lint_group(),
@@ -1107,7 +1807,16 @@ fn detect_raising_the_question() {
     );
 }
 
-// -rose the question-
+#[test]
+fn detect_arising_the_question() {
+    assert_suggestion_result(
+        "arising the question whether the requirement of wgpu::Features::DEPTH24PLUS_STENCIL8 is precise",
+        lint_group(),
+        "raising the question whether the requirement of wgpu::Features::DEPTH24PLUS_STENCIL8 is precise",
+    );
+}
+
+// -raised the question-
 #[test]
 fn detect_rose_the_question() {
     assert_suggestion_result(
@@ -1117,13 +1826,280 @@ fn detect_rose_the_question() {
     );
 }
 
-// -risen the question-
 #[test]
 fn detect_risen_the_question() {
     assert_suggestion_result(
         "That has risen the question in my mind if it is still possible to embed your own Flash player on Facebook today?",
         lint_group(),
         "That has raised the question in my mind if it is still possible to embed your own Flash player on Facebook today?",
+    );
+}
+
+#[test]
+fn detect_rised_the_question() {
+    assert_suggestion_result(
+        "I rised the question to Emax Support and they just came back to me inmediately with the below response.",
+        lint_group(),
+        "I raised the question to Emax Support and they just came back to me inmediately with the below response.",
+    );
+}
+
+#[test]
+#[ignore = "Not actually an error after when it's 'there arose'"]
+fn dont_fag_there_arose_the_question() {
+    assert_suggestion_result(
+        "Hello, while I have been using modals manager there arose the question related to customizing of modal header.",
+        lint_group(),
+        "Hello, while I have been using modals manager there arose the question related to customizing of modal header.",
+    );
+}
+
+#[test]
+fn detect_arised_the_question() {
+    assert_suggestion_result(
+        "and that fact arised the question in my mind, what does exactly is happening",
+        lint_group(),
+        "and that fact raised the question in my mind, what does exactly is happening",
+    );
+}
+
+#[test]
+fn detect_arose_the_question() {
+    assert_suggestion_result(
+        "This arose the question, could I store 32 digits on the stack?",
+        lint_group(),
+        "This raised the question, could I store 32 digits on the stack?",
+    );
+}
+
+#[test]
+fn detect_arisen_the_question() {
+    assert_suggestion_result(
+        "Some have arisen the question like how to use this wireless HD mini camera",
+        lint_group(),
+        "Some have raised the question like how to use this wireless HD mini camera",
+    );
+}
+
+// ToToo
+
+// -a bridge too far-
+#[test]
+fn fix_a_bridge_too_far() {
+    assert_suggestion_result(
+        "If Winforms can ever be conquered by the Mono developers may be a bridge to far.",
+        lint_group(),
+        "If Winforms can ever be conquered by the Mono developers may be a bridge too far.",
+    );
+}
+
+// -cake and eat it too-
+#[test]
+fn fix_cake_and_eat_it_too() {
+    assert_suggestion_result(
+        "The solution: wouldn't it be great if I could have my cake and eat it to?",
+        lint_group(),
+        "The solution: wouldn't it be great if I could have my cake and eat it too?",
+    );
+}
+
+// -go to far-
+#[test]
+fn fix_go_to_far() {
+    assert_suggestion_result(
+        "It's difficult to be sure when we go to far sometime when you don't exactly how the beast works in the background .",
+        lint_group(),
+        "It's difficult to be sure when we go too far sometime when you don't exactly how the beast works in the background .",
+    );
+}
+
+// -goes to far-
+#[test]
+fn fix_goes_to_far() {
+    assert_suggestion_result(
+        "Memory consumption and cpu consumption goes to far like 900% and more than this",
+        lint_group(),
+        "Memory consumption and cpu consumption goes too far like 900% and more than this",
+    );
+}
+
+// -going to far-
+#[test]
+fn fix_going_to_far() {
+    assert_suggestion_result(
+        "wsrun is going to far on this because debug 's devDependency shouldn't be considered in the cycle detection, should it?",
+        lint_group(),
+        "wsrun is going too far on this because debug 's devDependency shouldn't be considered in the cycle detection, should it?",
+    );
+}
+
+// -gone to far-
+#[test]
+fn fix_gone_to_far() {
+    assert_suggestion_result(
+        "I might have gone to far with opening issues for small things.",
+        lint_group(),
+        "I might have gone too far with opening issues for small things.",
+    );
+}
+
+// -went to far-
+#[test]
+fn fix_went_to_far() {
+    assert_suggestion_result(
+        "But I went to far compared to the initial request that seems talk about ...",
+        lint_group(),
+        "But I went too far compared to the initial request that seems talk about ...",
+    );
+}
+
+// -life's too short-
+#[test]
+fn fix_life_s_too_short() {
+    assert_suggestion_result(
+        "Life's to short for messing around with git add , writing commit message.",
+        lint_group(),
+        "Life's too short for messing around with git add , writing commit message.",
+    );
+}
+
+#[test]
+fn fix_lifes_to_short() {
+    assert_suggestion_result(
+        "I wouldn't go back after the 3rd interview lifes to short.",
+        lint_group(),
+        "I wouldn't go back after the 3rd interview life's too short.",
+    );
+}
+
+// -life is too short-
+#[test]
+fn fix_life_is_too_short() {
+    assert_suggestion_result(
+        "[Life is to short to use dated cli tools that suck]",
+        lint_group(),
+        "[Life is too short to use dated cli tools that suck]",
+    );
+}
+
+// -put too fine a point-
+#[test]
+fn fix_put_too_fine_a_point() {
+    assert_suggestion_result(
+        "Not to put to fine a point on it... that's not the kind of team I think we want to be.",
+        lint_group(),
+        "Not to put too fine a point on it... that's not the kind of team I think we want to be.",
+    );
+}
+
+// -speak too soon-
+#[test]
+fn fix_speak_too_soon() {
+    assert_suggestion_result(
+        "I don't want to speak to soon but I kept everything as I had before but included: http = httplib2.Http()",
+        lint_group(),
+        "I don't want to speak too soon but I kept everything as I had before but included: http = httplib2.Http()",
+    );
+}
+
+// -speaking too soon-
+#[test]
+fn fix_speaking_too_soon() {
+    assert_suggestion_result(
+        "EDIT: Thats what I get for speaking to soon...",
+        lint_group(),
+        "EDIT: Thats what I get for speaking too soon...",
+    );
+}
+
+// -spoke too soon-
+#[test]
+fn fix_spoke_too_soon() {
+    assert_suggestion_result(
+        "I spoke to soon. Ignore the previous post.",
+        lint_group(),
+        "I spoke too soon. Ignore the previous post.",
+    );
+}
+
+// -spoken too soon-
+#[test]
+fn fix_spoken_too_soon() {
+    assert_suggestion_result(
+        "EDIT: I might have spoken to soon...",
+        lint_group(),
+        "EDIT: I might have spoken too soon...",
+    );
+}
+
+// -think to much-
+#[test]
+fn fix_think_too_much() {
+    assert_suggestion_result(
+        "I don't think to much about it, but I don't think it's a big deal.",
+        lint_group(),
+        "I don't think too much about it, but I don't think it's a big deal.",
+    );
+}
+
+// -too big for-
+#[test]
+fn fix_too_big_for() {
+    assert_suggestion_result(
+        "ng-relations form to big for small screens",
+        lint_group(),
+        "ng-relations form too big for small screens",
+    );
+}
+
+// -too big to fail-
+#[test]
+fn fix_too_big_to_fail() {
+    assert_suggestion_result(
+        "The core alone has 50k LOC. Reminds me of \"to big to fail\".",
+        lint_group(),
+        "The core alone has 50k LOC. Reminds me of \"too big to fail\".",
+    );
+}
+
+// -too good to be true-
+#[test]
+fn fix_too_good_to_be_true() {
+    assert_suggestion_result(
+        "This seemed to good to be true, but local to scene resources will not work when they are not contained in a node.",
+        lint_group(),
+        "This seemed too good to be true, but local to scene resources will not work when they are not contained in a node.",
+    );
+}
+
+#[test]
+fn fix_too_good_too_be_true() {
+    assert_suggestion_result(
+        "The normalization of rewards is making the plot in tensorboard look too good too be true, because they are not the actual reward ...",
+        lint_group(),
+        "The normalization of rewards is making the plot in tensorboard look too good to be true, because they are not the actual reward ...",
+    );
+}
+
+// -too much information-
+#[test]
+fn fix_too_much_information() {
+    assert_suggestion_result(
+        "Live test are printing way to much information and is polluting our test output",
+        lint_group(),
+        "Live test are printing way too much information and is polluting our test output",
+    );
+}
+
+// TooTo
+
+// -too big too fail-
+#[test]
+fn fix_too_big_too_fail() {
+    assert_suggestion_result(
+        "In other words, pointer arithmetic is, at this point, too big too fail, regardless of the clever and sophisticated way C++ lawyercats worded it.",
+        lint_group(),
+        "In other words, pointer arithmetic is, at this point, too big to fail, regardless of the clever and sophisticated way C++ lawyercats worded it.",
     );
 }
 

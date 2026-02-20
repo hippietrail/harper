@@ -1,7 +1,8 @@
-use crate::expr::{Expr, SequenceExpr, SpaceOrHyphen};
+use crate::expr::{Expr, SequenceExpr};
 use crate::{Token, TokenKind};
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
+use crate::linting::expr_linter::Chunk;
 
 pub struct SoughtAfter {
     expr: Box<dyn Expr>,
@@ -12,7 +13,7 @@ impl Default for SoughtAfter {
         let pattern = SequenceExpr::any_of(vec![
             Box::new(
                 SequenceExpr::default()
-                    .then_kind_except(TokenKind::is_adverb, &["always", "maybe", "perhaps"]),
+                    .then_kind_except(TokenKind::is_adverb, &["always", "maybe", "not", "perhaps"]),
             ),
             Box::new(SequenceExpr::word_set(&[
                 "abit", // Typo for "a bit"
@@ -25,7 +26,7 @@ impl Default for SoughtAfter {
         ])
         .t_ws()
         .t_aco("sort")
-        .then(SpaceOrHyphen)
+        .t_ws_h()
         .t_aco("after");
 
         Self {
@@ -35,6 +36,8 @@ impl Default for SoughtAfter {
 }
 
 impl ExprLinter for SoughtAfter {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

@@ -3,6 +3,7 @@ use crate::expr::All;
 use crate::expr::Expr;
 use crate::expr::LongestMatchOf;
 use crate::expr::SequenceExpr;
+use crate::linting::expr_linter::Chunk;
 use crate::{Lrc, Punctuation, Token, TokenKind, TokenStringExt, patterns::Word};
 
 pub struct Everyday {
@@ -12,32 +13,17 @@ pub struct Everyday {
 impl Default for Everyday {
     fn default() -> Self {
         let everyday = Word::new("everyday");
-        let every_day = Lrc::new(SequenceExpr::default().t_aco("every").t_ws().t_aco("day"));
+        let every_day = Lrc::new(SequenceExpr::aco("every").t_ws().t_aco("day"));
 
-        let everyday_bad_after =
-            All::new(vec![
-                Box::new(
-                    SequenceExpr::default()
-                        .then(everyday.clone())
-                        .t_ws()
-                        .then_any_word(),
-                ),
-                Box::new(SequenceExpr::default().t_any().t_any().then(
-                    |tok: &Token, _src: &[char]| {
-                        !tok.kind.is_noun()
-                            && !tok.kind.is_oov()
-                            && !tok.kind.is_verb_progressive_form()
-                    },
-                )),
-            ]);
+        let everyday_bad_after = All::new(vec![
+            Box::new(SequenceExpr::with(everyday.clone()).t_ws().then_any_word()),
+            Box::new(SequenceExpr::anything().t_any().then_kind_where(|kind| {
+                !kind.is_noun() && !kind.is_oov() && !kind.is_verb_progressive_form()
+            })),
+        ]);
 
         let bad_before_every_day = All::new(vec![
-            Box::new(
-                SequenceExpr::default()
-                    .then_any_word()
-                    .t_ws()
-                    .then(every_day.clone()),
-            ),
+            Box::new(SequenceExpr::any_word().t_ws().then(every_day.clone())),
             Box::new(|tok: &Token, _src: &[char]| {
                 // "this" and "that" are both determiners and pronouns
                 tok.kind.is_determiner() && !tok.kind.is_pronoun()
@@ -47,16 +33,14 @@ impl Default for Everyday {
         // (why does) everyday feel the (same ?)
         let everyday_ambiverb_after_then_noun = All::new(vec![
             Box::new(
-                SequenceExpr::default()
-                    .then(everyday.clone())
+                SequenceExpr::with(everyday.clone())
                     .t_ws()
                     .then_any_word()
                     .t_ws()
                     .then_any_word(),
             ),
             Box::new(
-                SequenceExpr::default()
-                    .t_any()
+                SequenceExpr::anything()
                     .t_any()
                     .then_kind_both(TokenKind::is_noun, TokenKind::is_verb)
                     .t_any()
@@ -66,44 +50,34 @@ impl Default for Everyday {
 
         // (Do you actually improve if you draw) everyday?
         let everyday_punctuation_after = All::new(vec![
-            Box::new(
-                SequenceExpr::default()
-                    .then(everyday.clone())
-                    .then_punctuation(),
-            ),
-            Box::new(
-                SequenceExpr::default()
-                    .t_any()
-                    .then(|tok: &Token, _src: &[char]| {
-                        matches!(
-                            tok.kind,
-                            TokenKind::Punctuation(
-                                Punctuation::Question | Punctuation::Comma | Punctuation::Period
-                            )
-                        )
-                    }),
-            ),
+            Box::new(SequenceExpr::with(everyday.clone()).then_punctuation()),
+            Box::new(SequenceExpr::anything().then_kind_where(|kind| {
+                matches!(
+                    kind,
+                    TokenKind::Punctuation(
+                        Punctuation::Question | Punctuation::Comma | Punctuation::Period
+                    )
+                )
+            })),
         ]);
 
         // (However, the message goes far beyond) every day things.
         let every_day_noun_after_then_punctuation = All::new(vec![
             Box::new(
-                SequenceExpr::default()
-                    .then(every_day.clone())
+                SequenceExpr::with(every_day.clone())
                     .t_ws()
-                    .then_noun()
+                    .then_plural_noun()
                     .then_punctuation(),
             ),
             Box::new(
-                SequenceExpr::default()
+                SequenceExpr::anything()
                     .t_any()
                     .t_any()
                     .t_any()
                     .t_any()
-                    .t_any()
-                    .then(|tok: &Token, _src: &[char]| {
+                    .then_kind_where(|kind| {
                         matches!(
-                            tok.kind,
+                            kind,
                             TokenKind::Punctuation(
                                 Punctuation::Question | Punctuation::Comma | Punctuation::Period
                             )
@@ -147,6 +121,8 @@ impl Default for Everyday {
 }
 
 impl ExprLinter for Everyday {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
@@ -215,7 +191,7 @@ impl ExprLinter for Everyday {
 mod tests {
     use super::Everyday;
     use crate::linting::tests::{
-        assert_lint_count, assert_suggestion_result, assert_top3_suggestion_result,
+        assert_lint_count, assert_no_lints, assert_suggestion_result, assert_top3_suggestion_result,
     };
 
     #[test]
@@ -505,5 +481,10 @@ mod tests {
             Everyday::default(),
             "MEET SOMEONE NEW EVERY DAY.",
         );
+    }
+
+    #[test]
+    fn dont_flag_every_day_singular_noun_2020() {
+        assert_no_lints("50 requests per day, every day free.", Everyday::default());
     }
 }

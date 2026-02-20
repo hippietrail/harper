@@ -1,8 +1,8 @@
+use crate::linting::expr_linter::Chunk;
 use crate::{
     Token, TokenStringExt,
     expr::{Expr, SequenceExpr},
     linting::{ExprLinter, Lint, LintKind, Suggestion},
-    patterns::WordSet,
 };
 
 const CONTRACTION_AND_POSSESSIVE_ENDINGS: [&str; 7] = ["d", "ll", "m", "re", "s", "t", "ve"];
@@ -15,16 +15,17 @@ impl Default for SemicolonApostrophe {
     fn default() -> Self {
         Self {
             expr: Box::new(
-                SequenceExpr::default()
-                    .then_any_word()
+                SequenceExpr::any_word()
                     .then_semicolon()
-                    .then(WordSet::new(&CONTRACTION_AND_POSSESSIVE_ENDINGS)),
+                    .then_word_set(&CONTRACTION_AND_POSSESSIVE_ENDINGS),
             ),
         }
     }
 }
 
 impl ExprLinter for SemicolonApostrophe {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
@@ -40,14 +41,15 @@ impl ExprLinter for SemicolonApostrophe {
             ending.span.get_content_string(src).to_lowercase()
         );
 
-        let lettercase_template_char_slice = base.span.get_content(src);
+        let mut lettercase_template = base.span.get_content(src).to_vec();
+        lettercase_template.extend_from_slice(ending.span.get_content(src));
 
         Some(Lint {
             span: whole_span,
             lint_kind: LintKind::Typo,
             suggestions: vec![Suggestion::replace_with_match_case(
                 replacement_str.chars().collect(),
-                lettercase_template_char_slice,
+                &lettercase_template,
             )],
             message: format!("Did you mean `{replacement_str}`?"),
             priority: 57,
@@ -61,10 +63,8 @@ impl ExprLinter for SemicolonApostrophe {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::{
-        SemicolonApostrophe,
-        tests::{assert_lint_count, assert_suggestion_result},
-    };
+    use super::SemicolonApostrophe;
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     #[test]
     fn fix_dont_with_semicolon_to_apostrophe() {
@@ -115,5 +115,10 @@ mod tests {
             SemicolonApostrophe::default(),
             "Let's see if we've fixed patrakov's bug. Fun wasn't it?",
         )
+    }
+
+    #[test]
+    fn corrects_ive_with_correct_capitalization() {
+        assert_suggestion_result("I;ve", SemicolonApostrophe::default(), "I've");
     }
 }

@@ -3,6 +3,7 @@ use super::expr_linter::ExprLinter;
 use crate::expr::Expr;
 use crate::expr::SequenceExpr;
 use crate::linting::LintKind;
+use crate::linting::expr_linter::Chunk;
 use crate::patterns::WordSet;
 use crate::{CharStringExt, Lint, Lrc, Token, TokenStringExt};
 
@@ -30,7 +31,7 @@ impl MultipleSequentialPronouns {
             "our", "your", "their", // possessive adjectives, plural
         ]));
 
-        // TODO: temporary sets of pronouns - remove when WordMetadata has this info
+        // TODO: temporary sets of pronouns - remove when DictWordMetadata has this info
         let subject_pronouns = Lrc::new(WordSet::new(&[
             "i", "you", "he", "she", "it", // subject case, singular
             "we", "you", "they", // subject case, plural
@@ -48,13 +49,8 @@ impl MultipleSequentialPronouns {
 
         Self {
             expr: Box::new(
-                SequenceExpr::default()
-                    .then(pronouns.clone())
-                    .then_one_or_more(
-                        SequenceExpr::default()
-                            .then_whitespace()
-                            .then(pronouns.clone()),
-                    ),
+                SequenceExpr::with(pronouns.clone())
+                    .then_one_or_more(SequenceExpr::whitespace().then(pronouns.clone())),
             ),
             subject_pronouns,
             object_pronouns,
@@ -76,6 +72,8 @@ impl MultipleSequentialPronouns {
 }
 
 impl ExprLinter for MultipleSequentialPronouns {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

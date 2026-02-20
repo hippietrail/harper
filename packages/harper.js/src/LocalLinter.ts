@@ -1,18 +1,21 @@
 import type { Dialect, Lint, Suggestion, Linter as WasmLinter } from 'harper-wasm';
 import { Language } from 'harper-wasm';
 import LazyPromise from 'p-lazy';
-import type { BinaryModule } from './binary';
+import type { SuperBinaryModule } from './binary';
 import type Linter from './Linter';
-import type { LinterInit } from './Linter';
+import type { LinterInit, WeirpackTestFailures } from './Linter';
 import type { LintConfig, LintOptions } from './main';
 
-/** A Linter that runs in the current JavaScript context (meaning it is allowed to block the event loop).  */
+/** A Linter that runs in the current JavaScript context (meaning it is allowed to block the event loop).
+ * See the interface definition for more details. */
 export default class LocalLinter implements Linter {
-	binary: BinaryModule;
+	binary: SuperBinaryModule;
 	private inner: Promise<WasmLinter>;
+	private disposed = false;
 
 	constructor(init: LinterInit) {
-		this.binary = init.binary;
+		this.binary = init.binary as SuperBinaryModule;
+		this.binary.setup();
 		this.inner = this.createInner(init.dialect);
 	}
 
@@ -32,10 +35,48 @@ export default class LocalLinter implements Linter {
 
 	async lint(text: string, options?: LintOptions): Promise<Lint[]> {
 		const inner = await this.inner;
-		const language = options?.language === 'plaintext' ? Language.Plain : Language.Markdown;
-		const lints = inner.lint(text, language);
+
+		let language = Language.Markdown;
+
+		switch (options?.language) {
+			case 'plaintext':
+				language = Language.Plain;
+				break;
+			case 'markdown':
+				language = Language.Markdown;
+				break;
+			case 'typst':
+				language = Language.Typst;
+		}
+
+		const lints = inner.lint(
+			text,
+			language,
+			options?.forceAllHeadings ?? false,
+			options?.regex_mask,
+		);
 
 		return lints;
+	}
+
+	async organizedLints(text: string, options?: LintOptions): Promise<Record<string, Lint[]>> {
+		const inner = await this.inner;
+		const language = options?.language === 'plaintext' ? Language.Plain : Language.Markdown;
+		const lintGroups = inner.organized_lints(
+			text,
+			language,
+			options?.forceAllHeadings ?? false,
+			options?.regex_mask,
+		);
+
+		const output: Record<string, Lint[]> = {};
+
+		for (const group of lintGroups) {
+			output[group.group] = group.lints;
+			group.free();
+		}
+
+		return output;
 	}
 
 	async applySuggestion(text: string, lint: Lint, suggestion: Suggestion): Promise<string> {
@@ -59,11 +100,11 @@ export default class LocalLinter implements Linter {
 	}
 
 	async getDefaultLintConfigAsJSON(): Promise<string> {
-		return this.binary.getDefaultLintConfigAsJSON();
+		return await this.binary.getDefaultLintConfigAsJSON();
 	}
 
 	async getDefaultLintConfig(): Promise<LintConfig> {
-		return this.binary.getDefaultLintConfig();
+		return await this.binary.getDefaultLintConfig();
 	}
 
 	async setLintConfig(config: LintConfig): Promise<void> {
@@ -82,7 +123,7 @@ export default class LocalLinter implements Linter {
 	}
 
 	async toTitleCase(text: string): Promise<string> {
-		return this.binary.toTitleCase(text);
+		return await this.binary.toTitleCase(text);
 	}
 
 	async getLintDescriptions(): Promise<Record<string, string>> {
@@ -135,6 +176,12 @@ export default class LocalLinter implements Linter {
 		inner.clear_ignored_lints();
 	}
 
+	async clearWords(): Promise<void> {
+		const inner = await this.inner;
+
+		return inner.clear_words();
+	}
+
 	async importWords(words: string[]): Promise<void> {
 		const inner = await this.inner;
 
@@ -157,6 +204,7 @@ export default class LocalLinter implements Linter {
 		const inner = await this.inner;
 
 		if (inner.get_dialect() !== dialect) {
+			inner.free();
 			this.inner = this.createInner(dialect);
 		}
 
@@ -176,5 +224,43 @@ export default class LocalLinter implements Linter {
 	async importStatsFile(statsFile: string): Promise<void> {
 		const inner = await this.inner;
 		return inner.import_stats_file(statsFile);
+	}
+
+	/**
+	 * Load a Weirpack from a Blob.
+	 *
+	 * Returns `undefined` if tests pass and rules are imported, otherwise returns
+	 * the Weirpack test failures.
+	 */
+	async loadWeirpackFromBlob(blob: Blob): Promise<WeirpackTestFailures | undefined> {
+		const bytes = new Uint8Array(await blob.arrayBuffer());
+		return this.loadWeirpackFromBytes(bytes);
+	}
+
+	/**
+	 * Load a Weirpack from a byte array.
+	 *
+	 * Returns `undefined` if tests pass and rules are imported, otherwise returns
+	 * the Weirpack test failures.
+	 */
+	async loadWeirpackFromBytes(
+		bytes: Uint8Array | number[],
+	): Promise<WeirpackTestFailures | undefined> {
+		const inner = await this.inner;
+		const data = bytes instanceof Uint8Array ? bytes : Uint8Array.from(bytes);
+		const result = (
+			inner as unknown as { import_weirpack: (input: Uint8Array) => unknown }
+		).import_weirpack(data);
+		return result as WeirpackTestFailures | undefined;
+	}
+
+	async dispose(): Promise<void> {
+		if (this.disposed) {
+			return;
+		}
+
+		this.disposed = true;
+		const inner = await this.inner;
+		inner.free();
 	}
 }

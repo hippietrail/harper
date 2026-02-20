@@ -3,11 +3,11 @@ use std::collections::VecDeque;
 use std::fmt::Display;
 
 use harper_brill::{Chunker, Tagger, brill_tagger, burn_chunker};
+use itertools::Itertools;
 use paste::paste;
 
 use crate::expr::{Expr, ExprExt, FirstMatchOf, Repeating, SequenceExpr};
 use crate::parsers::{Markdown, MarkdownOptions, Parser, PlainEnglish};
-use crate::patterns::WordSet;
 use crate::punctuation::Punctuation;
 use crate::spell::{Dictionary, FstDictionary};
 use crate::vec_ext::VecExt;
@@ -87,6 +87,19 @@ impl Document {
         Self::new(text, &PlainEnglish, &FstDictionary::curated())
     }
 
+    /// Create a new document simply by tokenizing the provided input and applying fix-ups. The
+    /// contained words will not contain any metadata.
+    ///
+    /// This avoids running potentially expensive metadata generation code, so this is more
+    /// efficient if you don't need that information.
+    pub(crate) fn new_basic_tokenize(text: &str, parser: &impl Parser) -> Self {
+        let source = Lrc::new(text.chars().collect_vec());
+        let tokens = parser.parse(&source);
+        let mut document = Self { source, tokens };
+        document.apply_fixups();
+        document
+    }
+
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
     /// parser and a provided dictionary.
     pub fn new_plain_english(text: &str, dictionary: &impl Dictionary) -> Self {
@@ -125,24 +138,31 @@ impl Document {
         Self::new_markdown(text, MarkdownOptions::default(), dictionary)
     }
 
-    /// Re-parse important language constructs.
-    ///
-    /// Should be run after every change to the underlying [`Self::source`].
-    fn parse(&mut self, dictionary: &impl Dictionary) {
+    fn apply_fixups(&mut self) {
         self.condense_spaces();
         self.condense_newlines();
         self.newlines_to_breaks();
-        self.condense_contractions();
         self.condense_dotted_initialisms();
         self.condense_number_suffixes();
         self.condense_ellipsis();
+
         self.condense_dotted_latin();
         self.condense_loan_phrases();
+        self.condense_latin();
+        self.condense_common_top_level_domains();
+
         self.condense_filename_extensions();
         self.condense_tldr();
         self.condense_ampersand_pairs();
         self.condense_slash_pairs();
         self.match_quotes();
+    }
+
+    /// Re-parse important language constructs.
+    ///
+    /// Should be run after every change to the underlying [`Self::source`].
+    fn parse(&mut self, dictionary: &impl Dictionary) {
+        self.apply_fixups();
 
         let chunker = burn_chunker();
         let tagger = brill_tagger();
@@ -159,11 +179,13 @@ impl Document {
 
             let mut i = 0;
 
-            // Annotate word metadata
+            // Annotate DictWord metadata
             for token in sent.iter_mut() {
                 if let TokenKind::Word(meta) = &mut token.kind {
                     let word_source = token.span.get_content(&self.source);
-                    let mut found_meta = dictionary.get_word_metadata(word_source).cloned();
+                    let mut found_meta = dictionary
+                        .get_word_metadata(word_source)
+                        .map(|c| c.into_owned());
 
                     if let Some(inner) = &mut found_meta {
                         inner.pos_tag = token_tags[i].or_else(|| inner.infer_pos_tag());
@@ -350,22 +372,64 @@ impl Document {
     /// [`Punctuation::Quote::twin_loc`] field. This is on a best-effort
     /// basis.
     ///
-    /// Current algorithm is basic and could use some work.
+    /// Current algorithm is based on https://leancrew.com/all-this/2025/03/a-mac-smart-quote-curiosity
     fn match_quotes(&mut self) {
-        let quote_indices: Vec<usize> = self.tokens.iter_quote_indices().collect();
+        let mut pg_indices: Vec<_> = vec![0];
+        pg_indices.extend(self.iter_paragraph_break_indices());
+        pg_indices.push(self.tokens.len());
 
-        for i in 0..quote_indices.len() / 2 {
-            let a_i = quote_indices[i * 2];
-            let b_i = quote_indices[i * 2 + 1];
+        // Avoid allocation in loop
+        let mut quote_indices = Vec::new();
+        let mut open_quote_indices = Vec::new();
 
-            {
-                let a = self.tokens[a_i].kind.as_mut_quote().unwrap();
-                a.twin_loc = Some(b_i);
+        for (start, end) in pg_indices.into_iter().tuple_windows() {
+            let pg = &mut self.tokens[start..end];
+
+            quote_indices.clear();
+            quote_indices.extend(pg.iter_quote_indices());
+            open_quote_indices.clear();
+
+            // Find open quotes first.
+            for quote in &quote_indices {
+                let is_open = *quote == 0
+                    || pg[0..*quote].iter_word_likes().next().is_none()
+                    || pg[quote - 1].kind.is_whitespace()
+                    || matches!(
+                        pg[quote - 1].kind.as_punctuation(),
+                        Some(Punctuation::LessThan)
+                            | Some(Punctuation::OpenRound)
+                            | Some(Punctuation::OpenSquare)
+                            | Some(Punctuation::OpenCurly)
+                            | Some(Punctuation::Apostrophe)
+                    );
+
+                if is_open {
+                    open_quote_indices.push(*quote);
+                }
             }
 
-            {
-                let b = self.tokens[b_i].kind.as_mut_quote().unwrap();
-                b.twin_loc = Some(a_i);
+            while let Some(open_idx) = open_quote_indices.pop() {
+                let Some(close_idx) = pg[open_idx + 1..].iter_quote_indices().next() else {
+                    continue;
+                };
+
+                if pg[close_idx + open_idx + 1]
+                    .kind
+                    .as_quote()
+                    .unwrap()
+                    .twin_loc
+                    .is_some()
+                {
+                    continue;
+                }
+
+                pg[open_idx].kind.as_mut_quote().unwrap().twin_loc =
+                    Some(close_idx + open_idx + start + 1);
+                pg[close_idx + open_idx + 1]
+                    .kind
+                    .as_mut_quote()
+                    .unwrap()
+                    .twin_loc = Some(open_idx + start);
             }
         }
     }
@@ -448,11 +512,7 @@ impl Document {
 
     fn uncached_dotted_latin_expr() -> Lrc<FirstMatchOf> {
         Lrc::new(FirstMatchOf::new(vec![
-            Box::new(
-                SequenceExpr::default()
-                    .then(WordSet::new(&["etc", "vs"]))
-                    .then_period(),
-            ),
+            Box::new(SequenceExpr::word_set(&["etc", "vs"]).then_period()),
             Box::new(
                 SequenceExpr::aco("et")
                     .then_whitespace()
@@ -673,6 +733,57 @@ impl Document {
 
             if cursor >= self.tokens.len() {
                 break;
+            }
+        }
+
+        self.tokens.remove_indices(to_remove);
+    }
+
+    /// Condenses common top-level domains (for example: `.blog`, `.com`) down to single tokens.
+    fn condense_common_top_level_domains(&mut self) {
+        const COMMON_TOP_LEVEL_DOMAINS: &[&str; 106] = &[
+            "ai", "app", "blog", "co", "com", "dev", "edu", "gov", "info", "io", "me", "mil",
+            "net", "org", "shop", "tech", "uk", "us", "xyz", "jp", "de", "fr", "br", "it", "ru",
+            "es", "pl", "ca", "au", "cn", "in", "nl", "eu", "ch", "id", "at", "kr", "cz", "mx",
+            "be", "tv", "se", "tr", "tw", "al", "ua", "ir", "vn", "cl", "sk", "ly", "cc", "to",
+            "no", "fi", "pt", "dk", "ar", "hu", "tk", "gr", "il", "news", "ro", "my", "biz", "ie",
+            "za", "nz", "sg", "ee", "th", "pe", "bg", "hk", "rs", "lt", "link", "ph", "club", "si",
+            "site", "mobi", "by", "cat", "wiki", "la", "ga", "xxx", "cf", "hr", "ng", "jobs",
+            "online", "kz", "ug", "gq", "ae", "is", "lv", "pro", "fm", "tips", "ms", "sa", "int",
+        ];
+
+        if self.tokens.len() < 2 {
+            return;
+        }
+
+        let mut to_remove = VecDeque::new();
+        for cursor in 1..self.tokens.len() {
+            // left context, dot, tld, right context
+            let l = self.get_token_offset(cursor, -2);
+            let d = &self.tokens[cursor - 1];
+            let tld = &self.tokens[cursor];
+            let r = self.get_token_offset(cursor, 1);
+
+            let is_tld_chunk = d.kind.is_period()
+                && tld.kind.is_word()
+                && tld
+                    .span
+                    .get_content(&self.source)
+                    .iter()
+                    .all(|c| c.is_ascii_alphabetic())
+                && tld
+                    .span
+                    .get_content(&self.source)
+                    .eq_any_ignore_ascii_case_str(COMMON_TOP_LEVEL_DOMAINS)
+                && ((l.is_none_or(|t| t.kind.is_whitespace())
+                    && r.is_none_or(|t| t.kind.is_whitespace()))
+                    || (l.is_some_and(|t| t.kind.is_open_round())
+                        && r.is_some_and(|t| t.kind.is_close_round())));
+
+            if is_tld_chunk {
+                self.tokens[cursor - 1].kind = TokenKind::Unlintable;
+                self.tokens[cursor - 1].span.end = self.tokens[cursor].span.end;
+                to_remove.push_back(cursor);
             }
         }
 
@@ -945,6 +1056,7 @@ impl TokenStringExt for Document {
     create_fns_on_doc!(verb);
     create_fns_on_doc!(word);
     create_fns_on_doc!(word_like);
+    create_fns_on_doc!(heading_start);
 
     fn first_sentence_word(&self) -> Option<&Token> {
         self.tokens.first_sentence_word()
@@ -974,6 +1086,10 @@ impl TokenStringExt for Document {
         self.tokens.iter_paragraphs()
     }
 
+    fn iter_headings(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
+        self.tokens.iter_headings()
+    }
+
     fn iter_sentences(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
         self.tokens.iter_sentences()
     }
@@ -998,6 +1114,7 @@ mod tests {
     use itertools::Itertools;
 
     use super::Document;
+    use crate::TokenStringExt;
     use crate::{Span, parsers::MarkdownOptions};
 
     fn assert_condensed_contractions(text: &str, final_tok_count: usize) {
@@ -1023,6 +1140,11 @@ mod tests {
     #[test]
     fn simple_contraction3() {
         assert_condensed_contractions("There's", 1);
+    }
+
+    #[test]
+    fn simple_contraction4() {
+        assert_condensed_contractions("doesn't", 1);
     }
 
     #[test]
@@ -1274,6 +1396,32 @@ mod tests {
     }
 
     #[test]
+    fn condense_common_top_level_domains() {
+        let doc = Document::new_plain_english_curated(".blog and .com and .NET");
+        assert!(doc.tokens.len() == 9);
+        assert!(doc.tokens[0].kind.is_unlintable());
+        assert!(doc.tokens[4].kind.is_unlintable());
+        assert!(doc.tokens[8].kind.is_unlintable());
+    }
+
+    #[test]
+    fn condense_common_top_level_domains_in_parens() {
+        let doc = Document::new_plain_english_curated("(.blog)");
+        assert!(doc.tokens.len() == 3);
+        assert!(doc.tokens[0].kind.is_open_round());
+        assert!(doc.tokens[1].kind.is_unlintable());
+        assert!(doc.tokens[2].kind.is_close_round());
+    }
+
+    #[test]
+    fn doesnt_condense_unknown_top_level_domains() {
+        let doc = Document::new_plain_english_curated(".harper");
+        assert!(doc.tokens.len() == 2);
+        assert!(doc.tokens[0].kind.is_punctuation());
+        assert!(doc.tokens[1].kind.is_word());
+    }
+
+    #[test]
     fn condense_r_and_d_caps() {
         let doc = Document::new_plain_english_curated("R&D");
         assert!(doc.tokens.len() == 1);
@@ -1342,5 +1490,60 @@ mod tests {
         let doc = Document::new_plain_english_curated("I/O");
         assert!(doc.tokens.len() == 1);
         assert!(doc.tokens[0].kind.is_word());
+    }
+
+    #[test]
+    fn finds_unmatched_quotes_in_document() {
+        let raw = r#"
+This is a paragraph with a single word "quoted."
+
+This is a second paragraph with no quotes.
+
+This is a third paragraph with a single erroneous "quote.
+
+This is a final paragraph with a weird "quote and a not-weird "quote".
+            "#;
+
+        let doc = Document::new_markdown_default_curated(raw);
+
+        let quote_twins: Vec<_> = doc
+            .iter_quotes()
+            .map(|t| t.kind.as_quote().unwrap().twin_loc)
+            .collect();
+
+        assert_eq!(
+            quote_twins,
+            vec![Some(19), Some(16), None, None, Some(89), Some(87)]
+        )
+    }
+
+    #[test]
+    fn issue_1901() {
+        let raw = r#"
+"A quoted line"
+"A quote without a closing mark
+"Another quoted lined"
+"The last quoted line"
+            "#;
+
+        let doc = Document::new_markdown_default_curated(raw);
+
+        let quote_twins: Vec<_> = doc
+            .iter_quotes()
+            .map(|t| t.kind.as_quote().unwrap().twin_loc)
+            .collect();
+
+        assert_eq!(
+            quote_twins,
+            vec![
+                Some(6),
+                Some(0),
+                None,
+                Some(27),
+                Some(21),
+                Some(37),
+                Some(29)
+            ]
+        )
     }
 }

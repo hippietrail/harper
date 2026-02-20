@@ -8,6 +8,7 @@ use crate::{
 };
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
+use crate::linting::expr_linter::Chunk;
 
 pub struct BackInTheDay {
     expr: Box<dyn Expr>,
@@ -20,8 +21,7 @@ impl Default for BackInTheDay {
         let exceptions = Lrc::new(WordSet::new(&["before", "of", "when"]));
         let phrase = Lrc::new(FixedPhrase::from_phrase("back in the days"));
 
-        let pattern = SequenceExpr::default()
-            .then(phrase.clone())
+        let pattern = SequenceExpr::with(phrase.clone())
             .then_whitespace()
             .then(exceptions.clone())
             .or_longest(phrase);
@@ -34,6 +34,8 @@ impl Default for BackInTheDay {
 }
 
 impl ExprLinter for BackInTheDay {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

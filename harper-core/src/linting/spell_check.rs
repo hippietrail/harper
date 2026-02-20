@@ -14,7 +14,7 @@ where
     T: Dictionary,
 {
     dictionary: T,
-    word_cache: LruCache<CharString, Vec<CharString>>,
+    suggestion_cache: LruCache<CharString, Vec<CharString>>,
     dialect: Dialect,
 }
 
@@ -22,7 +22,7 @@ impl<T: Dictionary> SpellCheck<T> {
     pub fn new(dictionary: T, dialect: Dialect) -> Self {
         Self {
             dictionary,
-            word_cache: LruCache::new(NonZero::new(10000).unwrap()),
+            suggestion_cache: LruCache::new(NonZero::new(10000).unwrap()),
             dialect,
         }
     }
@@ -30,11 +30,11 @@ impl<T: Dictionary> SpellCheck<T> {
     const MAX_SUGGESTIONS: usize = 3;
 
     fn suggest_correct_spelling(&mut self, word: &[char]) -> Vec<CharString> {
-        if let Some(hit) = self.word_cache.get(word) {
+        if let Some(hit) = self.suggestion_cache.get(word) {
             hit.clone()
         } else {
             let suggestions = self.uncached_suggest_correct_spelling(word);
-            self.word_cache.put(word.into(), suggestions.clone());
+            self.suggestion_cache.put(word.into(), suggestions.clone());
             suggestions
         }
     }
@@ -42,10 +42,10 @@ impl<T: Dictionary> SpellCheck<T> {
         // Back off until we find a match.
         for dist in 2..5 {
             let suggestions: Vec<CharString> =
-                suggest_correct_spelling(word, 100, dist, &self.dictionary)
+                suggest_correct_spelling(word, 200, dist, &self.dictionary)
                     .into_iter()
                     .filter(|v| {
-                        // ignore entries outside the configured dialect
+                        // Ignore entries outside the configured dialect
                         self.dictionary
                             .get_word_metadata(v)
                             .unwrap()
@@ -87,20 +87,29 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
             if let Some(mis_f) = word_chars.first()
                 && mis_f.is_uppercase()
             {
-                for sug_f in possibilities.iter_mut().filter_map(|w| w.first_mut()) {
+                for sug_f in possibilities.iter_mut().filter_map(|w| {
+                    // Skip words that have uppercase chars in any position except the first.
+                    // (For words with specific capitalization, like 'macOS')
+                    w.iter()
+                        .skip(1)
+                        .all(|c| !c.is_uppercase())
+                        .then_some(w.first_mut())
+                        .flatten()
+                }) {
                     *sug_f = sug_f.to_uppercase().next().unwrap();
                 }
             }
 
-            let suggestions = possibilities
+            let suggestions: Vec<_> = possibilities
                 .iter()
-                .map(|word| Suggestion::ReplaceWith(word.to_vec()));
+                .map(|sug| Suggestion::ReplaceWith(sug.to_vec()))
+                .collect();
 
             // If there's only one suggestion, save the user a step in the GUI
             let message = if suggestions.len() == 1 {
                 format!(
                     "Did you mean `{}`?",
-                    possibilities.last().unwrap().iter().collect::<String>()
+                    possibilities.first().unwrap().iter().collect::<String>()
                 )
             } else {
                 format!(
@@ -112,7 +121,7 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
             lints.push(Lint {
                 span: word.span,
                 lint_kind: LintKind::Spelling,
-                suggestions: suggestions.collect(),
+                suggestions,
                 message,
                 priority: 63,
             })
@@ -128,14 +137,20 @@ impl<T: Dictionary> Linter for SpellCheck<T> {
 
 #[cfg(test)]
 mod tests {
+    use strum::IntoEnumIterator;
+
     use super::SpellCheck;
-    use crate::spell::FstDictionary;
+    use crate::dict_word_metadata::DialectFlags;
+    use crate::linting::Linter;
+    use crate::linting::tests::{assert_good_and_bad_suggestions, assert_no_lints};
+    use crate::spell::{Dictionary, FstDictionary, MergedDictionary, MutableDictionary};
     use crate::{
         Dialect,
         linting::tests::{
             assert_lint_count, assert_suggestion_result, assert_top3_suggestion_result,
         },
     };
+    use crate::{DictWordMetadata, Document};
 
     // Capitalization tests
 
@@ -214,7 +229,7 @@ mod tests {
     }
 
     #[test]
-    fn austrlaian_verandah_in_british_dialect() {
+    fn australian_verandah_in_british_dialect() {
         assert_lint_count(
             "Our house has a verandah.",
             SpellCheck::new(FstDictionary::curated(), Dialect::British),
@@ -402,6 +417,118 @@ mod tests {
             "shes",
             SpellCheck::new(FstDictionary::curated(), Dialect::British),
             "she's",
+        );
+    }
+
+    #[test]
+    fn issue_1876() {
+        let user_dialect = Dialect::American;
+
+        // Create a user dictionary with a word normally of another dialect in it.
+        let mut user_dict = MutableDictionary::new();
+        user_dict.append_word_str(
+            "Calibre",
+            DictWordMetadata {
+                dialects: DialectFlags::from_dialect(user_dialect),
+                ..Default::default()
+            },
+        );
+
+        // Create a merged dictionary, using curated first.
+        let mut merged_dict = MergedDictionary::new();
+        merged_dict.add_dictionary(FstDictionary::curated());
+        merged_dict.add_dictionary(std::sync::Arc::from(user_dict));
+        assert!(merged_dict.contains_word_str("Calibre"));
+
+        // No dialect issues should be found if the word from another dialect is in our user dictionary.
+        assert_eq!(
+            SpellCheck::new(merged_dict.clone(), user_dialect)
+                .lint(&Document::new_markdown_default(
+                    "I like to use the software Calibre.",
+                    &merged_dict
+                ))
+                .len(),
+            0,
+            "Calibre is not part of the user's dialect!"
+        );
+
+        assert_eq!(
+            SpellCheck::new(merged_dict.clone(), user_dialect)
+                .lint(&Document::new_markdown_default(
+                    "I like to use the spelling colour.",
+                    &merged_dict
+                ))
+                .len(),
+            1
+        );
+    }
+
+    #[test]
+    fn matt_is_allowed() {
+        for dialect in Dialect::iter() {
+            dbg!(dialect);
+            assert_no_lints(
+                "Matt is a great name.",
+                SpellCheck::new(FstDictionary::curated(), dialect),
+            );
+        }
+    }
+
+    #[test]
+    fn issue_2026() {
+        assert_top3_suggestion_result(
+            "'Tere' is supposed to be 'There'",
+            SpellCheck::new(FstDictionary::curated(), Dialect::British),
+            "'There' is supposed to be 'There'",
+        );
+
+        assert_top3_suggestion_result(
+            "'fll' is supposed to be 'fill'",
+            SpellCheck::new(FstDictionary::curated(), Dialect::British),
+            "'fill' is supposed to be 'fill'",
+        );
+    }
+    #[test]
+    fn issue_2261() {
+        assert_top3_suggestion_result(
+            "Generaly",
+            SpellCheck::new(FstDictionary::curated(), Dialect::British),
+            "Generally",
+        );
+    }
+
+    #[test]
+    fn flag_prepone_in_non_indian_english() {
+        assert_lint_count(
+            "We had to prepone the meeting",
+            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+            1,
+        );
+    }
+
+    #[test]
+    fn dont_flag_prepone_in_indian_english() {
+        assert_no_lints(
+            "We had to prepone the meeting",
+            SpellCheck::new(FstDictionary::curated(), Dialect::Indian),
+        );
+    }
+
+    #[test]
+    fn dont_flag_pr() {
+        assert_no_lints(
+            "PR",
+            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+        );
+    }
+
+    #[test]
+    fn no_improper_suggestion_for_macos() {
+        assert_good_and_bad_suggestions(
+            "MacOS",
+            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+            &["macOS"],
+            &["MacOS"],
         );
     }
 }

@@ -4,7 +4,7 @@ use crate::TokenStringExt;
 use crate::expr::Expr;
 use crate::expr::SequenceExpr;
 use crate::linting::Suggestion;
-use crate::patterns::WordSet;
+use crate::linting::expr_linter::Chunk;
 
 pub struct WasAloud {
     expr: Box<dyn Expr>,
@@ -12,8 +12,7 @@ pub struct WasAloud {
 
 impl Default for WasAloud {
     fn default() -> Self {
-        let pattern = SequenceExpr::default()
-            .then(WordSet::new(&["was", "were", "be", "been"]))
+        let pattern = SequenceExpr::word_set(&["was", "were", "be", "been"])
             .then_whitespace()
             .then_exact_word("aloud");
 
@@ -24,6 +23,8 @@ impl Default for WasAloud {
 }
 
 impl ExprLinter for WasAloud {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

@@ -1,5 +1,6 @@
 use crate::expr::Expr;
 use crate::expr::SequenceExpr;
+use crate::linting::expr_linter::Chunk;
 use crate::{
     Token,
     linting::{ExprLinter, Lint, LintKind, Suggestion},
@@ -13,8 +14,7 @@ pub struct FirstAidKit {
 impl Default for FirstAidKit {
     fn default() -> Self {
         let supply_words = WordSet::new(&["aid", "starter", "travel", "tool"]);
-        let pattern = SequenceExpr::default()
-            .then(supply_words)
+        let pattern = SequenceExpr::with(supply_words)
             .then_whitespace()
             .then_any_capitalization_of("kid");
         Self {
@@ -24,6 +24,8 @@ impl Default for FirstAidKit {
 }
 
 impl ExprLinter for FirstAidKit {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

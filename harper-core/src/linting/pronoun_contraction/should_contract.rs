@@ -8,6 +8,7 @@ use crate::expr::SequenceExpr;
 use crate::{Token, patterns::WordSet};
 
 use crate::Lint;
+use crate::linting::expr_linter::Chunk;
 use crate::linting::{ExprLinter, LintKind, Suggestion};
 
 /// See also:
@@ -22,8 +23,7 @@ pub struct ShouldContract {
 impl Default for ShouldContract {
     fn default() -> Self {
         let cap = Arc::new(
-            SequenceExpr::default()
-                .then(WordSet::new(&["your", "were"]))
+            SequenceExpr::word_set(&["your", "were"])
                 .then_whitespace()
                 .then_kind_is_but_is_not(
                     TokenKind::is_non_quantifier_determiner,
@@ -33,9 +33,8 @@ impl Default for ShouldContract {
                 .then_adjective(),
         );
 
-        let start = SequenceExpr::default().then(AnchorStart).then(cap.clone());
-        let mid = SequenceExpr::default()
-            .then_unless(WordSet::new(&["what"]))
+        let start = SequenceExpr::with(AnchorStart).then(cap.clone());
+        let mid = SequenceExpr::unless(WordSet::new(&["what"]))
             .t_ws()
             .then(cap);
 
@@ -61,6 +60,8 @@ impl ShouldContract {
 }
 
 impl ExprLinter for ShouldContract {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }

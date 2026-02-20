@@ -1,13 +1,50 @@
 import '@webcomponents/custom-elements';
-import $ from 'jquery';
-import { isVisible, leafNodes } from '../domUtils';
-import LintFramework from '../LintFramework';
+import {
+	getClosestBlockAncestor,
+	isVisible,
+	LintFramework,
+	leafNodes,
+	type UnpackedLint,
+} from 'lint-framework';
+import isWordPress from '../isWordPress';
 import ProtocolClient from '../ProtocolClient';
 
-const fw = new LintFramework();
+if (isWordPress()) {
+	ProtocolClient.setDomainEnabled(window.location.hostname, true, false);
+}
+
+const fw = new LintFramework(
+	(text, domain, options) => ProtocolClient.lint(text, domain, options),
+	{
+		ignoreLint: (hash) => ProtocolClient.ignoreHash(hash),
+		getActivationKey: () => ProtocolClient.getActivationKey(),
+		getHotkey: () => ProtocolClient.getHotkey(),
+		openOptions: () => ProtocolClient.openOptions(),
+		addToUserDictionary: (words) => ProtocolClient.addToUserDictionary(words),
+		reportError: (lint: UnpackedLint, ruleId: string) =>
+			ProtocolClient.openReportError(
+				padWithContext(lint.source, lint.span.start, lint.span.end, 15),
+				ruleId,
+				'',
+			),
+		setRuleEnabled: async (ruleId, enabled) => {
+			await ProtocolClient.setRuleEnabled(ruleId, enabled);
+			fw.update();
+		},
+	},
+);
+
+function padWithContext(source: string, start: number, end: number, contextLength: number): string {
+	const normalizedStart = Math.max(0, Math.min(start, source.length));
+	const normalizedEnd = Math.max(normalizedStart, Math.min(end, source.length));
+	const contextStart = Math.max(0, normalizedStart - contextLength);
+	const contextEnd = Math.min(source.length, normalizedEnd + contextLength);
+
+	return source.slice(contextStart, contextEnd);
+}
 
 const keepAliveCallback = () => {
-	ProtocolClient.lint('', 'example.com');
+	ProtocolClient.lint('', 'example.com', {});
 
 	setTimeout(keepAliveCallback, 400);
 };
@@ -15,38 +52,104 @@ const keepAliveCallback = () => {
 keepAliveCallback();
 
 function scan() {
-	$('textarea:visible').each(function () {
-		if (this.getAttribute('data-enable-grammarly') == 'false' || this.disabled || this.readOnly) {
+	document.querySelectorAll<HTMLTextAreaElement>('textarea').forEach((element) => {
+		if (
+			!isVisible(element) ||
+			element.getAttribute('data-enable-grammarly') === 'false' ||
+			element.disabled ||
+			element.readOnly
+		) {
 			return;
 		}
 
-		fw.addTarget(this as HTMLTextAreaElement);
+		fw.addTarget(element);
 	});
 
-	$('input[type="text"][spellcheck="true"]').each(function () {
-		if (this.disabled || this.readOnly) {
+	document
+		.querySelectorAll<HTMLInputElement>('input[type="text"][spellcheck="true"]')
+		.forEach((element) => {
+			if (element.disabled || element.readOnly) {
+				return;
+			}
+
+			fw.addTarget(element);
+		});
+
+	document.querySelectorAll('[data-testid="gutenberg-editor"]').forEach((element) => {
+		const leafs = leafNodes(element);
+
+		const seenBlockContainers = new Set<Element>();
+
+		for (const leaf of leafs) {
+			const blockContainer = getClosestBlockAncestor(leaf, element);
+
+			if (!blockContainer || seenBlockContainers.has(blockContainer)) {
+				continue;
+			}
+
+			seenBlockContainers.add(blockContainer);
+
+			if (!isVisible(blockContainer)) {
+				continue;
+			}
+
+			fw.addTarget(blockContainer);
+		}
+	});
+
+	document.querySelectorAll('[contenteditable="true"],[contenteditable]').forEach((element) => {
+		if (
+			element.matches('[role="combobox"]') ||
+			element.getAttribute('data-enable-grammarly') === 'false' ||
+			(element.getAttribute('spellcheck') === 'false' &&
+				element.getAttribute('data-language') !== 'markdown')
+		) {
 			return;
 		}
 
-		fw.addTarget(this as HTMLInputElement);
-	});
+		if (element.classList.contains('ck-editor__editable')) {
+			element.querySelectorAll('p').forEach((paragraph) => {
+				if (paragraph.closest('[contenteditable="false"],[disabled],[readonly]') != null) {
+					return;
+				}
 
-	$('[contenteditable="true"],[contenteditable]').each(function () {
-		const leafs = leafNodes(this);
+				if (!isVisible(paragraph)) {
+					return;
+				}
+
+				fw.addTarget(paragraph);
+			});
+
+			return;
+		}
+
+		const leafs = leafNodes(element);
+
+		const seenBlockContainers = new Set<Element>();
 
 		for (const leaf of leafs) {
 			if (leaf.parentElement?.closest('[contenteditable="false"],[disabled],[readonly]') != null) {
 				continue;
 			}
 
-			if (!isVisible(leaf)) {
+			const blockContainer = getClosestBlockAncestor(leaf, element);
+
+			if (!blockContainer || seenBlockContainers.has(blockContainer)) {
 				continue;
 			}
 
-			fw.addTarget(leaf);
+			seenBlockContainers.add(blockContainer);
+
+			if (!isVisible(blockContainer)) {
+				continue;
+			}
+
+			fw.addTarget(blockContainer);
 		}
 	});
 }
 
 scan();
-new MutationObserver(scan).observe(document.documentElement, { childList: true, subtree: true });
+new MutationObserver(scan).observe(document.body, { childList: true, subtree: true });
+
+setTimeout(scan, 1000);
