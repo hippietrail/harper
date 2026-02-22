@@ -1,7 +1,10 @@
 use crate::{
     CharStringExt, Lint, Token,
     expr::{Expr, FixedPhrase, SequenceExpr},
-    linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
+    linting::{
+        ExprLinter, LintKind, Suggestion,
+        expr_linter::{Chunk, followed_by_word},
+    },
     patterns::WordSet,
 };
 
@@ -51,12 +54,9 @@ impl ExprLinter for DoMistake {
         let span = tok.span;
         let chars = span.get_content(src);
 
-        if let Some((_, after)) = ctx
-            && let [ws, v, ..] = after
-            && ws.kind.is_whitespace()
-            && v.kind.is_verb()
-            && !v.kind.is_verb_progressive_form()
-        {
+        if followed_by_word(ctx, |nw| {
+            nw.kind.is_verb() && !nw.kind.is_verb_progressive_form()
+        }) {
             return None;
         }
 
@@ -95,7 +95,7 @@ impl ExprLinter for DoMistake {
 #[cfg(test)]
 mod tests {
     use super::DoMistake;
-    use crate::linting::tests::{assert_lint_count, assert_no_lints, assert_suggestion_result};
+    use crate::linting::tests::{assert_no_lints, assert_suggestion_result};
 
     #[test]
     fn did_a_mistake() {
