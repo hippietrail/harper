@@ -166,6 +166,7 @@ use super::quote_spacing::QuoteSpacing;
 use super::redundant_acronyms::RedundantAcronyms;
 use super::redundant_additive_adverbs::RedundantAdditiveAdverbs;
 use super::regionalisms::Regionalisms;
+use super::regular_irregulars::RegularIrregulars;
 use super::repeated_words::RepeatedWords;
 use super::respond::Respond;
 use super::right_click::RightClick;
@@ -686,6 +687,12 @@ impl LintGroup {
 
         out.add_chunk_expr_linter("DidPast", DidPast::new(dictionary.clone()));
         out.config.set_rule_enabled("DidPast", true);
+
+        out.add_chunk_expr_linter(
+            "RegularIrregulars",
+            RegularIrregulars::new(dictionary.clone()),
+        );
+        out.config.set_rule_enabled("RegularIrregulars", true);
 
         out
     }
