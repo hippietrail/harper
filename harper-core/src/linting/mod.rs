@@ -439,15 +439,9 @@ pub mod tests {
         }
 
         let current_text = text_chars.iter().collect::<String>();
-        let indent = "  ".repeat(depth);
 
         // Check if we've reached the expected result
         if current_text == expected_result {
-            if depth == 0 {
-                eprintln!("✅ Text already matches expected result (no lints)");
-            } else {
-                eprintln!("✅ Found matching suggestion sequence after {depth} iterations");
-            }
             return true;
         }
 
@@ -459,31 +453,16 @@ pub mod tests {
         );
         let lints = linter.lint(&test);
 
-        eprintln!(
-            "{indent}[depth {depth}] current: \"{current_text}\" → {} lints",
-            lints.len()
-        );
-
         if let Some(lint) = lints.first() {
-            eprintln!(
-                "{indent}  lint[0]: span={:?}, {} suggestions",
-                lint.span,
-                lint.suggestions.len()
-            );
-            for (j, sug) in lint.suggestions.iter().enumerate() {
+            for sug in lint.suggestions.iter() {
                 let mut next_chars = text_chars.clone();
                 sug.apply(lint.span, &mut next_chars);
-                let next_text = next_chars.iter().collect::<String>();
-
-                eprintln!("{indent}    [{j}] → \"{next_text}\"");
 
                 // Recursively search this branch
                 if search_suggestion_tree(linter, next_chars, expected_result, depth + 1) {
                     return true;
                 }
             }
-        } else {
-            eprintln!("{indent}  (no more lints)");
         }
 
         false
