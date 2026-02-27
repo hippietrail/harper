@@ -5330,6 +5330,8 @@ Kali/Og
 Kaliningrad/Og
 Kalmyk/JNOg         # ethnicity
 Kama/Og
+Kama Sutra          # prefEtymonline, Longman, OED (also: Chambers)
+Kamasutra           # American Heritage, Chambers
 Kamchatka/Og
 Kamehameha/Og
 Kampala/Og
@@ -35796,6 +35798,7 @@ neurosurgical/J
 neurotic/~JNgS
 neurotically/Ry
 neuroticism/Nmg
+neurotoxin/NwgS
 neurotransmitter/~NSg
 neut/J
 neuter/~JNgSVdG
@@ -40572,7 +40575,7 @@ proceedings/N9
 proceeds/~NgVh
 process/~NSVbGdr
 process's
-processable/J
+processable/JU
 processed/~JVtTU
 procession/~NVGd
 processional/JNgS
@@ -47262,6 +47265,7 @@ string/~NgSVd>GZ
 stringency/Nmg
 stringent/~JY
 stringer/~NgS
+stringification/Nmg
 stringify/VdSG
 stringiness/Ng
 stringy/J^>p
@@ -49921,6 +49925,7 @@ transparency/~NwSg
 transparent/~JYU
 transphobia/Nmg
 transphobic/J
+transpilation/NwgS
 transpile/VSdG
 transpiler/NgS
 transpiration/Nmg
