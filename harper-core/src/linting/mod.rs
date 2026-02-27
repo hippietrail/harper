@@ -27,6 +27,7 @@ mod best_of_all_time;
 mod boring_words;
 mod bought;
 mod brand_brandish;
+mod by_accident;
 mod call_them;
 mod cant;
 mod capitalize_personal_pronouns;
@@ -42,6 +43,7 @@ mod correct_number_suffix;
 mod criteria_phenomena;
 mod cure_for;
 mod currency_placement;
+mod damages;
 mod dashes;
 mod day_and_age;
 mod despite_it_is;
@@ -210,6 +212,7 @@ mod the_proper_noun_possessive;
 mod then_than;
 mod theres;
 mod theses_these;
+mod theyre_confusions;
 mod thing_think;
 mod this_type_of_thing;
 mod though_thought;
@@ -281,7 +284,6 @@ where
     }
 }
 
-#[cfg(test)]
 pub mod tests {
     use crate::{
         Dialect, Document, Span, Token,
@@ -326,7 +328,7 @@ pub mod tests {
     pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
         let test = Document::new_plain_english_curated(text);
         let lints = linter.lint(&test);
-        dbg!(&lints);
+        // dbg!(&lints);
         if lints.len() != count {
             panic!(
                 "Expected \"{text}\" to create {count} lints, but it created {}.",
@@ -619,13 +621,51 @@ pub mod tests {
         let lints = linter.lint(&test);
 
         // Just check the first lint for now
-        if let Some(lint) = lints.first() {
-            if lint.message != expected_message {
-                panic!(
-                    "Expected lint message \"{expected_message}\", but got \"{}\"",
-                    lint.message
-                );
+        if let Some(lint) = lints.first()
+            && lint.message != expected_message
+        {
+            panic!(
+                "Expected lint message \"{expected_message}\", but got \"{}\"",
+                lint.message
+            );
+        }
+    }
+
+    fn transform_nth_str(text: &str, linter: &mut impl Linter, n: usize) -> String {
+        let mut text_chars: Vec<char> = text.chars().collect();
+
+        let mut iter_count = 0;
+
+        loop {
+            let test = Document::new_from_vec(
+                text_chars.clone().into(),
+                &Markdown::default(),
+                &FstDictionary::curated(),
+            );
+            let lints = linter.lint(&test);
+
+            if let Some(lint) = lints.first() {
+                if let Some(sug) = lint.suggestions.get(n) {
+                    sug.apply(lint.span, &mut text_chars);
+
+                    // let transformed_str: String = text_chars.iter().collect();
+                    // dbg!(transformed_str);
+                } else {
+                    break;
+                }
+            } else {
+                break;
+            }
+
+            iter_count += 1;
+
+            if iter_count == 100 {
+                break;
             }
         }
+
+        eprintln!("Corrected {iter_count} times.");
+
+        text_chars.iter().collect()
     }
 }
