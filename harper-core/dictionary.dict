@@ -3038,6 +3038,7 @@ EC/NO
 ECG/Ng              # electrocardiogram, cf. EKG
 ECM/NgS
 ECMAScript/Og       # programming language, cf. JavaScript, TypeScript
+EDM/Nmg             # electronic dance music
 EDP/NOg
 EDT/ON
 EEC/ONg
@@ -48195,7 +48196,7 @@ symplectic/J
 symposium/~NgS
 symptom/~NgS
 symptomatic/~JNQ
-syn/~JNH
+syn/~JN
 synagogal/J
 synagogue/~NSg
 synapse/~NgSV
@@ -48233,13 +48234,15 @@ synovial/~J
 syntactic/~J
 syntactical/JY
 syntax/~Nmg
+synth/N0g
+synth-pop/Nmg
 syntheses/N9
 synthesis/~N0wg
 synthesise/V!_₹
 synthesize/~VGd>SZ
 synthesizer/~NgS
 synthetic/~JNSgQ
-synths/NV
+synths/N9V
 syphilis/~Nmg
 syphilitic/JNSg
 syringe/NSgVdG
