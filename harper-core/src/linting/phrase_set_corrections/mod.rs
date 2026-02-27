@@ -418,6 +418,23 @@ pub fn lint_group() -> LintGroup {
             "Corrects `scape goat` to `scapegoat`, which is the proper term for a person blamed for others' failures.",
             LintKind::Eggcorn
         ),
+        "SubjunctiveWasToWere" => (
+            &[
+                ("if only there was", "if only there were"),
+                ("if only i was", "if only i were"),
+                ("if only he was", "if only he were"),
+                ("if only she was", "if only she were"),
+                ("if only it was", "if only it were"),
+                ("i wish there was", "i wish there were"),
+                ("i wish i was", "i wish i were"),
+                ("i wish he was", "i wish he were"),
+                ("i wish she was", "i wish she were"),
+                ("i wish it was", "i wish it were")
+            ],
+            "Use the subjunctive mood with `if only` or `I wish`. The correct form is `were`, not `was`.",
+            "Ensures proper use of the subjunctive mood in counterfactual conditional statements starting with `if only` or `I wish`.",
+            LintKind::Grammar
+        ),
         "SeamToSeem" => (
             &[
                 ("seam to be", "seem to be"),
