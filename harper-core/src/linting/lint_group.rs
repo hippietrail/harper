@@ -17,6 +17,7 @@ use super::addicting::Addicting;
 use super::adjective_double_degree::AdjectiveDoubleDegree;
 use super::adjective_of_a::AdjectiveOfA;
 use super::after_later::AfterLater;
+use super::all_hell_break_loose::AllHellBreakLoose;
 use super::all_intents_and_purposes::AllIntentsAndPurposes;
 use super::allow_to::AllowTo;
 use super::am_in_the_morning::AmInTheMorning;
@@ -36,6 +37,7 @@ use super::best_of_all_time::BestOfAllTime;
 use super::boring_words::BoringWords;
 use super::bought::Bought;
 use super::brand_brandish::BrandBrandish;
+use super::by_accident::ByAccident;
 use super::cant::Cant;
 use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::cautionary_tale::CautionaryTale;
@@ -49,6 +51,7 @@ use super::correct_number_suffix::CorrectNumberSuffix;
 use super::criteria_phenomena::CriteriaPhenomena;
 use super::cure_for::CureFor;
 use super::currency_placement::CurrencyPlacement;
+use super::damages::Damages;
 use super::day_and_age::DayAndAge;
 use super::despite_it_is::DespiteItIs;
 use super::despite_of::DespiteOf;
@@ -199,6 +202,7 @@ use super::the_proper_noun_possessive::TheProperNounPossessive;
 use super::then_than::ThenThan;
 use super::theres::Theres;
 use super::theses_these::ThesesThese;
+use super::theyre_confusions::TheyreConfusions;
 use super::thing_think::ThingThink;
 use super::this_type_of_thing::ThisTypeOfThing;
 use super::though_thought::ThoughThought;
@@ -427,6 +431,7 @@ impl LintGroup {
         insert_expr_rule!(AdjectiveDoubleDegree, true);
         insert_struct_rule!(AdjectiveOfA, true);
         insert_expr_rule!(AfterLater, true);
+        insert_expr_rule!(AllHellBreakLoose, true);
         insert_expr_rule!(AllIntentsAndPurposes, true);
         insert_expr_rule!(AllowTo, true);
         insert_expr_rule!(AmInTheMorning, true);
@@ -445,6 +450,7 @@ impl LintGroup {
         insert_expr_rule!(BoringWords, false);
         insert_expr_rule!(Bought, true);
         insert_expr_rule!(BrandBrandish, true);
+        insert_expr_rule!(ByAccident, true);
         insert_expr_rule!(Cant, true);
         insert_struct_rule!(CapitalizePersonalPronouns, true);
         insert_expr_rule!(CautionaryTale, true);
@@ -603,6 +609,7 @@ impl LintGroup {
         insert_struct_rule!(ToTwoToo, true);
         insert_expr_rule!(Touristic, true);
         insert_expr_rule!(TryOnesHandAt, true);
+        insert_struct_rule!(TheyreConfusions, true);
         insert_struct_rule!(UnclosedQuotes, true);
         insert_expr_rule!(UpdatePlaceNames, true);
         insert_expr_rule!(VerbToAdjective, true);
@@ -660,6 +667,11 @@ impl LintGroup {
             DisjointPrefixes::new(dictionary.clone()),
         );
         out.config.set_rule_enabled("DisjointPrefixes", true);
+
+        // add_chunk_expr_linter doesn't support the `Sentence` `Unit` and there is not yet any
+        //  `add_sentence_expr_linter`
+        out.add("Damages", Damages::default());
+        out.config.set_rule_enabled("Damages", true);
 
         out.add(
             "PronounVerbAgreement",
