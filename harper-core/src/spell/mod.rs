@@ -401,7 +401,7 @@ mod tests {
 
     use crate::{
         CharStringExt, Dialect,
-        linting::{SpellCheck, tests::assert_suggestion_result},
+        linting::{spell_check::SpellCheck, tests::assert_suggestion_result},
     };
 
     use super::{FstDictionary, suggest_correct_spelling_str};
