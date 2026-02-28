@@ -197,7 +197,7 @@ mod somewhat_something;
 mod soon_to_be;
 mod sought_after;
 mod spaces;
-pub mod spell_check;
+pub mod spell_check; // pub so spell/mod.rs can use it until #2809 is merged
 mod spelled_numbers;
 mod split_words;
 mod subject_pronoun;
@@ -287,10 +287,7 @@ where
 #[cfg(test)]
 pub mod tests {
     use crate::{
-        Dialect, Document, Span, Token,
-        linting::{Linter, spell_check::SpellCheck},
-        parsers::Markdown,
-        spell::FstDictionary,
+        Dialect, Document, Span, Token, linting::Linter, parsers::Markdown, spell::FstDictionary,
     };
     use hashbrown::HashSet;
 
@@ -309,6 +306,32 @@ pub mod tests {
                         .collect::<String>()
                 })
                 .collect()
+        }
+    }
+
+    // mock implementation of SpellCheck for testing
+    use crate::{Lint, spell::Dictionary};
+    pub struct SpellCheck<T>
+    where
+        T: Dictionary,
+    {
+        dictionary: T,
+        dialect: Dialect,
+    }
+    impl<T: Dictionary> SpellCheck<T> {
+        pub fn new(dictionary: T, dialect: Dialect) -> Self {
+            Self {
+                dictionary,
+                dialect,
+            }
+        }
+    }
+    impl<T: Dictionary> Linter for SpellCheck<T> {
+        fn lint(&mut self, document: &Document) -> Vec<Lint> {
+            Vec::new()
+        }
+        fn description(&self) -> &str {
+            "Mock spell check for linting assertion tests"
         }
     }
 
