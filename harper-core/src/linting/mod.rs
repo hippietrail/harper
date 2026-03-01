@@ -309,8 +309,12 @@ pub mod tests {
         }
     }
 
-    // mock implementation of SpellCheck for testing
-    use crate::{Lint, spell::Dictionary};
+    // Mock implementation of SpellCheck for testing
+    use crate::{
+        CharStringExt, Lint, TokenStringExt,
+        linting::{LintKind, Suggestion},
+        spell::Dictionary,
+    };
     pub struct SpellCheck<T>
     where
         T: Dictionary,
@@ -327,8 +331,47 @@ pub mod tests {
         }
     }
     impl<T: Dictionary> Linter for SpellCheck<T> {
-        fn lint(&mut self, document: &Document) -> Vec<Lint> {
-            Vec::new()
+        fn lint(&mut self, doc: &Document) -> Vec<Lint> {
+            let mut corr = Vec::new();
+            for wt in doc.iter_words() {
+                let ws = wt.span;
+                let wch = ws.get_content(doc.get_source());
+                if wch.eq_ignore_ascii_case_str("heloo") {
+                    corr.push((ws, wch, "hello"))
+                } else if wch.eq_ignore_ascii_case_str("wolrd") {
+                    corr.push((ws, wch, "world"))
+                } else if wch.eq_ignore_ascii_case_str("dictionery") {
+                    corr.push((ws, wch, "dictionary"))
+                } else if wch.eq_ignore_ascii_case_str("recieve") {
+                    corr.push((ws, wch, "receive"))
+                } else if wch.eq_ignore_ascii_case_str("teh") {
+                    corr.push((ws, wch, "the"))
+                } else if wch.eq_ignore_ascii_case_str("untill") {
+                    corr.push((ws, wch, "until"))
+                } else if wch.eq_ignore_ascii_case_str("thier") {
+                    corr.push((ws, wch, "their"))
+                } else if wch.eq_ignore_ascii_case_str("occured") {
+                    corr.push((ws, wch, "occurred"))
+                } else if wch.eq_ignore_ascii_case_str("misstake") {
+                    corr.push((ws, wch, "mistake"))
+                } else if wch.eq_ignore_ascii_case_str("misstakes") {
+                    corr.push((ws, wch, "mistakes"))
+                } else if wch.eq_ignore_ascii_case_str("theem") {
+                    corr.push((ws, wch, "them"))
+                }
+            }
+            corr.iter()
+                .map(|(ws, wch, cstr)| {
+                    let cor_vec = (*cstr).chars().collect::<Vec<_>>();
+                    Lint {
+                        span: *ws,
+                        lint_kind: LintKind::Spelling,
+                        suggestions: vec![Suggestion::replace_with_match_case(cor_vec, *wch)],
+                        message: "mocked spellcheck".to_string(),
+                        ..Default::default()
+                    }
+                })
+                .collect()
         }
         fn description(&self) -> &str {
             "Mock spell check for linting assertion tests"
