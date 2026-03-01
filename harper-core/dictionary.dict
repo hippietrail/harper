@@ -5303,7 +5303,7 @@ K/                  # Potassium
 KB/NOg              # kilobyte, cf. Kb
 KC/ON
 KFC/Og              # company
-KGB/ONg
+KGB/Og              # Soviet intelligence agency
 KIA/NJ              # killed in action
 KKK/Og
 KO/NgV
@@ -19497,7 +19497,7 @@ costume/~NgSVGd>Z
 costumer/Ng
 costumier/NS
 costumiers/N!@_₹
-cosy/J^>pNSgVU!_₹
+cosy/J^>pNSgVGdU!_₹
 cot/~NSg
 cotangent/NgS
 cote/~NgSV
@@ -19708,7 +19708,7 @@ cozen/VSdG
 cozenage/Ng
 cozily/Ry
 coziness/Ng
-cozy/J^>pNSgVU
+cozy/J^>pNSgVGdU
 cpd/~N
 cpl/~N
 cps/~N
@@ -35827,6 +35827,7 @@ newcomer/~NSg
 newel/NSg
 newfangled/J
 newfound/~J
+newish/J
 newline/~NSg
 newlywed/NSgJ
 newness/Nmg
@@ -37796,9 +37797,10 @@ paddy/~NSgJ
 padlock/NgSVdG
 padre/~NSg
 paean/NSgV
-paediatric/JS!_₹
-paediatrician/NgS!_₹
-paedophile/NS!_₹
+paediatric/J!@_₹
+paediatrician/NgS!@_₹
+paediatrics/Nmg!@_₹
+paedophile/NS!@_₹
 paedophilia/Nm!@_₹
 paella/NwgS
 pagan/~JNSg
@@ -38467,9 +38469,9 @@ pedestrianisation/N!_₹
 pedestrianise/VGdS!_₹
 pedestrianization/N
 pedestrianize/VGdS
-pediatric/~JS
-pediatrician/NgS
-pediatrics/~Ng
+pediatric/~J<
+pediatrician/NgS<
+pediatrics/~Nmg<
 pedicab/NSg
 pedicure/NgSVGd
 pedicurist/NgS
@@ -38477,8 +38479,8 @@ pedigree/~NgSJVd
 pediment/~NgS
 pedlar/NgS!_₹
 pedometer/NgS
-pedophile/NS
-pedophilia/Nm
+pedophile/NS<
+pedophilia/Nm<
 peduncle/NgS
 pee/~NmSgVd>Z
 peeing/V6
@@ -53731,6 +53733,7 @@ FOSS/Og             # free and open-source software
 FOV/Ng              # field of view
 FPGA/NSg            # field-programmable gate array
 FPM/Sg
+FSB/Og              # Russian intelligence agency
 FSD/Ng              # full self-driving
 Famicom/NOSg        # game console
 Figma/Og
@@ -53751,6 +53754,7 @@ GPLv2/Og
 GPLv3/Og
 GPT/NSg             # generative pre-trained transformer
 GPU/NS              # graphics processing unit
+GRU/Og              # Russian intelligence agency
 GRUB/Og             # Grand Unified Bootloader
 GSM/OJ              # Global System for Mobile Communications
 GTK/O               # GIMP Toolkit
@@ -53860,6 +53864,7 @@ Logotherapy/Sg
 Longreads/Og
 Lua/Og              # programming language
 LuaTeX/Og           # TeX-based typesetting engine
+MAGA/ONwgS
 MCP/Ng              # model context protocol
 MMO/NgS             # massively multiplayer online
 MMX/Ng              # multimedia extension
@@ -53994,6 +53999,7 @@ SDK/NSg             # software development kit
 SDL/Og              # Simple DirectMedia Layer
 SGD/Nmg             # stochastic gradient descent
 SHA/ONg             # Secure Hash Algorithm
+SIGINT/Nmg          # signals intelligence
 SIMD/NSg            # single instruction, multiple data
 SLA/NSg
 SLOC/9              # source lines of code
@@ -54163,6 +54169,7 @@ dedupe/NSgVdG       # not well covered by dictionaries. wiktionary has noun and 
 diarization/NmgS    # used in voice recognition
 docstring/NSg
 doomerism/Nmg
+doomscrolling/V6NJ
 dotfile/~NSg        # not well covered by dictionaries.
 eVTOL/NgS
 ext2/Ng             # file system
