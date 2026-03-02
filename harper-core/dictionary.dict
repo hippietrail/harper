@@ -10992,6 +10992,7 @@ Wyo
 Wyoming/Og
 Wyomingite/JNSg
 X/ONgJ
+X-ray/NgSVdG
 XEmacs/g
 XL/NgJ
 XML/O
@@ -11856,7 +11857,7 @@ affliction/~NwSg
 affluence/Nmg
 affluent/~NJY
 afford/~VGdSB
-affordability/Nmg
+affordability/NmgU
 affordably/Ry
 affordance/NSg
 afforest/VGSdE
@@ -13996,6 +13997,7 @@ bandit/~NSgV
 banditry/Nmg
 bandleader/~NS
 bandmaster/NSg
+bandmate/NSg
 bandoleer/NSg
 bandsman/N0g
 bandsmen/N9
@@ -46813,6 +46815,7 @@ starlit/J
 starred/~VtTJ
 starring/~V6NJ
 starry/~J^>
+starship/NSg
 starstruck/J
 start/~NSgVdGr
 start up/V/
@@ -53963,6 +53966,7 @@ Pandoc/Ng           # FIXME! elsewhere we have pandoc
 Parth/Sg
 Patreon/OgS
 Polldaddy/Og
+Polymarket/Og
 Postfix/Sg
 Postgres/Og
 PowerShell/Sg       # Microsoft product
@@ -54002,6 +54006,7 @@ ReLU/NwgS           # rectifier linear unit
 Rivian/Sg           # ev company
 Roumania/Og         # pre-WWII spelling
 RustConf/Og         # conference
+Ryzen/ONgS
 SCM/Ng              # source code management
 SDK/NSg             # software development kit
 SDL/Og              # Simple DirectMedia Layer
