@@ -286,9 +286,7 @@ where
 
 #[cfg(test)]
 pub mod tests {
-    use crate::{
-        Dialect, Document, Span, Token, linting::Linter, parsers::Markdown, spell::FstDictionary,
-    };
+    use crate::{Document, Span, Token, linting::Linter, parsers::Markdown, spell::FstDictionary};
     use hashbrown::HashSet;
 
     /// Extension trait for converting spans of tokens back to their original text
@@ -309,28 +307,18 @@ pub mod tests {
         }
     }
 
-    // Mock implementation of SpellCheck for testing
+    // Special Linter just for testing
     use crate::{
         CharStringExt, Lint, TokenStringExt,
         linting::{LintKind, Suggestion},
-        spell::Dictionary,
     };
-    pub struct SpellCheck<T>
-    where
-        T: Dictionary,
-    {
-        dictionary: T,
-        dialect: Dialect,
-    }
-    impl<T: Dictionary> SpellCheck<T> {
-        pub fn new(dictionary: T, dialect: Dialect) -> Self {
-            Self {
-                dictionary,
-                dialect,
-            }
+    pub struct TestLinter {}
+    impl TestLinter {
+        pub fn new() -> Self {
+            Self {}
         }
     }
-    impl<T: Dictionary> Linter for SpellCheck<T> {
+    impl Linter for TestLinter {
         fn lint(&mut self, doc: &Document) -> Vec<Lint> {
             let mut corr = Vec::new();
             for wt in doc.iter_words() {
@@ -358,6 +346,8 @@ pub mod tests {
                     corr.push((ws, wch, "mistakes"))
                 } else if wch.eq_ignore_ascii_case_str("theem") {
                     corr.push((ws, wch, "them"))
+                } else if wch.eq_ignore_ascii_case_str("gooder") {
+                    corr.push((ws, wch, "more gooder"))
                 }
             }
             corr.iter()
@@ -385,10 +375,7 @@ pub mod tests {
 
     #[test]
     fn verify_no_lints() {
-        assert_no_lints(
-            "hello world",
-            SpellCheck::new(FstDictionary::curated(), Dialect::American),
-        );
+        assert_no_lints("hello world", TestLinter::new());
     }
 
     #[track_caller]
@@ -406,20 +393,12 @@ pub mod tests {
 
     #[test]
     fn verify_1_lint() {
-        assert_lint_count(
-            "heloo world",
-            SpellCheck::new(FstDictionary::curated(), Dialect::American),
-            1,
-        )
+        assert_lint_count("heloo world", TestLinter::new(), 1);
     }
 
     #[test]
     fn verify_2_lints() {
-        assert_lint_count(
-            "heloo wolrd",
-            SpellCheck::new(FstDictionary::curated(), Dialect::American),
-            2,
-        )
+        assert_lint_count("heloo wolrd", TestLinter::new(), 2);
     }
 
     /// Assert the total number of suggestions produced by a [`Linter`], spread across all produced
@@ -449,20 +428,12 @@ pub mod tests {
 
     #[test]
     fn verify_no_suggestions() {
-        assert_suggestion_count(
-            "afjehwkf",
-            SpellCheck::new(FstDictionary::curated(), Dialect::American),
-            0,
-        )
+        assert_suggestion_count("afjehwkf", TestLinter::new(), 0);
     }
 
     #[test]
     fn verify_1_suggestion() {
-        assert_suggestion_count(
-            "dictionery",
-            SpellCheck::new(FstDictionary::curated(), Dialect::American),
-            1,
-        )
+        assert_suggestion_count("dictionery", TestLinter::new(), 1);
     }
 
     /// Applies suggestions iteratively until any combination produces the expected result.
@@ -541,16 +512,22 @@ pub mod tests {
     fn verify_fix_one_lint() {
         assert_suggestion_result(
             "find the misstake and fix it",
-            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+            TestLinter::new(),
             "find the mistake and fix it",
         );
+    }
+
+    #[test]
+    #[should_panic]
+    fn verify_unable_to_fix_one_spanish_lint() {
+        assert_suggestion_result("Hay una orrrer", TestLinter::new(), "Hay una error");
     }
 
     #[test]
     fn verify_fix_two_lints() {
         assert_suggestion_result(
             "find two misstakes and fix theem",
-            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+            TestLinter::new(),
             "find two mistakes and fix them",
         );
     }
@@ -563,7 +540,7 @@ pub mod tests {
     fn verify_fix_five_typos() {
         assert_suggestion_result(
             "Please recieve teh payment untill thier authorization occured",
-            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+            TestLinter::new(),
             "Please receive the payment until their authorization occurred",
         );
     }
@@ -596,13 +573,24 @@ pub mod tests {
     }
 
     #[test]
-    fn verify_not_in_suggestion_result() {
+    fn verify_sole_suggestion_is_the_one_we_wanted() {
         assert_not_in_suggestion_result(
             "Baby cats are called kitens",
-            SpellCheck::new(FstDictionary::curated(), Dialect::American),
+            TestLinter::new(),
             "Baby cats are called puppies",
         );
     }
+
+    // TODO verify sole suggestion is not the one we wanted fails
+
+    #[test]
+    #[should_panic]
+    fn verify_sole_suggestion_not_in_result_fails() {
+        assert_not_in_suggestion_result("heloo", TestLinter::new(), "hello");
+    }
+
+    // TODO verify many suggestions including the one we want succeeds
+    // TODO verify many suggestions but not the one we want fails
 
     /// Asserts both that the given text matches the expected good suggestions and that none of the
     /// suggestions are in the bad suggestions list.
@@ -679,6 +667,16 @@ pub mod tests {
                 found_good.len()
             );
         }
+    }
+
+    // TODO test that having all the good and none of the bad succeeds
+    // TODO test that missing one of the good fails
+    // TODO test that having one of the bads fails
+
+    #[test]
+    #[should_panic]
+    fn verify_mutal_corrections_cause_failure() {
+        assert_suggestion_result("gooder", TestLinter::new(), "better");
     }
 
     /// Asserts that the lint's message matches the expected message.
