@@ -1,4 +1,4 @@
-54300
+54400
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -27329,6 +27329,7 @@ grimy/J^>p
 grin/NgSV
 grind/~VG>SNgZz
 grinder/~NgS
+grindhouse/NwgS
 grindstone/NgS
 gringo/NgS
 grinned/VtT
@@ -50715,6 +50716,7 @@ uncontrollably/Ry
 uncontroversial/~J
 uncool/J
 uncooperative/J
+uncopyrightable/J
 uncorrupted/J
 uncouth/JY
 uncredited/J
@@ -50814,8 +50816,9 @@ underpart/VSNg
 underpass/~NgS
 underpay/VGSL
 underpayment/NwSg
-underperform/VGdS>
+underperform/VGdS
 underperformance/Ng
+underperformer/NgS
 underpin/VS
 underpinned/VtT
 underpinning/V6SNg
@@ -54273,6 +54276,7 @@ tmux/Og             # terminal multiplexer, uncapitalized proper noun
 trie/NgS            # data structure
 truthy/J
 unicast/JVSdG
+unlintable/J
 upsert/VdSGNg       # database operation: update or insert
 upsertion/NgS       # database operation: update or insert
 uptime/NwgS
