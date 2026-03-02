@@ -8922,6 +8922,7 @@ SATA/Ng             # computing standard
 SBA/NO
 SC/JNOg             # US state (South Carolina)
 SCSI/Og             # computing standard
+SCOTUS/Og           # Supreme Court Of The United States
 SD/ON               # US state (San Diego)
 SDI/NO              # strategic defense initiative
 SE/NOgJ
@@ -11670,7 +11671,7 @@ adjustment/~NgSr
 adjutant/~NSgJ
 adman/Ng
 admen/N
-admin/~NSV
+admin/~NwSgV
 administer/~VdGS
 administrate/VdSGXnv
 administration/~Ng
@@ -15778,6 +15779,7 @@ brittleness/Nmg
 bro/~NSgIH
 broach/NgSVdG
 broad/~J>Y^pNSgnX
+broad bean/NgS
 broadband/~NmgJ
 broadcast/~JNgSVGr
 broadcaster/~NgS
@@ -24595,6 +24597,7 @@ fauna/~NwSg
 fauvism/Ng
 fauvist/JNSg
 faux/~J
+fava bean/NgS
 fave/JNSV
 favicon/~NSg
 favor/~NwSgVdGE<
@@ -28569,6 +28572,7 @@ hirsute/JpN
 hirsuteness/Ng
 his/~D5*
 hiss/~NgSVdG
+hissy/J>^
 hissy fit/NgS
 hist/~NV
 histamine/NgS
@@ -53699,6 +53703,7 @@ Docker/Og
 Dockerfile/NgS
 Dreamcast/OgS       # game console
 DuckDuckGo/Og       # search engine
+Duolingo/Og         # language app
 EBITDA/N            # earnings before interest, taxes, depreciation, and amortization
 ECMA/Og             # European Computer Manufacturers Association
 EEA/O               # European Economic Area
@@ -54042,6 +54047,7 @@ TL;DR               # internet slang
 TLS/Og              # Transport Layer Security
 TODO                # FIXME! elsewhere in Harper we refer to Todo and to-do
 TOML/Ng             # configuration file format
+TOS/N9              # Terms of Service - also spelled "ToS"
 TOTP/Ng             # time-based one-time password
 TSMC/Og             # Taiwanese Semiconductor Manufacturing Company
 TSR/NgS             # terminate and stay resident
@@ -54057,6 +54063,7 @@ TensorFlow/Og
 TextMate/Og         # text editor and syntax highlighting standard
 ThinkPad/OgS        # pc brand
 TikTok/Sg
+ToS/N9              # Terms of Service - also spelled "TOS"
 Todo                # FIXME! elsewhere in Harper we refer to TODO and to-do
 Topcoder/Og         # programming contest
 Toronado/OgS        # car brand
