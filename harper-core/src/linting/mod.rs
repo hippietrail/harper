@@ -317,6 +317,7 @@ pub mod tests {
     /// Each error pattern can map to multiple possible fixes
     pub type TestLinterMap<'a> = &'a [(&'a [&'a str], &'a [&'a str])];
 
+    #[derive(Clone)]
     pub struct TestLinter<'a> {
         map: TestLinterMap<'a>,
     }
@@ -344,18 +345,16 @@ pub mod tests {
             }
             corr.iter()
                 .map(|(ws, wch, cstr)| {
-                    // Use the first suggestion for creating the lint - TODO?
-                    let suggestion = if let Some(first_suggestion) = cstr.first() {
-                        first_suggestion.chars().collect::<Vec<_>>()
-                    } else {
-                        vec![]
-                    };
-
-                    // TODO
-                    let suggestions = vec![Suggestion::replace_with_match_case(
-                        suggestion,
-                        wch.to_owned(),
-                    )];
+                    // Create suggestions for all possible fixes
+                    let suggestions: Vec<Suggestion> = cstr
+                        .iter()
+                        .map(|&suggestion_str| {
+                            Suggestion::replace_with_match_case(
+                                suggestion_str.chars().collect(),
+                                wch.to_owned(),
+                            )
+                        })
+                        .collect();
 
                     Lint {
                         span: *ws,
@@ -369,6 +368,39 @@ pub mod tests {
         }
         fn description(&self) -> &str {
             "Test linter for 'linting assertion' tests"
+        }
+    }
+
+    // Before the asserts, let's test that the test linter itself has the behaviours we intend
+    mod linter_tests {
+        use super::{TestLinter, assert_suggestion_result};
+
+        #[test]
+        fn test_1_to_1_error_to_fix() {
+            assert_suggestion_result("bad", TestLinter::new(&[(&["bad"], &["good"])]), "good");
+        }
+
+        #[test]
+        fn test_1_to_2_error_to_fixes() {
+            let linter = TestLinter::new(&[(&["bad"], &["good1", "good2"])]);
+            assert_suggestion_result("bad", linter.clone(), "good1");
+            assert_suggestion_result("bad", linter, "good2");
+        }
+
+        #[test]
+        fn test_2_to_1_errors_to_fix() {
+            let linter = TestLinter::new(&[(&["bad1", "bad2"], &["good"])]);
+            assert_suggestion_result("bad1", linter.clone(), "good");
+            assert_suggestion_result("bad2", linter, "good");
+        }
+
+        #[test]
+        fn test_2_to_2_errors_to_fixes() {
+            let linter = TestLinter::new(&[(&["bad1", "bad2"], &["good1", "good2"])]);
+            assert_suggestion_result("bad1", linter.clone(), "good1");
+            assert_suggestion_result("bad2", linter.clone(), "good2");
+            assert_suggestion_result("bad1", linter.clone(), "good2");
+            assert_suggestion_result("bad2", linter, "good1");
         }
     }
 
@@ -493,13 +525,14 @@ pub mod tests {
         }
 
         // Lint current text and try each suggestion branch
-        let mut chars: Vec<char> = text.chars().collect();
+        let chars: Vec<char> = text.chars().collect();
         let lints = linter.lint(&Document::new_plain_english_curated_chars(&chars));
 
         if let Some(lint) = lints.first() {
             for sug in lint.suggestions.iter() {
-                sug.apply(lint.span, &mut /*current_*/chars);
-                let next: String = chars.iter().collect();
+                let mut chars_copy = chars.clone();
+                sug.apply(lint.span, &mut chars_copy);
+                let next: String = chars_copy.iter().collect();
 
                 // Recursively search this branch
                 if search_for_suggestion(linter, &next, needle, depth + 1) {
@@ -605,8 +638,7 @@ pub mod tests {
         good: &[&str],
         bad: &[&str],
     ) {
-        let mut chars: Vec<char> = text.chars().collect();
-        let test = Document::new_plain_english_curated_chars(&chars);
+        let test = Document::new_plain_english_curated(text);
         let lints = linter.lint(&test);
 
         let mut unseen_good: HashSet<_> = good.iter().cloned().collect();
@@ -615,8 +647,9 @@ pub mod tests {
 
         for (i, lint) in lints.into_iter().enumerate() {
             for (j, suggestion) in lint.suggestions.into_iter().enumerate() {
-                suggestion.apply(lint.span, &mut chars);
-                let suggestion_text: String = chars.iter().collect();
+                let mut text_chars: Vec<char> = text.chars().collect();
+                suggestion.apply(lint.span, &mut text_chars);
+                let suggestion_text: String = text_chars.into_iter().collect();
 
                 // Check for bad suggestions
                 if bad.contains(&&*suggestion_text) {
