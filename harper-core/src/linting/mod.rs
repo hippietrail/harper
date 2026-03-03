@@ -286,7 +286,7 @@ where
 
 #[cfg(test)]
 pub mod tests {
-    use crate::{Document, Span, Token, linting::Linter, parsers::Markdown, spell::FstDictionary};
+    use crate::{Document, Span, Token, linting::Linter};
     use hashbrown::HashSet;
 
     /// Extension trait for converting spans of tokens back to their original text
@@ -312,59 +312,63 @@ pub mod tests {
         CharStringExt, Lint, TokenStringExt,
         linting::{LintKind, Suggestion},
     };
-    pub struct TestLinter {}
-    impl TestLinter {
-        pub fn new() -> Self {
-            Self {}
+
+    /// Type alias for many:many error-to-fix mappings used in testing
+    /// Each error pattern can map to multiple possible fixes
+    pub type TestLinterMap<'a> = &'a [(&'a [&'a str], &'a [&'a str])];
+
+    pub struct TestLinter<'a> {
+        map: TestLinterMap<'a>,
+    }
+    impl<'a> TestLinter<'a> {
+        pub fn new(map: TestLinterMap<'a>) -> Self {
+            Self { map }
         }
     }
-    impl Linter for TestLinter {
+    impl<'a> Linter for TestLinter<'a> {
         fn lint(&mut self, doc: &Document) -> Vec<Lint> {
-            let mut corr = Vec::new();
-            for wt in doc.iter_words() {
-                let ws = wt.span;
-                let wch = ws.get_content(doc.get_source());
-                if wch.eq_ignore_ascii_case_str("heloo") {
-                    corr.push((ws, wch, "hello"))
-                } else if wch.eq_ignore_ascii_case_str("wolrd") {
-                    corr.push((ws, wch, "world"))
-                } else if wch.eq_ignore_ascii_case_str("dictionery") {
-                    corr.push((ws, wch, "dictionary"))
-                } else if wch.eq_ignore_ascii_case_str("recieve") {
-                    corr.push((ws, wch, "receive"))
-                } else if wch.eq_ignore_ascii_case_str("teh") {
-                    corr.push((ws, wch, "the"))
-                } else if wch.eq_ignore_ascii_case_str("untill") {
-                    corr.push((ws, wch, "until"))
-                } else if wch.eq_ignore_ascii_case_str("thier") {
-                    corr.push((ws, wch, "their"))
-                } else if wch.eq_ignore_ascii_case_str("occured") {
-                    corr.push((ws, wch, "occurred"))
-                } else if wch.eq_ignore_ascii_case_str("misstake") {
-                    corr.push((ws, wch, "mistake"))
-                } else if wch.eq_ignore_ascii_case_str("misstakes") {
-                    corr.push((ws, wch, "mistakes"))
-                } else if wch.eq_ignore_ascii_case_str("theem") {
-                    corr.push((ws, wch, "them"))
-                } else if wch.eq_ignore_ascii_case_str("gooder") {
-                    corr.push((ws, wch, "more gooder"))
+            let mut corr: Vec<(Span<char>, &[char], &[&str])> = Vec::new();
+            for wordtok in doc.iter_words() {
+                let wordspan = wordtok.span;
+                let word_chars = wordspan.get_content(doc.get_source());
+                // Check if word matches any of the patterns in the map
+                for (errors, fixes) in self.map {
+                    // if any of the errors match, add all of the corrections
+                    if errors
+                        .iter()
+                        .any(|&e| word_chars.eq_ignore_ascii_case_str(e))
+                    {
+                        corr.push((wordspan, word_chars, fixes))
+                    }
                 }
             }
             corr.iter()
                 .map(|(ws, wch, cstr)| {
-                    let cor_vec = (*cstr).chars().collect::<Vec<_>>();
+                    // Use the first suggestion for creating the lint - TODO?
+                    let suggestion = if let Some(first_suggestion) = cstr.first() {
+                        first_suggestion.chars().collect::<Vec<_>>()
+                    } else {
+                        vec![]
+                    };
+
+                    // TODO
+                    let suggestions = vec![Suggestion::replace_with_match_case(
+                        suggestion,
+                        wch.to_owned(),
+                    )];
+
                     Lint {
                         span: *ws,
                         lint_kind: LintKind::Spelling,
-                        suggestions: vec![Suggestion::replace_with_match_case(cor_vec, *wch)],
-                        message: "mocked spellcheck".to_string(),
+                        suggestions,
+                        message: "Test linter for 'linting assertion' tests".to_string(),
                         ..Default::default()
                     }
                 })
                 .collect()
         }
         fn description(&self) -> &str {
-            "Mock spell check for linting assertion tests"
+            "Test linter for 'linting assertion' tests"
         }
     }
 
@@ -375,7 +379,7 @@ pub mod tests {
 
     #[test]
     fn verify_no_lints() {
-        assert_no_lints("hello world", TestLinter::new());
+        assert_no_lints("hello world", TestLinter::new(&[]));
     }
 
     #[track_caller]
@@ -393,12 +397,20 @@ pub mod tests {
 
     #[test]
     fn verify_1_lint() {
-        assert_lint_count("heloo world", TestLinter::new(), 1);
+        assert_lint_count(
+            "heloo world",
+            TestLinter::new(&[(&["heloo"], &["hello"])]),
+            1,
+        );
     }
 
     #[test]
     fn verify_2_lints() {
-        assert_lint_count("heloo wolrd", TestLinter::new(), 2);
+        assert_lint_count(
+            "heloo wolrd",
+            TestLinter::new(&[(&["heloo"], &["hello"]), (&["wolrd"], &["world"])]),
+            2,
+        );
     }
 
     /// Assert the total number of suggestions produced by a [`Linter`], spread across all produced
@@ -428,12 +440,16 @@ pub mod tests {
 
     #[test]
     fn verify_no_suggestions() {
-        assert_suggestion_count("afjehwkf", TestLinter::new(), 0);
+        assert_suggestion_count("afjehwkf", TestLinter::new(&[]), 0);
     }
 
     #[test]
     fn verify_1_suggestion() {
-        assert_suggestion_count("dictionery", TestLinter::new(), 1);
+        assert_suggestion_count(
+            "dictionery",
+            TestLinter::new(&[(&["dictionery"], &["dictionary"])]),
+            1,
+        );
     }
 
     /// Applies suggestions iteratively until any combination produces the expected result.
@@ -441,65 +457,52 @@ pub mod tests {
     /// Explores all possible suggestion branches (depth-first search) until finding a path
     /// that produces the expected result. Stops after 100 iterations to prevent infinite loops.
     ///
-    /// **Key behavior:** If no lints are found but the current text matches the expected
-    /// result, the test passes (text is already correct).
-    ///
     /// Use this when you want to verify that *some* suggestion sequence produces the
-    /// expected result, without caring which specific suggestions are used. Can also be
-    /// used to verify that text is already correct (by passing the same text as both
-    /// input and expected_result).
+    /// expected result, without caring which specific suggestions are used.
     ///
     /// See issue #950: https://github.com/Automattic/harper/issues/950
     #[track_caller]
-    pub fn assert_suggestion_result(text: &str, mut linter: impl Linter, expected_result: &str) {
-        let text_chars: Vec<char> = text.chars().collect();
-
-        if search_suggestion_tree(&mut linter, text_chars, expected_result, 0) {
+    pub fn assert_suggestion_result(text: &str, mut linter: impl Linter, needle: &str) {
+        if search_for_suggestion(&mut linter, text, needle, 0) {
             return;
         }
 
         panic!(
             "No suggestion sequence produced the expected result.\n\
-            Expected: \"{expected_result}\""
+            Expected: \"{needle}\""
         );
     }
 
     /// Recursively searches all suggestion combinations using depth-first search.
     /// Returns true if any path reaches the expected result, false otherwise.
-    fn search_suggestion_tree(
+    fn search_for_suggestion(
         linter: &mut impl Linter,
-        text_chars: Vec<char>,
-        expected_result: &str,
+        text: &str,
+        needle: &str,
         depth: usize,
     ) -> bool {
-        // Prevent infinite recursion (cycles in suggestions)
+        // Prevent infinite recursion (e.g. cycles in suggestions)
         if depth > 100 {
             eprintln!("⚠️  Reached depth limit (100)");
             return false;
         }
 
-        let current_text = text_chars.iter().collect::<String>();
-
         // Check if we've reached the expected result
-        if current_text == expected_result {
+        if text == needle {
             return true;
         }
 
         // Lint current text and try each suggestion branch
-        let test = Document::new_from_vec(
-            text_chars.clone().into(),
-            &Markdown::default(),
-            &FstDictionary::curated(),
-        );
-        let lints = linter.lint(&test);
+        let mut chars: Vec<char> = text.chars().collect();
+        let lints = linter.lint(&Document::new_plain_english_curated_chars(&chars));
 
         if let Some(lint) = lints.first() {
             for sug in lint.suggestions.iter() {
-                let mut next_chars = text_chars.clone();
-                sug.apply(lint.span, &mut next_chars);
+                sug.apply(lint.span, &mut /*current_*/chars);
+                let next: String = chars.iter().collect();
 
                 // Recursively search this branch
-                if search_suggestion_tree(linter, next_chars, expected_result, depth + 1) {
+                if search_for_suggestion(linter, &next, needle, depth + 1) {
                     return true;
                 }
             }
@@ -512,7 +515,7 @@ pub mod tests {
     fn verify_fix_one_lint() {
         assert_suggestion_result(
             "find the misstake and fix it",
-            TestLinter::new(),
+            TestLinter::new(&[(&["misstake"], &["mistake"])]),
             "find the mistake and fix it",
         );
     }
@@ -520,14 +523,14 @@ pub mod tests {
     #[test]
     #[should_panic]
     fn verify_unable_to_fix_one_spanish_lint() {
-        assert_suggestion_result("Hay una orrrer", TestLinter::new(), "Hay una error");
+        assert_suggestion_result("Hay una orrrer", TestLinter::new(&[]), "Hay una error");
     }
 
     #[test]
     fn verify_fix_two_lints() {
         assert_suggestion_result(
             "find two misstakes and fix theem",
-            TestLinter::new(),
+            TestLinter::new(&[(&["misstakes"], &["mistakes"]), (&["theem"], &["them"])]),
             "find two mistakes and fix them",
         );
     }
@@ -540,7 +543,13 @@ pub mod tests {
     fn verify_fix_five_typos() {
         assert_suggestion_result(
             "Please recieve teh payment untill thier authorization occured",
-            TestLinter::new(),
+            TestLinter::new(&[
+                (&["recieve"], &["receive"]),
+                (&["teh"], &["the"]),
+                (&["untill"], &["until"]),
+                (&["thier"], &["their"]),
+                (&["occured"], &["occurred"]),
+            ]),
             "Please receive the payment until their authorization occurred",
         );
     }
@@ -552,31 +561,21 @@ pub mod tests {
         mut linter: impl Linter,
         bad_suggestion: &str,
     ) {
-        let test = Document::new_plain_english_curated(text);
-        let lints = linter.lint(&test);
-
-        for (i, lint) in lints.iter().enumerate() {
-            for (j, suggestion) in lint.suggestions.iter().enumerate() {
-                let mut text_chars: Vec<char> = text.chars().collect();
-                suggestion.apply(lint.span, &mut text_chars);
-                let suggestion_text: String = text_chars.into_iter().collect();
-
-                if suggestion_text == bad_suggestion {
-                    panic!(
-                        "Found undesired suggestion at lint[{i}].suggestions[{j}]:\n\
-                        Expected to not find suggestion: \"{bad_suggestion}\"\n\
-                        But found: \"{suggestion_text}\""
-                    );
-                }
-            }
+        if !search_for_suggestion(&mut linter, text, bad_suggestion, 0) {
+            return;
         }
+
+        panic!(
+            "A suggestion sequence produced the undesired result.\n\
+            Undesired: \"{bad_suggestion}\""
+        );
     }
 
     #[test]
     fn verify_sole_suggestion_is_the_one_we_wanted() {
         assert_not_in_suggestion_result(
             "Baby cats are called kitens",
-            TestLinter::new(),
+            TestLinter::new(&[]),
             "Baby cats are called puppies",
         );
     }
@@ -586,7 +585,11 @@ pub mod tests {
     #[test]
     #[should_panic]
     fn verify_sole_suggestion_not_in_result_fails() {
-        assert_not_in_suggestion_result("heloo", TestLinter::new(), "hello");
+        assert_not_in_suggestion_result(
+            "heloo",
+            TestLinter::new(&[(&["heloo"], &["hello"])]),
+            "hello",
+        );
     }
 
     // TODO verify many suggestions including the one we want succeeds
@@ -594,6 +597,7 @@ pub mod tests {
 
     /// Asserts both that the given text matches the expected good suggestions and that none of the
     /// suggestions are in the bad suggestions list.
+    /// TODO: Reimplement similar to `search_suggestion_tree`
     #[track_caller]
     pub fn assert_good_and_bad_suggestions(
         text: &str,
@@ -601,7 +605,8 @@ pub mod tests {
         good: &[&str],
         bad: &[&str],
     ) {
-        let test = Document::new_plain_english_curated(text);
+        let mut chars: Vec<char> = text.chars().collect();
+        let test = Document::new_plain_english_curated_chars(&chars);
         let lints = linter.lint(&test);
 
         let mut unseen_good: HashSet<_> = good.iter().cloned().collect();
@@ -610,9 +615,8 @@ pub mod tests {
 
         for (i, lint) in lints.into_iter().enumerate() {
             for (j, suggestion) in lint.suggestions.into_iter().enumerate() {
-                let mut text_chars: Vec<char> = text.chars().collect();
-                suggestion.apply(lint.span, &mut text_chars);
-                let suggestion_text: String = text_chars.into_iter().collect();
+                suggestion.apply(lint.span, &mut chars);
+                let suggestion_text: String = chars.iter().collect();
 
                 // Check for bad suggestions
                 if bad.contains(&&*suggestion_text) {
@@ -676,7 +680,11 @@ pub mod tests {
     #[test]
     #[should_panic]
     fn verify_mutal_corrections_cause_failure() {
-        assert_suggestion_result("gooder", TestLinter::new(), "better");
+        assert_suggestion_result(
+            "gooder",
+            TestLinter::new(&[(&["gooder"], &["more good"])]),
+            "better",
+        );
     }
 
     /// Asserts that the lint's message matches the expected message.
@@ -685,7 +693,7 @@ pub mod tests {
         let test = Document::new_plain_english_curated(text);
         let lints = linter.lint(&test);
 
-        // Just check the first lint for now
+        // Just check the first lint for now - TODO
         if let Some(lint) = lints.first()
             && lint.message != expected_message
         {

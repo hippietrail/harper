@@ -81,6 +81,16 @@ impl Document {
         document
     }
 
+    /// Create a new document from character data using the built-in [`PlainEnglish`]
+    /// parser and curated dictionary. This avoids string-to-char conversions.
+    pub fn new_plain_english_curated_chars(source: &[char]) -> Self {
+        Self::new_from_vec(
+            Lrc::new(source.to_vec()),
+            &PlainEnglish,
+            &FstDictionary::curated(),
+        )
+    }
+
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
     /// parser and curated dictionary.
     pub fn new_plain_english_curated(text: &str) -> Self {
