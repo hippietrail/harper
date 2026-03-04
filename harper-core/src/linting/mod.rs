@@ -286,7 +286,7 @@ where
 
 #[cfg(test)]
 pub mod tests {
-    use crate::{Document, Span, Token, linting::Linter, parsers::Markdown, spell::FstDictionary};
+    use crate::{Document, Span, Token, linting::Linter};
     use hashbrown::HashSet;
 
     /// Extension trait for converting spans of tokens back to their original text
@@ -484,6 +484,21 @@ pub mod tests {
         );
     }
 
+    /// Document types for suggestion search testing
+    #[derive(Debug, Clone, Copy)]
+    enum DocumentType {
+        PlainEnglish,
+        Markdown,
+    }
+
+    /// Creates a document of the specified type from character data
+    fn create_document(chars: &[char], doc_type: DocumentType) -> Document {
+        match doc_type {
+            DocumentType::PlainEnglish => Document::new_plain_english_curated_chars(chars),
+            DocumentType::Markdown => Document::new_markdown_default_curated_chars(chars),
+        }
+    }
+
     /// Applies suggestions iteratively until any combination produces the expected result.
     ///
     /// Explores all possible suggestion branches (depth-first search) until finding a path
@@ -495,7 +510,7 @@ pub mod tests {
     /// See issue #950: https://github.com/Automattic/harper/issues/950
     #[track_caller]
     pub fn assert_suggestion_result(text: &str, mut linter: impl Linter, needle: &str) {
-        if search_for_suggestion(&mut linter, text, needle, 0) {
+        if search_for_suggestion(DocumentType::PlainEnglish, text, &mut linter, needle, 0) {
             return;
         }
 
@@ -505,59 +520,20 @@ pub mod tests {
         );
     }
 
-    /// Recursively searches all suggestion combinations using depth-first search.
-    /// Returns true if any path reaches the expected result, false otherwise.
-    fn search_for_suggestion(
-        linter: &mut impl Linter,
-        text: &str,
-        needle: &str,
-        depth: usize,
-    ) -> bool {
-        // Prevent infinite recursion (e.g. cycles in suggestions)
-        if depth > 100 {
-            eprintln!("⚠️  Reached depth limit (100)");
-            return false;
-        }
-
-        // Check if we've reached the expected result
-        if text == needle {
-            return true;
-        }
-
-        // Lint current text and try each suggestion branch
-        let chars: Vec<char> = text.chars().collect();
-        let lints = linter.lint(&Document::new_plain_english_curated_chars(&chars));
-
-        if let Some(lint) = lints.first() {
-            for sug in lint.suggestions.iter() {
-                let mut chars_copy = chars.clone();
-                sug.apply(lint.span, &mut chars_copy);
-                let next: String = chars_copy.iter().collect();
-
-                // Recursively search this branch
-                if search_for_suggestion(linter, &next, needle, depth + 1) {
-                    return true;
-                }
-            }
-        }
-
-        false
-    }
-
-    // ===== NEW DFS IMPLEMENTATION WITH MARKDOWN =====
-
     /// DFS implementation using markdown instead of plain English
     #[track_caller]
     pub fn assert_markdown_suggestion_result(text: &str, mut linter: impl Linter, needle: &str) {
-        if !search_for_suggestion_markdown(&mut linter, text, needle, 0) {
+        if !search_for_suggestion(DocumentType::Markdown, text, &mut linter, needle, 0) {
             panic!("No suggestion sequence produced the expected result.\nExpected: {needle}");
         }
     }
 
-    /// DFS search for suggestions using markdown documents
-    fn search_for_suggestion_markdown(
-        linter: &mut impl Linter,
+    /// Recursively searches all suggestion combinations using depth-first search.
+    /// Returns true if any path reaches the expected result, false otherwise.
+    fn search_for_suggestion(
+        doc_type: DocumentType,
         text: &str,
+        linter: &mut impl Linter,
         needle: &str,
         depth: usize,
     ) -> bool {
@@ -574,12 +550,8 @@ pub mod tests {
 
         // Lint current text and try each suggestion branch
         let chars: Vec<char> = text.chars().collect();
-        let test = Document::new_from_vec(
-            chars.clone().into(),
-            &Markdown::default(),
-            &FstDictionary::curated(),
-        );
-        let lints = linter.lint(&test);
+        let document = create_document(&chars, doc_type);
+        let lints = linter.lint(&document);
 
         if let Some(lint) = lints.first() {
             for sug in lint.suggestions.iter() {
@@ -588,7 +560,7 @@ pub mod tests {
                 let next: String = chars_copy.iter().collect();
 
                 // Recursively search this branch
-                if search_for_suggestion_markdown(linter, &next, needle, depth + 1) {
+                if search_for_suggestion(doc_type, &next, linter, needle, depth + 1) {
                     return true;
                 }
             }
@@ -647,7 +619,13 @@ pub mod tests {
         mut linter: impl Linter,
         bad_suggestion: &str,
     ) {
-        if !search_for_suggestion(&mut linter, text, bad_suggestion, 0) {
+        if !search_for_suggestion(
+            DocumentType::PlainEnglish,
+            text,
+            &mut linter,
+            bad_suggestion,
+            0,
+        ) {
             return;
         }
 

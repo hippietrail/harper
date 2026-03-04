@@ -126,6 +126,16 @@ impl Document {
         )
     }
 
+    /// Create a new document from character data using the built-in [`Markdown`] parser
+    /// and curated dictionary. This avoids string-to-char conversions.
+    pub fn new_markdown_default_curated_chars(chars: &[char]) -> Self {
+        Self::new_from_vec(
+            chars.to_vec().into(),
+            &Markdown::default(),
+            &FstDictionary::curated(),
+        )
+    }
+
     /// Parse text to produce a document using the built-in [`Markdown`] parser
     /// and curated dictionary with the default Markdown configuration.
     pub fn new_markdown_default_curated(text: &str) -> Self {
