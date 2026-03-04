@@ -286,7 +286,7 @@ where
 
 #[cfg(test)]
 pub mod tests {
-    use crate::{Document, Span, Token, linting::Linter};
+    use crate::{Document, Span, Token, linting::Linter, parsers::Markdown, spell::FstDictionary};
     use hashbrown::HashSet;
 
     /// Extension trait for converting spans of tokens back to their original text
@@ -536,6 +536,59 @@ pub mod tests {
 
                 // Recursively search this branch
                 if search_for_suggestion(linter, &next, needle, depth + 1) {
+                    return true;
+                }
+            }
+        }
+
+        false
+    }
+
+    // ===== NEW DFS IMPLEMENTATION WITH MARKDOWN =====
+
+    /// DFS implementation using markdown instead of plain English
+    #[track_caller]
+    pub fn assert_markdown_suggestion_result(text: &str, mut linter: impl Linter, needle: &str) {
+        if !search_for_suggestion_markdown(&mut linter, text, needle, 0) {
+            panic!("No suggestion sequence produced the expected result.\nExpected: {needle}");
+        }
+    }
+
+    /// DFS search for suggestions using markdown documents
+    fn search_for_suggestion_markdown(
+        linter: &mut impl Linter,
+        text: &str,
+        needle: &str,
+        depth: usize,
+    ) -> bool {
+        // Prevent infinite recursion (e.g. cycles in suggestions)
+        if depth > 100 {
+            eprintln!("⚠️  Reached depth limit (100)");
+            return false;
+        }
+
+        // Check if we've reached the expected result
+        if text == needle {
+            return true;
+        }
+
+        // Lint current text and try each suggestion branch
+        let chars: Vec<char> = text.chars().collect();
+        let test = Document::new_from_vec(
+            chars.clone().into(),
+            &Markdown::default(),
+            &FstDictionary::curated(),
+        );
+        let lints = linter.lint(&test);
+
+        if let Some(lint) = lints.first() {
+            for sug in lint.suggestions.iter() {
+                let mut chars_copy = chars.clone();
+                sug.apply(lint.span, &mut chars_copy);
+                let next: String = chars_copy.iter().collect();
+
+                // Recursively search this branch
+                if search_for_suggestion_markdown(linter, &next, needle, depth + 1) {
                     return true;
                 }
             }
