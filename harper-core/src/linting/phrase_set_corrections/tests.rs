@@ -1480,6 +1480,42 @@ fn fix_took() {
     );
 }
 
+#[test]
+fn fix_assume() {
+    assert_suggestion_result(
+        "it's a relatively big chunk of behavior to assume responsibility of",
+        lint_group(),
+        "it's a relatively big chunk of behavior to assume responsibility for",
+    );
+}
+
+#[test]
+fn fix_assumed() {
+    assert_suggestion_result(
+        "and assumed responsibility of project managing the transition of Barclays",
+        lint_group(),
+        "and assumed responsibility for project managing the transition of Barclays",
+    );
+}
+
+#[test]
+fn fix_assumes() {
+    assert_suggestion_result(
+        "It means that the core development team assumes responsibility of the module",
+        lint_group(),
+        "It means that the core development team assumes responsibility for the module",
+    );
+}
+
+#[test]
+fn fix_assuming() {
+    assert_suggestion_result(
+        "The point of extract is essentially that you're assuming responsibility of maintenance for that version of the formula.",
+        lint_group(),
+        "The point of extract is essentially that you're assuming responsibility for maintenance for that version of the formula.",
+    );
+}
+
 // WreakHavoc
 
 #[test]

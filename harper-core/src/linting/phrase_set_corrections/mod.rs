@@ -479,9 +479,13 @@ pub fn lint_group() -> LintGroup {
                 ("taken responsibility of", "taken responsibility for"),
                 ("taking responsibility of", "taking responsibility for"),
                 ("takes responsibility of", "takes responsibility for"),
+                ("assume responsibility of", "assume responsibility for"),
+                ("assumed responsibility of", "assumed responsibility for"),
+                ("assuming responsibility of", "assuming responsibility for"),
+                ("assumes responsibility of", "assumes responsibility for"),
             ],
             "The correct preposition is `for`, not `of`.",
-            "Corrects `take responsibility of` to `take responsibility for`.",
+            "Corrects `take or assume responsibility of` to `take or assume responsibility for`.",
             LintKind::Usage
         ),
         "WreakHavoc" => (
