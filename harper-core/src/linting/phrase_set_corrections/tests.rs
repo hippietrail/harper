@@ -1149,108 +1149,6 @@ fn fix_escape_goats() {
     );
 }
 
-// SubjunctiveWasToWere
-
-// -if only there was-
-#[test]
-fn if_only_there_was() {
-    assert_suggestion_result(
-        "if only there was an endpoint do to so",
-        lint_group(),
-        "if only there were an endpoint do to so",
-    );
-}
-
-// -if only I-
-#[test]
-fn if_only_i_was() {
-    assert_suggestion_result(
-        "Oh If only I was that clever !!",
-        lint_group(),
-        "Oh If only I were that clever !!",
-    );
-}
-
-// -if only he-
-#[test]
-fn if_only_he_was() {
-    assert_suggestion_result(
-        "If only he was kind enough to attempt to contact me in private first",
-        lint_group(),
-        "If only he were kind enough to attempt to contact me in private first",
-    );
-}
-
-// -if only she-
-#[test]
-fn if_only_she_was() {
-    assert_suggestion_result(
-        "If only she was right.",
-        lint_group(),
-        "If only she were right.",
-    );
-}
-
-// -it-
-#[test]
-fn if_only_it_was() {
-    assert_suggestion_result(
-        "if only it was accessible via USB connection - hint hint",
-        lint_group(),
-        "if only it were accessible via USB connection - hint hint",
-    );
-}
-
-// -I wish there was-
-#[test]
-fn i_wish_there_was() {
-    assert_suggestion_result(
-        "I wish there was a keyboard shortcut or something that was \"bring back the suggestion you just made in the last 3 seconds\".",
-        lint_group(),
-        "I wish there were a keyboard shortcut or something that was \"bring back the suggestion you just made in the last 3 seconds\".",
-    );
-}
-
-// -I wish I was-
-#[test]
-fn i_wish_i_was() {
-    assert_suggestion_result(
-        "I wish I was as smart as I think I am.",
-        lint_group(),
-        "I wish I were as smart as I think I am.",
-    );
-}
-
-// -I wish he was-
-#[test]
-fn i_wish_he_was() {
-    assert_suggestion_result(
-        "However I wish he was that smart about ARM chips present in the current mobile devices.",
-        lint_group(),
-        "However I wish he were that smart about ARM chips present in the current mobile devices.",
-    );
-}
-
-// -I wish she was-
-#[test]
-fn i_wish_she_was() {
-    assert_suggestion_result(
-        "I wish she was more accepting of her own interests.",
-        lint_group(),
-        "I wish she were more accepting of her own interests.",
-    );
-}
-
-// -I wish it was-
-#[test]
-fn i_wish_it_was() {
-    assert_suggestion_result(
-        "but I wish it was more friendly to existing ecosystems",
-        lint_group(),
-        "but I wish it were more friendly to existing ecosystems",
-    );
-}
-
 // SeamToSeem
 
 //-seam to be-
@@ -1430,6 +1328,155 @@ fn fix_everyone_seams() {
         "everyone seams to use the editor now a days plus there is a tun of extensions available",
         lint_group(),
         "everyone seems to use the editor now a days plus there is a tun of extensions available",
+    );
+}
+
+// SubjunctiveWasToWere
+
+// -if only there was-
+#[test]
+fn if_only_there_was() {
+    assert_suggestion_result(
+        "if only there was an endpoint do to so",
+        lint_group(),
+        "if only there were an endpoint do to so",
+    );
+}
+
+// -if only I-
+#[test]
+fn if_only_i_was() {
+    assert_suggestion_result(
+        "Oh If only I was that clever !!",
+        lint_group(),
+        "Oh If only I were that clever !!",
+    );
+}
+
+// -if only he-
+#[test]
+fn if_only_he_was() {
+    assert_suggestion_result(
+        "If only he was kind enough to attempt to contact me in private first",
+        lint_group(),
+        "If only he were kind enough to attempt to contact me in private first",
+    );
+}
+
+// -if only she-
+#[test]
+fn if_only_she_was() {
+    assert_suggestion_result(
+        "If only she was right.",
+        lint_group(),
+        "If only she were right.",
+    );
+}
+
+// -it-
+#[test]
+fn if_only_it_was() {
+    assert_suggestion_result(
+        "if only it was accessible via USB connection - hint hint",
+        lint_group(),
+        "if only it were accessible via USB connection - hint hint",
+    );
+}
+
+// -I wish there was-
+#[test]
+fn i_wish_there_was() {
+    assert_suggestion_result(
+        "I wish there was a keyboard shortcut or something that was \"bring back the suggestion you just made in the last 3 seconds\".",
+        lint_group(),
+        "I wish there were a keyboard shortcut or something that was \"bring back the suggestion you just made in the last 3 seconds\".",
+    );
+}
+
+// -I wish I was-
+#[test]
+fn i_wish_i_was() {
+    assert_suggestion_result(
+        "I wish I was as smart as I think I am.",
+        lint_group(),
+        "I wish I were as smart as I think I am.",
+    );
+}
+
+// -I wish he was-
+#[test]
+fn i_wish_he_was() {
+    assert_suggestion_result(
+        "However I wish he was that smart about ARM chips present in the current mobile devices.",
+        lint_group(),
+        "However I wish he were that smart about ARM chips present in the current mobile devices.",
+    );
+}
+
+// -I wish she was-
+#[test]
+fn i_wish_she_was() {
+    assert_suggestion_result(
+        "I wish she was more accepting of her own interests.",
+        lint_group(),
+        "I wish she were more accepting of her own interests.",
+    );
+}
+
+// -I wish it was-
+#[test]
+fn i_wish_it_was() {
+    assert_suggestion_result(
+        "but I wish it was more friendly to existing ecosystems",
+        lint_group(),
+        "but I wish it were more friendly to existing ecosystems",
+    );
+}
+
+// TakeResponsibilityFor
+
+#[test]
+fn fix_take() {
+    assert_suggestion_result(
+        "Is anyone wanting to step up and take responsibility of this library, or should I put it in EOL and redirect to another tool? ",
+        lint_group(),
+        "Is anyone wanting to step up and take responsibility for this library, or should I put it in EOL and redirect to another tool? ",
+    );
+}
+
+#[test]
+fn fix_taken() {
+    assert_suggestion_result(
+        "if it had only taken responsibility of the manifest/info additions and extensionsID it would have made our life easier",
+        lint_group(),
+        "if it had only taken responsibility for the manifest/info additions and extensionsID it would have made our life easier",
+    );
+}
+
+#[test]
+fn fix_takes() {
+    assert_suggestion_result(
+        "If I have a message that i want to encode, who takes responsibility of pointers?",
+        lint_group(),
+        "If I have a message that i want to encode, who takes responsibility for pointers?",
+    );
+}
+
+#[test]
+fn fix_taking() {
+    assert_suggestion_result(
+        "This issue is about taking responsibility of the feature area auto indentation and start solving the bugs in the feature area.",
+        lint_group(),
+        "This issue is about taking responsibility for the feature area auto indentation and start solving the bugs in the feature area.",
+    );
+}
+
+#[test]
+fn fix_took() {
+    assert_suggestion_result(
+        "If the driver took responsibility of the locking, it could let these HTTP calls happen in parallel",
+        lint_group(),
+        "If the driver took responsibility for the locking, it could let these HTTP calls happen in parallel",
     );
 }
 
