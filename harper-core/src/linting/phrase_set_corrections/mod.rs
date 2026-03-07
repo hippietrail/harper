@@ -420,6 +420,26 @@ pub fn lint_group() -> LintGroup {
             "Simplifies redundant double positives like `most optimal` to the base form.",
             LintKind::Redundancy
         ),
+        "ResponsibilityFor" => (
+            &[
+                ("take responsibility of", "take responsibility for"),
+                ("took responsibility of", "took responsibility for"),
+                ("taken responsibility of", "taken responsibility for"),
+                ("taking responsibility of", "taking responsibility for"),
+                ("takes responsibility of", "takes responsibility for"),
+                ("assume responsibility of", "assume responsibility for"),
+                ("assumed responsibility of", "assumed responsibility for"),
+                ("assuming responsibility of", "assuming responsibility for"),
+                ("assumes responsibility of", "assumes responsibility for"),
+                ("claim responsibility of", "claim responsibility for"),
+                ("claimed responsibility of", "claimed responsibility for"),
+                ("claiming responsibility of", "claiming responsibility for"),
+                ("claims responsibility of", "claims responsibility for"),
+            ],
+            "The correct preposition is `for`, not `of`.",
+            "Corrects `take/assume/claim responsibility of` to `take/assume/claim responsibility for`.",
+            LintKind::Usage
+        ),
         "ScapeGoat" => (
             &[
                 ("an escape goat", "a scapegoat"),
@@ -471,22 +491,6 @@ pub fn lint_group() -> LintGroup {
             "Use the subjunctive mood with `if only` or `I wish`. The correct form is `were`, not `was`.",
             "Ensures proper use of the subjunctive mood in counterfactual conditional statements starting with `if only` or `I wish`.",
             LintKind::Grammar
-        ),
-        "TakeResponsibilityFor" => (
-            &[
-                ("take responsibility of", "take responsibility for"),
-                ("took responsibility of", "took responsibility for"),
-                ("taken responsibility of", "taken responsibility for"),
-                ("taking responsibility of", "taking responsibility for"),
-                ("takes responsibility of", "takes responsibility for"),
-                ("assume responsibility of", "assume responsibility for"),
-                ("assumed responsibility of", "assumed responsibility for"),
-                ("assuming responsibility of", "assuming responsibility for"),
-                ("assumes responsibility of", "assumes responsibility for"),
-            ],
-            "The correct preposition is `for`, not `of`.",
-            "Corrects `take or assume responsibility of` to `take or assume responsibility for`.",
-            LintKind::Usage
         ),
         "WreakHavoc" => (
             &[

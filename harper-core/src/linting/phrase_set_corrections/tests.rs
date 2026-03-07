@@ -1120,6 +1120,125 @@ fn fix_peaks() {
 // RedundantSuperlatives
 // -none-
 
+// ResponsibilityFor
+
+#[test]
+fn fix_take() {
+    assert_suggestion_result(
+        "Is anyone wanting to step up and take responsibility of this library, or should I put it in EOL and redirect to another tool? ",
+        lint_group(),
+        "Is anyone wanting to step up and take responsibility for this library, or should I put it in EOL and redirect to another tool? ",
+    );
+}
+
+#[test]
+fn fix_taken() {
+    assert_suggestion_result(
+        "if it had only taken responsibility of the manifest/info additions and extensionsID it would have made our life easier",
+        lint_group(),
+        "if it had only taken responsibility for the manifest/info additions and extensionsID it would have made our life easier",
+    );
+}
+
+#[test]
+fn fix_takes() {
+    assert_suggestion_result(
+        "If I have a message that i want to encode, who takes responsibility of pointers?",
+        lint_group(),
+        "If I have a message that i want to encode, who takes responsibility for pointers?",
+    );
+}
+
+#[test]
+fn fix_taking() {
+    assert_suggestion_result(
+        "This issue is about taking responsibility of the feature area auto indentation and start solving the bugs in the feature area.",
+        lint_group(),
+        "This issue is about taking responsibility for the feature area auto indentation and start solving the bugs in the feature area.",
+    );
+}
+
+#[test]
+fn fix_took() {
+    assert_suggestion_result(
+        "If the driver took responsibility of the locking, it could let these HTTP calls happen in parallel",
+        lint_group(),
+        "If the driver took responsibility for the locking, it could let these HTTP calls happen in parallel",
+    );
+}
+
+#[test]
+fn fix_assume() {
+    assert_suggestion_result(
+        "it's a relatively big chunk of behavior to assume responsibility of",
+        lint_group(),
+        "it's a relatively big chunk of behavior to assume responsibility for",
+    );
+}
+
+#[test]
+fn fix_assumed() {
+    assert_suggestion_result(
+        "and assumed responsibility of project managing the transition of Barclays",
+        lint_group(),
+        "and assumed responsibility for project managing the transition of Barclays",
+    );
+}
+
+#[test]
+fn fix_assumes() {
+    assert_suggestion_result(
+        "It means that the core development team assumes responsibility of the module",
+        lint_group(),
+        "It means that the core development team assumes responsibility for the module",
+    );
+}
+
+#[test]
+fn fix_assuming() {
+    assert_suggestion_result(
+        "The point of extract is essentially that you're assuming responsibility of maintenance for that version of the formula.",
+        lint_group(),
+        "The point of extract is essentially that you're assuming responsibility for maintenance for that version of the formula.",
+    );
+}
+
+#[test]
+fn fix_claim() {
+    assert_suggestion_result(
+        "so it doesn't need to claim responsibility of the reappearing containers lifecycle",
+        lint_group(),
+        "so it doesn't need to claim responsibility for the reappearing containers lifecycle",
+    );
+}
+
+#[test]
+fn fix_claimed() {
+    assert_suggestion_result(
+        "a group called The Impact Team had claimed responsibility of the data breach",
+        lint_group(),
+        "a group called The Impact Team had claimed responsibility for the data breach",
+    );
+}
+
+#[test]
+fn fix_claiming() {
+    assert_suggestion_result(
+        "I feel that there should be some other way of claiming responsibility of the promise's continuation.",
+        lint_group(),
+        "I feel that there should be some other way of claiming responsibility for the promise's continuation.",
+    );
+}
+
+#[test]
+fn fix_claims() {
+    assert_suggestion_result(
+        "yet the Lord claims responsibility of those boundaries",
+        lint_group(),
+        "yet the Lord claims responsibility for those boundaries",
+    );
+}
+
 // ScapeGoat
 
 #[test]
@@ -1430,89 +1549,6 @@ fn i_wish_it_was() {
         "but I wish it was more friendly to existing ecosystems",
         lint_group(),
         "but I wish it were more friendly to existing ecosystems",
-    );
-}
-
-// TakeResponsibilityFor
-
-#[test]
-fn fix_take() {
-    assert_suggestion_result(
-        "Is anyone wanting to step up and take responsibility of this library, or should I put it in EOL and redirect to another tool? ",
-        lint_group(),
-        "Is anyone wanting to step up and take responsibility for this library, or should I put it in EOL and redirect to another tool? ",
-    );
-}
-
-#[test]
-fn fix_taken() {
-    assert_suggestion_result(
-        "if it had only taken responsibility of the manifest/info additions and extensionsID it would have made our life easier",
-        lint_group(),
-        "if it had only taken responsibility for the manifest/info additions and extensionsID it would have made our life easier",
-    );
-}
-
-#[test]
-fn fix_takes() {
-    assert_suggestion_result(
-        "If I have a message that i want to encode, who takes responsibility of pointers?",
-        lint_group(),
-        "If I have a message that i want to encode, who takes responsibility for pointers?",
-    );
-}
-
-#[test]
-fn fix_taking() {
-    assert_suggestion_result(
-        "This issue is about taking responsibility of the feature area auto indentation and start solving the bugs in the feature area.",
-        lint_group(),
-        "This issue is about taking responsibility for the feature area auto indentation and start solving the bugs in the feature area.",
-    );
-}
-
-#[test]
-fn fix_took() {
-    assert_suggestion_result(
-        "If the driver took responsibility of the locking, it could let these HTTP calls happen in parallel",
-        lint_group(),
-        "If the driver took responsibility for the locking, it could let these HTTP calls happen in parallel",
-    );
-}
-
-#[test]
-fn fix_assume() {
-    assert_suggestion_result(
-        "it's a relatively big chunk of behavior to assume responsibility of",
-        lint_group(),
-        "it's a relatively big chunk of behavior to assume responsibility for",
-    );
-}
-
-#[test]
-fn fix_assumed() {
-    assert_suggestion_result(
-        "and assumed responsibility of project managing the transition of Barclays",
-        lint_group(),
-        "and assumed responsibility for project managing the transition of Barclays",
-    );
-}
-
-#[test]
-fn fix_assumes() {
-    assert_suggestion_result(
-        "It means that the core development team assumes responsibility of the module",
-        lint_group(),
-        "It means that the core development team assumes responsibility for the module",
-    );
-}
-
-#[test]
-fn fix_assuming() {
-    assert_suggestion_result(
-        "The point of extract is essentially that you're assuming responsibility of maintenance for that version of the formula.",
-        lint_group(),
-        "The point of extract is essentially that you're assuming responsibility for maintenance for that version of the formula.",
     );
 }
 
