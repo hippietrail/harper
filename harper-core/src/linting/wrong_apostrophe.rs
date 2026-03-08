@@ -7,13 +7,13 @@ use crate::{
 const CONTRACTION_AND_POSSESSIVE_ENDINGS: [&str; 7] = ["d", "ll", "m", "re", "s", "t", "ve"];
 
 pub struct WrongApostrophe {
-    expr: Box<dyn Expr>,
+    expr: FirstMatchOf,
 }
 
 impl Default for WrongApostrophe {
     fn default() -> Self {
         Self {
-            expr: Box::new(FirstMatchOf::new(vec![
+            expr: FirstMatchOf::new(vec![
                 Box::new(
                     SequenceExpr::any_word()
                         .then_semicolon()
@@ -24,7 +24,7 @@ impl Default for WrongApostrophe {
                         .then_acute()
                         .then_word_set(&CONTRACTION_AND_POSSESSIVE_ENDINGS),
                 ),
-            ])),
+            ]),
         }
     }
 }
@@ -33,7 +33,7 @@ impl ExprLinter for WrongApostrophe {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
