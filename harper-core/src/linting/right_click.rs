@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use crate::{
     Token, TokenStringExt,
     expr::{Expr, ExprMap, SequenceExpr},
@@ -9,7 +7,7 @@ use crate::{
 };
 
 pub struct RightClick {
-    expr: Arc<ExprMap<usize>>,
+    expr: ExprMap<usize>,
 }
 
 impl Default for RightClick {
@@ -22,8 +20,6 @@ impl Default for RightClick {
                 .then(DerivedFrom::new_from_str("click")),
             0,
         );
-
-        let map = Arc::new(map);
 
         Self { expr: map }
     }

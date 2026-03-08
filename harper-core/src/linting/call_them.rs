@@ -8,7 +8,7 @@ use super::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::linting::expr_linter::Chunk;
 
 pub struct CallThem {
-    expr: Arc<ExprMap<Range<usize>>>,
+    expr: ExprMap<Range<usize>>,
 }
 
 impl Default for CallThem {
@@ -36,8 +36,6 @@ impl Default for CallThem {
                 .then_unless(post_exception.clone()),
             1..3,
         );
-
-        let map = Arc::new(map);
 
         Self { expr: map }
     }

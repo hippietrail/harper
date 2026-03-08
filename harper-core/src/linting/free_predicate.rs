@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use crate::Token;
 use crate::TokenKind;
 use crate::char_string::CharStringExt;
@@ -10,7 +8,7 @@ use super::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::linting::expr_linter::Chunk;
 
 pub struct FreePredicate {
-    expr: Arc<ExprMap<usize>>,
+    expr: ExprMap<usize>,
 }
 
 impl Default for FreePredicate {
@@ -35,9 +33,7 @@ impl Default for FreePredicate {
 
         map.insert(with_adverb, 4);
 
-        Self {
-            expr: Arc::new(map),
-        }
+        Self { expr: map }
     }
 }
 

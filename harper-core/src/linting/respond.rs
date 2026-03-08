@@ -1,12 +1,10 @@
-use std::sync::Arc;
-
 use crate::Token;
 use crate::expr::{Expr, ExprMap, SequenceExpr};
 use crate::linting::expr_linter::Chunk;
 use crate::linting::{ExprLinter, Lint, LintKind, Suggestion};
 
 pub struct Respond {
-    expr: Arc<ExprMap<usize>>,
+    expr: ExprMap<usize>,
 }
 
 impl Default for Respond {
@@ -50,8 +48,6 @@ impl Default for Respond {
                 .t_aco("response"),
             6,
         );
-
-        let map = Arc::new(map);
 
         Self { expr: map }
     }

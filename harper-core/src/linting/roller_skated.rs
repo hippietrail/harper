@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use crate::linting::expr_linter::Chunk;
 use crate::{
     Token, TokenKind, TokenStringExt,
@@ -9,7 +7,7 @@ use crate::{
 
 /// Suggests hyphenating the past tense of `roller-skate`.
 pub struct RollerSkated {
-    expr: Arc<ExprMap<usize>>,
+    expr: ExprMap<usize>,
 }
 
 impl RollerSkated {
@@ -55,8 +53,6 @@ impl Default for RollerSkated {
             SequenceExpr::with(AnchorStart).then_seq(Self::roller_pair()),
             0,
         );
-
-        let map = Arc::new(map);
 
         Self { expr: map }
     }

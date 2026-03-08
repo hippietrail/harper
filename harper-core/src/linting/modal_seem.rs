@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use crate::linting::expr_linter::Chunk;
 use crate::{
     CharStringExt, Token,
@@ -14,7 +12,7 @@ struct MatchContext {
 }
 
 pub struct ModalSeem {
-    expr: Arc<ExprMap<MatchContext>>,
+    expr: ExprMap<MatchContext>,
 }
 
 impl ModalSeem {
@@ -56,8 +54,6 @@ impl Default for ModalSeem {
                 .then(Self::adverb_then_adjective_step()),
             MatchContext::default(),
         );
-
-        let map = Arc::new(map);
 
         Self { expr: map }
     }

@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use crate::linting::expr_linter::Chunk;
 use crate::{
     Token, TokenKind, TokenStringExt,
@@ -8,7 +6,7 @@ use crate::{
 };
 
 pub struct DoubleClick {
-    expr: Arc<ExprMap<usize>>,
+    expr: ExprMap<usize>,
 }
 
 impl DoubleClick {
@@ -46,8 +44,6 @@ impl Default for DoubleClick {
                 .then_kind_is_but_is_not(TokenKind::is_word, TokenKind::is_verb),
             0,
         );
-
-        let map = Arc::new(map);
 
         Self { expr: map }
     }

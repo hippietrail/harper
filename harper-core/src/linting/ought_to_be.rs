@@ -11,13 +11,11 @@ use crate::{
 /// Legitimate phrasal-verb uses like `turn out to be`, `work out to be`, or
 /// `make it out to be` are ignored.
 pub struct OughtToBe {
-    expr: std::sync::Arc<ExprMap<usize>>, // index of the `out` token within the match
+    expr: ExprMap<usize>, // index of the `out` token within the match
 }
 
 impl Default for OughtToBe {
     fn default() -> Self {
-        use std::sync::Arc;
-
         // We’ll construct three branches and record where the `out` token sits in each.
         // 1) non-verb word + pronoun + "out to be"  → index of `out` = 4 tokens after start
         //    [word(!verb)] [ws] [pronoun] [ws] [out] [ws] [to] [ws] [be]
@@ -48,8 +46,6 @@ impl Default for OughtToBe {
         map.insert(branch_nonverb_pronoun, 4);
         map.insert(branch_anchor_pronoun, 2);
         map.insert(branch_punct_pronoun, 4);
-
-        let map = Arc::new(map);
 
         Self { expr: map }
     }

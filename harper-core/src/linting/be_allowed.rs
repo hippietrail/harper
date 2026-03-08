@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use crate::linting::expr_linter::Chunk;
 use crate::{
     Token,
@@ -8,7 +6,7 @@ use crate::{
 };
 
 pub struct BeAllowed {
-    expr: Arc<ExprMap<usize>>,
+    expr: ExprMap<usize>,
 }
 
 impl Default for BeAllowed {
@@ -40,8 +38,6 @@ impl Default for BeAllowed {
                 .then_verb(),
             2,
         );
-
-        let map = Arc::new(map);
 
         Self { expr: map }
     }

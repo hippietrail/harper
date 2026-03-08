@@ -1,4 +1,4 @@
-use std::{ops::Range, sync::Arc};
+use std::ops::Range;
 
 use crate::{
     Token, TokenKind, TokenStringExt,
@@ -9,7 +9,7 @@ use crate::{
 };
 
 pub struct SoonToBe {
-    expr: Arc<ExprMap<Range<usize>>>,
+    expr: ExprMap<Range<usize>>,
 }
 
 impl Default for SoonToBe {
@@ -73,9 +73,7 @@ impl Default for SoonToBe {
             0usize..5usize,
         );
 
-        Self {
-            expr: Arc::new(map),
-        }
+        Self { expr: map }
     }
 }
 

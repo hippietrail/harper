@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use harper_brill::UPOS;
 
 use crate::char_string::char_string;
@@ -11,7 +9,7 @@ use super::expr_linter::Chunk;
 use super::{ExprLinter, Lint, LintKind, Suggestion};
 
 pub struct AWhile {
-    expr: Arc<ExprMap<(CharString, &'static str)>>,
+    expr: ExprMap<(CharString, &'static str)>,
 }
 
 impl Default for AWhile {
@@ -43,8 +41,6 @@ impl Default for AWhile {
                 "When not used after a verb, spell this duration as `a while`.",
             ),
         );
-
-        let map = Arc::new(map);
 
         Self { expr: map }
     }

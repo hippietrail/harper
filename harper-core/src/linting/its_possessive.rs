@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use harper_brill::UPOS;
 
 use crate::Token;
@@ -14,7 +12,7 @@ use super::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::linting::expr_linter::Chunk;
 
 pub struct ItsPossessive {
-    expr: Arc<ExprMap<usize>>,
+    expr: ExprMap<usize>,
 }
 
 impl Default for ItsPossessive {
@@ -119,8 +117,6 @@ impl Default for ItsPossessive {
         let special = SequenceExpr::aco("it's").t_ws().t_aco("various");
 
         map.insert(special, 0);
-
-        let map = Arc::new(map);
 
         Self { expr: map }
     }
