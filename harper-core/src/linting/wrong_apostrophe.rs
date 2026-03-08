@@ -47,8 +47,8 @@ impl ExprLinter for WrongApostrophe {
             ending.span.get_content_string(src).to_lowercase()
         );
 
-        let mut lettercase_template = base.span.get_content(src).to_vec();
-        lettercase_template.extend_from_slice(ending.span.get_content(src));
+        let lettercase_template =
+            [base.span.get_content(src), ending.span.get_content(src)].concat();
 
         Some(Lint {
             span: whole_span,
