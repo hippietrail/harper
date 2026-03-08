@@ -14,8 +14,7 @@ struct MatchContext {
 }
 
 pub struct ModalSeem {
-    expr: Box<dyn Expr>,
-    map: Arc<ExprMap<MatchContext>>,
+    expr: Arc<ExprMap<MatchContext>>,
 }
 
 impl ModalSeem {
@@ -60,10 +59,7 @@ impl Default for ModalSeem {
 
         let map = Arc::new(map);
 
-        Self {
-            expr: Box::new(map.clone()),
-            map,
-        }
+        Self { expr: map }
     }
 }
 
@@ -71,11 +67,11 @@ impl ExprLinter for ModalSeem {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        let context = self.map.lookup(0, matched_tokens, source)?;
+        let context = self.expr.lookup(0, matched_tokens, source)?;
 
         let seen_token = matched_tokens
             .iter()

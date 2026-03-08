@@ -10,8 +10,7 @@ use super::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::linting::expr_linter::Chunk;
 
 pub struct FreePredicate {
-    expr: Box<dyn Expr>,
-    map: Arc<ExprMap<usize>>,
+    expr: Arc<ExprMap<usize>>,
 }
 
 impl Default for FreePredicate {
@@ -36,11 +35,8 @@ impl Default for FreePredicate {
 
         map.insert(with_adverb, 4);
 
-        let map = Arc::new(map);
-
         Self {
-            expr: Box::new(map.clone()),
-            map,
+            expr: Arc::new(map),
         }
     }
 }
@@ -49,11 +45,11 @@ impl ExprLinter for FreePredicate {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        let offending_idx = *self.map.lookup(0, matched_tokens, source)?;
+        let offending_idx = *self.expr.lookup(0, matched_tokens, source)?;
         let offending = matched_tokens.get(offending_idx)?;
 
         Some(Lint {

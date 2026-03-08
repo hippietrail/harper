@@ -5,38 +5,36 @@ use crate::linting::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::token_string_ext::TokenStringExt;
 
 pub struct AfterLater {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for AfterLater {
     fn default() -> Self {
         Self {
-            expr: Box::new(
-                SequenceExpr::aco("after")
-                    .t_ws()
-                    .then_optional(
-                        SequenceExpr::word_set(&[
-                            "about",
-                            "almost",
-                            "approximately",
-                            "around",
-                            "circa",
-                            "exactly",
-                            "just",
-                            "maybe",
-                            "nearly",
-                            "only",
-                            "perhaps",
-                            "precisely",
-                            "probably",
-                            "roughly",
-                        ])
-                        .t_ws(),
-                    )
-                    .then(DurationExpr)
-                    .t_ws()
-                    .t_aco("later"),
-            ),
+            expr: SequenceExpr::aco("after")
+                .t_ws()
+                .then_optional(
+                    SequenceExpr::word_set(&[
+                        "about",
+                        "almost",
+                        "approximately",
+                        "around",
+                        "circa",
+                        "exactly",
+                        "just",
+                        "maybe",
+                        "nearly",
+                        "only",
+                        "perhaps",
+                        "precisely",
+                        "probably",
+                        "roughly",
+                    ])
+                    .t_ws(),
+                )
+                .then(DurationExpr)
+                .t_ws()
+                .t_aco("later"),
         }
     }
 }
@@ -45,7 +43,7 @@ impl ExprLinter for AfterLater {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

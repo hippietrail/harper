@@ -7,7 +7,7 @@ use super::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::linting::expr_linter::Chunk;
 
 pub struct AmountsFor {
-    expr: Box<dyn Expr>,
+    expr: FirstMatchOf,
 }
 
 impl Default for AmountsFor {
@@ -27,10 +27,7 @@ impl Default for AmountsFor {
             .then_fixed_phrase("amount for");
 
         Self {
-            expr: Box::new(FirstMatchOf::new(vec![
-                Box::new(singular_pattern),
-                Box::new(plural_pattern),
-            ])),
+            expr: FirstMatchOf::new(vec![Box::new(singular_pattern), Box::new(plural_pattern)]),
         }
     }
 }
@@ -39,7 +36,7 @@ impl ExprLinter for AmountsFor {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

@@ -5,19 +5,17 @@ use crate::{
 };
 
 pub struct LeadRiseTo {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for LeadRiseTo {
     fn default() -> Self {
         Self {
-            expr: Box::new(
-                SequenceExpr::word_set(&["lead", "led", "leads", "leading"])
-                    .t_ws()
-                    .t_aco("rise")
-                    .t_ws()
-                    .t_aco("to"),
-            ),
+            expr: SequenceExpr::word_set(&["lead", "led", "leads", "leading"])
+                .t_ws()
+                .t_aco("rise")
+                .t_ws()
+                .t_aco("to"),
         }
     }
 }
@@ -30,7 +28,7 @@ impl ExprLinter for LeadRiseTo {
     }
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
