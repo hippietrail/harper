@@ -8,17 +8,15 @@ use crate::{
 const CONTRACTION_AND_POSSESSIVE_ENDINGS: [&str; 7] = ["d", "ll", "m", "re", "s", "t", "ve"];
 
 pub struct SemicolonApostrophe {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for SemicolonApostrophe {
     fn default() -> Self {
         Self {
-            expr: Box::new(
-                SequenceExpr::any_word()
-                    .then_semicolon()
-                    .then_word_set(&CONTRACTION_AND_POSSESSIVE_ENDINGS),
-            ),
+            expr: SequenceExpr::any_word()
+                .then_semicolon()
+                .then_word_set(&CONTRACTION_AND_POSSESSIVE_ENDINGS),
         }
     }
 }
@@ -27,7 +25,7 @@ impl ExprLinter for SemicolonApostrophe {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

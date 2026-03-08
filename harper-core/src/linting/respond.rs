@@ -6,8 +6,7 @@ use crate::linting::expr_linter::Chunk;
 use crate::linting::{ExprLinter, Lint, LintKind, Suggestion};
 
 pub struct Respond {
-    expr: Box<dyn Expr>,
-    map: Arc<ExprMap<usize>>,
+    expr: Arc<ExprMap<usize>>,
 }
 
 impl Default for Respond {
@@ -54,10 +53,7 @@ impl Default for Respond {
 
         let map = Arc::new(map);
 
-        Self {
-            expr: Box::new(map.clone()),
-            map,
-        }
+        Self { expr: map }
     }
 }
 
@@ -65,11 +61,11 @@ impl ExprLinter for Respond {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        let response_index = *self.map.lookup(0, matched_tokens, source)?;
+        let response_index = *self.expr.lookup(0, matched_tokens, source)?;
         let response_token = matched_tokens.get(response_index)?;
 
         Some(Lint {

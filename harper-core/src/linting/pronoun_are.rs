@@ -7,7 +7,7 @@ use crate::{
 
 /// Corrects the shorthand `r` after plural first- and second-person pronouns.
 pub struct PronounAre {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for PronounAre {
@@ -23,9 +23,7 @@ impl Default for PronounAre {
             .t_ws()
             .t_aco("r");
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -33,7 +31,7 @@ impl ExprLinter for PronounAre {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, tokens: &[Token], source: &[char]) -> Option<Lint> {

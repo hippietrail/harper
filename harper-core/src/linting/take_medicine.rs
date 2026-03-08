@@ -7,7 +7,7 @@ use crate::{
 };
 
 pub struct TakeMedicine {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for TakeMedicine {
@@ -41,9 +41,7 @@ impl Default for TakeMedicine {
             .then_optional(adjectives)
             .then(medication);
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -78,7 +76,7 @@ impl ExprLinter for TakeMedicine {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

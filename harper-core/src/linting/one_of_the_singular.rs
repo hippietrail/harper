@@ -6,7 +6,7 @@ use crate::{
 };
 
 pub struct OneOfTheSingular<D: Dictionary + 'static> {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
     dict: D,
 }
 
@@ -41,10 +41,8 @@ impl<D: Dictionary + 'static> OneOfTheSingular<D> {
             .then_zero_or_more_spaced(SequenceExpr::default().then_my_noun_or_adjective());
 
         Self {
-            expr: Box::new(
-                SequenceExpr::fixed_phrase("one of the ")
-                    .then(SequenceExpr::optional(advs.t_ws()).then(adj_or_nouns)),
-            ),
+            expr: SequenceExpr::fixed_phrase("one of the ")
+                .then(SequenceExpr::optional(advs.t_ws()).then(adj_or_nouns)),
             dict,
         }
     }
@@ -144,7 +142,7 @@ impl<D: Dictionary + 'static> ExprLinter for OneOfTheSingular<D> {
     }
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 }
 

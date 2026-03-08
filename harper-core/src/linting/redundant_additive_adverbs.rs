@@ -7,7 +7,7 @@ use crate::{
 };
 
 pub struct RedundantAdditiveAdverbs {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for RedundantAdditiveAdverbs {
@@ -25,7 +25,7 @@ impl Default for RedundantAdditiveAdverbs {
             .then_optional(SequenceExpr::whitespace().t_aco("as"));
 
         Self {
-            expr: Box::new(multiple_additive_adverbs),
+            expr: multiple_additive_adverbs,
         }
     }
 }
@@ -34,7 +34,7 @@ impl ExprLinter for RedundantAdditiveAdverbs {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

@@ -9,7 +9,7 @@ use crate::{
 };
 
 pub struct TheMy {
-    expr: Box<dyn Expr>,
+    expr: FirstMatchOf,
 }
 
 impl Default for TheMy {
@@ -26,10 +26,7 @@ impl Default for TheMy {
             .then(the);
 
         Self {
-            expr: Box::new(FirstMatchOf::new(vec![
-                Box::new(the_poss),
-                Box::new(poss_the),
-            ])),
+            expr: FirstMatchOf::new(vec![Box::new(the_poss), Box::new(poss_the)]),
         }
     }
 }
@@ -38,7 +35,7 @@ impl ExprLinter for TheMy {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

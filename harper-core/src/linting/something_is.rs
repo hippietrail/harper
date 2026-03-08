@@ -6,7 +6,7 @@ use super::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::linting::expr_linter::Chunk;
 
 pub struct SomethingIs {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for SomethingIs {
@@ -18,9 +18,7 @@ impl Default for SomethingIs {
             .then_optional(SequenceExpr::default().then_one_or_more_adverbs().t_ws())
             .then_kind_any(&[TokenKind::is_verb_progressive_form]);
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -28,7 +26,7 @@ impl ExprLinter for SomethingIs {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

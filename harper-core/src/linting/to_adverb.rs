@@ -10,7 +10,7 @@ use crate::linting::expr_linter::Chunk;
 const AMBIGUOUS_ADVERBS: &[&str] = &["just", "not"];
 
 pub struct ToAdverb {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for ToAdverb {
@@ -24,9 +24,7 @@ impl Default for ToAdverb {
             .t_ws()
             .then_verb();
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -34,7 +32,7 @@ impl ExprLinter for ToAdverb {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, tokens: &[Token], source: &[char]) -> Option<Lint> {

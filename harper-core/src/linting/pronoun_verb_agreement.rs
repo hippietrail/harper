@@ -31,7 +31,7 @@ static DITRANSITIVE: &[&str] = &[
 ];
 
 pub struct PronounVerbAgreement<D> {
-    expr: Box<dyn Expr>,
+    expr: FirstMatchOf,
     dict: D,
 }
 
@@ -81,7 +81,7 @@ where
         };
 
         Self {
-            expr: Box::new(FirstMatchOf::new(vec![
+            expr: FirstMatchOf::new(vec![
                 // One Expr for the "I walks" type:
                 Box::new(non_3p_sing_pres_pron_with_3p_sing_pres_verb),
                 // Two Expr's for the "he walk" type:
@@ -91,7 +91,7 @@ where
                         .then(verb_lemma),
                 ),
                 Box::new(SequenceExpr::aco("it").t_ws().t_aco("don't")),
-            ])),
+            ]),
             dict,
         }
     }
@@ -176,7 +176,7 @@ where
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint_with_context(

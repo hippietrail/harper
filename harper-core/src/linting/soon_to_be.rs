@@ -9,8 +9,7 @@ use crate::{
 };
 
 pub struct SoonToBe {
-    expr: Box<dyn Expr>,
-    map: Arc<ExprMap<Range<usize>>>,
+    expr: Arc<ExprMap<Range<usize>>>,
 }
 
 impl Default for SoonToBe {
@@ -63,7 +62,7 @@ impl Default for SoonToBe {
                 .then_seq(soon_to_be())
                 .t_ws()
                 .then_seq(trailing_phrase()),
-            2..7,
+            2usize..7usize,
         );
 
         map.insert(
@@ -71,14 +70,11 @@ impl Default for SoonToBe {
                 .then_seq(soon_to_be())
                 .t_ws()
                 .then_seq(trailing_phrase()),
-            0..5,
+            0usize..5usize,
         );
 
-        let map = Arc::new(map);
-
         Self {
-            expr: Box::new(map.clone()),
-            map,
+            expr: Arc::new(map),
         }
     }
 }
@@ -87,11 +83,11 @@ impl ExprLinter for SoonToBe {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        let range = self.map.lookup(0, matched_tokens, source)?;
+        let range = self.expr.lookup(0, matched_tokens, source)?;
         let span = matched_tokens.get(range.start..range.end)?.span()?;
         let template = span.get_content(source);
 

@@ -1,5 +1,5 @@
-use crate::expr::SequenceExpr;
 use crate::expr::{Expr, OwnedExprExt};
+use crate::expr::{LongestMatchOf, SequenceExpr};
 use crate::linting::expr_linter::Chunk;
 use crate::{
     Lrc, Token,
@@ -8,7 +8,7 @@ use crate::{
 };
 
 pub struct WinPrize {
-    expr: Box<dyn Expr>,
+    expr: LongestMatchOf,
 }
 
 impl Default for WinPrize {
@@ -23,9 +23,7 @@ impl Default for WinPrize {
             .then(miss.clone())
             .or_longest(SequenceExpr::with(verbs).then_whitespace().then(miss));
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -33,7 +31,7 @@ impl ExprLinter for WinPrize {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

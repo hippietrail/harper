@@ -13,7 +13,7 @@ use crate::{
 };
 
 pub struct OfCourse {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for OfCourse {
@@ -24,9 +24,7 @@ impl Default for OfCourse {
             .then_whitespace()
             .then(wrong_forms);
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -34,7 +32,7 @@ impl ExprLinter for OfCourse {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched: &[Token], source: &[char]) -> Option<Lint> {
