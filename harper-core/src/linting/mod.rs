@@ -8,6 +8,7 @@ mod addicting;
 mod adjective_double_degree;
 mod adjective_of_a;
 mod after_later;
+mod all_hell_break_loose;
 mod all_intents_and_purposes;
 mod allow_to;
 mod am_in_the_morning;
@@ -27,6 +28,7 @@ mod best_of_all_time;
 mod boring_words;
 mod bought;
 mod brand_brandish;
+mod by_accident;
 mod call_them;
 mod cant;
 mod capitalize_personal_pronouns;
@@ -42,10 +44,13 @@ mod correct_number_suffix;
 mod criteria_phenomena;
 mod cure_for;
 mod currency_placement;
+mod damages;
 mod dashes;
+mod day_and_age;
 mod despite_it_is;
 mod despite_of;
 mod determiner_without_noun;
+mod did_past;
 mod didnt;
 mod discourse_markers;
 mod disjoint_prefixes;
@@ -61,6 +66,7 @@ mod expand_time_shorthands;
 mod expr_linter;
 mod far_be_it;
 mod fascinated_by;
+mod fed_up_with;
 mod feel_fell;
 mod few_units_of_time_ago;
 mod filler_words;
@@ -98,6 +104,7 @@ mod its_contraction;
 mod its_possessive;
 mod jealous_of;
 mod johns_hopkins;
+mod lead_rise_to;
 mod left_right_hand;
 mod less_worse;
 mod let_to_do;
@@ -131,6 +138,7 @@ mod multiple_sequential_pronouns;
 mod nail_on_the_head;
 mod need_to_noun;
 mod no_french_spaces;
+mod no_longer;
 mod no_match_for;
 mod no_oxford_comma;
 mod nobody;
@@ -202,10 +210,12 @@ mod that_than;
 mod that_which;
 mod the_how_why;
 mod the_my;
+mod the_point_for;
 mod the_proper_noun_possessive;
 mod then_than;
 mod theres;
 mod theses_these;
+mod theyre_confusions;
 mod thing_think;
 mod this_type_of_thing;
 mod though_thought;
@@ -356,7 +366,7 @@ pub mod tests {
     pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
         let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
-        dbg!(&lints);
+        // dbg!(&lints);
         if lints.len() != count {
             panic!(
                 "Expected \"{text}\" to create {count} lints, but it created {}.",
@@ -547,13 +557,13 @@ pub mod tests {
         let lints = linter.lint(&test);
 
         // Just check the first lint for now
-        if let Some(lint) = lints.first() {
-            if lint.message != expected_message {
-                panic!(
-                    "Expected lint message \"{expected_message}\", but got \"{}\"",
-                    lint.message
-                );
-            }
+        if let Some(lint) = lints.first()
+            && lint.message != expected_message
+        {
+            panic!(
+                "Expected lint message \"{expected_message}\", but got \"{}\"",
+                lint.message
+            );
         }
     }
 
@@ -574,8 +584,8 @@ pub mod tests {
                 if let Some(sug) = lint.suggestions.get(n) {
                     sug.apply(lint.span, &mut text_chars);
 
-                    let transformed_str: String = text_chars.iter().collect();
-                    dbg!(transformed_str);
+                    // let transformed_str: String = text_chars.iter().collect();
+                    // dbg!(transformed_str);
                 } else {
                     break;
                 }

@@ -3452,27 +3452,30 @@ Suggest:
 Lint:    Spelling (63 priority)
 Message: |
     2188 | “He’s an Oggsford man.”
-         |          ^~~~~~~~ Did you mean `Oxford`?
+         |          ^~~~~~~~ Did you mean to spell `Oggsford` this way?
 Suggest:
   - Replace with: “Oxford”
+  - Replace with: “Longsword”
 
 
 
 Lint:    Spelling (63 priority)
 Message: |
     2192 | “He went to Oggsford College in England. You know Oggsford College?”
-         |             ^~~~~~~~ Did you mean `Oxford`?
+         |             ^~~~~~~~ Did you mean to spell `Oggsford` this way?
 Suggest:
   - Replace with: “Oxford”
+  - Replace with: “Longsword”
 
 
 
 Lint:    Spelling (63 priority)
 Message: |
     2192 | “He went to Oggsford College in England. You know Oggsford College?”
-         |                                                   ^~~~~~~~ Did you mean `Oxford`?
+         |                                                   ^~~~~~~~ Did you mean to spell `Oggsford` this way?
 Suggest:
   - Replace with: “Oxford”
+  - Replace with: “Longsword”
 
 
 
@@ -3594,10 +3597,11 @@ Suggest:
 Lint:    Typo (31 priority)
 Message: |
     2319 | That was nineteen-seventeen. By the next year I had a few beaux myself, and I
-         |                                                           ^~~~~ `beaux` should probably be written as `be aux`.
+         |                                                           ^~~~~ `beaux` has a missing space between words.
     2320 | began to play in tournaments, so I didn’t see Daisy very often. She went with a
 Suggest:
   - Replace with: “be aux”
+  - Replace with: “beau x”
 
 
 
@@ -4503,17 +4507,6 @@ Suggest:
 
 
 
-Lint:    Spelling (63 priority)
-Message: |
-    3093 | It might have lasted indefinitely except for the fact that Ella Kaye came on
-         |                      ^~~~~~~~~~~~ Did you mean to spell `indefinitely` this way?
-Suggest:
-  - Replace with: “indefinite”
-  - Replace with: “infinitely”
-  - Replace with: “definitely”
-
-
-
 Lint:    Readability (127 priority)
 Message: |
     3096 | I remember the portrait of him up in Gatsby’s bedroom, a gray, florid man with a
@@ -4835,17 +4828,6 @@ Suggest:
   - Replace with: “incommunicable”
   - Replace with: “communicable”
   - Replace with: “noncommunicable”
-
-
-
-Lint:    Punctuation (54 priority)
-Message: |
-    3495 | It was when curiosity about Gatsby was at its highest that the lights in his
-         |                                           ^~~ Use `it's` (short for `it has` or `it is`) here, not the possessive `its`.
-    3496 | house failed to go on one Saturday night—and, as obscurely as it had begun, his
-Suggest:
-  - Replace with: “it's”
-  - Replace with: “it has”
 
 
 
@@ -6115,9 +6097,10 @@ Suggest:
 Lint:    Typo (31 priority)
 Message: |
     4503 | “She ran out ina road. Son-of-a-bitch didn’t even stopus car.”
-         |                                                   ^~~~~~ `stopus` should probably be written as `st opus`.
+         |                                                   ^~~~~~ `stopus` has a missing space between words.
 Suggest:
   - Replace with: “st opus”
+  - Replace with: “stop us”
 
 
 
@@ -6146,9 +6129,10 @@ Suggest:
 Lint:    Typo (31 priority)
 Message: |
     4505 | “There was two cars,” said Michaelis, “one comin’, one goin’, see?”
-         |                                            ^~~~~ `comin` should probably be written as `co min`.
+         |                                            ^~~~~ `comin` has a missing space between words.
 Suggest:
   - Replace with: “co min”
+  - Replace with: “com in”
 
 
 
@@ -6225,10 +6209,11 @@ Suggest:
 Lint:    Typo (31 priority)
 Message: |
     4510 | half way and fell to his side—“she ran out there an’ the one comin’ from N’York
-         |                                                              ^~~~~ `comin` should probably be written as `co min`.
+         |                                                              ^~~~~ `comin` has a missing space between words.
     4511 | knock right into her, goin’ thirty or forty miles an hour.”
 Suggest:
   - Replace with: “co min”
+  - Replace with: “com in”
 
 
 
@@ -7515,9 +7500,10 @@ Lint:    Spelling (63 priority)
 Message: |
     5519 | was a fine-appearing, gentlemanly young man, and when he told me he was an
     5520 | Oggsford I knew I could use him good. I got him to join up in the American
-         | ^~~~~~~~ Did you mean `Oxford`?
+         | ^~~~~~~~ Did you mean to spell `Oggsford` this way?
 Suggest:
   - Replace with: “Oxford”
+  - Replace with: “Longsword”
 
 
 
