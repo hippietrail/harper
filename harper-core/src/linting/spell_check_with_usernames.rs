@@ -18,24 +18,18 @@ impl<T: Dictionary> Linter for SpellCheckWithUsernames<T> {
         // Get all spelling lints from the underlying SpellCheck
         let all_lints = self.spell_check.lint(document);
 
-        // Filter out lints for words that are usernames (follow @ symbols)
+        // Filter out username mentions by checking for preceding @ symbol
         all_lints
             .into_iter()
             .filter(|lint| {
-                // Convert the lint's character span to find which tokens it intersects
-                let token_indices = document.token_indices_intersecting(lint.span);
-
-                // If we have tokens intersecting this lint, check the previous token
-                if let Some(first_token_idx) = token_indices.first() {
-                    // Get the previous token (if it exists)
-                    if let Some(prev_token) = document.get_token_offset(*first_token_idx, -1) {
-                        // Check if the previous token is exactly '@'
-                        return !prev_token.kind.is_at();
-                    }
-                }
-
-                // No previous @ token found, keep this lint
-                true
+                !document
+                    .token_indices_intersecting(lint.span)
+                    .first()
+                    .is_some_and(|&first_to_idx| {
+                        document
+                            .get_token_offset(first_to_idx, -1)
+                            .is_some_and(|prev_tok| prev_tok.kind.is_at())
+                    })
             })
             .collect()
     }
