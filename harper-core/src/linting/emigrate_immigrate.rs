@@ -1,8 +1,8 @@
+use crate::TokenStringExt;
 use crate::expr::{Expr, SequenceExpr};
 use crate::linting::ExprLinter;
 use crate::linting::expr_linter::Chunk;
 use crate::{Lint, Token};
-use crate::TokenStringExt;
 
 pub struct EmigrateImmigrate {
     expr: Box<dyn Expr>,
@@ -13,14 +13,19 @@ impl Default for EmigrateImmigrate {
         Self {
             expr: Box::new(
                 SequenceExpr::word_set(&[
-                        "emigrate", "immigrate",
-                        "emigrated", "immigrated",
-                        "emigrates", "immigrates",
-                        "emigrating", "immigrating",
-                        "emigration", "immigration",
-                    ])
-                    .t_ws()
-                    .then_preposition(),
+                    "emigrate",
+                    "immigrate",
+                    "emigrated",
+                    "immigrated",
+                    "emigrates",
+                    "immigrates",
+                    "emigrating",
+                    "immigrating",
+                    "emigration",
+                    "immigration",
+                ])
+                .t_ws()
+                .then_preposition(),
             ),
         }
     }

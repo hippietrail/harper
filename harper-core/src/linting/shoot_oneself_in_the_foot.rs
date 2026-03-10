@@ -18,8 +18,7 @@ impl Default for ShootOneselfInTheFoot {
 
         let body_parts = WordSet::new(&["foot", "feet", "leg", "legs"]);
 
-        let pattern = SequenceExpr::default()
-            .then(verb_forms)
+        let pattern = SequenceExpr::with(verb_forms)
             .t_ws()
             .then(ReflexivePronoun::default())
             .t_ws()
@@ -84,7 +83,7 @@ impl ExprLinter for ShootOneselfInTheFoot {
     }
 
     fn description(&self) -> &str {
-        "Corrects non-standard variants of 'shoot oneself in the foot'."
+        "Corrects nonstandard variants of 'shoot oneself in the foot'."
     }
 }
 

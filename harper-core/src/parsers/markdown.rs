@@ -3,7 +3,7 @@ use std::collections::VecDeque;
 use serde::{Deserialize, Serialize};
 
 use super::{Parser, PlainEnglish};
-use crate::{Span, Token, TokenKind, TokenStringExt, VecExt};
+use crate::{Span, Token, TokenKind, TokenStringExt, VecExt, offsets::build_byte_to_char_map};
 
 /// A parser that wraps the [`PlainEnglish`] parser that allows one to parse
 /// CommonMark files.
@@ -162,19 +162,8 @@ impl Parser for Markdown {
         let mut tokens = Vec::new();
 
         // Build a mapping from the inner parser's byte-based indexing to Harper's char-based
-        // indexing
-        let mut byte_to_char = vec![0; source_str.len() + 1];
-        let mut char_index = 0;
-        let mut byte_idx = 0;
-        for ch in source_str.chars() {
-            let char_len = ch.len_utf8();
-            for _ in 0..char_len {
-                byte_to_char[byte_idx] = char_index;
-                byte_idx += 1;
-            }
-            char_index += 1;
-        }
-        byte_to_char[source_str.len()] = char_index;
+        // indexing.
+        let byte_to_char = build_byte_to_char_map(&source_str);
 
         let mut stack = Vec::new();
 
@@ -199,12 +188,21 @@ impl Parser for Markdown {
                 }
                 pulldown_cmark::Event::Start(pulldown_cmark::Tag::List(v)) => {
                     tokens.push(Token {
-                        span: Span::new_with_len(span_start, 0),
+                        span: Span::empty(span_start),
                         kind: TokenKind::Newline(2),
                     });
                     stack.push(pulldown_cmark::Tag::List(v));
                 }
-                pulldown_cmark::Event::Start(tag) => stack.push(tag),
+                pulldown_cmark::Event::Start(tag) => {
+                    if matches!(tag, pulldown_cmark::Tag::Heading { .. }) {
+                        tokens.push(Token {
+                            span: Span::empty(span_start),
+                            kind: TokenKind::HeadingStart,
+                        });
+                    }
+
+                    stack.push(tag)
+                }
                 pulldown_cmark::Event::End(pulldown_cmark::TagEnd::Paragraph)
                 | pulldown_cmark::Event::End(pulldown_cmark::TagEnd::Item)
                 | pulldown_cmark::Event::End(pulldown_cmark::TagEnd::Heading(_))
@@ -216,7 +214,7 @@ impl Parser for Markdown {
                         // position of the previous token's last character. This ensures the
                         // paragraph break is placed at the end of the content, not its beginning.
                         // For more info, see: https://github.com/Automattic/harper/pull/1239.
-                        span: Span::new_with_len(tokens.last().map_or(0, |last| last.span.end), 0),
+                        span: Span::empty(tokens.last().map_or(0, |last| last.span.end)),
                         kind: TokenKind::ParagraphBreak,
                     });
                     stack.pop();
@@ -574,5 +572,29 @@ Paragraph.
         let opts = MarkdownOptions::default();
         let parser = Markdown::new(opts);
         let _res = parser.parse_str("//{@j");
+    }
+
+    #[test]
+    fn simple_headings_are_marked() {
+        let opts = MarkdownOptions::default();
+        let parser = Markdown::new(opts);
+        let tokens = parser.parse_str("# This is a simple heading");
+
+        assert_eq!(tokens.iter_heading_starts().count(), 1);
+        assert_eq!(tokens.iter_headings().count(), 1);
+    }
+
+    #[test]
+    fn multiple_headings_are_marked() {
+        let opts = MarkdownOptions::default();
+        let parser = Markdown::new(opts);
+        let tokens = parser.parse_str(
+            r#"# This is a simple heading
+
+## This is a second simple heading"#,
+        );
+
+        assert_eq!(tokens.iter_heading_starts().count(), 2);
+        assert_eq!(tokens.iter_headings().count(), 2);
     }
 }

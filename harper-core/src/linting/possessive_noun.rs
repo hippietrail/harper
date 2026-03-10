@@ -17,27 +17,21 @@ where
     D: Dictionary,
 {
     pub fn new(dict: D) -> Self {
-        let expr = SequenceExpr::default()
-            .then(UPOSSet::new(&[UPOS::DET, UPOS::PROPN]))
+        let expr = SequenceExpr::with(UPOSSet::new(&[UPOS::DET, UPOS::PROPN]))
             .t_ws()
             .then_kind_is_but_is_not(TokenKind::is_plural_nominal, TokenKind::is_singular_nominal)
             .t_ws()
             .then(UPOSSet::new(&[UPOS::NOUN, UPOS::PROPN]))
-            .then_optional(SequenceExpr::default().t_any().t_any());
+            .then_optional(SequenceExpr::anything().t_any());
 
-        let additional_req = SequenceExpr::default()
-            .t_any()
-            .t_any()
-            .t_any()
-            .t_any()
-            .then_noun();
+        let additional_req = SequenceExpr::anything().t_any().t_any().t_any().then_noun();
 
-        let exceptions = SequenceExpr::default()
-            .then_unless(|tok: &Token, _: &[char]| tok.kind.is_demonstrative_determiner())
-            .t_any()
-            .then_unless(WordSet::new(&["flags", "checks", "catches", "you"]))
-            .t_any()
-            .then_unless(WordSet::new(&["form", "go"]));
+        let exceptions =
+            SequenceExpr::unless(|tok: &Token, _: &[char]| tok.kind.is_demonstrative_determiner())
+                .t_any()
+                .then_unless(WordSet::new(&["flags", "checks", "catches", "you"]))
+                .t_any()
+                .then_unless(WordSet::new(&["form", "go"]));
 
         Self {
             expr: Box::new(All::new(vec![

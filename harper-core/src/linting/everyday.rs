@@ -15,30 +15,15 @@ impl Default for Everyday {
         let everyday = Word::new("everyday");
         let every_day = Lrc::new(SequenceExpr::aco("every").t_ws().t_aco("day"));
 
-        let everyday_bad_after =
-            All::new(vec![
-                Box::new(
-                    SequenceExpr::default()
-                        .then(everyday.clone())
-                        .t_ws()
-                        .then_any_word(),
-                ),
-                Box::new(SequenceExpr::default().t_any().t_any().then(
-                    |tok: &Token, _src: &[char]| {
-                        !tok.kind.is_noun()
-                            && !tok.kind.is_oov()
-                            && !tok.kind.is_verb_progressive_form()
-                    },
-                )),
-            ]);
+        let everyday_bad_after = All::new(vec![
+            Box::new(SequenceExpr::with(everyday.clone()).t_ws().then_any_word()),
+            Box::new(SequenceExpr::anything().t_any().then_kind_where(|kind| {
+                !kind.is_noun() && !kind.is_oov() && !kind.is_verb_progressive_form()
+            })),
+        ]);
 
         let bad_before_every_day = All::new(vec![
-            Box::new(
-                SequenceExpr::default()
-                    .then_any_word()
-                    .t_ws()
-                    .then(every_day.clone()),
-            ),
+            Box::new(SequenceExpr::any_word().t_ws().then(every_day.clone())),
             Box::new(|tok: &Token, _src: &[char]| {
                 // "this" and "that" are both determiners and pronouns
                 tok.kind.is_determiner() && !tok.kind.is_pronoun()
@@ -48,16 +33,14 @@ impl Default for Everyday {
         // (why does) everyday feel the (same ?)
         let everyday_ambiverb_after_then_noun = All::new(vec![
             Box::new(
-                SequenceExpr::default()
-                    .then(everyday.clone())
+                SequenceExpr::with(everyday.clone())
                     .t_ws()
                     .then_any_word()
                     .t_ws()
                     .then_any_word(),
             ),
             Box::new(
-                SequenceExpr::default()
-                    .t_any()
+                SequenceExpr::anything()
                     .t_any()
                     .then_kind_both(TokenKind::is_noun, TokenKind::is_verb)
                     .t_any()
@@ -67,44 +50,34 @@ impl Default for Everyday {
 
         // (Do you actually improve if you draw) everyday?
         let everyday_punctuation_after = All::new(vec![
-            Box::new(
-                SequenceExpr::default()
-                    .then(everyday.clone())
-                    .then_punctuation(),
-            ),
-            Box::new(
-                SequenceExpr::default()
-                    .t_any()
-                    .then(|tok: &Token, _src: &[char]| {
-                        matches!(
-                            tok.kind,
-                            TokenKind::Punctuation(
-                                Punctuation::Question | Punctuation::Comma | Punctuation::Period
-                            )
-                        )
-                    }),
-            ),
+            Box::new(SequenceExpr::with(everyday.clone()).then_punctuation()),
+            Box::new(SequenceExpr::anything().then_kind_where(|kind| {
+                matches!(
+                    kind,
+                    TokenKind::Punctuation(
+                        Punctuation::Question | Punctuation::Comma | Punctuation::Period
+                    )
+                )
+            })),
         ]);
 
         // (However, the message goes far beyond) every day things.
         let every_day_noun_after_then_punctuation = All::new(vec![
             Box::new(
-                SequenceExpr::default()
-                    .then(every_day.clone())
+                SequenceExpr::with(every_day.clone())
                     .t_ws()
                     .then_plural_noun()
                     .then_punctuation(),
             ),
             Box::new(
-                SequenceExpr::default()
+                SequenceExpr::anything()
                     .t_any()
                     .t_any()
                     .t_any()
                     .t_any()
-                    .t_any()
-                    .then(|tok: &Token, _src: &[char]| {
+                    .then_kind_where(|kind| {
                         matches!(
-                            tok.kind,
+                            kind,
                             TokenKind::Punctuation(
                                 Punctuation::Question | Punctuation::Comma | Punctuation::Period
                             )

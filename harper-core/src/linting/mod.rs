@@ -8,6 +8,7 @@ mod addicting;
 mod adjective_double_degree;
 mod adjective_of_a;
 mod after_later;
+mod all_hell_break_loose;
 mod all_intents_and_purposes;
 mod allow_to;
 mod am_in_the_morning;
@@ -17,13 +18,17 @@ mod and_in;
 mod and_the_like;
 mod another_thing_coming;
 mod another_think_coming;
+mod apart_from;
 mod ask_no_preposition;
 mod avoid_curses;
 mod back_in_the_day;
 mod be_allowed;
+mod behind_the_scenes;
 mod best_of_all_time;
 mod boring_words;
 mod bought;
+mod brand_brandish;
+mod by_accident;
 mod call_them;
 mod cant;
 mod capitalize_personal_pronouns;
@@ -37,32 +42,45 @@ mod compound_subject_i;
 mod confident;
 mod correct_number_suffix;
 mod criteria_phenomena;
+mod cure_for;
 mod currency_placement;
+mod damages;
 mod dashes;
+mod day_and_age;
+mod despite_it_is;
 mod despite_of;
 mod determiner_without_noun;
+mod did_past;
 mod didnt;
 mod discourse_markers;
+mod disjoint_prefixes;
 mod dot_initialisms;
 mod double_click;
 mod double_modal;
 mod ellipsis_length;
 mod else_possessive;
 mod emigrate_immigrate;
+mod ever_every;
 mod everyday;
 mod expand_memory_shorthands;
 mod expand_time_shorthands;
 mod expr_linter;
 mod far_be_it;
+mod fascinated_by;
+mod fed_up_with;
 mod feel_fell;
 mod few_units_of_time_ago;
 mod filler_words;
 mod find_fine;
 mod first_aid_kit;
+mod flesh_out_vs_full_fledged;
 mod for_noun;
 mod free_predicate;
 mod friend_of_me;
 mod go_so_far_as_to;
+mod go_to_war;
+mod good_at;
+mod handful;
 mod have_pronoun;
 mod have_take_a_look;
 mod hedging;
@@ -84,6 +102,9 @@ mod it_looks_like_that;
 mod it_would_be;
 mod its_contraction;
 mod its_possessive;
+mod jealous_of;
+mod johns_hopkins;
+mod lead_rise_to;
 mod left_right_hand;
 mod less_worse;
 mod let_to_do;
@@ -93,10 +114,11 @@ mod lint;
 mod lint_group;
 mod lint_kind;
 mod long_sentences;
+mod look_down_ones_nose;
 mod looking_forward_to;
 mod map_phrase_linter;
 mod map_phrase_set_linter;
-mod mass_plurals;
+mod mass_nouns;
 mod merge_linters;
 mod merge_words;
 mod missing_preposition;
@@ -104,27 +126,34 @@ mod missing_space;
 mod missing_to;
 mod misspell;
 mod mixed_bag;
+mod modal_be_adjective;
 mod modal_of;
 mod modal_seem;
 mod months;
+mod more_adjective;
 mod more_better;
 mod most_number;
 mod most_of_the_times;
+mod multiple_frequency_adverbs;
 mod multiple_sequential_pronouns;
 mod nail_on_the_head;
 mod need_to_noun;
 mod no_french_spaces;
+mod no_longer;
 mod no_match_for;
 mod no_oxford_comma;
 mod nobody;
 mod nominal_wants;
-mod noun_countability;
+mod nor_modal_pronoun;
 mod noun_verb_confusion;
 mod number_suffix_capitalization;
+mod obsess_preposition;
 mod of_course;
+mod oldest_in_the_book;
 mod on_floor;
 mod once_or_twice;
 mod one_and_the_same;
+mod one_of_the_singular;
 mod open_compounds;
 mod open_the_light;
 mod orthographic_consistency;
@@ -133,9 +162,9 @@ mod out_of_date;
 mod oxford_comma;
 mod oxymorons;
 mod phrasal_verb_as_compound_noun;
-mod phrase_corrections;
 mod phrase_set_corrections;
 mod pique_interest;
+mod plural_wrong_word_of_phrase;
 mod possessive_noun;
 mod possessive_your;
 mod progressive_needs_be;
@@ -143,18 +172,21 @@ mod pronoun_are;
 mod pronoun_contraction;
 mod pronoun_inflection_be;
 mod pronoun_knew;
+mod pronoun_verb_agreement;
 mod proper_noun_capitalization_linters;
 mod quantifier_needs_of;
 mod quantifier_numeral_conflict;
 mod quite_quiet;
 mod quote_spacing;
+mod redundant_acronyms;
 mod redundant_additive_adverbs;
 mod regionalisms;
 mod repeated_words;
+mod respond;
+mod right_click;
 mod roller_skated;
 mod safe_to_save;
 mod save_to_safe;
-mod semicolon_apostrophe;
 mod sentence_capitalization;
 mod shoot_oneself_in_the_foot;
 mod simple_past_to_past_participle;
@@ -163,6 +195,7 @@ mod single_be;
 mod some_without_article;
 mod something_is;
 mod somewhat_something;
+mod soon_to_be;
 mod sought_after;
 mod spaces;
 mod spell_check;
@@ -170,45 +203,58 @@ mod spelled_numbers;
 mod split_words;
 mod subject_pronoun;
 mod suggestion;
+mod take_a_look_to;
+mod take_medicine;
 mod take_serious;
 mod that_than;
 mod that_which;
 mod the_how_why;
 mod the_my;
+mod the_point_for;
+mod the_proper_noun_possessive;
 mod then_than;
 mod theres;
 mod theses_these;
+mod theyre_confusions;
 mod thing_think;
+mod this_type_of_thing;
 mod though_thought;
 mod throw_away;
 mod throw_rubbish;
 mod to_adverb;
 mod to_two_too;
 mod touristic;
+mod transposed_space;
+mod try_ones_hand_at;
 mod unclosed_quotes;
 mod update_place_names;
-mod use_genitive;
+mod use_title_case;
 mod verb_to_adjective;
 mod very_unique;
 mod vice_versa;
+mod vicious_loop;
 mod was_aloud;
 mod way_too_adjective;
+mod weir_rules;
 mod well_educated;
 mod whereas;
+mod whom_subject_of_verb;
 mod widely_accepted;
 mod win_prize;
+mod wish_could;
 mod wordpress_dotcom;
+mod worth_to_do;
 mod would_never_have;
+mod wrong_apostrophe;
 
-pub use expr_linter::ExprLinter;
+pub use expr_linter::{Chunk, ExprLinter};
 pub use initialism_linter::InitialismLinter;
 pub use lint::Lint;
 pub use lint_group::{LintGroup, LintGroupConfig};
 pub use lint_kind::LintKind;
 pub use map_phrase_linter::MapPhraseLinter;
 pub use map_phrase_set_linter::MapPhraseSetLinter;
-pub use spell_check::SpellCheck;
-pub use suggestion::Suggestion;
+pub use suggestion::{Suggestion, SuggestionCollectionExt};
 
 use crate::{Document, LSend, render_markdown};
 
@@ -241,9 +287,53 @@ where
     }
 }
 
+pub mod debug {
+    use crate::Token;
+
+    /// Formats a lint match with surrounding context for debug output.
+    ///
+    /// The function takes the same `matched_tokens` and `source`, and `context` parameters
+    /// passed to `[match_to_lint_with_context]`.
+    ///
+    /// # Arguments
+    /// * `log` - `matched_tokens`
+    /// * `ctx` - `context`, or `None` if calling from `[match_to_lint]`
+    /// * `src` - `source` from `[match_to_lint]` / `[match_to_lint_with_context]`
+    ///
+    /// # Returns
+    /// A string with ANSI escape codes where:
+    /// - Context tokens are dimmed before and after the matched tokens in normal weight.
+    /// - Markup and formatting text hidden in whitespace tokens is filtered out.
+    pub fn format_lint_match(
+        log: &[Token],
+        ctx: Option<(&[Token], &[Token])>,
+        src: &[char],
+    ) -> String {
+        let fmt = |tokens: &[Token]| {
+            tokens
+                .iter()
+                .filter(|t| !t.kind.is_unlintable())
+                .map(|t| t.span.get_content_string(src))
+                .collect::<String>()
+        };
+
+        if let Some((pro, epi)) = ctx {
+            format!(
+                "\x1b[2m{}\x1b[0m{}\x1b[2m{}\x1b[0m",
+                fmt(pro),
+                fmt(log),
+                fmt(epi)
+            )
+        } else {
+            fmt(log)
+        }
+    }
+}
+
 #[cfg(test)]
 pub mod tests {
-    use crate::{Document, Span, Token, parsers::PlainEnglish};
+    use crate::parsers::Markdown;
+    use crate::{Document, Span, Token};
     use hashbrown::HashSet;
 
     /// Extension trait for converting spans of tokens back to their original text
@@ -276,7 +366,7 @@ pub mod tests {
     pub fn assert_lint_count(text: &str, mut linter: impl Linter, count: usize) {
         let test = Document::new_markdown_default_curated(text);
         let lints = linter.lint(&test);
-        dbg!(&lints);
+        // dbg!(&lints);
         if lints.len() != count {
             panic!(
                 "Expected \"{text}\" to create {count} lints, but it created {}.",
@@ -318,7 +408,7 @@ pub mod tests {
         let transformed_str = transform_nth_str(text, &mut linter, n);
 
         if transformed_str.as_str() != expected_result {
-            panic!("Expected \"{expected_result}\"\n But got  \"{transformed_str}\"");
+            panic!("Expected \"{expected_result}\"\n But got \"{transformed_str}\"");
         }
 
         // Applying the suggestions should fix all the lints.
@@ -460,6 +550,23 @@ pub mod tests {
         }
     }
 
+    /// Asserts that the lint's message matches the expected message.
+    #[track_caller]
+    pub fn assert_lint_message(text: &str, mut linter: impl Linter, expected_message: &str) {
+        let test = Document::new_markdown_default_curated(text);
+        let lints = linter.lint(&test);
+
+        // Just check the first lint for now
+        if let Some(lint) = lints.first()
+            && lint.message != expected_message
+        {
+            panic!(
+                "Expected lint message \"{expected_message}\", but got \"{}\"",
+                lint.message
+            );
+        }
+    }
+
     fn transform_nth_str(text: &str, linter: &mut impl Linter, n: usize) -> String {
         let mut text_chars: Vec<char> = text.chars().collect();
 
@@ -468,7 +575,7 @@ pub mod tests {
         loop {
             let test = Document::new_from_vec(
                 text_chars.clone().into(),
-                &PlainEnglish,
+                &Markdown::default(),
                 &FstDictionary::curated(),
             );
             let lints = linter.lint(&test);
@@ -477,8 +584,8 @@ pub mod tests {
                 if let Some(sug) = lint.suggestions.get(n) {
                     sug.apply(lint.span, &mut text_chars);
 
-                    let transformed_str: String = text_chars.iter().collect();
-                    dbg!(transformed_str);
+                    // let transformed_str: String = text_chars.iter().collect();
+                    // dbg!(transformed_str);
                 } else {
                     break;
                 }
