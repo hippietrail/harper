@@ -26,21 +26,19 @@ export declare enum Dialect {
     British = 1,
     Australian = 2,
     Canadian = 3,
+    Indian = 4,
 }
 
 declare enum Language {
     Plain = 0,
     Markdown = 1,
+    Typst = 2,
 }
 
-/**
- * An error found in provided text.
- *
- * May include zero or more suggestions that may fix the problematic text.
- */
 export declare class Lint {
     private constructor();
     free(): void;
+    [Symbol.dispose](): void;
     /**
      * Get an array of any suggestions that may resolve the issue.
      */
@@ -102,10 +100,10 @@ export declare interface Linter {
     /** Get the linter's current configuration. */
     getLintConfig(): Promise<LintConfig>;
     /** Get the default (unset) linter configuration as JSON.
-     * This method does not effect the caller's lint configuration, nor does it return the current one. */
+     * This method does not affect the caller's lint configuration, nor does it return the current one. */
     getDefaultLintConfigAsJSON(): Promise<string>;
     /** Get the default (unset) linter configuration.
-     * This method does not effect the caller's lint configuration, nor does it return the current one. */
+     * This method does not affect the caller's lint configuration, nor does it return the current one. */
     getDefaultLintConfig(): Promise<LintConfig>;
     /** Set the linter's current configuration. */
     setLintConfig(config: LintConfig): Promise<void>;
@@ -126,6 +124,8 @@ export declare interface Linter {
     /** Convert a string to Chicago-style title case.
      Wraps the function on the BinaryModule by the same name. */
     toTitleCase(text: string): Promise<string>;
+    /** Release resources held by this linter instance. */
+    dispose(): Promise<void>;
     /** Ignore future instances of a lint from a previous linting run in future invocations. */
     ignoreLint(source: string, lint: Lint): Promise<void>;
     /** Ignore future instances of a lint from a previous linting run in future invocations using its hash. */
@@ -159,11 +159,24 @@ export declare interface Linter {
     generateStatsFile(): Promise<string>;
     /** Import a statistics log file. */
     importStatsFile(statsFile: string): Promise<void>;
+    /**
+     * Load a Weirpack from a Blob, merging its rules into the current linter.
+     * Returns `undefined` when the Weirpack tests pass and the rules are imported,
+     * otherwise returns a map of rule names → failing tests so the caller can
+     * surface the broken expectations.
+     */
+    loadWeirpackFromBlob(blob: Blob): Promise<WeirpackTestFailures | undefined>;
+    /**
+     * Load a Weirpack from an array of bytes, merging its rules into the current linter.
+     * Returns the same failure report structure as `loadWeirpackFromBlob`.
+     */
+    loadWeirpackFromBytes(bytes: Uint8Array): Promise<WeirpackTestFailures | undefined>;
 }
 
 declare class Linter_2 {
     private constructor();
     free(): void;
+    [Symbol.dispose](): void;
     /**
      * Clear the user dictionary.
      */
@@ -191,10 +204,15 @@ declare class Linter_2 {
      */
     import_words(additional_words: string[]): void;
     /**
+     * Load a Weirpack from raw bytes, merging its rules into the current linter.
+     * Returns test failures if any are found, and does not import in that case.
+     */
+    import_weirpack(bytes: Uint8Array): any;
+    /**
      * Helper method to remove non-English text from a plain English document.
      */
     isolate_english(text: string): string;
-    organized_lints(text: string, language: Language, all_headings: boolean): OrganizedGroup[];
+    organized_lints(text: string, language: Language, all_headings: boolean, regex_mask?: string | null): OrganizedGroup[];
     summarize_stats(start_time?: bigint | null, end_time?: bigint | null): any;
     /**
      * Apply a suggestion from a given lint.
@@ -244,8 +262,10 @@ declare class Linter_2 {
     static new(dialect: Dialect): Linter_2;
     /**
      * Perform the configured linting on the provided text.
+     *
+     * If the provided regex mask cannot be parsed, this method will return an empty array.
      */
-    lint(text: string, language: Language, all_headings: boolean): Lint[];
+    lint(text: string, language: Language, all_headings: boolean, regex_mask?: string | null): Lint[];
 }
 
 /** The properties and information needed to construct a Linter. */
@@ -259,7 +279,8 @@ export declare interface LinterInit {
 /**  Options available to configure Harper's parser for an individual linting operation. */
 export declare interface LintOptions {
     /** The markup language that is being passed. Defaults to `markdown`. */
-    language?: 'plaintext' | 'markdown';
+    language?: 'plaintext' | 'markdown' | 'typst';
+    regex_mask?: string;
     /** Force the entirety of the document to be composed of headings. An undefined value is assumed to be false.*/
     forceAllHeadings?: boolean;
 }
@@ -269,6 +290,7 @@ export declare interface LintOptions {
 export declare class LocalLinter implements Linter {
     binary: SuperBinaryModule;
     private inner;
+    private disposed;
     constructor(init: LinterInit);
     private createInner;
     setup(): Promise<void>;
@@ -302,24 +324,40 @@ export declare class LocalLinter implements Linter {
     summarizeStats(start?: bigint, end?: bigint): Promise<any>;
     generateStatsFile(): Promise<string>;
     importStatsFile(statsFile: string): Promise<void>;
+    /**
+     * Load a Weirpack from a Blob.
+     *
+     * Returns `undefined` if tests pass and rules are imported, otherwise returns
+     * the Weirpack test failures.
+     */
+    loadWeirpackFromBlob(blob: Blob): Promise<WeirpackTestFailures | undefined>;
+    /**
+     * Load a Weirpack from a byte array.
+     *
+     * Returns `undefined` if tests pass and rules are imported, otherwise returns
+     * the Weirpack test failures.
+     */
+    loadWeirpackFromBytes(bytes: Uint8Array | number[]): Promise<WeirpackTestFailures | undefined>;
+    dispose(): Promise<void>;
 }
 
-/**
- * Used exclusively for [`Linter::organized_lints`]
- */
 declare class OrganizedGroup {
     private constructor();
     free(): void;
+    [Symbol.dispose](): void;
     group: string;
     lints: Lint[];
 }
 
-/**
- * A struct that represents two character indices in a string: a start and an end.
- */
+/** Convert a Weirpack file system into a real Weirpack binary by compressing and serializing them into a byte array.
+ *
+ * For clarity on what a Weirpack is, read [the Weir documentation.](https://writewithharper.com/docs/weir#Weirpacks) */
+export declare function packWeirpackFiles(files: Map<string, string>): Uint8Array;
+
 export declare class Span {
     private constructor();
     free(): void;
+    [Symbol.dispose](): void;
     len(): number;
     static new(start: number, end: number): Span;
     to_json(): string;
@@ -329,12 +367,10 @@ export declare class Span {
     end: number;
 }
 
-/**
- * A suggestion to fix a Lint.
- */
 export declare class Suggestion {
     private constructor();
     free(): void;
+    [Symbol.dispose](): void;
     /**
      * Get the text that is going to replace the problematic section.
      * If [`Self::kind`] is `SuggestionKind::Remove`, this will return an empty
@@ -390,6 +426,21 @@ declare class SuperBinaryModule extends BinaryModule {
     getBinaryModule(): Promise<any>;
 }
 
+/** Decompress and deserialize a Weirpack from a byte array. */
+export declare function unpackWeirpackBytes(bytes: Uint8Array): WeirpackArchive;
+
+export declare type WeirpackArchive = {
+    manifest: Record<string, unknown>;
+    files: Map<string, string>;
+};
+
+export declare interface WeirpackTestFailure {
+    expected: string;
+    got: string;
+}
+
+export declare type WeirpackTestFailures = Record<string, WeirpackTestFailure[]>;
+
 /** A Linter that spins up a dedicated web worker to do processing on a separate thread.
  * Main benefit: this Linter will not block the event loop for large documents.
  *
@@ -401,6 +452,7 @@ export declare class WorkerLinter implements Linter {
     private worker;
     private requestQueue;
     private working;
+    private disposed;
     constructor(init: LinterInit);
     private setupMainEventListeners;
     setup(): Promise<void>;
@@ -420,6 +472,7 @@ export declare class WorkerLinter implements Linter {
     getLintDescriptionsHTML(): Promise<Record<string, string>>;
     getDefaultLintConfigAsJSON(): Promise<string>;
     getDefaultLintConfig(): Promise<LintConfig>;
+    dispose(): Promise<void>;
     ignoreLint(source: string, lint: Lint): Promise<void>;
     ignoreLintHash(hash: bigint): Promise<void>;
     exportIgnoredLints(): Promise<string>;
@@ -434,6 +487,19 @@ export declare class WorkerLinter implements Linter {
     summarizeStats(start?: bigint, end?: bigint): Promise<any>;
     generateStatsFile(): Promise<string>;
     importStatsFile(statsFile: string): Promise<void>;
+    /**
+     * Load a Weirpack from a Blob via the worker thread.
+     *
+     * Returns `undefined` when the tests pass and the pack is imported, otherwise
+     * forwards the failure report back to the caller.
+     */
+    loadWeirpackFromBlob(blob: Blob): Promise<WeirpackTestFailures | undefined>;
+    /**
+     * Load a Weirpack from bytes via the worker thread.
+     *
+     * Returns the failure report if tests fail or `undefined` when the pack is imported.
+     */
+    loadWeirpackFromBytes(bytes: Uint8Array | number[]): Promise<WeirpackTestFailures | undefined>;
     /** Run a procedure on the remote worker. */
     private rpc;
     private submitRemainingRequests;

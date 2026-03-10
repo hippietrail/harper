@@ -88,13 +88,13 @@ Each user of `harper-ls` has their own dictionary, created on-demand the first t
 | macOS            |                            `$HOME/Library/Application Support/harper-ls/dictionary.txt` |
 | Windows          |                                    `%FOLDERID_RoamingAppData%/harper-ls/dictionary.txt` |
 
-This dictionary is a simple line-separated word list in plaintext. You can add and remove words at will. Code actions on misspelled words allow you to add elements to this list. Additionally, [its location is configurable](#Dictionaries_).
+This dictionary is a simple line-separated word list in plaintext. You can add and remove words at will. Code actions on misspelled words allow you to add elements to this list. Additionally, [its location is configurable](#Directories).
 
 ### Workspace Dictionary
 
 Each workspace in which you use `harper-ls` has its own dictionary, which by default is located at `.harper-dictionary.txt` in the root of the workspace.
 
-This dictionary is a simple line-separated word list in plaintext. You can add and remove words at will. Code actions on misspelled words allow you to add elements to this list. Additionally, [its location is configurable](#Dictionaries_).
+This dictionary is a simple line-separated word list in plaintext. You can add and remove words at will. Code actions on misspelled words allow you to add elements to this list. Additionally, [its location is configurable](#Directories).
 
 ### File-Local Dictionary
 
@@ -108,7 +108,7 @@ You can find the file-local dictionaries in the following directories by default
 | macOS            |                                  `$HOME/Library/Application Support/harper-ls/file_dictionaries` |
 | Windows          |                                            `%FOLDERID_LocalAppData%/harper-ls/file_dictionaries` |
 
-The format of these files is identical to user dictionaries and [their location can also be configured](#Dictionaries_).
+The format of these files is identical to user dictionaries and [their location can also be configured](#Directories).
 
 ### Static Dictionary
 
@@ -269,6 +269,7 @@ These configs are under the `markdown` key:
 
 | Language            |          Language ID          | Comments Only |
 | :------------------ | :---------------------------: | ------------: |
+| AsciiDoc            |          `asciidoc`           |               |
 | C                   |              `c`              |            ✅ |
 | Clojure             |           `clojure`           |            ✅ |
 | CMake               |            `cmake`            |            ✅ |
@@ -278,6 +279,7 @@ These configs are under the `markdown` key:
 | Dart                |            `dart`             |            ✅ |
 | Git Commit          |   `git-commit`/`gitcommit`    |               |
 | Go                  |             `go`              |            ✅ |
+| Groovy              |           `groovy`            |            ✅ |
 | Haskell             |           `haskell`           |            ✅ |
 | HTML                |            `html`             |               |
 | Ink                 |             `ink`             |               |
@@ -293,6 +295,7 @@ These configs are under the `markdown` key:
 | Nix                 |             `nix`             |            ✅ |
 | Org Mode            |             `org`             |               |
 | PHP                 |             `php`             |            ✅ |
+| PowerShell          |         `powershell`          |            ✅ |
 | Plain Text          |      `plaintext`/`text`       |               |
 | Python              |           `python`            |            ✅ |
 | Ruby                |            `ruby`             |            ✅ |
@@ -305,6 +308,8 @@ These configs are under the `markdown` key:
 | TypeScript          |         `typescript`          |            ✅ |
 | TypeScript React    |       `typescriptreact`       |            ✅ |
 | Typst               |            `typst`            |               |
+| Zig                 |             `zig`             |            ✅ |
+| LaTeX/TeX           | `latex`/`tex`/`plaintex`      |               |
 
 Want your language added?
 Let us know by [commenting on this issue](https://github.com/Automattic/harper/issues/79).

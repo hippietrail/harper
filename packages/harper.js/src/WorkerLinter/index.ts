@@ -1,7 +1,7 @@
 import type { Dialect, Lint, Suggestion } from 'harper-wasm';
 import type { BinaryModule } from '../binary';
 import type Linter from '../Linter';
-import type { LinterInit } from '../Linter';
+import type { LinterInit, WeirpackTestFailures } from '../Linter';
 import type { LintConfig, LintOptions } from '../main';
 import type { DeserializedRequest } from '../Serializer';
 import Serializer from '../Serializer';
@@ -25,6 +25,7 @@ export default class WorkerLinter implements Linter {
 	private worker: Worker;
 	private requestQueue: RequestItem[];
 	private working = true;
+	private disposed = false;
 
 	constructor(init: LinterInit) {
 		this.binary = init.binary;
@@ -133,6 +134,18 @@ export default class WorkerLinter implements Linter {
 		return JSON.parse(await this.getDefaultLintConfigAsJSON()) as LintConfig;
 	}
 
+	async dispose(): Promise<void> {
+		if (this.disposed) {
+			return;
+		}
+
+		await this.rpc('dispose', []);
+
+		this.disposed = true;
+		this.requestQueue = [];
+		this.worker.terminate();
+	}
+
 	ignoreLint(source: string, lint: Lint): Promise<void> {
 		return this.rpc('ignoreLint', [source, lint]);
 	}
@@ -189,8 +202,36 @@ export default class WorkerLinter implements Linter {
 		return this.rpc('importStatsFile', [statsFile]);
 	}
 
+	/**
+	 * Load a Weirpack from a Blob via the worker thread.
+	 *
+	 * Returns `undefined` when the tests pass and the pack is imported, otherwise
+	 * forwards the failure report back to the caller.
+	 */
+	async loadWeirpackFromBlob(blob: Blob): Promise<WeirpackTestFailures | undefined> {
+		const bytes = new Uint8Array(await blob.arrayBuffer());
+		const arr = Array.from(bytes);
+		return await this.rpc('loadWeirpackFromBytes', [arr]);
+	}
+
+	/**
+	 * Load a Weirpack from bytes via the worker thread.
+	 *
+	 * Returns the failure report if tests fail or `undefined` when the pack is imported.
+	 */
+	async loadWeirpackFromBytes(
+		bytes: Uint8Array | number[],
+	): Promise<WeirpackTestFailures | undefined> {
+		const arr = Array.from(bytes);
+		return await this.rpc('loadWeirpackFromBytes', [arr]);
+	}
+
 	/** Run a procedure on the remote worker. */
 	private async rpc(procName: string, args: unknown[]): Promise<any> {
+		if (this.disposed) {
+			throw new Error('WorkerLinter has been disposed.');
+		}
+
 		const promise = new Promise((resolve, reject) => {
 			this.requestQueue.push({
 				resolve,

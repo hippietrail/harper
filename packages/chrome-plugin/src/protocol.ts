@@ -19,9 +19,17 @@ export type Request =
 	| GetUserDictionaryRequest
 	| GetActivationKeyRequest
 	| SetActivationKeyRequest
+	| GetHotkeyRequest
+	| SetHotkeyRequest
 	| OpenOptionsRequest
+	| GetInstalledOnRequest
+	| GetReviewedRequest
+	| SetReviewedRequest
 	| OpenReportErrorRequest
-	| PostFormDataRequest;
+	| PostFormDataRequest
+	| GetWeirpacksRequest
+	| AddWeirpackRequest
+	| RemoveWeirpackRequest;
 
 export type Response =
 	| LintResponse
@@ -33,8 +41,12 @@ export type Response =
 	| GetDefaultStatusResponse
 	| GetEnabledDomainsResponse
 	| GetUserDictionaryResponse
+	| GetHotkeyResponse
 	| GetActivationKeyResponse
-	| PostFormDataResponse;
+	| GetInstalledOnResponse
+	| GetReviewedResponse
+	| PostFormDataResponse
+	| GetWeirpacksResponse;
 
 export type LintRequest = {
 	kind: 'lint';
@@ -146,6 +158,29 @@ export type GetUserDictionaryResponse = {
 	words: string[];
 };
 
+export type GetInstalledOnRequest = {
+	kind: 'getInstalledOn';
+};
+
+export type GetInstalledOnResponse = {
+	kind: 'getInstalledOn';
+	installedOn: string | null;
+};
+
+export type GetReviewedRequest = {
+	kind: 'getReviewed';
+};
+
+export type GetReviewedResponse = {
+	kind: 'getReviewed';
+	reviewed: boolean;
+};
+
+export type SetReviewedRequest = {
+	kind: 'setReviewed';
+	reviewed: boolean;
+};
+
 export type IgnoreLintRequest = {
 	kind: 'ignoreLint';
 	contextHash: string;
@@ -170,6 +205,10 @@ export type GetActivationKeyRequest = {
 	kind: 'getActivationKey';
 };
 
+export type GetHotkeyRequest = {
+	kind: 'getHotkey';
+};
+
 export type GetActivationKeyResponse = {
 	kind: 'getActivationKey';
 	key: ActivationKey;
@@ -189,6 +228,22 @@ export type OpenOptionsRequest = {
 	kind: 'openOptions';
 };
 
+export type GetHotkeyResponse = {
+	kind: 'getHotkey';
+	hotkey: Hotkey;
+};
+
+export type SetHotkeyRequest = {
+	kind: 'setHotkey';
+	hotkey: Hotkey;
+};
+
+export type Modifier = 'Ctrl' | 'Shift' | 'Alt';
+
+export type Hotkey = {
+	modifiers: Modifier[];
+	key: string;
+};
 export type OpenReportErrorRequest = {
 	kind: 'openReportError';
 	example: string;
@@ -200,4 +255,32 @@ export type PostFormDataRequest = {
 	kind: 'postFormData';
 	url: string;
 	formData: Record<string, string>;
+};
+
+export type WeirpackMeta = {
+	id: string;
+	name: string;
+	filename: string;
+	version: string | null;
+	installedAt: string;
+};
+
+export type GetWeirpacksRequest = {
+	kind: 'getWeirpacks';
+};
+
+export type GetWeirpacksResponse = {
+	kind: 'getWeirpacks';
+	weirpacks: WeirpackMeta[];
+};
+
+export type AddWeirpackRequest = {
+	kind: 'addWeirpack';
+	filename: string;
+	bytes: number[];
+};
+
+export type RemoveWeirpackRequest = {
+	kind: 'removeWeirpack';
+	id: string;
 };

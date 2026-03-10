@@ -27,8 +27,7 @@ impl Default for SoonToBe {
         };
 
         let nominal_tail = || {
-            SequenceExpr::default()
-                .then_optional(SequenceExpr::default().then_one_or_more_adverbs().t_ws())
+            SequenceExpr::optional(SequenceExpr::default().then_one_or_more_adverbs().t_ws())
                 .then(NominalPhrase)
         };
 
@@ -50,7 +49,7 @@ impl Default for SoonToBe {
         };
 
         let trailing_phrase = || {
-            SequenceExpr::default().then_any_of(vec![
+            SequenceExpr::any_of(vec![
                 Box::new(hyphenated_number_modifier()),
                 Box::new(hyphenated_compound()),
                 Box::new(nominal_tail()),

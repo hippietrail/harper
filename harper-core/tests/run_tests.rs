@@ -85,6 +85,7 @@ create_test!(pr_452.md, 2, Dialect::American);
 create_test!(hex_basic_clean.md, 0, Dialect::American);
 create_test!(hex_basic_dirty.md, 1, Dialect::American);
 create_test!(misc_closed_compound_clean.md, 0, Dialect::American);
+create_test!(statist_localist.md, 0, Dialect::American);
 create_test!(yogurt_british_clean.md, 0, Dialect::British);
 create_test!(issue_1581.md, 0, Dialect::British);
 create_test!(issue_2054.md, 6, Dialect::British);
@@ -96,6 +97,7 @@ create_test!(title_case_errors.md, 2, Dialect::American);
 create_test!(title_case_clean.md, 0, Dialect::American);
 create_test!(issue_2233.md, 0, Dialect::American);
 create_test!(issue_2240.md, 0, Dialect::American);
+create_test!(allows_domain_extensions.md, 0, Dialect::American);
 // It just matters that it is > 1
 create_test!(issue_2151.md, 4, Dialect::British);
 
