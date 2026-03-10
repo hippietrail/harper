@@ -4,6 +4,7 @@ use std::path::{Component, Path, PathBuf};
 use std::sync::Arc;
 use std::{fs, process};
 
+use anyhow::Context;
 use ariadne::{Color, Fmt, Label, Report, ReportKind, Source};
 use hashbrown::HashMap;
 use rayon::prelude::*;
@@ -12,6 +13,7 @@ use harper_core::{
     linting::{Lint, LintGroup, LintGroupConfig, LintKind},
     parsers::MarkdownOptions,
     spell::{Dictionary, MergedDictionary, MutableDictionary},
+    weirpack::Weirpack,
     {Dialect, DictWordMetadata, Document, Token, TokenKind, remove_overlaps_map},
 };
 
@@ -34,6 +36,26 @@ fn load_dict(path: &Path) -> anyhow::Result<MutableDictionary> {
     Ok(dict)
 }
 
+fn load_weirpacks(inputs: &[SingleInput]) -> anyhow::Result<Vec<Weirpack>> {
+    let mut packs = Vec::new();
+    for input in inputs {
+        let Some(file) = input.try_as_file_ref() else {
+            anyhow::bail!(
+                "Weirpack inputs must be files, got {}",
+                input.get_identifier()
+            );
+        };
+
+        let path = file.path();
+        let bytes = fs::read(path)
+            .with_context(|| format!("Failed to read weirpack {}", path.display()))?;
+        let pack = Weirpack::from_bytes(&bytes)
+            .with_context(|| format!("Failed to load weirpack {}", path.display()))?;
+        packs.push(pack);
+    }
+    Ok(packs)
+}
+
 /// Path version of harper-ls/src/dictionary_io@file_dict_name
 fn file_dict_name(path: &Path) -> PathBuf {
     let mut rewritten = String::new();
@@ -52,7 +74,10 @@ pub struct LintOptions {
     pub count: bool,
     pub ignore: Option<Vec<String>>,
     pub only: Option<Vec<String>>,
+    pub keep_overlapping_lints: bool,
     pub dialect: Dialect,
+    pub weirpack_inputs: Vec<SingleInput>,
+    pub color: bool,
 }
 enum ReportStyle {
     FullAriadneLintReport,
@@ -62,6 +87,7 @@ enum ReportStyle {
 struct InputInfo<'a> {
     parent_input_id: &'a str,
     input: &'a AnyInput,
+    color: bool,
 }
 
 struct InputJob {
@@ -75,8 +101,10 @@ impl InputInfo<'_> {
         let child = self.input.get_identifier();
         if self.parent_input_id.is_empty() {
             child.into_owned()
-        } else {
+        } else if self.color {
             format!("\x1b[33m{}/\x1b[0m{}", self.parent_input_id, child)
+        } else {
+            format!("{}/{}", self.parent_input_id, child)
         }
     }
 }
@@ -95,6 +123,8 @@ pub fn lint(
         ref mut ignore,
         ref mut only,
         dialect,
+        ref weirpack_inputs,
+        ..
     } = lint_options;
 
     // Zero or more inputs, default to stdin if not provided
@@ -102,9 +132,16 @@ pub fn lint(
         inputs.push(SingleInput::from(StdinInput).into());
     }
 
+    let weirpacks = load_weirpacks(weirpack_inputs)?;
+
     // Filter out any rules from ignore/only lists that don't exist in the current config
     // Uses a cached config to avoid expensive linter initialization
-    let config = LintGroupConfig::new_curated();
+    let mut config = LintGroupConfig::new_curated();
+    for pack in &weirpacks {
+        for rule in pack.rules.keys() {
+            config.set_rule_enabled(rule, true);
+        }
+    }
 
     if let Some(only) = only {
         only.retain(|rule| {
@@ -194,6 +231,7 @@ pub fn lint(
                 // Passed from the user for the `lint` subcommand
                 &report_mode,
                 &lint_options,
+                &weirpacks,
                 &file_dict_path,
                 // Are we linting multiple inputs inside a directory?
                 batch_mode,
@@ -201,6 +239,7 @@ pub fn lint(
                 InputInfo {
                     parent_input_id: parent_input_id.as_str(),
                     input: &input,
+                    color: lint_options.color,
                 },
             )
         };
@@ -213,6 +252,7 @@ pub fn lint(
     };
 
     for lint_results in per_input_results {
+        let lint_results = lint_results?;
         // Update the global stats
         for (kind, count) in lint_results.0 {
             *all_lint_kinds.entry(kind).or_insert(0) += count;
@@ -235,6 +275,7 @@ pub fn lint(
         all_rules,
         all_lint_kind_rule_pairs,
         all_spellos,
+        lint_options.color,
     );
 
     process::exit(1);
@@ -251,6 +292,7 @@ struct FullInputInfo<'a> {
     source: Cow<'a, str>,
 }
 
+#[allow(clippy::too_many_arguments)]
 fn lint_one_input(
     // Common properties of harper-cli
     markdown_options: MarkdownOptions,
@@ -258,22 +300,26 @@ fn lint_one_input(
     report_mode: &ReportStyle,
     // Options passed from the user specific to the `lint` subcommand
     lint_options: &LintOptions,
+    weirpacks: &[Weirpack],
     file_dict_path: &Path,
     // Are we linting multiple inputs?
     batch_mode: bool,
     // For the current input
     current: InputInfo,
-) -> (
+) -> anyhow::Result<(
     LintKindCount,
     LintRuleCount,
     LintKindRulePairCount,
     SpelloCount,
-) {
+)> {
     let LintOptions {
         count: _,
         ignore,
         only,
+        keep_overlapping_lints,
         dialect,
+        weirpack_inputs: _,
+        color: _,
     } = lint_options;
 
     let mut lint_kinds: HashMap<LintKind, usize> = HashMap::new();
@@ -304,6 +350,11 @@ fn lint_one_input(
                 // Create the Lint Group from which we will lint this input, using the combined dictionary and the specified dialect
                 let mut lint_group = LintGroup::new_curated(merged_dictionary.into(), *dialect);
 
+                for pack in weirpacks {
+                    let mut pack_group = pack.to_lint_group()?;
+                    lint_group.merge_from(&mut pack_group);
+                }
+
                 // Turn specified rules on or off
                 configure_lint_group(&mut lint_group, only, ignore);
 
@@ -312,7 +363,9 @@ fn lint_one_input(
 
                 // Lint counts, for brief reporting
                 let lint_count_before = named_lints.values().map(|v| v.len()).sum::<usize>();
-                remove_overlaps_map(&mut named_lints);
+                if !keep_overlapping_lints {
+                    remove_overlaps_map(&mut named_lints);
+                }
                 let lint_count_after = named_lints.values().map(|v| v.len()).sum::<usize>();
 
                 // Extract the lint kinds and rules etc. for reporting
@@ -325,6 +378,7 @@ fn lint_one_input(
                         input: InputInfo {
                             parent_input_id: current.parent_input_id,
                             input: current.input,
+                            color: current.color,
                         },
                         doc,
                         source,
@@ -342,7 +396,7 @@ fn lint_one_input(
         }
     }
 
-    (lint_kinds, lint_rules, lint_kind_rule_pairs, spellos)
+    Ok((lint_kinds, lint_rules, lint_kind_rule_pairs, spellos))
 }
 
 fn configure_lint_group(
@@ -465,7 +519,7 @@ fn single_input_report(
         let input_identifier = input.input.get_identifier();
 
         if lint_count_after != 0 {
-            let mut report_builder = Report::build(ReportKind::Advice, &input_identifier, 0);
+            let mut report_builder = Report::build(ReportKind::Advice, (&input_identifier, 0..0));
 
             for (rule_name, lints) in named_lints {
                 for lint in lints {
@@ -473,9 +527,14 @@ fn single_input_report(
                     report_builder = report_builder.with_label(
                         Label::new((&input_identifier, lint.span.into()))
                             .with_message(format!(
-                                "{}: {}",
+                                "{} {}: {}",
                                 format_args!("[{}::{}]", lint.lint_kind, rule_name)
                                     .fg(ariadne::Color::Rgb(r, g, b)),
+                                format_args!("(pri {})", lint.priority).fg(ariadne::Color::Rgb(
+                                    (r as f32 * 0.66) as u8,
+                                    (g as f32 * 0.66) as u8,
+                                    (b as f32 * 0.66) as u8
+                                )),
                                 lint.message
                             ))
                             .with_color(primary_color),
@@ -505,7 +564,7 @@ fn single_input_report(
             .collect();
 
         println!("lint kinds:");
-        print_formatted_items(lk_vec);
+        print_formatted_items(lk_vec, input.color);
     }
 
     if !lint_rules.is_empty() {
@@ -518,7 +577,7 @@ fn single_input_report(
             .collect();
 
         println!("rules:");
-        print_formatted_items(r_vec);
+        print_formatted_items(r_vec, input.color);
     }
 }
 
@@ -560,6 +619,7 @@ fn final_report(
     all_rules: HashMap<String, usize>,
     all_lint_kind_rule_pairs: HashMap<(LintKind, String), usize>,
     all_spellos: HashMap<String, usize>,
+    color: bool,
 ) {
     // The stats summary of all inputs that we only do when there are multiple inputs.
     if batch_mode {
@@ -581,7 +641,7 @@ fn final_report(
 
         if !lint_kind_counts.is_empty() {
             println!("All files lint kinds:");
-            print_formatted_items(lint_kind_counts);
+            print_formatted_items(lint_kind_counts, color);
         }
 
         let mut all_files_rule_name_counts_vec: Vec<_> = all_rules.into_iter().collect();
@@ -595,7 +655,7 @@ fn final_report(
 
         if !rule_name_counts.is_empty() {
             println!("All files rule names:");
-            print_formatted_items(rule_name_counts);
+            print_formatted_items(rule_name_counts, color);
         }
     }
 
@@ -623,7 +683,7 @@ fn final_report(
 
     if !formatted_lint_kind_rule_pairs.is_empty() {
         // Print them with line wrapping
-        print_formatted_items(formatted_lint_kind_rule_pairs);
+        print_formatted_items(formatted_lint_kind_rule_pairs, color);
     }
 
     if !all_spellos.is_empty() {
@@ -663,16 +723,19 @@ fn final_report(
                     1 => (90, 180, 90),  // Green
                     _ => (90, 150, 180), // Cyan
                 };
-                let color = format!("\x1b[38;2;{};{};{}m", r, g, b);
+                let ansi_color = format!("\x1b[38;2;{};{};{}m", r, g, b);
 
-                variants
-                    .into_iter()
-                    .map(move |(spelling, c)| (Some(color.clone()), format!("(“{spelling}”: {c})")))
+                variants.into_iter().map(move |(spelling, c)| {
+                    (
+                        Some(ansi_color.clone()),
+                        format!("(\u{201c}{spelling}\u{201d}: {c})"),
+                    )
+                })
             })
             .collect();
 
         println!("All files Spelling::SpellCheck (For dialect: {})", dialect);
-        print_formatted_items(spelling_vec);
+        print_formatted_items(spelling_vec, color);
     }
 }
 
@@ -715,7 +778,7 @@ fn rgb_for_lint_kind(olk: Option<&LintKind>) -> (u8, u8, u8) {
     .unwrap_or((0, 0, 0))
 }
 
-fn print_formatted_items(items: impl IntoIterator<Item = (Option<String>, String)>) {
+fn print_formatted_items(items: impl IntoIterator<Item = (Option<String>, String)>, color: bool) {
     let mut first_on_line = true;
     let mut len_so_far = 0;
 
@@ -733,8 +796,12 @@ fn print_formatted_items(items: impl IntoIterator<Item = (Option<String>, String
             before = " ";
         }
 
-        let (set, reset): (&str, &str) = if let Some(prefix) = ansi.as_ref() {
-            (prefix, "\x1b[0m")
+        let (set, reset): (&str, &str) = if color {
+            if let Some(prefix) = ansi.as_ref() {
+                (prefix.as_str(), "\x1b[0m")
+            } else {
+                ("", "")
+            }
         } else {
             ("", "")
         };
