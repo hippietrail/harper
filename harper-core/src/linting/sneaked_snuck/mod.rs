@@ -105,7 +105,7 @@ merge_linters! {
 #[cfg(test)]
 mod tests {
     use super::{PreferSneaked, PreferSnuck};
-    use crate::linting::tests::assert_suggestion_result;
+    use crate::linting::tests::{assert_no_lints, assert_suggestion_result};
 
     // Prefer "snuck"
 
@@ -145,6 +145,14 @@ mod tests {
         );
     }
 
+    #[test]
+    fn dont_flag_snuck_when_it_is_preferred() {
+        assert_no_lints(
+            "I'm not sure exactly when this fix snuck in",
+            PreferSnuck::default(),
+        );
+    }
+
     // Prefer "sneaked"
 
     #[test]
@@ -180,6 +188,14 @@ mod tests {
             "A few unhandled Errors snuck their way into the code base over time f.ex. here:",
             PreferSneaked::default(),
             "A few unhandled Errors sneaked their way into the code base over time f.ex. here:",
+        );
+    }
+
+    #[test]
+    fn dont_flag_sneaked_when_it_is_preferred() {
+        assert_no_lints(
+            "Something related to recent experiments of WASM support sneaked into the main branch.",
+            PreferSneaked::default(),
         );
     }
 }
