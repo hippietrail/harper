@@ -1,4 +1,5 @@
 use hashbrown::HashMap;
+use std::sync::LazyLock;
 
 use crate::expr::{Expr, SequenceExpr};
 use crate::linting::expr_linter::Chunk;
@@ -51,10 +52,8 @@ const IRREGULAR_VERBS: &[(&str, &str)] = &[
     ("wrote", "write"),
 ];
 
-lazy_static::lazy_static! {
-    static ref IRREGULAR_VERB_MAP: HashMap<&'static str, &'static str> =
-        IRREGULAR_VERBS.iter().copied().collect();
-}
+static IRREGULAR_VERB_MAP: LazyLock<HashMap<&'static str, &'static str>> =
+    LazyLock::new(|| IRREGULAR_VERBS.iter().copied().collect());
 
 pub struct WillNonLemma<D>
 where
