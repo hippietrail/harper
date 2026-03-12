@@ -1,59 +1,10 @@
-use hashbrown::HashMap;
-use std::sync::LazyLock;
-
-use crate::expr::{Expr, SequenceExpr};
-use crate::linting::expr_linter::Chunk;
-use crate::linting::{ExprLinter, LintKind, Suggestion};
-use crate::spell::Dictionary;
-use crate::{Lint, Token, TokenStringExt};
-
-/// Maps irregular simple past verb forms to their lemma forms
-const IRREGULAR_VERBS: &[(&str, &str)] = &[
-    ("ate", "eat"),
-    ("awoke", "awake"),
-    ("broke", "break"),
-    ("burnt", "burn"),
-    ("came", "come"),
-    ("did", "do"),
-    ("dove", "dive"),
-    ("drank", "drink"),
-    ("drove", "drive"),
-    ("flew", "fly"),
-    ("forwent", "forgo"),
-    ("froze", "freeze"),
-    ("got", "get"),
-    ("had", "have"),
-    ("hit", "hit"),
-    // ("hurt", "hurt"),
-    ("knew", "know"),
-    ("laid", "lay"),
-    ("lit", "light"),
-    ("lost", "lose"),
-    ("made", "make"),
-    ("mistook", "mistake"),
-    ("overthrew", "overthrow"),
-    ("overtook", "overtake"),
-    ("overwrote", "overwrite"),
-    ("ran", "run"),
-    // ("read", "read"),
-    ("redid", "redo"),
-    // ("reread", "reread"),
-    ("rode", "ride"),
-    ("rose", "rise"),
-    ("saw", "see"),
-    ("taught", "teach"),
-    ("thought", "think"),
-    ("threw", "throw"),
-    ("took", "take"),
-    ("tore", "tear"),
-    ("undid", "undo"),
-    ("went", "go"),
-    ("wore", "wear"),
-    ("wrote", "write"),
-];
-
-static IRREGULAR_VERB_MAP: LazyLock<HashMap<&'static str, &'static str>> =
-    LazyLock::new(|| IRREGULAR_VERBS.iter().copied().collect());
+use crate::{
+    Lint, Token, TokenStringExt,
+    expr::{Expr, SequenceExpr},
+    irregular_verbs::IrregularVerbs,
+    linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
+    spell::Dictionary,
+};
 
 pub struct WillNonLemma<D>
 where
@@ -122,7 +73,7 @@ impl<D: Dictionary> ExprLinter for WillNonLemma<D> {
         let mut suggestions = vec![];
 
         if verb_tok.kind.is_verb_simple_past_form()
-            && let Some(&lemma) = IRREGULAR_VERB_MAP.get(verb_str.as_str())
+            && let Some(lemma) = IrregularVerbs::curated().get_lemma_for_preterite(&verb_str)
             && self
                 .dict
                 .get_word_metadata_str(lemma)
