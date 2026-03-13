@@ -1,4 +1,4 @@
-use super::{Linter, SpellCheck};
+use super::{Linter, spell_check::SpellCheck};
 use crate::{Document, spell::Dictionary};
 
 pub struct SpellCheckWithUsernames<T: Dictionary> {
