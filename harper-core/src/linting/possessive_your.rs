@@ -1,10 +1,11 @@
-use crate::Token;
-use crate::TokenKind;
-use crate::expr::Expr;
-use crate::expr::SequenceExpr;
-
-use super::{ExprLinter, Lint, LintKind, Suggestion};
-use crate::linting::expr_linter::Chunk;
+use crate::{
+    Token, TokenKind,
+    expr::{Expr, SequenceExpr},
+    linting::{
+        ExprLinter, Lint, LintKind, Suggestion,
+        expr_linter::{Chunk, preceded_by_word},
+    },
+};
 
 pub struct PossessiveYour {
     expr: SequenceExpr,
@@ -37,11 +38,7 @@ impl ExprLinter for PossessiveYour {
         source: &[char],
         ctx: Option<(&[Token], &[Token])>,
     ) -> Option<Lint> {
-        // Is 'you' the object of a verb? (#1920)
-        if let [.., v, ws] = ctx?.0
-            && ws.kind.is_whitespace()
-            && v.kind.is_verb()
-        {
+        if preceded_by_word(ctx, |pw| pw.kind.is_verb()) {
             return None;
         }
 
