@@ -19,7 +19,7 @@ impl Expr for PronounBe {
                     .t_set(&["am", "are", "is", "was", "were"]),
             ),
             Box::new(WordSet::new(&[
-                "i'm", "we're", "you're", "he's", "she's", "they're",
+                "i'm", "we're", "you're", "he's", "she's", "it's", "they're",
             ])),
         ]);
 
@@ -123,10 +123,10 @@ mod tests {
     }
 
     #[test]
-    fn ok_it_s() {
+    fn ok_it_s_and_you_are() {
         assert_count(
             "It's not working · Microcontrollers have only a limited amount of RAM: Verify that you are not running out of available RAM!",
-            1,
+            2,
         );
     }
 
@@ -141,5 +141,11 @@ mod tests {
     #[test]
     fn ok_they_re() {
         assert_count("Cannot load dataset, they're greyed out.", 1);
+    }
+
+    #[test]
+    fn various_apostrophes() {
+        assert_count("it's/it’s", 2);
+        assert_count("it;s/it´s", 0);
     }
 }
