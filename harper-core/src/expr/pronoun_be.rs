@@ -2,7 +2,6 @@ use crate::{Span, Token, patterns::WordSet};
 
 use super::{Expr, SequenceExpr};
 
-#[derive(Default)]
 pub struct PronounBe;
 
 impl Expr for PronounBe {
