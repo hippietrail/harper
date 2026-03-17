@@ -101,7 +101,7 @@ mod tests {
     }
 
     #[test]
-    fn test_top3_suggestion_your() {
+    fn test_suggestion_your() {
         assert_suggestion_result(
             "You combination of artist and teacher.",
             PossessiveYour::default(),
@@ -110,7 +110,7 @@ mod tests {
     }
 
     #[test]
-    fn test_top3_suggestion_youre_a() {
+    fn test_suggestion_youre_a() {
         assert_suggestion_result(
             "You combination of artist and teacher.",
             PossessiveYour::default(),
@@ -120,7 +120,7 @@ mod tests {
 
     #[test]
     #[ignore]
-    fn test_top3_suggestion_multiple() {
+    fn test_suggestion_multiple() {
         assert_suggestion_result(
             "You knowledge. You imagination. You icosahedron",
             PossessiveYour::default(),

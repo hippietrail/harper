@@ -983,7 +983,7 @@ mod tests {
 
     #[test]
     fn fix_vs_apostrophe() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "v's",
             SpellCheck::new(FstDictionary::curated(), Dialect::British),
             "vs",
@@ -992,7 +992,7 @@ mod tests {
 
     #[test]
     fn fix_vs_typographical_apostrophe() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "v’s",
             SpellCheck::new(FstDictionary::curated(), Dialect::British),
             "vs",
@@ -1001,7 +1001,7 @@ mod tests {
 
     #[test]
     fn fix_childrens_missing_apostrophe() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "childrens",
             SpellCheck::new(FstDictionary::curated(), Dialect::British),
             "children's",
