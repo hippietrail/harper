@@ -22,6 +22,7 @@ where
             expr: SequenceExpr::word_set(&["more", "most"])
                 .t_ws()
                 .then_positive_adjective()
+                // Include a following "than adjective" which we'll use to identify a false positive #2925
                 .then_optional(
                     SequenceExpr::whitespace()
                         .t_aco("than")
@@ -55,7 +56,7 @@ where
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
-        // Abort when the optional clause is present, or when the `Expr`` changes
+        // Abort when the optional clause is present, or when the `Expr` changes
         if toks.len() != 3 || !toks[1].kind.is_whitespace() || !toks[2].kind.is_positive_adjective()
         {
             return None;
