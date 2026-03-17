@@ -203,7 +203,7 @@ mod somewhat_something;
 mod soon_to_be;
 mod sought_after;
 mod spaces;
-pub mod spell_check; // pub so spell/mod.rs can use it until #2809 is merged
+mod spell_check;
 mod spelled_numbers;
 mod split_words;
 mod subject_pronoun;
