@@ -99,6 +99,7 @@ use super::if_wouldve::IfWouldve;
 use super::in_on_the_cards::InOnTheCards;
 use super::inflected_verb_after_to::InflectedVerbAfterTo;
 use super::interested_in::InterestedIn;
+use super::is_there_agreement::IsThereAgreement;
 use super::it_looks_like_that::ItLooksLikeThat;
 use super::its_contraction::ItsContraction;
 use super::its_possessive::ItsPossessive;
@@ -825,6 +826,10 @@ impl LintGroup {
         // Uses Sentence rather than Chunk
         out.add("Damages", Damages::default());
         out.config.set_rule_enabled("Damages", true);
+
+        // Uses Sentence rather than Chunk
+        out.add("IsThereAgreement", IsThereAgreement::default());
+        out.config.set_rule_enabled("IsThereAgreement", true);
 
         // Uses Sentence rather than Chunk
         out.add(
