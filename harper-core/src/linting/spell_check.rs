@@ -1037,6 +1037,33 @@ mod tests {
     }
 
     #[test]
+    fn fix_vs_apostrophe() {
+        assert_top3_suggestion_result(
+            "v's",
+            SpellCheck::new(FstDictionary::curated(), Dialect::British),
+            "vs",
+        );
+    }
+
+    #[test]
+    fn fix_vs_typographical_apostrophe() {
+        assert_top3_suggestion_result(
+            "v’s",
+            SpellCheck::new(FstDictionary::curated(), Dialect::British),
+            "vs",
+        );
+    }
+
+    #[test]
+    fn fix_childrens_missing_apostrophe() {
+        assert_top3_suggestion_result(
+            "childrens",
+            SpellCheck::new(FstDictionary::curated(), Dialect::British),
+            "children's",
+        );
+    }
+
+    #[test]
     fn hyphenated_compound_1st_word_not_in_dict() {
         assert_lint_count(
             "Greco",
