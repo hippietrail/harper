@@ -3,12 +3,12 @@ use crate::expr::SequenceExpr;
 use crate::expr::TimeUnitExpr;
 use crate::linting::expr_linter::Chunk;
 use crate::{
-    Lrc, Token,
+    Token,
     linting::{ExprLinter, Lint, Suggestion},
 };
 
 pub struct FewUnitsOfTimeAgo {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for FewUnitsOfTimeAgo {
@@ -17,18 +17,14 @@ impl Default for FewUnitsOfTimeAgo {
 
         let start = SequenceExpr::default().then_word_except(&["a"]).t_ws();
 
-        let expr = Lrc::new(
-            SequenceExpr::with(start)
-                .t_aco("few")
-                .then_whitespace()
-                .then(units)
-                .then_whitespace()
-                .t_aco("ago"),
-        );
+        let expr = SequenceExpr::with(start)
+            .t_aco("few")
+            .then_whitespace()
+            .then(units)
+            .then_whitespace()
+            .t_aco("ago");
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -36,7 +32,7 @@ impl ExprLinter for FewUnitsOfTimeAgo {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

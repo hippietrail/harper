@@ -9,13 +9,13 @@ use crate::{
 
 /// Corrects simple past tense verbs to past participle after auxiliary verbs like "have" or "be".
 pub struct SimplePastToPastParticiple {
-    expr: Box<dyn Expr>,
+    expr: All,
 }
 
 impl Default for SimplePastToPastParticiple {
     fn default() -> Self {
         Self {
-            expr: Box::new(All::new(vec![
+            expr: All::new(vec![
                 // positive: the general case
                 Box::new(
                     SequenceExpr::any_of(vec![
@@ -50,7 +50,7 @@ impl Default for SimplePastToPastParticiple {
                             .then_word_set(&["came", "did", "went"]),
                     ),
                 ]))),
-            ])),
+            ]),
         }
     }
 }
@@ -59,7 +59,7 @@ impl ExprLinter for SimplePastToPastParticiple {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

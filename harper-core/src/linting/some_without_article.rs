@@ -6,7 +6,7 @@ use crate::{
 };
 
 pub struct SomeWithoutArticle {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for SomeWithoutArticle {
@@ -15,9 +15,7 @@ impl Default for SomeWithoutArticle {
             .t_ws()
             .then_any_capitalization_of("some");
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -25,7 +23,7 @@ impl ExprLinter for SomeWithoutArticle {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

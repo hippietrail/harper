@@ -20,22 +20,20 @@ fn match_case_string<'a>(template: &[char], variants: [&'a [char]; 3]) -> &'a [c
 }
 
 pub struct SinceDuration {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for SinceDuration {
     fn default() -> Self {
         Self {
-            expr: Box::new(
-                SequenceExpr::any_capitalization_of("since")
-                    .then_whitespace()
-                    .then(DurationExpr)
-                    .then_optional(
-                        SequenceExpr::default()
-                            .t_ws()
-                            .then_word_set(&["ago", "old"]),
-                    ),
-            ),
+            expr: SequenceExpr::any_capitalization_of("since")
+                .then_whitespace()
+                .then(DurationExpr)
+                .then_optional(
+                    SequenceExpr::default()
+                        .t_ws()
+                        .then_word_set(&["ago", "old"]),
+                ),
         }
     }
 }
@@ -44,7 +42,7 @@ impl ExprLinter for SinceDuration {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

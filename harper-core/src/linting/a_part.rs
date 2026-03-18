@@ -8,7 +8,7 @@ use crate::{
 };
 
 pub struct APart {
-    expr: Box<dyn Expr>,
+    expr: FirstMatchOf,
 }
 
 impl Default for APart {
@@ -20,9 +20,7 @@ impl Default for APart {
             Box::new(FixedPhrase::from_phrase("far a part")),
         ]);
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -30,7 +28,7 @@ impl ExprLinter for APart {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

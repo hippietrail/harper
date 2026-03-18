@@ -7,7 +7,7 @@ use crate::{
 };
 
 pub struct AmInTheMorning {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for AmInTheMorning {
@@ -36,9 +36,7 @@ impl Default for AmInTheMorning {
         let expr = SequenceExpr::any_of(vec![Box::new(maybe_ws_am), Box::new(maybe_ws_pm)])
             .then_any_of(vec![Box::new(ws_in_periods), Box::new(ws_at_periods)]);
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -46,7 +44,7 @@ impl ExprLinter for AmInTheMorning {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

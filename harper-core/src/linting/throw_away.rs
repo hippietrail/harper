@@ -6,7 +6,7 @@ use crate::{
 };
 
 pub struct ThrowAway {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for ThrowAway {
@@ -16,9 +16,7 @@ impl Default for ThrowAway {
             .t_ws()
             .t_aco("away");
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -26,7 +24,7 @@ impl ExprLinter for ThrowAway {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

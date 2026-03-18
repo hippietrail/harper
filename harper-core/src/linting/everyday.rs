@@ -7,7 +7,7 @@ use crate::linting::expr_linter::Chunk;
 use crate::{Lrc, Punctuation, Token, TokenKind, TokenStringExt, patterns::Word};
 
 pub struct Everyday {
-    expr: Box<dyn Expr>,
+    expr: LongestMatchOf,
 }
 
 impl Default for Everyday {
@@ -109,13 +109,13 @@ impl Default for Everyday {
         // verb, past form: "I coded every day" / "I learned everyday phrases"
 
         Self {
-            expr: Box::new(LongestMatchOf::new(vec![
+            expr: LongestMatchOf::new(vec![
                 Box::new(everyday_bad_after),
                 Box::new(bad_before_every_day),
                 Box::new(everyday_ambiverb_after_then_noun),
                 Box::new(everyday_punctuation_after),
                 Box::new(every_day_noun_after_then_punctuation),
-            ])),
+            ]),
         }
     }
 }
@@ -124,7 +124,7 @@ impl ExprLinter for Everyday {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

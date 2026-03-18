@@ -8,7 +8,7 @@ use crate::{
 };
 
 pub struct PossessiveYour {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for PossessiveYour {
@@ -21,9 +21,7 @@ impl Default for PossessiveYour {
                 &["guys", "what's"],
             );
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -31,7 +29,7 @@ impl ExprLinter for PossessiveYour {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint_with_context(

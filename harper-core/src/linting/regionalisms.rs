@@ -604,7 +604,7 @@ const REGIONAL_TERMS: &[Term<'_>] = &[
 ];
 
 pub struct Regionalisms {
-    expr: Box<dyn Expr>,
+    expr: FirstMatchOf,
     dialect: Dialect,
 }
 
@@ -617,7 +617,7 @@ impl Regionalisms {
             .collect();
 
         Self {
-            expr: Box::new(FirstMatchOf::new(terms)),
+            expr: FirstMatchOf::new(terms),
             dialect,
         }
     }
@@ -627,7 +627,7 @@ impl ExprLinter for Regionalisms {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

@@ -5,17 +5,15 @@ use crate::{
 };
 
 pub struct ObsessPreposition {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for ObsessPreposition {
     fn default() -> Self {
         Self {
-            expr: Box::new(
-                SequenceExpr::word_set(&["obsess", "obsessed", "obsesses", "obsessing"])
-                    .t_ws()
-                    .then_preposition(),
-            ),
+            expr: SequenceExpr::word_set(&["obsess", "obsessed", "obsesses", "obsessing"])
+                .t_ws()
+                .then_preposition(),
         }
     }
 }
@@ -24,7 +22,7 @@ impl ExprLinter for ObsessPreposition {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn description(&self) -> &str {

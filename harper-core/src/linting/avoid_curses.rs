@@ -6,13 +6,13 @@ use super::{ExprLinter, Lint};
 use crate::linting::expr_linter::Chunk;
 
 pub struct AvoidCurses {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for AvoidCurses {
     fn default() -> Self {
         Self {
-            expr: Box::new(SequenceExpr::default().then_swear()),
+            expr: SequenceExpr::default().then_swear(),
         }
     }
 }
@@ -21,7 +21,7 @@ impl ExprLinter for AvoidCurses {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

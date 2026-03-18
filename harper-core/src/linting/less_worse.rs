@@ -5,17 +5,15 @@ use super::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::linting::expr_linter::Chunk;
 
 pub struct LessWorse {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for LessWorse {
     fn default() -> Self {
         Self {
-            expr: Box::new(
-                SequenceExpr::word_set(&["less", "least"])
-                    .t_ws_h()
-                    .then_word_set(&["worse", "worst"]),
-            ),
+            expr: SequenceExpr::word_set(&["less", "least"])
+                .t_ws_h()
+                .then_word_set(&["worse", "worst"]),
         }
     }
 }
@@ -24,7 +22,7 @@ impl ExprLinter for LessWorse {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
