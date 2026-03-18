@@ -318,7 +318,7 @@ pub mod debug {
             tokens
                 .iter()
                 .filter(|t| !t.kind.is_unlintable())
-                .map(|t| t.span.get_content_string(src))
+                .map(|t| t.get_str(src))
                 .collect::<String>()
         };
 

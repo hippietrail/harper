@@ -313,7 +313,7 @@ impl Linter {
                 lints: ls
                     .into_iter()
                     .map(|l| {
-                        let problem_text = l.span.get_content_string(&source);
+                        let problem_text = l.get_str(&source);
                         let span = Into::<Span>::into(l.span).to_js_indices(source.as_slice());
 
                         Lint::new(l, span, problem_text, language)
@@ -366,7 +366,7 @@ impl Linter {
         lints
             .into_iter()
             .map(|l| {
-                let problem_text = l.span.get_content_string(&source);
+                let problem_text = l.get_str(&source);
                 let span = Into::<Span>::into(l.span).to_js_indices(source.as_slice());
                 Lint::new(l, span, problem_text, language)
             })
