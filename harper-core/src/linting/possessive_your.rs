@@ -66,9 +66,7 @@ impl ExprLinter for PossessiveYour {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::{
-        assert_lint_count, assert_no_lints, assert_suggestion_result, assert_top3_suggestion_result,
-    };
+    use crate::linting::tests::{assert_lint_count, assert_no_lints, assert_suggestion_result};
 
     use super::PossessiveYour;
 
@@ -101,8 +99,8 @@ mod tests {
     }
 
     #[test]
-    fn test_top3_suggestion_your() {
-        assert_top3_suggestion_result(
+    fn test_suggestion_your() {
+        assert_suggestion_result(
             "You combination of artist and teacher.",
             PossessiveYour::default(),
             "Your combination of artist and teacher.",
@@ -110,8 +108,8 @@ mod tests {
     }
 
     #[test]
-    fn test_top3_suggestion_youre_a() {
-        assert_top3_suggestion_result(
+    fn test_suggestion_youre_a() {
+        assert_suggestion_result(
             "You combination of artist and teacher.",
             PossessiveYour::default(),
             "You're a combination of artist and teacher.",
@@ -120,8 +118,8 @@ mod tests {
 
     #[test]
     #[ignore]
-    fn test_top3_suggestion_multiple() {
-        assert_top3_suggestion_result(
+    fn test_suggestion_multiple() {
+        assert_suggestion_result(
             "You knowledge. You imagination. You icosahedron",
             PossessiveYour::default(),
             "Your knowledge. Your imagination. You're an icosahedron",

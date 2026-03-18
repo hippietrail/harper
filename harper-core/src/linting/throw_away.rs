@@ -52,9 +52,7 @@ impl ExprLinter for ThrowAway {
 #[cfg(test)]
 mod tests {
     use super::ThrowAway;
-    use crate::linting::tests::{
-        assert_lint_count, assert_no_lints, assert_nth_suggestion_result, assert_suggestion_result,
-    };
+    use crate::linting::tests::{assert_lint_count, assert_no_lints, assert_suggestion_result};
 
     #[test]
     fn corrects_simple_case() {
@@ -67,11 +65,10 @@ mod tests {
 
     #[test]
     fn offers_past_tense_option() {
-        assert_nth_suggestion_result(
+        assert_suggestion_result(
             "We through away the old code.",
             ThrowAway::default(),
             "We threw away the old code.",
-            1,
         );
     }
 

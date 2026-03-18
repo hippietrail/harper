@@ -102,9 +102,7 @@ impl ExprLinter for ObsessPreposition {
 #[cfg(test)]
 mod tests {
     use super::ObsessPreposition;
-    use crate::linting::tests::{
-        assert_lint_message, assert_suggestion_result, assert_top3_suggestion_result,
-    };
+    use crate::linting::tests::{assert_lint_message, assert_suggestion_result};
 
     #[test]
     fn fix_obsess_on() {
@@ -153,7 +151,7 @@ mod tests {
 
     #[test]
     fn fix_obsessed_on() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "Secondly, if you get obsessed on any idea, then delve in it and don't worry about anything others until you get there.",
             ObsessPreposition::default(),
             "Secondly, if you get obsessed with any idea, then delve in it and don't worry about anything others until you get there.",

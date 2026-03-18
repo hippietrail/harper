@@ -63,9 +63,7 @@ impl ExprLinter for SomethingIs {
 #[cfg(test)]
 mod tests {
     use super::SomethingIs;
-    use crate::linting::tests::{
-        assert_lint_count, assert_no_lints, assert_nth_suggestion_result, assert_suggestion_result,
-    };
+    use crate::linting::tests::{assert_lint_count, assert_no_lints, assert_suggestion_result};
 
     #[test]
     fn fixes_somethings_going() {
@@ -123,11 +121,10 @@ mod tests {
 
     #[test]
     fn offers_is_expansion() {
-        assert_nth_suggestion_result(
+        assert_suggestion_result(
             "Somethings going wrong.",
             SomethingIs::default(),
             "Something is going wrong.",
-            1,
         );
     }
 
