@@ -3158,10 +3158,10 @@
 #
 > The reluctance to go       home      was  not     confined to wayward men  . The hall was  at
 # D   NSg+       P  NSg/VB/J NSg/VB/J+ VLPt NSg/R/C VP/J     P  J       NPl+ . D+  NPr+ VLPt NSg/P
-> present  occupied by    two deplorably sober men  and  their highly indignant wives .
-# NSg/VB/J VP/J     NSg/P NSg R          VB/J  NPl+ VB/C D$+   R      J         V3+   .
-> The wives were     sympathizing with each other    in        slightly raised voices  .
-# D+  V3+   NSg/VLPt Nᴹ/Vg/J      P    Dq   NSg/VB/J NPr/J/R/P R        VP/J   NPl/V3+ .
+> present  occupied by    two deplorably sober men  and  their highly indignant wives   .
+# NSg/VB/J VP/J     NSg/P NSg R          VB/J  NPl+ VB/C D$+   R      J         NPl/V3+ .
+> The wives   were     sympathizing with each other    in        slightly raised voices  .
+# D+  NPl/V3+ NSg/VLPt Nᴹ/Vg/J      P    Dq   NSg/VB/J NPr/J/R/P R        VP/J   NPl/V3+ .
 >
 #
 > “ Whenever he       sees   I’m having  a    good     time       he       wants  to go       home      . ”
@@ -3186,10 +3186,10 @@
 # NSg+      NPr/VP/J N🅪Sg/J/P+ D/P+ NSg+ J/P . .
 >
 #
-> In        spite    of the wives ’ agreement that         such  malevolence was  beyond credibility ,
-# NPr/J/R/P NSg/VB/P P  D+  V3+   . N🅪Sg+     NSg/I/C/Ddem NSg/I NSg         VLPt NSg/P  Nᴹ+         .
-> the dispute ended in        a   short      struggle , and  both   wives were     lifted , kicking , into
-# D   NSg/VB+ VP/J  NPr/J/R/P D/P NPr/VB/J/P NSg/VB+  . VB/C I/C/Dq V3+   NSg/VLPt VP/J   . Nᴹ/Vg/J . P
+> In        spite    of the wives   ’ agreement that         such  malevolence was  beyond credibility ,
+# NPr/J/R/P NSg/VB/P P  D+  NPl/V3+ . N🅪Sg+     NSg/I/C/Ddem NSg/I NSg         VLPt NSg/P  Nᴹ+         .
+> the dispute ended in        a   short      struggle , and  both   wives   were     lifted , kicking , into
+# D   NSg/VB+ VP/J  NPr/J/R/P D/P NPr/VB/J/P NSg/VB+  . VB/C I/C/Dq NPl/V3+ NSg/VLPt VP/J   . Nᴹ/Vg/J . P
 > the night    .
 # D   N🅪Sg/VB+ .
 >
