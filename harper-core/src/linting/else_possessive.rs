@@ -9,7 +9,7 @@ use crate::{
 };
 
 pub struct ElsePossessive {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for ElsePossessive {
@@ -25,14 +25,11 @@ impl Default for ElsePossessive {
         ])
         .or(SequenceExpr::aco("no").then_whitespace().t_aco("one"));
 
-        let pattern = SequenceExpr::default()
-            .then(pronouns)
+        let pattern = SequenceExpr::with(pronouns)
             .then_whitespace()
             .t_aco("elses");
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -40,7 +37,7 @@ impl ExprLinter for ElsePossessive {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], _src: &[char]) -> Option<Lint> {

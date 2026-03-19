@@ -1,4 +1,5 @@
 use crate::expr::Expr;
+use crate::expr::FirstMatchOf;
 use crate::expr::SequenceExpr;
 use crate::expr::WordExprGroup;
 use itertools::Itertools;
@@ -9,7 +10,7 @@ use super::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::linting::expr_linter::Chunk;
 
 pub struct ThatWhich {
-    expr: Box<dyn Expr>,
+    expr: WordExprGroup<FirstMatchOf>,
 }
 
 impl Default for ThatWhich {
@@ -17,8 +18,7 @@ impl Default for ThatWhich {
         let mut pattern = WordExprGroup::default();
 
         let matching_pattern = Lrc::new(
-            SequenceExpr::default()
-                .then_any_capitalization_of("that")
+            SequenceExpr::any_capitalization_of("that")
                 .then_whitespace()
                 .then_any_capitalization_of("that"),
         );
@@ -26,9 +26,7 @@ impl Default for ThatWhich {
         pattern.add("that", matching_pattern.clone());
         pattern.add("That", matching_pattern);
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -36,7 +34,7 @@ impl ExprLinter for ThatWhich {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

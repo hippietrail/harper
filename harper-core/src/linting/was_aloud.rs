@@ -5,22 +5,18 @@ use crate::expr::Expr;
 use crate::expr::SequenceExpr;
 use crate::linting::Suggestion;
 use crate::linting::expr_linter::Chunk;
-use crate::patterns::WordSet;
 
 pub struct WasAloud {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for WasAloud {
     fn default() -> Self {
-        let pattern = SequenceExpr::default()
-            .then(WordSet::new(&["was", "were", "be", "been"]))
+        let pattern = SequenceExpr::word_set(&["was", "were", "be", "been"])
             .then_whitespace()
             .then_exact_word("aloud");
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -28,7 +24,7 @@ impl ExprLinter for WasAloud {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

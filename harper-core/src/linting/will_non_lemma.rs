@@ -1,10 +1,10 @@
-use hashbrown::HashMap;
-
 use crate::expr::{Expr, SequenceExpr};
 use crate::linting::expr_linter::Chunk;
 use crate::linting::{ExprLinter, LintKind, Suggestion};
 use crate::spell::Dictionary;
 use crate::{Lint, Token, TokenStringExt};
+use hashbrown::HashMap;
+use std::sync::LazyLock;
 
 /// Maps irregular simple past verb forms to their lemma forms
 const IRREGULAR_VERBS: &[(&str, &str)] = &[
@@ -51,10 +51,8 @@ const IRREGULAR_VERBS: &[(&str, &str)] = &[
     ("wrote", "write"),
 ];
 
-lazy_static::lazy_static! {
-    static ref IRREGULAR_VERB_MAP: HashMap<&'static str, &'static str> =
-        IRREGULAR_VERBS.iter().copied().collect();
-}
+static IRREGULAR_VERB_MAP: LazyLock<HashMap<&'static str, &'static str>> =
+    LazyLock::new(|| IRREGULAR_VERBS.iter().copied().collect());
 
 pub struct WillNonLemma<D>
 where

@@ -1,23 +1,22 @@
-use crate::linting::{LintKind, Suggestion};
 use std::sync::Arc;
 
-use crate::expr::Expr;
-use crate::spell::{Dictionary, FstDictionary};
-use crate::{OrthFlags, Token};
-
-use super::{ExprLinter, Lint};
-use crate::linting::expr_linter::Chunk;
+use crate::{
+    expr::{Expr, SequenceExpr},
+    linting::{ExprLinter, Lint, LintKind, Suggestion, expr_linter::Chunk},
+    spell::{Dictionary, FstDictionary},
+    {OrthFlags, Token},
+};
 
 pub struct OrthographicConsistency {
     dict: Arc<FstDictionary>,
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl OrthographicConsistency {
     pub fn new() -> Self {
         Self {
             dict: FstDictionary::curated(),
-            expr: Box::new(|tok: &Token, _: &[char]| tok.kind.is_word()),
+            expr: SequenceExpr::any_word(),
         }
     }
 }
@@ -36,7 +35,7 @@ impl ExprLinter for OrthographicConsistency {
     }
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint_with_context(
@@ -99,7 +98,7 @@ impl ExprLinter for OrthographicConsistency {
             .count()
             == 1
             && let Some(canonical) = self.dict.get_correct_capitalization_of(chars)
-            && canonical != chars
+            && alphabetic_differs(canonical, chars)
         {
             return Some(Lint {
                 span: word.span,
@@ -116,7 +115,7 @@ impl ExprLinter for OrthographicConsistency {
         if metadata.is_titlecase()
             && cur_flags.contains(OrthFlags::LOWERCASE)
             && let Some(canonical) = self.dict.get_correct_capitalization_of(chars)
-            && canonical != chars
+            && alphabetic_differs(canonical, chars)
         {
             return Some(Lint {
                 span: word.span,
@@ -132,6 +131,14 @@ impl ExprLinter for OrthographicConsistency {
 
         None
     }
+}
+
+/// Check if the alphabetic characters in the string differ from one another.
+/// Ignores non-alphabetic characters.
+fn alphabetic_differs(a: &[char], b: &[char]) -> bool {
+    a.iter()
+        .zip(b.iter())
+        .any(|(a, b)| a.is_alphabetic() && b.is_alphabetic() && a != b)
 }
 
 #[cfg(test)]
@@ -384,6 +391,14 @@ mod tests {
     fn allows_news() {
         assert_no_lints(
             "This is the best part of the news broadcast.",
+            OrthographicConsistency::default(),
+        );
+    }
+
+    #[test]
+    fn allows_issue_2465() {
+        assert_no_lints(
+            "The post’s problem was not in its complexity.",
             OrthographicConsistency::default(),
         );
     }

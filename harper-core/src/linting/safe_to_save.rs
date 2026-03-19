@@ -1,6 +1,7 @@
 use harper_brill::UPOS;
 
 use crate::expr::Expr;
+use crate::expr::LongestMatchOf;
 use crate::expr::OwnedExprExt;
 use crate::expr::SequenceExpr;
 use crate::linting::expr_linter::Chunk;
@@ -11,13 +12,12 @@ use crate::{
 };
 
 pub struct SafeToSave {
-    expr: Box<dyn Expr>,
+    expr: LongestMatchOf,
 }
 
 impl Default for SafeToSave {
     fn default() -> Self {
-        let with_adv = SequenceExpr::default()
-            .then(ModalVerb::default())
+        let with_adv = SequenceExpr::with(ModalVerb::default())
             .then_whitespace()
             .then(UPOSSet::new(&[UPOS::ADV]))
             .then_whitespace()
@@ -25,8 +25,7 @@ impl Default for SafeToSave {
             .then_whitespace()
             .then_unless(WordSet::new(&["to"]));
 
-        let without_adv = SequenceExpr::default()
-            .then(ModalVerb::default())
+        let without_adv = SequenceExpr::with(ModalVerb::default())
             .then_whitespace()
             .t_aco("safe")
             .then_whitespace()
@@ -34,9 +33,7 @@ impl Default for SafeToSave {
 
         let pattern = with_adv.or_longest(without_adv);
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -44,7 +41,7 @@ impl ExprLinter for SafeToSave {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

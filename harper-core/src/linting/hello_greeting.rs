@@ -6,13 +6,12 @@ use crate::{
 };
 
 pub struct HelloGreeting {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for HelloGreeting {
     fn default() -> Self {
-        let expr = SequenceExpr::default()
-            .then(AnchorStart)
+        let expr = SequenceExpr::with(AnchorStart)
             .then_optional(SequenceExpr::default().t_ws())
             .then_optional(
                 SequenceExpr::default()
@@ -21,9 +20,7 @@ impl Default for HelloGreeting {
             )
             .t_aco("halo");
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -31,7 +28,7 @@ impl ExprLinter for HelloGreeting {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

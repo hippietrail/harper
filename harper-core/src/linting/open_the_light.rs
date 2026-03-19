@@ -4,14 +4,13 @@ use crate::expr::SequenceExpr;
 use crate::{
     Lrc, Token, TokenStringExt,
     linting::{LintKind, Suggestion},
-    patterns::WordSet,
 };
 
 use super::{ExprLinter, Lint};
 use crate::linting::expr_linter::Chunk;
 
 pub struct OpenTheLight {
-    expr: Box<dyn Expr>,
+    expr: LongestMatchOf,
 }
 
 impl Default for OpenTheLight {
@@ -36,23 +35,21 @@ impl Default for OpenTheLight {
         ];
 
         let open_the_device = Lrc::new(
-            SequenceExpr::default()
-                .then(WordSet::new(TO_OPEN))
+            SequenceExpr::word_set(TO_OPEN)
                 .t_ws()
                 .then_determiner()
                 .t_ws()
-                .then(WordSet::new(DEVICES)),
+                .then_word_set(DEVICES),
         );
 
-        let open_the_device_then_noun = SequenceExpr::default()
-            .then(open_the_device.clone())
+        let open_the_device_then_noun = SequenceExpr::with(open_the_device.clone())
             .t_ws()
             .then_noun();
 
-        let expr = Box::new(LongestMatchOf::new(vec![
+        let expr = LongestMatchOf::new(vec![
             Box::new(open_the_device),
             Box::new(open_the_device_then_noun),
-        ]));
+        ]);
 
         Self { expr }
     }
@@ -62,7 +59,7 @@ impl ExprLinter for OpenTheLight {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

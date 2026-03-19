@@ -9,7 +9,7 @@ use crate::{
 };
 
 pub struct HowTo {
-    expr: Box<dyn Expr>,
+    expr: All,
 }
 
 impl Default for HowTo {
@@ -23,8 +23,7 @@ impl Default for HowTo {
             .then_verb_lemma();
         pattern.add(pos_pattern);
 
-        let exceptions = SequenceExpr::default()
-            .then_unless(UPOSSet::new(&[UPOS::PART]))
+        let exceptions = SequenceExpr::unless(UPOSSet::new(&[UPOS::PART]))
             .then_anything()
             .then_unless(|tok: &Token, _: &[char]| tok.kind.is_np_member())
             .then_anything()
@@ -42,9 +41,7 @@ impl Default for HowTo {
 
         pattern.add(exceptions);
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -52,7 +49,7 @@ impl ExprLinter for HowTo {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], _src: &[char]) -> Option<Lint> {

@@ -9,21 +9,16 @@ use crate::{
 /// Corrects the homophone confusion between "tale" (story) and "tail" (appendage)
 /// in common phrases like "cautionary tale" and "inspirational tale".
 pub struct CautionaryTale {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for CautionaryTale {
     fn default() -> Self {
         let adjectives = WordSet::new(&["cautionary", "inspirational"]);
 
-        let pattern = SequenceExpr::default()
-            .then(adjectives)
-            .t_ws()
-            .t_aco("tail");
+        let pattern = SequenceExpr::with(adjectives).t_ws().t_aco("tail");
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -31,7 +26,7 @@ impl ExprLinter for CautionaryTale {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

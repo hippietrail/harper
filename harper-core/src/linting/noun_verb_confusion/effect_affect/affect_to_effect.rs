@@ -1,5 +1,3 @@
-use std::sync::Arc;
-
 use harper_brill::UPOS;
 
 use crate::linting::expr_linter::Chunk;
@@ -11,53 +9,56 @@ use crate::{
 };
 
 pub(super) struct AffectToEffect {
-    expr: Box<dyn Expr>,
-    map: Arc<ExprMap<usize>>,
+    expr: ExprMap<usize>,
 }
 
 impl Default for AffectToEffect {
     fn default() -> Self {
         let mut map = ExprMap::default();
 
-        let adj_then_noun_follow = SequenceExpr::default()
-            .then(|tok: &Token, source: &[char]| matches_preceding_context_adj_noun(tok, source))
-            .t_ws()
-            .then(|tok: &Token, source: &[char]| is_affect_word(tok, source))
-            .t_ws()
-            .then(UPOSSet::new(&[UPOS::ADJ]))
-            .t_ws()
-            .then(UPOSSet::new(&[UPOS::NOUN]));
+        let adj_then_noun_follow = SequenceExpr::with(|tok: &Token, source: &[char]| {
+            matches_preceding_context_adj_noun(tok, source)
+        })
+        .t_ws()
+        .then(|tok: &Token, source: &[char]| is_affect_word(tok, source))
+        .t_ws()
+        .then(UPOSSet::new(&[UPOS::ADJ]))
+        .t_ws()
+        .then(UPOSSet::new(&[UPOS::NOUN]));
 
         map.insert(adj_then_noun_follow, 2);
 
-        let word_follow = SequenceExpr::default()
-            .then(|tok: &Token, source: &[char]| matches_preceding_context(tok, source))
-            .t_ws()
-            .then(|tok: &Token, source: &[char]| is_affect_word(tok, source))
-            .t_ws()
-            .then(UPOSSet::new(&[
-                UPOS::PROPN,
-                UPOS::INTJ,
-                UPOS::ADP,
-                UPOS::SCONJ,
-            ]));
+        let word_follow = SequenceExpr::with(|tok: &Token, source: &[char]| {
+            matches_preceding_context(tok, source)
+        })
+        .t_ws()
+        .then(|tok: &Token, source: &[char]| is_affect_word(tok, source))
+        .t_ws()
+        .then(UPOSSet::new(&[
+            UPOS::PROPN,
+            UPOS::INTJ,
+            UPOS::ADP,
+            UPOS::SCONJ,
+        ]));
 
         map.insert(word_follow, 2);
 
-        let verb_follow = SequenceExpr::default()
-            .then(|tok: &Token, source: &[char]| matches_preceding_context_verb_follow(tok, source))
-            .t_ws()
-            .then(|tok: &Token, source: &[char]| is_affect_word(tok, source))
-            .t_ws()
-            .then(UPOSSet::new(&[UPOS::AUX, UPOS::VERB]));
+        let verb_follow = SequenceExpr::with(|tok: &Token, source: &[char]| {
+            matches_preceding_context_verb_follow(tok, source)
+        })
+        .t_ws()
+        .then(|tok: &Token, source: &[char]| is_affect_word(tok, source))
+        .t_ws()
+        .then(UPOSSet::new(&[UPOS::AUX, UPOS::VERB]));
 
         map.insert(verb_follow, 2);
 
-        let punctuation_follow = SequenceExpr::default()
-            .then(|tok: &Token, source: &[char]| matches_preceding_context(tok, source))
-            .t_ws()
-            .then(|tok: &Token, source: &[char]| is_affect_word(tok, source))
-            .then_kind_where(|kind| kind.is_punctuation());
+        let punctuation_follow = SequenceExpr::with(|tok: &Token, source: &[char]| {
+            matches_preceding_context(tok, source)
+        })
+        .t_ws()
+        .then(|tok: &Token, source: &[char]| is_affect_word(tok, source))
+        .then_kind_where(|kind| kind.is_punctuation());
 
         map.insert(punctuation_follow, 2);
 
@@ -68,12 +69,7 @@ impl Default for AffectToEffect {
 
         map.insert(great_affect, 2);
 
-        let map = Arc::new(map);
-
-        Self {
-            expr: Box::new(map.clone()),
-            map,
-        }
+        Self { expr: map }
     }
 }
 
@@ -81,11 +77,11 @@ impl ExprLinter for AffectToEffect {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        let offending_index = *self.map.lookup(0, matched_tokens, source)?;
+        let offending_index = *self.expr.lookup(0, matched_tokens, source)?;
         let target = &matched_tokens[offending_index];
 
         let preceding = matched_tokens[..offending_index]

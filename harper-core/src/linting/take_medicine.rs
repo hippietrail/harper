@@ -7,7 +7,7 @@ use crate::{
 };
 
 pub struct TakeMedicine {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for TakeMedicine {
@@ -26,26 +26,22 @@ impl Default for TakeMedicine {
             .or(DerivedFrom::new_from_str("aspirin"))
             .or(DerivedFrom::new_from_str("paracetamol"));
 
-        let modifiers = SequenceExpr::default()
-            .then_any_of(vec![
-                Box::new(SequenceExpr::default().then_determiner()),
-                Box::new(SequenceExpr::default().then_possessive_determiner()),
-                Box::new(SequenceExpr::default().then_quantifier()),
-            ])
-            .t_ws();
+        let modifiers = SequenceExpr::any_of(vec![
+            Box::new(SequenceExpr::default().then_determiner()),
+            Box::new(SequenceExpr::default().then_possessive_determiner()),
+            Box::new(SequenceExpr::default().then_quantifier()),
+        ])
+        .t_ws();
 
         let adjectives = SequenceExpr::default().then_one_or_more_adjectives().t_ws();
 
-        let pattern = SequenceExpr::default()
-            .then(eat_verb)
+        let pattern = SequenceExpr::with(eat_verb)
             .t_ws()
             .then_optional(modifiers)
             .then_optional(adjectives)
             .then(medication);
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -80,7 +76,7 @@ impl ExprLinter for TakeMedicine {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
@@ -118,9 +114,7 @@ impl ExprLinter for TakeMedicine {
 #[cfg(test)]
 mod tests {
     use super::TakeMedicine;
-    use crate::linting::tests::{
-        assert_lint_count, assert_nth_suggestion_result, assert_suggestion_result,
-    };
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     #[test]
     fn swaps_ate_antibiotics() {
@@ -214,11 +208,10 @@ mod tests {
 
     #[test]
     fn offers_swallow_alternative() {
-        assert_nth_suggestion_result(
+        assert_suggestion_result(
             "He ate the medication without water.",
             TakeMedicine::default(),
             "He swallowed the medication without water.",
-            1,
         );
     }
 

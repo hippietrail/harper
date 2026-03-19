@@ -8,7 +8,7 @@ use crate::{
 };
 
 pub struct AskNoPreposition {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for AskNoPreposition {
@@ -19,16 +19,13 @@ impl Default for AskNoPreposition {
 
         let objs = WordSet::new(&["me", "you", "him", "her", "it", "us", "them", "one"]);
 
-        let pattern = SequenceExpr::default()
-            .then(verbs)
+        let pattern = SequenceExpr::with(verbs)
             .then_whitespace()
             .t_aco("to")
             .then_whitespace()
             .then(objs);
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -36,7 +33,7 @@ impl ExprLinter for AskNoPreposition {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

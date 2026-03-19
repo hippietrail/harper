@@ -4,7 +4,7 @@ use crate::linting::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::{CharStringExt, Token, TokenKind, TokenStringExt};
 
 pub struct QuiteQuiet {
-    expr: Box<dyn Expr>,
+    expr: FirstMatchOf,
 }
 
 impl Default for QuiteQuiet {
@@ -22,17 +22,16 @@ impl Default for QuiteQuiet {
                 &["here", "up"],
             );
 
-        let negative_contraction_quiet = SequenceExpr::default()
-            .then(|tok: &Token, src: &[char]| {
-                if !tok.kind.is_verb() || !tok.kind.is_apostrophized() {
-                    return false;
-                }
-                tok.span
-                    .get_content(src)
-                    .ends_with_any_ignore_ascii_case_chars(&[&['n', '\'', 't'], &['n', '’', 't']])
-            })
-            .t_ws()
-            .t_aco("quiet");
+        let negative_contraction_quiet = SequenceExpr::with(|tok: &Token, src: &[char]| {
+            if !tok.kind.is_verb() || !tok.kind.is_apostrophized() {
+                return false;
+            }
+            tok.span
+                .get_content(src)
+                .ends_with_any_ignore_ascii_case_chars(&[&['n', '\'', 't'], &['n', '’', 't']])
+        })
+        .t_ws()
+        .t_aco("quiet");
 
         let adverb_quite = SequenceExpr::default()
             .then_kind_except(
@@ -43,11 +42,11 @@ impl Default for QuiteQuiet {
             .t_aco("quite");
 
         Self {
-            expr: Box::new(FirstMatchOf::new(vec![
+            expr: FirstMatchOf::new(vec![
                 Box::new(quiet_word),
                 Box::new(negative_contraction_quiet),
                 Box::new(adverb_quite),
-            ])),
+            ]),
         }
     }
 }
@@ -56,7 +55,7 @@ impl ExprLinter for QuiteQuiet {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

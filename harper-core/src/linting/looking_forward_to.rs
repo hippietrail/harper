@@ -8,22 +8,19 @@ use crate::{
 };
 
 pub struct LookingForwardTo {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for LookingForwardTo {
     fn default() -> Self {
         let looking_forward_to = FixedPhrase::from_phrase("looking forward to");
 
-        let pattern = SequenceExpr::default()
-            .then(looking_forward_to)
+        let pattern = SequenceExpr::with(looking_forward_to)
             .t_ws()
             // TODO: update the use the verb with progressive tense function later
             .then_verb();
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -31,7 +28,7 @@ impl ExprLinter for LookingForwardTo {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], src: &[char]) -> Option<Lint> {

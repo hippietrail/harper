@@ -5,7 +5,7 @@ use crate::{
 };
 
 pub struct OldestInTheBook {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for OldestInTheBook {
@@ -21,7 +21,7 @@ impl Default for OldestInTheBook {
         };
 
         // Zero or more adjectives
-        let adjseq = Repeating::new(Box::new(SequenceExpr::default().then(adj).t_ws()), 0);
+        let adjseq = Repeating::new(Box::new(SequenceExpr::with(adj).t_ws()), 0);
 
         let noun = |t: &Token, s: &[char]| {
             let k = &t.kind;
@@ -33,21 +33,17 @@ impl Default for OldestInTheBook {
         };
 
         // One or more nouns
-        let nounseq = SequenceExpr::default()
-            .then(noun)
-            .then_optional(Repeating::new(
-                Box::new(SequenceExpr::default().t_ws().then(noun)),
-                1,
-            ));
+        let nounseq = SequenceExpr::with(noun).then_optional(Repeating::new(
+            Box::new(SequenceExpr::default().t_ws().then(noun)),
+            1,
+        ));
 
-        let noun_phrase = SequenceExpr::default().then_optional(adjseq).then(nounseq);
+        let noun_phrase = SequenceExpr::optional(adjseq).then(nounseq);
 
         Self {
-            expr: Box::new(
-                SequenceExpr::fixed_phrase("oldest ")
-                    .then(noun_phrase)
-                    .then_fixed_phrase(" in the books"),
-            ),
+            expr: SequenceExpr::fixed_phrase("oldest ")
+                .then(noun_phrase)
+                .then_fixed_phrase(" in the books"),
         }
     }
 }
@@ -56,7 +52,7 @@ impl ExprLinter for OldestInTheBook {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint_with_context(

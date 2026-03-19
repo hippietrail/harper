@@ -6,7 +6,7 @@ use crate::{
 };
 
 pub struct OneOfTheSingular<D: Dictionary + 'static> {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
     dict: D,
 }
 
@@ -35,19 +35,14 @@ impl SeqExprExt for SequenceExpr {
 impl<D: Dictionary + 'static> OneOfTheSingular<D> {
     pub fn new(dict: D) -> Self {
         let advs =
-            SequenceExpr::default().then_one_or_more_spaced(SequenceExpr::default().then_adverb());
+            SequenceExpr::default().then_zero_or_more_spaced(SequenceExpr::default().then_adverb());
 
         let adj_or_nouns = SequenceExpr::default()
-            .then_one_or_more_spaced(SequenceExpr::default().then_my_noun_or_adjective());
+            .then_zero_or_more_spaced(SequenceExpr::default().then_my_noun_or_adjective());
 
         Self {
-            expr: Box::new(
-                SequenceExpr::fixed_phrase("one of the ").then(
-                    SequenceExpr::default()
-                        .then_optional(advs.t_ws())
-                        .then(adj_or_nouns),
-                ),
-            ),
+            expr: SequenceExpr::fixed_phrase("one of the ")
+                .then(SequenceExpr::optional(advs.t_ws()).then(adj_or_nouns)),
             dict,
         }
     }
@@ -141,25 +136,25 @@ impl<D: Dictionary + 'static> ExprLinter for OneOfTheSingular<D> {
             span: nounspan,
             lint_kind: LintKind::Usage,
             suggestions,
-            message: "The construction `one of the ...` uses a singular noun.".to_string(),
+            message: "The construction `one of the ...` should use a plural noun.".to_string(),
             ..Default::default()
         })
     }
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 }
 
 #[cfg(test)]
 mod tests {
     use super::OneOfTheSingular;
-    use crate::linting::tests::{assert_no_lints, assert_top3_suggestion_result};
+    use crate::linting::tests::{assert_no_lints, assert_suggestion_result};
     use crate::spell::FstDictionary;
 
     #[test]
     fn fix_one_of_the_noun() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "one of the noun",
             OneOfTheSingular::new(FstDictionary::curated()),
             "one of the nouns",
@@ -168,7 +163,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_noun_noun() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "one of the car park",
             OneOfTheSingular::new(FstDictionary::curated()),
             "one of the car parks",
@@ -177,7 +172,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_adj_noun() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "one of the best noun",
             OneOfTheSingular::new(FstDictionary::curated()),
             "one of the best nouns",
@@ -186,7 +181,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_adv_adv_adj_adj_noun_noun() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "one of the really incredibly big red rubber ball",
             OneOfTheSingular::new(FstDictionary::curated()),
             "one of the really incredibly big red rubber balls",
@@ -195,7 +190,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_best_tutorial() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "Bro casually dropped one of the best graphics tutorial I've ever seen and thought we wouldn't notice",
             OneOfTheSingular::new(FstDictionary::curated()),
             "Bro casually dropped one of the best graphics tutorials I've ever seen and thought we wouldn't notice",
@@ -204,7 +199,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_neat_trick() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "One of the neat trick with AVX-512 is that given a mask",
             OneOfTheSingular::new(FstDictionary::curated()),
             "One of the neat tricks with AVX-512 is that given a mask",
@@ -213,7 +208,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_latest_version() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "Footer line shown since one of the latest version",
             OneOfTheSingular::new(FstDictionary::curated()),
             "Footer line shown since one of the latest versions",
@@ -222,7 +217,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_node() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "... noticed occasional production issue when one of the node loses connection",
             OneOfTheSingular::new(FstDictionary::curated()),
             "... noticed occasional production issue when one of the nodes loses connection",
@@ -231,7 +226,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_unstaged_file() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "Sublime Merge hangs if one of the unstaged file is a pretty ...",
             OneOfTheSingular::new(FstDictionary::curated()),
             "Sublime Merge hangs if one of the unstaged files is a pretty ...",
@@ -240,7 +235,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_tedious_things() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "One of the tedious thing in Stack Overflow is to grab example data provided by users",
             OneOfTheSingular::new(FstDictionary::curated()),
             "One of the tedious things in Stack Overflow is to grab example data provided by users",
@@ -249,7 +244,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_brave_process() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "One of the Brave Process is consuming almost 170%",
             OneOfTheSingular::new(FstDictionary::curated()),
             "One of the Brave Processes is consuming almost 170%",
@@ -258,7 +253,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_most_cumbersome_thing() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "One of the most cumbersome thing to create in markdown is a table.",
             OneOfTheSingular::new(FstDictionary::curated()),
             "One of the most cumbersome things to create in markdown is a table.",
@@ -267,7 +262,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_test() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "Not passing one of the test",
             OneOfTheSingular::new(FstDictionary::curated()),
             "Not passing one of the tests",
@@ -276,7 +271,7 @@ mod tests {
 
     #[test]
     fn fix_one_of_the_process_main_thread() {
-        assert_top3_suggestion_result(
+        assert_suggestion_result(
             "And those threads life cycle is very long, sometimes, it will be one of the process main thread",
             OneOfTheSingular::new(FstDictionary::curated()),
             "And those threads life cycle is very long, sometimes, it will be one of the process main threads",

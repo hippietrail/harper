@@ -1,14 +1,10 @@
-use std::sync::Arc;
-
 use crate::Token;
 use crate::expr::{Expr, ExprMap, SequenceExpr};
 use crate::linting::expr_linter::Chunk;
 use crate::linting::{ExprLinter, Lint, LintKind, Suggestion};
-use crate::patterns::Word;
 
 pub struct Respond {
-    expr: Box<dyn Expr>,
-    map: Arc<ExprMap<usize>>,
+    expr: ExprMap<usize>,
 }
 
 impl Default for Respond {
@@ -37,7 +33,7 @@ impl Default for Respond {
                 .t_ws()
                 .then(helper_verb)
                 .t_ws()
-                .then(Word::new("response")),
+                .t_aco("response"),
             4,
         );
 
@@ -49,16 +45,11 @@ impl Default for Respond {
                 .t_ws()
                 .then_adverb()
                 .t_ws()
-                .then(Word::new("response")),
+                .t_aco("response"),
             6,
         );
 
-        let map = Arc::new(map);
-
-        Self {
-            expr: Box::new(map.clone()),
-            map,
-        }
+        Self { expr: map }
     }
 }
 
@@ -66,11 +57,11 @@ impl ExprLinter for Respond {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        let response_index = *self.map.lookup(0, matched_tokens, source)?;
+        let response_index = *self.expr.lookup(0, matched_tokens, source)?;
         let response_token = matched_tokens.get(response_index)?;
 
         Some(Lint {

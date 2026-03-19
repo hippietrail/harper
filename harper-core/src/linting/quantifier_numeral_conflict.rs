@@ -6,13 +6,13 @@ use crate::token_string_ext::TokenStringExt;
 use crate::{CharStringExt, Lint, Token};
 
 pub struct QuantifierNumeralConflict {
-    expr: Box<dyn Expr>,
+    expr: All,
 }
 
 impl Default for QuantifierNumeralConflict {
     fn default() -> Self {
         Self {
-            expr: Box::new(All::new(vec![
+            expr: All::new(vec![
                 Box::new(
                     SequenceExpr::default()
                         .then_quantifier()
@@ -22,17 +22,15 @@ impl Default for QuantifierNumeralConflict {
                             Box::new(SequenceExpr::default().then_cardinal_number()),
                         ]),
                 ),
-                Box::new(
-                    SequenceExpr::default().then_unless(SequenceExpr::any_of(vec![
-                        Box::new(WordSet::new(&["all", "any", "every"])),
-                        Box::new(
-                            SequenceExpr::word_set(&["each", "no", "some"])
-                                .t_ws()
-                                .t_aco("one"),
-                        ),
-                    ])),
-                ),
-            ])),
+                Box::new(SequenceExpr::unless(SequenceExpr::any_of(vec![
+                    Box::new(WordSet::new(&["all", "any", "every", "no"])),
+                    Box::new(
+                        SequenceExpr::word_set(&["each", "some"])
+                            .t_ws()
+                            .t_aco("one"),
+                    ),
+                ]))),
+            ]),
         }
     }
 }
@@ -41,7 +39,7 @@ impl ExprLinter for QuantifierNumeralConflict {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint_with_context(
@@ -174,6 +172,14 @@ mod tests {
             "OSSEC by default run rootkit check each 2 hours.",
             QuantifierNumeralConflict::default(),
             "OSSEC by default run rootkit check every 2 hours.",
+        );
+    }
+
+    #[test]
+    fn ignore_no_two_adjacent_characters_2486() {
+        assert_no_lints(
+            "No two adjacent characters are the same.",
+            QuantifierNumeralConflict::default(),
         );
     }
 }

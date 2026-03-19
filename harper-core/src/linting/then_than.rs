@@ -7,7 +7,7 @@ use crate::{CharStringExt, Token, TokenKind};
 
 /// Corrects the misuse of `then` to `than`.
 pub struct ThenThan {
-    expr: Box<dyn Expr>,
+    expr: FirstMatchOf,
 }
 
 impl ThenThan {
@@ -16,19 +16,17 @@ impl ThenThan {
             Box::new(FirstMatchOf::new(vec![
                 // Comparative form of adjective
                 Box::new(
-                    SequenceExpr::default()
-                        .then(Box::new(|tok: &Token, source: &[char]| {
-                            is_comparative(tok, source)
-                        }))
-                        .t_ws()
-                        .t_aco("then")
-                        .t_ws()
-                        .then_unless(Word::new("that")),
+                    SequenceExpr::with(Box::new(|tok: &Token, source: &[char]| {
+                        is_comparative(tok, source)
+                    }))
+                    .t_ws()
+                    .t_aco("then")
+                    .t_ws()
+                    .then_unless(Word::new("that")),
                 ),
                 // Positive form of adjective following "more" or "less"
                 Box::new(
-                    SequenceExpr::default()
-                        .then(WordSet::new(&["more", "less"]))
+                    SequenceExpr::word_set(&["more", "less"])
                         .t_ws()
                         .then_kind_either(TokenKind::is_adjective, TokenKind::is_adverb)
                         .t_ws()
@@ -42,7 +40,7 @@ impl ThenThan {
         ]);
 
         Self {
-            expr: Box::new(FirstMatchOf::new(vec![
+            expr: FirstMatchOf::new(vec![
                 Box::new(comparison),
                 Box::new(FixedPhrase::from_phrase("easier said then done")),
                 Box::new(FixedPhrase::from_phrase("now and than")),
@@ -50,7 +48,7 @@ impl ThenThan {
                 Box::new(FixedPhrase::from_phrase("rather then")),
                 Box::new(FixedPhrase::from_phrase("than again")),
                 Box::new(FixedPhrase::from_phrase("until than")),
-            ])),
+            ]),
         }
     }
 }
@@ -73,7 +71,7 @@ impl ExprLinter for ThenThan {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

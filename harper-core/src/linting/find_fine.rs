@@ -7,19 +7,16 @@ use super::expr_linter::Chunk;
 use super::{ExprLinter, Lint, LintKind, Suggestion};
 
 pub struct FindFine {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for FindFine {
     fn default() -> Self {
-        let expr = SequenceExpr::default()
-            .then(InflectionOfBe::default())
+        let expr = SequenceExpr::with(InflectionOfBe::default())
             .t_ws()
             .t_aco("find");
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -27,7 +24,7 @@ impl ExprLinter for FindFine {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

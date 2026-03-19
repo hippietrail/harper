@@ -3,23 +3,20 @@ use crate::{
     expr::{Expr, SequenceExpr},
     linting::expr_linter::Chunk,
     linting::{ExprLinter, Lint, LintKind, Suggestion},
-    patterns::{DerivedFrom, Word},
+    patterns::DerivedFrom,
 };
 
 pub struct CureFor {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for CureFor {
     fn default() -> Self {
-        let expr = SequenceExpr::default()
-            .then(DerivedFrom::new_from_str("cure"))
+        let expr = SequenceExpr::with(DerivedFrom::new_from_str("cure"))
             .t_ws()
-            .then(Word::new("against"));
+            .t_aco("against");
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -27,7 +24,7 @@ impl ExprLinter for CureFor {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

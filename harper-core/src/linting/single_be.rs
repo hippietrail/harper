@@ -57,7 +57,7 @@ fn looks_like_be_contraction(token: &Token, source: &[char]) -> bool {
 }
 
 pub struct SingleBe {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for SingleBe {
@@ -70,14 +70,11 @@ impl Default for SingleBe {
             ])
         }
 
-        let expr = SequenceExpr::default()
-            .then(be_like_expr())
+        let expr = SequenceExpr::with(be_like_expr())
             .t_ws()
             .then(be_like_expr());
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -85,7 +82,7 @@ impl ExprLinter for SingleBe {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
@@ -161,7 +158,7 @@ impl ExprLinter for SingleBe {
         Some(Lint {
             span: Span::new(whitespace_start, second_be_end),
             lint_kind: LintKind::Grammar,
-            suggestions: vec![Suggestion::ReplaceWith(vec![])],
+            suggestions: vec![Suggestion::Remove],
             message: "Drop the repeated verb form so only one instance of `be` remains.".to_owned(),
             priority: 31,
         })
