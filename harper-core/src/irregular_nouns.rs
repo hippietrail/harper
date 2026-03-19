@@ -1,3 +1,4 @@
+use crate::CharStringExt;
 use serde::Deserialize;
 use std::sync::{Arc, LazyLock};
 
@@ -55,6 +56,13 @@ impl IrregularNouns {
         self.nouns
             .iter()
             .find(|(sg, _)| sg.eq_ignore_ascii_case(singular))
+            .map(|(_, pl)| pl.as_str())
+    }
+
+    pub fn get_plural_for_singular_chars(&self, singular: &[char]) -> Option<&str> {
+        self.nouns
+            .iter()
+            .find(|(sg, _)| singular.eq_ignore_ascii_case_str(sg))
             .map(|(_, pl)| pl.as_str())
     }
 
