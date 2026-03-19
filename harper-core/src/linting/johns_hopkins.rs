@@ -6,7 +6,7 @@ use crate::{
 };
 
 pub struct JohnsHopkins {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for JohnsHopkins {
@@ -19,9 +19,7 @@ impl Default for JohnsHopkins {
             tok.kind.is_proper_noun() && tok.get_ch(src).eq_str("hopkins")
         });
 
-        Self {
-            expr: Box::new(expr),
-        }
+        Self { expr }
     }
 }
 
@@ -29,7 +27,7 @@ impl ExprLinter for JohnsHopkins {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {

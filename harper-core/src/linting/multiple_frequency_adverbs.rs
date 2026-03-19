@@ -5,7 +5,7 @@ use crate::{
 };
 
 pub struct MultipleFrequencyAdverbs {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for MultipleFrequencyAdverbs {
@@ -15,13 +15,11 @@ impl Default for MultipleFrequencyAdverbs {
         };
 
         Self {
-            expr: Box::new(
-                SequenceExpr::default()
-                    .then(adverb_of_frequency)
-                    .then_optional_comma()
-                    .t_ws()
-                    .then(adverb_of_frequency),
-            ),
+            expr: SequenceExpr::default()
+                .then(adverb_of_frequency)
+                .then_optional_comma()
+                .t_ws()
+                .then(adverb_of_frequency),
         }
     }
 }
@@ -35,7 +33,7 @@ impl ExprLinter for MultipleFrequencyAdverbs {
     }
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {

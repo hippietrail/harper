@@ -7,7 +7,7 @@ use crate::{
 };
 
 pub struct TakeMedicine {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for TakeMedicine {
@@ -41,9 +41,7 @@ impl Default for TakeMedicine {
             .then_optional(adjectives)
             .then(medication);
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
@@ -75,7 +73,7 @@ impl ExprLinter for TakeMedicine {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
@@ -113,9 +111,7 @@ impl ExprLinter for TakeMedicine {
 #[cfg(test)]
 mod tests {
     use super::TakeMedicine;
-    use crate::linting::tests::{
-        assert_lint_count, assert_nth_suggestion_result, assert_suggestion_result,
-    };
+    use crate::linting::tests::{assert_lint_count, assert_suggestion_result};
 
     #[test]
     fn swaps_ate_antibiotics() {
@@ -209,11 +205,10 @@ mod tests {
 
     #[test]
     fn offers_swallow_alternative() {
-        assert_nth_suggestion_result(
+        assert_suggestion_result(
             "He ate the medication without water.",
             TakeMedicine::default(),
             "He swallowed the medication without water.",
-            1,
         );
     }
 

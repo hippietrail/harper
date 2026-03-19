@@ -4,7 +4,7 @@ use crate::linting::{ExprLinter, Lint, LintKind, Suggestion};
 use crate::{CharStringExt, Token, TokenKind, TokenStringExt};
 
 pub struct QuiteQuiet {
-    expr: Box<dyn Expr>,
+    expr: FirstMatchOf,
 }
 
 impl Default for QuiteQuiet {
@@ -41,11 +41,11 @@ impl Default for QuiteQuiet {
             .t_aco("quite");
 
         Self {
-            expr: Box::new(FirstMatchOf::new(vec![
+            expr: FirstMatchOf::new(vec![
                 Box::new(quiet_word),
                 Box::new(negative_contraction_quiet),
                 Box::new(adverb_quite),
-            ])),
+            ]),
         }
     }
 }
@@ -54,7 +54,7 @@ impl ExprLinter for QuiteQuiet {
     type Unit = Chunk;
 
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
