@@ -61,6 +61,27 @@ pub fn lint_group() -> LintGroup {
             "Corrects `adieu` to `ado`.",
             LintKind::Eggcorn
         ),
+        "Bollocks" => (
+            &[
+                ("bullocks!", "bollocks!"),
+                ("complete bullocks", "complete bollocks"),
+                ("dogs bullocks", "dogs bollocks"),
+                ("dog's bullocks", "dog's bollocks"),
+                ("is bullocks", "is bollocks"),
+                ("it's bullocks", "it's bollocks"),
+                ("its bullocks", "its bollocks"),
+                ("such bullocks", "such bollocks"),
+                ("that's bullocks", "that's bollocks"),
+                ("thats bullocks", "thats bollocks"),
+                ("total bullocks", "total bollocks"),
+                ("utter bullocks", "utter bollocks"),
+                ("was bullocks", "was bollocks"),
+                ("what bullocks", "what bollocks"),
+            ],
+            "The slang word for `nonsense` is `bollocks`. `Bullocks` are male cattle.",
+            "Corrects `bullocks` to `bollocks` when the meaning is `nonsense`.",
+            LintKind::Spelling
+        ),
         "ChampAtTheBit" => (
             &[
                 ("chomp at the bit", "champ at the bit"),
@@ -265,6 +286,17 @@ pub fn lint_group() -> LintGroup {
             "Use `used to` instead of `used of`.",
             "Corrects `used of` to `used to`.",
             LintKind::Usage
+        ),
+        "GrindToAHalt" => (
+            &[
+                ("grind to halt", "grind to a halt"),
+                ("grinding to halt", "grinding to a halt"),
+                ("grinds to halt", "grinds to a halt"),
+                ("ground to halt", "ground to a halt"),
+            ],
+            "You are missing the indefinite article `a` before `halt`.",
+            "Corrects the idiom `grind to halt` to the standard `grind to a halt`.",
+            LintKind::Nonstandard
         ),
         "HavePassed" => (
             &[
