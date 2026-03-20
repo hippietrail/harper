@@ -5,7 +5,7 @@ use crate::{
         ExprLinter, LintKind, Suggestion,
         debug::format_lint_match,
         expr_linter::{
-            Sentence, find_the_only_token_idx_matching, followed_by_hyphen, followed_by_word,
+            Sentence, find_the_only_token_idx_matching, followed_by_token, followed_by_word,
         },
     },
     regular_nouns,
@@ -63,6 +63,15 @@ impl Default for IsThereAgreement {
     }
 }
 
+fn is_singular_noun(token: &Token, src: &[char]) -> bool {
+    token.kind.is_singular_noun()
+        && !token.kind.is_verb_progressive_form()
+        && !token
+            .span
+            .get_content(src)
+            .eq_ignore_ascii_case_chars(&['i', 'n'])
+}
+
 impl ExprLinter for IsThereAgreement {
     type Unit = Sentence;
 
@@ -109,20 +118,22 @@ impl ExprLinter for IsThereAgreement {
 
         // Exit early when the noun is just part of a compound
 
-        // Either a hyphenated compound
-        if followed_by_hyphen(ctx) {
+        // Either a hyphenated compound or part of a path
+        if followed_by_token(ctx, |t| t.kind.is_hyphen() || t.kind.is_slash()) {
             return None;
         }
 
         // Or an open compound
         if followed_by_word(ctx, |second_noun| {
+            // let second_noun_str = second_noun.span.get_content(src).iter().collect::<String>();
             match mismatch {
                 // there is drugs trade
-                ThereIsWithPluralNoun => second_noun.kind.is_singular_noun(),
+                ThereIsWithPluralNoun => is_singular_noun(second_noun, src),
                 // there are car parks
                 ThereAreWithSingularNoun => second_noun.kind.is_plural_noun(),
             }
         }) {
+            // eprintln!("🚫 Early return: followed by word (open compound)");
             return None;
         }
 
@@ -151,6 +162,16 @@ impl ExprLinter for IsThereAgreement {
 
                 // Check regular plurals
                 plurals.extend(regular_nouns::get_plurals(noun_chars));
+
+                // print the plurals in one comma-separated line:
+                eprintln!(
+                    "🗿🗿 {}",
+                    plurals
+                        .iter()
+                        .map(|p| p.iter().collect::<String>())
+                        .collect::<Vec<String>>()
+                        .join(", ")
+                );
 
                 if plurals.is_empty() {
                     return None;
@@ -200,6 +221,8 @@ mod tests {
 
     use super::IsThereAgreement;
 
+    // Contrived tests
+
     #[test]
     fn fix_there_is_plural() {
         assert_good_and_bad_suggestions(
@@ -240,29 +263,163 @@ mod tests {
         assert_no_lints("there are config errors", IsThereAgreement::default());
     }
 
+    // Real-world tests
+
     // there is pl
-    //  Hi， when I make the code, there is errors
-    //  There is warnings from kotlin and dart, as reference: Elvis operator (?:) always returns the left operand of non-nullable type String.
-    //  Problem is that if there is a project that has a csproj file, then there is problems with the history folder.
-    //  Additionally if there is Commands that can be used on multiple Resources at the same time.
-    //  This mean there would not be a single cache, but as many caches as there is values for the second argument.
-    //  I can image other cases (tools different from SPSS) in which there is strings in both sides of the dictionary
-    //  even though we can check whether there is things running in Node, we can not do it for Chromium's message loops
-    //  there is people making projects, there is people doing tutorials
-    //  I am just wondering if there is instructions somewhere for handling deep linking while using Redux.
-    //  if there is packages that handle such protocols installed
+
+    #[test]
+    fn fix_there_is_errors() {
+        assert_suggestion_result(
+            "Hi， when I make the code, there is errors",
+            IsThereAgreement::default(),
+            "Hi， when I make the code, there are errors",
+            // "Hi， when I make the code, there is an error",
+        );
+    }
+
+    #[test]
+    fn fix_there_is_warnings() {
+        assert_suggestion_result(
+            "There is warnings from kotlin and dart, as reference: Elvis operator (?:) always returns the left operand of non-nullable type String.",
+            IsThereAgreement::default(),
+            "There are warnings from kotlin and dart, as reference: Elvis operator (?:) always returns the left operand of non-nullable type String.",
+            // "There is a warning from kotlin and dart, as reference: Elvis operator (?:) always returns the left operand of non-nullable type String.",
+        );
+    }
+
+    #[test]
+    fn fix_there_is_problems() {
+        assert_suggestion_result(
+            "Problem is that if there is a project that has a csproj file, then there is problems with the history folder.",
+            IsThereAgreement::default(),
+            "Problem is that if there is a project that has a csproj file, then there are problems with the history folder.",
+            // "Problem is that if there is a project that has a csproj file, then there is a problem with the history folder.",
+        );
+    }
+
+    #[test]
+    fn fix_there_is_commands() {
+        assert_suggestion_result(
+            "Additionally if there is Commands that can be used on multiple Resources at the same time.",
+            IsThereAgreement::default(),
+            "Additionally if there are Commands that can be used on multiple Resources at the same time.",
+            // "Additionally if there is a Command that can be used on multiple Resources at the same time.",
+        );
+    }
+
+    #[test]
+    fn fix_there_is_values() {
+        assert_suggestion_result(
+            "This mean there would not be a single cache, but as many caches as there is values for the second argument.",
+            IsThereAgreement::default(),
+            "This mean there would not be a single cache, but as many caches as there are values for the second argument.",
+            // ❌ "This mean there would not be a single cache, but as many caches as there is a value for the second argument.",
+        );
+    }
+
+    #[test]
+    fn fix_there_is_strings() {
+        assert_suggestion_result(
+            "I can image other cases (tools different from SPSS) in which there is strings in both sides of the dictionary",
+            IsThereAgreement::default(),
+            "I can image other cases (tools different from SPSS) in which there are strings in both sides of the dictionary",
+            // "I can image other cases (tools different from SPSS) in which there is a string in both sides of the dictionary",
+        );
+    }
+
+    #[test]
+    fn fix_there_is_things() {
+        assert_suggestion_result(
+            "even though we can check whether there is things running in Node, we can not do it for Chromium's message loops",
+            IsThereAgreement::default(),
+            "even though we can check whether there are things running in Node, we can not do it for Chromium's message loops",
+        );
+    }
+
+    #[test]
+    fn fix_there_is_people() {
+        assert_suggestion_result(
+            "there is people making projects, there is people doing tutorials",
+            IsThereAgreement::default(),
+            "there are people making projects, there are people doing tutorials",
+        );
+    }
+
+    #[test]
+    fn fix_there_is_instructions() {
+        assert_suggestion_result(
+            "I am just wondering if there is instructions somewhere for handling deep linking while using Redux.",
+            IsThereAgreement::default(),
+            "I am just wondering if there are instructions somewhere for handling deep linking while using Redux.",
+        );
+    }
+
+    #[test]
+    fn fix_there_is_packages() {
+        assert_suggestion_result(
+            "if there is packages that handle such protocols installed",
+            IsThereAgreement::default(),
+            "if there are packages that handle such protocols installed",
+        );
+    }
 
     // there is pl - legit - not error
-    //  The main expectation there is people who have a deprecated app installed will then get an error if it's disabled
-    //  For example there is packages/vite/src/node , but no packages/vite/src/deno
+
+    #[test]
+    fn dont_flag_there_is_people_who_have_done_xyz() {
+        assert_no_lints(
+            "The main expectation there is people who have a deprecated app installed will then get an error if it's disabled",
+            IsThereAgreement::default(),
+        );
+    }
+
+    #[test]
+    fn dont_flag_there_is_packages_part_of_dir() {
+        assert_no_lints(
+            "For example there is packages/vite/src/node , but no packages/vite/src/deno",
+            IsThereAgreement::default(),
+        );
+    }
 
     // there are sg
-    //  Seems like if there are issue with OpenAI, it is still trying to call chat completion and giving type error.
+
+    #[test]
+    fn fix_there_are_issue() {
+        assert_suggestion_result(
+            "Seems like if there are issue with OpenAI, it is still trying to call chat completion and giving type error.",
+            IsThereAgreement::default(),
+            "Seems like if there are issues with OpenAI, it is still trying to call chat completion and giving type error.",
+        );
+    }
 
     //  there are sg-pl compound
-    //   Wrong advice when there are dependency conflicts
-    //   If there are dependency errors they will be immediately logged out to you.
-    //   New Campaign Properties dialog loses changes if there are definition syntax errors
+
+    // Wrong advice when there are dependency conflicts
+    #[test]
+    fn dont_flag_there_are_dep_conflicts() {
+        assert_no_lints(
+            "Wrong advice when there are dependency conflicts",
+            IsThereAgreement::default(),
+        );
+    }
+
+    // If there are dependency errors they will be immediately logged out to you.
+    #[test]
+    fn dont_flag_there_are_dep_errs() {
+        assert_no_lints(
+            "If there are dependency errors they will be immediately logged out to you.",
+            IsThereAgreement::default(),
+        );
+    }
+
+    // New Campaign Properties dialog loses changes if there are definition syntax errors
+    #[test]
+    fn dont_flag_there_are_def_syntax_errs() {
+        assert_no_lints(
+            "New Campaign Properties dialog loses changes if there are definition syntax errors",
+            IsThereAgreement::default(),
+        );
+    }
 
     //  there are sg - legit - not error
     //   clang-format indents class member functions oddly if there are function-like macro invocations
