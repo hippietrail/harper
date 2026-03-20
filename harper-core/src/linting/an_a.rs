@@ -11,7 +11,7 @@ use crate::{CaseIterExt, Dialect, Document, TokenStringExt};
 pub enum InitialSound {
     Vowel,
     Consonant,
-    Either, // for SQL
+    Either, // for SQL etc. "ess-kyoo-ell" vs "seek-wuhl"
 }
 
 #[derive(Debug)]
@@ -123,7 +123,7 @@ fn starts_with_vowel(word: &[char], dialect: Dialect) -> Option<InitialSound> {
         return None;
     }
 
-    if matches!(word, ['S', 'Q', 'L'] | ['L', 'E', 'D']) {
+    if matches!(word, ['L', 'E', 'D'] | ['S', 'Q', 'L'] | ['U', 'R', 'L']) {
         return Some(InitialSound::Either);
     }
 
@@ -541,5 +541,19 @@ mod tests {
     fn allow_an_and_a_for_led_2550() {
         assert_lint_count("an LED", AnA::new(Dialect::American), 0);
         assert_lint_count("a LED", AnA::new(Dialect::American), 0);
+    }
+
+    #[test]
+    fn allow_a_and_an_for_url() {
+        assert_lint_count(
+            "I pronounce URL as 'yoo-are-ell' so for me it's 'a URL'",
+            AnA::new(Dialect::American),
+            0,
+        );
+        assert_lint_count(
+            "But some people pronounce it like 'earl' so for them it's 'an URL'",
+            AnA::new(Dialect::American),
+            0,
+        );
     }
 }
