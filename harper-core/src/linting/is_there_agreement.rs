@@ -1,34 +1,29 @@
 use crate::{
-    CharStringExt, IrregularNouns, Lint, RegularNouns, Token, TokenStringExt,
+    CharStringExt, IrregularNouns, Lint, Token, TokenStringExt,
     expr::{Expr, FirstMatchOf, FixedPhrase, OwnedExprExt, SequenceExpr, SpelledNumberExpr},
     linting::{
         ExprLinter, LintKind, Suggestion,
         debug::format_lint_match,
-        expr_linter::{Sentence, find_the_only_token_idx_matching, followed_by_word},
+        expr_linter::{
+            Sentence, find_the_only_token_idx_matching, followed_by_hyphen, followed_by_word,
+        },
     },
-    spell::Dictionary,
+    regular_nouns,
 };
 
-#[derive(PartialEq)]
+#[derive(PartialEq, Debug)]
 enum Mismatch {
-    IsPlural,
-    AreSingular,
+    ThereIsWithPluralNoun,
+    ThereAreWithSingularNoun,
 }
 use Mismatch::*;
 
-pub struct IsThereAgreement<D>
-where
-    D: Dictionary,
-{
+pub struct IsThereAgreement {
     expr: FirstMatchOf,
-    dict: D,
 }
 
-impl<D> IsThereAgreement<D>
-where
-    D: Dictionary,
-{
-    pub fn new(dict: D) -> Self {
+impl Default for IsThereAgreement {
+    fn default() -> Self {
         let sg_verb = SequenceExpr::any_of(vec![
             Box::new(FirstMatchOf::new(vec![
                 // Box::new(Word::new("there's")),
@@ -48,29 +43,27 @@ where
         Self {
             expr: FirstMatchOf::new(vec![
                 Box::new(sg_verb.t_ws().then_plural_noun()),
-                Box::new(pl_verb.t_ws().then_singular_noun().and_not(
-                    // singular nouns that are also something else
-                    FirstMatchOf::new(vec![
-                        Box::new(|t: &Token, s: &[char]| {
-                            t.kind.is_adjective()
-                                || t.span
-                                    .get_content(s)
-                                    .eq_ignore_ascii_case_chars(&['n', 'o'])
-                        }),
-                        // "two" is a sg. noun but a plural quantifier
-                        Box::new(SpelledNumberExpr),
-                    ]),
+                Box::new(pl_verb.t_ws().then(
+                    SequenceExpr::default().then_singular_noun().and_not(
+                        // singular nouns that are also something else
+                        FirstMatchOf::new(vec![
+                            Box::new(|t: &Token, s: &[char]| {
+                                t.kind.is_adjective()
+                                    || t.span
+                                        .get_content(s)
+                                        .eq_ignore_ascii_case_chars(&['n', 'o'])
+                            }),
+                            // "two" etc. are sg. nouns even though they can also be plural quantifiers
+                            Box::new(SpelledNumberExpr),
+                        ]),
+                    ),
                 )),
             ]),
-            dict,
         }
     }
 }
 
-impl<D> ExprLinter for IsThereAgreement<D>
-where
-    D: Dictionary,
-{
+impl ExprLinter for IsThereAgreement {
     type Unit = Sentence;
 
     fn expr(&self) -> &dyn Expr {
@@ -109,17 +102,25 @@ where
             .get_content(src)
             .eq_any_ignore_ascii_case_str(&["are", "were"])
         {
-            AreSingular
+            ThereAreWithSingularNoun
         } else {
-            IsPlural
+            ThereIsWithPluralNoun
         };
 
+        // Exit early when the noun is just part of a compound
+
+        // Either a hyphenated compound
+        if followed_by_hyphen(ctx) {
+            return None;
+        }
+
+        // Or an open compound
         if followed_by_word(ctx, |second_noun| {
             match mismatch {
                 // there is drugs trade
-                IsPlural => second_noun.kind.is_singular_noun(),
+                ThereIsWithPluralNoun => second_noun.kind.is_singular_noun(),
                 // there are car parks
-                AreSingular => second_noun.kind.is_plural_noun(),
+                ThereAreWithSingularNoun => second_noun.kind.is_plural_noun(),
             }
         }) {
             return None;
@@ -127,7 +128,7 @@ where
 
         let msg = format!(
             "There should be a {} noun with '{}'",
-            if mismatch == AreSingular {
+            if mismatch == ThereAreWithSingularNoun {
                 "plural"
             } else {
                 "singular"
@@ -136,7 +137,7 @@ where
         );
 
         match mismatch {
-            AreSingular => {
+            ThereAreWithSingularNoun => {
                 // there are thing -> there is [a] thing
                 //                 -> there are thing+s
                 let mut plurals = Vec::new();
@@ -149,7 +150,7 @@ where
                 }
 
                 // Check regular plurals
-                plurals.extend(RegularNouns::get_plurals(noun_chars, &self.dict));
+                plurals.extend(regular_nouns::get_plurals(noun_chars));
 
                 if plurals.is_empty() {
                     return None;
@@ -171,7 +172,7 @@ where
                     ..Default::default()
                 })
             }
-            IsPlural => {
+            ThereIsWithPluralNoun => {
                 // there is things -> there are things
                 //                 -> there is [a] thingXs
                 let replacement = if be_chars.len() == 2 { "are" } else { "were" };
@@ -193,11 +194,8 @@ where
 
 #[cfg(test)]
 mod tests {
-    use crate::{
-        linting::tests::{
-            assert_good_and_bad_suggestions, assert_no_lints, assert_suggestion_result,
-        },
-        spell::FstDictionary,
+    use crate::linting::tests::{
+        assert_good_and_bad_suggestions, assert_no_lints, assert_suggestion_result,
     };
 
     use super::IsThereAgreement;
@@ -206,7 +204,7 @@ mod tests {
     fn fix_there_is_plural() {
         assert_good_and_bad_suggestions(
             "Hi， when I make the code, there is errors",
-            IsThereAgreement::new(FstDictionary::curated()),
+            IsThereAgreement::default(),
             &[
                 "Hi， when I make the code, there are errors",
                 // "Hi， when I make the code, there is an error",
@@ -219,7 +217,7 @@ mod tests {
     fn fix_there_are_singular_good_and_bad() {
         assert_good_and_bad_suggestions(
             "there are person",
-            IsThereAgreement::new(FstDictionary::curated()),
+            IsThereAgreement::default(),
             &[
                 "there are people",
                 // "there is a person"
@@ -232,17 +230,14 @@ mod tests {
     fn fix_there_are_singular() {
         assert_suggestion_result(
             "there are person",
-            IsThereAgreement::new(FstDictionary::curated()),
+            IsThereAgreement::default(),
             "there are people",
         );
     }
 
     #[test]
     fn dont_flag_there_are_compound_singular() {
-        assert_no_lints(
-            "there are config errors",
-            IsThereAgreement::new(FstDictionary::curated()),
-        );
+        assert_no_lints("there are config errors", IsThereAgreement::default());
     }
 
     // there is pl
@@ -271,6 +266,22 @@ mod tests {
 
     //  there are sg - legit - not error
     //   clang-format indents class member functions oddly if there are function-like macro invocations
+
+    #[test]
+    fn dont_flag_alice_there_were_two() {
+        assert_no_lints(
+            "This time there were two little shrieks, and more sounds of broken glass.",
+            IsThereAgreement::default(),
+        );
+    }
+
+    #[test]
+    fn dont_flag_gatsby_there_were_twinkle_bells() {
+        assert_no_lints(
+            "When he realized what I was talking about, that there were twinkle-bells of sunshine in the room, he smiled like a weather man",
+            IsThereAgreement::default(),
+        );
+    }
 
     // there was pl
 

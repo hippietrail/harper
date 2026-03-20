@@ -57,7 +57,7 @@ use linting::Lint;
 pub use mask::{Mask, Masker, RegexMasker};
 pub use number::{Number, OrdinalSuffix};
 pub use punctuation::{Punctuation, Quote};
-pub use regular_nouns::RegularNouns;
+pub use regular_nouns::{get_plurals, get_singulars};
 pub use span::Span;
 pub use sync::{LSend, Lrc};
 pub use title_case::{make_title_case, make_title_case_str};

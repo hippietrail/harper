@@ -832,10 +832,7 @@ impl LintGroup {
         out.config.set_rule_enabled("Damages", true);
 
         // Uses Sentence rather than Chunk
-        out.add(
-            "IsThereAgreement",
-            IsThereAgreement::new(dictionary.clone()),
-        );
+        out.add("IsThereAgreement", IsThereAgreement::default());
         out.config.set_rule_enabled("IsThereAgreement", true);
 
         // Uses Sentence rather than Chunk
