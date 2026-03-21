@@ -6268,6 +6268,7 @@ MacBride/g
 MacDonald/Og
 MacGuffin/NOSg
 MacLeish/g
+Macca's/O†_         # Australia slang = McDonald's - compare US Mickey D's
 Macao/Og
 Macaulay/Og
 Macbeth/Og
@@ -13219,6 +13220,7 @@ artwork/~NgS
 arty/~J^>pN
 arugula/N
 arum/NSg
+arvo/NSg†_          # Australia slang = afternoon
 as/~RCP
 asap/
 asbestos/~NmgV
@@ -15480,6 +15482,7 @@ bothersome/J
 botlike/J
 botnet/NSg
 bottle/~NSgVd>GZ
+bottle-o/NgS†_      # Australia slang = bottle shop, liquor store, off-license
 bottleneck/~NgSVdG
 bottler/Ng
 bottom/~NSgVdGJ
@@ -15705,6 +15708,7 @@ breezeway/NSg
 breezily/Ry
 breeziness/Ng
 breezy/J>^pN
+brekkie/NSg†_       # Australia slang = breakfast
 brethren/~NJ
 breve/NSg
 brevet/~NSgV
@@ -16216,6 +16220,7 @@ byzantine/~JN
 c/~NSViE
 ca/P
 cab/~NSgV>Z
+cab sav/Nmg†_       # Australia slang = Cabernet Sauvignon
 cabal/~NgSV
 cabala's
 caballero/~NgS
@@ -22557,7 +22562,8 @@ duress/~NgV
 during/~PV
 durometer/NgS
 durst/V
-durum/Ng
+durum/Nmg
+durry/NgS†_         # Australia slang = cigarette
 dusk/~JNmgV
 duskiness/Nmg
 dusky/~J>^pN
@@ -23714,7 +23720,7 @@ escritoire/NgS
 escrow/NSgV
 escudo/NSg
 escutcheon/~NSg
-esky/NgS_           # Australian genericised brand name of a cooler
+esky/NgS†_          # Australian genericised brand name of a cooler
 esophageal/~J
 esophagi/N9
 esophagus/~N0g
@@ -27378,7 +27384,7 @@ groan/NSgVGd
 groat/NSg
 grocer/~NgSV
 grocery/~NSgV
-grog/NmgV
+grog/NwgSV†_         # 
 groggily/Ry
 grogginess/Ng
 groggy/J>^p
@@ -34608,7 +34614,7 @@ misspoken/V
 misstate/VGdSL
 misstatement/NSg
 misstep/NgSV
-missus/NgS
+missus/NgS†         # 
 mist/~NwSVd>GeZ
 mist's
 mistakable/JU
@@ -35152,6 +35158,7 @@ mow/VGd>SNgZ
 mower/~NgS
 moxie/Nmg
 mozzarella/Nmg
+mozzie/NgS†_        # Australia slang = mosquito
 mp/~N
 mpg/
 mph/~
@@ -43698,6 +43705,7 @@ sausage/~NwgSV
 saute/VSg
 sauteed/VtT
 sauteing/V6
+sav/NgS†_           # Australia slang = saveloy
 savage/~JY^>pNSgVdG
 savageness/Nmg
 savagery/~NSg
@@ -43705,6 +43713,7 @@ savanna/~NgS
 savant/NSg
 save/~VGd>SNgPCBzZ
 saved/~VtTJU
+saveloy/NgS         # type of sausage similar to frankfurt(er), weiner
 saver/Ng
 saving/~NwgV6JP
 savings/~Nmg
@@ -44569,7 +44578,7 @@ servings/N
 servitor/NgS
 servitude/~Ng
 servlet/NgS
-servo/NgSV
+servo/NgS‡V         # slang in Australian only for "gas/petrol station"
 servomechanism/NSg
 servomotor/NgS
 sesame/~NwSg
@@ -45728,6 +45737,7 @@ smokestack/NSg
 smokey/~JN
 smokiness/Nmg
 smoking/~VJNmg
+smoko/NgS†_         # Australia slang = cigarette break
 smoky/~J>^p
 smolder/VGdSNg
 smooch/NgSVdG
@@ -47800,6 +47810,7 @@ sunless/J
 sunlight/~NgV
 sunlit/J
 sunned/VtT
+sunnies/N9†_        # Australia slang = sunglasses
 sunniness/Nmg
 sunning/V6
 sunny/~J^>pN
