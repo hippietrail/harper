@@ -673,13 +673,13 @@
 			}
 		},
 		"†": {
-			"#": "slang / informal (always) property",
+			"#": "slang/informal/nonstandard (always) property",
 			"metadata": {
 				"slang": true
 			}
 		},
 		"‡": {
-			"#": "slang / informal (some senses only) property",
+			"#": "slang/informal/nonstandard (some senses only) property",
 			"metadata": {
 				"slang": true
 			}
