@@ -54357,6 +54357,7 @@ stdio/Og            # behaves like a proper noun despite lowercase since not nor
 stdlib/Og           # behaves like a proper noun despite lowercase since not normally used with 'a' or pluralized. But can be used with 'the'
 strat/NgS           # gamer slang strategy
 subchannel/NgS
+subexpression/NgS
 subkey/NgS
 subreddit/NgS       # see Reddit
 supersequence/NgS
