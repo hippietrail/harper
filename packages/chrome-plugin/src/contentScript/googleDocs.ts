@@ -1,5 +1,13 @@
 import type { LintFramework } from 'lint-framework';
 import GoogleDocsBridgeClient from './GoogleDocsBridgeClient';
+import {
+	createGoogleDocsLineBand,
+	extendGoogleDocsLineBand,
+	type GoogleDocsLineBand,
+	type GoogleDocsRectLayout,
+	rectSharesGoogleDocsLineBand,
+	shouldInsertGoogleDocsSpace,
+} from './googleDocsLayout';
 
 declare global {
 	interface Window {
@@ -12,8 +20,9 @@ const GOOGLE_DOCS_MAIN_WORLD_BRIDGE_ID = 'harper-google-docs-main-world-bridge';
 const GOOGLE_DOCS_SCROLL_LAYOUT_REASONS = new Set(['scroll', 'wheel', 'key-scroll']);
 const GOOGLE_DOCS_EDITOR_SELECTOR = '.kix-appview-editor';
 const GOOGLE_DOCS_SVG_RECT_SELECTOR = 'rect[aria-label]';
-const GOOGLE_DOCS_LINE_BREAK_THRESHOLD_PX = 6;
 const GOOGLE_DOCS_TABLE_CELL_GAP_THRESHOLD_PX = 60;
+const GOOGLE_DOCS_PARAGRAPH_BREAK_GAP_RATIO = 0.5;
+const GOOGLE_DOCS_MIN_PARAGRAPH_BREAK_GAP_PX = 6;
 
 type LayoutRefreshFramework = LintFramework & {
 	refreshLayout?: () => void;
@@ -66,6 +75,7 @@ export function createGoogleDocsBridgeSync(fw: LintFramework): () => Promise<voi
 			bridge.style.opacity = '0';
 			bridge.style.zIndex = '-2147483648';
 			bridge.setAttribute('contenteditable', 'false');
+			bridge.setAttribute('data-language', 'plaintext');
 			editor.appendChild(bridge);
 		}
 
@@ -135,11 +145,6 @@ export function createGoogleDocsBridgeSync(fw: LintFramework): () => Promise<voi
 				continue;
 			}
 
-			if (token.length === 1 && !token.match(/[a-zA-Z]/)) {
-				tokens[i] = ` ${token} `;
-				continue;
-			}
-
 			const isLast = i === tokens.length - 1;
 			const lastChar = token.charAt(token.length - 1);
 			const nextFirstChar = tokens[i + 1]?.charAt(0) ?? '';
@@ -166,6 +171,10 @@ export function createGoogleDocsBridgeSync(fw: LintFramework): () => Promise<voi
 		return next;
 	}
 
+	function isGoogleDocsStandaloneListMarker(label: string): boolean {
+		return /^(\d+\.|[-+*•◦▪‣])$/.test(label.trim());
+	}
+
 	/**
 	 * Rebuilds the hidden clone from Docs SVG text rects.
 	 *
@@ -181,7 +190,9 @@ export function createGoogleDocsBridgeSync(fw: LintFramework): () => Promise<voi
 		const fragment = document.createDocumentFragment();
 		const parts: string[] = [];
 		let nextHash = 5381;
-		let lastTop: number | null = null;
+		let currentLineBand: GoogleDocsLineBand | null = null;
+		let lastLayoutRect: GoogleDocsRectLayout | null = null;
+		let lastLabel = '';
 		let lastRight: number | null = null;
 		let segmentCount = 0;
 
@@ -202,22 +213,41 @@ export function createGoogleDocsBridgeSync(fw: LintFramework): () => Promise<voi
 			if (!Number.isFinite(left)) continue;
 			if (!Number.isFinite(right)) continue;
 
-			if (lastTop != null && Math.abs(top - lastTop) >= GOOGLE_DOCS_LINE_BREAK_THRESHOLD_PX) {
-				if (parts.length > 0 && !parts[parts.length - 1].endsWith('\n')) {
-					parts.push('\n');
-					fragment.appendChild(document.createTextNode('\n'));
-				}
+			const layoutRect: GoogleDocsRectLayout = {
+				top,
+				left,
+				width: rect.width,
+				height: rect.height,
+			};
+			const sharesVisualLine =
+				currentLineBand != null && rectSharesGoogleDocsLineBand(layoutRect, currentLineBand);
+			const shouldInsertLineBreak =
+				(currentLineBand != null && !sharesVisualLine) ||
+				(sharesVisualLine &&
+					!isGoogleDocsStandaloneListMarker(lastLabel) &&
+					lastRight != null &&
+					left - lastRight >= GOOGLE_DOCS_TABLE_CELL_GAP_THRESHOLD_PX);
+
+			if (shouldInsertLineBreak && parts.length > 0 && !parts[parts.length - 1].endsWith('\n')) {
+				const lineGap =
+					currentLineBand == null ? 0 : Math.max(0, layoutRect.top - currentLineBand.bottom);
+				const paragraphBreakThreshold = Math.max(
+					GOOGLE_DOCS_MIN_PARAGRAPH_BREAK_GAP_PX,
+					Math.min(currentLineBand?.bottom - currentLineBand?.top || 0, layoutRect.height) *
+						GOOGLE_DOCS_PARAGRAPH_BREAK_GAP_RATIO,
+				);
+				const breakText = !sharesVisualLine && lineGap >= paragraphBreakThreshold ? '\n\n' : '\n';
+				parts.push(breakText);
+				fragment.appendChild(document.createTextNode(breakText));
 			}
 			if (
-				lastTop != null &&
-				lastRight != null &&
-				Math.abs(top - lastTop) < GOOGLE_DOCS_LINE_BREAK_THRESHOLD_PX &&
-				left - lastRight >= GOOGLE_DOCS_TABLE_CELL_GAP_THRESHOLD_PX
+				!shouldInsertLineBreak &&
+				lastLayoutRect != null &&
+				(isGoogleDocsStandaloneListMarker(lastLabel) ||
+					shouldInsertGoogleDocsSpace(lastLayoutRect, layoutRect, lastLabel, normalizedLabel))
 			) {
-				if (parts.length > 0 && !parts[parts.length - 1].endsWith('\n')) {
-					parts.push('\n');
-					fragment.appendChild(document.createTextNode('\n'));
-				}
+				parts.push(' ');
+				fragment.appendChild(document.createTextNode(' '));
 			}
 
 			const span = document.createElement('span');
@@ -237,7 +267,12 @@ export function createGoogleDocsBridgeSync(fw: LintFramework): () => Promise<voi
 			fragment.appendChild(span);
 
 			parts.push(normalizedLabel);
-			lastTop = top;
+			currentLineBand =
+				currentLineBand == null || shouldInsertLineBreak
+					? createGoogleDocsLineBand(layoutRect)
+					: extendGoogleDocsLineBand(currentLineBand, layoutRect);
+			lastLayoutRect = layoutRect;
+			lastLabel = normalizedLabel;
 			lastRight = right;
 			segmentCount += 1;
 
