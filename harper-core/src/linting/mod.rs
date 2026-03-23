@@ -63,6 +63,7 @@ mod ellipsis_length;
 mod else_possessive;
 mod ever_every;
 mod everyday;
+mod except_of;
 mod expand_memory_shorthands;
 mod expand_time_shorthands;
 mod expr_linter;
