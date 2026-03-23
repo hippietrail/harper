@@ -20,6 +20,7 @@ mod another_thing_coming;
 mod another_think_coming;
 mod apart_from;
 mod ask_no_preposition;
+mod aspire_to;
 mod avoid_curses;
 mod back_in_the_day;
 mod be_allowed;
