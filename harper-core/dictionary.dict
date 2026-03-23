@@ -29960,6 +29960,7 @@ incurred/~VtT
 incurring/V6
 incursion/~NgS
 ind/~
+indeclinable/J
 indebted/~VJp
 indebtedness/Ng
 indeed/~R%          # also an adverb of affirmation, emphasis, and degree
@@ -33317,7 +33318,7 @@ mammon/Og
 mammoth/~N9gJ
 mammoths/~N0
 mammy/NSg
-man/~NOSJYVU        # removed `8` pronoun, dialectal & complicates lint heuristics
+man/~NSVU           # removed pron: not a pronoun, dialectal, adj: marginal, proper noun: ? - complicates lint heuristics
 man child/Ng
 man-made/J
 man's/~NOJIVW
@@ -35441,6 +35442,7 @@ muzzily/Ry
 muzzle/~NSgVdG
 muzzy/JpN
 my/~D5
+myalgic/J
 mycologist/NSg
 mycology/Nmg
 myelitis/Nmg
@@ -53727,6 +53729,7 @@ CloudFront/Og       # CDN service
 Cloudflare/Og
 CockroachDB/Og      # distributed database
 Codeberg/Og         # GitHub alternative
+Coinbase/Og
 Colemak/NgJ
 CommonMark/g
 CompUSA             # retailer
@@ -53874,6 +53877,7 @@ IPS/J               # in-plane switching (screen technology)
 IPv4/OgS
 IPv6/OgS
 ISA/NOSg            # instruction set architecture; industry standard architecture
+ISSN/NgS            # International Standard Serial Number
 Indo-Aryan/OmgSJ    # linguistics
 Indo-European/OmSgJ # linguistics
 Indo-Iranian/NmgJ   # linguistics
@@ -53967,6 +53971,7 @@ Minhaj/OgS
 Minix/Og            # old hobby operating system
 Mockito/Sg
 Molex/NOSg          # Molex connector
+MrBeast/Og
 Mullenweg/g
 Munin/Sg
 Murcielago/OgS
