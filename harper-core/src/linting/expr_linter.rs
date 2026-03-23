@@ -161,10 +161,10 @@ pub fn followed_by_hyphen(context: Option<(&[Token], &[Token])>) -> bool {
 /// Counterintuitively, a sentence includes the whitespace after
 /// the sentence-final punctuation.
 pub fn at_start_of_sentence(context: Option<(&[Token], &[Token])>) -> bool {
-    if let Some((before, _)) = context {
-        if before.len() == 0 || (before.len() == 1 && before[0].kind.is_whitespace()) {
-            return true;
-        }
+    if let Some((before, _)) = context
+        && (before.is_empty() || (before.len() == 1 && before[0].kind.is_whitespace()))
+    {
+        return true;
     }
     false
 }

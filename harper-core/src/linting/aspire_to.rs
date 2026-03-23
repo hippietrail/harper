@@ -42,10 +42,9 @@ impl ExprLinter for AspireTo {
         let (aspire_t, prep_t) = (&toks[aspire_i], &toks[prep_i]);
         let (aspire_s, prep_s) = (aspire_t.span, prep_t.span);
 
-        if aspire_s.get_content(src) == ['A', 's', 'p', 'i', 'r', 'e'] {
-            if !at_start_of_sentence(ctx) {
-                return None;
-            }
+        if aspire_s.get_content(src) == ['A', 's', 'p', 'i', 'r', 'e'] && !at_start_of_sentence(ctx)
+        {
+            return None;
         }
 
         if preceded_by_word(ctx, |wt| {
