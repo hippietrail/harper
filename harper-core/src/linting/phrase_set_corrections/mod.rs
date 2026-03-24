@@ -570,6 +570,32 @@ pub fn lint_group() -> LintGroup {
             "Ensures proper use of the subjunctive mood in counterfactual conditional statements starting with `if only` or `I wish`.",
             LintKind::Grammar
         ),
+        "UseToUsedTo" => (
+            &[
+                // "be" verbs + "use to" -> "used to" (accustomed to)
+                ("am use to", "am used to"),
+                ("are use to", "are used to"),
+                ("is use to", "is used to"),
+                ("was use to", "was used to"),
+                ("were use to", "were used to"),
+                ("be use to", "be used to"),
+                // contractions of "be"
+                ("i'm use to", "i'm used to"),
+                ("we're use to", "we're used to"),
+                ("you're use to", "you're used to"),
+                ("they're use to", "they're used to"),
+                ("he's use to", "he's used to"),
+                ("she's use to", "she's used to"),
+                ("it's use to", "it's used to"),
+                // "get" forms + "use to" -> "used to" (becoming accustomed)
+                ("getting use to", "getting used to"),
+                ("get use to", "get used to"),
+                ("got use to", "got used to"),
+            ],
+            "The correct form is `used to`, not `use to`.",
+            "Corrects `use to` to `used to` when meaning accustomed to (after forms of `be` or `get`).",
+            LintKind::Grammar
+        ),
         "WreakHavoc" => (
             &[
                 ("wreck havoc", "wreak havoc"),
