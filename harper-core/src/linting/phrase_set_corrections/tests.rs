@@ -2160,6 +2160,46 @@ fn copywrote() {
     );
 }
 
+// DateBackFrom
+
+#[test]
+fn corrects_date_back_from() {
+    assert_good_and_bad_suggestions(
+        "There are too many open issues that date back from 4 years ago.",
+        lint_group(),
+        &[
+            "There are too many open issues that date from 4 years ago.",
+            "There are too many open issues that date back to 4 years ago.",
+        ],
+        &[],
+    );
+}
+
+#[test]
+fn corrects_dates_back_from() {
+    assert_good_and_bad_suggestions(
+        "This code dates back from 2014.",
+        lint_group(),
+        &[
+            "This code dates from 2014.",
+            "This code dates back to 2014.",
+        ],
+        &[],
+    );
+}
+
+#[test]
+fn allows_date_back_to() {
+    assert_no_lints(
+        "These scripts date back to when Perl was popular.",
+        lint_group(),
+    );
+}
+
+// Note: "the date back from" and "get dates back from" are known false
+// positives where "date" is a noun (retrieving data). Phrase set matching
+// cannot distinguish these from the verb form. See issue #2864.
+
 // DoubleEdgedSword
 
 #[test]
