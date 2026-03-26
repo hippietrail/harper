@@ -48,10 +48,7 @@ impl Default for IsThereAgreement {
                         // singular nouns that are also something else
                         FirstMatchOf::new(vec![
                             Box::new(|t: &Token, s: &[char]| {
-                                t.kind.is_adjective()
-                                    || t.span
-                                        .get_content(s)
-                                        .eq_ignore_ascii_case_chars(&['n', 'o'])
+                                t.kind.is_adjective() || t.get_ch(s).eq_ch(&['n', 'o'])
                             }),
                             // "two" etc. are sg. nouns even though they can also be plural quantifiers
                             Box::new(SpelledNumberExpr),
@@ -66,10 +63,7 @@ impl Default for IsThereAgreement {
 fn is_singular_noun(token: &Token, src: &[char]) -> bool {
     token.kind.is_singular_noun()
         && !token.kind.is_verb_progressive_form()
-        && !token
-            .span
-            .get_content(src)
-            .eq_ignore_ascii_case_chars(&['i', 'n'])
+        && !token.get_ch(src).eq_ch(&['i', 'n'])
 }
 
 impl ExprLinter for IsThereAgreement {
@@ -92,7 +86,7 @@ impl ExprLinter for IsThereAgreement {
         eprintln!("🤢 {}", format_lint_match(toks, ctx, src));
 
         let there_idx = find_the_only_token_idx_matching(&toks[0..=2], src, |t, s| {
-            t.span.get_content(s).eq_ignore_ascii_case_str("there")
+            t.get_ch(s).eq_str("there")
         })?;
         // TODO does not handle "there's" case
         let be_idx = 2 - there_idx;

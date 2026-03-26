@@ -128,8 +128,8 @@
 # NSg/P . NSg/J/R . ISg+ NPl/V3 . NSg/Dq/P . .
 > The electricity was  cut       off        , so          we   had to read    by    candlelight .
 # D+  Nᴹ+         VLPt NSg/VBP/J NSg/VB/J/P . NSg/I/J/R/C IPl+ VP  P  NSg/VBP NSg/P Nᴹ          .
-> By    the power      vested in        me       , I       now       pronounce you    man      and  wife      .
-# NSg/P D+  N🅪Sg/VB/J+ VP/J   NPr/J/R/P NPr/ISg+ . ISg/#r+ NSg/J/R/C NSg/VB    ISgPl+ NPr/VB/J VB/C NSg/VB/J+ .
+> By    the power      vested in        me       , I       now       pronounce you    man    and  wife      .
+# NSg/P D+  N🅪Sg/VB/J+ VP/J   NPr/J/R/P NPr/ISg+ . ISg/#r+ NSg/J/R/C NSg/VB    ISgPl+ NPr/VB VB/C NSg/VB/J+ .
 > By    Jove ! I       think  she's got it       !
 # NSg/P NPr+ . ISg/#r+ NSg/VB K     VP  NPr/ISg+ .
 > By    all           that      is  holy    , I'll put     an  end     to this    .
@@ -462,8 +462,8 @@
 # HeadingStart NSg/VB+
 >
 #
-> Suddenly a    strange   man       walked in        .
-# R        D/P+ NSg/VB/J+ NPr/VB/J+ VP/J   NPr/J/R/P .
+> Suddenly a    strange   man     walked in        .
+# R        D/P+ NSg/VB/J+ NPr/VB+ VP/J   NPr/J/R/P .
 > Would you    like         that      to take   away or    eat in        ?
 # VXB   ISgPl+ NSg/VB/J/C/P I/C/Ddem+ P  NSg/VB VB/J NPr/C VB  NPr/J/R/P .
 > He       ran     to the edge   of the swimming pool    and  dived in        .

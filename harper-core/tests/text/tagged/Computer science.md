@@ -248,8 +248,8 @@
 # NPr/J/R/P D   NSg/J/R NPl  P  Nᴹ/Vg/J+  . D/P N🅪Sg/VB/JC P  NPl/V3+ R/C/P D   NPl           P  D
 > field  of computing were     suggested ( albeit facetiously ) in        the Communications of
 # NSg/VB P  Nᴹ/Vg/J+  NSg/VLPt VP/J      . C      R           . NPr/J/R/P D   NPl            P
-> the ACM — turingineer , turologist , flow    - charts  - man       , applied meta  - mathematician ,
-# D   NSg . ?           . ?          . NSg/VB+ . NPl/V3+ . NPr/VB/J+ . VP/J    NSg/J . NSg+          .
+> the ACM — turingineer , turologist , flow    - charts  - man     , applied meta  - mathematician ,
+# D   NSg . ?           . ?          . NSg/VB+ . NPl/V3+ . NPr/VB+ . VP/J    NSg/J . NSg+          .
 > and  applied epistemologist . Three months later in        the same journal   , comptologist
 # VB/C VP/J    NSg            . NSg+  NPl+   JC    NPr/J/R/P D+  I/J+ NSg/VB/J+ . ?
 > was  suggested , followed next    year by    hypologist . The term      computics has also

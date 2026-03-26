@@ -1742,8 +1742,8 @@
 # NPr+  VP/J   ISg/D$+ NPl/V3+ . VB/C VPt   . .
 >
 #
-> “ You    are old   , Father  William , ” the young     man       said , “ And  your hair     has become
-# . ISgPl+ VLB NSg/J . NPr/VB+ NPr+    . . D+  NPr/VB/J+ NPr/VB/J+ VP/J . . VB/C D$+  N🅪Sg/VB+ V3  VBPp
+> “ You    are old   , Father  William , ” the young     man     said , “ And  your hair     has become
+# . ISgPl+ VLB NSg/J . NPr/VB+ NPr+    . . D+  NPr/VB/J+ NPr/VB+ VP/J . . VB/C D$+  N🅪Sg/VB+ V3  VBPp
 > very white       ; And  yet      you    incessantly stand  on  your head      — Do  you    think  , at    your
 # J/R  NPr🅪Sg/VB/J . VB/C NSg/VB/C ISgPl+ R           NSg/VB J/P D$+  NPr/VB/J+ . VXB ISgPl+ NSg/VB . NSg/P D$+
 > age      , it       is  right    ? ”
@@ -5276,8 +5276,8 @@
 # I/C     K      J       NPr/C NSg/R/C . .
 >
 #
-> “ I’m a    poor     man       , your Majesty , ” the Hatter began , in        a   trembling voice   , “ — and  I
-# . K   D/P+ NSg/VB/J NPr/VB/J+ . D$+  N🅪Sg/I+ . . D   NSg/VB VPt   . NPr/J/R/P D/P Nᴹ/Vg/J   NSg/VB+ . . . VB/C ISg/#r+
+> “ I’m a    poor     man     , your Majesty , ” the Hatter began , in        a   trembling voice   , “ — and  I
+# . K   D/P+ NSg/VB/J NPr/VB+ . D$+  N🅪Sg/I+ . . D   NSg/VB VPt   . NPr/J/R/P D/P Nᴹ/Vg/J   NSg/VB+ . . . VB/C ISg/#r+
 > hadn’t begun my  tea      — not     above   a   week   or    so          — and  what   with the bread    - and  - butter
 # VPt    VPp   D$+ N🅪Sg/VB+ . NSg/R/C NSg/J/P D/P NSg/J+ NPr/C NSg/I/J/R/C . VB/C NSg/I+ P    D   N🅪Sg/VB+ . VB/C . NSg/VB+
 > getting so          thin     — and  the twinkling of the tea      — ”
@@ -5298,8 +5298,8 @@
 # R/C/P D/P NSg   . NSg/VB/J J/P . .
 >
 #
-> “ I’m a    poor     man       , ” the Hatter went    on  , “ and  most         things twinkled after that      — only
-# . K   D/P+ NSg/VB/J NPr/VB/J+ . . D   NSg/VB NSg/VPt J/P . . VB/C NSg/I/J/R/Dq NPl+   VP/J     P     I/C/Ddem+ . J/R/C
+> “ I’m a    poor     man     , ” the Hatter went    on  , “ and  most         things twinkled after that      — only
+# . K   D/P+ NSg/VB/J NPr/VB+ . . D   NSg/VB NSg/VPt J/P . . VB/C NSg/I/J/R/Dq NPl+   VP/J     P     I/C/Ddem+ . J/R/C
 > the March   Hare      said — ”
 # D   NPr/VB+ NSg/VB/J+ VP/J . .
 >
@@ -5346,8 +5346,8 @@
 #
 > The miserable Hatter dropped his     teacup and  bread    - and  - butter  , and  went    down        on
 # D   J         NSg/VB VP/J    ISg/D$+ NSg/J  VB/C N🅪Sg/VB+ . VB/C . NSg/VB+ . VB/C NSg/VPt N🅪Sg/VB/J/P J/P
-> one     knee    . “ I’m a    poor     man       , your Majesty , ” he       began .
-# NSg/I/J NSg/VB+ . . K   D/P+ NSg/VB/J NPr/VB/J+ . D$+  N🅪Sg/I+ . . NPr/ISg+ VPt   .
+> one     knee    . “ I’m a    poor     man     , your Majesty , ” he       began .
+# NSg/I/J NSg/VB+ . . K   D/P+ NSg/VB/J NPr/VB+ . D$+  N🅪Sg/I+ . . NPr/ISg+ VPt   .
 >
 #
 > “ You’re a   very poor     speaker , ” said the King      .
@@ -5698,8 +5698,8 @@
 # . NSg/C ISgPl+ VXPt   NSg/VB+ NPr/ISg+ . . VP/J D   NPr/VB/J+ . . I/C/Ddem+ J/R/C NPl/V3 D   N🅪Sg/VB+ NSg/VB/JC . ISgPl+
 > must    have    meant some      mischief , or    else    you’d have    signed your name    like         an
 # NSg/VXB NSg/VXB VP    I/J/R/Dq+ NSg/VB+  . NPr/C NSg/J/C K     NSg/VXB VP/J   D$+  NSg/VB+ NSg/VB/J/C/P D/P
-> honest man       . ”
-# VB/JS  NPr/VB/J+ . .
+> honest man     . ”
+# VB/JS  NPr/VB+ . .
 >
 #
 > There was  a   general  clapping of hands   at    this    : it       was  the first really clever
