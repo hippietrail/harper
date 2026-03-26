@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use crate::{FatToken, Span, TokenKind};
+use crate::{CharSlice, FatToken, Span, TokenKind};
 
 /// Represents a semantic, parsed component of a [`Document`](crate::Document).
 #[derive(Debug, Clone, Serialize, Deserialize, PartialEq, Default)]
@@ -14,6 +14,11 @@ pub struct Token {
 impl Token {
     pub fn new(span: Span<char>, kind: TokenKind) -> Self {
         Self { span, kind }
+    }
+
+    /// Get the token's content as a `CharSlice`.
+    pub fn get<'a>(&self, source: &'a [char]) -> CharSlice<'a> {
+        CharSlice::new(self.get_ch(source))
     }
 
     /// Get the token's content as a slice of characters.

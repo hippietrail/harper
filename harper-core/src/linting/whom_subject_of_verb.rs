@@ -1,5 +1,5 @@
 use crate::{
-    CharStringExt, Lint, Token,
+    Lint, Token,
     expr::{Expr, SequenceExpr},
     linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
     patterns::ModalVerb,
@@ -45,9 +45,9 @@ impl ExprLinter for WhomSubjectOfVerb {
         if let Some((before, _)) = ctx
             && let [.., word, ws1, prep, ws2] = before
             && ws2.kind.is_whitespace()
-            && prep.get_ch(src).eq_ch(&['o', 'f'])
+            && prep.get(src) == ['o', 'f']
             && ws1.kind.is_whitespace()
-            && word.get_ch(src).eq_str("many")
+            && word.get(src) == "many"
         {
             return None;
         }

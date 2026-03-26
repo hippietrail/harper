@@ -3,6 +3,7 @@
 
 mod case;
 mod char_ext;
+mod char_slice;
 mod char_string;
 mod currency;
 mod dict_word_metadata;
@@ -41,6 +42,7 @@ use render_markdown::render_markdown;
 use std::collections::{BTreeMap, VecDeque};
 
 pub use case::{Case, CaseIterExt};
+pub use char_slice::CharSlice;
 pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use dict_word_metadata::{
