@@ -101,6 +101,13 @@ impl CharStringExt for [char] {
     }
 
     fn eq_str(&self, other: &str) -> bool {
+        debug_assert!(
+            other
+                .chars()
+                .all(|c| !c.is_ascii_alphabetic() || c.is_ascii_lowercase()),
+            "Right-hand side string contains non-lowercase ASCII characters"
+        );
+
         let chit = self.iter();
         let strit = other.chars();
 
@@ -108,6 +115,13 @@ impl CharStringExt for [char] {
     }
 
     fn eq_ch(&self, other: &[char]) -> bool {
+        debug_assert!(
+            other
+                .iter()
+                .all(|c| !c.is_ascii_alphabetic() || c.is_ascii_lowercase()),
+            "Right-hand side character slice contains non-lowercase ASCII characters"
+        );
+
         self.iter()
             .map(char::to_ascii_lowercase)
             .eq(other.iter().copied())
@@ -122,6 +136,13 @@ impl CharStringExt for [char] {
     }
 
     fn starts_with_ignore_ascii_case_str(&self, prefix: &str) -> bool {
+        debug_assert!(
+            prefix
+                .chars()
+                .all(|c| !c.is_ascii_alphabetic() || c.is_ascii_lowercase()),
+            "Right-hand side string contains non-lowercase ASCII characters"
+        );
+
         let prefix_len = prefix.chars().count();
         if self.len() < prefix_len {
             return false;
@@ -240,5 +261,16 @@ mod tests {
     #[test]
     fn differs_only_by_length_2() {
         assert!(!['c'].eq_str("cc"));
+    }
+
+    #[test]
+    #[should_panic(expected = "Right-hand side string contains non-lowercase ASCII characters")]
+    fn debug_asserts_non_lowercase_string() {
+        ['h', 'e', 'l', 'l', 'o'].eq_str("World"); // Contains uppercase 'W'
+    }
+
+    #[test]
+    fn debug_asserts_allows_lowercase_string() {
+        assert!(['h', 'e', 'l', 'l', 'o'].eq_str("hello")); // All lowercase - should not panic
     }
 }

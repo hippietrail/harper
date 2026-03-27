@@ -15,6 +15,13 @@ impl<'a> CaseInsensitiveCharSlice<'a> {
 /// Only normalizes the left side to lowercase and avoids allocations.
 impl PartialEq<&[char]> for CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &&[char]) -> bool {
+        debug_assert!(
+            other
+                .iter()
+                .all(|c| !c.is_ascii_alphabetic() || c.is_ascii_lowercase()),
+            "Right-hand side character slice contains non-lowercase ASCII characters"
+        );
+
         self.0
             .iter()
             .map(char::to_ascii_lowercase)
@@ -42,6 +49,13 @@ impl<const N: usize> PartialEq<[char; N]> for CaseInsensitiveCharSlice<'_> {
 /// Only normalizes the left side to lowercase and avoids allocations.
 impl PartialEq<&str> for CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &&str) -> bool {
+        debug_assert!(
+            other
+                .chars()
+                .all(|c| !c.is_ascii_alphabetic() || c.is_ascii_lowercase()),
+            "Right-hand side string contains non-lowercase ASCII characters"
+        );
+
         let chit = self.0.iter();
         let strit = other.chars();
 
@@ -67,6 +81,13 @@ impl PartialEq<str> for &CaseInsensitiveCharSlice<'_> {
 /// Only normalizes the left side to lowercase and avoids allocations.
 impl PartialEq<&[char]> for &CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &&[char]) -> bool {
+        debug_assert!(
+            other
+                .iter()
+                .all(|c| !c.is_ascii_alphabetic() || c.is_ascii_lowercase()),
+            "Right-hand side character slice contains non-lowercase ASCII characters"
+        );
+
         **self == *other
     }
 }
@@ -76,5 +97,23 @@ impl PartialEq<&[char]> for &CaseInsensitiveCharSlice<'_> {
 impl<const N: usize> PartialEq<[char; N]> for &CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &[char; N]) -> bool {
         **self == &other[..]
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    #[should_panic(expected = "Right-hand side string contains non-lowercase ASCII characters")]
+    fn debug_asserts_non_lowercase_string() {
+        let slice = CaseInsensitiveCharSlice::new(&['h', 'e', 'l', 'l', 'o']);
+        let _ = slice == "World"; // Contains uppercase 'W'
+    }
+
+    #[test]
+    fn debug_asserts_allows_lowercase_string() {
+        let slice = CaseInsensitiveCharSlice::new(&['h', 'e', 'l', 'l', 'o']);
+        assert!(slice == "hello"); // All lowercase - should not panic
     }
 }
