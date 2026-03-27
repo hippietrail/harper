@@ -42,7 +42,6 @@ use render_markdown::render_markdown;
 use std::collections::{BTreeMap, VecDeque};
 
 pub use case::{Case, CaseIterExt};
-pub use char_slice::CharSlice;
 pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use dict_word_metadata::{

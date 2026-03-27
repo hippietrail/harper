@@ -1,8 +1,8 @@
-pub struct CharSlice<'a>(&'a [char]);
+pub struct CaseInsensitiveCharSlice<'a>(&'a [char]);
 
-impl<'a> CharSlice<'a> {
+impl<'a> CaseInsensitiveCharSlice<'a> {
     pub fn new(slice: &'a [char]) -> Self {
-        CharSlice(slice)
+        CaseInsensitiveCharSlice(slice)
     }
 
     /// Get the underlying character slice.
@@ -13,20 +13,18 @@ impl<'a> CharSlice<'a> {
 
 /// Case-insensitive comparison with a character slice, assuming the right-hand side is lowercase ASCII.
 /// Only normalizes the left side to lowercase and avoids allocations.
-impl PartialEq<&[char]> for CharSlice<'_> {
+impl PartialEq<&[char]> for CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &&[char]) -> bool {
-        self.0.len() == other.len()
-            && self
-                .0
-                .iter()
-                .zip(other.iter())
-                .all(|(a, b)| a.to_ascii_lowercase() == *b)
+        self.0
+            .iter()
+            .map(char::to_ascii_lowercase)
+            .eq(other.iter().copied())
     }
 }
 
 /// Case-insensitive comparison with a character array, assuming the right-hand side is lowercase ASCII.
 /// Only normalizes the left side to lowercase and avoids allocations.
-impl<const N: usize> PartialEq<&[char; N]> for CharSlice<'_> {
+impl<const N: usize> PartialEq<&[char; N]> for CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &&[char; N]) -> bool {
         *self == &other[..]
     }
@@ -34,7 +32,7 @@ impl<const N: usize> PartialEq<&[char; N]> for CharSlice<'_> {
 
 /// Case-insensitive comparison with a character array, assuming the right-hand side is lowercase ASCII.
 /// Only normalizes the left side to lowercase and avoids allocations.
-impl<const N: usize> PartialEq<[char; N]> for CharSlice<'_> {
+impl<const N: usize> PartialEq<[char; N]> for CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &[char; N]) -> bool {
         *self == &other[..]
     }
@@ -42,35 +40,24 @@ impl<const N: usize> PartialEq<[char; N]> for CharSlice<'_> {
 
 /// Case-insensitive comparison with a string slice, assuming the right-hand side is lowercase ASCII.
 /// Only normalizes the left side to lowercase and avoids allocations.
-impl PartialEq<&str> for CharSlice<'_> {
+impl PartialEq<&str> for CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &&str) -> bool {
-        let mut chit = self.0.iter();
-        let mut strit = other.chars();
+        let chit = self.0.iter();
+        let strit = other.chars();
 
-        loop {
-            let (c, s) = (chit.next(), strit.next());
-            match (c, s) {
-                (Some(c), Some(s)) => {
-                    if c.to_ascii_lowercase() != s {
-                        return false;
-                    }
-                }
-                (None, None) => return true,
-                _ => return false,
-            }
-        }
+        chit.map(char::to_ascii_lowercase).eq(strit)
     }
 }
 
 // TODO I can't get this one to work.
 // TODO It would be used in `harper-core/src/linting/plural_wrong_word_of_phrase.rs`
-// impl PartialEq<String> for CharSlice<'_> {
+// impl PartialEq<String> for CaseInsensitiveCharSlice<'_> {
 //     fn eq(&self, other: &String) -> bool {
 //         self == other.as_str()
 //     }
 // }
 
-impl PartialEq<str> for &CharSlice<'_> {
+impl PartialEq<str> for &CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &str) -> bool {
         **self == other
     }
@@ -78,7 +65,7 @@ impl PartialEq<str> for &CharSlice<'_> {
 
 /// Case-insensitive comparison with a character slice, assuming the right-hand side is lowercase ASCII.
 /// Only normalizes the left side to lowercase and avoids allocations.
-impl PartialEq<&[char]> for &CharSlice<'_> {
+impl PartialEq<&[char]> for &CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &&[char]) -> bool {
         **self == *other
     }
@@ -86,7 +73,7 @@ impl PartialEq<&[char]> for &CharSlice<'_> {
 
 /// Case-insensitive comparison with a character array, assuming the right-hand side is lowercase ASCII.
 /// Only normalizes the left side to lowercase and avoids allocations.
-impl<const N: usize> PartialEq<[char; N]> for &CharSlice<'_> {
+impl<const N: usize> PartialEq<[char; N]> for &CaseInsensitiveCharSlice<'_> {
     fn eq(&self, other: &[char; N]) -> bool {
         **self == &other[..]
     }

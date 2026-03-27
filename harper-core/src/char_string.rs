@@ -101,29 +101,16 @@ impl CharStringExt for [char] {
     }
 
     fn eq_str(&self, other: &str) -> bool {
-        let mut chit = self.iter();
-        let mut strit = other.chars();
+        let chit = self.iter();
+        let strit = other.chars();
 
-        loop {
-            let (c, s) = (chit.next(), strit.next());
-            match (c, s) {
-                (Some(c), Some(s)) => {
-                    if c.to_ascii_lowercase() != s {
-                        return false;
-                    }
-                }
-                (None, None) => return true,
-                _ => return false,
-            }
-        }
+        chit.map(char::to_ascii_lowercase).eq(strit)
     }
 
     fn eq_ch(&self, other: &[char]) -> bool {
-        self.len() == other.len()
-            && self
-                .iter()
-                .zip(other.iter())
-                .all(|(a, b)| a.to_ascii_lowercase() == *b)
+        self.iter()
+            .map(char::to_ascii_lowercase)
+            .eq(other.iter().copied())
     }
 
     fn eq_any_ignore_ascii_case_str(&self, others: &[&str]) -> bool {
