@@ -102,7 +102,6 @@ use super::if_wouldve::IfWouldve;
 use super::in_on_the_cards::InOnTheCards;
 use super::inflected_verb_after_to::InflectedVerbAfterTo;
 use super::interested_in::InterestedIn;
-use super::is_there_agreement::IsThereAgreement;
 use super::it_looks_like_that::ItLooksLikeThat;
 use super::its_contraction::ItsContraction;
 use super::its_possessive::ItsPossessive;
@@ -213,6 +212,7 @@ use super::the_my::TheMy;
 use super::the_point_for::ThePointFor;
 use super::the_proper_noun_possessive::TheProperNounPossessive;
 use super::then_than::ThenThan;
+use super::there_is_agreement::ThereIsAgreement;
 use super::theres::Theres;
 use super::theses_these::ThesesThese;
 use super::theyre_confusions::TheyreConfusions;
@@ -845,10 +845,6 @@ impl LintGroup {
         out.config.set_rule_enabled("Damages", true);
 
         // Uses Sentence rather than Chunk
-        out.add("IsThereAgreement", IsThereAgreement::default());
-        out.config.set_rule_enabled("IsThereAgreement", true);
-
-        // Uses Sentence rather than Chunk
         out.add(
             "MultipleFrequencyAdverbs",
             MultipleFrequencyAdverbs::default(),
@@ -863,6 +859,10 @@ impl LintGroup {
         // Uses Dictionary and Dialect
         out.add("SpellCheck", SpellCheck::new(dictionary.clone(), dialect));
         out.config.set_rule_enabled("SpellCheck", true);
+
+        // Uses Sentence rather than Chunk
+        out.add("ThereIsAgreement", ThereIsAgreement::default());
+        out.config.set_rule_enabled("ThereIsAgreement", true);
 
         out
     }

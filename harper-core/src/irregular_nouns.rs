@@ -72,6 +72,13 @@ impl IrregularNouns {
             .find(|(_, pl)| pl.eq_ignore_ascii_case(plural))
             .map(|(sg, _)| sg.as_str())
     }
+
+    pub fn get_singular_for_plural_chars(&self, plural: &[char]) -> Option<&str> {
+        self.nouns
+            .iter()
+            .find(|(_, pl)| plural.eq_str(pl))
+            .map(|(sg, _)| sg.as_str())
+    }
 }
 
 impl Default for IrregularNouns {

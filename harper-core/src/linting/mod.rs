@@ -100,7 +100,6 @@ mod inflected_verb_after_to;
 mod initialism_linter;
 mod initialisms;
 mod interested_in;
-mod is_there_agreement;
 mod it_is;
 mod it_looks_like_that;
 mod it_would_be;
@@ -224,6 +223,7 @@ mod the_my;
 mod the_point_for;
 mod the_proper_noun_possessive;
 mod then_than;
+mod there_is_agreement;
 mod theres;
 mod theses_these;
 mod theyre_confusions;
@@ -737,6 +737,8 @@ pub mod tests {
                 let mut text_chars: Vec<char> = text.chars().collect();
                 suggestion.apply(lint.span, &mut text_chars);
                 let suggestion_text: String = text_chars.into_iter().collect();
+
+                eprintln!("🔎 Suggestion: \"{suggestion_text}\"");
 
                 // Check for bad suggestions
                 if bad.contains(&&*suggestion_text) {
