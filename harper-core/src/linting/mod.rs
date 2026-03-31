@@ -740,8 +740,6 @@ pub mod tests {
                 suggestion.apply(lint.span, &mut text_chars);
                 let suggestion_text: String = text_chars.into_iter().collect();
 
-                eprintln!("🔎 Suggestion: \"{suggestion_text}\"");
-
                 // Check for bad suggestions
                 if bad.contains(&&*suggestion_text) {
                     found_bad.push((i, j, suggestion_text.clone()));
