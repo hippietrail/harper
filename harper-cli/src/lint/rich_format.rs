@@ -270,12 +270,14 @@ pub fn build_rich_report(
             report_builder = report_builder.with_label(
                 Label::new((input_identifier, lint.span.into()))
                     .with_message({
-                        let suggestions: Vec<String> = lint.suggestions.iter().map(|s| format!("{s}")).collect();
+                        let suggestions: Vec<String> =
+                            lint.suggestions.iter().map(|s| format!("{s}")).collect();
                         let suggestion_text = format_suggestions(&suggestions, (r, g, b));
-                        
+
                         format!(
                             "{} {}: {}{}",
-                            format_args!("[{}::{}]", lint.lint_kind, rule_name).fg(Color::Rgb(r, g, b)),
+                            format_args!("[{}::{}]", lint.lint_kind, rule_name)
+                                .fg(Color::Rgb(r, g, b)),
                             format_args!("(pri {})", lint.priority).fg(dim_color(r, g, b, 0.66)),
                             lint.message,
                             suggestion_text
