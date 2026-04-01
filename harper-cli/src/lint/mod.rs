@@ -81,13 +81,13 @@ pub enum OutputFormat {
     /// Rich output with source context (Ariadne reports).
     #[default]
     #[clap(name = "rich")]
-    RichFormat,
+    Rich,
     /// Structured JSON output.
     #[clap(name = "json")]
-    JsonFormat,
+    Json,
     /// One line per lint, no source context.
     #[clap(name = "compact")]
-    CompactFormat,
+    Compact,
 }
 
 pub struct LintOptions {
@@ -260,10 +260,10 @@ pub fn lint(
 
     // Derive the report style from --format and --count
     let report_mode = match (lint_options.format, count) {
-        (OutputFormat::JsonFormat, _) => ReportStyle::Json,
-        (OutputFormat::CompactFormat, _) => ReportStyle::Compact,
-        (OutputFormat::RichFormat, true) => ReportStyle::BriefCountsOnly,
-        (OutputFormat::RichFormat, false) => ReportStyle::RichStyle,
+        (OutputFormat::Json, _) => ReportStyle::Json,
+        (OutputFormat::Compact, _) => ReportStyle::Compact,
+        (OutputFormat::Rich, true) => ReportStyle::BriefCountsOnly,
+        (OutputFormat::Rich, false) => ReportStyle::RichStyle,
     };
 
     let mut input_jobs = Vec::new();
