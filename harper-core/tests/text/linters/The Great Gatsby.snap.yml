@@ -4664,6 +4664,15 @@ Suggest:
 
 
 
+Lint:    WordChoice (127 priority)
+Message: |
+    3349 | But the rest offended her—and inarguably, because it wasn’t a gesture but an
+         |                               ^~~~~~~~~~ Could this be the negative word you intended?
+Suggest:
+  - Replace with: “unarguably”
+
+
+
 Lint:    Readability (127 priority)
 Message: |
     3350 | emotion. She was appalled by West Egg, this unprecedented “place” that Broadway
@@ -4773,6 +4782,17 @@ Message: |
 Suggest:
   - Replace with: “incommunicable”
   - Replace with: “communicable”
+  - Replace with: “noncommunicable”
+
+
+
+Lint:    WordChoice (127 priority)
+Message: |
+    3490 | them than a wisp of startled air. But they made no sound, and what I had almost
+    3491 | remembered was uncommunicable forever.
+         |                ^~~~~~~~~~~~~~ Could one of these be the negative word you intended?
+Suggest:
+  - Replace with: “incommunicable”
   - Replace with: “noncommunicable”
 
 
