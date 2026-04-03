@@ -862,9 +862,11 @@ impl LintGroup {
         // `SpellCheck` and `SpellCheckWithUsernames` are mutually exclusive
         // `SpellCheckWithUsernames` is disabled by default
 
+        // Uses Dictionary and Dialect
         out.add("SpellCheck", SpellCheck::new(dictionary.clone(), dialect));
         out.config.set_rule_enabled("SpellCheck", true);
 
+        // Uses Dictionary and Dialect
         out.add(
             "SpellCheckWithUsernames",
             SpellCheckWithUsernames::new(dictionary.clone(), dialect),
