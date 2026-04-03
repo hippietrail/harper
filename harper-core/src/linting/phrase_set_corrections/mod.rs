@@ -61,6 +61,27 @@ pub fn lint_group() -> LintGroup {
             "Corrects `adieu` to `ado`.",
             LintKind::Eggcorn
         ),
+        "Bollocks" => (
+            &[
+                ("bullocks!", "bollocks!"),
+                ("complete bullocks", "complete bollocks"),
+                ("dogs bullocks", "dogs bollocks"),
+                ("dog's bullocks", "dog's bollocks"),
+                ("is bullocks", "is bollocks"),
+                ("it's bullocks", "it's bollocks"),
+                ("its bullocks", "its bollocks"),
+                ("such bullocks", "such bollocks"),
+                ("that's bullocks", "that's bollocks"),
+                ("thats bullocks", "thats bollocks"),
+                ("total bullocks", "total bollocks"),
+                ("utter bullocks", "utter bollocks"),
+                ("was bullocks", "was bollocks"),
+                ("what bullocks", "what bollocks"),
+            ],
+            "The slang word for `nonsense` is `bollocks`. `Bullocks` are male cattle.",
+            "Corrects `bullocks` to `bollocks` when the meaning is `nonsense`.",
+            LintKind::Spelling
+        ),
         "ChampAtTheBit" => (
             &[
                 ("chomp at the bit", "champ at the bit"),
@@ -80,6 +101,17 @@ pub fn lint_group() -> LintGroup {
             "`Client-side` and `server-side` do not use an apostrophe.",
             "Corrects extraneous apostrophe in `client's side` and `server's side`.",
             LintKind::Punctuation
+        ),
+        "CompulseToCompel" => (
+            &[
+                ("compulse", "compel"),
+                ("compulsed", "compelled"),
+                ("compulses", "compels"),
+                ("compulsing", "compelling"),
+            ],
+            "Did you mean `compel` rather than the obsolete or archaic (and non-standard) `compulse`?",
+            "Suggests replacing the obsolete or archaic verb `compulse` with the standard `compel`.",
+            LintKind::Nonstandard
         ),
         "ConfirmThat" => (
             &[
@@ -221,6 +253,30 @@ pub fn lint_group() -> LintGroup {
             // ConfusedPair??
             LintKind::WordChoice
         ),
+        "FlauntForFlout" => (
+            &[
+                ("flaunt the rules", "flout the rules"),
+                ("flaunts the rules", "flouts the rules"),
+                ("flaunted the rules", "flouted the rules"),
+                ("flaunting the rules", "flouting the rules"),
+                ("flaunt the law", "flout the law"),
+                ("flaunts the law", "flouts the law"),
+                ("flaunted the law", "flouted the law"),
+                ("flaunting the law", "flouting the law"),
+                ("flaunt the regulations", "flout the regulations"),
+                ("flaunt authority", "flout authority"),
+                ("flaunts authority", "flouts authority"),
+                ("flaunted authority", "flouted authority"),
+                ("flaunting authority", "flouting authority"),
+                ("flaunt convention", "flout convention"),
+                ("flaunts convention", "flouts convention"),
+                ("flaunted convention", "flouted convention"),
+                ("flaunting convention", "flouting convention"),
+            ],
+            "`Flaunt` means to show off. Use `flout` when you mean to openly disregard rules or conventions.",
+            "Corrects `flaunt` to `flout` when used with rule-like nouns.",
+            LintKind::WordChoice
+        ),
         "FoamAtTheMouth" => (
             &[
                 ("foam out the mouth", "foam at the mouth"),
@@ -255,6 +311,17 @@ pub fn lint_group() -> LintGroup {
             "Corrects `used of` to `used to`.",
             LintKind::Usage
         ),
+        "GrindToAHalt" => (
+            &[
+                ("grind to halt", "grind to a halt"),
+                ("grinding to halt", "grinding to a halt"),
+                ("grinds to halt", "grinds to a halt"),
+                ("ground to halt", "ground to a halt"),
+            ],
+            "You are missing the indefinite article `a` before `halt`.",
+            "Corrects the idiom `grind to halt` to the standard `grind to a halt`.",
+            LintKind::Nonstandard
+        ),
         "HavePassed" => (
             &[
                 ("had past", "had passed"),
@@ -266,6 +333,17 @@ pub fn lint_group() -> LintGroup {
             "Suggests `past` for `passed` in case a verb was intended.",
             // ConfusedPair?
             LintKind::WordChoice
+        ),
+        "HitTheNailOnTheHead" => (
+            &[
+                ("hit the nail in the head", "hit the nail on the head"),
+                ("hits the nail in the head", "hits the nail on the head"),
+                ("hitting the nail in the head", "hitting the nail on the head"),
+                ("hitted the nail in the head", "hitted the nail on the head")
+            ],
+            "The correct preposition in this idiom is `on`.",
+            "Corrects the eggcorn `hit the nail in the head` to the standard `hit the nail on the head`.",
+            LintKind::Eggcorn
         ),
         "HomeInOn" => (
             &[
@@ -492,6 +570,32 @@ pub fn lint_group() -> LintGroup {
             "Ensures proper use of the subjunctive mood in counterfactual conditional statements starting with `if only` or `I wish`.",
             LintKind::Grammar
         ),
+        "UseToUsedTo" => (
+            &[
+                // "be" verbs + "use to" -> "used to" (accustomed to)
+                ("am use to", "am used to"),
+                ("are use to", "are used to"),
+                ("is use to", "is used to"),
+                ("was use to", "was used to"),
+                ("were use to", "were used to"),
+                ("be use to", "be used to"),
+                // contractions of "be"
+                ("i'm use to", "i'm used to"),
+                ("we're use to", "we're used to"),
+                ("you're use to", "you're used to"),
+                ("they're use to", "they're used to"),
+                ("he's use to", "he's used to"),
+                ("she's use to", "she's used to"),
+                ("it's use to", "it's used to"),
+                // "get" forms + "use to" -> "used to" (becoming accustomed)
+                ("getting use to", "getting used to"),
+                ("get use to", "get used to"),
+                ("got use to", "got used to"),
+            ],
+            "The correct form is `used to`, not `use to`.",
+            "Corrects `use to` to `used to` when meaning accustomed to (after forms of `be` or `get`).",
+            LintKind::Grammar
+        ),
         "WreakHavoc" => (
             &[
                 ("wreck havoc", "wreak havoc"),
@@ -502,6 +606,22 @@ pub fn lint_group() -> LintGroup {
             "Did you mean `wreak havoc`?",
             "Corrects the eggcorn `wreck havoc` to `wreak havoc`, which is the proper term for causing chaos or destruction.",
             LintKind::Eggcorn
+        ),
+        "VerseAsVerb" => (
+            &[
+                ("verse against", "play against"),
+                ("versed against", "played against"),
+                ("versing against", "playing against"),
+                ("verses against", "plays against"),
+                ("verse me", "play me"),
+                ("verse him", "play him"),
+                ("verse her", "play her"),
+                ("verse them", "play them"),
+                ("verse you", "play you"),
+            ],
+            "`Verse` is not a verb meaning to compete. Use `play against` or `compete against` instead.",
+            "Corrects the nonstandard use of `verse` as a verb (from `versus`) to standard alternatives.",
+            LintKind::Nonstandard
         ),
         "WroteToRote" => (
             &[
@@ -532,6 +652,15 @@ pub fn lint_group() -> LintGroup {
             "Suggests using either `await` or `wait for` but not both, as they express the same meaning.",
             LintKind::Redundancy
         ),
+        "CommitmentTo" => (
+            &[
+                (&["commitment toward", "commitment towards"], &["commitment to"]),
+                (&["commitments toward", "commitments towards"], &["commitments to"]),
+            ],
+            "The correct preposition to use with `commitment` is `to`, not `toward` or `towards`.",
+            "Corrects `commitment toward/towards` to `commitment to`.",
+            LintKind::Usage
+        ),
         "Copyright" => (
             &[
                 (&["copywrite"], &["copyright"]),
@@ -542,6 +671,15 @@ pub fn lint_group() -> LintGroup {
             "Did you mean `copyright`? `Copywrite` means to write copy (advertising text), while `copyright` is the legal right to control use of creative works.",
             "Corrects `copywrite` to `copyright`. `Copywrite` refers to writing copy, while `copyright` is the legal right to creative works.",
             LintKind::WordChoice
+        ),
+        "DateBackFrom" => (
+            &[
+                (&["date back from"], &["date from", "date back to"]),
+                (&["dates back from"], &["dates from", "dates back to"]),
+            ],
+            "Use `date from` or `date back to`, not `date back from`.",
+            "Corrects the blend of `date from` and `date back to` into the nonstandard `date back from`.",
+            LintKind::Usage
         ),
         "DoubleEdgedSword" => (
             &[
