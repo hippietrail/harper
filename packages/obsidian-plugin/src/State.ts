@@ -1,9 +1,17 @@
 import type { Extension, StateField } from '@codemirror/state';
 import type { Lint, LintConfig, Linter, Suggestion } from 'harper.js';
-import { binaryInlined, type Dialect, LocalLinter, SuggestionKind, WorkerLinter } from 'harper.js';
+import { type Dialect, LocalLinter, SuggestionKind, WorkerLinter } from 'harper.js';
+import { slimBinaryInlined } from 'harper.js/slimBinaryInlined';
 import { minimatch } from 'minimatch';
 import type { MarkdownFileInfo, Workspace } from 'obsidian';
-import { linter } from './lint';
+import {
+	type CustomReplacements,
+	cloneCustomReplacements,
+	getCustomSuggestions,
+	normalizeCustomReplacements,
+} from './customSuggestions';
+import { type Action, linter } from './lint';
+import { lintKindClass } from './lintKindColor';
 
 export type Settings = {
 	ignoredLints?: string;
@@ -43,7 +51,7 @@ export default class State {
 		onExtensionChange: () => void,
 		_editorInfoField?: StateField<MarkdownFileInfo>,
 	) {
-		this.harper = new WorkerLinter({ binary: binaryInlined });
+		this.harper = new WorkerLinter({ binary: slimBinaryInlined });
 		this.delay = DEFAULT_DELAY;
 		this.saveData = saveDataCallback;
 		this.onExtensionChange = onExtensionChange;
@@ -76,10 +84,10 @@ export default class State {
 		) {
 			if (settings.useWebWorker) {
 				this.harper.dispose();
-				this.harper = new WorkerLinter({ binary: binaryInlined, dialect: settings.dialect });
+				this.harper = new WorkerLinter({ binary: slimBinaryInlined, dialect: settings.dialect });
 			} else {
 				this.harper.dispose();
-				this.harper = new LocalLinter({ binary: binaryInlined, dialect: settings.dialect });
+				this.harper = new LocalLinter({ binary: slimBinaryInlined, dialect: settings.dialect });
 			}
 		} else {
 			await this.harper.clearIgnoredLints();
@@ -213,6 +221,7 @@ export default class State {
 							to: span.end,
 							source: linterName,
 							severity: 'error',
+							markClass: lintKindClass(lint.lint_kind()),
 							title: lint.lint_kind_pretty(),
 							renderMessage: (_view) => {
 								const node = document.createElement('template');

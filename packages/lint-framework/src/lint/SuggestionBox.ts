@@ -1,6 +1,6 @@
 /** biome-ignore-all lint/complexity/useArrowFunction: It cannot be an arrow function for the logic to work. */
 import { type IconDefinition, icon } from '@fortawesome/fontawesome-svg-core';
-import { faBan, faGear } from '@fortawesome/free-solid-svg-icons';
+import { faSliders, faToggleOff } from '@fortawesome/free-solid-svg-icons';
 import { SuggestionKind } from 'harper.js';
 import type { VNode } from 'virtual-dom';
 import h from 'virtual-dom/h';
@@ -14,8 +14,8 @@ function iconSvg(definition: IconDefinition): string {
 	return icon(definition).html.join('');
 }
 
-const settingsIconSvg = iconSvg(faGear);
-const disableIconSvg = iconSvg(faBan);
+const settingsIconSvg = iconSvg(faSliders);
+const disableIconSvg = iconSvg(faToggleOff);
 
 let previouslyActiveElement: null | HTMLElement = null;
 
@@ -330,6 +330,9 @@ function styleTag(lintKind: LintKind) {
       width:18px;
       height:18px;
       display:block;
+      }
+      .harper-disable-btn{
+        transform: scaleX(-1);
       }
       .harper-controls{display:flex;align-items:center;gap:3px;}
       .harper-child-cont{
