@@ -8,10 +8,10 @@ let LINT_KIND_COLORS: Record<string, string> = {};
  * This should be called once at startup when harper.js is available.
  */
 export async function initializeLintKindColors(): Promise<void> {
-    // Access the wasm module directly
-    const wasm = await import('harper-wasm');
-    const colorJson = wasm.get_lint_kind_colors();
-    LINT_KIND_COLORS = JSON.parse(colorJson);
+	// Access the wasm module directly
+	const wasm = await import('harper-wasm');
+	const colorJson = wasm.get_lint_kind_colors();
+	LINT_KIND_COLORS = JSON.parse(colorJson);
 }
 
 // Export the type for the lint kind keys
@@ -24,7 +24,9 @@ export const LINT_KINDS = Object.keys(LINT_KIND_COLORS) as LintKind[];
 export function lintKindColor(lintKindKey: string): string {
 	const color = LINT_KIND_COLORS[lintKindKey];
 	if (!color) {
-		throw new Error(`Unexpected lint kind: ${lintKindKey}. Colors not initialized. Call initializeLintKindColors() first.`);
+		throw new Error(
+			`Unexpected lint kind: ${lintKindKey}. Colors not initialized. Call initializeLintKindColors() first.`,
+		);
 	}
 	return color;
 }

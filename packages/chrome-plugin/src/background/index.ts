@@ -5,7 +5,7 @@ import {
 	LocalLinter,
 	unpackWeirpackBytes,
 } from 'harper.js';
-import { type UnpackedLintGroups, unpackLint, initializeLintKindColors } from 'lint-framework';
+import { initializeLintKindColors, type UnpackedLintGroups, unpackLint } from 'lint-framework';
 import type { PopupState } from '../PopupState';
 import {
 	ActivationKey,
