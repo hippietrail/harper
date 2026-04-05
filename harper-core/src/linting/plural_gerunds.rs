@@ -1,7 +1,7 @@
 use crate::{
     CharStringExt, Lint, Token, TokenStringExt,
     expr::Expr,
-    linting::{ExprLinter, LintKind, expr_linter::Chunk},
+    linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
     patterns::DictionaryToken,
     spell::Dictionary,
 };
@@ -44,14 +44,56 @@ impl<D: Dictionary + Clone + 'static> ExprLinter for PluralGerunds<D> {
             let plural_gerund = token.get_ch(src);
             let singular = &plural_gerund[..plural_gerund.len() - 1];
 
+            let (seen_as, replacements) = if plural_gerund.eq_str("campings") {
+                (Some("Euro-English"), &["campgrounds", "campsites"][..])
+            } else if plural_gerund.eq_str("learnings") {
+                (
+                    Some("seen as business jargon"),
+                    &["insights", "lessons", "takeaways"][..],
+                )
+            } else if plural_gerund.eq_str("parkings") {
+                (Some("Euro-English"), &["car parks", "parking lots"][..])
+            } else if plural_gerund.eq_str("smokings") {
+                (Some("Euro-English"), &["tuxedos", "dinner jackets"][..])
+            } else if plural_gerund.eq_str("trainings") {
+                (
+                    Some("seen as business jargon"),
+                    &[
+                        "courses",
+                        "training sessions",
+                        "programs",
+                        "workshops",
+                        "seminars",
+                    ][..],
+                )
+            } else {
+                (None, &[][..])
+            };
+
+            let suggestions = replacements
+                .iter()
+                .map(|r| Suggestion::replace_with_match_case(r.chars().collect(), plural_gerund))
+                .collect::<Vec<_>>();
+
+            let message = if let Some(seen_context) = seen_as {
+                format!(
+                    "The word “{}” is {}. Consider using a more standard term such as “{}”.",
+                    singular.to_string(),
+                    seen_context,
+                    replacements.first().unwrap()
+                )
+            } else {
+                format!(
+                    "This might be a nonstandard use of a verbal noun. “{}” doesn't normally have a plural.",
+                    singular.to_string()
+                )
+            };
+
             return Some(Lint {
                 span: toks.span()?,
                 lint_kind: LintKind::Nonstandard,
-                suggestions: vec![],
-                message: format!(
-                    "This might be a nonstandard use of a verbal noun. “{}” doesn't normally have a plural.",
-                    singular.to_string()
-                ),
+                suggestions,
+                message,
                 ..Default::default()
             });
         }
