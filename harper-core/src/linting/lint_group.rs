@@ -247,6 +247,7 @@ use super::were_where::WereWhere;
 use super::whereas::Whereas;
 use super::whom_subject_of_verb::WhomSubjectOfVerb;
 use super::widely_accepted::WidelyAccepted;
+use super::will_non_lemma::WillNonLemma;
 use super::win_prize::WinPrize;
 use super::wish_could::WishCould;
 use super::wordpress_dotcom::WordPressDotcom;
@@ -836,6 +837,7 @@ impl LintGroup {
         insert_expr_rule!(Whereas, true);
         insert_expr_rule!(WhomSubjectOfVerb, true);
         insert_expr_rule!(WidelyAccepted, true);
+        insert_expr_rule_with_dict!(WillNonLemma, true);
         insert_expr_rule!(WinPrize, true);
         insert_expr_rule!(WishCould, true);
         insert_struct_rule!(WordPressDotcom, true);
