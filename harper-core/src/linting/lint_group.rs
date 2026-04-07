@@ -232,6 +232,7 @@ use super::try_ones_hand_at::TryOnesHandAt;
 use super::try_ones_luck::TryOnesLuck;
 use super::unclosed_quotes::UnclosedQuotes;
 use super::update_place_names::UpdatePlaceNames;
+use super::use_ellipsis_character::UseEllipsisCharacter;
 use super::use_title_case::UseTitleCase;
 use super::verb_to_adjective::VerbToAdjective;
 use super::very_unique::VeryUnique;
@@ -659,6 +660,7 @@ impl LintGroup {
         insert_expr_rule!(DoubleClick, true);
         insert_expr_rule!(DoubleModal, true);
         insert_struct_rule!(EllipsisLength, true);
+        insert_struct_rule!(UseEllipsisCharacter, true);
         insert_expr_rule!(ElsePossessive, true);
         insert_expr_rule!(EverEvery, true);
         insert_expr_rule!(Everyday, true);
