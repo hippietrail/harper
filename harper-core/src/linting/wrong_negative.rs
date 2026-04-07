@@ -2,7 +2,6 @@ use crate::{
     CharStringExt, Lint, Token,
     expr::Expr,
     linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
-    patterns::CustomToken,
     spell::Dictionary,
 };
 
@@ -16,14 +15,14 @@ fn looks_negative_but_oov(token: &Token, source: &[char]) -> bool {
 }
 
 pub struct WrongNegative<D: Dictionary + 'static> {
-    pattern: CustomToken<fn(&Token, &[char]) -> bool>,
+    pattern: fn(&Token, &[char]) -> bool,
     dict: D,
 }
 
 impl<D: Dictionary + 'static> WrongNegative<D> {
     pub fn new(dict: D) -> Self {
         Self {
-            pattern: CustomToken::new(looks_negative_but_oov),
+            pattern: looks_negative_but_oov,
             dict,
         }
     }
