@@ -1,7 +1,7 @@
 use crate::{
     CharStringExt, Lint, Token,
     expr::{Expr, SequenceExpr},
-    linting::{ExprLinter, LintKind, Suggestion, debug::format_lint_match, expr_linter::Sentence},
+    linting::{ExprLinter, LintKind, Suggestion, expr_linter::Sentence},
 };
 
 pub struct ConvenientStore {
@@ -116,8 +116,6 @@ impl ExprLinter for ConvenientStore {
         src: &[char],
         ctx: Option<(&[Token], &[Token])>,
     ) -> Option<Lint> {
-        eprintln!("🚨 {}", format_lint_match(toks, ctx, src));
-
         let (noun_clues, adj_clues) = ctx
             .map(|(before, after)| {
                 before
@@ -137,27 +135,8 @@ impl ExprLinter for ConvenientStore {
             })
             .unwrap_or((0, 0));
 
-        eprintln!(
-            "🚨🚨 '{}' {} clues hint at it being a mistake, {} clues hint at it being legit.",
-            toks[0].get_str(src),
-            noun_clues,
-            adj_clues
-        );
-
-        if adj_clues > noun_clues {
-            eprintln!(
-                "🚨🚨🚨 there are more clues that it should be the adjective, retaining 'convenient store'."
-            );
+        if adj_clues >= noun_clues {
             return None;
-        } else if adj_clues == noun_clues {
-            eprintln!(
-                "🚨🚨🚨 there are equal clues that it could be either. Retaining 'convenience store'."
-            );
-            return None;
-        } else {
-            eprintln!(
-                "🚨🚨🚨 there are more clues that it's a mistake and should be the noun, 'convenience store'."
-            );
         }
 
         let span = toks[0].span;
@@ -343,7 +322,6 @@ mod tests {
 
     #[test]
     fn dont_flag_mini() {
-        // 🚨
         assert_no_lints(
             "Mini glass bottle collection of convenient store.",
             ConvenientStore::default(),
@@ -354,7 +332,6 @@ mod tests {
 
     #[test]
     fn dont_flag_frame_dump() {
-        // 🚨
         assert_no_lints(
             "GE frame dump at convenient store.",
             ConvenientStore::default(),
@@ -363,7 +340,6 @@ mod tests {
 
     #[test]
     fn dont_flag_convenient_store_means_handy() {
-        // 🚨
         assert_no_lints(
             "It is a great feature as customers can choose a convenient store for their order delivery and they know when it can be picked up.",
             ConvenientStore::default(),
@@ -372,7 +348,6 @@ mod tests {
 
     #[test]
     fn dont_flag() {
-        // 🚨
         assert_no_lints(
             "It also allows you to create a convenient store that includes any additional structure and the actions and selectors to be used to manage the entities.",
             ConvenientStore::default(),
