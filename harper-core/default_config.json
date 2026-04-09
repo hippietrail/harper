@@ -3552,6 +3552,13 @@
 								"state": true,
 								"label": "Aspire To"
 							}
+						},
+						{
+							"Bool": {
+								"name": "WrongNegative",
+								"state": true,
+								"label": "Wrong Negative"
+							}
 						}
 					]
 				}
