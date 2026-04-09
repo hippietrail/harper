@@ -557,6 +557,7 @@ impl LintGroup {
         insert_expr_rule!(DoubleClick, true);
         insert_expr_rule!(DoubleModal, true);
         insert_struct_rule!(EllipsisLength, true);
+        insert_struct_rule!(UseEllipsisCharacter, true);
         insert_expr_rule!(ElsePossessive, true);
         insert_expr_rule!(EverEvery, true);
         insert_expr_rule!(Everyday, true);
