@@ -2612,7 +2612,7 @@
 						{
 							"Bool": {
 								"name": "SpellCheckWithUsernames",
-								"state": true,
+								"state": false,
 								"label": "Spell Check With Usernames"
 							}
 						}
