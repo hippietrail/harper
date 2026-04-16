@@ -54,11 +54,7 @@ impl Markdown {
             let mut cursor = pipe_idx - 2;
             let mut open_bracket = None;
 
-            loop {
-                let Some((a, b)) = tokens.get(cursor).zip(tokens.get(cursor + 1)) else {
-                    break;
-                };
-
+            while let Some((a, b)) = tokens.get(cursor).zip(tokens.get(cursor + 1)) {
                 if a.kind.is_newline() {
                     break;
                 }
@@ -77,11 +73,7 @@ impl Markdown {
             cursor = pipe_idx + 1;
             let mut close_bracket = None;
 
-            loop {
-                let Some((a, b)) = tokens.get(cursor).zip(tokens.get(cursor + 1)) else {
-                    break;
-                };
-
+            while let Some((a, b)) = tokens.get(cursor).zip(tokens.get(cursor + 1)) {
                 if a.kind.is_newline() {
                     break;
                 }
