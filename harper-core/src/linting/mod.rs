@@ -18,6 +18,7 @@ mod and_the_like;
 mod another_thing_coming;
 mod another_think_coming;
 mod apart_from;
+mod arrive_to;
 mod ask_no_preposition;
 mod aspire_to;
 mod avoid_curses;
@@ -37,6 +38,7 @@ mod cautionary_tale;
 mod change_tack;
 mod chock_full;
 mod closed_compounds;
+mod code_in_write_in;
 mod comma_fixes;
 mod compound_nouns;
 mod compound_subject_i;
@@ -154,6 +156,7 @@ mod nor_modal_pronoun;
 mod not_only_inversion;
 mod noun_verb_confusion;
 mod number_suffix_capitalization;
+mod numeric_range_en_dash;
 mod obsess_preposition;
 mod of_course;
 mod oldest_in_the_book;
@@ -243,6 +246,7 @@ mod try_ones_hand_at;
 mod try_ones_luck;
 mod unclosed_quotes;
 mod update_place_names;
+mod use_ellipsis_character;
 mod use_title_case;
 mod verb_to_adjective;
 mod very_unique;
@@ -257,6 +261,7 @@ mod were_where;
 mod whereas;
 mod whom_subject_of_verb;
 mod widely_accepted;
+mod will_non_lemma;
 mod win_prize;
 mod wish_could;
 mod wordpress_dotcom;
@@ -267,7 +272,9 @@ mod wrong_apostrophe;
 pub use expr_linter::{Chunk, ExprLinter};
 pub use initialism_linter::InitialismLinter;
 pub use lint::Lint;
-pub use lint_group::{LintGroup, LintGroupConfig};
+pub use lint_group::{
+    FlatConfig, HumanReadableSetting, HumanReadableStructuredConfig, LintGroup, StructuredConfig,
+};
 pub use lint_kind::LintKind;
 pub use lint_kind_colors::{LintKindColor, hex_for_lint_kind, lint_kind_colors, rgb_for_lint_kind};
 pub use map_phrase_linter::MapPhraseLinter;
@@ -612,7 +619,8 @@ pub mod tests {
         // Lint current text and try each suggestion branch
         let chars: Vec<char> = text.chars().collect();
         let document = create_document(&chars, doc_type);
-        let lints = linter.lint(&document);
+        let mut lints = linter.lint(&document);
+        lints.sort_by_key(|l| l.priority);
 
         if let Some(lint) = lints.first() {
             for sug in lint.suggestions.iter() {
@@ -765,7 +773,6 @@ pub mod tests {
         if !found_bad.is_empty() || !unseen_good.is_empty() {
             eprintln!("\n=== Test Summary ===");
 
-            // In the summary section, change these loops:
             if !found_bad.is_empty() {
                 eprintln!("\n❌ Found {} bad suggestions:", found_bad.len());
                 for (i, j, text) in &found_bad {
@@ -773,7 +780,6 @@ pub mod tests {
                 }
             }
 
-            // And for the good suggestions:
             if !unseen_good.is_empty() {
                 eprintln!(
                     "\n❌ Missing {} expected good suggestions:",
