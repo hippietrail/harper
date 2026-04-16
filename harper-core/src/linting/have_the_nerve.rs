@@ -1,7 +1,7 @@
 use crate::{
     CharStringExt, Lint, Token, TokenStringExt,
     expr::{Expr, SequenceExpr},
-    linting::{ExprLinter, Suggestion, debug::format_lint_match, expr_linter::Chunk},
+    linting::{ExprLinter, debug::format_lint_match, expr_linter::Chunk},
 };
 
 pub struct HaveTheNerve {
