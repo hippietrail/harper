@@ -4,7 +4,6 @@ use std::fmt::Display;
 
 use harper_brill::{Chunker, Tagger, brill_tagger, burn_chunker};
 use itertools::Itertools;
-use paste::paste;
 
 use crate::expr::{Expr, ExprExt, FirstMatchOf, Repeating, SequenceExpr};
 use crate::parsers::{Markdown, MarkdownOptions, Parser, PlainEnglish};
@@ -17,7 +16,7 @@ use crate::{OrdinalSuffix, Span};
 /// A document containing some amount of lexed and parsed English text.
 #[derive(Debug, Clone)]
 pub struct Document {
-    source: Lrc<Vec<char>>,
+    source: Lrc<[char]>,
     tokens: Vec<Token>,
 }
 
@@ -53,23 +52,23 @@ impl Document {
     /// Lexes and parses text to produce a document using a provided language
     /// parser and dictionary.
     pub fn new(text: &str, parser: &impl Parser, dictionary: &impl Dictionary) -> Self {
-        let source: Vec<_> = text.chars().collect();
+        let source: Lrc<_> = text.chars().collect();
 
-        Self::new_from_vec(Lrc::new(source), parser, dictionary)
+        Self::new_from_chars(source, parser, dictionary)
     }
 
     /// Lexes and parses text to produce a document using a provided language
     /// parser and the included curated dictionary.
     pub fn new_curated(text: &str, parser: &impl Parser) -> Self {
-        let source: Vec<_> = text.chars().collect();
+        let source: Lrc<_> = text.chars().collect();
 
-        Self::new_from_vec(Lrc::new(source), parser, &FstDictionary::curated())
+        Self::new_from_chars(source, parser, &FstDictionary::curated())
     }
 
     /// Lexes and parses text to produce a document using a provided language
     /// parser and dictionary.
-    pub fn new_from_vec(
-        source: Lrc<Vec<char>>,
+    pub fn new_from_chars(
+        source: Lrc<[char]>,
         parser: &impl Parser,
         dictionary: &impl Dictionary,
     ) -> Self {
@@ -84,11 +83,7 @@ impl Document {
     /// Create a new document from character data using the built-in [`PlainEnglish`]
     /// parser and curated dictionary. This avoids string-to-char conversions.
     pub fn new_plain_english_curated_chars(source: &[char]) -> Self {
-        Self::new_from_vec(
-            Lrc::new(source.to_vec()),
-            &PlainEnglish,
-            &FstDictionary::curated(),
-        )
+        Self::new_from_chars(Lrc::from(source), &PlainEnglish, &FstDictionary::curated())
     }
 
     /// Parse text to produce a document using the built-in [`PlainEnglish`]
@@ -103,7 +98,7 @@ impl Document {
     /// This avoids running potentially expensive metadata generation code, so this is more
     /// efficient if you don't need that information.
     pub(crate) fn new_basic_tokenize(text: &str, parser: &impl Parser) -> Self {
-        let source = Lrc::new(text.chars().collect_vec());
+        let source: Lrc<_> = text.chars().collect();
         let tokens = parser.parse(&source);
         let mut document = Self { source, tokens };
         document.apply_fixups();
@@ -129,7 +124,7 @@ impl Document {
     /// Create a new document from character data using the built-in [`Markdown`] parser
     /// and curated dictionary. This avoids string-to-char conversions.
     pub fn new_markdown_default_curated_chars(chars: &[char]) -> Self {
-        Self::new_from_vec(
+        Self::new_from_chars(
             chars.to_vec().into(),
             &Markdown::default(),
             &FstDictionary::curated(),
@@ -423,6 +418,8 @@ impl Document {
                             | Some(Punctuation::OpenRound)
                             | Some(Punctuation::OpenSquare)
                             | Some(Punctuation::OpenCurly)
+                            | Some(Punctuation::EmDash)
+                            | Some(Punctuation::EnDash)
                             | Some(Punctuation::Apostrophe)
                     );
 
@@ -930,97 +927,13 @@ impl Document {
     }
 }
 
-/// Creates functions necessary to implement [`TokenStringExt]` on a document.
-macro_rules! create_fns_on_doc {
-    ($thing:ident) => {
-        paste! {
-            fn [< first_ $thing >](&self) -> Option<&Token> {
-                self.tokens.[< first_ $thing >]()
-            }
-
-            fn [< last_ $thing >](&self) -> Option<&Token> {
-                self.tokens.[< last_ $thing >]()
-            }
-
-            fn [< last_ $thing _index>](&self) -> Option<usize> {
-                self.tokens.[< last_ $thing _index >]()
-            }
-
-            fn [<iter_ $thing _indices>](&self) -> impl DoubleEndedIterator<Item = usize> + '_ {
-                self.tokens.[< iter_ $thing _indices >]()
-            }
-
-            fn [<iter_ $thing s>](&self) -> impl Iterator<Item = &Token> + '_ {
-                self.tokens.[< iter_ $thing s >]()
-            }
-        }
-    };
-}
-
 impl TokenStringExt for Document {
-    create_fns_on_doc!(adjective);
-    create_fns_on_doc!(apostrophe);
-    create_fns_on_doc!(at);
-    create_fns_on_doc!(chunk_terminator);
-    create_fns_on_doc!(comma);
-    create_fns_on_doc!(conjunction);
-    create_fns_on_doc!(currency);
-    create_fns_on_doc!(ellipsis);
-    create_fns_on_doc!(hostname);
-    create_fns_on_doc!(likely_homograph);
-    create_fns_on_doc!(noun);
-    create_fns_on_doc!(number);
-    create_fns_on_doc!(paragraph_break);
-    create_fns_on_doc!(pipe);
-    create_fns_on_doc!(preposition);
-    create_fns_on_doc!(punctuation);
-    create_fns_on_doc!(quote);
-    create_fns_on_doc!(sentence_terminator);
-    create_fns_on_doc!(space);
-    create_fns_on_doc!(unlintable);
-    create_fns_on_doc!(verb);
-    create_fns_on_doc!(word);
-    create_fns_on_doc!(word_like);
-    create_fns_on_doc!(heading_start);
-
-    fn first_sentence_word(&self) -> Option<&Token> {
-        self.tokens.first_sentence_word()
+    fn tokens(&self) -> &[Token] {
+        &self.tokens
     }
 
-    fn first_non_whitespace(&self) -> Option<&Token> {
-        self.tokens.first_non_whitespace()
-    }
-
-    fn span(&self) -> Option<Span<char>> {
-        self.tokens.span()
-    }
-
-    fn iter_linking_verb_indices(&self) -> impl Iterator<Item = usize> + '_ {
-        self.tokens.iter_linking_verb_indices()
-    }
-
-    fn iter_linking_verbs(&self) -> impl Iterator<Item = &Token> + '_ {
-        self.tokens.iter_linking_verbs()
-    }
-
-    fn iter_chunks(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
-        self.tokens.iter_chunks()
-    }
-
-    fn iter_paragraphs(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
-        self.tokens.iter_paragraphs()
-    }
-
-    fn iter_headings(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
-        self.tokens.iter_headings()
-    }
-
-    fn iter_sentences(&self) -> impl Iterator<Item = &'_ [Token]> + '_ {
-        self.tokens.iter_sentences()
-    }
-
-    fn iter_sentences_mut(&mut self) -> impl Iterator<Item = &'_ mut [Token]> + '_ {
-        self.tokens.iter_sentences_mut()
+    fn tokens_mut(&mut self) -> &mut [Token] {
+        &mut self.tokens
     }
 }
 

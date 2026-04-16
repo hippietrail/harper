@@ -1222,6 +1222,45 @@ fn litotes_more_preferable() {
     );
 }
 
+// LookForwardTo
+
+#[test]
+fn fix_look_forward_for() {
+    // I will mark this issue as an enhancement and will look forward for enrolling it.
+    assert_suggestion_result(
+        "I will mark this issue as an enhancement and will look forward for enrolling it.",
+        lint_group(),
+        "I will mark this issue as an enhancement and will look forward to enrolling it.",
+    );
+}
+
+#[test]
+fn fix_looked_forward_for() {
+    assert_suggestion_result(
+        "Looked forward for standalone components so much, please fix this.",
+        lint_group(),
+        "Looked forward to standalone components so much, please fix this.",
+    );
+}
+
+#[test]
+fn fix_looking_forward_for() {
+    assert_suggestion_result(
+        "Looking forward for Typed version of this stack navigation",
+        lint_group(),
+        "Looking forward to Typed version of this stack navigation",
+    );
+}
+
+#[test]
+fn fix_looks_forward_for() {
+    assert_suggestion_result(
+        "Please take this words as from one of your fans who looks forward for a great and interesting project :)",
+        lint_group(),
+        "Please take this words as from one of your fans who looks forward to a great and interesting project :)",
+    );
+}
+
 // MakeDoWith
 
 #[test]
@@ -2157,6 +2196,26 @@ fn copywrote() {
         "How do you find out if someone copywrote a movie",
         lint_group(),
         "How do you find out if someone copyrighted a movie",
+    );
+}
+
+// Payed
+
+#[test]
+fn correct_payed() {
+    assert_suggestion_result(
+        "He payed the bill yesterday.",
+        lint_group(),
+        "He paid the bill yesterday.",
+    );
+}
+
+#[test]
+fn correct_overpayed() {
+    assert_suggestion_result(
+        "He overpayed in part to have the specification met.",
+        lint_group(),
+        "He overpaid in part to have the specification met.",
     );
 }
 
