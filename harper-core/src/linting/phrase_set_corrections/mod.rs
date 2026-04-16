@@ -417,6 +417,17 @@ pub fn lint_group() -> LintGroup {
             LintKind::Style
         ),
 
+        "LookForwardTo" => (
+            &[
+                ("look forward for", "look forward to"),
+                ("looked forward for", "looked forward to"),
+                ("looks forward for", "looks forward to"),
+                ("looking forward for", "looking forward to")
+            ],
+            "The correct preposition in this phrase is `to`.",
+            "Corrects `look forward for` to `look forward to`.",
+            LintKind::Usage
+        ),
         "MakeDoWith" => (
             &[
                 ("make due with", "make do with"),
@@ -671,6 +682,15 @@ pub fn lint_group() -> LintGroup {
             "Did you mean `copyright`? `Copywrite` means to write copy (advertising text), while `copyright` is the legal right to control use of creative works.",
             "Corrects `copywrite` to `copyright`. `Copywrite` refers to writing copy, while `copyright` is the legal right to creative works.",
             LintKind::WordChoice
+        ),
+        "Payed" => (
+            &[
+                (&["payed"], &["paid"]),
+                (&["overpayed"], &["overpaid"]),
+            ],
+            "Use `paid` or `overpaid` here. `Payed` is a rare nautical spelling.",
+            "Corrects `payed` to `paid` and `overpayed` to `overpaid`.",
+            LintKind::Spelling
         ),
         "DateBackFrom" => (
             &[
