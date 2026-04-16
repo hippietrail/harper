@@ -43,6 +43,7 @@ use super::capitalize_personal_pronouns::CapitalizePersonalPronouns;
 use super::cautionary_tale::CautionaryTale;
 use super::change_tack::ChangeTack;
 use super::chock_full::ChockFull;
+use super::code_in_write_in::CodeInWriteIn;
 use super::comma_fixes::CommaFixes;
 use super::compound_nouns::CompoundNouns;
 use super::compound_subject_i::CompoundSubjectI;
@@ -145,6 +146,7 @@ use super::nor_modal_pronoun::NorModalPronoun;
 use super::not_only_inversion::NotOnlyInversion;
 use super::noun_verb_confusion::NounVerbConfusion;
 use super::number_suffix_capitalization::NumberSuffixCapitalization;
+use super::numeric_range_en_dash::NumericRangeEnDash;
 use super::obsess_preposition::ObsessPreposition;
 use super::of_course::OfCourse;
 use super::oldest_in_the_book::OldestInTheBook;
@@ -280,7 +282,7 @@ pub struct LintGroup {
     /// We use a binary map here so the ordering is stable.
     chunk_expr_linters: BTreeMap<String, Box<dyn ExprLinter<Unit = Chunk>>>,
     /// Since [`ExprLinter`]s operate on a chunk-basis, we can store a
-    /// mapping of `Chunk -> Lint` and only re-run the expr linters
+    /// mapping of `Chunk -> Lint` and only rerun the expr linters
     /// when a chunk changes.
     ///
     /// Since the expr linter results also depend on the config, we hash it and pass it as part
@@ -336,7 +338,6 @@ impl LintGroup {
     pub fn add_chunk_expr_linter(
         &mut self,
         name: impl AsRef<str>,
-        // linter: impl ExprLinter + 'static,
         linter: impl ExprLinter<Unit = Chunk> + 'static,
     ) -> bool {
         if self.contains_key(&name) {
@@ -534,6 +535,7 @@ impl LintGroup {
         insert_expr_rule!(CautionaryTale, true);
         insert_expr_rule!(ChangeTack, true);
         insert_expr_rule!(ChockFull, true);
+        insert_expr_rule!(CodeInWriteIn, true);
         insert_struct_rule!(CommaFixes, true);
         insert_struct_rule!(CompoundNouns, true);
         insert_expr_rule!(CompoundSubjectI, true);
@@ -635,6 +637,7 @@ impl LintGroup {
         insert_expr_rule!(NotOnlyInversion, true);
         insert_struct_rule!(NounVerbConfusion, true);
         insert_struct_rule!(NumberSuffixCapitalization, true);
+        insert_expr_rule!(NumericRangeEnDash, true);
         insert_expr_rule!(ObsessPreposition, true);
         insert_expr_rule!(OfCourse, true);
         insert_expr_rule!(OldestInTheBook, true);
@@ -728,7 +731,6 @@ impl LintGroup {
         insert_expr_rule!(WasAloud, true);
         insert_expr_rule!(WayTooAdjective, true);
         insert_expr_rule!(WellEducated, true);
-        insert_expr_rule!(WereWhere, true);
         insert_expr_rule!(Whereas, true);
         insert_expr_rule!(WhomSubjectOfVerb, true);
         insert_expr_rule!(WidelyAccepted, true);
@@ -762,7 +764,6 @@ impl LintGroup {
 
         // `SpellCheck` and `SpellCheckWithUsernames` are mutually exclusive
         // `SpellCheckWithUsernames` is disabled by default
-
         // Uses Dictionary and Dialect
         out.add("SpellCheck", SpellCheck::new(dictionary.clone(), dialect));
         out.config.set_rule_enabled("SpellCheck", true);
@@ -778,6 +779,10 @@ impl LintGroup {
         // Uses Sentence rather than Chunk
         out.add("WebScraping", WebScraping::default());
         out.config.set_rule_enabled("WebScraping", true);
+
+        // Uses Sentence rather than Chunk
+        out.add("WereWhere", WereWhere::default());
+        out.config.set_rule_enabled("WereWhere", true);
 
         out
     }
@@ -877,7 +882,7 @@ mod tests {
 
     use super::{FlatConfig, LintGroup};
     use crate::linting::LintKind;
-    use crate::linting::tests::assert_no_lints;
+    use crate::linting::tests::{assert_no_lints, assert_suggestion_result};
     use crate::spell::{FstDictionary, MutableDictionary};
     use crate::{Dialect, Document, linting::Linter};
 
@@ -896,6 +901,54 @@ mod tests {
     #[test]
     fn clean_consensus() {
         assert_no_lints("But there is less consensus on this.", test_group());
+    }
+
+    #[test]
+    fn ive_corrects_to_single_word() {
+        assert_suggestion_result(
+            "ive never seen that before",
+            test_group(),
+            "I've never seen that before",
+        );
+    }
+
+    #[test]
+    fn worthchecking_is_split() {
+        assert_suggestion_result("It is worthchecking", test_group(), "It is worth checking");
+    }
+
+    #[test]
+    fn its_not_perfect_keeps_apostrophe() {
+        assert_no_lints("It's not perfect", test_group());
+    }
+
+    #[test]
+    fn corrects_extention() {
+        let mut group = test_group();
+        let document = Document::new_plain_english_curated("I love this extention!");
+        let organized = group.organized_lints(&document);
+
+        let spellcheck_lints = organized
+            .get("SpellCheck")
+            .expect("SpellCheck should produce a lint for extention");
+        assert_eq!(spellcheck_lints.len(), 1);
+        assert!(
+            spellcheck_lints[0]
+                .suggestions
+                .iter()
+                .any(|suggestion| suggestion.to_string() == "Replace with: “extension”")
+        );
+
+        assert!(
+            organized.get("SplitWords").is_none_or(Vec::is_empty),
+            "expected no lints from SplitWords, but found {:?}",
+            organized.get("SplitWords")
+        );
+    }
+
+    #[test]
+    fn ok_becomes_okay() {
+        assert_suggestion_result("This is ok.", test_group(), "This is okay.");
     }
 
     #[test]
