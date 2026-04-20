@@ -2629,6 +2629,13 @@
 								"state": true,
 								"label": "Without Out"
 							}
+						},
+						{
+							"Bool": {
+								"name": "CloseTightKnit",
+								"state": true,
+								"label": "Close Tight Knit"
+							}
 						}
 					]
 				}
