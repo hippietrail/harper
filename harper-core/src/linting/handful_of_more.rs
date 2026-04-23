@@ -1,7 +1,7 @@
 use crate::{
     Lint, Token, TokenKind, TokenStringExt,
     expr::{Expr, SequenceExpr},
-    linting::{ExprLinter, LintKind, Suggestion, debug::format_lint_match, expr_linter::Chunk},
+    linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
 };
 
 pub struct HandfulOfMore {
@@ -25,13 +25,7 @@ impl Default for HandfulOfMore {
 impl ExprLinter for HandfulOfMore {
     type Unit = Chunk;
 
-    fn match_to_lint_with_context(
-        &self,
-        matched_tokens: &[Token],
-        source: &[char],
-        context: Option<(&[Token], &[Token])>,
-    ) -> Option<Lint> {
-        eprintln!("🚨 {}", format_lint_match(matched_tokens, context, source));
+    fn match_to_lint(&self, matched_tokens: &[Token], _source: &[char]) -> Option<Lint> {
         let (first_ws_idx, of_idx) = (1, 2);
 
         Some(Lint {
@@ -64,23 +58,6 @@ mod tests {
             "(and possibly a handful of more times as needed to resolve any issues)",
             HandfulOfMore::default(),
             "(and possibly a handful more times as needed to resolve any issues)",
-        );
-    }
-
-    #[test]
-    fn debug_handful_of_more() {
-        use crate::linting::tests::assert_lint_count;
-        assert_lint_count("a handful of more times", HandfulOfMore::default(), 1);
-    }
-
-    #[test]
-    #[ignore]
-    fn demonstrate_no_matches_error() {
-        // This test demonstrates the "no matches found" error message
-        assert_suggestion_result(
-            "a handful of times", // Missing "more" - won't match
-            HandfulOfMore::default(),
-            "a handful times",
         );
     }
 
