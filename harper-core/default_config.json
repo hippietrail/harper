@@ -5171,6 +5171,13 @@
 								"state": true,
 								"label": "Whereas"
 							}
+						},
+						{
+							"Bool": {
+								"name": "FondOn",
+								"state": true,
+								"label": "Fond On"
+							}
 						}
 					]
 				}
