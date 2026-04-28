@@ -7427,6 +7427,7 @@ Newport/Og
 Newsweek/g
 Newton/Og
 Newtonian/JNg
+New Zealand/Og
 Nexis/g
 Ngaliema/g
 Nguyen/Og
@@ -24390,9 +24391,11 @@ eyestrain/Ng
 eyeteeth/N9
 eyetooth/N0g
 eyewash/NgV
+eyewatering/J       # main: Longman, OED; also: Cambridge
+eye-watering/JY     # main: Cambridge, Collins, Oxford Learner's
 eyewear/Nmg
 eyewitness/~NgSV
-#f/~N^>eirv          # N:noun ^:fest >:fer e:def i:inf r:ref v:five
+#f/~N^>eirv         # N:noun ^:fest >:fer e:def i:inf r:ref v:five
 fMRI/N
 fa/~NgP
 fab/~JNgSV
@@ -54478,6 +54481,7 @@ royale/~NSgJ        # !! please check and comment !! dictionaries only list noun
 runahead/NgS
 s.t./~              # !! please check and comment !!
 sRGB/Og             # colour space
+sanewashing/Nmg
 scatterplot/NSgVG   # dictionaries prefer: scatter plot
 screencast/VdSG
 scrollbar/NSg       # dictionaries prefer: scroll bar
