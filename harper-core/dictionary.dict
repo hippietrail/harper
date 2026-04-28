@@ -42092,7 +42092,7 @@ recorder/~NgS
 recording/~V6NwgS
 recordkeeping/Ng
 recoup/VdG
-recourse/~NgV
+recourse/~NgS
 recoverability/Nmg
 recoverable/JNU
 recovery/~NwSg
@@ -54546,6 +54546,11 @@ fae/Nmg             # fantasy alternative for "fey"
 iaido/Nmg           # martial art
 kalimba/NSg
 licensor/NSg
+live stream/NSgVdG  # main: Cambridge (n only), Merriam-Webster, Oxford Learner's (n only)
+live-stream/NSgVdG  # main: Oxford Learner's (v only); also: Cambridge (n only), Merriam-Webster
+livestream/NSgVdG   # main: Cambridge (v only), Collins, OED; also: Cambridge (n only), Merriam-Webster
+livestreamer/NSg    # main: OED, Oxford Learner's; also: Cambridge
+live streamer/NSg   # Cambridge
 menarche/Nmg        # medicine
 micronutrient/NSg
 monolatrous/J
