@@ -2961,6 +2961,13 @@
 								"state": true,
 								"label": "Was Comprised Of"
 							}
+						},
+						{
+							"Bool": {
+								"name": "ExpandFavourite",
+								"state": true,
+								"label": "Expand Favourite"
+							}
 						}
 					]
 				}
