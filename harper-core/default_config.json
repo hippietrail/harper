@@ -3401,6 +3401,13 @@
 						},
 						{
 							"Bool": {
+								"name": "FullToTheBrim",
+								"state": true,
+								"label": "Full to the Brim"
+							}
+						},
+						{
+							"Bool": {
 								"name": "HadOf",
 								"state": true,
 								"label": "Had Of"
@@ -5073,6 +5080,13 @@
 								"name": "OneFellSwoop",
 								"state": true,
 								"label": "One Fell Swoop"
+							}
+						},
+						{
+							"Bool": {
+								"name": "OnesSelf",
+								"state": true,
+								"label": "One's Self"
 							}
 						},
 						{
