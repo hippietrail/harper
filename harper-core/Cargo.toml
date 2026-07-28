@@ -36,6 +36,7 @@ bitflags = { version = "2.11.0", features = ["serde"] }
 trie-rs = "0.4.2"
 zip = { version = "8.6.0", default-features = false, features = ["deflate"] }
 regex = "1.12.3"
+boxcar = { version = "0.2.14", optional = true }
 
 [dev-dependencies]
 criterion = { version = "0.8.2", default-features = false }
@@ -53,6 +54,6 @@ name = "spellcheck"
 harness = false
 
 [features]
-default = ["thesaurus"]
-concurrent = []
+default = ["thesaurus", "concurrent"]
+concurrent = ["dep:boxcar"]
 thesaurus = ["dep:harper-thesaurus"]
