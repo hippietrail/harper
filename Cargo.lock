@@ -4163,7 +4163,7 @@ dependencies = [
 
 [[package]]
 name = "harper-asciidoc"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -4174,7 +4174,7 @@ dependencies = [
 
 [[package]]
 name = "harper-brill"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-pos-utils",
  "serde_json",
@@ -4212,7 +4212,7 @@ dependencies = [
 
 [[package]]
 name = "harper-comments"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "harper-html",
@@ -4250,7 +4250,7 @@ dependencies = [
 
 [[package]]
 name = "harper-core"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "ammonia",
  "bitflags 2.11.0",
@@ -4325,7 +4325,7 @@ dependencies = [
 
 [[package]]
 name = "harper-dictionary-wordlist"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "itertools 0.14.0",
@@ -4334,7 +4334,7 @@ dependencies = [
 
 [[package]]
 name = "harper-git-commit"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -4345,7 +4345,7 @@ dependencies = [
 
 [[package]]
 name = "harper-html"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -4356,7 +4356,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ink"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -4367,7 +4367,7 @@ dependencies = [
 
 [[package]]
 name = "harper-jjdescription"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -4378,7 +4378,7 @@ dependencies = [
 
 [[package]]
 name = "harper-literate-haskell"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-comments",
  "harper-core",
@@ -4389,7 +4389,7 @@ dependencies = [
 
 [[package]]
 name = "harper-ls"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "anyhow",
  "clap",
@@ -4421,7 +4421,7 @@ dependencies = [
 
 [[package]]
 name = "harper-pos-utils"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "burn",
  "burn-ndarray",
@@ -4439,7 +4439,7 @@ dependencies = [
 
 [[package]]
 name = "harper-python"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "harper-tree-sitter",
@@ -4450,7 +4450,7 @@ dependencies = [
 
 [[package]]
 name = "harper-stats"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "chrono",
  "harper-core",
@@ -4461,7 +4461,7 @@ dependencies = [
 
 [[package]]
 name = "harper-tex"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "paste",
@@ -4469,7 +4469,7 @@ dependencies = [
 
 [[package]]
 name = "harper-thesaurus"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "hashbrown 0.16.1",
  "indexmap 2.13.1",
@@ -4480,7 +4480,7 @@ dependencies = [
 
 [[package]]
 name = "harper-tree-sitter"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "tree-sitter",
@@ -4499,7 +4499,7 @@ dependencies = [
 
 [[package]]
 name = "harper-typst"
-version = "2.6.0"
+version = "2.7.0"
 dependencies = [
  "harper-core",
  "itertools 0.14.0",
