@@ -5196,6 +5196,13 @@
 						},
 						{
 							"Bool": {
+								"name": "RegimenRegiment",
+								"state": true,
+								"label": "Regimen Regiment"
+							}
+						},
+						{
+							"Bool": {
 								"name": "Respond",
 								"state": true,
 								"label": "Respond"
