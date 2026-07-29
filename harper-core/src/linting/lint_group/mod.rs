@@ -1199,7 +1199,7 @@ mod tests {
         assert_suggestion_result(
             "I guess politicans like to complain.",
             test_linter(),
-            "I guess politicans like to complain.",
+            "I guess politicians like to complain.",
         );
     }
 
