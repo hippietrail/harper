@@ -4629,6 +4629,13 @@
 						},
 						{
 							"Bool": {
+								"name": "HeadOffHeed",
+								"state": true,
+								"label": "Head off / Heed"
+							}
+						},
+						{
+							"Bool": {
 								"name": "HelloGreeting",
 								"state": true,
 								"label": "Hello Greeting"
