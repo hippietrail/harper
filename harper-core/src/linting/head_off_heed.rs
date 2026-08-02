@@ -228,9 +228,7 @@ impl ExprLinter for HeadOffHeed {
 
 #[cfg(test)]
 mod tests {
-    use crate::linting::tests::{
-        assert_good_and_bad_suggestions, assert_suggestion_result,
-    };
+    use crate::linting::tests::{assert_good_and_bad_suggestions, assert_suggestion_result};
 
     use super::HeadOffHeed;
 
@@ -247,8 +245,16 @@ mod tests {
         );
     }
 
+    #[test]
+    fn fix_head_off_to_head_off_in_essentially() {
+        assert_suggestion_result(
+            "Essentially, you heed off their antisemitism by performatively cutting off ties with Israel",
+            HeadOffHeed::default(),
+            "Essentially, you head off their antisemitism by performatively cutting off ties with Israel",
+        );
+    }
+
     /*
-    - Essentially, you **heed off** their antisemitism by performatively cutting off ties with Israel
     - just to **heed off** future responses, when we take outside food (or alcohol) from customers
     - I'm hoping it'll at least **heed off** some complaints down the line.
     - To **heed off** this trend the Faculty is seeking to hire new high-quality researchers.
