@@ -3570,7 +3570,7 @@
 						{
 							"Bool": {
 								"name": "MoreAdjective",
-								"state": true,
+								"state": false,
 								"label": "More Adjective"
 							}
 						},
@@ -3767,7 +3767,14 @@
 							"Bool": {
 								"name": "TakeALookTo",
 								"state": true,
-								"label": "Take A Look To"
+								"label": "Take a Look to"
+							}
+						},
+						{
+							"Bool": {
+								"name": "TakeCareOf",
+								"state": true,
+								"label": "Take Care of"
 							}
 						},
 						{
@@ -4895,6 +4902,13 @@
 						},
 						{
 							"Bool": {
+								"name": "LittleKnown",
+								"state": true,
+								"label": "Little Known"
+							}
+						},
+						{
+							"Bool": {
 								"name": "LongTimeAgo",
 								"state": true,
 								"label": "Long Time Ago"
@@ -5185,6 +5199,13 @@
 								"name": "RedundantFirsts",
 								"state": true,
 								"label": "Redundant Firsts"
+							}
+						},
+						{
+							"Bool": {
+								"name": "RegimenRegiment",
+								"state": true,
+								"label": "Regimen Regiment"
 							}
 						},
 						{
