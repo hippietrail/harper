@@ -759,9 +759,9 @@ Message: |
      664 | it, you perceive, after a moment, the eyes of Doctor T. J. Eckleburg. The eyes
          |                                                      ^~ Did you mean to spell `T.` this way?
 Suggest:
-  - Replace with: “Ta”
   - Replace with: “Ti”
   - Replace with: “To”
+  - Replace with: “Th”
 
 
 
@@ -793,9 +793,9 @@ Message: |
      665 | of Doctor T. J. Eckleburg are blue and gigantic—their retinas are one yard high.
          |           ^~ Did you mean to spell `T.` this way?
 Suggest:
-  - Replace with: “Ta”
   - Replace with: “Ti”
   - Replace with: “To”
+  - Replace with: “Th”
 
 
 
@@ -1859,16 +1859,6 @@ Suggest:
   - Replace with: “coup”
   - Replace with: “coupe”
   - Replace with: “coups”
-
-
-
-Lint:    WordChoice (127 priority)
-Message: |
-    1667 | “Don’t ask me,” said Owl Eyes, washing his hands of the whole matter. “I know
-    1668 | very little about driving—next to nothing. It happened, and that’s all I know.”
-         |                                ^~ Use `too` here to mean ‘also’ or an excessive degree.
-Suggest:
-  - Replace with: “too”
 
 
 
@@ -4580,15 +4570,6 @@ Message: |
 
 
 
-Lint:    WordChoice (127 priority)
-Message: |
-    3353 | inhabitants along a short-cut from nothing to nothing. She saw something awful
-         |                                            ^~ Use `too` here to mean ‘also’ or an excessive degree.
-Suggest:
-  - Replace with: “too”
-
-
-
 Lint:    Spelling (63 priority)
 Message: |
     3389 | Daisy began to sing with the music in a husky, rythmic whisper, bringing out a
@@ -5045,9 +5026,9 @@ Message: |
     3874 | while in silence. Then as Doctor T. J. Eckleburg’s faded eyes came into sight
          |                                  ^~ Did you mean to spell `T.` this way?
 Suggest:
-  - Replace with: “Ta”
   - Replace with: “Ti”
   - Replace with: “To”
+  - Replace with: “Th”
 
 
 
@@ -5123,9 +5104,9 @@ Message: |
     3948 | behind. Over the ashheaps the giant eyes of Doctor T. J. Eckleburg kept their
          |                                                    ^~ Did you mean to spell `T.` this way?
 Suggest:
-  - Replace with: “Ta”
   - Replace with: “Ti”
   - Replace with: “To”
+  - Replace with: “Th”
 
 
 
@@ -6674,9 +6655,9 @@ Message: |
     5156 | of Doctor T. J. Eckleburg, which had just emerged, pale and enormous, from the
          |           ^~ Did you mean to spell `T.` this way?
 Suggest:
-  - Replace with: “Ta”
   - Replace with: “Ti”
   - Replace with: “To”
+  - Replace with: “Th”
 
 
 
