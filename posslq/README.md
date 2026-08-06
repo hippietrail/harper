@@ -1,6 +1,6 @@
 # `posslq`
 
-**POSSLQ: Parts-of-Speech Same Living Quarters**
+**POSSLQ: Parts-of-Speech Sharing Living Quarters**
 
 A combinatorial analysis tool for Harper that checks fine-grained POS property adjacencies rather than just POS-to-POS combinations. Previous experiments with simple POS bigram filtering found that almost all combinations occur in natural language, making that approach ineffective for finding "obvious mistakes."
 
