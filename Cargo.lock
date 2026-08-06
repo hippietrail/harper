@@ -6819,6 +6819,14 @@ dependencies = [
 ]
 
 [[package]]
+name = "posslq"
+version = "0.1.0"
+dependencies = [
+ "quote",
+ "syn 2.0.117",
+]
+
+[[package]]
 name = "potential_utf"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"

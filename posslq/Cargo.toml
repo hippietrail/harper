@@ -1,0 +1,12 @@
+[package]
+name = "posslq"
+version = "0.1.0"
+edition = "2024"
+publish = false
+readme = "README.md"
+repository = "https://github.com/automattic/harper"
+
+[dependencies]
+# Required to actively read and parse raw file tokens into an AST
+syn = { version = "2.0", features = ["full", "extra-traits"] }
+quote = "1.0"
