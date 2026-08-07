@@ -6822,6 +6822,14 @@ dependencies = [
 name = "posslq"
 version = "0.1.0"
 dependencies = [
+ "harper-core",
+ "posslq-macros",
+]
+
+[[package]]
+name = "posslq-macros"
+version = "0.1.0"
+dependencies = [
  "quote",
  "syn 2.0.117",
 ]

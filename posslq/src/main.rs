@@ -1,131 +1,156 @@
 #![doc = include_str!("../README.md")]
 
+use harper_core::{Document, TokenKind};
+use std::cmp::Reverse; // Required for descending sorting
+use std::collections::HashMap;
 use std::fs;
-use std::path::Path;
 
-struct PropertyMeta {
-    name: String,
+// The magical macro line! It spins up everything in-memory at compile time
+posslq_macros::build_posslq_matrix!();
+
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+struct SlqPair {
+    left: PosslqPropertyField,
+    right: PosslqPropertyField,
 }
 
-struct StructMeta {
-    name: String,
-    properties: Vec<PropertyMeta>,
+// Custom data container to track the rich co-occurrence data
+#[derive(Debug, Clone, Default)]
+struct SlqTallyData {
+    total_count: usize,
+    word_pairs: HashMap<(String, String), usize>,
 }
 
-fn main() {
-    // Path to the file where harper-core keeps these data structures
-    let target_file = "./harper-core/src/dict_word_metadata.rs";
+fn main() -> Result<(), Box<dyn std::error::Error>> {
+    analyse_file()?;
+    Ok(())
+}
 
-    if !Path::new(target_file).exists() {
-        eprintln!("Error: Target file not found at path: {}", target_file);
+fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
+    let args: Vec<String> = std::env::args().skip(1).collect();
+    if args.is_empty() {
+        eprintln!("Usage: posslq <file>");
         std::process::exit(1);
     }
+    let file = &args[0];
+    let content = fs::read_to_string(file).expect("Failed to read file");
+    let doc = Document::new_plain_english_curated(&content);
 
-    let content = fs::read_to_string(target_file).expect("Failed to read source file");
-    let ast = syn::parse_file(&content).expect("Failed to parse Rust syntax");
+    let toks: Vec<_> = doc.tokens().collect();
+    let src = doc.get_source();
 
-    let mut detected_structs = Vec::new();
+    let mut shadow_lane: Vec<Vec<PosslqPropertyField>> = Vec::new();
+    let mut single_pos_tally: HashMap<PosslqPropertyField, usize> = HashMap::new();
 
-    // 1. Gather all structures ending in "Data" and count their Option<bool> fields
-    for item in ast.items {
-        if let syn::Item::Struct(item_struct) = item {
-            let struct_name = item_struct.ident.to_string();
+    // Updated map definition matching your SlqTallyData struct
+    let mut pair_pos_tally: HashMap<SlqPair, SlqTallyData> = HashMap::new();
 
-            if !struct_name.ends_with("Data") {
-                continue;
-            }
+    // 1. Pass One: Token Stream Tokenization & Single Value Analysis
+    for tok in toks.iter() {
+        let _t = tok.get_str(src);
+        let mut token_pos_matches = Vec::new();
 
-            let mut properties = Vec::new();
-
-            for field in item_struct.fields {
-                if is_option_bool(&field.ty) {
-                    if let Some(ident) = field.ident {
-                        properties.push(PropertyMeta {
-                            name: ident.to_string(),
-                        });
+        match &tok.kind {
+            TokenKind::Word(Some(wmd)) => {
+                let packed_fields = PosslqPropertyField::from_metadata(wmd);
+                if !packed_fields.is_empty() {
+                    for &field in &packed_fields {
+                        *single_pos_tally.entry(field).or_insert(0) += 1;
                     }
+                    token_pos_matches.extend(packed_fields);
                 }
             }
+            TokenKind::Space(_) => {}
+            _ => {}
+        }
+        shadow_lane.push(token_pos_matches);
+    }
 
-            detected_structs.push(StructMeta {
-                name: struct_name,
-                properties,
-            });
+    // 2. Pass Two: Run Adjacency Statistical Accumulation Machine (Corrected Single Loop)
+    let mut active_left_variants: Option<&Vec<PosslqPropertyField>> = None;
+    let mut active_left_str: Option<String> = None;
+
+    for (i, tok) in toks.iter().enumerate() {
+        match &tok.kind {
+            TokenKind::Word(_) => {
+                let current_variants = &shadow_lane[i];
+                let current_str = tok.get_str(src).to_string();
+
+                if current_variants.is_empty() {
+                    active_left_variants = None;
+                    active_left_str = None;
+                    continue;
+                }
+
+                if let (Some(left_variants), Some(left_str)) =
+                    (active_left_variants, &active_left_str)
+                {
+                    for &v1 in left_variants {
+                        for &v2 in current_variants {
+                            let pair = SlqPair {
+                                left: v1,
+                                right: v2,
+                            };
+
+                            let data = pair_pos_tally.entry(pair).or_default();
+                            data.total_count += 1;
+
+                            let word_key = (left_str.clone(), current_str.clone());
+                            *data.word_pairs.entry(word_key).or_insert(0) += 1;
+                        }
+                    }
+                }
+
+                active_left_variants = Some(current_variants);
+                active_left_str = Some(current_str);
+            }
+            TokenKind::Space(_) => continue,
+            _ => {
+                active_left_variants = None;
+                active_left_str = None;
+            }
         }
     }
 
-    // 2. Generate the Analysis Report & Schematic
-    println!("=== POSSLQ COMBINATORIAL SCHEMATIC BUILDER ===\n");
+    // --- FREQUENCY DISTRIBUTION SUMMARY REPORTS ---
+    println!("\n=== INDIVIDUAL POS FREQUENCY METRICS ===");
+    let mut single_vec: Vec<(PosslqPropertyField, usize)> = single_pos_tally.into_iter().collect();
+    single_vec.sort_by_key(|&(_, count)| Reverse(count));
+    single_vec.retain(|&(_, count)| count > 1);
 
-    for s in &detected_structs {
-        let pos_name = s.name.strip_suffix("Data").unwrap_or(&s.name);
-        let property_count = s.properties.len();
-        let bits_required = property_count * 2;
-        let bytes_required = (bits_required + 7) / 8; // Ceil division
-
-        println!("POS Variant: {}", pos_name);
-        println!("  - Total Option<bool> Properties: {}", property_count);
+    for (field, count) in &single_vec {
         println!(
-            "  - Bitfield Width Required: {} bits ({} bytes)",
-            bits_required, bytes_required
+            "Seen Count: {:<4} | Bitfield State Shape: {:?}",
+            count, field
+        );
+    }
+
+    println!("\n=== POS SLQ FREQUENCY METRICS ===");
+    let mut pair_vec: Vec<(SlqPair, SlqTallyData)> = pair_pos_tally.into_iter().collect();
+
+    // Sort by total_count descending
+    pair_vec.sort_by_key(|(_, data)| Reverse(data.total_count));
+
+    for (slq_pair, data) in pair_vec {
+        println!(
+            // "{}[0x{:x}] + {}[0x{:x}]: {}",
+            "{}[{}] + {}[{}]: {}",
+            slq_pair.left.variant_name(),
+            // slq_pair.left.raw_payload(),
+            slq_pair.left.trit_string(),
+            slq_pair.right.variant_name(),
+            // slq_pair.right.raw_payload(),
+            slq_pair.right.trit_string(),
+            data.total_count
         );
 
-        // Print the layout map inside the bitfield
-        for (index, prop) in s.properties.iter().push_into_index_loop() {
-            let bit_offset = index * 2;
-            println!(
-                "    [{:02}..{:02}] -> {}",
-                bit_offset,
-                bit_offset + 1,
-                prop.name
-            );
-        }
-        println!();
-    }
+        let mut examples: Vec<((String, String), usize)> = data.word_pairs.into_iter().collect();
+        examples.sort_by_key(|&(_, count)| Reverse(count));
 
-    // 3. Sketch out what the autogenerated Enum will look like in memory
-    println!("--- Draft of the Autogenerated Runtime Enum ---");
-    println!("pub enum PosslqPropertyField {{");
-    for s in &detected_structs {
-        let pos_name = s.name.strip_suffix("Data").unwrap_or(&s.name);
-        let bits_required = s.properties.len() * 2;
-
-        // Pick the smallest integer backing size for the payload
-        let storage_type = match bits_required {
-            0..=8 => "u8",
-            9..=16 => "u16",
-            17..=32 => "u32",
-            _ => "u64",
-        };
-        println!("    {}({}),", pos_name, storage_type);
-    }
-    println!("}}");
-}
-
-fn is_option_bool(ty: &syn::Type) -> bool {
-    if let syn::Type::Path(type_path) = ty {
-        if let Some(segment) = type_path.path.segments.last() {
-            if segment.ident == "Option" {
-                if let syn::PathArguments::AngleBracketed(args) = &segment.arguments {
-                    if let Some(syn::GenericArgument::Type(syn::Type::Path(inner_path))) =
-                        args.args.first()
-                    {
-                        return inner_path.path.is_ident("bool");
-                    }
-                }
-            }
+        for ((w1, w2), count) in examples.into_iter().take(4) {
+            println!("  {}x - \"{} + {}\"", count, w1, w2);
         }
     }
-    false
-}
 
-// Quick polyfill trick to cleanly get indices in our preview loop
-trait IndexIterExt: Iterator {
-    fn push_into_index_loop(self) -> std::iter::Enumerate<Self>
-    where
-        Self: Sized,
-    {
-        self.enumerate()
-    }
+    Ok(())
 }
-impl<I: Iterator> IndexIterExt for I {}
