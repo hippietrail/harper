@@ -1,12 +1,12 @@
 use proc_macro::TokenStream;
-use quote::{quote, format_ident};
+use quote::{format_ident, quote};
 use std::fs;
 
 #[proc_macro]
 pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
-    let macro_crate_dir = std::env::var("CARGO_MANIFEST_DIR")
-        .expect("Cargo manifest directory env var not found");
-        
+    let macro_crate_dir =
+        std::env::var("CARGO_MANIFEST_DIR").expect("Cargo manifest directory env var not found");
+
     let target_file = std::path::Path::new(&macro_crate_dir)
         .parent()
         .unwrap()
@@ -15,9 +15,12 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
         .join("dict_word_metadata.rs");
 
     let content = fs::read_to_string(&target_file).unwrap_or_else(|_| {
-        panic!("posslq-macro could not find harper-core source at absolute path: {:?}", target_file)
+        panic!(
+            "posslq-macro could not find harper-core source at absolute path: {:?}",
+            target_file
+        )
     });
-    
+
     let ast = syn::parse_file(&content).expect("Failed to parse harper-core syntax tree");
 
     let mut enum_variants = Vec::new();
@@ -28,7 +31,9 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
     for item in ast.items {
         if let syn::Item::Struct(item_struct) = item {
             let struct_name = item_struct.ident.to_string();
-            if !struct_name.ends_with("Data") { continue; }
+            if !struct_name.ends_with("Data") {
+                continue;
+            }
 
             let raw_name = struct_name.strip_suffix("Data").unwrap_or(&struct_name);
             let variant_ident = format_ident!("{}", raw_name);
@@ -37,24 +42,24 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
             variant_idents.push(variant_ident.clone());
 
             let mut packing_exprs = Vec::new();
-            
+
             for (index, field) in item_struct.fields.iter().enumerate() {
                 let field_type = &field.ty;
                 let ty_tokens = quote! { #field_type };
                 let ty_str = ty_tokens.to_string().replace(" ", "");
-                
-                if ty_str == "Option<bool>" 
-                    && let Some(field_ident) = &field.ident {
-                        let bit_shift = index * 2;
-                        packing_exprs.push(quote! {
-                            (Trit::from_opt(data.#field_ident) as u64) << #bit_shift
-                        });
-                    
+
+                if ty_str == "Option<bool>"
+                    && let Some(field_ident) = &field.ident
+                {
+                    let bit_shift = index * 2;
+                    packing_exprs.push(quote! {
+                        (Trit::from_opt(data.#field_ident) as u64) << #bit_shift
+                    });
                 }
             }
 
             enum_variants.push(quote! { #variant_ident(u64) });
-            
+
             // Save the exact number of Option<bool> properties this struct possessed
             variant_prop_counts.push(packing_exprs.len());
 
