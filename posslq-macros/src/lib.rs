@@ -26,7 +26,7 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
     let mut enum_variants = Vec::new();
     let mut ctor_matches = Vec::new();
     let mut variant_idents = Vec::new();
-    let mut variant_prop_counts = Vec::new();
+    let mut trit_string_matches = Vec::new();
 
     for item in ast.items {
         if let syn::Item::Struct(item_struct) = item {
@@ -60,20 +60,37 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
 
             enum_variants.push(quote! { #variant_ident(u64) });
 
-            // Save the exact number of Option<bool> properties this struct possessed
-            variant_prop_counts.push(packing_exprs.len());
-
+            // Generate trit_string loop only if there are properties
             if packing_exprs.is_empty() {
                 ctor_matches.push(quote! {
                     if let Some(_data) = &wmd.#metadata_field_ident {
                         results.push(Self::#variant_ident(0));
                     }
                 });
+                trit_string_matches.push(quote! {
+                    Self::#variant_ident(_bits) => String::new(),
+                });
             } else {
                 ctor_matches.push(quote! {
                     if let Some(data) = &wmd.#metadata_field_ident {
                         let bits: u64 = #(#packing_exprs)|*;
                         results.push(Self::#variant_ident(bits));
+                    }
+                });
+                let prop_count = packing_exprs.len();
+                trit_string_matches.push(quote! {
+                    Self::#variant_ident(bits) => {
+                        let mut s = String::new();
+                        for i in 0..#prop_count {
+                            let shift = i * 2;
+                            let raw_trit = (bits >> shift) & 0b11;
+                            match raw_trit {
+                                0b10 => s.push('T'),
+                                0b01 => s.push('F'),
+                                _    => s.push('-'),
+                            }
+                        }
+                        s
                     }
                 });
             }
@@ -131,22 +148,7 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
             /// Returns a compact string layout of the bitfield (e.g., "T-F--")
             pub fn trit_string(&self) -> String {
                 match *self {
-                    #(
-                        Self::#variant_idents(bits) => {
-                            let mut s = String::new();
-                            // Loop over exactly how many fields this variant tracks
-                            for i in 0..#variant_prop_counts {
-                                let shift = i * 2;
-                                let raw_trit = (bits >> shift) & 0b11;
-                                match raw_trit {
-                                    0b10 => s.push('T'),
-                                    0b01 => s.push('F'),
-                                    _    => s.push('-'),
-                                }
-                            }
-                            s
-                        }
-                    )*
+                    #(#trit_string_matches)*
                 }
             }
         }
