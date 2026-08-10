@@ -1,11 +1,12 @@
 #![doc = include_str!("../README.md")]
 
 use harper_core::{Document, TokenKind};
-use std::cmp::Reverse; // Required for descending sorting
-use std::collections::HashMap;
+use std::cmp::Reverse;
+use std::collections::{HashMap, HashSet};
+use std::env::args;
 use std::fs;
+use std::{io, io::Read};
 
-// The magical macro line! It spins up everything in-memory at compile time
 posslq_macros::build_posslq_matrix!();
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
@@ -27,13 +28,51 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
-    let args: Vec<String> = std::env::args().skip(1).collect();
-    if args.is_empty() {
-        eprintln!("Usage: posslq <file>");
-        std::process::exit(1);
+    println!("=== HARPER COMBINATORIAL SCHEMATIC SCHEMAS ===");
+
+    // Instantiate dynamic mock examples of all supported categories to extract fields
+    let mock_categories = vec![
+        PosslqPropertyField::Verb(0),
+        PosslqPropertyField::Noun(0),
+        PosslqPropertyField::Pronoun(0),
+        PosslqPropertyField::Determiner(0),
+        PosslqPropertyField::Adjective(0),
+        PosslqPropertyField::Adverb(0),
+        PosslqPropertyField::Conjunction(0),
+        PosslqPropertyField::Affix(0),
+        PosslqPropertyField::Preposition(0),
+        PosslqPropertyField::OutOfVocabulary(0), // Changed from Unrecognized to OutOfVocabulary
+    ];
+
+    for category in mock_categories {
+        println!("POS Variant Family: {}", category.variant_name());
+        let schematic = category.field_schematic();
+
+        if schematic.is_empty() {
+            println!("  [No sub-properties registered]");
+        } else {
+            for (index, (name, ty)) in schematic.iter().enumerate() {
+                // Display exactly what placeholder marker is assigned to this slot
+                let marker_char = if *ty == "Option<bool>" { "T/F/-" } else { "?" };
+                println!(
+                    "    [{:02}] -> {:<16} | Type: {:<18} | String Slot: {}",
+                    index, name, ty, marker_char
+                );
+            }
+        }
+        println!();
     }
-    let file = &args[0];
-    let content = fs::read_to_string(file).expect("Failed to read file");
+    println!("================================================\n");
+
+    let content = if let Some(file) = args().into_iter().nth(1) {
+        fs::read_to_string(file).expect("Failed to read file")
+    } else {
+        let mut buffer = String::new();
+        io::stdin()
+            .read_to_string(&mut buffer)
+            .expect("Failed to read from stdin");
+        buffer
+    };
     let doc = Document::new_plain_english_curated(&content);
 
     let toks: Vec<_> = doc.tokens().collect();
@@ -42,8 +81,9 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
     let mut shadow_lane: Vec<Vec<PosslqPropertyField>> = Vec::new();
     let mut single_pos_tally: HashMap<PosslqPropertyField, usize> = HashMap::new();
 
-    // Updated map definition matching your SlqTallyData struct
     let mut pair_pos_tally: HashMap<SlqPair, SlqTallyData> = HashMap::new();
+
+    let mut pair_word_tally: HashMap<(String, String), HashSet<SlqPair>> = HashMap::new();
 
     // 1. Pass One: Token Stream Tokenization & Single Value Analysis
     for tok in toks.iter() {
@@ -60,13 +100,18 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
                     token_pos_matches.extend(packed_fields);
                 }
             }
-            TokenKind::Space(_) => {}
+            // Update the absolute missing vocabulary tracker
+            TokenKind::Word(None) => {
+                let field = PosslqPropertyField::OutOfVocabulary(0);
+                *single_pos_tally.entry(field).or_insert(0) += 1;
+                token_pos_matches.push(field);
+            }
             _ => {}
         }
         shadow_lane.push(token_pos_matches);
     }
 
-    // 2. Pass Two: Run Adjacency Statistical Accumulation Machine (Corrected Single Loop)
+    // 2. Pass Two: Run Adjacency Statistical Accumulation Machine
     let mut active_left_variants: Option<&Vec<PosslqPropertyField>> = None;
     let mut active_left_str: Option<String> = None;
 
@@ -75,12 +120,6 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
             TokenKind::Word(_) => {
                 let current_variants = &shadow_lane[i];
                 let current_str = tok.get_str(src).to_string();
-
-                if current_variants.is_empty() {
-                    active_left_variants = None;
-                    active_left_str = None;
-                    continue;
-                }
 
                 if let (Some(left_variants), Some(left_str)) =
                     (active_left_variants, &active_left_str)
@@ -96,7 +135,12 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
                             data.total_count += 1;
 
                             let word_key = (left_str.clone(), current_str.clone());
-                            *data.word_pairs.entry(word_key).or_insert(0) += 1;
+                            *data.word_pairs.entry(word_key.clone()).or_insert(0) += 1;
+
+                            pair_word_tally
+                                .entry(word_key)
+                                .or_insert_with(HashSet::new)
+                                .insert(pair);
                         }
                     }
                 }
@@ -133,13 +177,10 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
 
     for (slq_pair, data) in pair_vec {
         println!(
-            // "{}[0x{:x}] + {}[0x{:x}]: {}",
             "{}[{}] + {}[{}]: {}",
             slq_pair.left.variant_name(),
-            // slq_pair.left.raw_payload(),
             slq_pair.left.trit_string(),
             slq_pair.right.variant_name(),
-            // slq_pair.right.raw_payload(),
             slq_pair.right.trit_string(),
             data.total_count
         );
@@ -147,8 +188,27 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
         let mut examples: Vec<((String, String), usize)> = data.word_pairs.into_iter().collect();
         examples.sort_by_key(|&(_, count)| Reverse(count));
 
-        for ((w1, w2), count) in examples.into_iter().take(4) {
-            println!("  {}x - \"{} + {}\"", count, w1, w2);
+        // 1. Filter the list to include ONLY pairs with an absolute variance count of exactly 1
+        let strict_one_pos_examples: Vec<_> = examples
+            .into_iter()
+            .filter(|((w1, w2), _)| {
+                let structural_variations_count = pair_word_tally
+                    .get(&(w1.clone(), w2.clone()))
+                    .map_or(0, |set| set.len());
+
+                structural_variations_count == 1
+            })
+            .take(4) // 2. Take the top 4 remaining highest frequency items
+            .collect();
+
+        // 3. Print out the strict examples list if any matches passed through
+        if !strict_one_pos_examples.is_empty() {
+            println!("  Top Examples (Strictly 1 POS structure variant):");
+            for ((w1, w2), count) in strict_one_pos_examples {
+                println!("    - {}x “{}” + “{}”", count, w1, w2);
+            }
+        } else {
+            println!("  Top Examples: [None found with exactly 1 structural variation]");
         }
     }
 

@@ -27,7 +27,9 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
     let mut ctor_matches = Vec::new();
     let mut variant_idents = Vec::new();
     let mut trit_string_matches = Vec::new();
+    let mut schematic_matches = Vec::new();
 
+    // 1. Process regular structures found on disk
     for item in ast.items {
         if let syn::Item::Struct(item_struct) = item {
             let struct_name = item_struct.ident.to_string();
@@ -42,33 +44,52 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
             variant_idents.push(variant_ident.clone());
 
             let mut packing_exprs = Vec::new();
+            let mut trit_char_generators = Vec::new();
+            let mut field_idents = Vec::new();
+            let mut field_tys = Vec::new();
 
             for (index, field) in item_struct.fields.iter().enumerate() {
                 let field_type = &field.ty;
                 let ty_tokens = quote! { #field_type };
                 let ty_str = ty_tokens.to_string().replace(" ", "");
 
+                let bit_shift = index * 2;
+                let name_str = field
+                    .ident
+                    .as_ref()
+                    .map_or("anonymous".to_string(), |id| id.to_string());
+
+                field_idents.push(name_str);
+                field_tys.push(ty_str.clone());
+
                 if ty_str == "Option<bool>"
                     && let Some(field_ident) = &field.ident
                 {
-                    let bit_shift = index * 2;
                     packing_exprs.push(quote! {
                         (Trit::from_opt(data.#field_ident) as u64) << #bit_shift
+                    });
+
+                    trit_char_generators.push(quote! {
+                        match (bits >> #bit_shift) & 0b11 {
+                            0b10 => s.push('T'),
+                            0b01 => s.push('F'),
+                            _    => s.push('-'),
+                        }
+                    });
+                } else {
+                    trit_char_generators.push(quote! {
+                        s.push('?');
                     });
                 }
             }
 
             enum_variants.push(quote! { #variant_ident(u64) });
 
-            // Generate trit_string loop only if there are properties
             if packing_exprs.is_empty() {
                 ctor_matches.push(quote! {
                     if let Some(_data) = &wmd.#metadata_field_ident {
                         results.push(Self::#variant_ident(0));
                     }
-                });
-                trit_string_matches.push(quote! {
-                    Self::#variant_ident(_bits) => String::new(),
                 });
             } else {
                 ctor_matches.push(quote! {
@@ -77,26 +98,51 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
                         results.push(Self::#variant_ident(bits));
                     }
                 });
-                let prop_count = packing_exprs.len();
-                trit_string_matches.push(quote! {
-                    Self::#variant_ident(bits) => {
-                        let mut s = String::new();
-                        for i in 0..#prop_count {
-                            let shift = i * 2;
-                            let raw_trit = (bits >> shift) & 0b11;
-                            match raw_trit {
-                                0b10 => s.push('T'),
-                                0b01 => s.push('F'),
-                                _    => s.push('-'),
-                            }
-                        }
-                        s
-                    }
-                });
             }
+
+            trit_string_matches.push(quote! {
+                Self::#variant_ident(bits) => {
+                    let mut s = String::new();
+                    #(#trit_char_generators)*
+                    s
+                }
+            });
+
+            schematic_matches.push(quote! {
+                Self::#variant_ident(_) => {
+                    vec![ #( (#field_idents, #field_tys) ),* ]
+                }
+            });
         }
     }
 
+    // Preposition Custom Match Handlers
+    let preposition_ident = format_ident!("Preposition");
+    variant_idents.push(preposition_ident.clone());
+    enum_variants.push(quote! { Preposition(u64) });
+    
+    // Notice the trailing commas at the end of these blocks!
+    schematic_matches.push(quote! { 
+        Self::Preposition(_) => vec![("is_preposition", "bool")], 
+    });
+    trit_string_matches.push(quote! { 
+        Self::Preposition(_) => String::from("P"), 
+    });
+
+    // OutOfVocabulary Custom Match Handlers
+    let oov_ident = format_ident!("OutOfVocabulary");
+    variant_idents.push(oov_ident.clone());
+    enum_variants.push(quote! { OutOfVocabulary(u64) });
+    
+    // Notice the trailing commas at the end of these blocks as well!
+    schematic_matches.push(quote! { 
+        Self::OutOfVocabulary(_) => vec![("unknown_token", "None")], 
+    });
+    trit_string_matches.push(quote! { 
+        Self::OutOfVocabulary(_) => String::from("?"), 
+    });
+
+    // 3. Emit the complete unified AST with the updated constructor signatures
     let expanded = quote! {
         #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
         #[repr(u8)]
@@ -125,30 +171,38 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
         impl PosslqPropertyField {
             pub fn from_metadata(wmd: &harper_core::DictWordMetadata) -> Vec<Self> {
                 let mut results = Vec::new();
+
+                // First evaluation pass: Dynamic *Data struct mappings
                 #(#ctor_matches)*
+
+                // leg A: Catchlegitimate flat prepositions
+                if wmd.preposition {
+                    results.push(Self::Preposition(0));
+                }
+
+                // leg B: Final fallback if it is in the dictionary but possesses NO grammatical labels
+                if results.is_empty() {
+                    results.push(Self::OutOfVocabulary(0));
+                }
+
                 results
             }
 
             pub fn variant_name(&self) -> &'static str {
-                match self {
-                    #(
-                        Self::#variant_idents(_) => stringify!(#variant_idents),
-                    )*
-                }
+                match self { #( Self::#variant_idents(_) => stringify!(#variant_idents), )* }
             }
 
             pub fn raw_payload(&self) -> u64 {
-                match *self {
-                    #(
-                        Self::#variant_idents(bits) => bits,
-                    )*
-                }
+                match *self { #( Self::#variant_idents(bits) => bits, )* }
             }
 
-            /// Returns a compact string layout of the bitfield (e.g., "T-F--")
             pub fn trit_string(&self) -> String {
-                match *self {
-                    #(#trit_string_matches)*
+                match *self { #(#trit_string_matches)* }
+            }
+
+            pub fn field_schematic(&self) -> Vec<(&'static str, &'static str)> {
+                match self {
+                    #(#schematic_matches)*
                 }
             }
         }
