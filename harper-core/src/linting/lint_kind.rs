@@ -83,6 +83,7 @@ impl LintKind {
             "Typo" => Some(LintKind::Typo),
             "Usage" => Some(LintKind::Usage),
             "WordChoice" => Some(LintKind::WordChoice),
+            "WordOrder" => Some(LintKind::WordOrder),
             _ => None,
         }
     }
