@@ -6,7 +6,6 @@ mod char_ext;
 mod char_string;
 mod currency;
 mod dict_word_metadata;
-mod dict_word_metadata_orthography;
 mod document;
 mod edit_distance;
 pub mod expr;
@@ -47,8 +46,8 @@ pub use currency::Currency;
 pub use dict_word_metadata::{
     AdverbData, ConjunctionData, Degree, DeterminerData, Dialect, DialectFlags, DictWordMetadata,
     NounData, PronounData, VerbData, VerbForm, VerbFormFlags,
+    orthography::{OrthFlags, Orthography},
 };
-pub use dict_word_metadata_orthography::{OrthFlags, Orthography};
 pub use document::Document;
 pub use fat_token::{FatStringToken, FatToken};
 pub use ignored_lints::{IgnoredLints, LintContext};

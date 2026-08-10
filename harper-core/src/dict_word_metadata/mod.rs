@@ -1,3 +1,7 @@
+pub mod orthography;
+
+use std::convert::TryFrom;
+
 use harper_brill::UPOS;
 use is_macro::Is;
 use itertools::Itertools;
@@ -7,11 +11,9 @@ use smallvec::SmallVec;
 use strum::{EnumCount as _, VariantArray as _};
 use strum_macros::{Display, EnumCount, EnumIter, EnumString, VariantArray};
 
-use std::convert::TryFrom;
-
-use crate::dict_word_metadata_orthography::OrthFlags;
-use crate::spell::WordId;
-use crate::{Document, TokenKind, TokenStringExt};
+use crate::{
+    Document, TokenKind, TokenStringExt, dict_word_metadata::orthography::OrthFlags, spell::WordId,
+};
 
 /// This represents a "lexeme" or "headword" which is case-folded but affix-expanded.
 /// So not only lemmata but also inflected forms are stored here, with "horn" and "horns" each

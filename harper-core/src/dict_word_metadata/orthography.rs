@@ -234,7 +234,7 @@ fn check_roman_group<I: Iterator<Item = char>>(
 mod tests {
     use crate::CharString;
     use crate::dict_word_metadata::tests::md;
-    use crate::dict_word_metadata_orthography::OrthFlags;
+    use super::OrthFlags;
 
     fn orth_flags(s: &str) -> OrthFlags {
         let letters: CharString = s.chars().collect();
