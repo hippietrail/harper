@@ -1,6 +1,7 @@
 #![doc = include_str!("../README.md")]
 
 use harper_core::{Document, TokenKind};
+use std::borrow::Cow;
 use std::cmp::Reverse;
 use std::collections::{HashMap, HashSet};
 use std::env::args;
@@ -20,6 +21,7 @@ struct SlqPair {
 struct SlqTallyData {
     total_count: usize,
     word_pairs: HashMap<(String, String), usize>,
+    word_pairs: HashMap<(String, String), usize>,
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -31,6 +33,7 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
     println!("=== HARPER COMBINATORIAL SCHEMATIC SCHEMAS ===");
 
     // Instantiate dynamic mock examples of all supported categories to extract fields
+    // TODO: This is brittle! We're using macros and the AST to get this info from the source to avoid this!
     let mock_categories = vec![
         PosslqPropertyField::Verb(0),
         PosslqPropertyField::Noun(0),
@@ -41,7 +44,7 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
         PosslqPropertyField::Conjunction(0),
         PosslqPropertyField::Affix(0),
         PosslqPropertyField::Preposition(0),
-        PosslqPropertyField::OutOfVocabulary(0), // Changed from Unrecognized to OutOfVocabulary
+        PosslqPropertyField::OutOfVocabulary(0),
     ];
 
     for category in mock_categories {
@@ -82,7 +85,6 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
     let mut single_pos_tally: HashMap<PosslqPropertyField, usize> = HashMap::new();
 
     let mut pair_pos_tally: HashMap<SlqPair, SlqTallyData> = HashMap::new();
-
     let mut pair_word_tally: HashMap<(String, String), HashSet<SlqPair>> = HashMap::new();
 
     // 1. Pass One: Token Stream Tokenization & Single Value Analysis
@@ -90,23 +92,16 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
         let _t = tok.get_str(src);
         let mut token_pos_matches = Vec::new();
 
-        match &tok.kind {
-            TokenKind::Word(Some(wmd)) => {
-                let packed_fields = PosslqPropertyField::from_metadata(wmd);
-                if !packed_fields.is_empty() {
-                    for &field in &packed_fields {
-                        *single_pos_tally.entry(field).or_insert(0) += 1;
-                    }
-                    token_pos_matches.extend(packed_fields);
-                }
-            }
-            // Update the absolute missing vocabulary tracker
-            TokenKind::Word(None) => {
-                let field = PosslqPropertyField::OutOfVocabulary(0);
+        let packed_fields: Cow<[PosslqPropertyField]> = match &tok.kind {
+            TokenKind::Word(Some(wmd)) => Cow::Owned(PosslqPropertyField::from_metadata(wmd)),
+            TokenKind::Word(None) => Cow::Borrowed(&[PosslqPropertyField::OutOfVocabulary(0)]),
+            _ => Cow::Borrowed(&[]),
+        };
+        if !packed_fields.is_empty() {
+            for &field in packed_fields.iter() {
                 *single_pos_tally.entry(field).or_insert(0) += 1;
-                token_pos_matches.push(field);
             }
-            _ => {}
+            token_pos_matches.extend(packed_fields.into_owned());
         }
         shadow_lane.push(token_pos_matches);
     }
@@ -188,7 +183,6 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
         let mut examples: Vec<((String, String), usize)> = data.word_pairs.into_iter().collect();
         examples.sort_by_key(|&(_, count)| Reverse(count));
 
-        // 1. Filter the list to include ONLY pairs with an absolute variance count of exactly 1
         let strict_one_pos_examples: Vec<_> = examples
             .into_iter()
             .filter(|((w1, w2), _)| {
@@ -198,10 +192,9 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
 
                 structural_variations_count == 1
             })
-            .take(4) // 2. Take the top 4 remaining highest frequency items
+            .take(4)
             .collect();
 
-        // 3. Print out the strict examples list if any matches passed through
         if !strict_one_pos_examples.is_empty() {
             println!("  Top Examples (Strictly 1 POS structure variant):");
             for ((w1, w2), count) in strict_one_pos_examples {

@@ -120,26 +120,26 @@ pub fn build_posslq_matrix(_input: TokenStream) -> TokenStream {
     let preposition_ident = format_ident!("Preposition");
     variant_idents.push(preposition_ident.clone());
     enum_variants.push(quote! { Preposition(u64) });
-    
+
     // Notice the trailing commas at the end of these blocks!
-    schematic_matches.push(quote! { 
-        Self::Preposition(_) => vec![("is_preposition", "bool")], 
+    schematic_matches.push(quote! {
+        Self::Preposition(_) => vec![("is_preposition", "bool")],
     });
-    trit_string_matches.push(quote! { 
-        Self::Preposition(_) => String::from("P"), 
+    trit_string_matches.push(quote! {
+        Self::Preposition(_) => String::from("P"),
     });
 
     // OutOfVocabulary Custom Match Handlers
     let oov_ident = format_ident!("OutOfVocabulary");
     variant_idents.push(oov_ident.clone());
     enum_variants.push(quote! { OutOfVocabulary(u64) });
-    
+
     // Notice the trailing commas at the end of these blocks as well!
-    schematic_matches.push(quote! { 
-        Self::OutOfVocabulary(_) => vec![("unknown_token", "None")], 
+    schematic_matches.push(quote! {
+        Self::OutOfVocabulary(_) => vec![("unknown_token", "None")],
     });
-    trit_string_matches.push(quote! { 
-        Self::OutOfVocabulary(_) => String::from("?"), 
+    trit_string_matches.push(quote! {
+        Self::OutOfVocabulary(_) => String::from("?"),
     });
 
     // 3. Emit the complete unified AST with the updated constructor signatures
