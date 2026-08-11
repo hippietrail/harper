@@ -66,7 +66,7 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
     }
     println!("================================================\n");
 
-    let content = if let Some(file) = args().into_iter().nth(1) {
+    let content = if let Some(file) = args().nth(1) {
         fs::read_to_string(file).expect("Failed to read file")
     } else {
         let mut buffer = String::new();
@@ -133,7 +133,7 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
 
                             pair_word_tally
                                 .entry(word_key)
-                                .or_insert_with(HashSet::new)
+                                .or_default()
                                 .insert(pair);
                         }
                     }
@@ -179,7 +179,11 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
             data.total_count
         );
 
-        let mut examples: Vec<((&[char], &[char]), usize)> = data.word_pairs.into_iter().collect();
+        type WordPair<'a> = (&'a [char], &'a [char]);
+        type CountedPair<'a> = (WordPair<'a>, usize);
+
+        let mut examples: Vec<CountedPair> = data.word_pairs.into_iter().collect();
+
         examples.sort_by_key(|&(_, count)| Reverse(count));
 
         let strict_one_pos_examples: Vec<_> = examples
