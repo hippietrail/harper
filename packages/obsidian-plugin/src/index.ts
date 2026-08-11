@@ -20,7 +20,7 @@ import { SidebarView } from './SidebarView';
 import State from './State';
 
 export default class HarperPlugin extends Plugin {
-	state: State;
+	state: State | null = null;
 	private dialectSpan: HTMLSpanElement | null = null;
 	private logo: HTMLSpanElement | null = null;
 	private settings: HarperSettingTab | null = null;
