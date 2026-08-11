@@ -21,7 +21,6 @@ struct SlqPair {
 struct SlqTallyData {
     total_count: usize,
     word_pairs: HashMap<(String, String), usize>,
-    word_pairs: HashMap<(String, String), usize>,
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
