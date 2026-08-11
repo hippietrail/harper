@@ -3401,6 +3401,13 @@
 						},
 						{
 							"Bool": {
+								"name": "FullToTheBrim",
+								"state": true,
+								"label": "Full to the Brim"
+							}
+						},
+						{
+							"Bool": {
 								"name": "HadOf",
 								"state": true,
 								"label": "Had Of"
@@ -3570,7 +3577,7 @@
 						{
 							"Bool": {
 								"name": "MoreAdjective",
-								"state": true,
+								"state": false,
 								"label": "More Adjective"
 							}
 						},
@@ -3767,7 +3774,14 @@
 							"Bool": {
 								"name": "TakeALookTo",
 								"state": true,
-								"label": "Take A Look To"
+								"label": "Take a Look to"
+							}
+						},
+						{
+							"Bool": {
+								"name": "TakeCareOf",
+								"state": true,
+								"label": "Take Care of"
 							}
 						},
 						{
@@ -3898,6 +3912,13 @@
 						},
 						{
 							"Bool": {
+								"name": "VeryMuchSo",
+								"state": true,
+								"label": "Very Much So"
+							}
+						},
+						{
+							"Bool": {
 								"name": "WantBe",
 								"state": true,
 								"label": "Want Be"
@@ -3934,6 +3955,13 @@
 				"description": "Suggests more standard or idiomatic wording when a phrase is technically understandable but poorly chosen.",
 				"child": {
 					"settings": [
+						{
+							"Bool": {
+								"name": "AccuseOf",
+								"state": true,
+								"label": "Accuse of"
+							}
+						},
 						{
 							"Bool": {
 								"name": "AheadAnd",
@@ -4671,6 +4699,13 @@
 						},
 						{
 							"Bool": {
+								"name": "ImplementIn",
+								"state": true,
+								"label": "Implement In"
+							}
+						},
+						{
+							"Bool": {
 								"name": "Impressed",
 								"state": true,
 								"label": "Impressed"
@@ -4895,6 +4930,13 @@
 						},
 						{
 							"Bool": {
+								"name": "LittleKnown",
+								"state": true,
+								"label": "Little Known"
+							}
+						},
+						{
+							"Bool": {
 								"name": "LongTimeAgo",
 								"state": true,
 								"label": "Long Time Ago"
@@ -5077,6 +5119,13 @@
 						},
 						{
 							"Bool": {
+								"name": "OnesSelf",
+								"state": true,
+								"label": "One's Self"
+							}
+						},
+						{
+							"Bool": {
 								"name": "OnFirstGlance",
 								"state": true,
 								"label": "On First Glance"
@@ -5178,6 +5227,13 @@
 								"name": "RedundantFirsts",
 								"state": true,
 								"label": "Redundant Firsts"
+							}
+						},
+						{
+							"Bool": {
+								"name": "RegimenRegiment",
+								"state": true,
+								"label": "Regimen Regiment"
 							}
 						},
 						{
