@@ -18,9 +18,9 @@ struct SlqPair {
 
 // Custom data container to track the rich co-occurrence data
 #[derive(Debug, Clone, Default)]
-struct SlqTallyData {
+struct SlqTallyData<'a> {
     total_count: usize,
-    word_pairs: HashMap<(String, String), usize>,
+    word_pairs: HashMap<(&'a [char], &'a [char]), usize>,
 }
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -84,11 +84,11 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
     let mut single_pos_tally: HashMap<PosslqPropertyField, usize> = HashMap::new();
 
     let mut pair_pos_tally: HashMap<SlqPair, SlqTallyData> = HashMap::new();
-    let mut pair_word_tally: HashMap<(String, String), HashSet<SlqPair>> = HashMap::new();
+    let mut pair_word_tally: HashMap<(&[char], &[char]), HashSet<SlqPair>> = HashMap::new();
 
     // 1. Pass One: Token Stream Tokenization & Single Value Analysis
     for tok in toks.iter() {
-        let _t = tok.get_str(src);
+        let _t = tok.get_ch(src);
         let mut token_pos_matches = Vec::new();
 
         let packed_fields: Cow<[PosslqPropertyField]> = match &tok.kind {
@@ -107,16 +107,16 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
 
     // 2. Pass Two: Run Adjacency Statistical Accumulation Machine
     let mut active_left_variants: Option<&Vec<PosslqPropertyField>> = None;
-    let mut active_left_str: Option<String> = None;
+    let mut active_left_str: Option<&[char]> = None;
 
     for (i, tok) in toks.iter().enumerate() {
         match &tok.kind {
             TokenKind::Word(_) => {
                 let current_variants = &shadow_lane[i];
-                let current_str = tok.get_str(src).to_string();
+                let current_str = tok.get_ch(src);
 
                 if let (Some(left_variants), Some(left_str)) =
-                    (active_left_variants, &active_left_str)
+                    (active_left_variants, active_left_str)
                 {
                     for &v1 in left_variants {
                         for &v2 in current_variants {
@@ -128,8 +128,8 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
                             let data = pair_pos_tally.entry(pair).or_default();
                             data.total_count += 1;
 
-                            let word_key = (left_str.clone(), current_str.clone());
-                            *data.word_pairs.entry(word_key.clone()).or_insert(0) += 1;
+                            let word_key = (left_str, current_str);
+                            *data.word_pairs.entry(word_key).or_insert(0) += 1;
 
                             pair_word_tally
                                 .entry(word_key)
@@ -179,15 +179,14 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
             data.total_count
         );
 
-        let mut examples: Vec<((String, String), usize)> = data.word_pairs.into_iter().collect();
+        let mut examples: Vec<((&[char], &[char]), usize)> = data.word_pairs.into_iter().collect();
         examples.sort_by_key(|&(_, count)| Reverse(count));
 
         let strict_one_pos_examples: Vec<_> = examples
             .into_iter()
             .filter(|((w1, w2), _)| {
-                let structural_variations_count = pair_word_tally
-                    .get(&(w1.clone(), w2.clone()))
-                    .map_or(0, |set| set.len());
+                let structural_variations_count =
+                    pair_word_tally.get(&(w1, w2)).map_or(0, |set| set.len());
 
                 structural_variations_count == 1
             })
@@ -197,7 +196,12 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
         if !strict_one_pos_examples.is_empty() {
             println!("  Top Examples (Strictly 1 POS structure variant):");
             for ((w1, w2), count) in strict_one_pos_examples {
-                println!("    - {}x “{}” + “{}”", count, w1, w2);
+                println!(
+                    "    - {}x “{}” + “{}”",
+                    count,
+                    w1.iter().collect::<String>(),
+                    w2.iter().collect::<String>()
+                );
             }
         } else {
             println!("  Top Examples: [None found with exactly 1 structural variation]");
