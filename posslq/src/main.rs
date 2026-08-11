@@ -131,10 +131,7 @@ fn analyse_file() -> Result<(), Box<dyn std::error::Error>> {
                             let word_key = (left_str, current_str);
                             *data.word_pairs.entry(word_key).or_insert(0) += 1;
 
-                            pair_word_tally
-                                .entry(word_key)
-                                .or_default()
-                                .insert(pair);
+                            pair_word_tally.entry(word_key).or_default().insert(pair);
                         }
                     }
                 }
