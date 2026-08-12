@@ -44,7 +44,9 @@ pub use case::{Case, CaseIterExt};
 pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use dict_word_metadata::{
-    AdverbData, ConjunctionData, Degree, DeterminerData, DictWordMetadata, dialect,
+    AdverbData, ConjunctionData, DeterminerData, DictWordMetadata,
+    adjective::{AdjectiveData, Degree},
+    dialect,
     dialect::{Dialect, DialectFlags},
     nominal::{NounData, PronounData},
     orthography::{OrthFlags, Orthography},
