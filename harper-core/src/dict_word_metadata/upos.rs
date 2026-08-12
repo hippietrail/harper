@@ -5,7 +5,8 @@ use smallvec::SmallVec;
 use crate::{
     DictWordMetadata,
     dict_word_metadata::{
-        AdjectiveData, AdverbData, ConjunctionData, DeterminerData, NounData, PronounData, VerbData,
+        AdjectiveData, AdverbData, ConjunctionData, DeterminerData, NounData, PronounData,
+        verb::VerbData,
     },
 };
 

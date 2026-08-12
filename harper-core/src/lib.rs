@@ -45,9 +45,10 @@ pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use dict_word_metadata::{
     AdverbData, ConjunctionData, Degree, DeterminerData, DictWordMetadata, NounData, PronounData,
-    VerbData, VerbForm, VerbFormFlags, dialect,
+    dialect,
     dialect::{Dialect, DialectFlags},
     orthography::{OrthFlags, Orthography},
+    verb::{VerbData, VerbForm, VerbFormFlags},
 };
 pub use document::Document;
 pub use fat_token::{FatStringToken, FatToken};
