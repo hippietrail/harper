@@ -44,8 +44,9 @@ pub use case::{Case, CaseIterExt};
 pub use char_string::{CharString, CharStringExt};
 pub use currency::Currency;
 pub use dict_word_metadata::{
-    AdverbData, ConjunctionData, Degree, DeterminerData, Dialect, DialectFlags, DictWordMetadata,
-    NounData, PronounData, VerbData, VerbForm, VerbFormFlags,
+    AdverbData, ConjunctionData, Degree, DeterminerData, DictWordMetadata, NounData, PronounData,
+    VerbData, VerbForm, VerbFormFlags, dialect,
+    dialect::DialectFlags,
     orthography::{OrthFlags, Orthography},
 };
 pub use document::Document;
@@ -211,7 +212,8 @@ mod tests {
     use crate::remove_overlaps_map;
     use crate::spell::FstDictionary;
     use crate::{
-        Dialect, Document, Span,
+        Document, Span,
+        dialect::Dialect,
         expr::{AnchorStart, SequenceExpr},
         linting::{LintGroup, Linter},
         remove_lints_overlapping_expr, remove_overlaps,
