@@ -46,7 +46,7 @@ pub use currency::Currency;
 pub use dict_word_metadata::{
     AdverbData, ConjunctionData, Degree, DeterminerData, DictWordMetadata, NounData, PronounData,
     VerbData, VerbForm, VerbFormFlags, dialect,
-    dialect::DialectFlags,
+    dialect::{Dialect, DialectFlags},
     orthography::{OrthFlags, Orthography},
 };
 pub use document::Document;
