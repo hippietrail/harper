@@ -147,7 +147,7 @@ impl CharStringExt for [char] {
             let (c, s) = (chit.next(), strit.next());
             match (c, s) {
                 (Some(c), Some(s)) => {
-                    if c.to_ascii_lowercase() != s.to_ascii_lowercase() {
+                    if !c.eq_ignore_ascii_case(&s) {
                         return false;
                     }
                 }
@@ -179,7 +179,7 @@ impl CharStringExt for [char] {
             && self
                 .iter()
                 .zip(other.iter())
-                .all(|(a, b)| a.to_ascii_lowercase() == b.to_ascii_lowercase())
+                .all(|(a, b)| a.eq_ignore_ascii_case(b))
     }
 
     fn eq_any_ignore_ascii_case_str(&self, others: &[&str]) -> bool {
