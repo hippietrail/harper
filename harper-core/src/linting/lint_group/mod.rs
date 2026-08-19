@@ -276,6 +276,7 @@ use super::throw_baby_with_bathwater::ThrowBabyWithBathwater;
 use super::throw_rubbish::ThrowRubbish;
 use super::till_date::TillDate;
 use super::to_adverb::ToAdverb;
+use super::to_to::ToTo;
 use super::to_two_too::ToTwoToo;
 use super::touristic::Touristic;
 use super::transposed_space::TransposedSpace;
@@ -306,6 +307,7 @@ use super::wordpress_dotcom::WordPressDotcom;
 use super::worth_to_do::WorthToDo;
 use super::would_never_have::WouldNeverHave;
 use super::wrong_apostrophe::WrongApostrophe;
+use super::wrong_negative::WrongNegative;
 
 // Modules that create multiple linters each
 use super::be_adjective_confusions;
@@ -863,6 +865,7 @@ impl LintGroup {
         insert_struct_rule!(ThrowRubbish);
         insert_expr_rule_with_dialect!(TillDate);
         insert_expr_rule!(ToAdverb);
+        insert_expr_rule!(ToTo);
         insert_struct_rule!(ToTwoToo);
         insert_expr_rule!(Touristic);
         insert_expr_rule_with_dict!(TransposedSpace);
@@ -890,6 +893,7 @@ impl LintGroup {
         insert_struct_rule!(WordPressDotcom);
         insert_expr_rule_with_dict!(WorthToDo);
         insert_expr_rule!(WouldNeverHave);
+        insert_expr_rule_with_dict!(WrongNegative);
 
         // Uses Sentence rather than Chunk
         out.add("AspireTo", AspireTo::default());

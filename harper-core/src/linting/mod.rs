@@ -295,6 +295,7 @@ mod throw_baby_with_bathwater;
 mod throw_rubbish;
 mod till_date;
 mod to_adverb;
+mod to_to;
 mod to_two_too;
 mod touristic;
 mod transposed_space;
@@ -324,6 +325,7 @@ mod wordpress_dotcom;
 mod worth_to_do;
 mod would_never_have;
 mod wrong_apostrophe;
+mod wrong_negative;
 
 pub use expr_linter::{Chunk, ExprLinter, Sentence};
 pub use initialism_linter::InitialismLinter;
