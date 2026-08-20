@@ -504,13 +504,6 @@
 						},
 						{
 							"Bool": {
-								"name": "Keystrokes",
-								"state": true,
-								"label": "Keystrokes"
-							}
-						},
-						{
-							"Bool": {
 								"name": "Laptop",
 								"state": true,
 								"label": "Laptop"
@@ -539,23 +532,9 @@
 						},
 						{
 							"Bool": {
-								"name": "Misunderstood",
-								"state": true,
-								"label": "Misunderstood"
-							}
-						},
-						{
-							"Bool": {
 								"name": "Misuse",
 								"state": true,
 								"label": "Misuse"
-							}
-						},
-						{
-							"Bool": {
-								"name": "Misused",
-								"state": true,
-								"label": "Misused"
 							}
 						},
 						{
@@ -668,13 +647,6 @@
 								"name": "Shortcoming",
 								"state": true,
 								"label": "Shortcoming"
-							}
-						},
-						{
-							"Bool": {
-								"name": "Shortcomings",
-								"state": true,
-								"label": "Shortcomings"
 							}
 						},
 						{
