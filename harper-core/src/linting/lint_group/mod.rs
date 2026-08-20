@@ -73,6 +73,7 @@ use super::did_past::DidPast;
 use super::didnt::Didnt;
 use super::discourse_markers::DiscourseMarkers;
 use super::disjoint_prefixes::DisjointPrefixes;
+use super::dissemble_disassemble::DissembleDisassemble;
 use super::do_mistake::DoMistake;
 use super::dot_initialisms::DotInitialisms;
 use super::double_click::DoubleClick;
@@ -904,6 +905,9 @@ impl LintGroup {
 
         // Uses Sentence rather than Chunk
         out.add("Damages", Damages::default());
+
+        // Uses Sentence rather than CHunk
+        out.add("DissembleDisassemble", DissembleDisassemble::default());
 
         // Uses Sentence rather than Chunk
         out.add(

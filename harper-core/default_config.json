@@ -4433,6 +4433,13 @@
 						},
 						{
 							"Bool": {
+								"name": "DissembleDisassemble",
+								"state": true,
+								"label": "Dissemble / Disassemble"
+							}
+						},
+						{
+							"Bool": {
 								"name": "DoMistake",
 								"state": true,
 								"label": "Do Mistake"
