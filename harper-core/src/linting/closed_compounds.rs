@@ -53,6 +53,8 @@ pub fn lint_group() -> LintGroup {
                                (&["by passes"], "bypasses")],
         "Chalkboard"      => &[(&["chalk board"], "chalkboard"),
                                (&["chalk boards"], "chalkboards")],
+        "Codebase"        => &[(&["code base"], "codebase"),
+                               (&["code bases"], "codebases")],
         "Deadlift"        => &[(&["dead lift"], "deadlift"),
                                (&["dead lifts"], "deadlifts")],
         "Desktop"         => &[(&["desk top"], "desktop"),
@@ -114,6 +116,7 @@ pub fn lint_group() -> LintGroup {
         "Somehow"         => &[(&["some how"], "somehow")],
         "Someone"         => &[(&["some one"], "someone")],
         "Somewhere"       => &[(&["some where"], "somewhere")],
+        "Tenfold"         => &[(&["ten fold"], "tenfold")],
         "There"           => &[(&["the re"], "there")],
         "Therefore"       => &[(&["there fore"], "therefore")],
         "Thereupon"       => &[(&["there upon"], "thereupon")],
@@ -386,5 +389,32 @@ mod tests {
         let test_sentence = "I feel that the special case of looping over sequences that follow a standard iterator protocol (i.e. optionals) is important enough to be worth-while.";
         let expected = "I feel that the special case of looping over sequences that follow a standard iterator protocol (i.e. optionals) is important enough to be worthwhile.";
         assert_suggestion_result(test_sentence, lint_group(), expected);
+    }
+
+    #[test]
+    fn tenfold() {
+        assert_suggestion_result(
+            "If Andrew Kelly has done something wrong hasn’t Theo done that ten fold",
+            lint_group(),
+            "If Andrew Kelly has done something wrong hasn’t Theo done that tenfold",
+        )
+    }
+
+    #[test]
+    fn codebase() {
+        assert_suggestion_result(
+            "Having trouble communicating the problems in your code base?",
+            lint_group(),
+            "Having trouble communicating the problems in your codebase?",
+        )
+    }
+
+    #[test]
+    fn codebases() {
+        assert_suggestion_result(
+            "Tools to visualize large code bases in different ways.",
+            lint_group(),
+            "Tools to visualize large codebases in different ways.",
+        )
     }
 }
