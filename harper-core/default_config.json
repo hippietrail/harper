@@ -406,6 +406,20 @@
 						},
 						{
 							"Bool": {
+								"name": "Codebase",
+								"state": true,
+								"label": "Codebase"
+							}
+						},
+						{
+							"Bool": {
+								"name": "Codebases",
+								"state": true,
+								"label": "Codebases"
+							}
+						},
+						{
+							"Bool": {
 								"name": "Deadlift",
 								"state": true,
 								"label": "Deadlift"
@@ -703,6 +717,13 @@
 								"name": "Somewhere",
 								"state": true,
 								"label": "Somewhere"
+							}
+						},
+						{
+							"Bool": {
+								"name": "Tenfold",
+								"state": true,
+								"label": "Tenfold"
 							}
 						},
 						{
@@ -2418,6 +2439,13 @@
 								"name": "AtLestToLeast",
 								"state": true,
 								"label": "At Lest To Least"
+							}
+						},
+						{
+							"Bool": {
+								"name": "BackhandedCompliment",
+								"state": true,
+								"label": "Backhanded Compliment"
 							}
 						},
 						{
@@ -4160,6 +4188,13 @@
 						},
 						{
 							"Bool": {
+								"name": "Audible",
+								"state": true,
+								"label": "Audible"
+							}
+						},
+						{
+							"Bool": {
 								"name": "AvoidCurses",
 								"state": true,
 								"label": "Avoid Curses"
@@ -4674,6 +4709,13 @@
 								"name": "GildedAge",
 								"state": true,
 								"label": "Gilded Age"
+							}
+						},
+						{
+							"Bool": {
+								"name": "GoMissing",
+								"state": true,
+								"label": "Go Missing"
 							}
 						},
 						{
