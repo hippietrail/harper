@@ -4440,6 +4440,13 @@
 						},
 						{
 							"Bool": {
+								"name": "Combinate",
+								"state": true,
+								"label": "Combinate"
+							}
+						},
+						{
+							"Bool": {
 								"name": "ComprisesOf",
 								"state": true,
 								"label": "Comprises Of"
