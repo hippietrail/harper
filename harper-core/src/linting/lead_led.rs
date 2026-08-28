@@ -1,11 +1,11 @@
 use crate::{
-    Lint, Token, TokenStringExt,
+    Lint, Token,
     char_string::CharStringExt,
     expr::{Expr, SequenceExpr},
     linting::{
         ExprLinter, LintKind, Suggestion,
         debug::format_lint_match,
-        expr_linter::{Chunk, find_the_only_token_matching, followed_by_word},
+        expr_linter::{Chunk, find_the_only_token_matching},
     },
 };
 
@@ -39,7 +39,7 @@ impl ExprLinter for LeadLed {
         // Forward-looking checks
 
         if let Some((_, after)) = ctx
-            && let [ws_h, word, after2 @ ..] = after
+            && let [ws_h, word, _after2 @ ..] = after
         {
             if ws_h.kind.is_whitespace() {
                 eprintln!("⏩ 'lead' <ws>");
@@ -70,7 +70,10 @@ impl ExprLinter for LeadLed {
         {
             if word.kind.is_plural_noun() {
                 eprintln!("⏩ 'lead' <plural noun>");
-                eprintln!("❌ 'load' agrees with previous plural noun: '{} lead'", word.get_str(src));
+                eprintln!(
+                    "❌ 'load' agrees with previous plural noun: '{} lead'",
+                    word.get_str(src)
+                );
                 return None;
             }
             let ch = word.get_ch(src);
@@ -78,7 +81,7 @@ impl ExprLinter for LeadLed {
                 eprintln!("❌ 'lead' follows 'to' so is a grammatical infinitive/present verb");
             }
             if ch.eq_str("which") {
-                if let [before3 @ .., word2, ws] = before2
+                if let [_before3 @ .., word2, ws] = before2
                     && ws.kind.is_whitespace()
                     && word2.kind.is_word()
                 {
@@ -199,6 +202,15 @@ mod tests {
             LeadLed::default(),
             "Ulala's model has a low polygon count, which led to her sex appeal being defined through her movement according to Mizuguchi",
         )
+    }
+
+    #[test]
+    fn fix_sg_pron_lead_sg_pron() {
+        assert_suggestion_result(
+            "I don’t know what kind of hardware Apple tests on to notice this because it was never noticeable to me, but it lead me down a bit of a rabbit hole.",
+            LeadLed::default(),
+            "I don’t know what kind of hardware Apple tests on to notice this because it was never noticeable to me, but it led me down a bit of a rabbit hole.",
+        );
     }
 
     // Potential false positives we should not flag
