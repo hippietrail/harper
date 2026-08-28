@@ -80,19 +80,17 @@ impl ExprLinter for LeadLed {
             if ch.eq_str("to") {
                 eprintln!("❌ 'lead' follows 'to' so is a grammatical infinitive/present verb");
             }
-            if ch.eq_str("which") {
-                if let [_before3 @ .., word2, ws] = before2
-                    && ws.kind.is_whitespace()
-                    && word2.kind.is_word()
-                {
-                    if word2.kind.is_plural_noun() {
-                        eprintln!(
-                            "❌ 'lead' agrees with previous plural noun: '{} which lead'",
-                            word2.get_str(src)
-                        );
-                        return None;
-                    }
-                }
+            if ch.eq_str("which")
+                && let [_before3 @ .., word2, ws] = before2
+                && ws.kind.is_whitespace()
+                && word2.kind.is_word()
+                && word2.kind.is_plural_noun()
+            {
+                eprintln!(
+                    "❌ 'lead' agrees with previous plural noun: '{} which lead'",
+                    word2.get_str(src)
+                );
+                return None;
             }
         }
 
