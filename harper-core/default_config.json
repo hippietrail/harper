@@ -857,6 +857,13 @@
 						},
 						{
 							"Bool": {
+								"name": "ClaimToFame",
+								"state": true,
+								"label": "Claim for Fame"
+							}
+						},
+						{
+							"Bool": {
 								"name": "ClientOrServerSide",
 								"state": true,
 								"label": "Client Or Server Side"
@@ -1371,6 +1378,13 @@
 								"name": "VerseAsVerb",
 								"state": true,
 								"label": "Verse As Verb"
+							}
+						},
+						{
+							"Bool": {
+								"name": "VeryLess",
+								"state": true,
+								"label": "Very Less"
 							}
 						},
 						{
@@ -2807,6 +2821,20 @@
 						},
 						{
 							"Bool": {
+								"name": "StrikeOfGenius",
+								"state": true,
+								"label": "Strike Of Genius"
+							}
+						},
+						{
+							"Bool": {
+								"name": "StrikeOfLuck",
+								"state": true,
+								"label": "Strike Of Luck"
+							}
+						},
+						{
+							"Bool": {
 								"name": "ThatThis",
 								"state": true,
 								"label": "That This"
@@ -3954,13 +3982,6 @@
 						},
 						{
 							"Bool": {
-								"name": "VeryLess",
-								"state": true,
-								"label": "Very Less"
-							}
-						},
-						{
-							"Bool": {
 								"name": "VeryMuchSo",
 								"state": true,
 								"label": "Very Much So"
@@ -4426,6 +4447,13 @@
 						},
 						{
 							"Bool": {
+								"name": "CeaseTo",
+								"state": true,
+								"label": "Cease to"
+							}
+						},
+						{
+							"Bool": {
 								"name": "ChangeTack",
 								"state": true,
 								"label": "Change Tack"
@@ -4506,6 +4534,13 @@
 								"name": "DampSquib",
 								"state": true,
 								"label": "Damp Squib"
+							}
+						},
+						{
+							"Bool": {
+								"name": "DigUnderTheHood",
+								"state": true,
+								"label": "Dig Under The Hood"
 							}
 						},
 						{
@@ -4926,6 +4961,13 @@
 								"name": "InTheGrandSchemeOfThings",
 								"state": true,
 								"label": "In the Grand Scheme of Things"
+							}
+						},
+						{
+							"Bool": {
+								"name": "InTheSameVein",
+								"state": true,
+								"label": "In the Same Vein"
 							}
 						},
 						{
@@ -5696,6 +5738,13 @@
 								"name": "WishCould",
 								"state": true,
 								"label": "Wish Could"
+							}
+						},
+						{
+							"Bool": {
+								"name": "WithOpenArms",
+								"state": true,
+								"label": "With Open Arms"
 							}
 						},
 						{
