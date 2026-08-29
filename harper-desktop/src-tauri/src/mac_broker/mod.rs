@@ -386,8 +386,8 @@ impl OsBroker for MacBroker {
         }
     }
 
-    fn system_integration_display_name(&self, bundle_id: &str) -> String {
-        app_catalog::system_integration_display_name(bundle_id)
+    fn integration_display_name(&self, bundle_id: &str) -> String {
+        app_catalog::integration_display_name(bundle_id)
     }
 
     fn application_icon_png(&self, bundle_id: &str) -> Result<Vec<u8>, String> {
@@ -428,6 +428,10 @@ impl OsBroker for MacBroker {
             .spawn()
             .map_err(|error| format!("Failed to launch {bundle_id}: {error}"))?;
         Ok(())
+    }
+
+    fn installed_application_bundle_ids(&self) -> Result<Vec<String>, String> {
+        app_catalog::installed_application_bundle_ids()
     }
 
     fn search_apps(&self, query: &str) -> Result<Vec<AppSearchResult>, String> {
