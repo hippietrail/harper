@@ -4048,6 +4048,20 @@
 						},
 						{
 							"Bool": {
+								"name": "Ajar",
+								"state": true,
+								"label": "Ajar"
+							}
+						},
+						{
+							"Bool": {
+								"name": "Akimbo",
+								"state": true,
+								"label": "Akimbo"
+							}
+						},
+						{
+							"Bool": {
 								"name": "ALittleOfPractice",
 								"state": true,
 								"label": "A Little of Practice"
@@ -5738,6 +5752,13 @@
 								"name": "WishCould",
 								"state": true,
 								"label": "Wish Could"
+							}
+						},
+						{
+							"Bool": {
+								"name": "WithOpenArms",
+								"state": true,
+								"label": "With Open Arms"
 							}
 						},
 						{
