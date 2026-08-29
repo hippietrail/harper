@@ -134,6 +134,15 @@ mod tests {
         );
     }
 
+    #[test]
+    fn fix_this_has_lead_to_adj_npl() {
+        assert_suggestion_result(
+            "This has lead to divergent implementations in the unspecified cases. Well-behaved compilers should not generate such undocumented combinations of instruction prefixes with base encodings.",
+            LeadLed::default(),
+            "This has led to divergent implementations in the unspecified cases. Well-behaved compilers should not generate such undocumented combinations of instruction prefixes with base encodings.",
+        );
+    }
+
     // sg. demonstrative pronoun/det. + "lead" + "to" + mass np.
     // NOTE: ambiguous - "use this lead to make it heavier" - CHECK for next word verb infin.
     #[test]
