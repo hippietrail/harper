@@ -1,27 +1,42 @@
-use std::{cell::RefCell, collections::BTreeMap, rc::Rc};
-
 use crate::windows_broker::automation_service::AutomationService;
 use crate::{
     os_broker::{AccessibilityPermissionStatus, AppSearchResult, OsBroker},
     rect::ActionableLint,
 };
+use cached::cached;
 use egui::Pos2;
 use harper_core::linting::Lint;
+use std::process::Command;
+use std::{
+    cell::RefCell,
+    collections::BTreeMap,
+    path::PathBuf,
+    rc::Rc,
+    sync::{Arc, Mutex},
+};
 use windows::Win32::Foundation::POINT;
 use windows::Win32::Graphics::Gdi::{MONITOR_DEFAULTTONEAREST, MonitorFromWindow};
 use windows::Win32::UI::HiDpi::{GetDpiForMonitor, MDT_EFFECTIVE_DPI};
 use windows::Win32::UI::WindowsAndMessaging::{GetCursorPos, GetForegroundWindow};
+use wintheon::file::{IconSize, Priority};
+use wintheon::gather::Gatherer;
 mod automation_service;
 
 pub struct WindowsBroker {
-    service: Rc<RefCell<AutomationService>>,
+    service: Arc<Mutex<AutomationService>>,
 }
 
 impl WindowsBroker {
     pub fn new() -> Self {
         Self {
-            service: Rc::new(RefCell::new(AutomationService::create_and_start())),
+            service: Arc::new(Mutex::new(AutomationService::create_and_start())),
         }
+    }
+}
+
+impl Default for WindowsBroker {
+    fn default() -> Self {
+        Self::new()
     }
 }
 
@@ -30,7 +45,7 @@ impl OsBroker for WindowsBroker {
         &mut self,
         lint_text: &mut dyn FnMut(&str) -> BTreeMap<String, Vec<Lint>>,
     ) -> Vec<ActionableLint> {
-        let text = self.service.borrow_mut().get_text();
+        let text = self.service.lock().unwrap().get_text();
         if let Some(text) = text {
             if text.len() > 16_000 {
                 return Vec::new();
@@ -41,7 +56,8 @@ impl OsBroker for WindowsBroker {
             let all_lint_iter = lints.values().map(|r| r.iter()).flatten();
             let Some(rects) = self
                 .service
-                .borrow_mut()
+                .lock()
+                .unwrap()
                 .get_bounding_boxes(all_lint_iter.map(|l| l.span))
             else {
                 return Vec::new();
@@ -54,9 +70,9 @@ impl OsBroker for WindowsBroker {
                 .zip(rects)
                 .map(|((lint_id, lint), rects)| {
                     let text = text.clone();
-                    let service = Rc::clone(&self.service);
+                    let service = self.service.clone();
                     rects.into_iter().map(move |r| {
-                        let service = Rc::clone(&service);
+                        let service = service.clone();
                         let suggestion_text = text.clone();
                         let suggestion_span = lint.span;
                         ActionableLint::new(
@@ -65,7 +81,7 @@ impl OsBroker for WindowsBroker {
                             lint.clone(),
                             text.clone(),
                             move |suggestion| {
-                                service.borrow_mut().apply_suggestion(
+                                service.lock().unwrap().apply_suggestion(
                                     suggestion_text,
                                     suggestion_span,
                                     suggestion,
@@ -107,24 +123,71 @@ impl OsBroker for WindowsBroker {
     }
 
     fn integration_display_name(&self, bundle_id: &str) -> String {
+        if let Some(entry) = look_up_application(bundle_id) {
+            return entry.display_name;
+        }
+
         bundle_id.to_string()
     }
 
     fn installed_application_bundle_ids(&self) -> Result<Vec<String>, String> {
-        Ok(Vec::new())
+        let list = installed_applications_list();
+        Ok(list
+            .iter()
+            .map(|i| i.path.to_string_lossy().into_owned())
+            .collect())
     }
 
-    fn application_icon_png(&self, _bundle_id: &str) -> Result<Vec<u8>, String> {
-        Err("Not supported".to_string())
+    fn application_icon_png(&self, bundle_id: &str) -> Result<Vec<u8>, String> {
+        if let Some(entry) = look_up_application(bundle_id) {
+            if let Some(png) = entry.icon_png {
+                return Ok(png);
+            } else {
+                return Err("Found application but it was missing an icon.".to_string());
+            }
+        } else {
+            return Err("Unable to locate application.".to_string());
+        }
     }
 
-    fn launch_app_bundle(&self, _bundle_id: &str) -> Result<(), String> {
+    fn launch_app_bundle(&self, bundle_id: &str) -> Result<(), String> {
+        Command::new(bundle_id)
+            .spawn()
+            .map_err(|err| err.to_string())?;
         Ok(())
     }
 
     /// Search for an application in the OS' global list of installed apps.
-    fn search_apps(&self, _query: &str) -> Result<Vec<AppSearchResult>, String> {
-        Ok(Vec::new())
+    fn search_apps(&self, query: &str) -> Result<Vec<AppSearchResult>, String> {
+        let list = installed_applications_list();
+        let query = query.trim();
+
+        if query.is_empty() {
+            return Ok(list.iter().map(|entry| entry.to_search_result()).collect());
+        }
+
+        if let Some(result) = list
+            .iter()
+            .find(|result| result.path.to_string_lossy() == query)
+            .cloned()
+        {
+            return Ok(vec![result.to_search_result()]);
+        }
+
+        let lower_query = query.to_lowercase();
+        Ok(list
+            .iter()
+            .filter(|result| {
+                result.display_name.to_lowercase().contains(&lower_query)
+                    || result
+                        .path
+                        .to_string_lossy()
+                        .to_lowercase()
+                        .contains(&lower_query)
+            })
+            .cloned()
+            .map(|entry| entry.to_search_result())
+            .collect())
     }
 }
 
@@ -141,4 +204,64 @@ fn get_focused_monitor_scale() -> f64 {
         let effective_scale = x as f64 / 96.;
         effective_scale
     }
+}
+
+#[derive(Debug, Clone)]
+struct ApplicationListEntry {
+    path: PathBuf,
+    /// The PNG bytes of an icon. 256 on a side, square.
+    icon_png: Option<Vec<u8>>,
+    display_name: String,
+}
+
+impl ApplicationListEntry {
+    fn to_search_result(&self) -> AppSearchResult {
+        AppSearchResult {
+            name: self.display_name.clone(),
+            bundle_id: self.path.to_string_lossy().to_owned().to_string(),
+        }
+    }
+}
+
+fn look_up_application(bundle_id: &str) -> Option<ApplicationListEntry> {
+    // In Windows, the application path is the bundle ID.
+    let list = installed_applications_list();
+    if let Some(entry) = list
+        .iter()
+        .find(|entry| entry.path.to_string_lossy() == bundle_id)
+    {
+        Some(entry.clone())
+    } else {
+        None
+    }
+}
+
+#[cached]
+fn installed_applications_list() -> Arc<Vec<ApplicationListEntry>> {
+    let mut list = Vec::new();
+
+    for res in gatherer().scan() {
+        if let Ok(app) = res {
+            let icon = if let Ok(icon) = app.entry.icon() {
+                icon.extract_icon_as_png_at(IconSize::Jumbo)
+            } else {
+                None
+            };
+
+            list.push(ApplicationListEntry {
+                path: app.entry.path().to_owned(),
+                icon_png: icon,
+                display_name: app.entry.display_name(),
+            })
+        }
+    }
+
+    Arc::new(list)
+}
+
+fn gatherer() -> Gatherer {
+    Gatherer::new()
+        .with_desktop(Priority(1.0))
+        .with_start_menu(Priority(1.5))
+        .with_windows_apps(Priority(2.0))
 }

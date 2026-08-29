@@ -1,4 +1,5 @@
-use std::{collections::BTreeSet, path::Path, process::Command};
+use cached::cached;
+use std::{collections::BTreeSet, path::Path, process::Command, sync::Arc};
 
 use crate::os_broker::AppSearchResult;
 
@@ -28,7 +29,22 @@ fn display_name_from_app_path(path: &str) -> Option<String> {
     }
 }
 
-pub fn installed_application_bundle_ids() -> Result<Vec<String>, String> {
+/// Unfiltered.
+#[cached]
+pub fn installed_application_search_results() -> Result<Arc<Vec<AppSearchResult>>, String> {
+    let ids = installed_application_bundle_ids()?;
+
+    let mut results = Vec::with_capacity(ids.len());
+
+    for id in ids.iter() {
+        results.push(app_search_result_from_bundle_id(id));
+    }
+
+    Ok(Arc::new(results))
+}
+
+#[cached]
+pub fn installed_application_bundle_ids() -> Result<Arc<Vec<String>>, String> {
     let output = Command::new("mdfind")
         .arg(format!(
             "kMDItemContentType == \"{APPLICATION_BUNDLE_CONTENT_TYPE}\""
@@ -45,7 +61,7 @@ pub fn installed_application_bundle_ids() -> Result<Vec<String>, String> {
         .filter_map(|line| bundle_id_from_app_path(line.trim()))
         .collect::<Vec<_>>();
 
-    Ok(deduplicate_and_sort_bundle_ids(bundle_ids))
+    Ok(Arc::new(deduplicate_and_sort_bundle_ids(bundle_ids)))
 }
 
 /// Resolves a bundle identifier to an installed `.app` path using Spotlight metadata.
