@@ -1,6 +1,6 @@
 use std::iter::once;
 use std::sync::mpsc::{Receiver, SyncSender, TryRecvError, TrySendError, sync_channel};
-use std::thread::{JoinHandle, sleep};
+use std::thread::sleep;
 use std::time::Duration;
 
 use crate::rect::Rect;
@@ -18,7 +18,6 @@ use windows::Win32::UI::WindowsAndMessaging::{GetForegroundWindow, GetWindowThre
 
 /// Information about a worker thread.
 struct WorkerData {
-    _thread_handle: JoinHandle<()>,
     sender: SyncSender<(WorkerJob, Vec<JobArgument>)>,
     receiver: Receiver<JobResult>,
 }
@@ -99,7 +98,7 @@ impl AutomationService {
         let (job_sender, job_receiver) = sync_channel::<(WorkerJob, Vec<JobArgument>)>(1);
         let (result_sender, result_receiver) = sync_channel(1);
 
-        let handle = std::thread::spawn(move || {
+        std::thread::spawn(move || {
             let mut state = WorkerState {
                 automation: UIAutomation::new().unwrap(),
                 cached_text_element: None,
@@ -131,7 +130,6 @@ impl AutomationService {
         self.worker_data = Some(WorkerData {
             receiver: result_receiver,
             sender: job_sender,
-            _thread_handle: handle,
         });
     }
 
@@ -215,7 +213,7 @@ impl AutomationService {
         }
     }
 
-    fn resolve_focused_window(&mut self) -> Option<(isize, bool)> {
+    pub fn resolve_focused_window(&mut self) -> Option<(isize, bool)> {
         let (focused_window, focused_process_id) = focused_window()?;
 
         if focused_process_id == std::process::id() {
