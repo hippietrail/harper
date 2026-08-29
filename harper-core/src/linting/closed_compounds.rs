@@ -47,6 +47,10 @@ pub fn lint_group() -> LintGroup {
         "Anywhere"        => &[(&["any where"], "anywhere")],
         "Backplane"       => &[(&["back plane"], "backplane"),
                                (&["back planes"], "backplanes")],
+        "Backport"        => &[(&["back port"], "backport"),
+                               (&["back ported"], "backported"),
+                               (&["back porting"], "backporting"),
+                               (&["back ports"], "backports")],
         "Bypass"          => &[(&["by pass"], "bypass"),
                                (&["by passed"], "bypassed"),
                                (&["by passing"], "bypassing"),
@@ -415,6 +419,15 @@ mod tests {
             "Tools to visualize large code bases in different ways.",
             lint_group(),
             "Tools to visualize large codebases in different ways.",
+        )
+    }
+
+    #[test]
+    fn backport() {
+        assert_suggestion_result(
+            "I have a few C++11 code bases (some back ported from newer versions)",
+            lint_group(),
+            "I have a few C++11 codebases (some backported from newer versions)",
         )
     }
 }
