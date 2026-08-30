@@ -1,7 +1,7 @@
 use crate::{
     CharStringExt, Lint, Token,
     expr::Expr,
-    linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
+    linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk, spell_check},
     spell::Dictionary,
 };
 
@@ -77,7 +77,7 @@ impl<D: Dictionary + 'static> ExprLinter for WrongNegative<D> {
             }
             .to_string(),
             suggestions,
-            ..Default::default()
+            priority: spell_check::SPELL_CHECK_PRIORITY - 1, // higher priority (lower number) than spell check
         })
     }
 
@@ -120,6 +120,15 @@ mod tests {
             "This System makes a individual design unpossible.",
             WrongNegative::new(FstDictionary::curated()),
             "This System makes a individual design impossible.",
+        );
+    }
+
+    #[test]
+    fn fix_unvisible() {
+        assert_suggestion_result(
+            "Sure, I'm using \"deleted\" here to mean a third state more unvisible than \"yanked\"",
+            WrongNegative::new(FstDictionary::curated()),
+            "Sure, I'm using \"deleted\" here to mean a third state more invisible than \"yanked\"",
         );
     }
 }
