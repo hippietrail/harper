@@ -1,37 +1,53 @@
 use crate::{
-    CharStringExt, Lint, Token,
+    CharStringExt, Lint, Token, TokenKind,
     char_ext::CharExt,
     expr::{Expr, FirstMatchOf, SequenceExpr},
     linting::{
         ExprLinter, LintKind, Suggestion,
         debug::format_lint_match,
-        expr_linter::{Chunk, find_the_only_token_matching},
+        expr_linter::{Chunk, find_the_only_token_matching, followed_by_token},
     },
 };
 
 // Note: MUST be lowercased! also any conjunction??
-const NOT_USUALLY_BEFORE_AND: &[&str] = &[
-    "and", "as", "by", /* "for", */ "is", "of", "on", "to", "was", "with",
+const WORDS_NOT_USUAL_BEFORE_AND: &[&str] = &[
+    "and", // conj.coord
+    "as",  // conj.subord
+    "by",  // prep
+    // "for",   // prep - too many false positives
+    "of",   // prep
+    "on",   // prep
+    "to",   // prep
+    "with", // prep
+    "is",   // copula
+    "was",  // copula
 ];
 
+const POS_NOT_USUAL_AFTER_AN: &[fn(&TokenKind) -> bool] = &[
+    TokenKind::is_personal_pronoun, // ! "IT"
+    TokenKind::is_determiner,       // ! "all", "every"
+    TokenKind::is_preposition,      // ! "anti"
+    TokenKind::is_conjunction,
+    // TokenKind::is_adverb,        // ! adverbs of manner
+];
 // Note: MUST be lowercased! also any Pronoun, Determiner, Preposition, Conjunction, Adverb??
-const NOT_USUALLY_AFTER_AN: &[&str] = &[
+const WORDS_NOT_USUAL_AFTER_AN: &[&str] = &[
     "a",     // det.indef
     "his",   // det.poss
     "its",   // det.poss
-    "that",  // det/pron.rel
+    "that",  // det / pron.rel
     "the",   // det.def
     "their", // det.poss,
     "he",    // pron.subj
     "i",     // pron subj.
-    "it",    // pron.subj+obj
-    "you",   // pron.subj+obj
-    "in",    // prep
-    "to",    // prep
-    "if",    // special
-    "so",    // special
-    "then",  // special
-    "when",  // special
+    // "it",    // pron.subj+obj - BUT NOT "IT"!
+    "you", // pron.subj+obj
+    // "in",    // prep - "in" is also a noun: "his parents got him an in with the company"
+    "to",   // prep
+    "if",   // conj.subord / special
+    "so",   // conj.coord / special
+    "then", // adverb / special
+    "when", // conj/special
 ];
 
 pub struct AnAnd {
@@ -42,9 +58,18 @@ impl Default for AnAnd {
     fn default() -> Self {
         Self {
             expr: FirstMatchOf::new([
-                Box::new(SequenceExpr::aco("an").t_ws().t_set(NOT_USUALLY_AFTER_AN)),
+                Box::new(SequenceExpr::aco("an").t_ws().then_any_of([
+                    Box::new(SequenceExpr::default().then_kind_any_except(
+                        POS_NOT_USUAL_AFTER_AN,
+                        &[
+                            /* determiners */ "all", "every", /* prepositions */ "anti",
+                            "in",
+                        ],
+                    )),
+                    Box::new(SequenceExpr::word_set(WORDS_NOT_USUAL_AFTER_AN)),
+                ])),
                 Box::new(
-                    SequenceExpr::word_set(NOT_USUALLY_BEFORE_AND)
+                    SequenceExpr::word_set(WORDS_NOT_USUAL_BEFORE_AND)
                         .t_ws()
                         .t_aco("and"),
                 ),
@@ -62,8 +87,6 @@ impl ExprLinter for AnAnd {
         src: &[char],
         ctx: Option<(&[Token], &[Token])>,
     ) -> Option<Lint> {
-        eprintln!("🚨 {}", format_lint_match(toks, ctx, src));
-
         let span = find_the_only_token_matching(toks, src, |t: &Token, s: &[char]| {
             t.get_ch(s)
                 .eq_any_ignore_ascii_case_chars(&[&['a', 'n'], &['a', 'n', 'd']])
@@ -90,10 +113,21 @@ impl ExprLinter for AnAnd {
                 let next_tok = &toks[2];
                 let next_ch = next_tok.get_ch(src);
 
+                // "an it" would be a mistake but "an IT worker" etc. are fine
+                if next_ch == ['I', 'T'] || next_ch == ['O', 'R'] {
+                    return None;
+                }
+
+                if next_ch.eq_any_ignore_ascii_case_chars(&[&['i', 'n'], &['u', 'p']])
+                    && followed_by_token(ctx, |t| t.kind.is_hyphen())
+                {
+                    return None;
+                }
+
                 // don't change it to 'and' if the previous word is one that doesn't usually come before 'and'
                 if maybe_prev.is_some_and(|t| {
                     t.get_ch(src)
-                        .eq_any_ignore_ascii_case_str(NOT_USUALLY_BEFORE_AND)
+                        .eq_any_ignore_ascii_case_str(WORDS_NOT_USUAL_BEFORE_AND)
                 }) {
                     return None;
                 }
@@ -113,32 +147,26 @@ impl ExprLinter for AnAnd {
                     None
                 };
 
-                // "an" only comes before a vowel sound, not a consonant sound
-                if maybe_next.is_some_and(|w| w.get_ch(src).first().is_some_and(|c| !c.is_vowel()))
-                {
-                    eprintln!("Skipping 'an' because next word starts with a consonant sound");
-                    return None;
-                }
-
-                // don't change it to 'an' if the next word is one that doesn't usually come after 'an'
+                // Check if "an" would not be appropriate based on the next (and previous) word context
                 if maybe_next.is_some_and(|t| {
-                    t.get_ch(src)
-                        .eq_any_ignore_ascii_case_str(NOT_USUALLY_AFTER_AN)
-                }) {
-                    eprintln!("Skipping 'an' because next word is not usually after 'an'");
-                    return None;
-                }
+                    let next_ch = t.get_ch(src);
 
-                // don't change it to 'an' if the previous word is 'on' and the next word is 'off'
-                if prev_ch.eq_ch(&['o', 'n'])
-                    && maybe_next.is_some_and(|w| w.get_ch(src).eq_ch(&['o', 'f', 'f']))
-                {
-                    eprintln!("Skipping 'an' because previous word is 'on' and next word is 'off'");
+                    // 1. Next word doesn't start with a vowel sound
+                    next_ch.first().is_some_and(|c| !c.is_vowel()) ||
+
+                    // 2. Next word doesn't usually come after 'an'
+                    next_ch.eq_any_ignore_ascii_case_str(WORDS_NOT_USUAL_AFTER_AN) ||
+
+                    // 3. Idiom: 'on' + 'off' or 'on' + 'on'
+                    (prev_ch.eq_ch(&['o', 'n']) && next_ch.eq_any_ignore_ascii_case_chars(&[&['o', 'f', 'f'], &['o', 'n']]))
+                }) {
                     return None;
                 }
             }
             _ => return None,
         }
+
+        eprintln!("🚨 {}", format_lint_match(toks, ctx, src));
 
         let mut the_word: Vec<char> = ch.to_vec();
 
