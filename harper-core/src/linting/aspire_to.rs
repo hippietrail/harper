@@ -53,10 +53,16 @@ impl ExprLinter for AspireTo {
         } = ContextIterators::new(ctx)?;
 
         if before.prev_word().is_some_and(|w| {
+            // .NET is unlintable and we can't use `.get_content()` on unlintable
             w.kind.is_preposition() || w.kind.is_unlintable() || {
                 let ch = w.get_ch(src);
                 ch == ['N', 'E', 'T']
-                    || ch.eq_any_ignore_ascii_case_str(&["use", "used", "uses", "using", "dotnet"])
+                    || ch.eq_any_ignore_ascii_case_str(&[
+                        // verbs that indicate Aspire is a tool or product
+                        "use", "used", "uses", "using",
+                        // other words that precede Aspire when it's not a verb
+                        "dotnet",
+                    ])
             }
         }) {
             return None;
