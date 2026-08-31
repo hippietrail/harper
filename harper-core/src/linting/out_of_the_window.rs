@@ -67,9 +67,7 @@ impl ExprLinter for OutOfTheWindow {
 mod tests {
     use crate::{
         Dialect,
-        linting::tests::{
-            assert_lint_message, assert_no_lints, assert_suggestion_result,
-        },
+        linting::tests::{assert_lint_message, assert_no_lints, assert_suggestion_result},
     };
 
     use super::OutOfTheWindow;
