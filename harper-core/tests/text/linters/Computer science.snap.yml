@@ -940,7 +940,7 @@ Suggest:
 Lint:    Typo (127 priority)
 Message: |
      287 | discipline of computer science, both depending on and affecting mathematics,
-         |                                                   ^~~ Is this an `an` vs. `and` typo?
+         |                                                   ^~~ Is this a typo for `an`?
      288 | software engineering, and linguistics. It is an active research area, with
 Suggest:
   - Replace with: “an”

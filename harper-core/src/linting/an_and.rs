@@ -118,8 +118,11 @@ impl ExprLinter for AnAnd {
                     return None;
                 }
 
-                if next_ch.eq_any_ignore_ascii_case_chars(&[&['i', 'n'], &['u', 'p']])
-                    && followed_by_token(ctx, |t| t.kind.is_hyphen())
+                if next_ch.eq_any_ignore_ascii_case_chars(&[
+                    &['i', 'n'],
+                    &['o', 'v', 'e', 'r'],
+                    &['u', 'p'],
+                ]) && followed_by_token(ctx, |t| t.kind.is_hyphen())
                 {
                     return None;
                 }
@@ -180,13 +183,13 @@ impl ExprLinter for AnAnd {
             the_word.push(d);
         }
 
-        let suggestions = vec![Suggestion::ReplaceWith(the_word)];
+        let suggestions = vec![Suggestion::ReplaceWith(the_word.clone())];
 
         Some(Lint {
             span,
             lint_kind: LintKind::Typo,
             suggestions,
-            message: "Is this an `an` vs. `and` typo?".to_owned(),
+            message: format!("Is this a typo for `{}`?", the_word.to_string()),
             ..Default::default()
         })
     }
@@ -232,6 +235,14 @@ mod tests {
     fn dont_flag_on_and_off() {
         assert_no_lints(
             "Features that can be turned on and off in the conversation or in \"settings\"",
+            AnAnd::default(),
+        );
+    }
+
+    #[test]
+    fn dashes_description() {
+        assert_no_lints(
+            "Writers often type `--` or `---` expecting their editor to convert them into proper dashes. Replace these sequences with the correct characters: use an en dash (–) for ranges or connections and an em dash (—) for a break in thought.",
             AnAnd::default(),
         );
     }
