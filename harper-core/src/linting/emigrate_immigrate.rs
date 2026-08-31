@@ -1,8 +1,8 @@
-use crate::TokenStringExt;
-use crate::expr::{Expr, SequenceExpr};
-use crate::linting::ExprLinter;
-use crate::linting::expr_linter::Chunk;
-use crate::{Lint, Token};
+use crate::{
+    Lint, Token, TokenStringExt,
+    expr::{Expr, SequenceExpr},
+    linting::{ExprLinter, expr_linter::Chunk},
+};
 
 pub struct EmigrateImmigrate {
     expr: Box<dyn Expr>,
