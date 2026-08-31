@@ -174,7 +174,7 @@ impl ExprLinter for AnAnd {
             the_word.pop();
         } else {
             // make an 'n' the same case as the 'n' (not the 'a' as the first letter of a word may be capitalized)
-            let d_to_n_delta = 'n' as u8 - 'd' as u8;
+            let d_to_n_delta = b'n' - b'd';
             let n = the_word[1] as u8;
             let d: char = (n - d_to_n_delta) as char;
             the_word.push(d);
