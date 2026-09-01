@@ -80,7 +80,74 @@ pub fn lint_group() -> LintGroup {
                                (&["lap tops"], "laptops")],
         "Middleware"      => &[(&["middle ware"], "middleware")],
         "Meanwhile"       => &[(&["mean while"], "meanwhile")],
-        "Misunderstand"   => &[(&["miss understand"], "misunderstand"),
+        "Misadventure"    => &[(&["miss adventure"], "misadventure"),
+                               (&["miss adventures"], "misadventures")],
+        "Misshape"        => &[(&["miss shape"], "misshape"),
+                               (&["miss shaped"], "misshaped"),
+                               (&["miss shapen"], "misshapen"),
+                               (&["miss shaping"], "misshaping"),
+                               (&["miss shapes"], "misshapes")],
+        "Misspeak"        => &[(&["miss speak"], "misspeak"),
+                               (&["miss speaks"], "misspeaks"),
+                               (&["miss speaking"], "misspeaking"),
+                               (&["miss spoke"], "misspoke"),
+                               (&["miss spoken"], "misspoken")],
+        "Misspell"        => &[(&["miss spell", "miss-spell"], "misspell"),
+                               (&["miss spells", "miss-spells"], "misspells"),
+                               (&["miss spelled", "miss-spelled"], "misspelled"),
+                               (&["miss spelling", "miss-spelling"], "misspelling"),
+                               (&["miss spellings", "miss-spellings"], "misspellings")],
+        "Misspend"        => &[(&["miss spend"], "misspend"),
+                               (&["miss spends"], "misspends"),
+                               (&["miss spending"], "misspending"),
+                               (&["miss spent"], "misspent")],
+        "Misstate"        => &[(&["miss state"], "misstate"),
+                               (&["miss states"], "misstates"),
+                               (&["miss stating"], "misstating"),
+                               (&["miss stated"], "misstated"),
+                               (&["miss statement"], "misstatement"),
+                               (&["miss statements"], "misstatements")],
+        "Misstep"         => &[(&["miss step"], "misstep"),
+                               (&["miss steps"], "missteps"),
+                               (&["miss stepping"], "misstepping"),
+                               (&["miss stepped"], "misstepped")],
+        "Mistake"         => &[(&["miss take"], "mistake"),
+                               (&["miss takes"], "mistakes"),
+                               (&["miss taking"], "mistaking"),
+                               (&["miss took"], "mistook"),
+                               (&["miss taken"], "mistaken"),],
+        "Mistranslate"    => &[(&["miss translate"], "mistranslate"),
+                               (&["miss translates"], "mistranslates"),
+                               (&["miss translating"], "mistranslating"),
+                               (&["miss translated"], "mistranslated"),
+                               (&["miss translation"], "mistranslation"),
+                               (&["miss translations"], "mistranslations")],
+        "Mistime"         => &[(&["miss time"], "mistime"),
+                               (&["miss times"], "mistimes"),
+                               (&["miss timing"], "mistiming"),
+                               (&["miss timed"], "mistimed")],
+        "Mistreat"        => &[(&["miss treat"], "mistreat"),
+                               (&["miss treated"], "mistreated"),
+                               (&["miss treating"], "mistreating"),
+                               (&["miss treats"], "mistreats"),
+                               (&["miss treatment"], "mistreatment"),
+                               (&["miss treatments"], "mistreatments")],
+        "Mistrial"        => &[(&["miss trial"], "mistrial"),
+                               (&["miss trials"], "mistrials")],
+        "Mistrust"        => &[(&["miss trust"], "mistrust"),
+                               (&["miss trusted"], "mistrusted"),
+                               (&["miss trusting"], "mistrusting"),
+                               (&["miss trusts"], "mistrusts"),
+                               (&["miss trustful"], "mistrustful")],
+        "Mistune"         => &[(&["miss tune"], "mistune"),
+                               (&["miss tuned"], "mistuned"),
+                               (&["miss tunes"], "mistunes"),
+                               (&["miss tuning"], "mistuning")],
+        "Mistype"         => &[(&["miss type"], "mistype"),
+                               (&["miss typed"], "mistyped"),
+                               (&["miss types"], "mistypes"),
+                               (&["miss typing"], "mistyping")],
+        "Misunderstand"   => &[(&["miss understand"], "misunderstand "),
                                (&["miss understanding"], "misunderstanding"),
                                (&["miss understands"], "misunderstands"),
                                (&["miss understood"], "misunderstood")],
@@ -429,5 +496,50 @@ mod tests {
             lint_group(),
             "I have a few C++11 codebases (some backported from newer versions)",
         )
+    }
+
+    #[test]
+    fn miss_adventure() {
+        assert_suggestion_result(
+            "The US is suffering from the myth of American Exceptionalism, from its finances to its military miss adventures.",
+            lint_group(),
+            "The US is suffering from the myth of American Exceptionalism, from its finances to its military misadventures.",
+        )
+    }
+
+    #[test]
+    fn base_form() {
+        assert_suggestion_result(
+            "They often miss spell names in the log.",
+            lint_group(),
+            "They often misspell names in the log.",
+        );
+    }
+
+    #[test]
+    fn past_tense() {
+        assert_suggestion_result(
+            "She miss spelled the answer on the quiz.",
+            lint_group(),
+            "She misspelled the answer on the quiz.",
+        );
+    }
+
+    #[test]
+    fn past_tense_hyphen() {
+        assert_suggestion_result(
+            "She miss-spelled the answer on the quiz.",
+            lint_group(),
+            "She misspelled the answer on the quiz.",
+        );
+    }
+
+    #[test]
+    fn gerund_form() {
+        assert_suggestion_result(
+            "His constant miss spelling frustrated the team.",
+            lint_group(),
+            "His constant misspelling frustrated the team.",
+        );
     }
 }
