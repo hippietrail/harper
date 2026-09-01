@@ -246,4 +246,14 @@ mod tests {
             AnAnd::default(),
         );
     }
+
+    #[test]
+    fn an_we_should() {
+        // I just made this typo myself a couple of minutes ago
+        assert_suggestion_result(
+            "This would've been done since some people consider it incorrect an we should support everybody's ideas of correctness.",
+            AnAnd::default(),
+            "This would've been done since some people consider it incorrect and we should support everybody's ideas of correctness."
+        );
+    }
 }
