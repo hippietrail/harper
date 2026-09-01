@@ -59,7 +59,7 @@ impl ExprLinter for CommandLine {
                 (&chars[0..i], &chars[i..i], &chars[i..])
             }
             false => (
-                toks.get(0)?.get_ch(src),
+                toks.first()?.get_ch(src),
                 toks.get(1)?.get_ch(src),
                 toks.get(2)?.get_ch(src),
             ),
