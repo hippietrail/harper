@@ -75,14 +75,17 @@ impl ExprLinter for CommandLine {
             maybe_next_word.map_or(String::new(), |w| format!(" 〖{}〗", w.to_string()))
         );
 
-        let (pl_cmd, pl_line) = (command.ends_with_ignore_ascii_case_chars(&['s']), line.ends_with_ignore_ascii_case_chars(&['s']));
+        let (pl_cmd, pl_line) = (
+            command.ends_with_ignore_ascii_case_chars(&['s']),
+            line.ends_with_ignore_ascii_case_chars(&['s']),
+        );
 
         // abort for 'command lines at once'
-        if !pl_cmd && pl_line && maybe_next_word.is_some_and(|c|c.eq_ch(&['a', 't'])) {
+        if !pl_cmd && pl_line && maybe_next_word.is_some_and(|c| c.eq_ch(&['a', 't'])) {
             return None;
         }
         // about for 'commands line by line'
-        if pl_cmd && !pl_line && maybe_next_word.is_some_and(|c|c.eq_ch(&['b', 'y'])) {
+        if pl_cmd && !pl_line && maybe_next_word.is_some_and(|c| c.eq_ch(&['b', 'y'])) {
             return None;
         }
 
