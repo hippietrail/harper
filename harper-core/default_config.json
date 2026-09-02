@@ -1312,6 +1312,13 @@
 						},
 						{
 							"Bool": {
+								"name": "Provocate",
+								"state": true,
+								"label": "Provocate"
+							}
+						},
+						{
+							"Bool": {
 								"name": "RedundantSuperlatives",
 								"state": true,
 								"label": "Redundant Superlatives"
@@ -3009,6 +3016,13 @@
 								"name": "ExpandForward",
 								"state": true,
 								"label": "Expand Forward"
+							}
+						},
+						{
+							"Bool": {
+								"name": "ExpandLegitimate",
+								"state": true,
+								"label": "Expand Legitimate"
 							}
 						},
 						{
@@ -5591,6 +5605,13 @@
 								"name": "TakeItPersonally",
 								"state": true,
 								"label": "Take It Personally"
+							}
+						},
+						{
+							"Bool": {
+								"name": "TakePrideIn",
+								"state": true,
+								"label": "Take Pride in"
 							}
 						},
 						{
