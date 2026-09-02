@@ -4475,6 +4475,13 @@
 						},
 						{
 							"Bool": {
+								"name": "ChickenAndEgg",
+								"state": true,
+								"label": "Chicken and Egg"
+							}
+						},
+						{
+							"Bool": {
 								"name": "ChockFull",
 								"state": true,
 								"label": "Chock Full"
