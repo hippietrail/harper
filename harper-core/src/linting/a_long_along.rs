@@ -14,21 +14,21 @@ const RARE_BEFORE_ALONG: &[&str] = &[
 // Pronoun, Determiner before "along" but not before "a long"
 // Adverb before "a long" but not before "along"
 const RARE_AFTER_A_LONG: &[&str] = &[
-    "a",
-    "an",
+    "a",            // det.indef
+    "an",           // det.indef
     "came",
     "dotted",
-    "in",
-    "its",
+    "in",           // prep
+    "its",          // det.poss
     "one",
     "perforated",
     "said",
     "similar",
-    "the",
-    "these",
-    "this",
-    "to",
-    "with",
+    "the",          // det.def
+    "these",        // det. / pron.
+    "this",         // det. / pron.
+    "to",           // prep.
+    "with",         // prep.
 ];
 const RARE_AFTER_ALONG: &[&str] = &[
     "day", "history", "life", "list", "moment", "pause", "period", "range", "series", "silence",
