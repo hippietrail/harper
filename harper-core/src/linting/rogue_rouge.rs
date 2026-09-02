@@ -9,9 +9,10 @@ use crate::{
 
 const RARE_BEFORE_ROGUE: &[&str] = &["baton", "cheek", "khmer", "lip", "moulin"];
 const RARE_BEFORE_ROUGE: &[&str] = &["go", "goes", "going", "gone", "went"];
-const RARE_AFTER_ROGUE: &[&str] = &["lipstick", "makeup"];
+const RARE_AFTER_ROGUE: &[&str] = &["lipstick"];
 const RARE_AFTER_ROUGE: &[&str] = &[
-    "like", "nation", "nations", "one", "squadron", "wave", "waves", "who",
+    "like", "likes", "nation", "nations", "one", "squadron", "trader", "traders", "wave", "waves",
+    "who",
 ];
 pub struct RogueRouge {
     expr: FirstMatchOf,
@@ -37,6 +38,11 @@ impl Default for RogueRouge {
                         .t_set(RARE_AFTER_ROGUE),
                 ),
                 Box::new(SequenceExpr::aco("rouge").t_ws().t_set(RARE_AFTER_ROUGE)),
+                Box::new(
+                    SequenceExpr::aco("rouge")
+                        .then_hyphen()
+                        .t_set(&["like", "likes"]),
+                ),
             ]),
         }
     }
@@ -178,6 +184,51 @@ mod tests {
             "The lip rogue and nail henna as well complement the look.",
             RogueRouge::default(),
             "The lip rouge and nail henna as well complement the look.",
+        );
+    }
+
+    #[test]
+    fn fix_rouge_trader() {
+        assert_suggestion_result(
+            "I'm one upgrade away from unlocking the rouge trader is it worth doing and is it beneficial at a low level.",
+            RogueRouge::default(),
+            "I'm one upgrade away from unlocking the rogue trader is it worth doing and is it beneficial at a low level.",
+        );
+    }
+
+    #[test]
+    fn fix_rogue_lipstick() {
+        assert_suggestion_result(
+            "Love Dior's Rogue Lipstick-- Hate the Case!",
+            RogueRouge::default(),
+            "Love Dior's Rouge Lipstick-- Hate the Case!",
+        );
+    }
+
+    #[test]
+    fn fix_rouge_like() {
+        assert_suggestion_result(
+            "Do you guys think any Rouge-like mechanics would be cool???",
+            RogueRouge::default(),
+            "Do you guys think any Rogue-like mechanics would be cool???",
+        );
+    }
+
+    #[test]
+    fn fix_rouge_likes() {
+        assert_suggestion_result(
+            "As someone who dissent really play rouge likes, do you think I'll like risk of rain 2?",
+            RogueRouge::default(),
+            "As someone who dissent really play rogue likes, do you think I'll like risk of rain 2?",
+        );
+    }
+
+    #[test]
+    fn fix_rouge_traders() {
+        assert_suggestion_result(
+            "How do Pirates or Rouge Traders Power Their Gellar Fields?",
+            RogueRouge::default(),
+            "How do Pirates or Rogue Traders Power Their Gellar Fields?",
         );
     }
 }
