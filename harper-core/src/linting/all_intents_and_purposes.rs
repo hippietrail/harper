@@ -57,7 +57,7 @@ impl ExprLinter for AllIntentsAndPurposes {
 
         let (rest_lo, rest_up) = (" all intents and purposes", " ALL INTENTS AND PURPOSES");
 
-        let (for_prefix, to_prefix, rest) = match (prep_ch.get(0), prep_ch.get(1)) {
+        let (for_prefix, to_prefix, rest) = match (prep_ch.first(), prep_ch.get(1)) {
             (Some(f), Some(s)) if f.is_uppercase() && s.is_uppercase() => ("FOR", "TO", rest_up),
             (Some(f), _) if f.is_uppercase() => ("For", "To", rest_lo),
             _ => ("for", "to", rest_lo),
