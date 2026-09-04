@@ -42036,6 +42036,7 @@ re/PNSg(vz
 re-enable/VdSG
 re-enslave/VdSG
 re-enslavement/Nmg
+re-execute/VdSG
 reach/~VdGSNgB
 reachable/~JNU
 reacquire/VdSG
@@ -42322,7 +42323,6 @@ reelect/VdSG
 # reëlect
 reentrant/J
 reeve/~NVG
-reexecute/VSdG
 reexport/VdGSN
 ref/~NSgVZ
 refabricate/VGdS
