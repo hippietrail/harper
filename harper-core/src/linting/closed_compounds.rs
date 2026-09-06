@@ -34,6 +34,8 @@ pub fn lint_group() -> LintGroup {
         &["back", "plane"][..] => "backplane",
         &["by", "pass"][..] => "bypass",
         &["chalk", "board"][..] => "chalkboard",
+        &["code", "base"][..] => "codebase",
+        &["code", "bases"][..] => "codebases",
         &["dead", "lift"][..] => "deadlift",
         &["desk", "top"][..] => "desktop",
         &["dev", "ops"][..] => "devops",
@@ -75,6 +77,7 @@ pub fn lint_group() -> LintGroup {
         &["some", "how"][..] => "somehow",
         &["some", "one"][..] => "someone",
         &["some", "where"][..] => "somewhere",
+        &["ten", "fold"][..] => "tenfold",
         &["the", "re"][..] => "there",
         &["there", "fore"][..] => "therefore",
         &["there", "upon"][..] => "thereupon",
@@ -328,5 +331,32 @@ mod tests {
         let test_sentence = "I feel that the special case of looping over sequences that follow a standard iterator protocol (i.e. optionals) is important enough to be worth-while.";
         let expected = "I feel that the special case of looping over sequences that follow a standard iterator protocol (i.e. optionals) is important enough to be worthwhile.";
         assert_suggestion_result(test_sentence, lint_group(), expected);
+    }
+
+    #[test]
+    fn tenfold() {
+        assert_suggestion_result(
+            "If Andrew Kelly has done something wrong hasn’t Theo done that ten fold",
+            lint_group(),
+            "If Andrew Kelly has done something wrong hasn’t Theo done that tenfold",
+        )
+    }
+
+    #[test]
+    fn codebase() {
+        assert_suggestion_result(
+            "Having trouble communicating the problems in your code base?",
+            lint_group(),
+            "Having trouble communicating the problems in your codebase?",
+        )
+    }
+
+    #[test]
+    fn codebases() {
+        assert_suggestion_result(
+            "Tools to visualize large code bases in different ways.",
+            lint_group(),
+            "Tools to visualize large codebases in different ways.",
+        )
     }
 }

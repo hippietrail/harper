@@ -1,4 +1,4 @@
-54700
+54800
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -37,9 +37,9 @@ AFT/O
 AI/NwSg             # artificial intelligence
 A.I./NwSg
 AIDS/NgJ            # disease
-AK/ON               # US state (Alaska)
+AK/ON4              # US state (Alaska)
 AKP/Og              # political party
-AL/NO               # US state (Alabama)
+AL/NO4              # US state (Alabama)
 AM/ONgJ
 AMA/ON
 AMD/NOg
@@ -54,7 +54,7 @@ APC/NOJ
 API/NSg             # application programming interface, cf. ABI
 APO/N
 APR/N
-AR/JNO              # US state (Arkansas)
+AR/JNO4             # US state (Arkansas)
 ARC/NOJ
 ASAP/               # as soon as possible
 ASCII/OgS
@@ -72,7 +72,7 @@ AVI/O               # media format
 AWACS/Ng
 AWOL/JNg            # absent without leave
 AWS/ONg
-AZ/Og               # US state (Arizona)
+AZ/Og4              # US state (Arizona)
 AZT/Ng              # drug
 Aachen/Og
 Aaliyah/Og
@@ -101,7 +101,7 @@ Absalom/Og
 Abuja/Og
 Abyssinia/OgJ
 Abyssinian/JNOg
-Ac/                 # Actinium
+Ac/4                # Actinium
 Acadia/Og
 Acapulco/Og
 Accenture/g
@@ -178,7 +178,7 @@ Afro/NSg
 Afrocentric/J
 Afrocentrism/Ng
 Afrofuturism/Ng
-Ag/                 # Silver
+Ag/4                # Silver
 Agamemnon/Og
 Agana/O
 Agassi/Og
@@ -222,7 +222,7 @@ Akita/ONg
 Akiva/Og
 Akkad/Og
 Akron/Og
-Al/Og               # aluminium, aluminum; given name
+Al/Og4              # aluminium, aluminum; given name
 Ala/NOS
 Alabama/NOg
 Alabaman/JNgS
@@ -370,7 +370,7 @@ Alyce/g
 Alyson/Og
 Alyssa/Og
 Alzheimer/Ng
-Am/                 # Americium
+Am/4                # Americium
 Amadeus/Og
 Amado/Og
 Amalia/Og
@@ -565,7 +565,7 @@ Apple/ONg
 Appleseed/g
 Appleton/Og
 Appomattox/Og
-Apr/Og
+Apr/Og4
 April/OgS
 Apuleius/Og
 Aquafresh/g
@@ -575,7 +575,7 @@ Aquila/Og
 Aquinas/Og
 Aquino/Og
 Aquitaine/Og
-Ar/                 # Argon
+Ar/4                # Argon
 Ara/Og
 Arab/JNSg
 Arabia/Og
@@ -673,7 +673,7 @@ Artie/Og
 Arturo/g
 Aruba/Og
 Aryan/NOSgJ
-As/                 # Arsenic
+As/4                # Arsenic
 Asahi/Og
 Asama/g
 Ascella/Og
@@ -756,7 +756,7 @@ Attlee/Og
 Attn
 Attucks/g
 Atwood/Og
-Au/                 # Gold
+Au/4                # Gold
 Aubrey/Og
 Auburn/Og
 Auckland/Og
@@ -766,7 +766,7 @@ Audion/g
 Audra/Og
 Audrey/Og
 Audubon/Og
-Aug/Og
+Aug/Og4
 Augean/Jg
 Augsburg/Og
 August/OgS
@@ -833,7 +833,7 @@ Azov/Og
 Aztec/NOSgJ         # ancient civilization
 Aztecan/JNg
 Aztlan/Og
-B/                  # Boron
+B/4                 # Boron
 B-52/NgS
 BA/NOgJ
 BASIC/OgS
@@ -866,7 +866,7 @@ BSD/ONSg
 BTU/N
 BTW/
 BYOB/
-Ba/                 # Barium
+Ba/4                # Barium
 Baal/OgS
 Baath/Og
 Baathist/JNg
@@ -1038,7 +1038,7 @@ Baylor/Og
 Bayonne/Og
 Bayreuth/Og
 Baywatch/g
-Be/                 # Beryllium
+Be/4                # Beryllium
 Beach/Og
 Beadle/Og
 Beamer/NgS          # nickname for BMW
@@ -1222,7 +1222,7 @@ Bhopal/Og
 Bhutan/Og
 Bhutanese/JONg
 Bhutto/Og
-Bi/                 # Bismuth
+Bi/4                # Bismuth
 Bialystok/Og
 Bianca/Og
 Bib
@@ -1262,7 +1262,7 @@ BitTorrent/Og
 Bizet/Ng
 Bjerknes/g
 Bjork/Og
-Bk/                 # Berkelium
+Bk/4                # Berkelium
 BlackBerry/NgV
 Blackbeard/Og
 Blackburn/Og
@@ -1407,7 +1407,7 @@ Bowman/Og
 Boyd/Og
 Boyer/Og
 Boyle/Og
-Br/                 # Bromine
+Br/4                # Bromine
 Brad/OgY
 Bradbury/ONg        # ray =
 Braddock/Og
@@ -1643,8 +1643,8 @@ Byron/Og
 Byronic/Jg
 Byzantine/JNgS
 Byzantium/ONg
-C/NOg               # Carbon
-CA/ON               # US state (California)
+C/NOg4              # Carbon
+CA/ON4              # US state (California)
 CAD/Ng              # computer-aided design; canadian dollar
 CAI/NO
 CAM/NO
@@ -1677,7 +1677,7 @@ CNC'd/VtT           # past
 CNCing/NV6          # present, gerund
 CNN/ONSg            # media company; convolutional neural network
 CNS/Ng
-CO/ONg              # US state (Colorado)
+CO/ONg4             # US state (Colorado)
 COBOL/OgS           # programming language
 COD/ON
 COFF/ONg            # common object file format
@@ -1691,17 +1691,18 @@ CPI/NOg
 CPO/N
 CPR/NOg             # cardiac pulmonary resuscitation
 CPU/NgS
+CRISPR/Nmg
 CRT/NSg             # cathode ray tube
 CSS/NOg
 CST/ONg
 CSV/Ng              # data file format
-CT/ONgVJ            # US state (Connecticut)
+CT/ONg4VJ           # US state (Connecticut)
 CTO/NOgS            # chief technology officer
 CUDA/ONg            # computing architecture
 CV/NOSJ             # curriculum vitae
 CVS/NOg             # version control
 CZ/N
-Ca/                 # Calcium
+Ca/4                # Calcium
 Cabernet/g
 Cabot/Og
 Cabral/g
@@ -1946,9 +1947,9 @@ Cayenne/Og
 Cayman/JOg
 Cayuga/NOSg
 Cayuse/N
-Cb/
-Cd/                 # Cadmium
-Ce/                 # Cerium
+Cb/4                # Columbium
+Cd/4                # Cadmium
+Ce/4                # Cerium
 Ceausescu/g
 Cebu/Og
 Cebuano/OgJ
@@ -1986,7 +1987,7 @@ Cetus/Og
 Ceylon/ONg          # old name of Sri Lanka
 Ceylonese/JN
 Cezanne/g
-Cf/                 # Californium
+Cf/4                # Californium
 Ch'in/Og
 Chablis/ONg
 Chad/ONg
@@ -2129,6 +2130,7 @@ Chișinău/Og
 Chisinau/Og
 Chittagong/Og       # old name of Chattogram
 Chivas/g
+Chloë/Og
 Chloe/Og
 Choctaw/ONSgJ
 Chomsky/Og
@@ -2153,7 +2155,7 @@ Christie/Og
 Christina/Og
 Christine/Og
 Christlike/J
-Christmas/ONSgJV
+Christmas/ONSgJVb
 Christmastide/NgS
 Christmastime/NgS
 Christoper/g
@@ -2188,7 +2190,7 @@ Citibank/Og
 Citigroup/Og
 Citroën/Og
 Citroen/Og
-Cl/                 # Chlorine
+Cl/4                # Chlorine
 Claiborne/Og
 Clair/Og
 Claire/Og
@@ -2248,9 +2250,9 @@ Clovis/Og
 Clyde/Og
 Clydesdale/NOg
 Clytemnestra/Og
-Cm/                 # Curium
+Cm/4                # Curium
 Cmdr/N
-Co/                 # Cobalt
+Co/4                # Cobalt
 Cobain/Og
 Cobb/Og
 Cochabamba/Og
@@ -2297,7 +2299,7 @@ Colt/ONg
 Coltrane/Og
 Columbia/Og
 Columbine/ONg
-Columbus/ONgV
+Columbus/ONgVb
 Com
 Comanche/NOSg09J    # singular and plural, but also has plural in -s
 Combs/Og
@@ -2451,7 +2453,7 @@ Coy/Og
 Coyle/Og
 Cozumel/Og
 Cpl/N
-Cr/                 # Chromium
+Cr/4                # Chromium
 Crabbe/Og
 Craft/Og
 Craig/Og
@@ -2512,7 +2514,7 @@ Csonka/g
 Ct/N
 Ctesiphon/Og
 Cthulhu/Og
-Cu/                 # Copper
+Cu/4                # Copper
 Cuba/Og
 Cuban/NSgJ
 Cuchulain/g
@@ -2563,11 +2565,11 @@ DAR/O
 DARPA/Og
 DAT/Ng
 DBMS/Ng
-DC/ONgJV            # US District of Columbia
+DC/ONg4JV           # US District of Columbia
 DD/NOgJ
 DDS/Ng
 DDT/NS
-DE/ON               # US state (Delaware)
+DE/ON4              # US state (Delaware)
 DEA/ON
 DEC/NOSd
 DF/Og               # Distrito Federal, see also CDMX
@@ -2723,7 +2725,7 @@ Debouillet/g
 Debra/Og
 Debs/Og
 Debussy/g
-Dec/Og
+Dec/Og4
 Decalogue/ONg
 Decatur/Og
 Decca/Og
@@ -2834,7 +2836,7 @@ Dianna/Og
 Dianne/Og
 Dias
 Diaspora/OgS
-Dick/OgX
+Dick/Og
 Dickens/Og
 Dickensian/JN
 Dickerson/Og
@@ -2933,7 +2935,7 @@ Doolittle/Og
 Doonesbury/g
 Doppler/ONg
 Dora/Og
-Dorcas/ONgV
+Dorcas/ONgVb
 Doreen/Og
 Dorian/JNOg
 Doric/JOg
@@ -3038,7 +3040,7 @@ Dvina/g
 Dvorak/OgJ
 Dwayne/Og
 Dwight/Og
-Dy/                 # Dysprosium
+Dy/4                # Dysprosium
 Dyer/Og
 Dylan/Og
 DynamoDB/g
@@ -3277,7 +3279,7 @@ Epsom/Og
 Epson/g
 Epstein/OgV
 Equuleus/Og
-Er/                 # Erbium
+Er/4                # Erbium
 Erasmus/ONg
 Erato/Og
 Eratosthenes/Og
@@ -3354,7 +3356,7 @@ Eton/Og
 Etruria/Og
 Etruscan/JNOg
 Etta/Og
-Eu/                 # Europium
+Eu/4                # Europium
 Eucharist/NgS
 Eucharistic/J
 Euclid/Og
@@ -3420,8 +3422,9 @@ Eyre/Og
 Eysenck/g
 Ezekiel/Og
 Ezra/Og
-F/                  # Fluorine
+F/4                 # Fluorine
 F1/9g
+FA/Og               # Football Association
 FAA/O
 FAQ/NSg
 FBI/ONg
@@ -3435,7 +3438,7 @@ FFT/NgS             # fast Fourier transform
 FHA/Og
 FICA/Og
 FIFO/N
-FL/NO               # US state (Florida)
+FL/NO4              # US state (Florida)
 FLOSS/ONV           # free libre open source software
 FM/NSg
 FNMA/Og
@@ -3504,8 +3507,8 @@ Fawkes/Og
 Fay/Og
 Faye/Og
 Fayetteville/Og
-Fe/                 # Iron
-Feb/Og
+Fe/4                # Iron
+Feb/Og4
 February/OgS
 Fed/OgS
 FedEx/OgV
@@ -3602,7 +3605,7 @@ Flossie/Og
 Flowers/Og
 Floyd/Og
 Flynn/Og
-Fm/                 # Fermium
+Fm/4                # Fermium
 Foch/ONg
 Fokker/ONg
 Foley/Og
@@ -3632,7 +3635,7 @@ Fourneyron/g
 Fourth/O
 Fowler/Og
 Fox/NOSg
-Fr/                 # Francium
+Fr/4                # Francium
 Fragonard/g
 Fran/Og
 France/OgS
@@ -3693,7 +3696,7 @@ Freud/Og
 Freudian/JNg
 Frey/Og
 Freya/Og
-Fri/Ng
+Fri/Ng4
 Friday/NSg
 Fridman/Og
 Frieda/Og
@@ -3744,7 +3747,7 @@ Fushun/Og
 Fuzhou/Og
 Fuzzbuster/g
 G/Ng>nB
-GA/ON               # US state (Georgia)
+GA/ON4              # US state (Georgia)
 GAO/O
 GATT/Og
 GB/NOg
@@ -3769,7 +3772,7 @@ GOP/ONg             # political party
 GP/NOgJ
 GPA/N               # grade point average
 GPO/ON
-GPS/ONV             # global positioning system
+GPS/ONVb            # global positioning system
 GPU/NSg
 GSA/ON
 GST/Ng              # goods and services tax
@@ -3782,7 +3785,7 @@ GTR/NgS
 GTS/NSg
 GU/N
 GUI/ONgS
-Ga/                 # Gallium
+Ga/4                # Gallium
 Gable/Og
 Gabon/Og
 Gabonese/NgJ
@@ -3889,10 +3892,10 @@ Gayle/Og
 Gaza/Og
 Gazan/JOgS
 Gaziantep/Og
-Gd/                 # Gadolinium
+Gd/4                # Gadolinium
 Gdańsk/Og
 Gdansk/Og
-Ge/                 # Germanium
+Ge/4                # Germanium
 Geffen/Og
 Gehenna/Og
 Gehrig/Og
@@ -4091,7 +4094,7 @@ Goteborg/g
 Goth/NOgJ
 Gotham/Og
 Gothic/ONSgJ
-Goths/N
+Goths/N9
 Gouda/ONSg
 Gould/Og
 Gounod/g
@@ -4245,7 +4248,7 @@ HDMI/O
 HDTV/N
 HF/NgJ
 HHS/ON
-HI/ON               # US state (Hawaii)
+HI/ON4              # US state (Hawaii)
 HIMARS/N
 HIV/Ng
 HM/NO
@@ -4422,7 +4425,7 @@ Hayworth/Og
 Hazel/Og
 Hazleton/Og
 Hazlitt/g
-He/Ia3Og            # Helium; I~pronoun a~personal 3~person .~singular s~subject / Og~proper noun+possessive
+He/Ia3Og4           # Helium; I~pronoun a~personal 3~person .~singular s~subject / Og~proper noun+possessive
 Head/Og
 Healey/Og
 Healy/Og
@@ -4559,8 +4562,8 @@ Heyerdahl/g
 Heywood/Og
 Hezbollah/Og
 Hezekiah/Og
-Hf/                 # Hafnium
-Hg/                 # Mercury
+Hf/4                # Hafnium
+Hg/4                # Mercury
 Hialeah/Og
 Hiawatha/Og
 Hibernia/Og
@@ -4616,7 +4619,7 @@ Hitchcock/Og
 Hitler/ONSg
 Hittite/NOSgJ
 Hmong/NOgJ
-Ho/O                    # Holmium; Ho Chi Minh
+Ho/O4                   # Holmium; Ho Chi Minh
 Hobart/Og
 Hobbes/Og
 Hobbs/Og
@@ -4783,20 +4786,20 @@ Hymen/Og
 Hyperion/Og
 Hyundai/Ng
 Hz/g
-I/~Ia1s.            # Iodone; I~pronoun a~personal 1~person .~singular s~subject
+I/~Ia1s.4           # Iodone; I~pronoun a~personal 1~person .~singular s~subject
 I'd/~
 I'd've/
 I'll/~
 I'm/~
 I've/~
-IA/ON               # US state (Iowa)
+IA/ON4              # US state (Iowa)
 IBM/ONg
 IC/NgS              # integrated circuit
 ICBM/NSg
 ICC/O               # International Criminal Court
 ICQ/ONV             # chat protocol
 ICU/NO              # Unicode library
-ID/NOSgVJ           # US state (Idaho)
+ID/NOSg4VJ          # US state (Idaho)
 IDE/N
 IDF/Og              # Israel's military
 IE/ONJ
@@ -4804,12 +4807,12 @@ IED/N               # improvised explosive device
 IEEE/O              # standards organization
 IIRC                # If I recall correctly
 IKEA/Og             # furniture company
-IL/NO               # US state (Illinois)
+IL/NO4              # US state (Illinois)
 IMF/Og              # International Monetary Fund
 IMHO/
 IMNSHO/
 IMO/NO
-IN/ON               # US state (Indiana)
+IN/ON4              # US state (Indiana)
 ING/g
 INRI
 INS/NO
@@ -4825,7 +4828,7 @@ IRS/ONg
 ISBN/NgS
 ISDN/Ng             # telephone standard
 ISIS/O
-ISO/ONgP            # standards organization
+ISO/ONgSP           # standards organization, optical disk image format
 ISP/N
 ISS/NO
 IT/N                # removed `5`. nouns can qualify nouns. makes `it` an adjective which interferes with heuristics
@@ -4876,7 +4879,7 @@ Imhotep/Og
 Imodium/g
 Imogene/Og
 Imus/Og
-In/                 # Indium
+In/4                # Indium
 Ina/Og
 Inc/J
 Inca/NSg
@@ -4936,7 +4939,7 @@ Ipswich/O
 Iqaluit/Og
 Iqbal/Og
 Iquitos/Og
-Ir/                 # Iridium
+Ir/4                # Iridium
 Ira/Og
 Iran/Og
 Iranian/NOSgJ
@@ -5069,7 +5072,7 @@ James/Og
 Jamestown/Og
 Jami/g
 Jamie/Og
-Jan/Og
+Jan/Og4
 Jana/Og
 Janacek/g
 Jane/ONg
@@ -5170,7 +5173,7 @@ Jesse/ONg
 Jessica/Og
 Jessie/ONg
 Jesuit/NgSJ
-Jesus/ONgV
+Jesus/ONgVb
 Jetway/g
 Jew/NOSgJV
 Jewel/Og
@@ -5287,7 +5290,7 @@ Judith/Og
 Judson/Og
 Judy/ONg
 Juggernaut/Og
-Jul/O
+Jul/O4
 Jules/Og
 Julia/Og
 Julian/OgJ
@@ -5300,9 +5303,10 @@ Julio/g
 Julius/Og
 Julliard/Og
 July/OgS
-Jun/Og
+Jun/Og4
 June/OgS
 Juneau/Og
+Juneteenth/gO
 Jung/Og
 Jungfrau/Og         # mountain
 Jungian/JNg
@@ -5318,7 +5322,7 @@ Justine/Og
 Justinian/OgJ
 Jutland/Og
 Juvenal/Og
-K/                  # Potassium
+K/4                 # Potassium
 K-pop/Nmg
 KB/NOg              # kilobyte, cf. Kb
 KC/ON
@@ -5328,8 +5332,8 @@ KIA/NJ              # killed in action
 KKK/Og
 KO/NgV
 KP/N
-KS/ONV              # US state (Kansas)
-KY/O                # US state (Kentucky)
+KS/ON4V             # US state (Kansas)
+KY/O4               # US state (Kentucky)
 Kaaba/Og
 Kabul/Og
 Kafka/Og            # franz -
@@ -5628,7 +5632,7 @@ Kosygin/g
 Kotlin/Og
 Koufax/g
 Kowloon/Og
-Kr/                 # Krypton
+Kr/4                # Krypton
 Kraft/Og
 Krakatoa/Og
 Kraken/OgS
@@ -5697,7 +5701,7 @@ L'Amour/g
 L'Enfant
 L'Oreal/g
 L'Ouverture/g
-LA/NO               # US state (Louisiana)
+LA/NO4              # US state (Louisiana)
 LAN/Ng
 LBJ/NOg
 LC/NJ
@@ -5723,7 +5727,7 @@ LPN/NSg
 LSAT
 LSD/Ng
 LVN/N
-La/                 # Lanthanum
+La/4                # Lanthanum
 Lab/NO
 Laban/Og
 Labor/Og_           # the australian political party doesn't use the normal australian spelling of 'labour'
@@ -5963,7 +5967,7 @@ Lexington/Og
 Lexus/ONSg
 Lhasa/OgS
 Lhotse/Og
-Li/                 # Lithium
+Li/4                # Lithium
 Liam/Og
 Liaoning/Og
 Libby/Og
@@ -6142,10 +6146,10 @@ Lowlands/O
 Loyang/Og
 Loyd/Og
 Loyola/Og
-Lr/                 # Lawrencium
+Lr/4                # Lawrencium
 Lt/N
 Ltd/JN
-Lu/                 # Lutetium
+Lu/4                # Lutetium
 Luanda/Og
 Luann/Og
 Lubavitcher/NgJ
@@ -6230,22 +6234,22 @@ Lysenko/Og
 Lysistrata/ONg
 Lysol/Og
 M/NOSgJGB
-MA/JNOg             # US state (Massachusetts)
+MA/JNOg4            # US state (Massachusetts)
 MASH/N
 MB/NOgV
 MBA/Ng
 MC/NOV
 MCI/ONg
-MD/ONgJ             # US state (Maryland)
+MD/ONg4J            # US state (Maryland)
 MD5/Ng
 MDF/Ng              # medium-density fiberboard
 MDT/NO
-ME/ON               # US state (Maine)
+ME/ON4              # US state (Maine)
 MEGO/S
 MFA/ONg
 MGM/ONg             # movie company
 MHz/
-MI/ONg              # US state (Michigan)
+MI/ONg4             # US state (Michigan)
 MI6/Og              # agency
 MIA/JNO             # missing in action
 MIDI/ONg
@@ -6256,8 +6260,8 @@ MLK/Og              # Martin Luther King
 MM/NO
 MMA/Ng              # mixed martial arts
 MMU/NgS             # memory management unit
-MN/ON               # US state (Minnesota)
-MO/ONJ              # US state (Missouri)
+MN/ON4              # US state (Minnesota)
+MO/ON4J             # US state (Missouri)
 MOOC/N
 MOSFET/NgS          # transistor
 MP/NOgJ             # military police; member of parliament
@@ -6265,12 +6269,13 @@ MP3/NSg             # audio format
 MP4/NSg             # audio/video format
 MPEG/ON
 MRI/NgV             # magnetic resonance imaging
-MS/NOg              # US state (Mississippi)
+MS/NOg4             # US state (Mississippi)
 MSG/NOg             # flavour enhancer
 MSRP/NSg
 MST/ONgV
 MSW/N
-MT/JNOg             # US state (Montana)
+MSX/NOgS            # 8-bit series of Japanese computers
+MT/NOg4J            # US state (Montana)
 MTV/Og
 MVP/Ng              # most valuable player
 MW/NO
@@ -6460,7 +6465,7 @@ Maoist/JNSg
 Maori/NOSgJ
 Mapplethorpe/g
 Maputo/Og
-Mar/ONSg
+Mar/ONSg4
 Mar-a-Lago/Og
 Mara/ONg
 Maracaibo/Og
@@ -6720,7 +6725,7 @@ McNeil/Og
 McPherson/Og
 McQueen/Og
 McVeigh/Og
-Md/                 # Mendelevium
+Md/4                # Mendelevium
 Me/NOI
 Mead/Og
 Meade/Og
@@ -6856,7 +6861,7 @@ Meyer/OgS
 Meyerbeer/g
 Meyers/Og
 Mfume/g
-Mg/                 # Magnesium
+Mg/4                # Magnesium
 Mgr
 MiB                 # mebibyte
 MiG/Ng
@@ -6991,9 +6996,9 @@ Mizar/Og
 Mk/N
 Mlle/N
 Mme/NS
-Mn/                 # Manganese
+Mn/4                # Manganese
 Mnemosyne/Og
-Mo/                 # Molybdenum
+Mo/4                # Molybdenum
 Mobil/Og
 Mobile/Og
 Mobutu/g
@@ -7032,7 +7037,7 @@ Molokai/Og
 Molotov/ONgV        # minister
 Moluccas/Og
 Mombasa/Og
-Mon/NOSg            # city
+Mon/NOSg4
 Mona/Og
 Monacan/JN
 Monaco/Og
@@ -7097,7 +7102,7 @@ Moran/Og
 Moravia/Og
 Moravian/JNg
 Mordred/Og
-More/Og
+More/Og             # surname: Sir Thomas ~, Henry ~; language of Burkina Faso
 Moreno/Og
 Morgan/ONSg
 Morgantown/Og
@@ -7149,7 +7154,7 @@ Mozilla/g           # company
 Mr/NSg
 Ms/NS
 Msgr
-Mt/                 # Meitnerium
+Mt/4                # Meitnerium
 Muawiya/g
 Mubarak/Og          # president
 Mueller/Og
@@ -7224,7 +7229,7 @@ Myrtle/Og
 Mysore/Og           # old name of karnataka state and mysuru city
 Myst/g
 Mysuru/Og
-N/                  # Nitrogen
+N/4                 # Nitrogen
 N'Djamena/O         # capital of Chad
 NAACP/Og
 NAFTA/Og            # trade agreement
@@ -7237,12 +7242,12 @@ NB/JNO
 NBA/Og              # sports organization
 NBC/ONgJ
 NBS
-NC/ONJ              # US state (North Carolina)
+NC/ON4J             # US state (North Carolina)
 NCAA/Og
 NCO/N
-ND/ONJ              # US state (North Dakota)
+ND/ON4J             # US state (North Dakota)
 NDA/NSg             # non-disclosure agreement
-NE/ONgJ             # US state (Nebraska)
+NE/ONg4J            # US state (Nebraska)
 NEC/Og              # electronics company
 NEH/O
 NES/Ng              # game console
@@ -7250,14 +7255,14 @@ NF/ONJ
 NFC/ON              # near-field communication
 NFL/ONg             # sports organization
 NGO/NgS             # non-government organization
-NH/ONVJ             # US state (New Hampshire)
+NH/ON4VJ            # US state (New Hampshire)
 NHL/NOg             # sports organization
 NHS/Og
 NIH/OJ              # National Institutes of Health
 NIMBY/NJ            # not in my backyard
-NJ/OJ               # US state (New Jersey)
+NJ/O4J              # US state (New Jersey)
 NLRB/O
-NM/ONJV             # US state (New Mexico)
+NM/ON4JV            # US state (New Mexico)
 NOR gate/NgS
 NORAD/Og
 NP/ON
@@ -7276,16 +7281,16 @@ NSX/Ng              # car
 NT/ON
 NTFS/Ng             # file system
 NTSC/Ng             # television standard
-NV/ONJ              # US state (Nevada)
+NV/ON4J             # US state (Nevada)
 NVIDIA/g            # FIXME! elsewhere we have Nvidia
 NVMe/O
 NW/ONg
 NWT/O
-NY/O                # US state (New York)
+NY/O4               # US state (New York)
 NYC/O
 NYSE/O              # stock exchange
 NZ/Og               # New Zealand
-Na/                 # Sodium
+Na/4                # Sodium
 Nabisco/g           # company
 Nabokov/g
 Nader/Og
@@ -7361,10 +7366,10 @@ Nazareth/Og
 Nazca/Og
 Nazi/NOSgJ
 Nazism/NgS
-Nb/                 # Niobium
-Nd/                 # Neodymium
+Nb/4                # Niobium
+Nd/4                # Neodymium
 Ndjamena/g
-Ne/                 # Neon
+Ne/4                # Neon
 Neal/Og
 Neanderthal/JNSg
 Neapolitan/JNOg
@@ -7438,7 +7443,7 @@ New Zealand/Og
 Nexis/g
 Ngaliema/g
 Nguyen/Og
-Ni/                 # Nickel
+Ni/4                # Nickel
 Niagara/ONg
 Niamey/Og
 Nibelung/Ng
@@ -7498,7 +7503,7 @@ Nita/g
 Nivea/g
 Nixon/ONg
 Nkrumah/g
-No/                 # Nobelium
+No/4                # Nobelium
 NoDoz/g             # trademark
 Noah/ONg
 Nobel/ONg           # prize
@@ -7550,7 +7555,7 @@ Nottingham/Og
 Nouakchott/Og
 Nouméa/Og
 Noumea/Og
-Nov/Og
+Nov/Og4
 Nova/ONg
 Novartis/g
 November/NOSg
@@ -7562,7 +7567,7 @@ Novosibirsk/Og
 Noxzema/g
 Noyce/Og
 Noyes/Og
-Np/                 # Neptunium
+Np/4                # Neptunium
 Nubia/Og
 Nubian/NgJ
 Nukualofa/Og
@@ -7578,7 +7583,7 @@ NutraSweet/g        # trademark
 NyQuil/g            # trademark
 Nyasa/g
 Nyerere/Og
-O/NOSgPJ            # Oxygen
+O/NOSg4PJ           # Oxygen
 O'Brien/Og
 O'Casey/Og
 O'Connell/Og
@@ -7600,15 +7605,15 @@ OE/ONJV
 OECD/Og             # organization
 OED/Og              # dictionary
 OEM/JNgS            # original equipment manufacturer
-OH/ON               # US state (Ohio)
+OH/ON4              # US state (Ohio)
 OHSA/g              # law
 OJ/NJ
-OK/NOSgVdGJ         # US state (Oklahoma)
+OK/NOSg4VdGJ        # US state (Oklahoma)
 OLED/Ng             # organic light-emitting diode
 OMB/Og
 OMG                 # exclamation
 OPEC/Og             # organization
-OR/CNO              # Oregon
+OR/CNO4             # Oregon
 OR gate/NgS
 OS/Ng               # removed `O` proper noun and `J` adjective flags
 OS X/Og             # before macOS
@@ -7639,7 +7644,7 @@ Oceania/Og
 Oceanside/O
 Oceanus/Og
 Ochoa/Og
-Oct/Og
+Oct/Og4
 Octavia/Og
 Octavian/Og
 Octavio/g
@@ -7776,7 +7781,7 @@ Orval/g
 Orville/Og
 Orwell/Og
 Orwellian/Jg
-Os/                 # Osmium
+Os/4                # Osmium
 Osage/OgS
 Osaka/Og            # city
 Osbert/g
@@ -7818,10 +7823,10 @@ Ozark/ONSg
 Ozarks/NOg
 Ozymandias/Ng
 Ozzie/ONgJ
-P/                  # Phosphorus
+P/4                 # Phosphorus
 P.P.S.              # post-postscript
 P.S.                # postscript
-PA/ONgJ             # US state (Pennsylvania)
+PA/ONg4J            # US state (Pennsylvania)
 PAC/NOg             # political action committee
 PARC/S              # xerox
 PASCAL              # cf. pascal, Pascal
@@ -7862,7 +7867,7 @@ PP/NO
 PPE/Ng              # personal protective equipment
 PPS/N               # post-postscript; other meanings?
 PR/NgS              # public relations; pull request; Puerto Rico
-PRC/ONg             # mainland China
+PRC/ONg4            # mainland China
 PRO/N
 PS/ONgJ             # postscript; multiple meanings as implied by the attributes?
 PST/ONg
@@ -7873,7 +7878,7 @@ PTO/ON
 PVC/Ng              # plastic
 PW/ON
 PX/N
-Pa/                 # Protactinium
+Pa/4                # Protactinium
 Paar/Og
 Pablo/Og
 Pablum/Og
@@ -8004,8 +8009,8 @@ Pawnee/ONSgJ
 Pax Americana/Og
 PayPal/ONgV         # company
 Payne/Og
-Pb/                 # Lead
-Pd/                 # Palladium
+Pb/4                # Lead
+Pd/4                # Palladium
 Peabody/Og
 Peace/ONg
 Peale/Og
@@ -8212,9 +8217,9 @@ Pliocene/JOgS       # geological period
 Plutarch/ONg
 Pluto/Og
 Plymouth/ONg
-Plymouths/9
-Pm/                 # Promethium
-Po/                 # Polonium
+Plymouths/ON9
+Pm/4                # Promethium
+Po/4                # Polonium
 Pocahontas/ONg
 Pocatello/Og
 Pocono/Sg
@@ -8374,11 +8379,11 @@ Pryor/Og
 Psalms/Og
 Psalter/Sg
 Psyche/Og
-Pt/                 # Platinum
+Pt/4                # Platinum
 Ptah/Og
 Ptolemaic/Jg
 Ptolemy/OgS
-Pu/                 # Plutonium
+Pu/4                # Plutonium
 Puccini/Og
 Puck/Og
 Puckett/Og
@@ -8494,11 +8499,11 @@ RF/NO
 RFC/ONS
 RFD/JNO
 RGB                 # colour model
-RI/ON               # US state (Rhode Island)
+RI/ON4              # US state (Rhode Island)
 RIF/NV
 RIFA/Og
 RIP/ON
-RISC/N
+RISC/Ng
 RN/NOg
 RNA/Ng
 RNG/NgS             # random number generator
@@ -8516,9 +8521,9 @@ RSV/ON
 RSVP/NOV
 RSVP'd/VtT
 RSVPed/VtT
-RTFM/
+RTFM/4
 RV/ONSgV
-Ra/                 # Radium
+Ra/4                # Radium
 Rabat/Og
 Rabelais/Og
 Rabelaisian/Jg
@@ -8588,9 +8593,9 @@ Rayburn/ONg
 Rayleigh/Og
 Raymond/Og
 Raymundo/g
-Rb/                 # Rubidium
-Rd
-Re/                 # Rhenium
+Rb/4                # Rubidium
+Rd/4
+Re/4                # Rhenium
 Reading/Og
 Reagan/Og
 Reaganomics/Ng
@@ -8665,7 +8670,7 @@ Reykjavik/Og
 Reyna/g
 Reynaldo/g
 Reynolds/Og
-Rf/                 # Rutherfordium
+Rf/4                # Rutherfordium
 Rhea/Og
 Rhee/Og
 Rheingau/g
@@ -8731,7 +8736,7 @@ Riverside/Og
 Riviera/OgS
 Riyadh/Og
 Rizal/Og
-Rn/                 # Radon
+Rn/4                # Radon
 Roach/Og
 Roanoke/Og
 Rob/Og
@@ -8883,7 +8888,7 @@ Royal/ONgJ
 Royce/Og
 Rozelle/Og
 Rte
-Ru/                 # Ruthenium
+Ru/4                # Ruthenium
 Rubaiyat/g
 Rubbermaid/g
 Ruben/OgS
@@ -8948,10 +8953,10 @@ SASE/N
 SAT/NgS
 SATA/Ng             # computing standard
 SBA/NO
-SC/JNOg             # US state (South Carolina)
+SC/NOg4J            # US state (South Carolina)
 SCSI/Og             # computing standard
 SCOTUS/Og           # Supreme Court Of The United States
-SD/ON               # US state (San Diego)
+SD/ON4              # US state (San Diego)
 SDI/NO              # strategic defense initiative
 SE/NOgJ
 SEATO/O
@@ -9000,8 +9005,8 @@ Saab/ONg            # car brand
 Saar/Og
 Saarinen/g
 Saatchi/Og
-Sabbath/Ng
-Sabbaths/N
+Sabbath/N0g
+Sabbaths/N9
 Sabik/Og
 Sabin/Og
 Sabina/Og
@@ -9129,7 +9134,7 @@ Saskatoon/Og
 Sasquatch/NgS
 Sassanian/JNg
 Sassoon/Og
-Sat/Ng
+Sat/Ng4
 Satan/ONg
 Satanism/Nmg
 Satanist/Ng
@@ -9152,8 +9157,8 @@ Sawyer/Og
 Saxon/NOSgJ
 Saxony/ONg
 Sayers/Og
-Sb/                 # Antimony
-Sc/                 # Scandium
+Sb/4                # Antimony
+Sc/4                # Scandium
 Scala/Og
 Scan
 Scandinavia/Og
@@ -9236,7 +9241,7 @@ Sculley/Og
 Scylla/Og
 Scythia/Og
 Scythian/JNOg
-Se/                 # Selenium
+Se/4                # Selenium
 Seaborg/Og
 Seagate/Og          # hard drive company
 Seagram/Og
@@ -9292,7 +9297,7 @@ Sennacherib/Og
 Sennett/Og
 Sensurround/Og
 Seoul/Og
-Sep/O
+Sep/O4
 Sephardi/Ng
 Sepoy/g
 Sept/Og
@@ -9431,7 +9436,7 @@ Shropshire/ONg
 Shula/Og
 Shylock/ONg
 Shylockian/g
-Si/                 # Silicon
+Si/4                # Silicon
 Siam/Og             # old name of Thailand
 Siamese/JONg
 Sibelius/g
@@ -9520,7 +9525,7 @@ Slovene/JNOSg
 Slovenia/Og
 Slovenian/JNgS
 Slurpee/Ng
-Sm/                 # Samarium
+Sm/4                # Samarium
 Small/Og
 Smetana/Og
 Smirnoff/ONg
@@ -9532,7 +9537,7 @@ Smolensk/Og
 Smollett/Og
 Smuts/g
 Smyrna/O
-Sn/                 # Tin
+Sn/4                # Tin
 Snake/Og
 Snapple/g
 Snead/Og
@@ -9646,10 +9651,10 @@ Sputnik/NOg
 Sq
 Squanto/g
 Squibb/Og
-Sr/                 # Strontium
+Sr/4                # Strontium
 Srinagar/Og
 Srivijaya/g
-St/N
+St/N4
 Sta/NO
 Stacey/Og
 Staci/Og
@@ -9785,7 +9790,7 @@ Summer/OgS
 Summers/Og
 Sumner/Og
 Sumter/Og
-Sun/ONSg
+Sun/ONSg4
 Sunbeam/Og
 Sunbelt/Ng
 Sundanese/NOgJ
@@ -9881,7 +9886,7 @@ TKO/ONg
 TLC/NOg
 TLS/NO
 TM/N
-TN/ON               # US state (Tennessee)
+TN/ON4              # US state (Tennessee)
 TNT/NOg
 TOC/NgS             # table of contents
 TOEFL/N
@@ -9892,8 +9897,8 @@ TVA/O
 TVR/NOSg            # car company
 TWA/ONg
 TWX/O
-TX/ONV              # US state (Texas)
-Ta/                 # Tantalum
+TX/ON4V             # US state (Texas)
+Ta/4                # Tantalum
 Tabasco/ONSg
 Tabatha/Og
 Tabernacle/Sg
@@ -9993,9 +9998,9 @@ Taurus/ONSg
 Tavares/Og
 Tawney/Og
 Taylor/Og
-Tb/                 # Terbium
+Tb/4                # Terbium
 Tbilisi/Og
-Tc/                 # Technetium
+Tc/4                # Technetium
 Tchaikovsky/Og
 Teasdale/Og
 Technicolor/NgJ
@@ -10057,7 +10062,7 @@ Texaco/g            # company
 Texan/JNgS
 Texarkana/Og
 Texas/Og
-Th/                 # Thorium
+Th/4                # Thorium
 Thackeray/Og
 Thad/Og
 Thaddeus/Og
@@ -10116,7 +10121,7 @@ Thorpe/Og
 Thoth/Og
 Thrace/Og
 Thracian/JNOg
-Thu/NO
+Thu/NO4
 Thucydides/Og
 Thule/Og
 Thunderbird/NOSg    # car model
@@ -10126,8 +10131,8 @@ Thurman/Og
 Thurmond/Og
 Thursday/NSg
 Thutmose/Og
-Ti/                 # Titanium
-TiB                 # tebibyte
+Ti/4                # Titanium
+TiB/4               # tebibyte
 Tia/Og
 Tianjin/Og
 Tiber/Og
@@ -10177,10 +10182,10 @@ Tito/Og             # president
 Titograd/Og         # old name of Podgorica
 Titus/Og
 Titusville/Og
-Tl/                 # Thallium
+Tl/4                # Thallium
 Tlaloc/Og
 Tlingit/NOgJ
-Tm/                 # Thulium
+Tm/4                # Thulium
 Tobago/Og
 Tobit/ONg
 Toby/ONg
@@ -10311,7 +10316,7 @@ Tsiolkovsky/Og
 Tsitsihar/Og
 Tsongkhapa/g
 Tswana/NOg
-Tu/NOg              # former symbol for thulium, now Tm
+Tu/NOg4             # former symbol for thulium, now Tm
 Tuamotu/Jg
 Tuareg/NOg
 Tubman/Og
@@ -10319,7 +10324,7 @@ Tucker/Og
 Tucson/Og
 Tucuman/g
 Tudor/NSgJ          # period
-Tue/NOS
+Tue/NOS4
 Tues/Ng
 Tuesday/NgS
 Tulane/g
@@ -10385,7 +10390,7 @@ Tyree/Og
 Tyrolean/JN
 Tyrone/ONg
 Tyson/Og
-U/                  # Uranium; removed `1`noun `5`adj. `2`proper noun `+`prep., was interfering with linter heuristics. I only know this as an abbreviation for university
+U/4                 # Uranium; removed `1`noun `5`adj. `2`proper noun `+`prep., was interfering with linter heuristics. I only know this as an abbreviation for university
 U-turn/NgSVdG
 U.K./Og
 U.S./Og             # United States
@@ -10417,7 +10422,7 @@ USAID/Og            # agency
 USB/ONSg
 USCG/O
 USCIS/O             # immigration agency
-USD/Nmg             # currency symbol for US dollars
+USD/Nmg4            # currency symbol for US dollars
 USDA/Og
 USIA/O
 USMC/O
@@ -10427,7 +10432,7 @@ USP/ONJ
 USPS/O
 USS/NO
 USSR/Og
-UT/ONg              # US state (Utah)
+UT/ONg4             # US state (Utah)
 UTC/O
 UTF-16/Ng
 UTF-32/Ng
@@ -10502,12 +10507,12 @@ Utrillo/g
 Uzbek/NOgJ
 Uzbekistan/Og
 Uzi/NSg
-V/                  # Canadium
+V/4                 # Vanadium
 V10/NgS
 V12/NgS
 V6/NgS
 V8/NOSg
-VA/ONJ              # US state (Virginia)
+VA/ON4J             # US state (Virginia)
 VAT/Ng              # tax
 VAX                 # old computer
 VAXes
@@ -10533,7 +10538,7 @@ VMS/g               # operating system
 VOA/ON              # voice of america
 VP/NO               # vice president
 VRAM/Ng             # video memory
-VT/ONJV             # US state (Vermont)
+VT/ON4JV            # US state (Vermont)
 VTOL/N              # vertical takeoff and landing
 VW/OgS              # car brand; cf. Volkswagen
 Vacaville/Og
@@ -10681,8 +10686,8 @@ Visa/ONg
 Visalia/Og
 Visayans/Ng
 Vishnu/Og
-Visigoth/Ng
-Visigoths/N
+Visigoth/N0g
+Visigoths/N9
 Vistula/Og
 Vitim/Og
 Vito/g
@@ -10720,25 +10725,25 @@ Vulcan/ONg
 Vulg
 Vulgate/OgS
 W12/NSg
-WA/ON               # US state (Washington)
+WA/ON4              # US state (Washington)
 WAC/ON
 WASP/Ng
 WATS/Ng
 WC/N
 WHO/Og
-WI/O                # US state (Wisconsin)
+WI/O4               # US state (Wisconsin)
 WMD/N
 WNW/NgJ
 WP/ON
 WSW/NgJ
 WTF/NS
 WTO/O
-WV/O                # US state (West Virginia)
+WV/O4               # US state (West Virginia)
 WW/NO
 WWI/O
 WWII/O
 WWW/Og
-WY/O                # US state (Wyoming)
+WY/O4               # US state (Wyoming)
 WYSIWYG/N
 Wabash/Og
 Wac/N
@@ -10824,7 +10829,7 @@ Webb/Og
 Weber/Og
 Webern/g
 Webster/OgS
-Wed/Ng
+Wed/Ng4
 Weddell/Og
 Wedgwood/Og
 Wednesday/NOSg
@@ -11035,7 +11040,7 @@ Xamarin/g
 Xanadu/ONg
 Xanthippe/Ng
 Xavier/Og
-Xe/                 # Xenon
+Xe/4                # Xenon
 Xenakis/Og
 Xenia/Og
 Xenophon/Og
@@ -11055,7 +11060,7 @@ Xizang/Og
 Xmas/OgSV
 Xochipilli/g
 Xuzhou/Og
-Y/                  # Yttrium
+Y/4                 # Yttrium
 YMCA/ONg
 YMHA/O
 YMMV/
@@ -11091,7 +11096,7 @@ Yaroslavl/Og
 Yataro/g
 Yates/Og
 Yauco/Og
-Yb/                 # Ytterbium
+Yb/4                # Ytterbium
 Yeager/Og
 Yeats/Og
 Yekaterinburg/Og
@@ -11209,7 +11214,7 @@ Zionism/NwSg
 Zionist/NSgJ
 Ziploc/Ng           # trademark
 Žižek/Og            # slavoj -
-Zn/                 # Zinc
+Zn/4                # Zinc
 Zoë/Og
 Zoe/Og
 Zola/Og
@@ -11222,7 +11227,7 @@ Zoroastrian/NgSJ
 Zoroastrianism/OgSw
 Zorro/ONg
 Zosma/Og
-Zr/                 # Zirconium
+Zr/4                # Zirconium
 Zsigmondy/g
 Zubenelgenubi/Og
 Zubeneschamali/Og
@@ -11682,9 +11687,9 @@ adhesive/~JpNwSg
 adhesiveness/Ng
 adiabatic/~JN
 adieu/NgS
-adios/NV
+adios/NVb
 adipose/~JN
-adj/~N
+adj/~4N
 adjacency/~Ng
 adjacent/~JYNP
 adjectival/JYN
@@ -11782,7 +11787,7 @@ adultery/~NSg
 adulthood/~Nmg
 adumbrate/VGdSn
 adumbration/Ng
-adv/~N
+adv/~4N
 advance/~VdGSNgJL
 advancement/~NSg
 advantage/~NwSgVdGE
@@ -11829,6 +11834,7 @@ adware/Nmg
 adze/NSgV
 aegis/~Ng
 aeon/NSg!_₹
+# æon
 aerate/VdSGn
 aeration/Ng
 aerator/NSg
@@ -11872,7 +11878,7 @@ affected/~JYNVtT
 affecting/~JYV
 affection/~Nm0gE
 affectionate/~JYV
-affections/~N9V
+affections/~N9
 afferent/JN
 affiance/VGdSN
 affidavit/~NSgV
@@ -11935,11 +11941,11 @@ afternoon/~NwgS
 aftershave/NwSg
 aftershock/NSg
 aftertaste/NwSg
-afterthought/NSgV
+afterthought/NSg
 afterward/~R<
 afterwards/R!@_₹
 afterword/NgS
-again/~P
+again/~R
 against/~PC
 agape/JNg
 agar/~Ng
@@ -12154,7 +12160,7 @@ algebraic/~JQ
 algo/NgS†
 algorithm/~NSg
 algorithmic/JQ
-alias/~NgSVGd
+alias/~NgSVbGd
 alibi/~NgSVGd
 alien/~NgSJVGdB
 alienable/JiU
@@ -12297,17 +12303,18 @@ altimeter/~NgS
 altitude/~NgS
 alto/~NSg
 altogether/~N
-altruism/Ng
+altricial/J
+altruism/Nmg
 altruist/NSg
 altruistic/JQ
 alum/~NSgV
 alumina/Ng
 aluminium/Nmg!_₹
 aluminum/~Nmg@<
-alumna/Ng
-alumnae/9
-alumni/~9
-alumnus/~Ng
+alumna/N0g♀
+alumnae/N9♀
+alumni/~N9
+alumnus/~N0g
 alveolar/~JNS
 alveoli/N9
 alveolus/N0g
@@ -12458,7 +12465,7 @@ amusing/~VJY
 amygdala/Ng
 amylase/Ng
 amyloid/NJ
-an/~DPSe            # removed `7` conjunction: archaic
+an/~DPe             # removed `7` conjunction: archaic
 anabolism/Ng
 anachronism/NwSg
 anachronistic/JQ
@@ -12842,7 +12849,7 @@ anxious/~JYp
 anxiousness/Nmg
 any/~IRDq           # removed `5` adjective. it's determiner/pronoun/adverb only
 anybody/~ISg
-anyhow/~J
+anyhow/~R
 anymore/~
 anyone/~Ig
 anyplace/
@@ -13018,6 +13025,8 @@ appurtenant/JN
 apricot/NwgSJ
 apron/~NgSV
 apropos/JPN
+# à propos
+# àpropos
 apse/~NSg
 apt/~JY^pNi
 apter/Jc
@@ -13103,7 +13112,7 @@ ardor/NgS
 ardour/NwgS!@_₹
 arduous/~JYp
 arduousness/Ng
-are/~VlS            # 2nd person singular & plural / 1st & 3rd person plural present of 'be'
+are/~Vl             # 2nd person singular & plural / 1st & 3rd person plural present of 'be'
 area/~NwSg
 areal/J
 aren't/V
@@ -13187,7 +13196,7 @@ arrant/J
 arras/~NgS
 array/~NgSVGdE
 arrears/Ng
-arrest/~NwgSVGdr
+arrest/~NwgS>ZVGdr
 arrhythmia/~Nmg
 arrhythmic/J
 arrhythmical/J
@@ -13255,7 +13264,7 @@ arum/NSg
 arvo/NSg†_          # Australia slang = afternoon
 as/~RCP
 asap/
-asbestos/~NmgV
+asbestos/~NmgVb
 ascend/~VGdSr
 ascendance/Ng
 ascendancy/~Ng
@@ -13472,7 +13481,7 @@ atomisation/NwgS!_₹
 atomise/VGd>SZ!_₹
 atomiser/NgS!_₹
 atomistic/J
-atomization/NwgS!_₹
+atomization/NwgS   
 atomize/VGd>SZ
 atomizer/NgS
 atonal/JY
@@ -13565,6 +13574,7 @@ audiotape/NwSgV
 audiovisual/~JS
 audiovisuals/Ng
 audit/~NgSVGd
+auditable/J
 audition/~NSgVdG
 auditor/~NgS
 auditoria/N9
@@ -13641,7 +13651,7 @@ autocratic/~JQ
 autocross/NV
 autodetection/Nmg
 autodidact/NSg
-autofocus/NmgSVGd
+autofocus/NmgSVbGd
 autofocussed/VtT
 autofocusses/Vh
 autofocussing/V6
@@ -13783,7 +13793,7 @@ azalea/NSg
 azimuth/~N0g
 azimuths/N9
 azure/~NSgJV
-b/~J^VdK
+b/J^VdK
 baa/~NSgVdG
 babble/VGd>SNmgZ
 babbler/~Ng
@@ -14049,8 +14059,8 @@ bandsman/N0g
 bandsmen/N9
 bandstand/~NSg
 bandwagon/NSg
-bandwidth/~N
-bandwidths/N
+bandwidth/~N0wg
+bandwidths/N9
 bandy/~Vd>GSJ^N
 bane/~NSgV
 baneful/J
@@ -14247,7 +14257,7 @@ bastion/~NgV
 bat/~NSgV
 batch/~NgSVdGJ
 bate/VGdSNKre
-bath/~NgSVGd>Z
+bath/~N0gSVbGd>Z
 bathe/VNg
 bather/Ng
 bathetic/J
@@ -14257,7 +14267,7 @@ bathmat/NgS
 bathos/Ng
 bathrobe/NSg
 bathroom/~NSgV
-baths/~NV
+baths/~N9Vh
 bathtub/~NgS
 bathwater/Nm
 bathyscaphe/NSg
@@ -14427,7 +14437,7 @@ beehive/~NgSV
 beekeeper/NgS
 beekeeping/Nmg
 beeline/NgSV
-been/~VlTN
+been/~VlTxr
 beep/NSgVGd>Z
 beeper/Ng
 beer/~NwgV
@@ -14492,8 +14502,8 @@ behaviourist/NSg!@_₹
 behead/VdS
 beheading/NgS
 beheld/V
-behemoth/Ng
-behemoths/N
+behemoth/N0g
+behemoths/N9
 behest/~NgSV
 behind/~PJNgS
 behindhand/J
@@ -14596,7 +14606,7 @@ benzene/~Nmg
 benzine/Nmg
 benzyl/N
 bequeath/VdG
-bequeaths/V
+bequeaths/Vh
 bequest/~NgSV
 berate/VGdS
 berberine/Nmg
@@ -14632,13 +14642,13 @@ besom/NgSV
 besot/VS
 besotted/VtTJ
 besotting/V6
-besought/V
+besought/VtT
 bespangle/VdSG
 bespatter/VGSd
-bespeak/VGSN
+bespeak/VbGSN
 bespectacled/J
-bespoke/~JV
-bespoken/VJ
+bespoke/~JVt
+bespoken/VTJ
 best/~JuNSgVGdA
 bestial/JYN
 bestiality/Ng
@@ -14667,7 +14677,7 @@ betaken/V
 betcha/
 betel/Ng
 bethink/VSG
-bethought/JV
+bethought/JVtT
 betide/VGdS
 betimes/
 betoken/VGdS
@@ -14678,7 +14688,7 @@ betrayer/Ng
 betroth/VdG
 betrothal/~NSg
 betrothed/~VJNg
-betroths/V
+betroths/Vh
 better/~JcNgSVdGAL
 betterment/Ng
 betting/~JV6N
@@ -14709,7 +14719,7 @@ bf/~N
 bhaji/N
 bi/~J>NSg(Z
 biannual/JYN
-bias/~NgS☁VGdJ
+bias/~NgS☁VbGdJ
 biased/~JVtTU
 biathlon/~NSg
 bib/NSgV
@@ -14804,8 +14814,8 @@ billing/~V6Ng
 billingsgate/NgV
 billion/~SgH
 billionaire/~NSg
-billionth/JNg
-billionths/N
+billionth/JN0g
+billionths/N9
 billow/NgSVGd
 billowy/J
 billy/~NSg
@@ -14908,14 +14918,14 @@ birdsong/Nmg
 birdwatcher/NSg
 birdying/V
 biretta/NSg
-birth/~NgJ>VGdZ
+birth/~N0gJ>VGdZ
 birthday/~NgSV
 birther/NgV
 birthmark/NgS
 birthplace/~NgS
 birthrate/NgS
 birthright/~NgS
-births/~Nr
+births/~N9r
 birthstone/NSg
 biscuit/~NSg
 bisect/VdGSN
@@ -14946,10 +14956,10 @@ bitplane/NgS
 bitrate/NgS
 bitstream/Sg
 bitten/~VT
-bitter/~JY^>pNgSV
+bitter/~JY^>pNgSVdG
 bittern/~NSg
 bitterness/~Nmg
-bitters/NgV
+bitters/Ng
 bittersweet/~JNgS
 bitty/J^>N
 bitumen/NmgV
@@ -14970,8 +14980,8 @@ bl/~dG
 blab/VSNg
 blabbed/VtT
 blabber/VdGSN
-blabbermouth/Ng
-blabbermouths/N
+blabbermouth/N0g
+blabbermouths/N9
 blabbing/V6N
 black/~J^Y>pNwgSVGdXn
 black magic/Ng
@@ -15007,7 +15017,7 @@ blag/NSVJ
 blagged/VtT
 blagging/NV6
 blah/~NgJV
-blahs/NgV
+blahs/NgVh
 blame/~NgSVGd>JB
 blameable/J!@_₹
 blameless/JYp
@@ -15160,6 +15170,8 @@ bloodthirstily/Ry
 bloodthirstiness/Nmg
 bloodthirsty/J>^p
 bloody/~J^>pVGdSN
+bloody-minded/J
+bloody-mindedness/Nmg
 bloom/~NgSVGd>Z
 bloomer/Ng
 bloop/VGd>SNgZ
@@ -15205,6 +15217,7 @@ blueberry/~NwSgJV
 bluebird/~NgS
 bluebonnet/NSg
 bluebottle/NSg
+fluefin/NSg         # type of tuna
 bluefish/N09gS      # singular and plural, also has a plural in -s
 bluegill/NgS
 bluegrass/~Ng
@@ -15339,7 +15352,7 @@ boll/NSgV
 bollard/NS
 bollix/VGdSNg
 bollocking/NS
-bollocks/NV†
+bollocks/N9Vb†
 bologna/~Ng
 bolshie/NJ
 bolster/~NgSVGd
@@ -15423,7 +15436,7 @@ bookmobile/NSg
 bookplate/NgSV
 bookseller/~NgS
 bookshelf/N0g
-bookshelves/N9V
+bookshelves/N9Vh
 bookshop/~NSg
 bookstall/NS
 bookstore/~NgS
@@ -15451,8 +15464,8 @@ boot's
 bootable/J
 bootblack/NSgV
 bootee/NgS
-booth/~Ng
-booths/~N
+booth/~N0g
+booths/~N9
 bootlace/NS
 bootleg/~VSNgJ
 bootlegged/VtT
@@ -15460,6 +15473,7 @@ bootlegger/NgS
 bootlegging/NgV6
 bootless/J
 bootlicker/NSg
+bootloader/NSg
 bootstrap/NgSV
 bootstrapped/VtT
 bootstrapper/NgS
@@ -15697,8 +15711,8 @@ breadbox/NgS
 breadcrumb/NgSV
 breadfruit/NwSg
 breadline/NgS
-breadth/~Ng
-breadths/N
+breadth/~N0g
+breadths/N9
 breadwinner/NSg
 break/~VbG>SNgBZ
 break out/V
@@ -15942,7 +15956,7 @@ brute force/NwgSVdG
 brutish/JYp
 brutishness/Nmg
 brutus/
-bu/~N
+bu/N
 bub/NSgV
 bubble/~NSgVdG>
 bubble tea/NwgS
@@ -16241,14 +16255,14 @@ buzzword/NSg
 buzzy/H
 bx/~N
 bxs/N
-by/~PNg             # removed adjective sense
+by/~P               # removed adjective & noun sense
 bye/~NSgJP
 bygone/JNSg
 bylaw/NSg
 byline/NSgV
 bypass/~NgSVGdB
-bypath/Ng
-bypaths/N
+bypath/N0g
+bypaths/N9
 byplay/Ng
 byproduct/~NgS
 byre/NS
@@ -16259,7 +16273,7 @@ bytecode/NwgS
 byway/~NSg
 byword/NSg
 byzantine/~JN
-c/~NSViE
+c/NSViE
 ca/P
 cab/~NSgV>Z
 cab sav/Nmg†_       # Australia slang = Cabernet Sauvignon
@@ -16432,12 +16446,15 @@ cambium/NwSg
 cambric/Ng
 camcorder/NSgV
 came/~VtPN
+came in/V/t
 camel/~NgSJ
 camel case/Nmg
 camelhair/N
 camellia/NgS
 cameo/~NgSV
 camera/~NgS
+camera obscura/NgS
+camerae obscurae/N9
 cameraman/~N0g
 cameramen/N9
 camerapeople/N9
@@ -16462,7 +16479,7 @@ campground/~NSg
 camphor/Nmg
 camping/~VNmg
 campsite/~NSg
-campus/~NgSV
+campus/~NgSVb
 campy/J^>
 camshaft/~NSg
 can/~NSgAd>GZ
@@ -16568,7 +16585,7 @@ cantonal/~J
 cantonment/~NgS
 cantor/~NgS
 cantrail/NgS
-canvas/~NgSVGd
+canvas/~NgSVbGd
 canvasback/NSg
 canvass/Vd>GSNgZ
 canvasser/Ng
@@ -17062,7 +17079,7 @@ censoriousness/Ng
 censorship/~Ng
 censure/~NSgVd>GBZ
 censurer/Ng
-census/~NgSVdG
+census/~NgSVbdG
 cent/~NSg>Z
 centaur/~NSg
 centavo/NSg
@@ -17345,7 +17362,7 @@ cheapskate/NgS
 cheat/~VGd>SNgZ
 cheat sheet/NgS
 cheater/NgS
-check/~NgSVGdJr
+check/~NgSVGdJrB
 check in/V/
 check out/V/
 checkbook/NSg
@@ -17469,8 +17486,8 @@ chihuahua/~NSg
 chilblain/NSg
 child/~NgV
 childbearing/NgJ
-childbirth/~Nmg
-childbirths/N
+childbirth/~N0mg
+childbirths/N9
 childcare/Nmg
 childhood/~NSg
 childish/~JYp
@@ -17492,6 +17509,7 @@ chilling/~JYV6N
 chillness/Nmg
 chilly/~J^>pN
 chime/~NgSVGd>Z
+chime in/V/
 chimer/NgS
 chimera/NgS
 chimeric/J
@@ -17618,18 +17636,19 @@ chorizo/Nmg
 choroid/JNgS
 chortle/NgSVGd>Z
 chortler/Ng
-chorus/~NgSVGd
+chorus/~NgSVbGd
 chose/~VtN
 chosen/~VTJNm
 chow/~NSgVGd
 chowder/NwgSV
 chrism/Ng
 christen/VSGdr
-christening/NgSV6
+christening/NwgSV6
 christian/~NJU
 christology
 chroma/~Ng
 chromatic/~JQ
+chromaticism/Nmg
 chromatin/~Ng
 chromatography/~Nmg
 chrome/~NmgSVGd
@@ -17698,8 +17717,8 @@ cicada/NgS
 cicatrice/NSg@
 cicatrices/9
 cicatrix/Ng
-cicerone/NSgV
-ciceroni/N
+cicerone/N0SgV
+ciceroni/N9
 cider/~NwS
 cider's
 cigar/~NgS
@@ -18044,14 +18063,14 @@ closeup/NSg
 closing/~NgJV
 closure/~NSgVE
 clot/~NgSV
-cloth/~NgS
+cloth/~N0wgS
 clothe/VdSGU
 clotheshorse/NgS
 clothesline/NSgV
 clothespin/NSgV
 clothier/NgS
 clothing/~VNmg
-cloths/~N
+cloths/~N9
 clotted/VtTJ
 clotting/V6N
 cloture/NSgV
@@ -18193,6 +18212,7 @@ coco/~NgS
 cocoa/~NwSgJ
 coconut/~NwSg
 cocoon/~NSgVdG
+cocreate/VdSG
 cod/~NSg09JV        # singular and plural, also has a plural in -s
 coda/~NgS
 codded/VtT
@@ -18236,7 +18256,7 @@ coeval/JYNSg
 coexist/~VdG
 coexistence/~Ng
 coexistent/JN
-coexists/V
+coexists/Vh
 coextensive/J
 coffee/~NwSgJV
 coffeecake/NwSg
@@ -18485,6 +18505,7 @@ combustible/~JNgS
 combustion/~Nmg
 come/~VbTG>SNgPiZ
 come back/V/
+come in/V/
 comeback/~NgS
 comedian/~NgS
 comedic/~J
@@ -18576,7 +18597,7 @@ commodious/JY
 commoditize/VdSG
 commodity/~NSg
 commodore/~NSg
-common/~JY^>pNVU
+common/~JY^>pVU
 common's
 commonality/NwgS
 commonalty/Ng
@@ -18586,13 +18607,13 @@ commonplace/~JNgSV
 commons/~NV
 commonsense/JN
 commonweal/NgH
-commonwealth/~Ng
-commonwealths/N
+commonwealth/~N0g
+commonwealths/N9
 commotion/~NwSg
 communal/~JY
 commune/~NSgVdGXn
 communicability/Ng
-communicable/Ji
+communicable/JiU
 communicably/Ry
 communicant/NgSJ
 communicate/~VGdSnvX
@@ -18728,7 +18749,7 @@ compress/~VGdSNev
 compress's
 compressed/~JVtTU
 compressible/J
-compression/~Nge
+compression/~NgeS
 compressor/~NSge
 comprise/~VGdS
 compromise/~NgSVGd
@@ -18959,7 +18980,7 @@ congregation/~Ng
 congregational/~J
 congregationalism/Ng
 congregationalist/~JNgS
-congress/~NgSV
+congress/~NgS
 congressional/~JY
 congressman/~N0g
 congressmen/~N9
@@ -19031,7 +19052,7 @@ consecration/~N0gr
 consecrations/N9
 consecutive/~JYN
 consensual/~J
-consensus/~NgSV
+consensus/~NgSVb
 consent/~VdGSNwg
 consequence/~NSgV
 consequent/~JYN
@@ -19097,7 +19118,7 @@ constituent/~JNSg
 constitute/~VdGSNrnv
 constitution/~Ngr
 constitutional/~JYNgS
-constitutionalism/N
+constitutionalism/Ng
 constitutionality/~NgU
 constitutions/~N
 constrained/~VJU
@@ -19348,6 +19369,7 @@ coop/~NgSVd>GZ
 cooper/~NgVdG
 cooperage/Ng
 cooperate/~VdSGnv
+# coöperate
 cooperation/~Nmg
 cooperative/~JYpNgS
 cooperativeness/Ng
@@ -19519,6 +19541,7 @@ corsage/NgS
 corsair/~NgS
 corset/NSgVGd
 cortege/NgS
+# cortège
 cortex/~NgS
 cortical/~J
 cortices/9
@@ -19580,19 +19603,19 @@ cottar/NSg
 cotter/~NSgV
 cotter pin/NgS
 cotton/~NwSgJVGd
-cottonmouth/Ng
-cottonmouths/N
+cottonmouth/N0g
+cottonmouths/N9
 cottonseed/NwgS
 cottontail/NgS
 cottonwood/~NSg
 cottony/J
 cotyledon/NgS
 couch/~NgSVdG
-couchette/NS
+couchette/NSg
 cougar/~NSg
-cough/~VdGNg
-coughs/NV
-could/~NA
+cough/~VdGN0g
+coughs/N9Vh
+could/~A
 could've/V
 couldn't/~VA
 couldn't've/VA†
@@ -19895,6 +19918,7 @@ creativity/~Ng
 creator/~NgS
 creature/~NSg
 creche/NSg
+# crèche
 cred/N
 credence/~NmgV
 credential/JNSgVGd
@@ -19926,6 +19950,9 @@ crematoria/N9
 crematorium/~N0gS
 crematory/JNSg
 creme/~JNSgV
+# crème
+# crème brulée
+# crème brûlée
 crenelate/VGdSXn
 crenelation/Ng
 crenellate/VdSGnX!@_₹
@@ -20450,6 +20477,7 @@ daddy/~NSgVJ
 dado/~N0gV
 dadoes/N9V
 daemon/~NgS
+# dæmon
 daemonic/J
 daffiness/Ng
 daffodil/~NSgJ
@@ -20476,6 +20504,7 @@ dairymen/9
 dairywoman/Ng
 dairywomen/9
 dais/~NgS
+# daïs
 daisy/~NSg
 dale/~NSg
 dalliance/NgS
@@ -20634,9 +20663,9 @@ deafen/VbGd
 deafening/JYV6N
 deafness/~Ng
 deal/~NSgVG>JzZ
-dealbreaker/NgS     // Cambridge, Collins, Longman (MW also)
-deal-breaker/NgS    // Merriam-Webster, Oxford Learners
-deal breaker/NgS    // OED (MW, Longman also)
+dealbreaker/NgS     # Cambridge, Collins, Longman (MW also)
+deal-breaker/NgS    # Merriam-Webster, Oxford Learners
+deal breaker/NgS    # OED (MW, Longman also)
 dealer/~Ng
 dealership/~NSg
 dealing/~NgV
@@ -20651,7 +20680,7 @@ dearness/Ng
 dearth/N0gV
 dearths/N9
 deary/NSg
-death/~Nw☁gS
+death/~N0w☁gS
 death knell/NgS
 deathbed/~NSg
 deathblow/NgS
@@ -20740,7 +20769,7 @@ decimeter/NgS<
 decimetre/NgS!@_₹
 decipherable/JUi
 decision/~N0gVi
-decisions/~N9V
+decisions/~N9Vh
 decisive/~JYpi
 decisiveness/Ngi
 deck/~NSgVGd
@@ -20771,6 +20800,7 @@ decompiler/NgS
 decongestant/NwgS
 deconstructionism/Nmg
 decor/NgS
+# décor
 decorate/~VGdSrnv
 decorating/~V6Ng
 decoration/~Nwgr
@@ -21171,6 +21201,7 @@ derogatorily/Ry
 derogatory/~JN
 derrick/~NSgV
 derriere/NSg
+# derrière
 derringer/NSg
 derv/N
 dervish/NgS
@@ -21202,6 +21233,7 @@ desert/~NwSgJ>VdGZ
 deserter/NgS
 desertification/Nmg
 desertion/~NwSg
+deserve/~V>SZ
 deserved/~JYVU
 deserving/~JNVU
 desi/NgS₹
@@ -21384,7 +21416,7 @@ diadem/~NSgV
 diaereses/N9
 diaeresis/N0g
 diagnose/~VdSG
-diagnosis/~NgV
+diagnosis/~Ng
 diagnostic/~JNgSQ
 diagnostician/NSg
 diagonal/~JYNSg
@@ -21406,7 +21438,7 @@ dialogic/J
 dialogue/~NwSgV
 dialyses/N
 dialysis/~Ng
-dialyzes/V
+dialyzes/Vh
 diam/N
 diamagnetic/JN
 diamagnetism/N
@@ -21436,16 +21468,17 @@ diatonic/~J
 diatribe/NSg
 diazepam/N
 dibble/~NSgVdG
-dibs/NgV
+dibs/NgVb
 dice/~N9SVGd
-dices/V9i
+dices/Vh9i
 dicey/J
 dichotomous/J
 dichotomy/~NSg
 dicier/Jc
 diciest/Ju
-dick/~NgSV>XZx
-dicker/VdGN
+dick/~NgSVx
+dickens/N
+dicker/VdGNS
 dickey/~NSgJ
 dickhead/NSx
 dickybird/S
@@ -21540,7 +21573,7 @@ digress/VGdSv
 digression/NgS
 dike/~NgSVGd
 diktat/NS
-dilapidated/~VJ
+dilapidated/~VtTJ
 dilapidation/Nmg
 dilatation/Ng
 dilate/VdSGn
@@ -21637,6 +21670,7 @@ dipstick/NSgV
 dipterous/J
 diptych/N0g
 diptychs/N9
+dir/NgS†
 dire/~JY^>
 dire wolf/Ng
 dire wolves/9
@@ -21665,7 +21699,7 @@ dirtball/NS
 dirtily/Ry
 dirtiness/Nmg
 dirty/~J^>pVdSG
-dis/~VNgI(
+dis/VNgI(
 disable/~VdSGJL
 disablement/Ng
 disambiguate/~VSdGn
@@ -21804,6 +21838,7 @@ dismissiveness/Nmg
 disorder/~NmVY
 disorganisation/Nmg!_₹
 disorganization/Nmg
+disorientingly/R
 disparage/NSVdGL
 disparagement/Nmg
 disparaging/~JYV6N
@@ -22358,6 +22393,7 @@ draughtswomen/N9!_₹
 draughty/J>^p!_₹
 draw/~V>GSNgZz
 drawback/~NgS
+drawbar/NgS
 drawbridge/~NgS
 drawer/~NgS
 drawing/~VSNwg
@@ -22694,16 +22730,15 @@ dystopi
 dystopia/NwgS
 dystopian/~J
 dz/NV
-e/~NSId^W
+e/NSId^W
 e-book/NgS
 e-commerce/Nmg
 e'en/
 e'er/
-e.g./~N
+e.g./~4N
 eBay/OgV
 eMusic/g
 eSIM/NgS
-ea/~N
 each/~Dq
 each other/I
 eager/~J^Y>pVN
@@ -22734,7 +22769,7 @@ earplug/NSgV
 earring/NSg
 earshot/Ng
 earsplitting/J
-earth/~ONmVdGU
+earth/~ON0wVdGU
 earth's
 earthbound/J
 earthen/~JV
@@ -22743,7 +22778,7 @@ earthiness/Nmg
 earthling/NgS
 earthly/~J>^NgSRy
 earthquake/~NSgV
-earths/~NVU
+earths/~N9VU
 earthshaking/J
 earthward/JS
 earthwork/~NgS
@@ -22794,7 +22829,7 @@ echidna/N
 echinoderm/NSg
 echo/~N0VdGr
 echo's
-echoes/~N9Vr
+echoes/~N9Vhr
 echoic/J
 echolocation/Nmg
 echos/N9
@@ -22836,7 +22871,7 @@ ecumenical/~JY
 ecumenicism/Ng
 ecumenism/Nmg
 eczema/Nwg
-ed/~NSgre
+ed/NSgre
 edamame/N
 eddy/~NSgVdG
 edelweiss/Ng
@@ -22963,12 +22998,12 @@ eigenvalue/~NS
 eigenvector/NS
 eight/~NSgJ
 eighteen/~SgH
-eighteenth/~JNg
-eighteenths/N
-eighth/~JNgV
-eighths/NV
-eightieth/JNg
-eightieths/N
+eighteenth/~JN0g
+eighteenths/N9
+eighth/~JN0gV
+eighths/N9Vh
+eightieth/JN0g
+eightieths/N9
 eighty/~SgH
 einsteinium/Nmg
 eisteddfod/~NS
@@ -23019,6 +23054,7 @@ electrification/~Nmg
 electrifier/Ng
 electrify/Vbd>SZn
 electrifying/JYV6N
+electroacoustic/J
 electrocardiogram/NgS
 electrocardiograph/N0g
 electrocardiographs/N9
@@ -23071,10 +23107,10 @@ elev
 elevate/~VdSGJXn
 elevation/~Nwg
 elevator/~NgSV
-eleven/~NSgH
-elevens/NS
-eleventh/~JNg
-elevenths/N
+eleven/~N0SgH
+elevens/N9S
+eleventh/~JN0g
+elevenths/N9
 elf/~NgV
 elfin/NJ
 elfish/J
@@ -23273,7 +23309,7 @@ emulsification/Nmg
 emulsifier/~NgS
 emulsify/Vd>SGnZ
 emulsion/~NwgSV
-en/NSgPI(
+en/NSg(
 en masse
 enable/~Vd>SGZ
 enabler/NgS
@@ -23577,7 +23613,7 @@ environment/~NwgS
 environmental/~JYN
 environmentalism/~Ng
 environmentalist/~NSgJ
-environs/~NgV
+environs/~NgVh
 envisage/VGdS
 envision/VdGS
 envoy/~NSg
@@ -23827,7 +23863,7 @@ estrus/NgS
 estuary/~NSg
 et al./~
 eta/~NSg
-etc./~              # most dictionary only list it with the final dot
+etc./4~             # most dictionary only list it with the final dot
 etch/Vd>GSNZz
 etcher/Ng
 etching/~NgV
@@ -24424,6 +24460,7 @@ fabricate/VdSGnX
 fabrication/~Nmg
 fabricator/NSg
 fabulous/~JY
+façade/NSg
 facade/~NSg
 face/~NSVdGre
 face off/V
@@ -24572,7 +24609,10 @@ fancywork/Ng
 fandango/~NgSV
 fandom/~N
 fanfare/~NwSgV
-fanfic/Nmg†
+fanfic/Nmg†         # AHD:yes, Britannica:no, Cambridge:yes, Chambers:no, Collins:yes, Longman:->fanfic, MW:yes, OED:yes, OL:also
+fan fic/Nmg†        # AHD:no, Britannica:no, Cambridge:also, Chambers:no, Collins:no, Longman: no, MW:no, OED:no, OL:no
+fanfiction/Nmg      # AHD:no, Britannica:no, Cambridge:no, Chambers:no, Collins:no, Longman:yes, MW:->fan fiction, OED:->fan fiction, OL:no
+fan fiction/Nmg     # AHD:yes, Britannica:no, Cambridge:yes, Chambers:no, Collins:yes, Longman:->fanfic, MW:yes, OED:yes, OL:yes
 fang/~NgSVd
 fanlight/NSg
 fanmade/J
@@ -24664,7 +24704,7 @@ fathom/NSgVdGB
 fathomable/JU
 fathomless/J
 fatigue/~NgSVdG
-fatigues/NgV
+fatigues/NgVh
 fatness/Ng
 fatso/NS
 fatten/VSdG
@@ -24828,6 +24868,7 @@ ferociousness/Nmg
 ferocity/Nmg
 ferret/~NSgVGd
 ferric/J
+ferrite/NwSg
 ferromagnetic/J
 ferromagnetism/N
 ferrous/~J
@@ -24894,9 +24935,9 @@ fewness/Ng
 fey/~JN
 fez/~Ng
 fezzes/N
-ff/~V
 fiance/NgVe
 fiancee/NgS
+# fiancée
 fiances/N
 fiasco/~Ng
 fiascoes/N0
@@ -24925,7 +24966,7 @@ fibulae/N9
 fibular/J
 fiche/NSg
 fichu/NSg
-fickle/J^>pV
+fickle/JpV
 fickleness/Ng
 fiction/~NmgS
 fictional/~JY
@@ -24965,12 +25006,12 @@ fiesta/~NSgV
 fife/~NgSV>Z
 fifer/Ng
 fifteen/~NgSH
-fifteenth/~JNg
-fifteenths/N
-fifth/~JYNgV
-fifths/~N
-fiftieth/~JNg
-fiftieths/N
+fifteenth/~JN0g
+fifteenths/N9
+fifth/~JYN0gV
+fifths/~N9
+fiftieth/~JN0g
+fiftieths/N9
 fifty/~NSgH
 fig/~NSgVL
 fight/~V>GSNgZ
@@ -25032,6 +25073,8 @@ filtrate/NSVGdin
 filtrate's
 filtration/~NwSgi
 fin/~NSgV>
+# fin de siècle
+# fin-de-siècle
 finagle/Vd>SGZ
 finagler/Ng
 final/~NSgJYV
@@ -25135,8 +25178,8 @@ first time/NgS
 first-time/J
 firstborn/~NSgJ
 firsthand/~JR
-firth/~Ng
-firths/N
+firth/~N0g
+firths/N9
 fiscal/~JYNgS
 fish/~Nw09gSVd>GZ   # singular and plural, also has a plural in -s
 fishbowl/~NSg
@@ -25167,6 +25210,7 @@ fisticuffs/Nmg
 fistula/NSg
 fistulous/Jg
 fit/~JVbtTSNgKr
+fit in/V/btT
 fitful/JYp
 fitfulness/Ng
 fitly/Ry
@@ -25176,6 +25220,7 @@ fitted/~VtTJNUr
 fitter/NgSJc
 fittest/JuV
 fitting/~V6SJYNg
+fitting in/V/6
 five/~NgS>Z
 fix/~VGd>SNgZBz
 fix up/V/
@@ -25227,6 +25272,7 @@ flakiness/Nmg
 flaky/J^>p
 flamage/N
 flambe/JNgSV
+# flambé
 flambeed/VtT
 flambeing/V6
 flamboyance/Nmg
@@ -25461,6 +25507,7 @@ fluent/~JYN
 fluff/~NwSgVdG
 fluffiness/Nmg
 fluffy/~J>^pN
+flugelhorn/NgS
 fluid/~NwSgJY
 fluidity/~Ng
 fluke/NSgV
@@ -25522,7 +25569,7 @@ fob/NSgVJ
 fobbed/VtT
 fobbing/V6
 focal/~JYN
-focus/~Nw0SVdGr
+focus/~Nw0SVbdGr
 focus's
 focused/~JVU
 fodder/~NmSgV
@@ -25610,8 +25657,8 @@ footloose/J
 footman/N0g
 footmen/N9
 footnote/~NgSVGd
-footpath/~Ng
-footpaths/~N
+footpath/~N0g
+footpaths/~N9
 footplate/NSV
 footprint/~NSg
 footrace/NgS
@@ -25629,7 +25676,7 @@ fop/NSg
 foppery/Nmg
 foppish/Jp
 foppishness/Nmg
-for/~CPRH
+for/~PCRH
 fora/~N9
 forage/~NSgVd>GZ
 forager/NgS
@@ -25721,7 +25768,7 @@ forestland/Ng
 forestry/~Nmg
 foretaste/NSgVdG
 foretell/VGS
-forethought/NgJV
+forethought/NgJ
 foretold/VtT
 forever/~NgJ
 forevermore/
@@ -25752,11 +25799,11 @@ forgiver/NgS
 forgiving/JV6NU
 forgo/~V>GZ
 forgoer/Ng
-forgoes/V
-forgone/V
+forgoes/Vh
+forgone/VT
 forgot/~Vt
 forgotten/~JVTNU
-fork/~NgSVdG
+fork/~NgSVdGB
 forkful/NSg
 forklift/NgSV
 forlorn/JYNV
@@ -25844,7 +25891,7 @@ fossilise/VGdS!_₹
 fossilization/Ng
 fossilize/VGdS
 foster/~JNSVGd
-fought/~V
+fought/~VtT
 foul/~JY^>pVdGSNg
 foulard/Ng
 foulmouthed/J
@@ -25869,8 +25916,8 @@ foursquare/JN
 fourteen/~SgH
 fourteenth/~JN0g
 fourteenths/N9
-fourth/~JYNgV
-fourths/~N
+fourth/~JYN0gV
+fourths/~N9
 fowl/~NgSVdGJ
 fox/~NgSVGd
 foxfire/Ng
@@ -25928,6 +25975,7 @@ frankincense/Ng
 frankness/Ng
 frantic/~JNQ
 frappe/NSg
+# frappé
 frat/NgS
 fraternal/~JYN
 fraternisation/Ng!_₹
@@ -26121,7 +26169,7 @@ frosting/NSgV
 frosty/J^>p
 froth/NmgVdG
 frothiness/Ng
-froths/V
+froths/Vh
 frothy/J^>pN
 froufrou/NgJ
 frown/NSgVdG
@@ -26258,7 +26306,7 @@ furl/VdGSU
 furl's
 furlong/~NSg
 furlough/NgVGd
-furloughs/NV
+furloughs/N9Vh
 furn/NJ
 furnace/~NSgV
 furnish/NSVdGr
@@ -26321,7 +26369,7 @@ fuzziness/Ng
 fuzzy/~J^>pNS
 fwd/~JNV
 fwy/N
-g/~NSnXvB
+g/NSnXvB
 gab/~NSgV
 gabardine/NSg
 gabbed/VtT
@@ -26386,7 +26434,7 @@ galoot/NSg
 galore/JN
 galosh/NgSV
 galumph/VdG
-galumphs/V
+galumphs/Vh
 galvanic/JQ
 galvanisation/Ng!_₹
 galvanise/VdSG!_₹
@@ -26565,6 +26613,7 @@ gazpacho/~Nmg
 gazump/VdGSN
 gear/~NwgSVdGJ
 gearbox/~NgS
+gearhead/NgS
 gearing/~NwSgV
 gearshift/NgSV
 gearwheel/NSg
@@ -26840,11 +26889,11 @@ girlishness/Nmg
 girly/JN
 giro/~NSV
 girt/NgSVdGJ
-girth/NwgSV
-girths/N
+girth/N0wgSV
+girths/N9
 GIS/N # Geographic Information System
 gist/NgSV
-git/~NOSV
+git/~NOgSV
 gite/NS
 give/~VG>SNZz
 giveaway/NgSJ
@@ -27069,6 +27118,7 @@ godlike/J
 godliness/NmgU
 godly/J>^pU
 godmother/~NSgV
+godown/NSg₹
 godparent/NSg
 godsend/NSg
 godson/NSg
@@ -27077,7 +27127,7 @@ goer/NgS
 goes/~VhN9
 gofer/NSg
 goggle/VdGSNg
-goggles/N9gV
+goggles/N9gVh
 going/~V6NgJ
 goiter/NSg<
 goitre/NSg!@_₹
@@ -27091,8 +27141,8 @@ goldfield/NS
 goldfinch/NgS
 goldfish/~NgS09     # singular and plural, also has a plural in -s
 goldmine/NSg
-goldsmith/~Ng
-goldsmiths/~N
+goldsmith/~N0g
+goldsmiths/~N9
 golem/NSg
 golf/~NgSVd>GZ
 golfer/~Ng
@@ -27172,7 +27222,7 @@ gossiper/Ng
 gossipy/J
 got/~VtT
 gotcha/NS
-goths/~N
+goths/~N9
 gotta/~V†
 gotten/~VTJ
 gouache/NSV
@@ -27240,6 +27290,7 @@ gram/~NOSgVK
 grammar/~NwgSV
 grammarian/~NSg
 grammatical/~JYU
+grammaticality/Nmg
 gramophone/~NgS
 grampus/~NgS
 gran/~NS
@@ -27447,7 +27498,7 @@ grist/~NmgVY
 gristle/Nmg
 gristmill/NgS
 grit/~NwgSV
-grits/N9gV
+grits/N9gVh
 gritted/VtT
 gritter/NSg
 grittiness/Nmg
@@ -27669,8 +27720,8 @@ gunrunning/Ng
 gunship/NgS
 gunshot/~NgS
 gunslinger/~NSg
-gunsmith/Ng
-gunsmiths/N
+gunsmith/N0g
+gunsmiths/N9
 gunsmoke/Nmg
 gunwale/NgS
 guppy/NSg
@@ -27737,9 +27788,10 @@ gyrofrequency/NgS
 gyroscope/NgS
 gyroscopic/J
 gyve/NgSVGd
-h/~NJGnXZvz         # removed `>` 'her' is not comparative of 'h'
+h/NJGnXZvz         # removed `>` 'her' is not comparative of 'h'
 h'm/
 ha/~
+hah/~
 habeas corpus/N
 haberdasher/NSg
 haberdashery/NSg
@@ -27804,8 +27856,8 @@ hailstorm/NgS
 hair/~NwgSVd
 hairball/NgS
 hairband/NS
-hairbreadth/Ng
-hairbreadths/N
+hairbreadth/N0g
+hairbreadths/N9
 hairbrush/NgSV
 haircloth/Ng
 haircut/~NSgV
@@ -27821,8 +27873,8 @@ hairline/NSgJ
 hairnet/NSg
 hairpiece/NgS
 hairpin/~NSg
-hairsbreadth/Ng
-hairsbreadths/N
+hairsbreadth/N0g
+hairsbreadths/N9
 hairsplitter/NSg
 hairsplitting/NgV
 hairspray/NwSV
@@ -27856,6 +27908,7 @@ halftone/NgSV
 halfway/~J
 halfwit/NSg
 halibut/NSg
+halide/NSg
 halite/Ng
 halitosis/Ng
 hall/~NgS
@@ -27883,6 +27936,7 @@ halve/VdSG
 halyard/NgS
 ham/~NwSgV
 ham-fisted/J
+hamate/NgSJ
 hamburg/~NSgV>Z
 hamburger/~NwgSV
 hamlet/~NgS
@@ -28044,7 +28098,7 @@ hardwired/JV
 hardwood/~NSgJ
 hardworking/~J
 hardy/~J^>pN
-hare/~NgSVGdJ
+hare/~NgS
 harebell/NgS
 harebrained/J
 harelip/NSgV
@@ -28087,7 +28141,7 @@ harridan/NgS
 harrier/~Ng
 harrow/~NSgVdG
 harrumph/NVGd
-harrumphs/NV
+harrumphs/NVh
 harry/~Vd>GSNZ
 harsh/~JY^>pVSdG
 harshness/Ng
@@ -28276,9 +28330,9 @@ heartbroken/~J
 heartburn/~Ng
 hearten/VSGdE
 heartfelt/~J
-hearth/~Ng
+hearth/~N0g
 hearthrug/NS
-hearths/~N
+hearths/~N9
 hearthstone/NSgV
 heartily/Ry
 heartiness/Ng
@@ -28300,13 +28354,13 @@ heat's
 heated/~VtTJU
 heatedly/Ry
 heater/~NSg
-heath/~Ng>nX
+heath/~N0g>nX
 heathen/~JNg
 heathendom/Ng
 heathenish/J
 heathenism/Nmg
 heather/~NmgJ
-heaths/N
+heaths/N9
 heating/~NmgJV6
 heatproof/JV
 heatstroke/Ng
@@ -28314,7 +28368,7 @@ heatwave/~NS
 heave/Vd>GSNgZ
 heaven/~NSgVY
 heavenly/~J^>Ry
-heavens/~NgV
+heavens/~N9
 heavenward/JS
 heaver/Ng
 heavily/~Ry
@@ -28473,7 +28527,7 @@ herd/~NgSVd>GZ
 herder/~NgS
 herdsman/N9g
 herdsmen/N9
-here/~JR            # removed `N` marginal noun sense complicates linting
+here/~R             # removed `N` marginal noun sense complicates linting
 here's
 hereabout/S
 hereafter/~NSgJ
@@ -29058,7 +29112,7 @@ hotness/Nmg
 hotplate/NSg
 hotpot/NwgS
 hots/NgVh
-hotshot/JNgSV
+hotshot/JNgS
 hotspot/NgS
 hotted/VtT
 hotter/~JcNV
@@ -29256,7 +29310,7 @@ hurl/Vd>GSNgZ
 hurler/~Ng
 hurling/~NgV
 hurrah/NgVGd
-hurrahs/NV
+hurrahs/N9Vh
 hurray/NgSVGd
 hurricane/~NgSV
 hurried/JYVU
@@ -29285,8 +29339,8 @@ hutch/NgSV
 huzzah/NgVdG
 huzzahs/N
 hwy/~N
-hyacinth/Ng
-hyacinths/N
+hyacinth/N0g
+hyacinths/N9
 hybrid/~NSgJ
 hybridisation/NwSg!_₹
 hybridise/VdSG!_₹
@@ -29438,13 +29492,13 @@ hysteric/JNSg
 hysterical/~JY
 hysterics/Ng
 i/~
-i.e./~
-iMac/NgS
+i.e./4~
+iMac/ONgS
 iOS/Og
-iPad/NgS
-iPhone/NgS
-iPod/NgS
-iTunes/Ng
+iPad/ONgS
+iPhone/ONgS
+iPod/ONgS
+iTunes/O
 iamb/NgS
 iambi/N
 iambic/JNSg
@@ -29927,6 +29981,7 @@ inanimate/~JYpNV
 inanimateness/Ng
 inanity/NSg
 inappropriate/~JY
+inarguably/R
 inarticulate/JYN
 inasmuch/
 inaudible/J
@@ -30176,7 +30231,7 @@ inexorability/N
 inexorable/J
 inexorably/Ry
 inexpedient/J
-inexperience/Nmg
+inexperience/~Nmgd
 inexpert/JYN
 inexpiable/J
 inexplicably/~Ry
@@ -30190,6 +30245,9 @@ infancy/~Ng
 infant/~NgSV
 infanticide/NwgS
 infantile/~J
+infantilisation/Nmg!_₹
+infantilise/VdSG!_₹
+infantilization/Nmg
 infantilize/VdSG
 infantry/~NwSg
 infantryman/~N0g
@@ -30486,7 +30544,10 @@ instigate/VdSGn
 instigation/~Ngm
 instigator/NgS
 instil/VS!_₹
+instill/VS<@
 instillation/Ngm
+instilled/VtT
+instilling/V6
 instinct/~NgSJv
 instinctive/JY
 instinctual/J
@@ -30613,6 +30674,7 @@ interest/~NwSgVdE
 interested/~JVtTU
 interesting/~JYV6
 interface/~NgSVGd
+interfacility/J
 interfaith/~J
 interfere/~VGdS
 interference/~NgSV
@@ -30808,7 +30870,7 @@ invasion/~NgS
 invasive/~JN
 invective/NgJ
 inveigh/VGd
-inveighs/V
+inveighs/Vh
 inveigle/VGd>SZ
 inveigler/Ng
 invent/~VSGdrv
@@ -30816,7 +30878,7 @@ invention/~NwgSr
 inventive/~JYp
 inventiveness/Ng
 inventor/~NgS
-inventory/~NSgVdG
+inventory/~NwSgVdG
 inverse/~JYNSgV
 invert/~Vd>GSNgJZ
 inverter/Ng
@@ -30887,7 +30949,7 @@ irides/N
 iridescence/Ng
 iridescent/JY
 iridium/~Ng
-iris/~NgSV
+iris/~NgSVb
 irk/VSGd
 irksome/JYp
 irksomeness/Ng
@@ -31040,7 +31102,7 @@ iv/~U
 ivory/~NwSgJ
 ivy/~NSgd
 ix/~
-j/~NW
+j/NW
 jab/NSgV
 jabbed/VtTJ
 jabber/Vd>GSNgZ
@@ -31077,6 +31139,7 @@ jailbreak/NSgVG
 jailbroken/VJ
 jailer/Ng
 jailhouse/~NS
+jalapeño/NgS
 jalapeno/NgS
 jalopy/NSg
 jalousie/NgS
@@ -31222,7 +31285,7 @@ jitterbug/NgSV
 jitterbugged/VtT
 jitterbugger/Ng
 jitterbugging/V6
-jitters/NgV
+jitters/NgVh
 jittery/J>^
 jitting/V6
 jive/~VGdSNg
@@ -31235,8 +31298,8 @@ jobless/Jp
 joblessness/Ng
 jobseeker/NgS
 jobshare/NSV
-jobsworth/N
-jobsworths/N
+jobsworth/N0
+jobsworths/N9
 jock/~NgSV
 jockey/~NSgVGd
 jockstrap/NgS
@@ -31372,7 +31435,7 @@ jump/~Vd>GNgJZ
 jumper/~NgV
 jumpily/Ry
 jumpiness/Ng
-jumps/~V
+jumps/~VhN9
 jumpsuit/NgS
 jumpy/J^>p
 jun/~N
@@ -31538,7 +31601,9 @@ kibitz/VGd>SZ
 kibitzer/Ng
 kibosh/NgV
 kick/~Vd>GSNgZ
-kick start/VSdG
+kick start/VSdGNg
+kick-start/VSdGNg
+kickstart/VSdGNg
 kick-starter/NgS
 kickback/~NSg
 kickball/Ng
@@ -31617,7 +31682,7 @@ kinetically/Ry
 kinetics/~Ng
 kinfolk/NSg
 kinfolks/Ng
-king/~NgSVY
+king/~NgSV
 kingdom/~NSg
 kingfisher/~NSg
 kingly/J>^
@@ -31727,7 +31792,7 @@ knotty/J^>
 know/~VbSB
 knowing/~JYPV6SNU
 knowledge/~Nmg
-knowledgeable/~JN
+knowledgeable/~JNU
 knowledgeably/Ry
 known/~JVT          # removed `N`, only a noun in the `unknown knows` sense
 knuckle/NSgVdG
@@ -31760,14 +31825,14 @@ krypton/~Nmg
 kryptonite/Nmg
 kt/~N
 kuchen/NSg
-kudos/NgV
+kudos/NgVb
 kudzu/NwSg
 kumquat/NgS
 kung fu/Ng
 kvetch/VGd>SNgZ
 kvetcher/Ng
 kw/~
-l/~NSd^GXz
+l/NSd^GXz
 la/NgJ
 lab/~NSg
 label/~NSVdG>r
@@ -31793,9 +31858,9 @@ labour-intensive/J!@_₹
 labourer/Ng!@_₹
 laboursaving/J!@_₹
 laburnum/NgS
-labyrinth/~NgV
+labyrinth/~N0gV
 labyrinthine/J
-labyrinths/NV
+labyrinths/N9Vh
 lac/~Ng
 lace/~NwSVGdU
 lace's
@@ -32008,11 +32073,11 @@ latent/~JYNgS
 lateral/~JYNgSVdG
 latest/~JNg
 latex/~Ng
-lath/NgSVd>GZ
+lath/N0gSVd>GZ
 lathe/~VNg
 lather/NmgVGd
 lathery/J
-laths/N
+laths/N9
 latices/9
 latish/J
 latitude/~NgS
@@ -32032,7 +32097,7 @@ laugh/~NgVdGB
 laughably/Ry
 laughing/~NgVY
 laughingstock/NSg
-laughs/~NV
+laughs/~N9Vh
 laughter/~Nmg
 launch/~VGdSNgr
 launcher/~NSg
@@ -32040,7 +32105,7 @@ launchpad/NSg
 launder/NSVd>GZ
 launderer/NgS
 launderette/NSg
-laundress/NgSV
+laundress/NgS
 laundromat/NgS
 laundry/~NwSg
 laundryman/N0g
@@ -32273,7 +32338,7 @@ length/~NwgVnX
 lengthen/VGd
 lengthily/Ry
 lengthiness/Nmg
-lengths/~NV
+lengths/~N9
 lengthwise/J
 lengthy/~J>^p
 lenience/Ng
@@ -32300,7 +32365,7 @@ lepton/~NgS
 lesbian/~JNSg♀V
 lesbianism/Nmg
 lesion/~NgSV
-less/~RPV>JCnX
+less/~RP>JCnX
 lessee/NgSV
 lessen/~VGdC
 lesser-known/J
@@ -32405,6 +32470,7 @@ librettist/~NgS
 libretto/~NSg
 lice/~N9
 licence/NgSV!@_₹
+licensable/J
 license/~NgSVGd
 licensed/~JVtTU
 licensee/~NgS
@@ -32432,6 +32498,8 @@ lieutenancy/Ng
 lieutenant/~NgSJ
 life/~NwgV>Z
 life cycle/NgS
+life-cycle/NgS
+lifecycle/NgS
 life science/NgS
 lifebelt/NS
 lifeblood/Nmg
@@ -32494,7 +32562,7 @@ likelihoods/N
 likeliness/NmgU
 likely/~J>^pNU
 liken/VSGd
-likeness/~NgVU
+likeness/~NgU
 likenesses/N
 liker/NJ
 likewise/~R
@@ -32584,11 +32652,11 @@ linnet/NgS
 lino/~N
 linoleum/Ng
 linseed/Ng
-lint/NVdGe
+lint/NwSVdGe
 lint's
 lintel/NgS
 linter/NSg
-lints/NV
+lints/N9Vh
 linty/J^>
 lion/~NgSJ
 lioness/NgS
@@ -32660,7 +32728,7 @@ lithium/~Nmg
 lithograph/N0gVd>GZ
 lithographer/Ng
 lithographic/JQ
-lithographs/N9V
+lithographs/N9Vh
 lithography/~Nmg
 lithosphere/NSg
 litigant/NSgJ
@@ -32777,8 +32845,8 @@ locket/NgS
 lockfile/NgS
 lockjaw/Ng
 lockout/~NgS
-locksmith/~Ng
-locksmiths/N
+locksmith/~N0g
+locksmiths/N9
 lockstep/Ng
 lockup/NgS
 loco/~JNSV
@@ -32883,10 +32951,11 @@ longueur/NSg
 longways/
 loo/~NV
 loofah/N0gV
-loofahs/N9V
+loofahs/N9Vh
 look/~Vd>GSNgZ
 look up/V/
 lookalike/NgS
+look-alike/NgS
 looker/NgS
 lookout/~NgS
 lookup/~NSV
@@ -32929,7 +32998,7 @@ lorry/~NSgV
 lose/~VbG>SZz
 loser/~NgS
 losing/~VJNmg
-loss/~NwgSV
+loss/~NwgS
 lossless/~J
 lossy/J>^
 lost/~VtTJ
@@ -33301,7 +33370,7 @@ mailing/~NwgV
 maillot/NSg
 mailman/N0g
 mailmen/N9
-mailshot/NSV
+mailshot/NSVb
 maim/VdGSN
 main/~JYVSNg
 mainboard/NSg
@@ -33411,13 +33480,13 @@ mammary/JN
 mammogram/NgS
 mammography/Nmg
 mammon/Og
-mammoth/~N9gJ
-mammoths/~N0
+mammoth/~N0gJ
+mammoths/~N9
 mammy/NSg
 man/~NSVU           # removed pron: not a pronoun, dialectal, adj: marginal, proper noun: ? - complicates lint heuristics
 man child/Ng
 man-made/J
-man's/~NOJIVW
+man's/~NOJIW
 manacle/NSgVdG
 manage/~VGd>SNZL
 manageability/Nmg
@@ -33452,7 +33521,7 @@ mangetout/NS
 manginess/Ng
 mangle/VGd>SNgZ
 mango/~Nw0gV
-mangoes/N9V
+mangoes/N9Vh
 mangrove/~NgS
 mangy/J^>p
 manhandle/VGdS
@@ -33740,7 +33809,7 @@ mathematisation/Ng!_₹
 mathematise/VdSG!_₹
 mathematization/Ng
 mathematize/VSdG
-maths/NV!_₹
+maths/N0Vh!_₹
 matinee/NSgV
 mating/~JNgV6
 matins/Ng
@@ -33841,10 +33910,10 @@ meaninglessness/Nmg
 meanness/Nmg
 meant/~VtTU
 meantime/~Ng
-meanwhile/~Ng
+meanwhile/~RN
 meany/NSg
-meas/V
-measles/~NmgV
+meas/Vh
+measles/~Nmg
 measly/J>^
 measurable/~JN
 measurably/Ry
@@ -33916,6 +33985,7 @@ medusae/9
 meed/NgV
 meek/~JY^>pV
 meekness/Ng
+meerkat/NgS
 meerschaum/NSg
 meet/~VGSNgJz
 meet up/V/
@@ -33929,12 +33999,12 @@ megabucks/Ng
 megabyte/NgS
 megachurch/NgS
 megacycle/NSg
-megadeath/Ng
-megadeaths/N
+megadeath/N0g
+megadeaths/N9
 megagram/NS
 megahertz/Ng
 megajoule/NS
-megalith/N9g
+megalith/N0g
 megalithic/~J
 megaliths/N9
 megalomania/Ng
@@ -33943,6 +34013,7 @@ megalomaniacal/J
 megalopolis/~NgS
 megameter/NS<
 megametre/NS!@_₹
+megohm/NgS
 megapascal/NS
 megaphone/NSgVdG
 megapixel/~NSgJ
@@ -34011,6 +34082,8 @@ men/~N9g
 menace/~NgSVGd
 menacing/~JYV6N
 menage/NgS
+# ménage à trois
+# ménage-à-trois
 menagerie/~NgS
 mend/~Vd>GSNgZ
 mendacious/JY
@@ -34202,13 +34275,13 @@ methamphetamine/NgS
 methane/~Ng
 methanol/~Ng
 methinks/
-method/~NgSV
+method/~NgS
 methodical/~JYp
 methodicalness/Ng
 methodological/~JY
 methodology/~NSg
 methotrexate/N
-methought/V
+methought/Vt
 methyl/~Ng
 meticulous/~JYp
 meticulousness/Ng
@@ -34229,7 +34302,7 @@ mettle/NgJ
 mettlesome/J
 mew/NSgVGd
 mewl/VdGSN
-mews/NgV
+mews/NgVh
 mezzanine/~NgSJV
 mezzo/~NSg
 mfg/N
@@ -34424,10 +34497,11 @@ milling/~NgV6
 million/~SHg
 millionaire/~NSg
 millionairess/NS
-millionth/JNg
-millionths/N
+millionth/JN0g
+millionths/N9
 millipede/NSg
 millisecond/NSg
+millivolt/NSg
 millpond/NSg
 millrace/NSg
 millstone/~NSg
@@ -34619,6 +34693,8 @@ misdo/VGz
 misdoes/Vh
 misdoing/NgV
 misdone/VT
+# mise en scène
+# mise-en-scène
 miser/NSgY
 miserable/J
 miserableness/Nmg
@@ -34633,6 +34709,7 @@ misfit/NSgV
 misfitted/VtT
 misfitting/V6
 misfortune/~NSg
+misframe/VSdG
 misgiving/NgS
 misgovern/VSdGL
 misgovernment/Ng
@@ -34709,9 +34786,9 @@ misspeak/VGS
 misspell/VGdSz
 misspelling/~NwgSV6
 misspend/VGS
-misspent/JV
-misspoke/V
-misspoken/V
+misspent/JVtT
+misspoke/Vt
+misspoken/VT
 misstate/VGdSL
 misstatement/NSg
 misstep/NgSV
@@ -34799,6 +34876,7 @@ mocker/NgS
 mockery/~NwSg
 mocking/~VNJY
 mockingbird/~NSg
+mockumentary/NSg
 mockup/NgS          # American Heritage ("also" in Cambridge, Collins)
 mod/~NSgVJ^
 modal/~JNSg
@@ -34870,7 +34948,7 @@ moisturizer/Nwg
 mojito/NwgS
 mojo/~Nmg
 molar/~NSgJ
-molasses/NmgV
+molasses/Nmg
 mold/~NwgSVd>GzZ
 moldboard/NSg
 molder/NgVGd
@@ -34896,7 +34974,7 @@ mollusk/NSg
 molly/~NSgV
 mollycoddle/NSgVdG
 molt/Vd>GSNgnZ
-molten/JV!@_₹
+molten/J
 molter/Ng
 molybdenum/Nmg
 mom/~NSgV<@
@@ -34976,9 +35054,9 @@ monogramming/V6
 monograph/~NgV
 monographs/~N
 monolingual/~JNgS
-monolith/~NgV
+monolith/~N0gV
 monolithic/~JQ
-monoliths/N
+monoliths/N9
 monologist/NSg
 monologue/~NSgV
 monomania/Nmg
@@ -35023,7 +35101,7 @@ monstrance/NSgr
 monstrosity/NSg
 monstrous/~JY
 montage/~NSgV
-month/~NgY
+month/~N0gY
 monthly/~JNSgR8
 months/~N9
 monument/~NgSV
@@ -35093,7 +35171,7 @@ more/~RIJNSDq
 moreish/J
 morel/~NSg
 moreover/~R
-mores/~NgV
+mores/~NgVh
 morgue/~NgS
 moribund/JN
 morn/NgSGz
@@ -35112,7 +35190,7 @@ morphing/VNg
 morphological/~J
 morphology/~Nmg
 morphosyntax/Nmg
-morphs/~N9V
+morphs/~N9Vh
 morrow/~NgSV
 morsel/NgSV
 mortal/~JYNgS
@@ -35145,7 +35223,7 @@ mote/NSVKeXvn
 mote's
 motel/~NSgV
 motet/NSg
-moth/~NgV
+moth/~N0gV
 mothball/NgSVGd
 mother/~NgSVdGY
 motherboard/~NSg
@@ -35192,8 +35270,8 @@ motorization/Ng
 motorize/VdSG
 motorman/N0g
 motormen/N9
-motormouth/NgV
-motormouths/NV
+motormouth/N0gV
+motormouths/N9Vh
 motorsport/NgS
 motorway/~NSg
 mottle/VGdSN
@@ -35608,6 +35686,7 @@ nail biter/NgS
 nailbrush/NgSV
 naïve/~JN
 naive/~J>Y^N
+naïveté/Nmg
 naivete/Nmg
 naivety/Nmg
 naked/~JYpV
@@ -36081,15 +36160,15 @@ nine/~NgS
 ninepin/NgS
 ninepins/Ng
 nineteen/~SgH
-nineteenth/~JNg
-nineteenths/N
-ninetieth/JNg
-ninetieths/N
+nineteenth/~JN0g
+nineteenths/N9
+ninetieth/JN0g
+ninetieths/N9
 ninety/~SHg
 ninja/~NSg09JV      # singular and plural, also has a plural in -s
 ninny/NSg
-ninth/~JNgV
-ninths/N
+ninth/~JN0gV
+ninths/N9
 niobium/~Nmg
 nip/~VSNg
 nipped/VtT
@@ -36268,7 +36347,7 @@ nondiscriminatory/J
 nondramatic/J
 nondrinker/NgS
 nondrying/J
-none/~IN
+none/~I             # remove `/N` since noun sense is rare/marginal
 noneducational/J
 noneffective/JN
 nonelastic/J
@@ -36371,7 +36450,7 @@ nonperforming/J
 nonperishable/JN
 nonperson/NgS
 nonphysical/JY
-nonplus/NSV
+nonplus/NSVb
 nonplussed/JVtT
 nonplussing/V6J
 nonpoisonous/J
@@ -36577,7 +36656,7 @@ notoriety/~Nmg
 notorious/~JY
 notwithstanding/~CP
 nougat/NwgS
-nought/NgSJVRI!@_₹
+nought/NgSJRI!@_₹
 noughties/9!_₹
 noun/~NgSVK
 nourish/NSVdGL
@@ -36728,8 +36807,8 @@ oases/N9
 oasis/~N0g
 oat/~N0Sgn
 oatcake/NwSg
-oath/~NgV
-oaths/~NV
+oath/~N0gV
+oaths/~N9Vh
 oatmeal/NgJ
 oats/~N9wg
 ob/NS
@@ -36935,7 +37014,7 @@ oestrus/NgS!_₹
 oeuvre/~NgS
 of/~P
 of course/R
-off/~J>PVGdSNZz
+off/~JPVGdSNZz
 off-grid/J
 off-limits/J
 off-ramp/NgS
@@ -37058,7 +37137,7 @@ omit/~VS
 omitted/~VtT
 omitting/~VN6
 # omni              # prefixes that are not also words in their own right don't belong in the dictionary
-omnibus/~NgSJV
+omnibus/~NgSJVb
 omnidirectional/J
 omnipotence/Nmg
 omnipotent/JYN
@@ -37125,7 +37204,7 @@ oodles/N9g
 ooh/NSVGd
 oolong/Nwg          # tea
 oomph/NV
-oops/~NV
+oops/~N09Vb
 oopsy/NgS
 ooze/NgSVGd
 oozy/J^>
@@ -37368,9 +37447,9 @@ ostensibly/~Ry
 ostentation/Ng
 ostentatious/JY
 osteoarthritis/~Ng
-osteopath/NgS
+osteopath/N0gS
 osteopathic/J
-osteopaths/N
+osteopaths/N9
 osteopathy/Ng
 osteoporosis/Ng
 ostler/NS
@@ -37379,7 +37458,7 @@ ostracism/Ng
 ostracize/VGdS
 ostrich/~NgS
 other/~JpNgSV
-otherwise/~RJ
+otherwise/~RCJ
 otherworldly/J
 otiose/J
 otter/~NgS
@@ -37421,13 +37500,13 @@ outcropped/VtT
 outcropping/NSgV6
 outcry/~NSgV
 outdated/~J
-outdid/V
+outdid/Vt
 outdistance/VGdS
 outdo/VG
-outdoes/V
-outdone/V
-outdoor/~JVS
-outdoors/~NgV
+outdoes/Vh
+outdone/VT
+outdoor/~J
+outdoors/~NgR
 outdoorsman/NgS
 outdoorsmen/9
 outdoorsy/J
@@ -37448,10 +37527,10 @@ outfitter/NgS
 outfitting/V6N
 outflank/VGSd
 outflow/~NgSV
-outfought/V
+outfought/VtT
 outfox/VGdS
-outgo/VGNgz
-outgoes/V
+outgo/Ngz
+outgoing/J
 outgrew/V
 outgrow/VGSH
 outgrown/VT
@@ -37522,12 +37601,12 @@ outsider/~NgS
 outsize/JVSd
 outskirt/NgSV
 outsmart/VGdS
-outsold/V
+outsold/VtT
 outsource/VdSG
 outsourcing/~VNg
 outspend/VSG
-outspent/VJ
-outspoken/~JYpV
+outspent/VtTJ
+outspoken/~JYpVT
 outspokenness/Nmg
 outspread/VGSJ
 outstanding/~VJY
@@ -37626,10 +37705,10 @@ overdecorate/VdSG
 overdependence/Nmg
 overdependent/J
 overdevelop/VSdG
-overdid/V
+overdid/Vt
 overdo/VG
-overdoes/V
-overdone/JV
+overdoes/Vh
+overdone/JVT
 overdose/~NgSVGd
 overdraft/NSgV
 overdraw/VGSN
@@ -37648,6 +37727,7 @@ overemotional/J
 overemphasis/Ng
 overemphasise/V!_₹
 overemphasize/VGdS
+overengineer/VGdS
 overenthusiastic/J
 overestimate/VGdSNgn
 overestimation/Nmg
@@ -37683,8 +37763,8 @@ overgrew/V
 overground/~JNV
 overgrow/VSGH
 overgrown/~JV
-overgrowth/Nmg
-overgrowths/9
+overgrowth/Nw0g
+overgrowths/N9
 overhand/JNgSVd
 overhang/~VGSNg
 overhasty/J
@@ -37786,7 +37866,7 @@ overshadow/VdSG
 overshare/VdGSN
 overshoe/NgS
 overshoot/~NSVG
-overshot/VJN
+overshot/VtTJN
 oversight/~NSgV
 oversimple/J
 oversimplification/NwgS
@@ -37794,14 +37874,14 @@ oversimplify/VdSGnX
 oversize/JVdGSN
 oversized/J
 oversleep/VGS
-overslept/V
-oversold/J
+overslept/VtT
+oversold/JtT
 overspecialisation/Nmg!_₹
 overspecialise/VGdS!_₹
 overspecialization/Nmg
 overspecialize/VGdS
 overspend/VbGSN
-overspent/VJ
+overspent/VtTJ
 overspill/NgSVdG
 overspray/NmSgVdG
 overspread/VGS
@@ -37855,7 +37935,7 @@ overwound/VtT/J
 overwrite/VGSN
 overwritten/VT
 overwrote/Vt
-overwrought/VJ
+overwrought/J
 overzealous/JY
 oviduct/NSg
 oviparous/J
@@ -37873,12 +37953,13 @@ owlish/JY
 own/~JVGdSNE
 owner/~NgS
 ownership/~Nmg
-ox/~Ngn
+ox/~N0gn
 oxalate/~NV
 oxalis/NgS
 oxblood/NgJ
 oxbow/~NgS
 oxcart/NSg
+oxen/N9
 oxford/~NSg
 oxidant/NgS
 oxidase/~N
@@ -37903,7 +37984,7 @@ oxymoronic/J
 oyster/~NSgJV
 oz/~N
 ozone/~NgV
-p/~PNV>G^nXz
+p/PNV>G^nXz
 p.m./
 pH/
 pa/~NSgH
@@ -38188,7 +38269,7 @@ parallelization/NwSg
 parallelize/VdSGB
 parallelogram/~NSg
 paralyse/VdSG!_₹
-paralyses/NV
+paralyses/NVh
 paralysing/JYV!_₹
 paralysingly/Ry@
 paralysis/~Nmg
@@ -38239,7 +38320,7 @@ parathion/Ng
 parathyroid/JNgS
 paratroop/NSV>Z
 paratrooper/Ng
-paratroops/NgV
+paratroops/N9Vh
 paratyphoid/JNg
 parboil/VdSG
 parcel/~NgSVGd
@@ -38457,7 +38538,7 @@ pathological/~JY
 pathologist/~NSg
 pathology/~NgS
 pathos/~Nmg
-paths/~N9V
+paths/~N9Vh
 pathway/~NgS
 patience/~Nm☁g
 patient/~J^NgSi
@@ -38866,7 +38947,7 @@ periodontist/NSg
 peripatetic/JNgS
 peripheral/~JYNgS
 periphery/~NSg
-periphrases/VN9
+periphrases/VN9h
 periphrasis/N0g
 periphrastic/J
 periscope/NSgV
@@ -39212,7 +39293,7 @@ photogenic/JQ
 photograph/~NgVd>GZ
 photographer/~NgS
 photographic/~JQ
-photographs/~NVr
+photographs/~N9Vhr
 photography/~Nmg
 photojournalism/Ng
 photojournalist/~NSg
@@ -39257,7 +39338,7 @@ physician/~NSg
 physicist/~NSg
 physicked/V
 physicking/VN
-physics/~NgV
+physics/~NgVh
 physio/NwSg
 physiognomy/NwSg
 physiography/Nmg
@@ -39397,6 +39478,7 @@ pinch/~VGdSNg
 pincushion/NgSV
 pine/~NSVGdr
 pine's
+pineal/J
 pineapple/~NgS
 pinecone/NgS
 pinewood/~NS
@@ -39698,8 +39780,8 @@ pliant/JY
 pliers/Ng
 plight/~NSgVdG
 plimsoll/NS
-plinth/Ng
-plinths/N
+plinth/N0g
+plinths/N9
 plod/NSVb
 plodded/VtT
 plodder/NgS
@@ -39717,7 +39799,7 @@ plotting/~V6N
 plough/NgVdG!_₹
 ploughman/Ng!@_₹
 ploughmen/N!@_₹
-ploughs/NV!_₹
+ploughs/N9Vh!_₹
 ploughshare/NgS!@_₹
 plover/~NSgV
 plow/~NgSVGd
@@ -39879,7 +39961,7 @@ politicization/Nger
 politicize/VdSGe
 politicking/NgV6
 politico/~NSg
-politics/~NgV
+politics/~NgVh
 polity/~NSg
 polka/~NgSVdG
 poll/~NgSVGdJn
@@ -40061,7 +40143,7 @@ portability/~Ng
 portable/~JNgS
 portage/~NSgVdG
 portal/~NSgJV
-portcullis/NgSV
+portcullis/NgSVb
 portend/VSGd
 portent/NSg
 portentous/JYp
@@ -40199,7 +40281,7 @@ potluck/NgSV
 potpie/NSg
 potpourri/NwSg
 potsherd/NSg
-potshot/NgSV
+potshot/NgSVb
 pottage/Ng
 potted/VtTJ
 potter/~NSgVGd
@@ -40221,6 +40303,7 @@ pounding/VSNmgJ
 pour/~VGdSNz
 pout/VGd>SNgZ
 pouter/Ng
+poutine/Nmg
 poverty/~Nmg
 pow/~N
 powder/~NwSgVGd
@@ -40309,6 +40392,8 @@ precedence/~Ng
 precedent/~NSgJVdG
 precept/NSgV
 preceptor/NSg
+precess/vVG
+precession/N
 precinct/~NgS
 preciosity/Ng
 precious/~JYpN
@@ -40324,6 +40409,7 @@ preciseness/Ng
 precision/~NgJ
 preclude/~VGdS
 preclusion/Ng
+precocial/J
 precocious/~JYp
 precociousness/Ng
 precocity/Ng
@@ -40437,6 +40523,7 @@ prelate/~NSgV
 prelim/JNSg
 preliminarily
 preliminary/~JNSg
+prelinguistic/J
 preliterate/JN
 preload/VdSG
 prelude/~NgSV
@@ -40541,7 +40628,7 @@ preshrink/VbGS
 preshrunk/VT
 preside/~VGdS
 presidency/~NSg
-president/~NgSV     # removed `5` adj. sense archaic, interferes with heuristics
+president/~NgS      # removed `5` adj. sense archaic, `V` v. sense marginal
 presidential/~J
 presidium/~Ng
 presort/VdGS
@@ -40996,6 +41083,7 @@ protectiveness/Ng
 protector/~NgS
 protectorate/~NgS
 protege/NSg
+# protégé
 protegee/NS
 protein/~NwSg
 protest/NwgS
@@ -41121,7 +41209,7 @@ psychometric/J
 psychometrician/NSg
 psychoneuroses/N
 psychoneurosis/Ng
-psychopath/Ng
+psychopath/N0g
 psychopathic/JN
 psychopathology/N
 psychopaths/N9
@@ -41135,7 +41223,7 @@ psychotherapist/NgS
 psychotherapy/~NSg
 psychotic/~JNSgQ
 psychotropic/JNgS
-psychs/NV
+psychs/N9Vh
 pt/~Ne
 ptarmigan/NgS
 pterodactyl/NgS
@@ -41327,7 +41415,7 @@ purvey/VdSG
 purveyance/Ng
 purveyor/NSg
 purview/~Ng
-pus/NmgV
+pus/Nmg
 push/~VGd>SNgZ
 push back/V/
 pushback/Nmg
@@ -41396,7 +41484,7 @@ pyruvate/~N
 python/~NSg
 pyx/NgSV
 pzazz/N
-q/~N
+q/N
 qr/~N
 qt/~NS
 qty/N
@@ -41494,7 +41582,7 @@ quayside/NS
 queasily/Ry
 queasiness/Ng
 queasy/J^>p
-queen/~NgSVGdY
+queen/~NgSVGd
 queenly/J>^
 queer/~J^Y>pNgSVGd
 queerness/Ng
@@ -41513,6 +41601,7 @@ quest/~NgSViWr
 quested/V
 questing/NV
 question/~NSgVd>GZBz
+questionability/Nmg
 questionable/~JU
 questionably/RyU
 questioned/~VtTU
@@ -41870,7 +41959,7 @@ rate limit/NgS
 rated/~JVU
 ratepayer/NS
 rater/Ng
-rather/~JNVR
+rather/~R
 rathskeller/NSg
 ratification/~Ng
 ratifier/Ng
@@ -41911,7 +42000,7 @@ raunchiness/Ng
 raunchy/J^>p
 ravage/Vd>GSNgZ
 ravager/Ng
-ravages/~NgV
+ravages/~NgVh
 rave/~NgSVGd>zZ
 ravel/VdGSNU
 ravel's
@@ -41949,6 +42038,7 @@ re/PNSg(vz
 re-enable/VdSG
 re-enslave/VdSG
 re-enslavement/Nmg
+re-execute/VdSG
 reach/~VdGSNgB
 reachable/~JNU
 reacquire/VdSG
@@ -41965,7 +42055,7 @@ reader/~Ng
 readership/~NSg
 readily/~Ry
 readiness/~Ng
-reading/~V6Ng
+reading/~V6NwgS
 readme/NgS
 readmitted/VtT
 readout/NSg
@@ -42115,6 +42205,7 @@ reconciler/NgS
 reconciliation/~NS
 recondite/JNSgV
 reconditioner/NgS
+reconfigurability/Nmg
 reconfiguration/N
 reconfigure/VGdS
 reconnaissance/~NgS
@@ -42231,9 +42322,9 @@ reek/~NgSVGd
 reel/~NSVGdU
 reel's
 reelect/VdSG
+# reëlect
 reentrant/J
 reeve/~NVG
-reexecute/VSdG
 reexport/VdGSN
 ref/~NSgVZ
 refabricate/VGdS
@@ -42315,7 +42406,7 @@ regalement/Ng
 regalia/~Ng
 regard/~NSgVdGE
 regardless/~JP
-regards/~NgV
+regards/~NgVh
 regather/VdGS
 regatta/~NSg
 regency/~NSg
@@ -42512,7 +42603,7 @@ rend/VGSN
 render/~VGdSNgz
 renderer/~NSg
 rendering/~NwgV
-rendezvous/~NgSVGd
+rendezvous/~NgSVbGd
 rendition/~NgSV
 renegade/~NSgVdGJ
 renege/Vd>SGZ
@@ -42723,7 +42814,7 @@ reskilling/V6
 reskin/VSN
 reskinned/VtTJ
 reskinning/V6JN
-resold/V
+resold/VtT
 resole/VdSG
 resolute/~JYpN
 resoluteness/Nmg
@@ -42831,7 +42922,7 @@ retention/~Ng
 retentive/JYpN
 retentiveness/Ng
 rethink/VGSNg
-rethought/V
+rethought/VtT
 reticence/NgV
 reticent/JY
 reticulated/J
@@ -43239,6 +43330,7 @@ rollout/NgS
 rollover/~NSgV
 romaine/~NgS
 roman/~JNg
+# roman à clef
 romance/~NgSVGd>Z
 romancer/Ng
 romanisation/NSg!_₹
@@ -43261,7 +43353,7 @@ rooftop/~NSg
 rook/~NgSVdG
 rookery/NSg
 rookie/~NSgJV
-room/~NwgSVd>GJZ
+room/~NwgSVd>GZ
 roomer/Ng
 roomette/NSg
 roomful/NSgJ
@@ -43277,6 +43369,7 @@ rootless/Jp
 rootlet/NSg
 rope/~NgSVGd>Z
 roper/~Ng
+ropey/J
 ropy/J>^
 rosary/~NSg
 rose/~NgSVtJ
@@ -43555,7 +43648,6 @@ saddle's
 saddlebag/NgS
 saddler/NS
 saddlery/N
-sades/NV
 sadhu/~NS
 sadism/Nmg
 sadist/NSg
@@ -43612,6 +43704,8 @@ salad/~NwgS
 salamander/~NSgV
 salami/NwSg
 salary/~NSgVdJ
+salaryman/N0g
+salarymen/N9
 sale/~NgSrB
 saleable/JNU!@_₹
 saleroom/NS
@@ -43781,7 +43875,7 @@ sashay/NSgVGd
 sass/NgSVGd
 sassafras/NgS
 sassy/~J>^
-sat/~JVtTN
+sat/~VtTN
 satanic/~J
 satanical/JY
 satanism/~Nmg
@@ -43852,6 +43946,7 @@ saving/~NwgV6JP
 savings/~Nmg
 savior/~NSg<
 saviour/NgS!@_₹
+savoir faire/Nm
 savor/NgSVdG
 savoriness/Nmg<
 savory/J^>pNSg
@@ -43920,6 +44015,7 @@ scandalize/VdSG
 scandalmonger/NSg
 scandalous/~JY
 scandium/Nmg
+scannable/J
 scanned/~JVtT
 scanner/~NSg
 scanning/~V6N
@@ -44134,7 +44230,7 @@ scrapbook/NSgV
 scrape/VSNg
 scraper/Ng
 scrapheap/NSg
-scrapie/N
+scrapie/Nmg
 scrapped/~VtT
 scrapper/NgS
 scrapping/~V6N
@@ -44160,10 +44256,10 @@ screech/NgSVGd
 screechy/J^>
 screed/NSVJ
 screen/~NSgVdGz
-screening/~NgV6
+screening/~NwgSV6
 screenplay/~NSgV
 screensaver/NSg
-screenshot/~NSV
+screenshot/~NSVb
 screenwriter/~NSg
 screenwriting/~Ng
 screw/~NSVdGU
@@ -44175,7 +44271,7 @@ screwworm/NSg
 screwy/J>^p
 scribal/J
 scribble/VGd>SNgZ
-scribbler/Ng
+scribbler/NgS
 scribe/~NSVKi
 scribe's
 scrim/NgSV
@@ -44346,7 +44442,7 @@ secessionist/~NgSJ
 seclude/VGdS
 seclusion/~Nwg
 seclusive/JN
-second/~JY>NSgVGdLZ
+second/~JY>N0SgVGdLZ
 second-degree/J
 secondarily/R       # ordinal/sentence adverb
 secondary/~JNSg
@@ -44727,7 +44823,8 @@ setsquare/S
 sett/NSVG>BzZ
 settee/NgS
 setter/NgV
-setting/~NwgSV6J
+setting/~N0wgV6J
+settings/N9
 settle/~VGdSNrU
 settle's
 settlement/~N0gr
@@ -44826,7 +44923,7 @@ shamanic/~J
 shamanism/~Nmg
 shamanistic/J
 shamble/VGdSNg
-shambles/NgV
+shambles/NgVh
 shambolic/J
 shame/~NwgSJV
 shamefaced/JY
@@ -45259,6 +45356,8 @@ sideload/VdGS
 sidelong/J
 sideman/~Ng
 sidemen/9
+sidenote/NSg
+side note/NSg
 sidepiece/NgS
 sidereal/J
 sidesaddle/NgS
@@ -45362,8 +45461,8 @@ silty/J^>
 silver/~NmgSJVGd
 silverfish/N09gS    # singular and plural, also has a plural in -s
 silverish/J
-silversmith/Ng
-silversmiths/N
+silversmith/N0g
+silversmiths/N9
 silverware/~Nmg
 silvery/~J
 sim/~NSgV
@@ -45376,9 +45475,9 @@ similitude/NgE
 simmer/VGdSNg
 simonise/Vb!_₹
 simonize/VbdSG
-simonized/VtT!_₹
-simonizes/Vh!_₹
-simonizing/V6!_₹
+simonized/VtT
+simonizes/Vh
+simonizing/V6
 simony/Ng
 simp/NSgVdG
 simpatico/J
@@ -45431,8 +45530,13 @@ singsong/NSgJVdG
 singular/~JYNSg
 singularity/~NSg
 singulative/NSgJ
+sinicise/VGdS!_₹
+sinicisation/Nmg!_₹
+sinicization/Nmg
+sinicize/VGdS
 sinister/~J
 sink/~VG>SNgBZ
+sink in/V/
 sinkable/JU
 sinker/Ng
 sinkhole/NSgV
@@ -45722,7 +45826,7 @@ slimness/Nmg
 slimy/J>^pN
 sling/~VGSNg
 slingback/NS
-slingshot/~NSgV
+slingshot/~NSgVb
 slink/VGSNJ
 slinky/J>^
 slip/~VSNg
@@ -45886,10 +45990,10 @@ smoky/~J>^p
 smolder/VGdSNg
 smooch/NgSVdG
 smoochy/J
-smooth/~JY^>pNVdG
+smooth/~JY^>pN0VdG
 smoothie/NwgS
 smoothness/Ng
-smooths/NVh
+smooths/N9Vh
 smorgasbord/NSg
 smote/V
 smother/VGdSNg
@@ -46097,9 +46201,9 @@ socioeconomic/~JQ
 sociological/~JY
 sociologist/~NSg
 sociology/~Nmg
-sociopath/Ng
+sociopath/N0g
 sociopathic/J
-sociopaths/N
+sociopaths/N9
 sociopathy/NwgS
 sociopolitical/J
 sock/~NgSVdGJ
@@ -46179,7 +46283,7 @@ solidify/~VdSGn
 solidity/Ng
 solidness/Ng
 solidus/~Ng
-soliloquies/N9V
+soliloquies/N9Vh
 soliloquise/VdSG!_₹
 soliloquize/VdSG
 soliloquy/N0gV
@@ -46313,7 +46417,7 @@ sou/~NSgH
 sou'wester/N
 souffle/NwSgV
 sough/VdGNg
-soughs/V
+soughs/Vh
 sought/~VtTU
 souk/NS
 soul/~NwgSV
@@ -46337,6 +46441,7 @@ soundproofing/~VNmg
 soundscape/NSgV
 soundtrack/~NSgV
 soup/~NwgSVdG
+coupçon/NgS
 soupcon/NgS
 soupy/J>^
 sour/~JY^>pNgSVdG
@@ -46662,6 +46767,7 @@ splint/NSgVGd>Z
 splinter/~NgVdG
 splintery/J
 split/~VSJNg
+splitter/NgS
 splitting/~NgSJV6
 splodge/NSV
 splosh/VdGSN
@@ -46869,7 +46975,7 @@ squish/NgSVGd
 squishy/J>^N
 sriracha/N
 ssh/~VO
-st/~N
+st/N
 stab/~NgSVJY
 stabbed/~VtT
 stabber/NgS
@@ -47083,7 +47189,7 @@ stealth/~NgVJ
 stealthily/Ry
 stealthiness/Ng
 stealthy/J^>p
-steam/~NwSgVd>GJZ
+steam/~NwSgVdGJZ
 steamboat/~NgSV
 steamer/~NgV
 steamfitter/NSg
@@ -47207,14 +47313,14 @@ stigmatization/Nge
 stigmatize/VGdSe
 stile/NSgV
 stiletto/NSgV
-still/~J^RNSVGdi
+still/~J^RNSVGd
 still's
-stillbirth/Ng
-stillbirths/N
+stillbirth/Nwg
+stillbirths/N9
 stillborn/~JN
-stilled/JVtTi!_₹
+stilled/JVtT
 stiller/~JN
-stilling/V6Ni!_₹
+stilling/V6N
 stillness/Ng
 stilt/~NSgVd
 stilted/JYV
@@ -47250,7 +47356,7 @@ stitch's
 stitchery/Ng
 stitching/NgV
 stoat/NSg
-stochastic/~J
+stochastic/~JQ
 stock/~NwSVGdJr
 stock's
 stockade/~NSgVdG
@@ -47396,7 +47502,7 @@ strategics/Ng
 strategist/~NSg
 strategize/VdSG
 strategy/~NwSg
-strati/N
+strati/N9
 stratification/~Nmg
 stratify/VdSGn
 stratosphere/NSg
@@ -47697,6 +47803,7 @@ subordinate/~JNSgVdGn
 subordination/~Ngi
 suborn/VSGd
 subornation/Ng
+subagent/NgS
 subpage/NgS
 subpar/J
 subparagraph/NgSV
@@ -47822,7 +47929,7 @@ sucrose/~Nmg
 suction/~NwSgVdG
 sudden/~JYpN
 suddenness/Nmg
-suds/NgV
+suds/N9gVb
 sudsy/J^>
 sue/~VdSG
 suede/~NgJV
@@ -47918,7 +48025,7 @@ summitted/VtT
 summitting/V6
 summon/~Vd>GSNZ
 summoner/Ng
-summons/~NgSVGd
+summons/~NgSVbGd
 sumo/~Ng
 sump/~NgSV
 sumptuous/JYp
@@ -47949,7 +48056,8 @@ sunflower/~NgS
 sung/~VTU
 sunglasses/~N9g
 sunhat/NS
-sunk/~Vn
+sunk/~VTn
+sunk in/V/T
 sunken/JT
 sunlamp/NSg
 sunless/J
@@ -48146,7 +48254,7 @@ surname/~NgSV
 surpass/~VGdS
 surpassed/~VtTU
 surplice/NgS
-surplus/~NgSJV
+surplus/~NgSJVb
 surplussed/VtT
 surplussing/V6
 surprise/~NSg☁VdGz
@@ -48155,6 +48263,7 @@ surreal/~JN
 surrealism/~Ng
 surrealist/~JNSg
 surrealistic/JQ
+surreality/Nmg
 surrender/~VdGSNg
 surreptitious/JYp
 surreptitiousness/Ng
@@ -48247,9 +48356,9 @@ swashbuckling/Jg
 swastika/NSg
 swat/~VSNg
 swatch/NgSV
-swath/NgSGd<
-swathe/NgV!@_₹
-swaths/N<
+swath/N0gSGd<
+swathe/N0gV!@_₹
+swaths/N9<
 swatted/VtT
 swatter/NSgVdG
 swatting/V6N
@@ -48443,14 +48552,16 @@ syntactic/~J
 syntactical/JY
 syntax/~Nmg
 synth/N0g
+synthpop/Nmg        # only in Collins
 synth-pop/Nmg
 syntheses/N9
 synthesis/~N0wg
 synthesise/V!_₹
+synthesiser/~NgS!_₹
 synthesize/~VGd>SZ
 synthesizer/~NgS
 synthetic/~JNSgQ
-synths/N9V
+synths/N9
 syphilis/~Nmg
 syphilitic/JNSg
 syringe/NSgVdG
@@ -48472,7 +48583,7 @@ systemwide/J
 systole/NSg
 systolic/JN
 t/NSdGnXBz
-ta/~PN
+ta/PN
 ta-da
 tab/~NSgV
 tabbed/JVtT
@@ -48800,7 +48911,7 @@ tear/~VGdSNg
 tearaway/NS
 teardrop/~NSg
 tearful/JY
-teargas/NwgSV
+teargas/NwgSVb
 teargassed/VtT
 teargassing/V6
 tearjerker/NgS
@@ -49163,6 +49274,7 @@ them/~Ia3o:g        # I~pronoun a~personal 3~person :~plural o~object (g=them's 
 thematic/~JNQ
 thematically/Ry
 theme/~NSgVdG
+themself/Ia3F.      # I~pronoun a~personal 3~person .~singular F~reflexive
 themselves/~Ia3F:   # I~pronoun a~personal 3~person :~plural F~reflexive
 then/~RJNgC
 thence/~
@@ -49285,10 +49397,10 @@ thirstily/Ry
 thirstiness/Nmg
 thirsty/~J^>pN
 thirteen/~SgH
-thirteenth/~JNg
-thirteenths/N
-thirtieth/JNg
-thirtieths/N
+thirteenth/~JN0g
+thirteenths/N9
+thirtieth/JN0g
+thirtieths/N9
 thirty/~NSgH
 this/~IDM
 thistle/~NgS
@@ -49321,8 +49433,8 @@ thoughtless/JYp
 thoughtlessness/Nmg
 thousand/~NgSH
 thousandfold/J
-thousandth/JNg
-thousandths/N
+thousandth/JN0g
+thousandths/N9
 thraldom/Ng!_₹
 thrall/NSgJVdG
 thralldom/Ng
@@ -49377,7 +49489,7 @@ throne's
 throng/NSgVGdJ
 throttle/~NSgVd>GZ
 throttler/Ng
-through/~PJN
+through/~PJ
 throughout/~P
 throughput/~Ng
 throughway/NgS!@_₹
@@ -49455,7 +49567,7 @@ tidbit/NSg
 tiddler/NSg
 tiddly/NJ
 tiddlywink/NSV
-tiddlywinks/NgV
+tiddlywinks/NgVh
 tide/~NgSVGdz
 tideland/NSg
 tidemark/NS
@@ -49546,7 +49658,7 @@ tinder/NgV
 tinderbox/NgS
 tine/NgSJV
 tinfoil/NmgV
-ting/~NgVdGY
+ting/NgVdGY
 tinge/NSgV
 tingeing/V
 tingle/VdGSNgz
@@ -49565,8 +49677,8 @@ tinpot/JN
 tinsel/NSgJVGd
 tinselled/VtT!@_₹
 tinselling/V6!@_₹
-tinsmith/NSg
-tinsmiths/N
+tinsmith/N0g
+tinsmiths/N9
 tint/~NgSVdG
 tintinnabulation/NgS
 tintype/NgSV
@@ -49591,7 +49703,7 @@ tirade/NSgV
 tiramisu/NgS
 tire/~VGdSNr
 tire's
-tired/~V>JY^p
+tired/~VJYp
 tiredness/Nmg
 tireless/~JYp
 tirelessness/Ng
@@ -49670,7 +49782,7 @@ togetherness/Nmg
 togged/JtT
 togging/V6
 toggle/NSgVdGB
-togs/NgV
+togs/NgVh
 toil/NgSVd>GZ
 toiler/Ng
 toilet/~NgSVdG
@@ -49693,8 +49805,8 @@ tolerant/~JYi
 tolerate/~VGdSn
 toleration/~Ng
 toll/~NgSVdG
-tollbooth/Ng
-tollbooths/N
+tollbooth/N0g
+tollbooths/N9
 tollgate/NSgV
 tollway/NSg
 toluene/NSg
@@ -49791,7 +49903,7 @@ topographic/~J
 topographical/~JY
 topography/~NwSg
 topological/~JY
-topology/~N
+topology/~NgS
 topped/~JVtT
 topper/~NgS
 topping/~V6SJNwg
@@ -49925,8 +50037,8 @@ townsmen/9
 townspeople/~N9g
 townswoman/Ng
 townswomen/9
-towpath/Ng
-towpaths/N
+towpath/N0g
+towpaths/N9
 towrope/NSg
 toxaemia/Ng!_₹
 toxemia/Ng
@@ -50332,8 +50444,8 @@ trilby/NSg
 trill/NSgVGdJ
 trillion/~NSgH
 trillionaire/NSg
-trillionth/JNg
-trillionths/N
+trillionth/JN0g
+trillionths/N9
 trillium/Nmg
 trilobite/~NSg
 trilogy/~NSg
@@ -50669,8 +50781,8 @@ tweezers/~Ng
 twelfth/~JN0g
 twelfths/N9
 twelve/~NSg
-twelvemonth/Ng
-twelvemonths/N
+twelvemonth/N0g
+twelvemonths/N9
 twentieth/~JN0g
 twentieths/N9
 twenty/~NSgH
@@ -50788,7 +50900,7 @@ ugh/~
 uglification/NwgS
 ugliness/Nmg
 ugly/~J^>pNV
-uh/~N
+uh/~
 uh-huh
 uh-oh
 uhf/~
@@ -50843,6 +50955,7 @@ unacceptability/Nmg
 unacceptable/~JN
 unaccommodating/J
 unaccountably/Ry
+unadapted/J
 unadventurous/J
 unaesthetic/J
 unaffected/JY
@@ -50860,10 +50973,12 @@ unappetising/J!_₹
 unappetizing/J
 unapplied/J
 unappreciative/J
+unarchive/VSdG
 unary/JN
 unashamed/J
 unassertive/J
 unassimilable/J
+unassociated/J
 unassuming/JY
 unauthorised/J!_₹
 unauthorized/J
@@ -50988,9 +51103,9 @@ underfund/VSdG
 underfur/Ng
 undergarment/NSg
 undergird/VSdG
-undergo/~VG
-undergoes/~V
-undergone/~V
+undergo/~VbG
+undergoes/~Vh
+undergone/~VT
 undergrad/NS
 undergraduate/~NSgJ
 underground/~JNgSV
@@ -51014,8 +51129,8 @@ undermanned/VtTJ
 undermentioned/J
 undermine/~VGdS
 undermost/J
-underneath/~PJNg
-underneaths/N
+underneath/~PJN0g
+underneaths/N9
 undernourished/J
 undernourishment/Ng
 underpaid/J
@@ -51046,16 +51161,17 @@ undersell/VGS
 underserve/VdSG
 undersexed/J
 undershirt/NSg
-undershoot/VGSN
+undershoot/VbGSN
 undershorts/Ng
-undershot/VJN
+undershot/VtTJN
 underside/~NgS
 undersign/VdGS
 undersigned/JNg
 undersized/J
 underskirt/NSg
 undersold/VtTdJ
-underspent/V
+underspecify/VSdG
+underspent/VtT
 understaff/VSdG
 understand/~VbSGBz
 understandably/~Ry
@@ -51065,12 +51181,12 @@ understatement/NSg
 understood/~JVtT
 understudy/~VGdSNg
 undertake/~VG>SNZz
-undertaken/~V
+undertaken/~VT
 undertaker/~NgS
 undertaking/~NgV
 underthings/Ng
 undertone/NgSV
-undertook/~V
+undertook/~Vt
 undertow/VSNg
 underused/JV
 underutilised/JV!_₹
@@ -51081,14 +51197,14 @@ underwater/~JNV
 underway/~N
 underwear/~Nmg
 underweight/JNgV
-underwent/~V
+underwent/~Vt
 underwhelm/VdGS
 underwire/NSVd
 underworld/~NgS
 underwrite/VG>SZ
 underwriter/Ng
-underwritten/V
-underwrote/V
+underwritten/VT
+underwrote/Vt
 undesirable/~JNgS
 undiagnosed/J
 undies/NgV
@@ -51300,6 +51416,8 @@ unpowered/J
 unpractical/J
 unprecedented/~JY
 unpredicted/J
+unproblematic/J
+unproblematically/R
 unprofessional/JYN
 unpromising/JV
 unpropitious/J
@@ -51398,6 +51516,7 @@ untidy/J^>pV
 until/~PC
 untimely/~J^
 untiring/JY
+untoasted/J
 untouchable/JNgS
 untoward/J
 untracked/J
@@ -51768,7 +51887,7 @@ veg/JNmgV
 vegan/~JNSg
 veganism/Nmg
 vegeburger/NS
-veges/NV
+veges/N9Vh
 vegetable/~NSgJ
 vegetarian/~NSgJ
 vegetarianism/~Nmg
@@ -51858,7 +51977,7 @@ verbosity/Nmg
 verboten/J
 verdant/JY
 verdict/~NSg
-verdigris/NgSVGd
+verdigris/NgSVbGd
 verdure/NmgV
 verge/~NSVdGW
 verge's
@@ -51911,7 +52030,7 @@ vertices/~N9
 vertiginous/J
 vertigo/~Nmg
 verve/~Ng
-very/~R%J>^         # very is an adverb of debree but not an adverb of manner
+very/~R%J>^         # very is an adverb of degree but not an adverb of manner
 vesicle/~NSg
 vesicular/J
 vesiculate/VJ
@@ -51936,7 +52055,7 @@ veteran/~NSgJ
 veterinarian/~NgSJ
 veterinary/~JNSg
 veto/~N0gVdG
-vetoes/N9V
+vetoes/N9Vh
 vetted/VtTJ
 vetting/~V6N
 vex/VGdSN
@@ -51971,7 +52090,7 @@ vicar/~NSg
 vicarage/~NSg
 vicarious/JYp
 vicariousness/Ng
-vice/~NgSVJP(e
+vice/~NgSJP(e
 viced/JVtT
 vicegerent/NSgJ
 vicennial/JN
@@ -52098,8 +52217,9 @@ virtualise/VdSG!_₹
 virtualization/~NwSg
 virtualize/VdSG
 virtue/~NSg
+virtuosi/N9
 virtuosity/Ng
-virtuoso/~NgJ
+virtuoso/~N0gJ
 virtuous/~JYp
 virtuousness/Ng
 virulence/~Ng
@@ -52276,7 +52396,7 @@ voyageur/NSg
 voyeur/NgS
 voyeurism/Ng
 voyeuristic/J
-vs./~               # versus
+vs./4~              # versus
 vtable/NgS
 vulcanisation/Ng!_₹
 vulcanise/VGdS!_₹
@@ -52559,7 +52679,7 @@ watermelon/~NwSg
 watermill/~NgS
 waterproof/~JVdGSNg
 waterproofing/VNg
-waters/~NgV
+waters/~NgVh
 watershed/~NgSJ
 waterside/NgSJ
 waterspout/NSg
@@ -52575,8 +52695,8 @@ wave/~VGd>SNgZ
 waveband/NS
 waveform/~N
 wavefront/NSg
-wavelength/~Ng
-wavelengths/~N
+wavelength/~N0g
+wavelengths/~N9
 wavelet/NSg
 wavelike/J
 wavenumber/NgS
@@ -52705,9 +52825,11 @@ weepy/J^>NSg
 weevil/~NgS
 weft/NgS
 weigh/~VGdNr
+weigh in/V/
 weigh's
 weighbridge/NS
-weighs/~Vr
+weighs/~Vhr
+weighs in/Vh/r
 weight/~NwgSVdGz
 weighted/~VtTJU
 weightily/Ry
@@ -52754,9 +52876,9 @@ welterweight/~JNSg
 wen/~NgCI
 wench/NgSV
 wend/VdGSN
-went/~VtN
-wept/V
-were/~VltN
+went/~Vt
+wept/VtT
+were/~Vlt
 weren't/Vt
 werewolf/~N0g
 werewolves/N9
@@ -52961,6 +53083,7 @@ wholesomely/Ry
 wholesomeness/NmgU
 wholewheat/J
 wholly/~Ry
+wholphin/NSg
 whom/~I
 whomever/I
 whomsoever/I
@@ -53006,8 +53129,8 @@ widget/NS
 widow/~NSgVd>GZ
 widower/~Ng
 widowhood/~Nmg
-width/~Nwg
-widths/~N
+width/~N0wg
+widths/~N9
 wield/~Vd>GSNZ
 wielder/Ng
 wiener/~NSg
@@ -53041,7 +53164,7 @@ wildflower/NSg
 wildfowl/~NgV
 wildlife/~Nmg
 wildness/Ng
-wilds/~NgV
+wilds/~NgVh
 wile/~NgSVGd
 wilful/JYp!@_₹
 wilfulness/Ng!@_₹
@@ -53161,6 +53284,7 @@ wiseacre/NSgV
 wisecrack/NgSVdG
 wiseguy/NS
 wish/~NgSVd>GZ
+wish list/NSg
 wishbone/~NSgV
 wisher/Ng
 wishful/JY
@@ -53249,7 +53373,7 @@ womble/NSV
 women/~N9g
 womenfolk/N9Sg
 womenfolks/9g
-won/~VtTNg09          # singular and plural
+won/~VtTNg09        # singular and plural
 won't/VA
 wonder/~NwgSVdGL
 wonderful/~JYp
@@ -53485,7 +53609,7 @@ wrongheadedness/Ng
 wrongness/Ng
 wrote/~Vtr
 wroth/J
-wrought/~JV
+wrought/~JVtT
 wrung/V
 wry/~JYVN
 wryer/Jc
@@ -53496,7 +53620,8 @@ wunderkind/NS
 wurst/NSg
 wuss/NgSV
 wussy/J>^NSg
-x/~                 # removed `5` and `7` adjective and `conjunction`
+wyvern/NSg
+x/                 # removed `5` and `7` adjective and `conjunction`
 x-axis/Ng
 x64/Ng
 x86/~Ng
@@ -53671,10 +53796,10 @@ your/~D5
 yours/~I
 yourself/~Ia2F.     # I~pronoun a~personal 2~person F~reflexive
 yourselves/~Ia2F:   # I~pronoun a~personal 2~person :~plural F~reflexive
-youth/~Ng
+youth/~N0g
 youthful/~JYp
 youthfulness/Ng
-youths/~9
+youths/~N9
 yow/N
 yowie/NgS           # Australian mythological creature
 yowl/NgSVdG
@@ -53808,7 +53933,7 @@ ASUS/Og
 ATF/Ng              # automatic transmission fluid
 AVC/Ng              # H.264 video format
 AVL tree/NgS        # data structure
-Afroasiatic/OmgJ.   # linguistics
+Afroasiatic/OmgJ    # linguistics
 Airbnb/ONSg
 Akismet/Og
 Alexa/Og            # voice assistant
@@ -53816,6 +53941,7 @@ Alexandre/OgS
 AliExpress/Og
 Alibaba/Og
 AlphaFold/Og        # Google DeepMind project
+Altera/Og           # FPGA company
 Ambien/NSg          # insomnia treatment
 AngularJS/Og
 Anker/Sg
@@ -53838,7 +53964,6 @@ BERT/Og             # Bidirectional Encoder Representations from Transformers
 BLM/Ng
 BOM/NSg             # Byte Order Mark
 BPE/NgS             # Byte Pair Encoding
-BRICS/              # intergovernmental organization
 BSON/Ng             # binary JSON
 BSP/NSg             # data structure
 BYD/OgS             # Chinese automobile manufacturer
@@ -53953,6 +54078,8 @@ Evo/OgS             # car model
 Expedia/Og
 Exynos/OgJ          # Samsung SoC series.
 FAANG/NSg           # Facebook, Amazon, Apple, Netflix, Google
+#FAT/Ng              # family of file systems - TODO currrently causes 'fat' to be flagged as misspelled
+FAT16/Ng            # file system
 FAT32/Ng            # file system
 FFI/Ng              # foreign function interface - see also interop
 FFmpeg/Og
@@ -54011,6 +54138,7 @@ Graphviz/Sg
 Gravatar/Og
 H.265/ONSg          # High Efficiency Video Coding
 HAProxy/Og          # high availability proxy
+HDL/NgS             # hardware description language
 HDR/J               # high dynamic range
 HEIC/ONSg           # High Efficiency Image Container
 HEIF/ONSg           # High Efficiency Image Format
@@ -54073,6 +54201,7 @@ Kagi/Sg
 Kahneman/Sg
 KanBan/Ng
 Kartvelian/OmgJ     # linguistics
+Kernighan/Og        # Brian ~
 KiCad/Og            # software
 Kia/ONSg            # automobile brand
 Kra-Dai/OmgJ        # linguistics
@@ -54229,7 +54358,7 @@ RAII                # resource acquisition is initialization
 RDBMS/NOSg          # relational database management system
 REPL/NgS            # read evaluate print loop
 RFID/ONg            # radio frequency identification
-RISC/Ng             # cpu architecture
+RISC-V/Og             # cpu architecture
 RJ45/Ng             # ethernet connector
 RL/Nmg              # reinforcement learning
 RNN/NgS             # recurrent neural network
@@ -54242,6 +54371,7 @@ ReactJS/Og
 Red Hat/Og
 Reddit/Og
 ReLU/NwgS           # rectifier linear unit
+Ritchie/Og          # Dennis !
 Rivian/Sg           # ev company
 Roblox/Og           # game
 Roumania/Og         # pre-WWII spelling
@@ -54268,6 +54398,7 @@ SSID/NgS
 SSL/Og              # Secure Sockets Layer
 SVG/ONs             # scalable vector graphics
 SVGA/N              # super VGA
+SemVer/N            # semantic versioning - this is the std spelling but POS is unclear
 Sharman/OgS
 Shellsort/NgS       # algorithm
 Shibuya/Og
@@ -54282,8 +54413,10 @@ Snapchat/Sg
 SolidJS/Og          # ui lib
 Soros/Og            # financier George Soros
 SpaceX/Og
+Speccy/OgS          # nickname of the Sinclair ZX Spectrum 8-bit computer
 Spotify/Og
 Stellantis/Og       # car company
+SteamOS/Og
 Substack/Og
 Subversion/Og       # version control
 Svelte/Og           # js framework
@@ -54339,6 +54472,7 @@ VAG/Og              # car company
 VARCHAR/NgS
 VCS/Ng              # version control system
 VFD/NgS             # vacuum fluorescent display
+VHDL/N              # hardware description language
 VLIW                # very long instruction word (cpu architecture)
 VMware/ONSg
 VPN/NSg             # virtual private network
@@ -54347,6 +54481,7 @@ VS Code/Og
 Vaadin/Sg
 VaultPress/Og
 Vercel/Og           # cloud
+Verlilog/Og         # hardware description language
 VideoPress/Og
 Viktor/Sg
 Vim script/Omg      # the spelling/capitalization variant used on Vim's docs
@@ -54379,15 +54514,17 @@ Wikimedia/Og        # foundation that runs Wikipedia etc.
 Win32/Og            # Microsoft Windows API
 WireGuard/Sg
 WooCommerce/Og
+X11/Og
 XFS/Ng              # file system
 XLR/Ng              # connector
 XPath/Og            # XML path language
 Xbox/NOSg
 Xcode/Og            # Apple IDE
 XeTeX/Og            # TeX typesetting engine
+Xilinx/Og           # FPGA company
 Xorg/ONSg
 Y2K/g               # year 2000
-YAML/OgS            # markup language
+YAML/Omg            # markup language
 Yazi/ONSg
 Yoast/Og            # seo
 YubiKey/Sg
@@ -54399,8 +54536,10 @@ Zuckerberg/OgS      # surname, Facebook founder
 a11n/N
 a12s/9
 a8c/Sg
+aftertouch/Nmg      # MIDI feature
 ambitransitive/J    # verb which is both transitive and intransitive
-anti-alias/VSdG
+analyte/NgS
+anti-alias/VbSdG
 antimalware/Nmg
 arXiv/Og            # research archive
 archytas/Sg         # !! please check and comment !! we also have Archytas
@@ -54417,8 +54556,10 @@ backend/NSg         # dictionaries prefer: back end
 backoff/NsG
 backtest/NgSVdG
 baz/~               # cf. foo, bar
+bazzite/NwgS
 bitfield/NgS        # in this section since it's not in Cambridge, Collins, Longman, OED, Oxford, or Websters
 blogpost/NgS        # !! blog post is many times more popular; both appear in some dictionaries
+catenative/J        # linguistics
 chroot/NgS
 clickstream/NgS
 concat/VSdG
@@ -54447,6 +54588,7 @@ ext4/Ng             # file system
 failable/J
 failover/NwgS
 falsy/J
+featuritis/Nmg†
 feedforward/NmJ
 filepath/NgS
 filesystem/~Sg      # dictionaries prefer: file system
@@ -54488,6 +54630,7 @@ lingua franca/NSg
 linguæ francæ/N9g
 linguae francae/N9g
 linkification/Nmg
+linklog/NgS
 lookahead/Nmg
 lookbehind/Nmg
 manip/NgS           # gamer slang manipulation
@@ -54516,7 +54659,7 @@ pentesting/NmgV6
 plist/NgS           # Apple property list
 polysyntheses/N9    # linguistics
 polysynthesis/Nw0g  # linguistics
-polysynthetic/J.    # linguistics
+polysynthetic/J     # linguistics
 postfix/NgSVdG
 pre/~PNV(           # !! please check and comment !! dictionaries only list prefix pre-
 preshared/J
@@ -54553,6 +54696,7 @@ strat/NgS           # gamer slang strategy
 subchannel/NgS
 subexpression/NgS
 subkey/NgS
+subpixel/NgS        # only in American Heritage Dictionary
 subreddit/NgS       # see Reddit
 supersequence/NgS
 synchronic/JQ       # linguistics
@@ -54563,8 +54707,11 @@ timespan/NgS
 tmux/Og             # terminal multiplexer, uncapitalized proper noun
 trie/NgS            # data structure
 truthy/J
+uncomment/VSdG
+unexpandable/J
 unicast/JVSdG
 unlintable/J
+untensed/J          # grammar
 upsert/VdSGNg       # database operation: update or insert
 upsertion/NgS       # database operation: update or insert
 uptime/NwgS
@@ -54583,9 +54730,16 @@ z-buffer/NgS
 # And they will be reviewed
 # Words added using the `just addnoun` command will be added here
 
+à la
+à la carte
+à la mode
+# açai
 agnatic/J           # Most often in the phrase "agnatic primogeniture"
+# après ski
+# après-ski
 APAC/gO             # Acronym for Asia-Pacific
 archipelagic/J      # As found in the phrase "Archipelagic state" in the "United Nations Convention on the Law of the Sea"
+# bric-à-brac
 chorded/J           # music: As refers to "chorded instruments"
 cognatic/J          # As with "agnatic"
 comital/J           # Adjective version of the noble rank "count/countess/earl"
@@ -54606,7 +54760,7 @@ livestreamer/NSg    # main: OED, Oxford Learner's; also: Cambridge
 live streamer/NSg   # Cambridge
 menarche/Nmg        # medicine
 micronutrient/NSg
-misprediction/NSg.  # not in dictionaries
+misprediction/NSg   # not in dictionaries
 monolatrous/J
 monolatry/Nmg
 offeror/NSg
@@ -54617,9 +54771,12 @@ piebaldism/Nmg      # medicine
 praxis/Nmg
 queenship/Nwg
 resolutive/J
+retrocomputing/Nmg
 sortition/Nmg       # Political science: a method of appointment to office by random draw
 subvocalization/Nwg # phonetics
 supervenience/Nmg   # From emergentist ontology
+# tête à tête
+# tête-à-tête
 trimeter/NgS        # poetry
 trimetre/NgS!@_₹    # poetry
 trimetric/J
@@ -54629,3 +54786,5 @@ vicontiel/J         # As above, alternative version
 viscomital/J        # As above, alternative version
 WordCamp/Og
 worldbuild/V>G
+playthrough/gNS
+cutscene/gNS
