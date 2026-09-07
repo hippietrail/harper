@@ -43,6 +43,8 @@ pub struct DictWordMetadata {
     pub preposition: bool,
     /// Whether the word is an offensive word.
     pub swear: Option<bool>,
+    /// Whether the word is an abbreviation of any kind.
+    pub abbreviation: Option<bool>,
     /// The dialects this word belongs to.
     /// If no dialects are defined, it can be assumed that the word is
     /// valid in all dialects of English.
@@ -347,6 +349,28 @@ impl DictWordMetadata {
         }
     }
 
+    pub fn is_singular_noun_only(&self) -> bool {
+        if let Some(noun) = self.noun {
+            matches!(
+                (noun.is_singular, noun.is_plural),
+                (Some(true), None | Some(false))
+            )
+        } else {
+            false
+        }
+    }
+
+    pub fn is_plural_noun_only(&self) -> bool {
+        if let Some(noun) = self.noun {
+            matches!(
+                (noun.is_singular, noun.is_plural),
+                (None | Some(false), Some(true))
+            )
+        } else {
+            false
+        }
+    }
+
     // Most mass nouns also have countable senses. Match those that are only mass nouns.
     pub fn is_mass_noun_only(&self) -> bool {
         if let Some(noun) = self.noun {
@@ -444,6 +468,11 @@ impl DictWordMetadata {
     /// Checks whether a word is _definitely_ a swear.
     pub fn is_swear(&self) -> bool {
         matches!(self.swear, Some(true))
+    }
+
+    /// Abbreviation is orthogonal to POS
+    pub fn is_abbreviation(&self) -> bool {
+        matches!(self.abbreviation, Some(true))
     }
 
     // Orthographic queries
@@ -548,6 +577,7 @@ impl DictWordMetadata {
         self.dialects |= other.dialects;
         self.orth_info |= other.orth_info;
         self.swear = self.swear.or(other.swear);
+        self.abbreviation = self.abbreviation.or(other.abbreviation);
         self.common |= other.common;
         self.derived_from = self.derived_from.or(other.derived_from);
         self.pos_tag = self.pos_tag.or(other.pos_tag);

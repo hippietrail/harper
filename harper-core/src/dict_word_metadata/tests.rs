@@ -162,12 +162,47 @@ mod noun {
     }
 
     #[test]
+    fn equipment_isnt_countable_noun() {
+        assert!(!md("equipment").is_countable_noun());
+    }
+
+    #[test]
     fn beer_is_countable_noun() {
         assert!(md("beer").is_countable_noun());
     }
     #[test]
     fn beer_is_mass_noun() {
         assert!(md("beer").is_mass_noun());
+    }
+
+    #[test]
+    fn infrastructure_is_mass_noun_only() {
+        assert!(md("infrastructure").is_mass_noun_only());
+    }
+
+    #[test]
+    fn beer_is_not_mass_noun_only() {
+        assert!(!md("beer").is_mass_noun_only());
+    }
+
+    #[test]
+    fn sheep_is_not_singular_only() {
+        assert!(!md("sheep").is_singular_noun_only());
+    }
+
+    #[test]
+    fn sheep_is_not_plural_only() {
+        assert!(!md("sheep").is_plural_noun_only());
+    }
+
+    #[test]
+    fn ox_is_singular_only() {
+        assert!(md("ox").is_singular_noun_only());
+    }
+
+    #[test]
+    fn oxen_is_plural_only() {
+        assert!(md("oxen").is_plural_noun_only());
     }
 }
 
@@ -698,21 +733,6 @@ fn every_is_quantifier() {
 #[test]
 fn the_isnt_quantifier() {
     assert!(!md("the").is_quantifier());
-}
-
-#[test]
-fn equipment_is_mass_noun() {
-    assert!(md("equipment").is_mass_noun());
-}
-
-#[test]
-fn equipment_is_non_countable_noun() {
-    assert!(md("equipment").is_non_countable_noun());
-}
-
-#[test]
-fn equipment_isnt_countable_noun() {
-    assert!(!md("equipment").is_countable_noun());
 }
 
 mod verb {
