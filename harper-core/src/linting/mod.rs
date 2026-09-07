@@ -52,6 +52,7 @@ mod catch_22;
 mod cautionary_tale;
 mod cease_to;
 mod change_tack;
+mod chicken_and_egg;
 mod chock_full;
 mod claim_to_fame;
 mod close_tight_knit;
@@ -90,6 +91,7 @@ mod ever_every;
 mod ever_pronoun_rel_pronoun;
 mod everyday;
 mod except_of;
+mod expand_favourite;
 mod expand_memory_shorthands;
 mod expand_people;
 mod expand_time_shorthands;
@@ -109,6 +111,7 @@ mod flesh_out_vs_full_fledged;
 mod foot_inch_minute_second_symbols;
 mod for_free_of_charge;
 mod for_noun;
+mod for_same_reason;
 mod for_the_nth_time;
 mod free_predicate;
 mod friend_of_me;
@@ -211,6 +214,7 @@ mod of_course;
 mod off_limits;
 mod oldest_in_the_book;
 mod on_floor;
+mod on_the_fence;
 mod once_or_twice;
 mod one_and_the_same;
 mod one_of_the_singular;
@@ -230,6 +234,7 @@ mod pay_for_price;
 mod phrasal_verb_as_compound_noun;
 mod phrase_set_corrections;
 mod pique_interest;
+mod pleaded_pled;
 mod plural_decades;
 mod plural_wrong_word_of_phrase;
 mod pooled_linter;
@@ -324,6 +329,7 @@ mod very_less;
 mod very_unique;
 mod vice_versa;
 mod vicious_loop;
+mod waist_waste;
 mod was_aloud;
 mod way_too_adjective;
 mod web_scraping;
@@ -917,13 +923,15 @@ pub mod tests {
         let lints = linter.lint(&test);
 
         // Just check the first lint for now - TODO
-        if let Some(lint) = lints.first()
-            && lint.message != expected_message
-        {
-            panic!(
-                "Expected lint message \"{expected_message}\", but got \"{}\"",
-                lint.message
-            );
+        match lints.first() {
+            Some(lint) => {
+                assert_eq!(
+                    lint.message, expected_message,
+                    "Expected lint message \"{expected_message}\", but got \"{}\"",
+                    lint.message
+                );
+            }
+            None => panic!("Expected lint message \"{expected_message}\", but no lints were found"),
         }
     }
 }
