@@ -2,7 +2,7 @@ use crate::{
     Dialect::{self, American, Australian, British, Canadian, Indian},
     Token, TokenStringExt,
     expr::{Expr, FirstMatchOf, FixedPhrase},
-    linting::{Lint, LintKind, Suggestion},
+    linting::{Lint, LintKind, Suggestion, spell_check},
 };
 
 use super::ExprLinter;
@@ -23,7 +23,7 @@ use CanFlag::*;
 /// Represents a unique concept that has different regional terms across English dialects.
 /// Each is named by an alphabetical concatenation of the terms that refer to the same concept.
 /// This allows us to suggest appropriate regional alternatives when a term from another dialect is detected.
-#[derive(PartialEq)]
+#[derive(PartialEq, Copy, Clone)]
 enum Concept {
     AubergineBrinjalEggplant,
     AuberginesBrinjalsEggplants,
@@ -710,17 +710,14 @@ impl ExprLinter for Regionalisms {
             return None;
         }
 
-        let concept = match REGIONAL_TERMS
+        let concept = REGIONAL_TERMS
             .iter()
-            .find(|row| row.term == flagged_term_string)
-        {
-            Some(term) => &term.concept,
-            None => return None, // No matching term found, so nothing to lint
-        };
+            .find(|row| row.term == flagged_term_string)?
+            .concept;
 
         let other_terms = REGIONAL_TERMS
             .iter()
-            .filter(|row| row.concept == *concept)
+            .filter(|row| row.concept == concept)
             .filter_map(|row| {
                 if row.dialects.contains(&linter_dialect) {
                     Some(&row.term)
@@ -749,7 +746,9 @@ impl ExprLinter for Regionalisms {
             lint_kind: LintKind::Regionalism,
             suggestions,
             message,
-            priority: 64,
+            // TODO is the priority below confusing the higher priority and higher number?
+            // TODO was 64 here vs 63 in spellcheck
+            priority: spell_check::SPELL_CHECK_PRIORITY + 1, // higher priority = lower number
         })
     }
 
