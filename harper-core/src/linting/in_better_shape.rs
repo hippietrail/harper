@@ -11,7 +11,7 @@ pub struct InBetterShape {
 impl Default for InBetterShape {
     fn default() -> Self {
         Self {
-            expr: SequenceExpr::word_set(&[
+            expr: SequenceExpr::word_set([
                 // be
                 "am", "are", "be", "been", "being", "is", "was", "were",
                 // contractions of be
@@ -28,7 +28,7 @@ impl Default for InBetterShape {
             .t_ws()
             .t_aco("a")
             .t_ws()
-            .t_set(&["better", "worse"])
+            .t_set(["better", "worse"])
             .t_ws()
             .t_aco("shape"),
         }
