@@ -2,11 +2,12 @@ use super::{ExprLinter, Suggestion};
 use crate::Lint;
 use crate::expr::{Expr, LongestMatchOf, SequenceExpr};
 use crate::linting::LintKind;
+use crate::linting::expr_linter::Chunk;
 use crate::linting::expr_linter::find_the_only_token_matching;
 use crate::{CharStringExt, Token};
 
 pub struct Cant {
-    expr: Box<dyn Expr>,
+    expr: LongestMatchOf,
 }
 
 impl Default for Cant {
@@ -18,55 +19,38 @@ impl Default for Cant {
         let cant_pron = SequenceExpr::aco("cant").t_ws().then_personal_pronoun();
         let cant_verb = SequenceExpr::aco("cant")
             .t_ws()
-            .then_kind_is_but_is_not(|kind| kind.is_verb(), |kind| kind.is_noun());
+            .then_kind_is_but_is_not(|kind| kind.is_verb_lemma(), |kind| kind.is_noun());
 
         Self {
-            expr: Box::new(LongestMatchOf::new(vec![
+            expr: LongestMatchOf::new(vec![
                 Box::new(nom_cant),
                 Box::new(cant_pron),
                 Box::new(cant_verb),
-            ])),
+            ]),
         }
     }
 }
 
-// TODO: This can be removed once #1730 is merged
-fn is_verb_lemma(tok: &Token, src: &[char]) -> bool {
-    tok.kind.is_verb()
-        && !tok
-            .span
-            .get_content(src)
-            .ends_with_ignore_ascii_case_chars(&['s'])
-        && !tok
-            .span
-            .get_content(src)
-            .ends_with_ignore_ascii_case_chars(&['e', 'd'])
-        && !tok
-            .span
-            .get_content(src)
-            .ends_with_ignore_ascii_case_chars(&['i', 'n', 'g'])
-}
-
 impl ExprLinter for Cant {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
         let token = find_the_only_token_matching(toks, src, |tok, src| {
-            tok.span
-                .get_content(src)
-                .eq_ignore_ascii_case_chars(&['c', 'a', 'n', 't'])
+            tok.get_ch(src).eq_ch(&['c', 'a', 'n', 't'])
         })?;
 
-        let jargon = token.span.get_content(src);
+        let jargon = token.get_ch(src);
         let cannot = "can't";
 
         Some(Lint {
             span: token.span,
             lint_kind: LintKind::Enhancement,
             suggestions: vec![Suggestion::replace_with_match_case_str(cannot, jargon)],
-            message: "`Cant` is secret language or jargon. If that's not what you mean you should use `can't` here.".to_string(),
+            message: "`Cant` is secret language or jargon. If that's not what you mean you should use `can't` here.".to_owned(),
             priority: 127,
         })
     }

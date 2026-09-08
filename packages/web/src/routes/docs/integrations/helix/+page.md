@@ -47,7 +47,8 @@ diagnosticSeverity = "hint"
 isolateEnglish = false
 dialect = "American"
 maxFileLength = 120000
-ignoredLintsPath = []
+ignoredLintsPath = ""
+excludePatterns = []
 
 [language-server.harper-ls.config.harper-ls.linters]
 SpellCheck = true
@@ -55,11 +56,10 @@ SpelledNumbers = false
 AnA = true
 SentenceCapitalization = true
 UnclosedQuotes = true
-WrongQuotes = false
+WrongApostrophe = false
 LongSentences = true
 RepeatedWords = true
 Spaces = true
-Matcher = true
 CorrectNumberSuffix = true
 
 [language-server.harper-ls.config.harper-ls.codeActions]

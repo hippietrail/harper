@@ -1,3 +1,4 @@
+use crate::linting::expr_linter::Chunk;
 use crate::{
     Token,
     expr::{Expr, SequenceExpr},
@@ -5,31 +6,31 @@ use crate::{
 };
 
 pub struct FriendOfMe {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for FriendOfMe {
     fn default() -> Self {
         Self {
-            expr: Box::new(
-                SequenceExpr::word_set(&["friend", "friends", "enemy", "enemies"])
-                    .then_whitespace()
-                    .t_aco("of")
-                    .t_ws()
-                    .then_object_pronoun(),
-            ),
+            expr: SequenceExpr::word_set(["friend", "friends", "enemy", "enemies"])
+                .then_whitespace()
+                .t_aco("of")
+                .t_ws()
+                .then_object_pronoun(),
         }
     }
 }
 
 impl ExprLinter for FriendOfMe {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
         let obj_pron_tok = toks.last()?;
-        let obj_pron_str = obj_pron_tok.span.get_content_string(src);
+        let obj_pron_str = obj_pron_tok.get_str(src);
 
         let poss_pron_str = match obj_pron_str.as_str() {
             "me" => "mine",
@@ -48,7 +49,7 @@ impl ExprLinter for FriendOfMe {
             lint_kind: LintKind::Grammar,
             suggestions: vec![Suggestion::replace_with_match_case_str(
                 poss_pron_str,
-                obj_pron_tok.span.get_content(src),
+                obj_pron_tok.get_ch(src),
             )],
             message: format!("Use `{poss_pron_str}` instead of `{obj_pron_str}`."),
             priority: 31,

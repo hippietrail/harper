@@ -1,12 +1,12 @@
+use crate::linting::expr_linter::Chunk;
 use crate::{
     Dialect, Token,
-    expr::{Expr, FixedPhrase, SequenceExpr},
+    expr::{Expr, SequenceExpr},
     linting::{ExprLinter, Lint, LintKind, Suggestion},
-    patterns::WordSet,
 };
 
 pub struct HaveTakeALook {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
     dialect: Dialect,
 }
 
@@ -18,26 +18,24 @@ impl HaveTakeALook {
             _ => &["have", "had", "had", "has", "having"],
         };
 
-        let expr = SequenceExpr::default()
-            .then(WordSet::new(light_verb))
+        let expr = SequenceExpr::word_set(light_verb)
             .t_ws()
-            .then(FixedPhrase::from_phrase("a look"));
+            .then_fixed_phrase("a look");
 
-        Self {
-            expr: Box::new(expr),
-            dialect,
-        }
+        Self { expr, dialect }
     }
 }
 
 impl ExprLinter for HaveTakeALook {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
         let light_verb_tok = toks.first().unwrap();
-        let light_verb_str = light_verb_tok.span.get_content_string(src);
+        let light_verb_str = light_verb_tok.get_str(src);
         let light_verb = light_verb_str.to_ascii_lowercase();
 
         let translated_light_verb: &[&str] = match light_verb.as_str() {
@@ -56,10 +54,7 @@ impl ExprLinter for HaveTakeALook {
         let suggestions = translated_light_verb
             .iter()
             .map(|s| {
-                Suggestion::replace_with_match_case(
-                    s.chars().collect(),
-                    light_verb_tok.span.get_content(src),
-                )
+                Suggestion::replace_with_match_case(s.chars().collect(), light_verb_tok.get_ch(src))
             })
             .collect();
 
@@ -90,10 +85,8 @@ impl ExprLinter for HaveTakeALook {
 
 #[cfg(test)]
 mod tests {
-    use crate::{
-        Dialect,
-        linting::{HaveTakeALook, tests::assert_suggestion_result},
-    };
+    use super::HaveTakeALook;
+    use crate::{Dialect, linting::tests::assert_suggestion_result};
 
     #[test]
     fn correct_taking_a_look() {

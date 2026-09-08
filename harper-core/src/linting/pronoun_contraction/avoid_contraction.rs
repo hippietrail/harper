@@ -2,6 +2,7 @@ use crate::expr::{Expr, SequenceExpr};
 use crate::{Token, TokenKind};
 
 use super::super::{ExprLinter, Lint, LintKind, Suggestion};
+use crate::linting::expr_linter::Chunk;
 
 pub struct AvoidContraction {
     expr: Box<dyn Expr>,
@@ -20,12 +21,14 @@ impl Default for AvoidContraction {
 }
 
 impl ExprLinter for AvoidContraction {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
         self.expr.as_ref()
     }
 
     fn match_to_lint(&self, matched_tokens: &[Token], source: &[char]) -> Option<Lint> {
-        let word = matched_tokens[0].span.get_content(source);
+        let word = matched_tokens[0].get_ch(source);
 
         Some(Lint {
             span: matched_tokens[0].span,

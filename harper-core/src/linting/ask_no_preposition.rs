@@ -1,5 +1,6 @@
 use crate::expr::Expr;
 use crate::expr::SequenceExpr;
+use crate::linting::expr_linter::Chunk;
 use crate::{
     Span, Token,
     linting::{ExprLinter, Lint, LintKind, Suggestion},
@@ -7,33 +8,32 @@ use crate::{
 };
 
 pub struct AskNoPreposition {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for AskNoPreposition {
     fn default() -> Self {
-        let verbs = WordSet::new(&[
+        let verbs = WordSet::new([
             "ask", "asks", "asked", "asking", "tell", "tells", "told", "telling",
         ]);
 
-        let objs = WordSet::new(&["me", "you", "him", "her", "it", "us", "them", "one"]);
+        let objs = WordSet::new(["me", "you", "him", "her", "it", "us", "them", "one"]);
 
-        let pattern = SequenceExpr::default()
-            .then(verbs)
+        let pattern = SequenceExpr::with(verbs)
             .then_whitespace()
             .t_aco("to")
             .then_whitespace()
             .then(objs);
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
 impl ExprLinter for AskNoPreposition {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
@@ -41,7 +41,7 @@ impl ExprLinter for AskNoPreposition {
             return None;
         }
 
-        let verb = toks[0].span.get_content_string(src).to_lowercase();
+        let verb = toks[0].get_str(src).to_lowercase();
         let span = Span::new(toks[2].span.start, toks[3].span.end);
 
         Some(Lint {
@@ -49,7 +49,7 @@ impl ExprLinter for AskNoPreposition {
             lint_kind: LintKind::WordChoice,
             suggestions: vec![Suggestion::ReplaceWith(Vec::new())],
             message: format!(
-                "The verb `to {verb} someone` should not be preceded by the preposition “to”."
+                "The verb `to {verb} someone` should not be preceded by the preposition `to`."
             ),
             priority: 63,
         })

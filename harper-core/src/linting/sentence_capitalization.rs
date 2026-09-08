@@ -83,7 +83,7 @@ impl<T: Dictionary> Linter for SentenceCapitalization<T> {
                             suggestions: vec![Suggestion::ReplaceWith(replacement_chars)],
                             priority: 31,
                             message: "This sentence does not start with a capital letter"
-                                .to_string(),
+                                .to_owned(),
                         });
                     }
                 }
@@ -237,6 +237,15 @@ mod tests {
             SentenceCapitalization::new(FstDictionary::curated()),
             0,
         )
+    }
+
+    #[test]
+    fn doesnt_flag_after_esp_issue_2753() {
+        assert_lint_count(
+            "I'll go, esp. if it's a free event.",
+            SentenceCapitalization::new(FstDictionary::curated()),
+            0,
+        );
     }
 
     #[test]

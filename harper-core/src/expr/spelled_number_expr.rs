@@ -42,7 +42,7 @@ impl Expr for SpelledNumberExpr {
         ];
 
         let single_words = WordSet::new(
-            &units
+            units
                 .iter()
                 .chain(teens.iter())
                 .chain(tens.iter())
@@ -51,16 +51,17 @@ impl Expr for SpelledNumberExpr {
                 .collect::<Vec<&str>>(),
         );
 
-        let tens_units_compounds = SequenceExpr::default()
-            .then(WordSet::new(tens))
-            .then_any_of(vec![
-                Box::new(|t: &Token, _s: &[char]| t.kind.is_hyphen()),
+        let tens_units_compounds = SequenceExpr::word_set(tens)
+            .then_any_of([
+                Box::new(|t: &Token, _s: &[char]| t.kind.is_hyphen()) as Box<dyn Expr>,
                 Box::new(WhitespacePattern),
             ])
-            .then(WordSet::new(units));
+            .then_word_set(units);
 
-        let expr =
-            LongestMatchOf::new(vec![Box::new(single_words), Box::new(tens_units_compounds)]);
+        let expr = LongestMatchOf::new([
+            Box::new(single_words) as Box<dyn Expr>,
+            Box::new(tens_units_compounds),
+        ]);
 
         expr.run(cursor, tokens, source)
     }

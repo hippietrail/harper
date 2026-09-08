@@ -31,7 +31,7 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
                 continue;
             }
             let prep_to = document.get_span_content(&prep.span);
-            if !prep_to.eq_ignore_ascii_case_chars(&['t', 'o']) {
+            if !prep_to.eq_ch(&['t', 'o']) {
                 continue;
             }
 
@@ -55,7 +55,7 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
                 lints.push(Lint {
                     span: Span::new(prep.span.start, word.span.end),
                     lint_kind: LintKind::WordChoice,
-                    message: "The base form of the verb is needed here.".to_string(),
+                    message: "The base form of the verb is needed here.".to_owned(),
                     suggestions: vec![Suggestion::ReplaceWith(
                         prep_to
                             .iter()
@@ -80,8 +80,8 @@ impl<T: Dictionary> Linter for InflectedVerbAfterTo<T> {
                 if let Some(prev) = document.get_next_word_from_offset(pi, -1) {
                     let prev_chars = document.get_span_content(&prev.span);
                     if let Some(metadata) = self.dictionary.get_word_metadata(prev_chars) {
-                        // adj: "able" to expects an infinitive verb
-                        // verb: have/had/has/having to expects an infinitive verb
+                        // adj: "able to" expects an infinitive verb
+                        // verb: "have/had/has/having to" expect an infinitive verb
                         if metadata.is_adjective() || metadata.is_verb() {
                             return ToVerbExpects::ExpectsInfinitive;
                         }

@@ -51,14 +51,13 @@ impl Linter for Spaces {
                         ..
                     }
                 ]
-            ) {
+            ) && let Some(space) = sentence.get_rel(-2)
+            {
                 output.push(Lint {
-                    span: sentence[sentence.len() - 2..sentence.len() - 1]
-                        .span()
-                        .unwrap(),
+                    span: space.span,
                     lint_kind: LintKind::Formatting,
                     suggestions: vec![Suggestion::Remove],
-                    message: "Unnecessary space at the end of the sentence.".to_string(),
+                    message: "Unnecessary space at the end of the sentence.".to_owned(),
                     priority: 63,
                 })
             }

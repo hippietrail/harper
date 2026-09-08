@@ -1,10 +1,11 @@
-use crate::expr::{Expr, SequenceExpr, SpaceOrHyphen};
+use crate::expr::{Expr, SequenceExpr};
 use crate::{Token, TokenKind};
 
 use super::{ExprLinter, Lint, LintKind, Suggestion};
+use crate::linting::expr_linter::Chunk;
 
 pub struct SoughtAfter {
-    expr: Box<dyn Expr>,
+    expr: SequenceExpr,
 }
 
 impl Default for SoughtAfter {
@@ -12,31 +13,31 @@ impl Default for SoughtAfter {
         let pattern = SequenceExpr::any_of(vec![
             Box::new(
                 SequenceExpr::default()
-                    .then_kind_except(TokenKind::is_adverb, &["always", "maybe", "perhaps"]),
+                    .then_kind_except(TokenKind::is_adverb, &["always", "maybe", "not", "perhaps"]),
             ),
-            Box::new(SequenceExpr::word_set(&[
+            Box::new(SequenceExpr::word_set([
                 "abit", // Typo for "a bit"
                 "are",  // may cause false positive, but few found so far.
                 "bit",
-                // "is" causes many false postivies and disambiguating looks tricky.
-                // "maybe" causes many false postivies and disambiguating looks tricky.
+                // "is" causes many false positives and disambiguating looks tricky.
+                // "maybe" causes many false positives and disambiguating looks tricky.
                 "of", "quiet", // Common typo for "quite".
             ])),
         ])
         .t_ws()
         .t_aco("sort")
-        .then(SpaceOrHyphen)
+        .t_ws_h()
         .t_aco("after");
 
-        Self {
-            expr: Box::new(pattern),
-        }
+        Self { expr: pattern }
     }
 }
 
 impl ExprLinter for SoughtAfter {
+    type Unit = Chunk;
+
     fn expr(&self) -> &dyn Expr {
-        self.expr.as_ref()
+        &self.expr
     }
 
     fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
@@ -228,7 +229,6 @@ mod tests {
         );
     }
 
-    // This part is occasionally sort after and if they were easily available I reckon you'd sell a few easily enough.
     #[test]
     fn fix_occasionally_sort_after() {
         assert_suggestion_result(
@@ -293,7 +293,6 @@ mod tests {
         );
     }
 
-    // The university that i studied my MBBS from offers the course as well and it is quite sort after for the above said course.
     #[test]
     fn fix_quite_sort_after() {
         assert_suggestion_result(
