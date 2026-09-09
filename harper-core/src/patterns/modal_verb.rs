@@ -133,33 +133,34 @@ impl ModalVerb {
 
     /// Construct the word set exactly once per LazyLock initialization.
     fn build_word_set(include_lazy: bool, positive_only: bool) -> WordSet {
-        let mut words = WordSet::default();
+        WordSet::new(MODAL_VERB_TABLE.iter().flat_map(|mv| {
+            let positive = Some(mv.positive.to_string());
 
-        for mv in &MODAL_VERB_TABLE {
-            words.add(mv.positive);
+            let (special, contraction, lazy) = if positive_only {
+                (None, None, None)
+            } else {
+                let special = mv.special_negative.map(|s| s.to_string());
 
-            if positive_only {
-                continue;
-            }
+                let contraction = match mv.negative_contraction {
+                    NegativeContraction::Irregular(irregular) => irregular.to_string(),
+                    _ => format!("{}n't", mv.positive),
+                };
 
-            if let Some(special_negative) = mv.special_negative {
-                words.add(special_negative);
-            }
+                let lazy = if include_lazy {
+                    Some(contraction.replace('\'', ""))
+                } else {
+                    None
+                };
 
-            let contraction = match mv.negative_contraction {
-                NegativeContraction::Irregular(irregular) => irregular.to_string(),
-                _ => format!("{}n't", mv.positive),
+                (special, Some(contraction), lazy)
             };
 
-            words.add(&contraction);
-
-            if include_lazy {
-                let lazy_spelling = contraction.replace('\'', "");
-                words.add(&lazy_spelling);
-            }
-        }
-
-        words
+            positive
+                .into_iter()
+                .chain(special)
+                .chain(contraction)
+                .chain(lazy)
+        }))
     }
 }
 
