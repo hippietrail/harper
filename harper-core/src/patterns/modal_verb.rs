@@ -133,7 +133,7 @@ impl ModalVerb {
 
     /// Construct the word set exactly once per LazyLock initialization.
     fn build_word_set(include_lazy: bool, positive_only: bool) -> WordSet {
-        let mut words = WordSet::new(&[]);
+        let mut words = WordSet::default();
 
         for mv in &MODAL_VERB_TABLE {
             words.add(mv.positive);

@@ -200,6 +200,12 @@ pub fn lint_group() -> LintGroup {
                 ("someone dose", "someone does"),
                 // Interrogatives
                 ("how dose", "how does"),
+                ("what dose a", "what does a"),
+                ("what dose an", "what does an"),
+                ("what dose it", "what does it"),
+                ("what dose this", "what does this"),
+                ("what dose that", "what does that"),
+                ("what dose the", "what does the"),
                 ("when dose", "when does"),
                 ("where dose", "where does"),
                 ("who dose", "who does"),
@@ -1013,6 +1019,23 @@ pub fn lint_group() -> LintGroup {
             "Use `play a part` or `be a factor` instead of `play a factor`.",
             "Corrects `play a factor` to `play a part` or `be a factor`.",
             LintKind::Usage
+        ),
+        "ReverseEngineer" => (
+            &[
+                // The past tense ending is put on 'reverse' instead of 'engineer'
+                // But sometimes it's just '-ed' on every tense
+                (&["reversed engineer"], &["reverse engineered", "reverse engineer"]),
+                (&["reversed-engineer"], &["reverse-engineered", "reverse-engineer"]),
+                (&["reversed engineered"], &["reverse engineered"]),
+                (&["reversed-engineered"], &["reverse-engineered"]),
+                (&["reversed engineering"], &["reverse engineering"]),
+                (&["reversed-engineering"], &["reverse-engineering"]),
+                (&["reversed engineers"], &["reverse engineers"]),
+                (&["reversed-engineers"], &["reverse-engineers"]),
+            ],
+            "The correct term is `reverse engineer`.",
+            "Corrects `reversed engineer` to `reverse engineer`.",
+            LintKind::Grammar
         ),
         "RiseTheQuestion" => (
             &[
