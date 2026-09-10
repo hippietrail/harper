@@ -707,6 +707,13 @@
 						},
 						{
 							"Bool": {
+								"name": "ShowCase",
+								"state": true,
+								"label": "Show Case"
+							}
+						},
+						{
+							"Bool": {
 								"name": "Somebody",
 								"state": true,
 								"label": "Somebody"
@@ -731,6 +738,13 @@
 								"name": "Somewhere",
 								"state": true,
 								"label": "Somewhere"
+							}
+						},
+						{
+							"Bool": {
+								"name": "Straightforward",
+								"state": true,
+								"label": "Straightforward"
 							}
 						},
 						{
@@ -853,6 +867,13 @@
 								"name": "AwaitFor",
 								"state": true,
 								"label": "Await For"
+							}
+						},
+						{
+							"Bool": {
+								"name": "BainBane",
+								"state": true,
+								"label": "Bain / Bane"
 							}
 						},
 						{
@@ -4089,13 +4110,6 @@
 						},
 						{
 							"Bool": {
-								"name": "SlipperySlope",
-								"state": true,
-								"label": "Slippery Slope"
-							}
-						},
-						{
-							"Bool": {
 								"name": "AheadAnd",
 								"state": true,
 								"label": "Ahead and"
@@ -4610,6 +4624,13 @@
 								"name": "DampSquib",
 								"state": true,
 								"label": "Damp Squib"
+							}
+						},
+						{
+							"Bool": {
+								"name": "DenyOffer",
+								"state": true,
+								"label": "Deny Offer"
 							}
 						},
 						{
@@ -5618,6 +5639,13 @@
 								"name": "SimpleGrammatical",
 								"state": true,
 								"label": "Simple Grammatical"
+							}
+						},
+						{
+							"Bool": {
+								"name": "SlipperySlope",
+								"state": true,
+								"label": "Slippery Slope"
 							}
 						},
 						{
