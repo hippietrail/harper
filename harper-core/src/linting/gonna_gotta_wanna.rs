@@ -79,19 +79,19 @@ impl ExprLinter for GonnaGottaWanna {
             ));
         }
 
-        let (made_formal, fixed_grammar) = match (verb_enum, rest) {
-            (Verb::Gonna, Rest::None) => (true, false),
+        let fixed_grammar = rest != Rest::None;
+
+        match (verb_enum, rest) {
+            (Verb::Gonna, Rest::None) => {}
             (Verb::Gonna, Rest::To) => {
                 suggestions.push(Suggestion::ReplaceWith(verb_ch.to_vec()));
-                (false, true)
             }
-            (Verb::Gonna, Rest::A) => (true, false),
+            (Verb::Gonna, Rest::A) => {}
             (Verb::Gotta, Rest::None) => {
                 suggestions.push(Suggestion::replace_with_match_case(
                     "have to".chars().collect(),
                     full_ch,
                 ));
-                (true, false)
             }
             (Verb::Gotta, Rest::To) => {
                 suggestions.push(Suggestion::ReplaceWith(verb_ch.to_vec()));
@@ -99,7 +99,6 @@ impl ExprLinter for GonnaGottaWanna {
                     "have to".chars().collect(),
                     full_ch,
                 ));
-                (true, true)
             }
             (Verb::Gotta, Rest::A) => {
                 let followed_by_vowel = followed_by_word(ctx, |t| {
@@ -114,31 +113,26 @@ impl ExprLinter for GonnaGottaWanna {
                     text.chars().collect(),
                     full_ch,
                 ));
-
-                (true, true)
             }
-            (Verb::Wanna, Rest::None) => (true, false),
+            (Verb::Wanna, Rest::None) => {}
             (Verb::Wanna, Rest::To) => {
                 suggestions.push(Suggestion::ReplaceWith(verb_ch.to_vec()));
-                (false, true)
             }
             (Verb::Wanna, Rest::A) => {
                 suggestions.push(Suggestion::replace_with_match_case(
                     "want a".chars().collect(),
                     full_ch,
                 ));
-                (true, true)
             }
         };
 
-        let message = match (made_formal, fixed_grammar) {
-            (true, true) => format!(
+        let message = if fixed_grammar {
+            format!(
                 "`{}` is very informal and the final `a` means `to`.",
                 self.informal
-            ),
-            (true, false) => format!("`{}` is very informal.", self.informal),
-            (false, true) => format!("The final `a` of `{}` means `to`.", self.informal),
-            (false, false) => return None,
+            )
+        } else {
+            format!("`{}` is very informal.", self.informal)
         };
 
         Some(Lint {
@@ -179,7 +173,9 @@ pub fn lint_group(dialect: Dialect) -> LintGroup {
 mod tests {
     use crate::{
         Dialect,
-        linting::tests::{assert_good_and_bad_suggestions, assert_suggestion_result},
+        linting::tests::{
+            assert_good_and_bad_suggestions, assert_lint_message, assert_suggestion_result,
+        },
     };
 
     use super::lint_group;
@@ -295,6 +291,89 @@ mod tests {
                 "it is stoped but i want to continue",
             ],
             &[],
+        )
+    }
+
+    // Check lint messages
+
+    #[test]
+    fn gonna_none_msg() {
+        assert_lint_message(
+            "gonna",
+            lint_group(Dialect::American),
+            "`gonna` is very informal.",
+        )
+    }
+
+    #[test]
+    fn gonna_a_msg() {
+        assert_lint_message(
+            "gonna a",
+            lint_group(Dialect::American),
+            "`gonna` is very informal and the final `a` means `to`.",
+        )
+    }
+
+    #[test]
+    fn gonna_to_msg() {
+        assert_lint_message(
+            "gonna to",
+            lint_group(Dialect::American),
+            "`gonna` is very informal and the final `a` means `to`.",
+        )
+    }
+
+    #[test]
+    fn gotta_noun_msg() {
+        assert_lint_message(
+            "gotta",
+            lint_group(Dialect::American),
+            "`gotta` is very informal.",
+        )
+    }
+
+    #[test]
+    fn gotta_a_msg() {
+        assert_lint_message(
+            "gotta a",
+            lint_group(Dialect::American),
+            "`gotta` is very informal and the final `a` means `to`.",
+        )
+    }
+
+    #[test]
+    fn gotta_to_msg() {
+        assert_lint_message(
+            "gotta to",
+            lint_group(Dialect::American),
+            "`gotta` is very informal and the final `a` means `to`.",
+        )
+    }
+
+    #[test]
+    fn wanna_none_msg() {
+        assert_lint_message(
+            "wanna",
+            lint_group(Dialect::American),
+            "`wanna` is very informal.",
+        )
+    }
+
+    #[test]
+    fn wanna_a_msg() {
+        assert_lint_message(
+            "wanna a",
+            lint_group(Dialect::American),
+            "`wanna` is very informal and the final `a` means `to`.",
+        )
+    }
+
+    #[test]
+    fn wanna_to_msg() {
+        assert_lint_message(
+            "wanna to",
+            lint_group(Dialect::American),
+            "`wanna` is very informal and the final `a` means `to`.",
         )
     }
 }
