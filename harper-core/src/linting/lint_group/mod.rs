@@ -620,7 +620,7 @@ impl LintGroup {
         out.merge_from(closed_compounds::lint_group());
         out.merge_from(initialisms::lint_group());
         out.merge_from(be_adjective_confusions::lint_group());
-        out.merge_from(gonna_gotta_wanna::lint_group());
+        out.merge_from(gonna_gotta_wanna::lint_group(dialect));
 
         // Add all the more complex rules to the group.
         // Please maintain alphabetical order.
