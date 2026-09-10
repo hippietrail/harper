@@ -51,11 +51,10 @@ impl ExprLinter for GonnaGottaWanna {
         src: &[char],
         ctx: Option<(&[Token], &[Token])>,
     ) -> Option<Lint> {
-        let verb_ch = &toks.first()?.get_ch(src)[..5];
+        let verb_ch = &toks.first()?.get_ch(src).get(..5)?;
         let full_span = toks.span()?;
-        let content = full_span.get_content(src);
+        let full_ch = full_span.get_content(src);
 
-        // 1. Rustier token slicing & string matching via CharStringExt
         let verb_enum = match () {
             _ if verb_ch.eq_str("gonna") => Verb::Gonna,
             _ if verb_ch.eq_str("gotta") => Verb::Gotta,
@@ -71,32 +70,36 @@ impl ExprLinter for GonnaGottaWanna {
 
         let mut suggestions = Vec::new();
 
-        // 2. DRY up standard "formal to" replacements
         if rest != Rest::A {
-            let formal_to: Vec<char> = self.formal.chars().chain(" to".chars()).collect();
-            suggestions.push(Suggestion::replace_with_match_case(formal_to, content));
+            suggestions.push(Suggestion::replace_with_match_case(
+                self.formal.chars().chain(" to".chars()).collect(),
+                full_ch,
+            ));
         }
 
-        // 3. Flattened pattern matching logic
-        match (verb_enum, rest) {
+        let (made_formal, fixed_grammar) = match (verb_enum, rest) {
+            (Verb::Gonna, Rest::None) => (true, false),
             (Verb::Gonna, Rest::To) => {
                 suggestions.push(Suggestion::ReplaceWith(verb_ch.to_vec()));
+                (false, true)
             }
+            (Verb::Gonna, Rest::A) => (true, false),
             (Verb::Gotta, Rest::None) => {
                 suggestions.push(Suggestion::replace_with_match_case(
                     "have to".chars().collect(),
-                    content,
+                    full_ch,
                 ));
+                (true, false)
             }
             (Verb::Gotta, Rest::To) => {
                 suggestions.push(Suggestion::ReplaceWith(verb_ch.to_vec()));
                 suggestions.push(Suggestion::replace_with_match_case(
                     "have to".chars().collect(),
-                    content,
+                    full_ch,
                 ));
+                (true, true)
             }
             (Verb::Gotta, Rest::A) => {
-                // Simplified vowel detection logic with `.is_some_and`
                 let followed_by_vowel = followed_by_word(ctx, |t| {
                     matches!(
                         starts_with_vowel(t.get_ch(src), Dialect::American),
@@ -107,26 +110,40 @@ impl ExprLinter for GonnaGottaWanna {
                 let text = if followed_by_vowel { "got an" } else { "got a" };
                 suggestions.push(Suggestion::replace_with_match_case(
                     text.chars().collect(),
-                    content,
+                    full_ch,
                 ));
+
+                (true, true)
             }
+            (Verb::Wanna, Rest::None) => (true, false),
             (Verb::Wanna, Rest::To) => {
                 suggestions.push(Suggestion::ReplaceWith(verb_ch.to_vec()));
+                (false, true)
             }
             (Verb::Wanna, Rest::A) => {
                 suggestions.push(Suggestion::replace_with_match_case(
                     "want a".chars().collect(),
-                    content,
+                    full_ch,
                 ));
+                (true, true)
             }
-            _ => {} // Covers Gonna/Wanna + None/A scenarios gracefully
-        }
+        };
+
+        let message = match (made_formal, fixed_grammar) {
+            (true, true) => format!(
+                "`{}` is very informal and the final `a` means `to`.",
+                self.informal
+            ),
+            (true, false) => format!("`{}` is very informal.", self.informal),
+            (false, true) => format!("The final `a` of `{}` means `to`.", self.informal),
+            (false, false) => return None,
+        };
 
         Some(Lint {
             span: full_span,
             lint_kind: LintKind::Miscellaneous,
             suggestions,
-            message: format!("Use '{}' instead of '{}'", self.formal, self.informal),
+            message,
             ..Default::default()
         })
     }
