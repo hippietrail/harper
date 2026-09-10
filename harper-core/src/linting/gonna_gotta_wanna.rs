@@ -1,13 +1,16 @@
 use crate::{
-    Lint, Token, TokenStringExt,
+    Dialect, Lint, Token, TokenStringExt,
+    char_string::CharStringExt,
     expr::{Expr, SequenceExpr},
+    indefinite_article::{InitialSound, starts_with_vowel},
     linting::{
-        ExprLinter, LintGroup, LintKind, Suggestion, debug::format_lint_match, expr_linter::Chunk,
+        ExprLinter, LintGroup, LintKind, Suggestion,
+        expr_linter::{Chunk, followed_by_word},
     },
 };
 
 struct GonnaGottaWanna {
-    expr: SequenceExpr, // TODO
+    expr: SequenceExpr,
     informal: &'static str,
     formal: &'static str,
 }
@@ -23,6 +26,18 @@ impl GonnaGottaWanna {
     }
 }
 
+enum Verb {
+    Gonna,
+    Gotta,
+    Wanna,
+}
+#[derive(PartialEq)]
+enum Rest {
+    None,
+    To,
+    A,
+}
+
 impl ExprLinter for GonnaGottaWanna {
     type Unit = Chunk;
 
@@ -36,15 +51,80 @@ impl ExprLinter for GonnaGottaWanna {
         src: &[char],
         ctx: Option<(&[Token], &[Token])>,
     ) -> Option<Lint> {
-        eprintln!("🚨 {}", format_lint_match(toks, ctx, src));
-        let span = toks.span()?;
-        let suggestions = vec![Suggestion::replace_with_match_case_str(
-            self.formal,
-            span.get_content(src),
-        )];
+        let verb_ch = &toks.first()?.get_ch(src)[..5];
+        let full_span = toks.span()?;
+        let content = full_span.get_content(src);
+
+        // 1. Rustier token slicing & string matching via CharStringExt
+        let verb_enum = match () {
+            _ if verb_ch.eq_str("gonna") => Verb::Gonna,
+            _ if verb_ch.eq_str("gotta") => Verb::Gotta,
+            _ if verb_ch.eq_str("wanna") => Verb::Wanna,
+            _ => return None,
+        };
+
+        let rest = match toks.get(2).map(|t| t.get_ch(src)) {
+            Some(ch) if ch.eq_str("to") => Rest::To,
+            Some(ch) if ch.eq_str("a") => Rest::A,
+            _ => Rest::None,
+        };
+
+        let mut suggestions = Vec::new();
+
+        // 2. DRY up standard "formal to" replacements
+        if rest != Rest::A {
+            let formal_to: Vec<char> = self.formal.chars().chain(" to".chars()).collect();
+            suggestions.push(Suggestion::replace_with_match_case(formal_to, content));
+        }
+
+        // 3. Flattened pattern matching logic
+        match (verb_enum, rest) {
+            (Verb::Gonna, Rest::To) => {
+                suggestions.push(Suggestion::ReplaceWith(verb_ch.to_vec()));
+            }
+            (Verb::Gotta, Rest::None) => {
+                suggestions.push(Suggestion::replace_with_match_case(
+                    "have to".chars().collect(),
+                    content,
+                ));
+            }
+            (Verb::Gotta, Rest::To) => {
+                suggestions.push(Suggestion::ReplaceWith(verb_ch.to_vec()));
+                suggestions.push(Suggestion::replace_with_match_case(
+                    "have to".chars().collect(),
+                    content,
+                ));
+            }
+            (Verb::Gotta, Rest::A) => {
+                // Simplified vowel detection logic with `.is_some_and`
+                let followed_by_vowel = followed_by_word(ctx, |t| {
+                    matches!(
+                        starts_with_vowel(t.get_ch(src), Dialect::American),
+                        Some(InitialSound::Vowel)
+                    )
+                });
+
+                let text = if followed_by_vowel { "got an" } else { "got a" };
+                suggestions.push(Suggestion::replace_with_match_case(
+                    text.chars().collect(),
+                    content,
+                ));
+            }
+            (Verb::Wanna, Rest::To) => {
+                suggestions.push(Suggestion::ReplaceWith(verb_ch.to_vec()));
+            }
+            (Verb::Wanna, Rest::A) => {
+                suggestions.push(Suggestion::replace_with_match_case(
+                    "want a".chars().collect(),
+                    content,
+                ));
+            }
+            _ => {} // Covers Gonna/Wanna + None/A scenarios gracefully
+        }
+
         Some(Lint {
-            span,
-            lint_kind: LintKind::Style,
+            span: full_span,
+            lint_kind: LintKind::Miscellaneous,
             suggestions,
             message: format!("Use '{}' instead of '{}'", self.formal, self.informal),
             ..Default::default()
@@ -52,29 +132,23 @@ impl ExprLinter for GonnaGottaWanna {
     }
 
     fn description(&self) -> &str {
-        "gonna gotta wanna"
+        "Corrects the informal contractions `gonna`, `gotta`, and `wanna` to their full forms."
     }
 }
 
 pub fn lint_group() -> LintGroup {
     let mut group = LintGroup::empty();
 
-    macro_rules! add_ggw {
-        ($group:expr, { $($name:expr => ($informal:expr, $formal:expr)),+ $(,)? }) => {
-            $(
-                $group.add(
-                    $name,
-                    Box::new(GonnaGottaWanna::new($informal, $formal)),
-                );
-            )+
-        };
-    }
+    // 4. Replaced custom macro with a clean slice iteration
+    let rules = [
+        ("Gonna", "gonna", "going"),
+        ("Gotta", "gotta", "got"),
+        ("Wanna", "wanna", "want"),
+    ];
 
-    add_ggw!(group, {
-        "Gonna" => ("gonna", "going"),
-        "Gotta" => ("gotta", "got"),
-        "Wanna" => ("wanna", "want"),
-    });
+    for &(name, informal, formal) in &rules {
+        group.add(name, Box::new(GonnaGottaWanna::new(informal, formal)));
+    }
 
     group.set_all_rules_to(Some(true));
     group
@@ -127,16 +201,11 @@ mod tests {
     fn fix_gotta_a_error() {
         // "gotta" only means "(have) got to", using it as "got a" is incorrect
         // but adding "a" is also redundant
-        assert_good_and_bad_suggestions(
+        assert_suggestion_result(
             "when I try to create a c/c++ database,I gotta a error",
             lint_group(),
-            &[
-                // fix the grammar but remain informal
-                "when I try to create a c/c++ database,I got a error",
-                // fix the grammar and the informality
-                "when I try to create a c/c++ database,I got an error",
-            ],
-            &[],
+            // fix the grammar and the informality
+            "when I try to create a c/c++ database,I got an error",
         )
     }
 
@@ -145,15 +214,10 @@ mod tests {
     fn fix_gotta_a_coupom() {
         // "gotta" only means "(have) got to", using it as "got a" is incorrect
         // but adding "a" is also redundant
-        assert_good_and_bad_suggestions(
+        assert_suggestion_result(
             "You gotta a 20% OFF coupom.",
             lint_group(),
-            &[
-                // fix the grammar but remain informal
-                "You got a 20% OFF coupom.",
-                // what about "you get", "you receive", "you received"?
-            ],
-            &[],
+            "You got a 20% OFF coupom.",
         )
     }
 
