@@ -11,7 +11,7 @@ pub struct AvoidContractions {
 impl Default for AvoidContractions {
     fn default() -> Self {
         Self {
-            expr: WordSet::new(&[
+            expr: WordSet::new([
                 "aren't",
                 "can't",
                 "could've",
@@ -144,7 +144,7 @@ impl ExprLinter for AvoidContractions {
                 expansion,
                 tok.get_ch(src),
             )],
-            message: "Consider expanding this contraction.".to_string(),
+            message: "Consider expanding this contraction.".to_owned(),
             priority: 63,
         })
     }

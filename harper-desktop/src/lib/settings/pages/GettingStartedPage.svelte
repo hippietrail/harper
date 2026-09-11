@@ -1,7 +1,9 @@
 <script lang="ts">
+import { Button, CheckIcon } from 'components';
 import { onMount } from 'svelte';
 import { type AccessibilityPermissionStatus, Client, type Integration } from '$lib/client';
-import { createInitialSettingsState, type SectionId, type SettingsState } from '../settings-data';
+import AppIcon from '../components/AppIcon.svelte';
+import type { SectionId } from '../settings-data';
 
 type SetupStep = {
 	id: 'accessibility' | 'integration' | 'test-drive';
@@ -18,7 +20,6 @@ type SetupStep = {
 
 export let navigateToSection: (section: SectionId) => void;
 
-let state: SettingsState = createInitialSettingsState();
 let accessibilityStatus: AccessibilityPermissionStatus | null = null;
 let accessibilityError = '';
 let isCheckingAccessibility = true;
@@ -30,12 +31,13 @@ let isLoadingIntegrations = true;
 let isEnablingTextEdit = false;
 let isLaunchingTextEdit = false;
 let testDriveError = '';
+let isCompletingOnboarding = false;
+let onboardingError = '';
 
 $: textEditIntegration = integrations.find((item) => item.bundle_id === 'com.apple.TextEdit');
 $: isTextEditEnabled = textEditIntegration?.enabled === true;
 
 $: setupSteps = buildSetupSteps(
-	state,
 	accessibilityStatus,
 	isCheckingAccessibility,
 	isRequestingAccessibility,
@@ -43,18 +45,19 @@ $: setupSteps = buildSetupSteps(
 	isTextEditEnabled,
 	isLoadingIntegrations,
 	isEnablingTextEdit,
+	isLaunchingTextEdit,
 );
-$: setupCompletedCount = setupSteps.filter((step) => step.done).length;
-$: setupAllDone = setupSteps.every((step) => step.done);
+$: requiredSetupSteps = setupSteps.filter((step) => step.required);
+$: setupCompletedCount = requiredSetupSteps.filter((step) => step.done).length;
+$: setupAllDone =
+	!isCheckingAccessibility &&
+	!isLoadingIntegrations &&
+	requiredSetupSteps.every((step) => step.done);
 
 onMount(() => {
 	void checkAccessibilityPermission();
 	void loadIntegrations();
 });
-
-function updateSetup(patch: Partial<SettingsState['setup']>) {
-	state = { ...state, setup: { ...state.setup, ...patch } };
-}
 
 async function loadIntegrations() {
 	isLoadingIntegrations = true;
@@ -83,14 +86,11 @@ async function enableTextEditForSetup() {
 			);
 		} else {
 			await Client.addIntegration('com.apple.TextEdit');
-			integrations = [...integrations, { bundle_id: 'com.apple.TextEdit', enabled: true }];
+			integrations = [
+				...integrations,
+				{ bundle_id: 'com.apple.TextEdit', enabled: true, display_name: 'TextEdit' },
+			];
 		}
-
-		state = {
-			...state,
-			integrations: { ...state.integrations, textedit: true },
-			setup: { ...state.setup, integration: 'selected' },
-		};
 	} catch (error) {
 		integrationsError = `Unable to enable TextEdit: ${error}`;
 	} finally {
@@ -104,11 +104,24 @@ async function launchTextEditForTestDrive() {
 
 	try {
 		await Client.launchApp('com.apple.TextEdit');
-		updateSetup({ testDrive: 'completed' });
 	} catch (error) {
 		testDriveError = `Unable to launch TextEdit: ${error}`;
 	} finally {
 		isLaunchingTextEdit = false;
+	}
+}
+
+async function completeOnboarding() {
+	isCompletingOnboarding = true;
+	onboardingError = '';
+
+	try {
+		await Client.setOnboardingCompleted(true);
+		navigateToSection('general');
+	} catch (error) {
+		onboardingError = `Unable to complete onboarding: ${error}`;
+	} finally {
+		isCompletingOnboarding = false;
 	}
 }
 
@@ -118,6 +131,10 @@ async function checkAccessibilityPermission() {
 
 	try {
 		accessibilityStatus = await Client.getAccessibilityPermissionStatus();
+
+		if (accessibilityStatus === 'Granted') {
+			await Client.startHighlighterService();
+		}
 	} catch (error) {
 		accessibilityError = `Unable to check Accessibility permission: ${error}`;
 	} finally {
@@ -137,6 +154,10 @@ async function requestAccessibilityPermission() {
 	try {
 		accessibilityStatus = await Client.requestAccessibilityPermission();
 		hasRequestedAccessibility = true;
+
+		if (accessibilityStatus === 'Granted') {
+			await Client.startHighlighterService();
+		}
 	} catch (error) {
 		accessibilityError = `Unable to request Accessibility permission: ${error}`;
 	} finally {
@@ -186,7 +207,6 @@ function accessibilityActionLabel(
 }
 
 function buildSetupSteps(
-	currentState: SettingsState,
 	currentAccessibilityStatus: AccessibilityPermissionStatus | null,
 	currentIsCheckingAccessibility: boolean,
 	currentIsRequestingAccessibility: boolean,
@@ -194,10 +214,11 @@ function buildSetupSteps(
 	currentIsTextEditEnabled: boolean,
 	currentIsLoadingIntegrations: boolean,
 	currentIsEnablingTextEdit: boolean,
+	currentIsLaunchingTextEdit: boolean,
 ): SetupStep[] {
 	const accessibilityDone = currentAccessibilityStatus === 'Granted';
+	const accessibilityReady = accessibilityDone || currentAccessibilityStatus === 'Unsupported';
 	const integrationDone = currentIsTextEditEnabled;
-	const testDriveDone = currentState.setup.testDrive === 'completed';
 	const accessibilityActionDisabled =
 		currentIsCheckingAccessibility ||
 		currentIsRequestingAccessibility ||
@@ -209,7 +230,7 @@ function buildSetupSteps(
 			id: 'accessibility',
 			title: 'Grant Accessibility permission',
 			desc: accessibilityDescription(currentAccessibilityStatus),
-			required: true,
+			required: currentAccessibilityStatus !== 'Unsupported',
 			done: accessibilityDone,
 			locked: false,
 			actionLabel: accessibilityActionLabel(
@@ -218,7 +239,7 @@ function buildSetupSteps(
 				currentIsRequestingAccessibility,
 				currentHasRequestedAccessibility,
 			),
-			actionVariant: accessibilityDone ? 'default' : 'primary',
+			actionVariant: accessibilityReady ? 'default' : 'primary',
 			action: requestAccessibilityPermission,
 			actionDisabled: accessibilityActionDisabled,
 		},
@@ -228,7 +249,7 @@ function buildSetupSteps(
 			desc: 'Start with TextEdit, then add more apps from Integrations when you are ready.',
 			required: true,
 			done: integrationDone,
-			locked: !accessibilityDone,
+			locked: !accessibilityReady,
 			actionLabel: integrationDone ? 'Manage' : 'Browse apps',
 			actionVariant: 'default',
 			action: () => navigateToSection('integrations'),
@@ -239,16 +260,12 @@ function buildSetupSteps(
 			title: 'Take a test drive',
 			desc: 'Open TextEdit, type "its not alot of fun", and watch Harper underline the mistakes.',
 			required: false,
-			done: testDriveDone,
-			locked: !accessibilityDone || !integrationDone,
-			actionLabel: isLaunchingTextEdit
-				? 'Launching...'
-				: testDriveDone
-					? 'Run again'
-					: 'Launch TextEdit',
-			actionVariant: testDriveDone ? 'default' : 'primary',
+			done: false,
+			locked: !accessibilityReady || !integrationDone,
+			actionLabel: currentIsLaunchingTextEdit ? 'Launching...' : 'Launch TextEdit',
+			actionVariant: 'primary',
 			action: launchTextEditForTestDrive,
-			actionDisabled: isLaunchingTextEdit,
+			actionDisabled: currentIsLaunchingTextEdit,
 		},
 	];
 }
@@ -258,7 +275,7 @@ function buildSetupSteps(
         {#if setupAllDone}
           <div class="success-banner">
             <div class="big-mark green">
-              <span class="settings-icon icon-check" aria-hidden="true"></span>
+              <CheckIcon className="control-icon" />
             </div>
             <div class="grow">
               <h2>You're all set</h2>
@@ -266,10 +283,13 @@ function buildSetupSteps(
                 Harper is ready to check writing in the apps you choose. You can revisit any section
                 from the sidebar.
               </p>
+              {#if onboardingError}
+                <p>{onboardingError}</p>
+              {/if}
             </div>
-            <button class="button" type="button" on:click={() => updateSetup({ testDrive: "not_started" })}>
-              Walk through again
-            </button>
+            <Button unstyled class="button" type="button" disabled={isCompletingOnboarding} on:click={completeOnboarding}>
+              {isCompletingOnboarding ? "Continuing..." : "Continue"}
+            </Button>
           </div>
         {:else}
           {#if accessibilityStatus !== "Granted"}
@@ -295,9 +315,9 @@ function buildSetupSteps(
             <h1>Let's get Harper up and running.</h1>
             <div class="progress-row">
               <div class="progress-track">
-                <div class="progress-fill" style={`width: ${(setupCompletedCount / setupSteps.length) * 100}%`}></div>
+                <div class="progress-fill" style={`width: ${(setupCompletedCount / requiredSetupSteps.length) * 100}%`}></div>
               </div>
-              <span>{setupCompletedCount} of {setupSteps.length}</span>
+              <span>{setupCompletedCount} of {requiredSetupSteps.length}</span>
             </div>
           </div>
         {/if}
@@ -307,7 +327,7 @@ function buildSetupSteps(
             <div class:done={step.done} class:locked={step.locked} class="step-row">
               <div class="step-dot">
                 {#if step.done}
-                  <span class="settings-icon icon-check" aria-hidden="true"></span>
+                  <CheckIcon className="control-icon" />
                 {:else}
                   {index + 1}
                 {/if}
@@ -359,7 +379,7 @@ function buildSetupSteps(
                   </div>
                 {:else if step.id === "integration" && accessibilityStatus === "Granted" && isLoadingIntegrations}
                   <div class="detected-app">
-                    <div class="app-tile" style="--app-tint: #5a5f68">T</div>
+                    <AppIcon bundleId="com.apple.TextEdit" name="TextEdit" />
                     <div class="grow">
                       <strong>Checking TextEdit</strong>
                       <p>Loading integration state...</p>
@@ -367,7 +387,7 @@ function buildSetupSteps(
                   </div>
                 {:else if step.id === "integration" && accessibilityStatus === "Granted" && isTextEditEnabled}
                   <div class="detected-app">
-                    <div class="app-tile" style="--app-tint: #5a5f68">T</div>
+                    <AppIcon bundleId="com.apple.TextEdit" name="TextEdit" />
                     <div class="grow">
                       <strong>TextEdit enabled</strong>
                       <p>Harper is configured to check TextEdit.</p>
@@ -375,25 +395,26 @@ function buildSetupSteps(
                   </div>
                 {:else if step.id === "integration" && accessibilityStatus === "Granted"}
                   <div class="detected-app">
-                    <div class="app-tile" style="--app-tint: #5a5f68">T</div>
+                    <AppIcon bundleId="com.apple.TextEdit" name="TextEdit" />
                     <div class="grow">
                       <strong>TextEdit detected</strong>
                       <p>A good starter app for trying Harper.</p>
                     </div>
-                    <button class="button primary" type="button" disabled={isEnablingTextEdit} on:click={enableTextEditForSetup}>
+                    <Button unstyled class="button primary" type="button" disabled={isEnablingTextEdit} on:click={enableTextEditForSetup}>
                       {isEnablingTextEdit ? "Enabling..." : "Enable"}
-                    </button>
+                    </Button>
                   </div>
                 {/if}
               </div>
-              <button
+              <Button
+                unstyled
                 class={`button ${step.actionVariant === "primary" ? "primary" : ""}`}
                 type="button"
                 disabled={step.locked || step.actionDisabled}
                 on:click={step.action}
               >
                 {step.actionLabel}
-              </button>
+              </Button>
             </div>
           {/each}
         </div>

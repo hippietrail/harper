@@ -2,8 +2,8 @@ use paste::paste;
 
 use crate::{
     CharStringExt, Lrc, Span, Token, TokenKind,
-    expr::{FirstMatchOf, FixedPhrase, LongestMatchOf},
-    patterns::{AnyPattern, IndefiniteArticle, WhitespacePattern, Word, WordSet},
+    expr::{AsBoxedExpr, FirstMatchOf, FixedPhrase, LongestMatchOf},
+    patterns::{AnyPattern, IndefiniteArticle, RelativePronoun, WhitespacePattern, Word, WordSet},
 };
 
 use super::{Expr, Optional, OwnedExprExt, Repeating, Step, UnlessStep};
@@ -111,7 +111,11 @@ impl SequenceExpr {
     }
 
     /// Match any word from the given set of words, case-insensitive.
-    pub fn word_set(words: &'static [&'static str]) -> Self {
+    pub fn word_set<I, S>(words: I) -> Self
+    where
+        I: IntoIterator<Item = S>,
+        S: AsRef<str>,
+    {
         Self::default().then_word_set(words)
     }
 
@@ -120,11 +124,21 @@ impl SequenceExpr {
         Self::default().then_any_word()
     }
 
+    /// Match any number.
+    pub fn number() -> Self {
+        Self::default().then_number()
+    }
+
     // Expressions of more than one token
 
     /// Optionally match an expression.
     pub fn optional(expr: impl Expr + 'static) -> Self {
         Self::default().then_optional(expr)
+    }
+
+    /// Match a series of words separated by whitespace.
+    pub fn word_seq(words: &'static [&'static str]) -> Self {
+        Self::default().then_word_seq(words)
     }
 
     /// Match a fixed phrase.
@@ -135,12 +149,12 @@ impl SequenceExpr {
     // Multiple expressions
 
     /// Match the first of multiple expressions.
-    pub fn any_of(exprs: Vec<Box<dyn Expr>>) -> Self {
+    pub fn any_of(exprs: impl IntoIterator<Item = impl AsBoxedExpr>) -> Self {
         Self::default().then_any_of(exprs)
     }
 
     /// Match the longest of multiple expressions.
-    pub fn longest_of(exprs: Vec<Box<dyn Expr>>) -> Self {
+    pub fn longest_of(exprs: impl IntoIterator<Item = impl AsBoxedExpr>) -> Self {
         Self::default().then_longest_of(exprs)
     }
 
@@ -178,7 +192,7 @@ impl SequenceExpr {
     /// If more than one of the provided expressions match, this function provides no guarantee
     /// as to which match will end up being used. If you need to get the longest of multiple
     /// matches, use [`Self::then_longest_of()`] instead.
-    pub fn then_any_of(mut self, exprs: Vec<Box<dyn Expr>>) -> Self {
+    pub fn then_any_of(mut self, exprs: impl IntoIterator<Item = impl AsBoxedExpr>) -> Self {
         self.exprs.push(Box::new(FirstMatchOf::new(exprs)));
         self
     }
@@ -187,7 +201,7 @@ impl SequenceExpr {
     ///
     /// If you don't need the longest match, prefer using the short-circuiting
     /// [`Self::then_any_of()`] instead.
-    pub fn then_longest_of(mut self, exprs: Vec<Box<dyn Expr>>) -> Self {
+    pub fn then_longest_of(mut self, exprs: impl IntoIterator<Item = impl AsBoxedExpr>) -> Self {
         self.exprs.push(Box::new(LongestMatchOf::new(exprs)));
         self
     }
@@ -200,12 +214,20 @@ impl SequenceExpr {
     }
 
     /// Pushes an expression that will match any word from the given set of words, case-insensitive.
-    pub fn then_word_set(self, words: &'static [&'static str]) -> Self {
+    pub fn then_word_set<I, S>(self, words: I) -> Self
+    where
+        I: IntoIterator<Item = S>,
+        S: AsRef<str>,
+    {
         self.then(WordSet::new(words))
     }
 
     /// Shorthand for [`Self::then_word_set`].
-    pub fn t_set(self, words: &'static [&'static str]) -> Self {
+    pub fn t_set<I, S>(self, words: I) -> Self
+    where
+        I: IntoIterator<Item = S>,
+        S: AsRef<str>,
+    {
         self.then_word_set(words)
     }
 
@@ -219,7 +241,7 @@ impl SequenceExpr {
         self.then_whitespace()
     }
 
-    /// Match against one or more whitespace tokens.
+    /// Match against whitespace tokens or a hyphen.
     pub fn then_whitespace_or_hyphen(self) -> Self {
         self.then(WhitespacePattern.or(|tok: &Token, _: &[char]| tok.kind.is_hyphen()))
     }
@@ -227,6 +249,16 @@ impl SequenceExpr {
     /// Shorthand for [`Self::then_whitespace_or_hyphen`].
     pub fn t_ws_h(self) -> Self {
         self.then_whitespace_or_hyphen()
+    }
+
+    /// Match against zero or more whitespace tokens.
+    pub fn then_optional_whitespace(self) -> Self {
+        self.then_optional(WhitespacePattern)
+    }
+
+    /// Shorthand for [`Self::then_optional_whitespace`].
+    pub fn t_ows(self) -> Self {
+        self.then_optional_whitespace()
     }
 
     /// Match against zero or more occurrences of the given expression. Like `*` in regex.
@@ -294,6 +326,19 @@ impl SequenceExpr {
     /// Match examples of `word` case-sensitively.
     pub fn then_exact_word(self, word: &'static str) -> Self {
         self.then(Word::new_exact(word))
+    }
+
+    /// Match a series of words separated by whitespace.
+    pub fn then_word_seq(self, words: &'static [&'static str]) -> Self {
+        if let Some((first, rest)) = words.split_first() {
+            let mut expr = self.t_aco(first);
+            for word in rest {
+                expr = expr.t_ws().t_aco(word);
+            }
+            expr
+        } else {
+            self
+        }
     }
 
     /// Match a fixed phrase.
@@ -503,7 +548,7 @@ impl SequenceExpr {
     }
 
     /// Match a token where any of the first token kind predicates returns true
-    /// and the second returns false.    
+    /// and the second returns false.
     pub fn then_kind_any_but_not<F1, F2>(self, preds_is: &'static [F1], pred_not: F2) -> Self
     where
         F1: Fn(&TokenKind) -> bool + Send + Sync + 'static,
@@ -552,8 +597,10 @@ impl SequenceExpr {
 
     gen_then_from_is!(noun);
     gen_then_from_is!(proper_noun);
-    gen_then_from_is!(plural_noun);
     gen_then_from_is!(singular_noun);
+    gen_then_from_is!(plural_noun);
+    gen_then_from_is!(singular_noun_only);
+    gen_then_from_is!(plural_noun_only);
     gen_then_from_is!(mass_noun_only);
 
     // Pronouns
@@ -568,6 +615,10 @@ impl SequenceExpr {
     gen_then_from_is!(third_person_plural_pronoun);
     gen_then_from_is!(subject_pronoun);
     gen_then_from_is!(object_pronoun);
+
+    pub fn then_relative_pronoun(self) -> Self {
+        self.then(RelativePronoun::default())
+    }
 
     // Verbs
 
@@ -631,7 +682,12 @@ impl SequenceExpr {
     gen_then_from_is!(backslash);
     gen_then_from_is!(slash);
     gen_then_from_is!(percent);
+    gen_then_from_is!(degree);
+    gen_then_from_is!(open_single);
+    gen_then_from_is!(single_prime);
+    gen_then_from_is!(double_prime);
     gen_then_from_is!(backtick);
+    gen_then_from_is!(plus);
 
     // Other
 
@@ -655,7 +711,7 @@ where
 mod tests {
     use crate::{
         Document, TokenKind,
-        expr::{AnchorEnd, ExprExt, SequenceExpr},
+        expr::{AnchorEnd, Expr, ExprExt, SequenceExpr},
         linting::tests::SpanVecExt,
     };
 
@@ -688,8 +744,8 @@ mod tests {
 
     #[test]
     fn flag_foo_followed_by_bar_or_at_end_1() {
-        let expr = SequenceExpr::aco("foo").then_any_of(vec![
-            Box::new(SequenceExpr::whitespace().t_aco("bar").then(AnchorEnd)),
+        let expr = SequenceExpr::aco("foo").then_any_of([
+            Box::new(SequenceExpr::whitespace().t_aco("bar").then(AnchorEnd)) as Box<dyn Expr>,
             Box::new(AnchorEnd),
         ]);
 
@@ -708,8 +764,8 @@ mod tests {
 
     #[test]
     fn flag_foo_followed_by_bar_or_at_end_2() {
-        let expr = SequenceExpr::aco("foo").then_any_of(vec![
-            Box::new(SequenceExpr::whitespace().t_aco("bar").then(AnchorEnd)),
+        let expr = SequenceExpr::aco("foo").then_any_of([
+            Box::new(SequenceExpr::whitespace().t_aco("bar").then(AnchorEnd)) as Box<dyn Expr>,
             Box::new(AnchorEnd),
         ]);
 
@@ -728,8 +784,8 @@ mod tests {
 
     #[test]
     fn flag_foo_followed_by_bar_or_at_end_3() {
-        let expr = SequenceExpr::aco("foo").then_any_of(vec![
-            Box::new(SequenceExpr::whitespace().t_aco("bar").then(AnchorEnd)),
+        let expr = SequenceExpr::aco("foo").then_any_of([
+            Box::new(SequenceExpr::whitespace().t_aco("bar").then(AnchorEnd)) as Box<dyn Expr>,
             Box::new(AnchorEnd),
         ]);
 
