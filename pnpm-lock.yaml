@@ -50,6 +50,9 @@ importers:
       '@tauri-apps/plugin-updater':
         specifier: ^2.10.1
         version: 2.10.1
+      components:
+        specifier: workspace:*
+        version: link:../packages/components
       harper-editor:
         specifier: workspace:*
         version: link:../packages/harper-editor
@@ -77,7 +80,7 @@ importers:
         version: 5.43.12
       svelte-check:
         specifier: ^4.0.0
-        version: 4.3.4(picomatch@4.0.2)(svelte@5.43.12)(typescript@5.6.3)
+        version: 4.3.4(picomatch@4.0.3)(svelte@5.43.12)(typescript@5.6.3)
       tailwindcss:
         specifier: ^4.2.2
         version: 4.2.4
@@ -156,15 +159,12 @@ importers:
       http-server:
         specifier: ^14.1.1
         version: 14.1.1
+      playwright:
+        specifier: 1.60.0
+        version: 1.60.0
       playwright-webextext:
-        specifier: ^0.0.4
-        version: 0.0.4(@playwright/test@1.60.0)(playwright@1.60.0)
-      prettier:
-        specifier: ^3.1.0
-        version: 3.5.3
-      prettier-plugin-svelte:
-        specifier: ^3.2.6
-        version: 3.3.3(prettier@3.5.3)(svelte@5.43.12)
+        specifier: ^0.0.5
+        version: 0.0.5(@playwright/test@1.60.0)(playwright@1.60.0)
       rollup-plugin-copy:
         specifier: ^3.5.0
         version: 3.5.0
@@ -5196,6 +5196,7 @@ packages:
 
   '@wp-now/wp-now@0.1.74':
     resolution: {integrity: sha512-Id2DOqIyBnQ/zlzbA0gY70T/6/Jy+EjsiPeMave4emmCfg4DI8i3crrUXu8KLHNPUrUeAJIA/qpxCksg0KTtFQ==}
+    deprecated: 'Deprecated. Use @wp-playground/cli instead: https://wordpress.github.io/wordpress-playground/developers/local-development/wp-playground-cli#migrating-from-wp-now'
     hasBin: true
 
   '@wp-playground/blueprints@0.6.16':
@@ -9935,9 +9936,9 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  playwright-webextext@0.0.4:
-    resolution: {integrity: sha512-B5uIZSRtH6wi5HPhEwbEkZxEoAY5bUKCjqVW2qCsAYWQTQZ4ULOfsyglI+gfiohxrAzHT+mtkZMXZvHTtunsDg==}
-    engines: {node: '20'}
+  playwright-webextext@0.0.5:
+    resolution: {integrity: sha512-PhlMiWOfP8UmYTAbzR7uv09Twz+bkLqsgz/8EVcZROq7C6hgepJFYHD+pw4qFLK8mVGNv88N82yTdRdJDDgtdw==}
+    engines: {node: '>=20'}
     peerDependencies:
       '@playwright/test': '>=1.0.0'
       playwright: '>=1.0.0'
@@ -10247,17 +10248,6 @@ packages:
   prettier-linter-helpers@1.0.0:
     resolution: {integrity: sha512-GbK2cP9nraSSUF9N2XwUwqfzlAFlMNYYl+ShE/V+H8a9uNl/oUqB1w2EL54Jh0OlyRSd8RfWYJ3coVS4TROP2w==}
     engines: {node: '>=6.0.0'}
-
-  prettier-plugin-svelte@3.3.3:
-    resolution: {integrity: sha512-yViK9zqQ+H2qZD1w/bH7W8i+bVfKrD8GIFjkFe4Thl6kCT9SlAsXVNmt3jCvQOCsnOhcvYgsoVlRV/Eu6x5nNw==}
-    peerDependencies:
-      prettier: ^3.0.0
-      svelte: ^3.2.0 || ^4.0.0-next.0 || ^5.0.0-next.0
-
-  prettier@3.5.3:
-    resolution: {integrity: sha512-QQtaxnoDJeAkDvDKWCLiwIXkTgRhwYDEQCghU9Z6q03iyek/rxRh/2lC3HB7P8sWT2xC/y5JDctPLBIGzHKbhw==}
-    engines: {node: '>=14'}
-    hasBin: true
 
   pretty-bytes@5.6.0:
     resolution: {integrity: sha512-FFw039TmrBqFK8ma/7OL3sDz/VytdtJr044/QUJtH0wK9lb9jLq9tJyIxUwtQJHwar2BqtiA4iCWSwo9JLkzFg==}
@@ -21526,6 +21516,7 @@ snapshots:
       asynckit: 0.4.0
       combined-stream: 1.0.8
       es-set-tostringtag: 2.1.0
+      hasown: 2.0.2
       mime-types: 2.1.35
 
   format@0.2.2: {}
@@ -24595,7 +24586,7 @@ snapshots:
 
   playwright-core@1.60.0: {}
 
-  playwright-webextext@0.0.4(@playwright/test@1.60.0)(playwright@1.60.0):
+  playwright-webextext@0.0.5(@playwright/test@1.60.0)(playwright@1.60.0):
     optionalDependencies:
       '@playwright/test': 1.60.0
       playwright: 1.60.0
@@ -24880,13 +24871,6 @@ snapshots:
   prettier-linter-helpers@1.0.0:
     dependencies:
       fast-diff: 1.3.0
-
-  prettier-plugin-svelte@3.3.3(prettier@3.5.3)(svelte@5.43.12):
-    dependencies:
-      prettier: 3.5.3
-      svelte: 5.43.12
-
-  prettier@3.5.3: {}
 
   pretty-bytes@5.6.0: {}
 
@@ -26237,18 +26221,6 @@ snapshots:
       brace: 0.11.1
       sirv-cli: 1.0.14
 
-  svelte-check@4.3.4(picomatch@4.0.2)(svelte@5.43.12)(typescript@5.6.3):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.25
-      chokidar: 4.0.3
-      fdir: 6.4.4(picomatch@4.0.2)
-      picocolors: 1.1.1
-      sade: 1.8.1
-      svelte: 5.43.12
-      typescript: 5.6.3
-    transitivePeerDependencies:
-      - picomatch
-
   svelte-check@4.3.4(picomatch@4.0.2)(svelte@5.43.12)(typescript@5.9.3):
     dependencies:
       '@jridgewell/trace-mapping': 0.3.25
@@ -26258,6 +26230,18 @@ snapshots:
       sade: 1.8.1
       svelte: 5.43.12
       typescript: 5.9.3
+    transitivePeerDependencies:
+      - picomatch
+
+  svelte-check@4.3.4(picomatch@4.0.3)(svelte@5.43.12)(typescript@5.6.3):
+    dependencies:
+      '@jridgewell/trace-mapping': 0.3.25
+      chokidar: 4.0.3
+      fdir: 6.4.4(picomatch@4.0.3)
+      picocolors: 1.1.1
+      sade: 1.8.1
+      svelte: 5.43.12
+      typescript: 5.6.3
     transitivePeerDependencies:
       - picomatch
 
