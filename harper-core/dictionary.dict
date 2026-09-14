@@ -54577,6 +54577,7 @@ corpo/NgS
 cronjob/NgS
 datagram/NgS
 datetime/NgS
+debloat/VSdG
 decomp/NgSVdG       # decompile/decompilation
 dedup/Ng            # not well covered by dictionaries. wiktionary has only singular noun. cf. dedupe
 dedupe/NSgVdG       # not well covered by dictionaries. wiktionary has noun and verb. cf. dedup
