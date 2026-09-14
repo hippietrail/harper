@@ -21,14 +21,14 @@ impl WorstComesToWorst {
     pub fn new(dialect: Dialect) -> Self {
         Self {
             expr: SequenceExpr::optional(SequenceExpr::aco("the").t_ws())
-                .t_set(&["worse", "worst"])
+                .t_set(["worse", "worst"])
                 .t_ws()
-                .t_set(&["come", "comes"])
+                .t_set(["come", "comes"])
                 .t_ws()
-                .t_set(&["to", "too"])
+                .t_set(["to", "too"])
                 .t_ws()
                 .then_optional(SequenceExpr::aco("the").t_ws())
-                .t_set(&["worst", "worse"]),
+                .t_set(["worst", "worse"]),
             dialect,
         }
     }
