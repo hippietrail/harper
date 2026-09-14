@@ -31,7 +31,7 @@ impl Default for InversionAfterVerbhowAdj {
                 // TODO: what, when, where, which, who, why
             ])
             .t_ws()
-            .t_set(&["am", "are", "is", "was", "were", "do", "does", "did"])
+            .t_set(["am", "are", "is", "was", "were", "do", "does", "did"])
             .t_ws()
             .then_longest_of([
                 Box::new(SequenceExpr::default().then_kind_any(&[
