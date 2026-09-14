@@ -18,25 +18,25 @@ impl Default for HeadOffHeed {
                 ) as Box<dyn Expr>,
                 Box::new(
                     // take.v* heed of : legit
-                    SequenceExpr::word_set(&["heeded", "heeding", "heeds"])
+                    SequenceExpr::word_set(["heeded", "heeding", "heeds"])
                         .t_ws()
                         .t_aco("of"),
                 ),
                 Box::new(
                     // all wrong, no exceptions
-                    SequenceExpr::word_set(&["heed", "heeded", "heeding", "heeds"])
+                    SequenceExpr::word_set(["heed", "heeded", "heeding", "heeds"])
                         .t_ws()
                         .t_aco("off"),
                 ),
                 Box::new(
-                    SequenceExpr::word_set(&["take", "taken", "takes", "taking", "took"])
+                    SequenceExpr::word_set(["take", "taken", "takes", "taking", "took"])
                         .t_ws()
                         .t_aco("head")
                         .t_ws()
-                        .t_set(&["of", "off"]),
+                        .t_set(["of", "off"]),
                 ),
                 Box::new(
-                    SequenceExpr::word_set(&["take", "taken", "takes", "taking", "took"])
+                    SequenceExpr::word_set(["take", "taken", "takes", "taking", "took"])
                         .t_ws()
                         .then_word_seq(&["heed", "off"]),
                 ),
