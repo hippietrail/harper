@@ -3,10 +3,7 @@ use hashbrown::HashSet;
 use crate::{
     CharStringExt, Token, TokenStringExt,
     expr::{All, Expr, FirstMatchOf, FixedPhrase, SequenceExpr},
-    linting::{
-        ExprLinter, Lint, LintKind, Suggestion, expr_linter::Chunk,
-        split_words::SPLIT_WORDS_PRIORITY,
-    },
+    linting::{ExprLinter, Lint, LintKind, Suggestion, expr_linter::Chunk},
     spell::Dictionary,
 };
 
@@ -135,7 +132,8 @@ impl<D: Dictionary> ExprLinter for MassPlurals<D> {
             lint_kind: LintKind::Grammar,
             suggestions,
             message,
-            priority: SPLIT_WORDS_PRIORITY - 1, // higher priority (lower number) than split words
+            // higher priority (lower number) than split words
+            priority: 30,
         })
     }
 

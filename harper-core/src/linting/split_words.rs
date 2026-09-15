@@ -13,8 +13,6 @@ use crate::{
     spell::{Dictionary, FstDictionary, TrieDictionary},
 };
 
-pub const SPLIT_WORDS_PRIORITY: u8 = 31;
-
 pub struct SplitWords {
     dict: Arc<TrieDictionary<Arc<FstDictionary>>>,
     expr: Box<dyn Expr>,
@@ -163,7 +161,7 @@ impl ExprLinter for SplitWords {
                 lint_kind: LintKind::Typo,
                 suggestions,
                 message: message?,
-                priority: SPLIT_WORDS_PRIORITY,
+                priority: 31,
             });
         }
 
