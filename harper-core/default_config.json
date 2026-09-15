@@ -340,6 +340,13 @@
 						},
 						{
 							"Bool": {
+								"name": "OutOfTheBox",
+								"state": true,
+								"label": "Out of the Box"
+							}
+						},
+						{
+							"Bool": {
 								"name": "PleaseTakeALook",
 								"state": true,
 								"label": "Please Take A Look"
@@ -871,6 +878,13 @@
 						},
 						{
 							"Bool": {
+								"name": "BainBane",
+								"state": true,
+								"label": "Bain / Bane"
+							}
+						},
+						{
+							"Bool": {
 								"name": "Bollocks",
 								"state": true,
 								"label": "Bollocks"
@@ -1189,6 +1203,13 @@
 								"name": "HavePassed",
 								"state": true,
 								"label": "Have Passed"
+							}
+						},
+						{
+							"Bool": {
+								"name": "Hijack",
+								"state": true,
+								"lable": "Hijack"
 							}
 						},
 						{
@@ -2856,6 +2877,13 @@
 						},
 						{
 							"Bool": {
+								"name": "SummarySummery",
+								"state": true,
+								"label": "Summary / Summery"
+							}
+						},
+						{
+							"Bool": {
 								"name": "ThatThis",
 								"state": true,
 								"label": "That This"
@@ -4341,6 +4369,13 @@
 						},
 						{
 							"Bool": {
+								"name": "BareBones",
+								"state": true,
+								"label": "BareBones"
+							}
+						},
+						{
+							"Bool": {
 								"name": "BareInMind",
 								"state": true,
 								"label": "Bare In Mind"
@@ -5587,6 +5622,13 @@
 						},
 						{
 							"Bool": {
+								"name": "RogueRouge",
+								"state": true,
+								"label": "Rogue / Rouge"
+							}
+						},
+						{
+							"Bool": {
 								"name": "RollerSkated",
 								"state": true,
 								"label": "Roller Skated"
@@ -5695,6 +5737,13 @@
 								"name": "StatuteOfLimitations",
 								"state": true,
 								"label": "Statute Of Limitations"
+							}
+						},
+						{
+							"Bool": {
+								"name": "SuchShame",
+								"state": true,
+								"label": "Such Shame"
 							}
 						},
 						{
