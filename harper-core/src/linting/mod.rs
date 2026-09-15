@@ -715,7 +715,7 @@ pub mod tests {
         if text == needle {
             return true;
         } else if cfg!(debug_assertions) {
-            eprintln!(" 🔎 \"{text}\"");
+            eprintln!(" 🔎 Checking... \"{text}\"");
         }
 
         // Lint current text and try each suggestion branch
