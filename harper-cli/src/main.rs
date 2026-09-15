@@ -1035,9 +1035,9 @@ fn main() -> anyhow::Result<()> {
                                         "{} 👉 {}{}\x1b[0m 👉 {}",
                                         word.iter().collect::<String>(),
                                         if curated_dictionary.contains_word(core_ch) {
-                                            format!("✅ \x1b[32m")
+                                            "✅ \x1b[32m".to_string()
                                         } else {
-                                            format!("❌ \x1b[31m")
+                                            "❌ \x1b[31m".to_string()
                                         },
                                         core_ch.iter().collect::<String>(),
                                         new_word.iter().collect::<String>()
