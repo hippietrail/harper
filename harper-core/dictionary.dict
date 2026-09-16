@@ -4787,11 +4787,11 @@ Hyperion/Og
 Hyundai/Ng
 Hz/g
 I/~Ia1s.4           # Iodone; I~pronoun a~personal 1~person .~singular s~subject
-I'd/~
-I'd've/
-I'll/~
-I'm/~
-I've/~
+I'd/~k
+I'd've/k
+I'll/~k
+I'm/~k
+I've/~k
 IA/ON4              # US state (Iowa)
 IBM/ONg
 IC/NgS              # integrated circuit
@@ -13116,7 +13116,7 @@ arduousness/Ng
 are/~Vl             # 2nd person singular & plural / 1st & 3rd person plural present of 'be'
 area/~NwSg
 areal/J
-aren't/V
+aren't/Vk
 arena/~NgS
 argent/~NmgJ
 arginine/~N
@@ -19617,9 +19617,9 @@ cougar/~NSg
 cough/~VdGN0g
 coughs/N9Vh
 could/~A
-could've/V
-couldn't/~VA
-couldn't've/VA†
+could've/Vk
+couldn't/~VAk
+couldn't've/VA†k
 coulee/NSg
 coulis/N
 coulomb/~NgS
@@ -22734,8 +22734,8 @@ dz/NV
 e/NSId^W
 e-book/NgS
 e-commerce/Nmg
-e'en/
-e'er/
+e'en/k
+e'er/k
 e.g./~4N
 eBay/OgV
 eMusic/g
@@ -25958,6 +25958,7 @@ frailness/Nmg
 frailty/NSg
 frame/~Vd>GSNgZ
 frame rate/NgS
+framerate/NgS       # listed as an 'also' in Cambridge but no other dictionary
 framed/~VU
 framer/Ng
 framework/~NSg
@@ -27536,6 +27537,8 @@ gross/~J^Y>pNgSVGd
 grossness/Nmg
 grotesque/~JYpNSg
 grotesqueness/Ng
+grotesquerie/NgS
+grotesquery/NgS
 grotto/~N0g
 grottoes/N9
 grotty/J^>
@@ -27824,7 +27827,7 @@ hacky/J>^
 had/~VtT
 haddock/NwSg
 hadith/~N
-hadn't/Vt
+hadn't/Vtk
 hadron/NgS          # subatomic particle made of quarks
 hadst/V
 haem/N!@_₹
@@ -28155,7 +28158,7 @@ has/~Vh
 hash/~NgSVdGr
 hashish/Ng
 hashtag/NSgV
-hasn't/Vh
+hasn't/Vhk
 hasp/NgSV
 hassle/NSgVdGJ
 hassock/NSg
@@ -28203,7 +28206,7 @@ haunting/~VJYN
 hauteur/Ng
 have/~NgAG
 haven/~NSgV
-haven't/VA
+haven't/VAk
 haversack/NSg
 haves/N9
 havoc/~NmgV
@@ -28239,9 +28242,9 @@ hazmat/~N
 hazy/J>^pN
 hdqrs/N
 he/~Ia3s*           # I~pronoun a~personal 3~person .~singular s~subject *:3pers-sing-subj
-he'd/
-he'll/
-he's/~
+he'd/k
+he'll/k
+he's/~k
 head/~NgSJ>VdGZz
 head-scratcher/NgS
 head unit/NgS
@@ -29172,8 +29175,8 @@ hoverboard/NgSV
 hovercraft/NgS09    # singular and plural, also has a plural in -s
 how/~CNSg
 how come/R
-how'd/
-how're/
+how'd/k
+how're/k
 howbeit/C
 howdah/Ng
 howdahs/N
@@ -31073,9 +31076,9 @@ issuer/~NgS
 isthmian/~JN
 isthmus/~NgS
 it/~Ia3so*          # I~pronoun a~personal 3~person .~singular s~subject o~object *~3pers-sing-subj
-it'd/
-it'll/
-it's/~
+it'd/k
+it'll/k
+it's/~k
 ital/~NJ
 italic/~JNSg
 italicisation/Ng!_₹
@@ -34754,6 +34757,8 @@ misogynist/NSgJ
 misogynistic/J
 misogynous/J
 misogyny/Nmg
+misophonia/Nmg
+misophonic/J
 misperceive/VGdS
 misplace/VGdSL
 misplacement/Nmg
@@ -35944,6 +35949,7 @@ neoliberal/JNSg
 neoliberalism/Nmg
 neolithic/~J
 neologism/~NwSg
+neologistic/J
 neon/~NmgJ
 neonatal/~J
 neonate/NgS
@@ -39736,6 +39742,8 @@ playpen/NSg
 playroom/NSg
 playschool/NS
 plaything/NSgJ
+playthrough/gN0
+playthroughs/N9
 playtime/Ng
 playwright/~NSg
 plaza/~NgS
@@ -44990,9 +44998,9 @@ shaving/~NgV6
 shawl/~NgSV
 shay/~NgS
 she/~Ia3s*          # I~pronoun a:personal 3:person .~singular s~subject *:3rd pers. sing. subj.
-she'd/
-she'll/
-she's/
+she'd/k
+she'll/k
+she's/k
 sheaf/~NgV
 shear/~Vd>GSNgJZ
 shearer/~Ng
@@ -49253,9 +49261,9 @@ thankless/JYp
 thanklessness/Nmg
 thanksgiving/~NSg
 that/~CIDM
-that'd/
-that'll/
-that's/
+that'd/k
+that'll/k
+that's/k
 thatch/NgSVd>GZ
 thatcher/~NgS
 thatching/NgV
@@ -49312,9 +49320,9 @@ therapeutics/~Nmg
 therapist/~NSg
 therapy/~NwSgV
 there/~R
-there'd/
-there'll/
-there's/~
+there'd/k
+there'll/k
+there's/~k
 thereabout/RS
 thereafter/~N
 thereat/
@@ -49353,10 +49361,10 @@ thespian/JNSg
 theta/~NSg
 thew/NgSV
 they/~Ia3s:         # I~pronoun a~personal 3~person :~plural s:~subject
-they'd/
-they'll/
-they're/
-they've/
+they'd/k
+they'll/k
+they're/k
+they've/k
 thiamine/Nmg
 thick/~JY^>pNgVnX
 thicken/Vd>GzZ
@@ -51437,6 +51445,7 @@ unread/JVNB
 unready/J
 unreal/~J
 unreasoning/J
+unreciprocated/J
 unreflectively/Ry
 unregenerate/J
 unrelated/~J
@@ -52731,10 +52740,10 @@ wayward/~JYp
 waywardness/Nmg
 wazoo/NSg
 we/~Ia1s:           # I~pronoun a~personal 1~person :~plural s~subject
-we'd/
-we'll/
-we're/~
-we've/
+we'd/k
+we'll/k
+we're/~k
+we've/k
 weak/~J>Y^pnX
 weaken/~Vd>GZ
 weakener/Ng
@@ -52923,8 +52932,8 @@ whammy/NSg
 wharf/~NgV
 wharves/~N
 what/~INS
-what'll/
-what's/
+what'll/k
+what's/k
 whataboutism/Ng
 whatchamacallit/NgS
 whatever/~IJNg
@@ -53067,11 +53076,11 @@ whizzed/VtT
 whizzes/NVh
 whizzing/V6NJ
 who/~I
-who'd/
-who'll/
-who're/
-who's/
-who've/
+who'd/k
+who'll/k
+who're/k
+who's/k
+who've/k
 whoa/V
 whodunit/NgS
 whoever/~I
@@ -53115,7 +53124,7 @@ whup/VS
 whupped/VtT
 whupping/V6N
 why/~NgV
-why'd/
+why'd/k
 whys/N
 wick/~NgSVd>JZ
 wicked/~J^Y>pV
@@ -53547,8 +53556,8 @@ wot/VI
 wotcha/
 would/~A            # removed `NS` noun and plural seem very marginal
 would-be/J
-would've/
-wouldn't/A
+would've/k
+wouldn't/Ak
 wouldst/V
 wound/~NSgVtTGd>
 wove/VtJr
@@ -53792,10 +53801,10 @@ yonder/~JN
 yonks/N
 yore/Ng
 you/~Ia2so.:        # I~pronoun a~personal 2~person :~plural s:~subject o~object
-you'd/
-you'll/
-you're/~
-you've/
+you'd/k
+you'll/k
+you're/~k
+you've/k
 young/~J^>NgV
 youngish/J
 youngster/~NgS
@@ -54616,6 +54625,7 @@ gzipping/V6
 hardcode/VGdS       # dictionaries prefer: hard code
 hashmap/NgS         # data structure
 heapsort
+here're/k
 hoster/NgS
 hostname/NSg
 hotwire/VGB         # dictionaries prefer: hot-wire
@@ -54713,6 +54723,7 @@ synchronic/JQ       # linguistics
 systemd/Og          # Linux software
 tagset/NgS
 terraform/VGdS
+there're/k
 timespan/NgS
 tmux/Og             # terminal multiplexer, uncapitalized proper noun
 trie/NgS            # data structure
@@ -54797,5 +54808,4 @@ vicontiel/J         # As above, alternative version
 viscomital/J        # As above, alternative version
 WordCamp/Og
 worldbuild/V>G
-playthrough/gNS
 cutscene/gNS

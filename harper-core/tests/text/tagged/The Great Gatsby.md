@@ -8527,7 +8527,7 @@
 > “ Even       that’s a    lie     , ” said Tom     savagely . “ She  didn’t know you    were alive .
 # . NSg/VB/J/R K      D/P+ NPr/VB+ . . VP/J NPr/VB+ R        . . ISg+ VXPt   VB   ISgPl+ VLPt J     .
 > Why    — there’re things between Daisy and  me       that      you’ll never know , things that
-# NSg/VB . ?        NPl+   NSg/P   NPr+  VB/C NPr/ISg+ I/C/Ddem+ K      R     VB   . NPl+   I/C/Ddem+
+# NSg/VB . K        NPl+   NSg/P   NPr+  VB/C NPr/ISg+ I/C/Ddem+ K      R     VB   . NPl+   I/C/Ddem+
 > neither of us       can     ever forget . ”
 # I/C     P  NPr/IPl+ NPr/VXB J/R  VB     . .
 >
