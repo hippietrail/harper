@@ -8847,7 +8847,7 @@
 > The “ death   car  ” as    the newspapers called it       , didn’t stop   ; it       came      out          of the
 # D   . NPr🅪Sg+ NSg+ . R/C/P D+  NPl/V3+    VP/J   NSg/ISg+ . VXPt   NSg/VB . NSg/ISg+ NSg/VPt/P NSg/VB/J/R/P P  D
 > gathering darkness , wavered tragically for   a   moment , and  then      disappeared around
-# Nᴹ/Vg/J   Nᴹ+      . VP/J    R          R/C/P D/P NSg+   . VB/C NSg/J/R/C VP/J        J/P
+# N🅪Sg/Vg/J Nᴹ+      . VP/J    R          R/C/P D/P NSg+   . VB/C NSg/J/R/C VP/J        J/P
 > the next    bend    . Mavromichaelis wasn’t even       sure of its     color         — he       told the first
 # D   NSg/J/P NPr/VB+ . ?              VPt    NSg/VB/J/R J    P  ISg/D$+ N🅪Sg/VB/J/Am+ . NPr/ISg+ VP   D   NSg/J
 > policeman that      it       was  light      green       . The other     car  , the one      going   toward New    York ,
@@ -9155,7 +9155,7 @@
 > Self        - consciously , with his     authoritative arms    breaking the way    , we   pushed
 # NSg/I/VB/J+ . R           . P    ISg/D$+ J+            NPl/V3+ Nᴹ/Vg/J  D+  NSg/J+ . IPl+ VP/J
 > through the still      gathering crowd   , passing a   hurried doctor , case       in        hand    , who
-# J/P     D   NSg/VB/J/R Nᴹ/Vg/J   NSg/VB+ . Nᴹ/Vg/J D/P VP/J    NSg/VB . NPr🅪Sg/VB+ NPr/J/R/P NSg/VB+ . NPr/I+
+# J/P     D   NSg/VB/J/R N🅪Sg/Vg/J NSg/VB+ . Nᴹ/Vg/J D/P VP/J    NSg/VB . NPr🅪Sg/VB+ NPr/J/R/P NSg/VB+ . NPr/I+
 > had been   sent   for   in        wild     hope      half      an   hour ago .
 # VP  VLPp/B NSg/VP R/C/P NPr/J/R/P NSg/VB/J NPr🅪Sg/VB N🅪Sg/J/P+ D/P+ NSg+ J/P .
 >
