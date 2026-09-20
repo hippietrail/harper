@@ -551,6 +551,28 @@ pub fn lint_group() -> LintGroup {
             "Corrects `mute` to `moot` in the phrase `moot point`.",
             LintKind::Eggcorn
         ),
+        "OnADailyBasis" => (
+            &[
+                ("on daily basis", "on a daily basis"),
+                ("on hourly basis", "on an hourly basis"),
+                ("on weekly basis", "on a weekly basis"),
+                ("on biweekly basis", "on a biweekly basis"),
+                ("on bi-weekly basis", "on a bi-weekly basis"),
+                ("on bi weekly basis", "on a bi weekly basis"),
+                ("on monthly basis", "on a monthly basis"),
+                ("on bimonthly basis", "on a bimonthly basis"),
+                ("on bi-monthly basis", "on a bi-monthly basis"),
+                ("on bi monthly basis", "on a bi monthly basis"),
+                ("on yearly basis", "on a yearly basis"),
+                ("on annual basis", "on an annual basis"),
+                ("on biannual basis", "on a biannual basis"),
+                ("on bi-annual basis", "on a bi-annual basis"),
+                ("on bi annual basis", "on a bi annual basis")
+            ],
+            "The definite article `a`/`an` is missing.",
+            "Corrects `on daily/weekly/etc. basis` to `on a daily/weekly/etc. basis`.",
+            LintKind::Usage
+        ),
         "OperatingSystem" => (
             &[
                 ("operative system", "operating system"),

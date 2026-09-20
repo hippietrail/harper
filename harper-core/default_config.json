@@ -5433,6 +5433,13 @@
 						},
 						{
 							"Bool": {
+								"name": "OnADailyBasis",
+								"state": true,
+								"label": "On a Daily Basis"
+							}
+						},
+						{
+							"Bool": {
 								"name": "OnceInAWhile",
 								"state": true,
 								"label": "Once In A While"
