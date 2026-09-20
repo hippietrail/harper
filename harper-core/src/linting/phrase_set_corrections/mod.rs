@@ -553,6 +553,7 @@ pub fn lint_group() -> LintGroup {
         ),
         "OnADailyBasis" => (
             &[
+                // specific time intervals
                 ("on daily basis", "on a daily basis"),
                 ("on hourly basis", "on an hourly basis"),
                 ("on weekly basis", "on a weekly basis"),
@@ -567,7 +568,22 @@ pub fn lint_group() -> LintGroup {
                 ("on annual basis", "on an annual basis"),
                 ("on biannual basis", "on a biannual basis"),
                 ("on bi-annual basis", "on a bi-annual basis"),
-                ("on bi annual basis", "on a bi annual basis")
+                ("on bi annual basis", "on a bi annual basis"),
+                // adjectives
+                ("on consolidated basis", "on a consolidated basis"),
+                ("on continuous basis", "on a continuous basis"),
+                ("on contractual basis", "on a contractual basis"),
+                ("on discretionay basis", "on a discretionary basis"),
+                ("on friendly basis", "on a friendly basis"),
+                ("on net basis", "on a net basis"),
+                ("on general basis", "on a general basis"),
+                ("on periodic basis", "on a periodic basis"),
+                ("on permanent basis", "on a permanent basis"),
+                ("on random basis", "on a random basis"),
+                ("on regular basis", "on a regular basis"),
+                ("on routine basis", "on a routine basis"),
+                ("on temporary basis", "on a temporary basis"),
+                ("on trial basis", "on a trial basis")
             ],
             "The definite article `a`/`an` is missing.",
             "Corrects `on daily/weekly/etc. basis` to `on a daily/weekly/etc. basis`.",
