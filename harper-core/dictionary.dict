@@ -7937,6 +7937,7 @@ Pansy/Og
 Pantagruel/g
 Pantaloon/g
 Pantheon/Og
+Pantone/Og          # colour standard
 Panza/Og
 Paracelsus/Og
 Paraclete/Og
@@ -10400,6 +10401,7 @@ UAE/Og              # United Arab Emirates
 UAR/O
 UART/NgS            # electronics
 UAW/O
+UBI/Nmg             # universal basic income
 UBS/Og
 UCLA/Og             # university
 UFC/Og              # combat sport promotion
@@ -26700,6 +26702,8 @@ genocidal/~J
 genocide/~NwgSV
 genome/~NgS
 genomic/~NS
+genotype/NgS
+genotyping/Nwg
 genre/~NSgV
 gent/~NgSJr
 genteel/JYp
@@ -34767,6 +34771,7 @@ misperceive/VGdS
 misplace/VGdSL
 misplacement/Nmg
 misplay/VGdSNg
+misprice/VGdS
 misprint/NgSVGd
 misprision/Ng
 mispronounce/VdSG
@@ -36713,7 +36718,7 @@ nucleoli/N9
 nucleolus/Ng
 nucleon/NSg
 nucleoside/N
-nucleotide/~N
+nucleotide/~NgS
 nucleus/~N0g
 nude/~J^>NgS
 nudge/NSgVGd
@@ -40030,7 +40035,7 @@ polymerise/VGdS!_₹
 polymerization/~Nmg
 polymerize/VGdS
 polymorphic/J
-polymorphism/Nmg
+polymorphism/NmgS
 polymorphous/J
 polynomial/~NgSJ
 polyp/NgS
@@ -40058,6 +40063,8 @@ pommel/~NSgVGd
 pommelled/VtTJ!@_₹
 pommelling/V6!@_₹
 pommy/NSJ
+pomological/J
+pomology/Ngw
 pomp/NgV
 pompadour/NSgVd
 pompano/NgS
@@ -42489,6 +42496,8 @@ rehearsed/~VtTJU
 rehi/
 rehome/VdSG
 rehung/V
+reidentify/VdSG
+reidentification/Nmg
 reify/VdSGn
 reign/~NgSVdG
 reimagine/VSdG
@@ -43600,6 +43609,7 @@ rusher/Ng
 rushy/J
 rusk/~NgS
 russet/NSgJV
+russeting/Nwg
 rust/~NmgSVdG
 rustic/~JNSgQ
 rusticate/VGdS
