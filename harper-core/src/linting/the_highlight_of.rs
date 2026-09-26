@@ -59,7 +59,7 @@ impl ExprLinter for TheHighlightOf {
 
         if i == 4
             && followed_by_word(ctx, |t: &Token| {
-                t.kind.is_verb_lemma() || t.get_ch(src).eq_str("date`")
+                t.kind.is_verb_lemma() || t.get_ch(src).eq_str("date")
             })
         {
             return None;
