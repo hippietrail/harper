@@ -28,9 +28,7 @@ impl Default for TheHighlightOf {
                     .then_word_seq(&["the", "highlight", "to"]),
                 ),
                 Box::new(
-                    SequenceExpr::with(InflectionOfBe::default())
-                        .t_ws()
-                        .then_word_seq(&["the", "hightlight", "to"])
+                    SequenceExpr::word_seq(&["the", "highlight", "to"])
                         .t_ws()
                         .then_possessive_determiner(),
                 ),
@@ -144,7 +142,7 @@ mod tests {
         assert_suggestion_result(
             "and Now The Gym Is The Highlight to My Day",
             TheHighlightOf::default(),
-            "and Now The Gym Is The Highlight to My Day",
+            "and Now The Gym Is The Highlight of My Day",
         );
     }
 
@@ -153,7 +151,7 @@ mod tests {
         assert_suggestion_result(
             "Yesterday was the highlight to my entire wk",
             TheHighlightOf::default(),
-            "Yesterday was the highlight to my entire wk",
+            "Yesterday was the highlight of my entire wk",
         );
     }
 
@@ -171,7 +169,7 @@ mod tests {
         assert_suggestion_result(
             "The highlight to our Saturday!",
             TheHighlightOf::default(),
-            "The highlight to our Saturday!",
+            "The highlight of our Saturday!",
         )
     }
 
