@@ -1,4 +1,4 @@
-54900
+54800
 
 # Start of original dictionary import
 # combined with dialect spelling dictionary import.
@@ -7612,7 +7612,6 @@ OK/NOSg4VdGJ        # US state (Oklahoma)
 OLED/Ng             # organic light-emitting diode
 OMB/Og
 OMG                 # exclamation
-OP/Ng               # internet slang: original poster
 OPEC/Og             # organization
 OR/CNO4             # Oregon
 OR gate/NgS
@@ -7937,7 +7936,6 @@ Pansy/Og
 Pantagruel/g
 Pantaloon/g
 Pantheon/Og
-Pantone/Og          # colour standard
 Panza/Og
 Paracelsus/Og
 Paraclete/Og
@@ -10401,7 +10399,6 @@ UAE/Og              # United Arab Emirates
 UAR/O
 UART/NgS            # electronics
 UAW/O
-UBI/Nmg             # universal basic income
 UBS/Og
 UCLA/Og             # university
 UFC/Og              # combat sport promotion
@@ -13824,7 +13821,6 @@ bacillary/J
 bacilli/N9
 bacillus/~N0g
 back/~J>NSgVGdzZ
-backdoor/J          # Closed adj. is in MW
 back door/NgSVGd
 back off/V/
 back to back/R
@@ -15015,7 +15011,7 @@ blackthorn/NSg
 blacktop/NSgV
 blacktopped/VtT
 blacktopping/V6
-bladder/~NgS
+bladder/~NgSV
 blade/~NgSVd
 blag/NSVJ
 blagged/VtT
@@ -19811,8 +19807,6 @@ cpd/~N
 cpl/~N
 cps/~N
 crab/~NgSV
-crab apple/NgS
-crabapple/NgS
 crabbed/JVtT
 crabber/NSg
 crabbily/Ry
@@ -20589,7 +20583,6 @@ dastard/NgSJYV
 dastardliness/Ng
 data/~Nw9g
 data center/NgS!@_₹
-datacenter/NgS      # closed -er spelling is in Collins. 'datacentre' is not
 data centre/NgS<
 data point/NgS
 database/~NSgV
@@ -25964,7 +25957,6 @@ frailness/Nmg
 frailty/NSg
 frame/~Vd>GSNgZ
 frame rate/NgS
-framerate/NgS       # listed as an 'also' in Cambridge but no other dictionary
 framed/~VU
 framer/Ng
 framework/~NSg
@@ -26584,7 +26576,7 @@ gatepost/NgS
 gateway/~NgSV
 gather/~VGd>SNgzZ
 gatherer/~Ng
-gathering/~NwgSV6J
+gathering/~NgV6J
 gator/~NSg
 gauche/J>Y^p
 gaucheness/Nmg
@@ -26702,8 +26694,6 @@ genocidal/~J
 genocide/~NwgSV
 genome/~NgS
 genomic/~NS
-genotype/NgS
-genotyping/Nwg
 genre/~NSgV
 gent/~NgSJr
 genteel/JYp
@@ -27545,8 +27535,6 @@ gross/~J^Y>pNgSVGd
 grossness/Nmg
 grotesque/~JYpNSg
 grotesqueness/Ng
-grotesquerie/NgS
-grotesquery/NgS
 grotto/~N0g
 grottoes/N9
 grotty/J^>
@@ -29226,7 +29214,7 @@ hull/~NgSVd>GZ
 hullabaloo/NSgV
 huller/Ng
 hum/~NSgV
-human/~JY^>pNSg
+human/~JY^>pNSgV
 humane/~JYp
 humaneness/Nmg
 humanhood/Nmg
@@ -30276,7 +30264,7 @@ infectious/~JYp
 infectiousness/Nmg
 infelicitous/J
 infer/VdSG
-inference/~NwSg
+inference/~NSg
 inferencing/Nmg
 inferential/J
 inferior/~JNgS
@@ -34765,13 +34753,10 @@ misogynist/NSgJ
 misogynistic/J
 misogynous/J
 misogyny/Nmg
-misophonia/Nmg
-misophonic/J
 misperceive/VGdS
 misplace/VGdSL
 misplacement/Nmg
 misplay/VGdSNg
-misprice/VGdS
 misprint/NgSVGd
 misprision/Ng
 mispronounce/VdSG
@@ -35958,7 +35943,6 @@ neoliberal/JNSg
 neoliberalism/Nmg
 neolithic/~J
 neologism/~NwSg
-neologistic/J
 neon/~NmgJ
 neonatal/~J
 neonate/NgS
@@ -36718,7 +36702,7 @@ nucleoli/N9
 nucleolus/Ng
 nucleon/NSg
 nucleoside/N
-nucleotide/~NgS
+nucleotide/~N
 nucleus/~N0g
 nude/~J^>NgS
 nudge/NSgVGd
@@ -37340,7 +37324,6 @@ orbital/~JNSg
 orbiter/~NgS
 orc/NSg
 orchard/~NSg
-orchardist/NSg
 orchestra/~NgS
 orchestral/~JN
 orchestrate/VdSGXn
@@ -37799,7 +37782,7 @@ overindulgent/J
 overinflate/VSdG
 overinvest/VGdSL
 overjoy/VGdSN
-overkill/~NmgV
+overkill/~NgV
 overladen/JV
 overlaid/~V
 overlain/V
@@ -39752,8 +39735,6 @@ playpen/NSg
 playroom/NSg
 playschool/NS
 plaything/NSgJ
-playthrough/gN0
-playthroughs/N9
 playtime/Ng
 playwright/~NSg
 plaza/~NgS
@@ -40035,7 +40016,7 @@ polymerise/VGdS!_₹
 polymerization/~Nmg
 polymerize/VGdS
 polymorphic/J
-polymorphism/NmgS
+polymorphism/Nmg
 polymorphous/J
 polynomial/~NgSJ
 polyp/NgS
@@ -40063,8 +40044,6 @@ pommel/~NSgVGd
 pommelled/VtTJ!@_₹
 pommelling/V6!@_₹
 pommy/NSJ
-pomological/J
-pomology/Ngw
 pomp/NgV
 pompadour/NSgVd
 pompano/NgS
@@ -41140,7 +41119,6 @@ proven/~JVTUE
 provenance/~NSgV
 provender/NgV
 provenience/Ng
-prover/NgS
 proverbial/JYN
 provide/~Vd>SGZ
 provided/~CVtTU
@@ -42496,8 +42474,6 @@ rehearsed/~VtTJU
 rehi/
 rehome/VdSG
 rehung/V
-reidentify/VdSG
-reidentification/Nmg
 reify/VdSGn
 reign/~NgSVdG
 reimagine/VSdG
@@ -43609,7 +43585,6 @@ rusher/Ng
 rushy/J
 rusk/~NgS
 russet/NSgJV
-russeting/Nwg
 rust/~NmgSVdG
 rustic/~JNSgQ
 rusticate/VGdS
@@ -50621,7 +50596,6 @@ truncheon/NSgV
 trundle/NgSVGd>Z
 trundler/Ng
 trunk/~NSgVG
-trunked/J
 truss/~NgSVGd
 trust/~Nw☁SgVGdJE
 trustee/~NgSV
@@ -51329,7 +51303,6 @@ unicameral/~J
 unicellular/JN
 unicorn/~NSgVJ
 unicycle/NSgV
-unicyclist/NgS
 unidirectional/JN
 unification/~NwSgr
 unifier/NgS
@@ -51462,7 +51435,6 @@ unread/JVNB
 unready/J
 unreal/~J
 unreasoning/J
-unreciprocated/J
 unreflectively/Ry
 unregenerate/J
 unrelated/~J
@@ -54569,7 +54541,6 @@ Zuckerberg/OgS      # surname, Facebook founder
 a11n/N
 a12s/9
 a8c/Sg
-abliterate/VSdGn    # AI: remove safety refusals
 aftertouch/Nmg      # MIDI feature
 ambitransitive/J    # verb which is both transitive and intransitive
 analyte/NgS
@@ -54603,7 +54574,6 @@ corpo/NgS
 cronjob/NgS
 datagram/NgS
 datetime/NgS
-debloat/VSdG
 decomp/NgSVdG       # decompile/decompilation
 dedup/Ng            # not well covered by dictionaries. wiktionary has only singular noun. cf. dedupe
 dedupe/NSgVdG       # not well covered by dictionaries. wiktionary has noun and verb. cf. dedup
@@ -54692,7 +54662,6 @@ pdfTeX/Og           # Program, extension for TeX engine
 pentest/VSdG
 pentester/NSg       # penetration tester
 pentesting/NmgV6
-permalink/NgS
 plist/NgS           # Apple property list
 polysyntheses/N9    # linguistics
 polysynthesis/Nw0g  # linguistics
@@ -54825,4 +54794,5 @@ vicontiel/J         # As above, alternative version
 viscomital/J        # As above, alternative version
 WordCamp/Og
 worldbuild/V>G
+playthrough/gNS
 cutscene/gNS

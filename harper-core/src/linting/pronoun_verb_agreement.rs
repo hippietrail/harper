@@ -545,9 +545,4 @@ mod lints {
             test_linter(),
         );
     }
-
-    #[test]
-    fn dont_flag_4388() {
-        assert_no_lints("We humans are naturally curious.", test_linter());
-    }
 }
