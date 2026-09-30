@@ -56,6 +56,7 @@ export const LINT_KIND_ORDER: LintKind[] = [
 	'Punctuation',
 	'Usage',
 	'WordChoice',
+	'WordOrder',
 	'Style',
 	'Readability',
 	'Enhancement',
@@ -257,11 +258,11 @@ export const LINT_KIND_STYLES: Record<
 	},
 	WordOrder: {
 		label: 'Word Order',
-		dotClass: 'bg-purple-500',
-		haloClass: 'bg-purple-100',
-		textClass: 'text-purple-700',
-		softClass: 'bg-purple-50',
-		activeClass: 'border-[rgba(28,26,22,0.14)] shadow-purple-500/10',
+		dotClass: 'bg-indigo-600',
+		haloClass: 'bg-indigo-100',
+		textClass: 'text-indigo-700',
+		softClass: 'bg-indigo-50',
+		activeClass: 'border-[rgba(28,26,22,0.14)] shadow-indigo-600/10',
 	},
 };
 
