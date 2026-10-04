@@ -14,9 +14,9 @@ pub struct AnalogAcousticBike {
 impl AnalogAcousticBike {
     pub fn new(dialect: Dialect) -> Self {
         let expr = SequenceExpr::optional(SequenceExpr::with(IndefiniteArticle::default()).t_ws())
-            .t_set(&["acoustic", "analog", "analogue"])
+            .t_set(["acoustic", "analog", "analogue"])
             .t_ws()
-            .t_set(&["bike", "bikes", "bicycle", "bicycles"]);
+            .t_set(["bike", "bikes", "bicycle", "bicycles"]);
 
         Self { expr, dialect }
     }

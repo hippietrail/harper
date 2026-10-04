@@ -765,7 +765,7 @@ mod verb {
     #[test]
     fn regular_past_thought() {
         let md = md("thought");
-        assert!(md.is_verb_regular_past_form())
+        assert!(md.is_verb_preterite_and_participle_form())
     }
 
     #[test]
@@ -806,14 +806,14 @@ mod verb {
         let md = md("thought");
         assert!(!md.is_verb_simple_past_only());
         assert!(!md.is_verb_past_participle_only());
-        assert!(md.is_verb_regular_past_form());
+        assert!(md.is_verb_preterite_and_participle_form());
     }
 
     #[test]
     fn distinct_past_forms_are_not_regular_past() {
-        assert!(!md("ate").is_verb_regular_past_form());
-        assert!(!md("eaten").is_verb_regular_past_form());
-        assert!(!md("walked").is_verb_regular_past_form());
+        assert!(!md("ate").is_verb_preterite_and_participle_form());
+        assert!(!md("eaten").is_verb_preterite_and_participle_form());
+        assert!(!md("walked").is_verb_preterite_and_participle_form());
     }
 
     #[test]
