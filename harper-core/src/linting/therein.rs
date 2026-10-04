@@ -35,8 +35,13 @@ impl ExprLinter for Therein {
         source: &[char],
         context: Option<(&[Token], &[Token])>,
     ) -> Option<Lint> {
-        // Don't continue if the previous word is a spatial adverb or verb of existence/posture
-        let previous_word = matched_tokens.first()?.get_ch(source);
+        // Don't continue if the previous word is an object pronoun, spatial adverb,
+        // or verb of existence/posture
+        let previous_word = matched_tokens.first()?;
+        if previous_word.kind.is_object_pronoun() {
+            return None;
+        }
+        let previous_word = previous_word.get_ch(source);
         if previous_word.eq_any_ignore_ascii_case_str(SPATIAL_ADVERBS)
             || previous_word.eq_any_ignore_ascii_case_str(VERBS_OF_EXISTENCE_OR_POSTURE)
         {
@@ -48,11 +53,13 @@ impl ExprLinter for Therein {
             t.kind.is_determiner()
                 || (t.kind.is_cardinal_number() && {
                     let chars = t.get_ch(source);
-                    chars.len() == 4 && chars.iter().all(|c| c.is_ascii_digit()) && {
-                        let year = chars
-                            .iter()
-                            .fold(0, |acc, &c| acc * 10 + (c as i32 - '0' as i32));
-                        (1900..=2100).contains(&year)
+                    if chars.len() == 4 && chars.iter().all(|c| c.is_ascii_digit()) {
+                        let year_str: String = chars.iter().collect();
+                        year_str
+                            .parse::<i32>()
+                            .map_or(false, |y| (1900..=2100).contains(&y))
+                    } else {
+                        false
                     }
                 })
         }) {
@@ -164,6 +171,22 @@ mod tests {
     fn dont_flag_there_in_year() {
         assert_no_lints(
             "... but I think by the time I got moved there in 2001, Casey had moved on.",
+            Therein::default(),
+        );
+    }
+
+    #[test]
+    fn dont_flag_point_it_there_in_settings() {
+        assert_no_lints(
+            "JetBrains Junie can read `AGENTS.md` once you point it there in Settings → Tools → Junie → Project Settings → Guidelines Path (it is not automatic yet).",
+            Therein::default(),
+        );
+    }
+
+    #[test]
+    fn dont_flag_gets_you_there_in_two_commands() {
+        assert_no_lints(
+            "Quick Start below gets you there in two commands:",
             Therein::default(),
         );
     }
