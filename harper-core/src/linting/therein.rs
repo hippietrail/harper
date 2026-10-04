@@ -57,7 +57,7 @@ impl ExprLinter for Therein {
                         let year_str: String = chars.iter().collect();
                         year_str
                             .parse::<i32>()
-                            .map_or(false, |y| (1900..=2100).contains(&y))
+                            .is_ok_and(|y| (1900..=2100).contains(&y))
                     } else {
                         false
                     }
