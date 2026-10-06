@@ -340,6 +340,13 @@
 						},
 						{
 							"Bool": {
+								"name": "OutOfTheBox",
+								"state": true,
+								"label": "Out of the Box"
+							}
+						},
+						{
+							"Bool": {
 								"name": "PleaseTakeALook",
 								"state": true,
 								"label": "Please Take A Look"
@@ -542,6 +549,13 @@
 								"name": "Laptop",
 								"state": true,
 								"label": "Laptop"
+							}
+						},
+						{
+							"Bool": {
+								"name": "Lifetime",
+								"state": true,
+								"label": "Lifetime"
 							}
 						},
 						{
@@ -777,6 +791,13 @@
 						},
 						{
 							"Bool": {
+								"name": "Tradeoff",
+								"state": true,
+								"label": "Tradeoff"
+							}
+						},
+						{
+							"Bool": {
 								"name": "Underclock",
 								"state": true,
 								"label": "Underclock"
@@ -867,6 +888,13 @@
 								"name": "AwaitFor",
 								"state": true,
 								"label": "Await For"
+							}
+						},
+						{
+							"Bool": {
+								"name": "BainBane",
+								"state": true,
+								"label": "Bain / Bane"
 							}
 						},
 						{
@@ -1193,6 +1221,13 @@
 						},
 						{
 							"Bool": {
+								"name": "Hijack",
+								"state": true,
+								"lable": "Hijack"
+							}
+						},
+						{
+							"Bool": {
 								"name": "HitTheNailOnTheHead",
 								"state": true,
 								"label": "Hit The Nail On The Head"
@@ -1385,6 +1420,13 @@
 								"name": "SeamToSeem",
 								"state": true,
 								"label": "Seam To Seem"
+							}
+						},
+						{
+							"Bool": {
+								"name": "SeizeControlOf",
+								"state": true,
+								"label": "Seize Control of"
 							}
 						},
 						{
@@ -2597,6 +2639,13 @@
 						},
 						{
 							"Bool": {
+								"name": "Hallucination",
+								"state": true,
+								"label": "Hallucination"
+							}
+						},
+						{
+							"Bool": {
 								"name": "Hazzle",
 								"state": true,
 								"label": "Hazzle"
@@ -2852,6 +2901,13 @@
 								"name": "StrikeOfLuck",
 								"state": true,
 								"label": "Strike Of Luck"
+							}
+						},
+						{
+							"Bool": {
+								"name": "SummarySummery",
+								"state": true,
+								"label": "Summary / Summery"
 							}
 						},
 						{
@@ -3205,6 +3261,13 @@
 								"name": "RedundantAdditiveAdverbs",
 								"state": true,
 								"label": "Redundant Additive Adverbs"
+							}
+						},
+						{
+							"Bool": {
+								"name": "RedundantAlmostNearly",
+								"state": true,
+								"label": "Redundant Almost Nearly"
 							}
 						},
 						{
@@ -4058,6 +4121,13 @@
 						},
 						{
 							"Bool": {
+								"name": "WentAheadAndAgreement",
+								"state": true,
+								"label": "Went Ahead and Agreement"
+							}
+						},
+						{
+							"Bool": {
 								"name": "WillContain",
 								"state": true,
 								"label": "Will Contain"
@@ -4341,6 +4411,13 @@
 						},
 						{
 							"Bool": {
+								"name": "BareBones",
+								"state": true,
+								"label": "BareBones"
+							}
+						},
+						{
+							"Bool": {
 								"name": "BareInMind",
 								"state": true,
 								"label": "Bare In Mind"
@@ -4558,9 +4635,23 @@
 						},
 						{
 							"Bool": {
+								"name": "ComfortableWith",
+								"state": true,
+								"label": "Comfortable With"
+							}
+						},
+						{
+							"Bool": {
 								"name": "ComprisesOf",
 								"state": true,
 								"label": "Comprises Of"
+							}
+						},
+						{
+							"Bool": {
+								"name": "CondensateVerb",
+								"state": true,
+								"label": "Condensate Verb"
 							}
 						},
 						{
@@ -5398,6 +5489,13 @@
 						},
 						{
 							"Bool": {
+								"name": "OnADailyBasis",
+								"state": true,
+								"label": "On a Daily Basis"
+							}
+						},
+						{
+							"Bool": {
 								"name": "OnceInAWhile",
 								"state": true,
 								"label": "Once In A While"
@@ -5594,6 +5692,13 @@
 						},
 						{
 							"Bool": {
+								"name": "RogueRouge",
+								"state": true,
+								"label": "Rogue / Rouge"
+							}
+						},
+						{
+							"Bool": {
 								"name": "RollerSkated",
 								"state": true,
 								"label": "Roller Skated"
@@ -5625,6 +5730,13 @@
 								"name": "ScantilyClad",
 								"state": true,
 								"label": "Scantily Clad"
+							}
+						},
+						{
+							"Bool": {
+								"name": "SetABadExample",
+								"state": true,
+								"label": "Set a Bad Example"
 							}
 						},
 						{
@@ -5706,6 +5818,13 @@
 						},
 						{
 							"Bool": {
+								"name": "SuchShame",
+								"state": true,
+								"label": "Such Shame"
+							}
+						},
+						{
+							"Bool": {
 								"name": "SufficeItToSay",
 								"state": true,
 								"label": "Suffice It To Say"
@@ -5772,6 +5891,13 @@
 								"name": "TheLastDays",
 								"state": true,
 								"label": "The Last Days"
+							}
+						},
+						{
+							"Bool": {
+								"name": "Themself",
+								"state": true,
+								"label": "Themself"
 							}
 						},
 						{
