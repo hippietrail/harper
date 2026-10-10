@@ -24,7 +24,7 @@ impl Default for NobelNoble {
                                 .t_set(["prize", "prizes"]),
                         ),
                 ) as Box<dyn Expr>,
-                Box::new(SequenceExpr::aco(&"noble").t_ws().t_set([
+                Box::new(SequenceExpr::aco("noble").t_ws().t_set([
                     "foundation",
                     "laureate",
                     "laureates",
