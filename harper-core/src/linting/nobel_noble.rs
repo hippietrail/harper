@@ -1,7 +1,7 @@
 use crate::{
     CharStringExt, Lint, Token, TokenStringExt,
     expr::{Expr, FirstMatchOf, OwnedExprExt, SequenceExpr},
-    linting::{ExprLinter, LintKind, Suggestion, debug::format_lint_match, expr_linter::Chunk},
+    linting::{ExprLinter, LintKind, Suggestion, expr_linter::Chunk},
 };
 
 pub struct NobelNoble {
@@ -39,13 +39,7 @@ impl Default for NobelNoble {
 impl ExprLinter for NobelNoble {
     type Unit = Chunk;
 
-    fn match_to_lint_with_context(
-        &self,
-        toks: &[Token],
-        src: &[char],
-        ctx: Option<(&[Token], &[Token])>,
-    ) -> Option<Lint> {
-        eprintln!("🚨 {}", format_lint_match(toks, ctx, src));
+    fn match_to_lint(&self, toks: &[Token], src: &[char]) -> Option<Lint> {
         let span = toks.span()?;
 
         let lint_kind = LintKind::Spelling;
