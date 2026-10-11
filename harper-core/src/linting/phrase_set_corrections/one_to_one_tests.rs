@@ -288,6 +288,26 @@ fn correct_combinating() {
     );
 }
 
+// CondensateVerb
+
+#[test]
+fn correct_condensated() {
+    assert_suggestion_result(
+        "Having this info condensated in the package list would help to draw conclusions whether some packages need upgrade.",
+        test_linter(),
+        "Having this info condensed in the package list would help to draw conclusions whether some packages need upgrade.",
+    )
+}
+
+#[test]
+fn correct_condensating() {
+    assert_suggestion_result(
+        "Apparently this is needed to minimize the risk of having water condensating.",
+        test_linter(),
+        "Apparently this is needed to minimize the risk of having water condensing.",
+    )
+}
+
 // CompulseToCompel
 
 #[test]
@@ -2160,6 +2180,74 @@ fn fix_everyone_seams_combined_with_now_a_days() {
         "everyone seams to use the editor now a days plus there is a tun of extensions available",
         test_linter(),
         "everyone seems to use the editor nowadays plus there is a tun of extensions available",
+    );
+}
+
+// SetABadExample
+
+#[test]
+fn fix_setting_up_a_bad_example() {
+    assert_suggestion_result(
+        "Are our neighbours setting up a bad example ?",
+        test_linter(),
+        "Are our neighbours setting a bad example ?",
+    )
+}
+
+#[test]
+fn fix_set_up_a_bad_example() {
+    assert_suggestion_result(
+        "It works sometimes but set up a bad example.",
+        test_linter(),
+        "It works sometimes but set a bad example.",
+    )
+}
+
+#[test]
+fn fix_sets_up_a_bad_example() {
+    assert_suggestion_result(
+        "This sets up a bad example that will make it into a trend. As long as AI is not deterministic, you should review the code.",
+        test_linter(),
+        "This sets a bad example that will make it into a trend. As long as AI is not deterministic, you should review the code.",
+    )
+}
+
+// SubjectAndObjectPronoun
+
+#[test]
+fn fix_subjective_pronoun() {
+    assert_suggestion_result(
+        "Gets the subjective pronoun with \"are\"/\"is\" contraction.",
+        test_linter(),
+        "Gets the subject pronoun with \"are\"/\"is\" contraction.",
+    );
+}
+
+#[test]
+fn fix_objective_pronoun() {
+    assert_suggestion_result(
+        "If my subjective pronoun is he , then this might be macro expanded as he entered the room",
+        test_linter(),
+        "If my subject pronoun is he , then this might be macro expanded as he entered the room",
+    );
+}
+
+#[test]
+#[ignore = "Fails due to #3741"]
+fn fix_objective_pronoun_title_case() {
+    assert_suggestion_result(
+        "Objective Pronouns Examples of Subjects and Objects in a Sentence",
+        test_linter(),
+        "Object Pronouns Examples of Subjects and Objects in a Sentence",
+    );
+}
+
+#[test]
+fn fix_subjective_and_objective_pronouns() {
+    assert_suggestion_result(
+        "To address these questions, we analyze subjective pronouns (he, she) and objective pronouns (him, her).",
+        test_linter(),
+        "To address these questions, we analyze subject pronouns (he, she) and object pronouns (him, her).",
     );
 }
 
