@@ -229,9 +229,6 @@ use super::plural_decades::PluralDecades;
 use super::plural_wrong_word_of_phrase::PluralWrongWordOfPhrase;
 use super::possessive_noun::PossessiveNoun;
 use super::possessive_your::PossessiveYour;
-use super::preferred_variants::{PreferGradable, PreferGradeable};
-use super::preferred_variants::{PreferPleaded, PreferPled};
-use super::preferred_variants::{PreferSneaked, PreferSnuck};
 use super::progressive_needs_be::ProgressiveNeedsBe;
 use super::pronoun_are::PronounAre;
 use super::pronoun_contraction::PronounContraction;
@@ -349,6 +346,7 @@ use super::be_adjective_confusions;
 use super::closed_compounds;
 use super::initialisms;
 use super::phrase_set_corrections;
+use super::preferred_variants;
 use super::proper_noun_capitalization_linters;
 use super::weir_rules;
 
@@ -630,6 +628,7 @@ impl LintGroup {
         out.merge_from(closed_compounds::lint_group());
         out.merge_from(initialisms::lint_group());
         out.merge_from(phrase_set_corrections::lint_group());
+        out.merge_from(preferred_variants::lint_group());
         out.merge_from(proper_noun_capitalization_linters::lint_group());
         out.merge_from(weir_rules::lint_group());
 
@@ -854,12 +853,6 @@ impl LintGroup {
         insert_expr_rule!(PluralWrongWordOfPhrase);
         insert_struct_rule_with_dict!(PossessiveNoun);
         insert_expr_rule!(PossessiveYour);
-        insert_struct_rule!(PreferGradable);
-        insert_struct_rule!(PreferGradeable);
-        insert_struct_rule!(PreferPleaded);
-        insert_struct_rule!(PreferPled);
-        insert_struct_rule!(PreferSneaked);
-        insert_struct_rule!(PreferSnuck);
         insert_expr_rule!(ProgressiveNeedsBe);
         insert_expr_rule!(PronounAre);
         insert_struct_rule!(PronounContraction);

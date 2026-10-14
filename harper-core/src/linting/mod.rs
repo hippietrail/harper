@@ -282,7 +282,6 @@ mod show_case;
 mod simple_past_to_past_participle;
 mod since_duration;
 mod single_be;
-mod sneaked_snuck;
 mod some_without_article;
 mod something_is;
 mod somewhat_something;
