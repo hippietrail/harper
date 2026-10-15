@@ -44,26 +44,25 @@ impl ExprLinter for OutOfOutsideTheBox {
         // 0:out     2:side       4:the 6:box
         // 0:out     2:side 4:of  6:the 8:box
         // 0:out            2:of  4:the 6:box
-        if toks.iter().nth(2)?.get_ch(src).eq_ch(&['o', 'f']) {
-            if preceded_by_word(ctx, |t| {
+        if toks.get(2)?.get_ch(src).eq_ch(&['o', 'f'])
+            && preceded_by_word(ctx, |t| {
                 t.get_ch(src)
                     .eq_any_ignore_ascii_case_str(&["think", "thinking", "thinks", "thought"])
-            }) {
-                let span = toks.get(0..=2)?.span()?;
+            })
+        {
+            let span = toks.get(0..=2)?.span()?;
 
-                return Some(Lint {
-                    span,
-                    lint_kind: LintKind::Usage,
-                    suggestions: vec![Suggestion::replace_with_match_case_str(
-                        "outside",
-                        span.get_content(src),
-                    )],
-                    message:
-                        "Use `outside the box` when referring to creative or original thinking."
-                            .to_owned(),
-                    ..Default::default()
-                });
-            }
+            return Some(Lint {
+                span,
+                lint_kind: LintKind::Usage,
+                suggestions: vec![Suggestion::replace_with_match_case_str(
+                    "outside",
+                    span.get_content(src),
+                )],
+                message: "Use `outside the box` when referring to creative or original thinking."
+                    .to_owned(),
+                ..Default::default()
+            });
         }
 
         if preceded_by_word(ctx, |t| {
