@@ -4984,6 +4984,13 @@
 						},
 						{
 							"Bool": {
+								"name": "FibreOptic",
+								"state": true,
+								"label": "Fibre Optic"
+							}
+						},
+						{
+							"Bool": {
 								"name": "FinishingTouches",
 								"state": true,
 								"label": "Finishing Touches"
