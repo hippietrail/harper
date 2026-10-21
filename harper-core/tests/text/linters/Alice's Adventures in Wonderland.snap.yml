@@ -625,26 +625,6 @@ Suggest:
 
 
 
-Lint:    Capitalization (127 priority)
-Message: |
-     320 | she began again: “Où est ma chatte?” which was the first sentence in her French
-         |                      ^~~ This word's canonical spelling is all-caps.
-Suggest:
-  - Replace with: “EST”
-
-
-
-Lint:    Spelling (63 priority)
-Message: |
-     320 | she began again: “Où est ma chatte?” which was the first sentence in her French
-         |                      ^~~ Did you mean to spell `est` this way?
-Suggest:
-  - Replace with: “east”
-  - Replace with: “eat”
-  - Replace with: “esp”
-
-
-
 Lint:    Spelling (63 priority)
 Message: |
      320 | she began again: “Où est ma chatte?” which was the first sentence in her French
@@ -995,15 +975,6 @@ Message: |
          | ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
      595 | looking-glass. There was no label this time with the words “DRINK ME,” but
          | ~~~~~~~~~~~~~~ This sentence is 71 words long.
-
-
-
-Lint:    Capitalization (31 priority)
-Message: |
-     607 | Alas! it was too late to wish that! She went on growing, and growing, and very
-         |       ^~ This sentence does not start with a capital letter
-Suggest:
-  - Replace with: “It”
 
 
 
@@ -1451,15 +1422,6 @@ Message: |
 Suggest:
   - Replace with: “right-hand”
   - Replace with: “rightward”
-
-
-
-Lint:    Capitalization (127 priority)
-Message: |
-    1059 | ## CHAPTER VI: Pig and Pepper
-         | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~ Try to use title case in headings.
-Suggest:
-  - Replace with: “## CHAPTER Vi: Pig and Pepper”
 
 
 
