@@ -1,0 +1,18 @@
+expr verb [fly, flew, flying, flies, go, goes, going, gone, went, walk, walked, walking, walks, run, ran, running, continue, continued, continuing, continues, proceed, proceeded, proceeding, proceeds, look, looked, looking, looks]
+expr modifiers [right, straight]
+expr nouns [test, tests]
+expr main <([@verb, @modifiers, @nouns] passed), passed>
+
+let message "Did you mean `past`?"
+let description "Corrects `passed` to `past`."
+let kind "WordChoice"
+let becomes "past"
+
+# verbs
+
+test "I don't know why it wont go passed get user first name." "I don't know why it wont go past get user first name."
+
+# false positives to avoid
+
+# 'runs' may be a noun
+allows "The result so far: 26 out of 26 unaided runs passed"

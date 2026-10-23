@@ -1,0 +1,10 @@
+expr main <(past away), past>
+
+let message "Did you mean `passed`?"
+let description "Corrects `past` to `passed`."
+let kind "WordChoice"
+let becomes "passed"
+
+# idioms
+
+test "You should know that the creator of this repository has past away" "You should know that the creator of this repository has passed away"
