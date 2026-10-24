@@ -4347,6 +4347,13 @@
 						},
 						{
 							"Bool": {
+								"name": "AltarAlter",
+								"state": true,
+								"label": "Altar / Alter"
+							}
+						},
+						{
+							"Bool": {
 								"name": "AlzheimersDisease",
 								"state": true,
 								"label": "Alzheimers Disease"
