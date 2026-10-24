@@ -424,7 +424,27 @@ fn main() -> anyhow::Result<()> {
                 let meta = curated_dictionary.get_word_metadata_exact_str(&word);
 
                 let flags_w_emojis = match &meta {
-                    None => "- \x1b[2m\x1b[3mnot in dictionary\x1b[0m".to_string(),
+                    None => {
+                        let variants: Vec<String> = curated_dictionary
+                            .get_correct_capitalizations_of(&word.chars().collect::<Vec<char>>())
+                            .map(|w| w.iter().collect::<String>())
+                            .collect();
+
+                        let details = if !variants.is_empty() {
+                            // let suggestions = variants.join(", ");
+                            format!(
+                                "not in dictionary, but {}: {}",
+                                match variants.len() {
+                                    1 => "this is",
+                                    _ => "these are",
+                                },
+                                variants.join(", ")
+                            )
+                        } else {
+                            "\x1b[2m\x1b[3mnot in dictionary\x1b[0m".to_string()
+                        };
+                        format!("- {details}")
+                    }
                     Some(md) => {
                         let matched_pos: Vec<_> =
                             POS.iter().filter(|&(_, pred)| pred(md)).collect();
