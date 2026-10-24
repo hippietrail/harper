@@ -431,7 +431,6 @@ fn main() -> anyhow::Result<()> {
                             .collect();
 
                         let details = if !variants.is_empty() {
-                            // let suggestions = variants.join(", ");
                             format!(
                                 "not in dictionary, but {}: {}",
                                 match variants.len() {
