@@ -246,6 +246,7 @@ use super::quantifier_needs_of::QuantifierNeedsOf;
 use super::quantifier_numeral_conflict::QuantifierNumeralConflict;
 use super::quite_quiet::QuiteQuiet;
 use super::quote_spacing::QuoteSpacing;
+use super::rack_ones_brain::RackOnesBrain;
 use super::reason_for_doing::ReasonForDoing;
 use super::redundant_acronyms::RedundantAcronyms;
 use super::redundant_additive_adverbs::RedundantAdditiveAdverbs;
@@ -880,6 +881,7 @@ impl LintGroup {
         insert_expr_rule!(QuantifierNumeralConflict);
         insert_expr_rule!(QuiteQuiet);
         insert_struct_rule!(QuoteSpacing);
+        insert_expr_rule!(RackOnesBrain);
         insert_expr_rule!(ReasonForDoing);
         insert_expr_rule!(RedundantAcronyms);
         insert_expr_rule!(RedundantAdditiveAdverbs);
