@@ -5809,6 +5809,13 @@
 							}
 						},
 						{
+							"Bool": {
+								"name": "PreferenceAsVerb",
+								"state": true,
+								"label": "Preference as Verb"
+							}
+						},
+						{
 							"OneOfMany": {
 								"names": ["PreferPleaded", "PreferPled"],
 								"name": "PreferPleaded",
