@@ -1,0 +1,11 @@
+expr main [<(tent to [agree, think]), tent>, <([people, we] tent to), tent>]
+
+let message "Did you mean `tend to`?"
+let description "Flags `tent to` when it's likely a mistake for `tend to`."
+let kind "Spelling"
+let becomes "tend"
+
+test "I tent to think this is the sky." "I tend to think this is the sky."
+test "I tent to agree that this is inconvenient." "I tend to agree that this is inconvenient."
+test "some people tent to write else if even it's early breaking statement" "some people tend to write else if even it's early breaking statement"
+test "We tent to use multiple params and I was wondering if it is possible" "We tend to use multiple params and I was wondering if it is possible"
