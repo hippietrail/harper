@@ -171,6 +171,7 @@ const defaultEnabledDomains = [
 	'store.steampowered.com',
 	'steampowered.com',
 	'help.steampowered.com',
+	'assistant.kagi.com',
 ] as const;
 const defaultEnabledDomainSet = new Set<string>(defaultEnabledDomains);
 
