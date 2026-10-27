@@ -6076,6 +6076,13 @@
 						},
 						{
 							"Bool": {
+								"name": "TendTo",
+								"state": true,
+								"label": "Tend to"
+							}
+						},
+						{
+							"Bool": {
 								"name": "ThatChallenged",
 								"state": true,
 								"label": "That Challenged"
