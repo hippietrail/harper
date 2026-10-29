@@ -5901,6 +5901,13 @@
 						},
 						{
 							"Bool": {
+								"name": "RackOnesBrain",
+								"state": true,
+								"label": "Rack One's Brain"
+							}
+						},
+						{
+							"Bool": {
 								"name": "RealTrouper",
 								"state": true,
 								"label": "Real Trouper"
