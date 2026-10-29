@@ -11,7 +11,7 @@ pub struct RackOnesBrain {
 impl Default for RackOnesBrain {
     fn default() -> Self {
         Self {
-            expr: SequenceExpr::word_set(&[
+            expr: SequenceExpr::word_set([
                 "wrack", "wracked", "wracking", "wracks", "wreck", "wrecked", "wrecking", "wrecks",
             ])
             .t_ws()
