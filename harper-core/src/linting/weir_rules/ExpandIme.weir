@@ -1,8 +1,0 @@
-expr main ime
-
-let message "Use `in my experience` instead of `ime`"
-let description "Expands the abbreviation `ime` to the full phrase `in my experience` for clarity."
-let kind "Style"
-let becomes ["in my experience", "input method editor"]
-
-test "Ime it remains the best model for prototyping, sims, visualization etc throwaway scenarios." "In my experience it remains the best model for prototyping, sims, visualization etc throwaway scenarios."
