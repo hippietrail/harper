@@ -6,10 +6,11 @@ export const frontmatter = {
 
 <script lang="ts">
 import { browser } from '$app/environment';
-import { Arrow } from 'components';
+import { Arrow, StarIcon } from 'components';
 import { TestimonialCollection } from 'components';
 import { createEditorLinter } from '$lib/createEditorLinter';
 import FaqSection from '$lib/marketing/FaqSection.svelte';
+import FeaturedIntegrations from '$lib/marketing/FeaturedIntegrations.svelte';
 import HarperMark from '$lib/marketing/HarperMark.svelte';
 import IntegrationTile from '$lib/marketing/IntegrationTile.svelte';
 import MarketingFooter from '$lib/marketing/MarketingFooter.svelte';
@@ -180,9 +181,15 @@ onMount(() => {
 				The <strong class="inline-block -rotate-1 bg-primary-100 p-1 text-black">Free</strong> Grammar Checker
 				That Respects Your Privacy
 			</p>
+			<div class="mt-7 w-full">
+				<FeaturedIntegrations campaign="harper-homepage" />
+			</div>
 			<div class="mt-7 flex flex-wrap gap-[0.65rem] max-[620px]:flex-col max-[620px]:items-stretch">
-				<PillButton href="/get" size="lg">Get Harper</PillButton>
-				<PillButton href={marketingLinks.github} kind="secondary" size="lg">Star on GitHub</PillButton>
+				<PillButton href="/get" size="lg">Explore more integrations</PillButton>
+				<PillButton href={marketingLinks.github} kind="secondary" size="lg">
+					<StarIcon slot="icon" />
+					Star on GitHub
+				</PillButton>
 			</div>
 		</div>
 	</section>
@@ -361,7 +368,10 @@ onMount(() => {
 				and we’d love your help.
 			</p>
 			<div class="mt-7 flex flex-col flex-wrap items-center justify-center gap-[0.65rem]">
-				<PillButton href={marketingLinks.github} size="lg">Star on GitHub</PillButton>
+				<PillButton href={marketingLinks.github} size="lg">
+					<StarIcon slot="icon" />
+					Star on GitHub
+				</PillButton>
 				<PillButton href="/docs/contributors/introduction" size="lg">Contribute</PillButton>
 			</div>
 		</div>
